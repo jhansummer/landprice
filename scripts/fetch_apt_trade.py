@@ -12,7 +12,7 @@ from dateutil.relativedelta import relativedelta
 from lxml import etree
 
 BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade"
-DEFAULT_OPERATION_PATH = "getRTMSDataSvcAptTradeDev"
+DEFAULT_OPERATION_PATH = "getRTMSDataSvcAptTrade"
 
 DOCS_DIR = Path(__file__).resolve().parents[1] / "docs"
 DATA_DIR = DOCS_DIR / "data" / "apt_trade"
