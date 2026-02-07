@@ -127,14 +127,14 @@ function renderCard(lawdCd, top3) {
 async function loadLawdData(lawdCd) {
   const files = indexData.files.filter((e) => e.lawd_cd === lawdCd && e.count > 0);
   const promises = files.map((e) =>
-    fetch(e.path, { cache: "no-store" }).then((r) => (r.ok ? r.json() : []))
+    fetch(e.path).then((r) => (r.ok ? r.json() : [])).catch(() => [])
   );
   const arrays = await Promise.all(promises);
   return arrays.flat();
 }
 
 async function init() {
-  const response = await fetch(indexPath, { cache: "no-store" });
+  const response = await fetch(indexPath);
   if (!response.ok) {
     statusEl.textContent = "index.json을 불러오지 못했습니다.";
     return;
