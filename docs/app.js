@@ -1,121 +1,233 @@
 const indexPath = "data/apt_trade/index.json";
 
+const LAWD_NAMES = {
+  "11110": "종로구", "11140": "중구", "11170": "용산구",
+  "11200": "성동구", "11215": "광진구", "11230": "동대문구",
+  "11260": "중랑구", "11290": "성북구", "11305": "강북구",
+  "11320": "도봉구", "11350": "노원구", "11380": "은평구",
+  "11410": "서대문구", "11440": "마포구", "11470": "양천구",
+  "11500": "강서구", "11530": "구로구", "11545": "금천구",
+  "11560": "영등포구", "11590": "동작구", "11620": "관악구",
+  "11650": "서초구", "11680": "강남구", "11710": "송파구",
+  "11740": "강동구",
+};
+
 const lawdSelect = document.getElementById("lawdSelect");
-const monthSelect = document.getElementById("monthSelect");
 const tableBody = document.getElementById("tableBody");
 const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 
 let indexData = null;
+let currentResults = [];
+let currentSort = { key: "change_pct", desc: true };
 
-function formatNumber(value) {
-  return new Intl.NumberFormat("ko-KR").format(value);
+function formatNumber(v) {
+  return new Intl.NumberFormat("ko-KR").format(v);
 }
 
-function setStatus(message) {
-  statusEl.textContent = message;
+function setStatus(msg) {
+  statusEl.textContent = msg;
 }
 
 function clearTable() {
   tableBody.innerHTML = "";
 }
 
-function buildOptions(select, values) {
-  select.innerHTML = "";
-  values.forEach((value) => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = value;
-    select.appendChild(option);
+function buildLawdOptions(lawdList) {
+  lawdSelect.innerHTML = "";
+  lawdList.forEach((code) => {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = LAWD_NAMES[code] || code;
+    lawdSelect.appendChild(opt);
   });
 }
 
-function getAvailableMonths(lawdCd) {
-  return indexData.files
-    .filter((entry) => entry.lawd_cd === lawdCd)
-    .map((entry) => entry.deal_ym)
-    .sort();
+function getFilesForLawd(lawdCd) {
+  return indexData.files.filter((e) => e.lawd_cd === lawdCd);
 }
 
-function findFileEntry(lawdCd, dealYm) {
-  return indexData.files.find(
-    (entry) => entry.lawd_cd === lawdCd && entry.deal_ym === dealYm
-  );
+async function loadAllMonths(lawdCd) {
+  const files = getFilesForLawd(lawdCd);
+  const promises = files
+    .filter((e) => e.count > 0)
+    .map((e) => fetch(e.path, { cache: "no-store" }).then((r) => r.ok ? r.json() : []));
+  const arrays = await Promise.all(promises);
+  return arrays.flat();
 }
 
-function renderMeta(lawdCd, dealYm, count) {
+function groupAndCompare(rows) {
+  const groups = {};
+  rows.forEach((r) => {
+    const key = `${r.apt_name}\t${r.area_m2}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(r);
+  });
+
+  const results = [];
+  Object.values(groups).forEach((txns) => {
+    txns.sort((a, b) => {
+      const d = b.deal_date.localeCompare(a.deal_date);
+      return d !== 0 ? d : b.price_man - a.price_man;
+    });
+
+    const latest = txns[0];
+    const prev = txns.find((t) => t.deal_date !== latest.deal_date);
+
+    const change = prev ? latest.price_man - prev.price_man : null;
+    const changePct = prev && prev.price_man ? (change / prev.price_man) * 100 : null;
+
+    results.push({
+      apt_name: latest.apt_name,
+      dong_name: latest.dong_name,
+      area_m2: latest.area_m2,
+      latest_date: latest.deal_date,
+      latest_price: latest.price_man,
+      latest_floor: latest.floor,
+      prev_date: prev ? prev.deal_date : null,
+      prev_price: prev ? prev.price_man : null,
+      prev_floor: prev ? prev.floor : null,
+      change: change,
+      change_pct: changePct,
+    });
+  });
+
+  return results;
+}
+
+function sortResults(results, key, desc) {
+  return results.slice().sort((a, b) => {
+    let va = a[key], vb = b[key];
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === "string") {
+      const cmp = va.localeCompare(vb, "ko");
+      return desc ? -cmp : cmp;
+    }
+    return desc ? vb - va : va - vb;
+  });
+}
+
+const SORT_KEY_MAP = {
+  apt: "apt_name",
+  area: "area_m2",
+  latest_price: "latest_price",
+  prev_price: "prev_price",
+  change_pct: "change_pct",
+};
+
+function onHeaderClick(e) {
+  const th = e.target.closest("th[data-sort]");
+  if (!th) return;
+  const key = SORT_KEY_MAP[th.dataset.sort];
+  if (!key) return;
+  if (currentSort.key === key) {
+    currentSort.desc = !currentSort.desc;
+  } else {
+    currentSort = { key, desc: true };
+  }
+  renderRows(sortResults(currentResults, currentSort.key, currentSort.desc));
+}
+
+function renderMeta(lawdCd, total, withPrev) {
   metaEl.innerHTML = "";
   const items = [
     `업데이트: ${indexData.updated_at}`,
-    `보관 기간: ${indexData.months_kept}개월`,
-    `법정동코드: ${lawdCd}`,
-    `계약월: ${dealYm}`,
-    `건수: ${formatNumber(count)}`,
+    `자치구: ${LAWD_NAMES[lawdCd] || lawdCd}`,
+    `단지·면적: ${formatNumber(total)}개`,
+    `비교가능: ${formatNumber(withPrev)}개`,
   ];
-  items.forEach((item) => {
+  items.forEach((t) => {
     const span = document.createElement("span");
-    span.textContent = item;
+    span.textContent = t;
     metaEl.appendChild(span);
   });
 }
 
-function renderRows(rows) {
+function renderRows(results) {
   clearTable();
-  if (!rows.length) {
-    setStatus("해당 월에 데이터가 없습니다.");
+  if (!results.length) {
+    setStatus("해당 구에 데이터가 없습니다.");
     return;
   }
   setStatus("");
-  rows.forEach((row) => {
+
+  results.forEach((r) => {
     const tr = document.createElement("tr");
-    const cells = [
-      row.deal_date,
-      row.apt_name,
-      formatNumber(row.price_man),
-      row.area_m2,
-      row.floor,
-      row.dong_name,
-    ];
-    const labels = ["날짜", "단지명", "가격", "면적", "층", "법정동"];
-    cells.forEach((value, idx) => {
-      const td = document.createElement("td");
-      td.textContent = value;
-      td.setAttribute("data-label", labels[idx]);
-      tr.appendChild(td);
-    });
+
+    // 단지명 + 동
+    const tdApt = document.createElement("td");
+    tdApt.setAttribute("data-label", "단지명");
+    tdApt.textContent = r.apt_name;
+    if (r.dong_name) {
+      const sub = document.createElement("span");
+      sub.className = "sub";
+      sub.textContent = r.dong_name;
+      tdApt.appendChild(sub);
+    }
+    tr.appendChild(tdApt);
+
+    // 면적
+    const tdArea = document.createElement("td");
+    tdArea.setAttribute("data-label", "면적");
+    tdArea.textContent = r.area_m2 + "m²";
+    tr.appendChild(tdArea);
+
+    // 최근거래
+    const tdLatest = document.createElement("td");
+    tdLatest.setAttribute("data-label", "최근거래");
+    tdLatest.textContent = formatNumber(r.latest_price) + "만";
+    const subLatest = document.createElement("span");
+    subLatest.className = "sub";
+    subLatest.textContent = r.latest_date + " · " + r.latest_floor + "층";
+    tdLatest.appendChild(subLatest);
+    tr.appendChild(tdLatest);
+
+    // 직전거래
+    const tdPrev = document.createElement("td");
+    tdPrev.setAttribute("data-label", "직전거래");
+    if (r.prev_price != null) {
+      tdPrev.textContent = formatNumber(r.prev_price) + "만";
+      const subPrev = document.createElement("span");
+      subPrev.className = "sub";
+      subPrev.textContent = r.prev_date + " · " + r.prev_floor + "층";
+      tdPrev.appendChild(subPrev);
+    } else {
+      tdPrev.textContent = "-";
+    }
+    tr.appendChild(tdPrev);
+
+    // 변동
+    const tdChange = document.createElement("td");
+    tdChange.setAttribute("data-label", "변동");
+    if (r.change != null) {
+      const sign = r.change > 0 ? "+" : "";
+      tdChange.textContent = sign + formatNumber(r.change) + "만";
+      const subPct = document.createElement("span");
+      subPct.className = "sub";
+      subPct.textContent = sign + r.change_pct.toFixed(1) + "%";
+      tdChange.appendChild(subPct);
+      if (r.change > 0) tdChange.classList.add("up");
+      else if (r.change < 0) tdChange.classList.add("down");
+    } else {
+      tdChange.textContent = "-";
+    }
+    tr.appendChild(tdChange);
+
     tableBody.appendChild(tr);
   });
 }
 
-async function loadMonthData(lawdCd, dealYm) {
-  const entry = findFileEntry(lawdCd, dealYm);
-  if (!entry) {
-    setStatus("선택한 데이터 파일을 찾을 수 없습니다.");
-    clearTable();
-    return;
-  }
-  setStatus("데이터 로딩 중...");
-  const response = await fetch(entry.path, { cache: "no-store" });
-  if (!response.ok) {
-    setStatus("데이터를 불러오지 못했습니다.");
-    clearTable();
-    return;
-  }
-  const rows = await response.json();
-  renderMeta(lawdCd, dealYm, entry.count);
-  renderRows(rows);
-}
-
-function onLawdChange() {
-  const lawdCd = lawdSelect.value;
-  const months = getAvailableMonths(lawdCd);
-  buildOptions(monthSelect, months);
-  monthSelect.value = months[months.length - 1];
-  loadMonthData(lawdCd, monthSelect.value);
-}
-
-function onMonthChange() {
-  loadMonthData(lawdSelect.value, monthSelect.value);
+async function loadAndRender(lawdCd) {
+  setStatus("12개월 데이터 로딩 중...");
+  clearTable();
+  const rows = await loadAllMonths(lawdCd);
+  setStatus("분석 중...");
+  const results = groupAndCompare(rows);
+  currentResults = results;
+  const withPrev = results.filter((r) => r.change != null).length;
+  renderMeta(lawdCd, results.length, withPrev);
+  renderRows(sortResults(results, currentSort.key, currentSort.desc));
 }
 
 async function init() {
@@ -130,16 +242,12 @@ async function init() {
     return;
   }
 
-  buildOptions(lawdSelect, indexData.lawd_list);
+  buildLawdOptions(indexData.lawd_list);
   lawdSelect.value = indexData.lawd_list[0];
-  const months = getAvailableMonths(lawdSelect.value);
-  buildOptions(monthSelect, months);
-  monthSelect.value = months[months.length - 1];
-  renderMeta(lawdSelect.value, monthSelect.value, 0);
-  await loadMonthData(lawdSelect.value, monthSelect.value);
+  await loadAndRender(lawdSelect.value);
 
-  lawdSelect.addEventListener("change", onLawdChange);
-  monthSelect.addEventListener("change", onMonthChange);
+  lawdSelect.addEventListener("change", () => loadAndRender(lawdSelect.value));
+  document.querySelector("thead tr").addEventListener("click", onHeaderClick);
 }
 
 init();
