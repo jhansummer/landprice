@@ -57,16 +57,16 @@ def parse_items(xml_bytes: bytes) -> Tuple[List[Dict[str, str]], Dict[str, str]]
     items = []
     for item in root.findall(".//item"):
         items.append({
-            "apt_name": (item.findtext("아파트") or "").strip(),
-            "deal_year": (item.findtext("년") or "").strip(),
-            "deal_month": (item.findtext("월") or "").strip(),
-            "deal_day": (item.findtext("일") or "").strip(),
-            "price": (item.findtext("거래금액") or "").strip(),
-            "area": (item.findtext("전용면적") or "").strip(),
-            "floor": (item.findtext("층") or "").strip(),
-            "build_year": (item.findtext("건축년도") or "").strip(),
-            "dong_name": (item.findtext("법정동") or "").strip(),
-            "jibun": (item.findtext("지번") or "").strip(),
+            "apt_name": (item.findtext("aptNm") or item.findtext("아파트") or "").strip(),
+            "deal_year": (item.findtext("dealYear") or item.findtext("년") or "").strip(),
+            "deal_month": (item.findtext("dealMonth") or item.findtext("월") or "").strip(),
+            "deal_day": (item.findtext("dealDay") or item.findtext("일") or "").strip(),
+            "price": (item.findtext("dealAmount") or item.findtext("거래금액") or "").strip(),
+            "area": (item.findtext("excluUseAr") or item.findtext("전용면적") or "").strip(),
+            "floor": (item.findtext("floor") or item.findtext("층") or "").strip(),
+            "build_year": (item.findtext("buildYear") or item.findtext("건축년도") or "").strip(),
+            "dong_name": (item.findtext("umdNm") or item.findtext("법정동") or "").strip(),
+            "jibun": (item.findtext("jibun") or item.findtext("지번") or "").strip(),
         })
     return items, result
 
