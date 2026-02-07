@@ -115,7 +115,7 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
         resp = requests.get(url, params=params, timeout=30)
         resp.raise_for_status()
         items, result = parse_items(resp.content)
-        if result.get("resultCode") and result.get("resultCode") != "00":
+        if result.get("resultCode") and result.get("resultCode") not in ("00", "000"):
             raise RuntimeError(f"API error {result.get('resultCode')}: {result.get('resultMsg')}")
         if not items:
             break
