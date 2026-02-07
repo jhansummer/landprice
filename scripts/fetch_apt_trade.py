@@ -18,6 +18,7 @@ DOCS_DIR = Path(__file__).resolve().parents[1] / "docs"
 DATA_DIR = DOCS_DIR / "data" / "apt_trade"
 BY_LAWD_DIR = DATA_DIR / "by_lawd"
 INDEX_PATH = DATA_DIR / "index.json"
+SUMMARY_PATH = DATA_DIR / "summary.json"
 
 
 def iso_now_utc() -> str:
@@ -163,6 +164,67 @@ def cleanup_old_files(lawd_list: List[str], months: List[str]) -> None:
                 file.unlink()
 
 
+def top3_for_lawd(all_records: List[Dict[str, object]]) -> List[Dict[str, object]]:
+    """Group by (apt_name, area_m2), compare latest vs prev transaction, return top 3 increases."""
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in all_records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    compared = []
+    for txns in groups.values():
+        txns.sort(key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+        latest = txns[0]
+        prev = None
+        for t in txns[1:]:
+            if t["deal_date"] != latest["deal_date"]:
+                prev = t
+                break
+        if not prev or not prev["price_man"]:
+            continue
+        change = latest["price_man"] - prev["price_man"]
+        pct = (change / prev["price_man"]) * 100
+        if pct <= 0:
+            continue
+        compared.append({
+            "apt_name": latest["apt_name"],
+            "dong_name": latest["dong_name"],
+            "area_m2": latest["area_m2"],
+            "latest_date": latest["deal_date"],
+            "latest_price": latest["price_man"],
+            "prev_date": prev["deal_date"],
+            "prev_price": prev["price_man"],
+            "change": change,
+            "pct": round(pct, 2),
+        })
+    compared.sort(key=lambda x: -x["pct"])
+    return compared[:3]
+
+
+def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
+    """Read saved JSON files and write a single summary.json with top 3 per district."""
+    summary_data = {}
+    for lawd_cd in lawd_list:
+        lawd_dir = BY_LAWD_DIR / lawd_cd
+        if not lawd_dir.exists():
+            summary_data[lawd_cd] = []
+            continue
+        all_records = []
+        for f in sorted(lawd_dir.glob("*.json")):
+            with f.open("r", encoding="utf-8") as fp:
+                all_records.extend(json.load(fp))
+        summary_data[lawd_cd] = top3_for_lawd(all_records)
+
+    summary = {
+        "updated_at": iso_now_utc(),
+        "months_kept": months_kept,
+        "lawd_list": lawd_list,
+        "total_txns": total_txns,
+        "by_lawd": summary_data,
+    }
+    write_json(SUMMARY_PATH, summary)
+
+
 def main() -> int:
     service_key = os.getenv("MOLIT_SERVICE_KEY")
     if not service_key:
@@ -197,6 +259,9 @@ def main() -> int:
         "files": index_files,
     }
     write_json(INDEX_PATH, index)
+
+    total_txns = sum(e["count"] for e in index_files)
+    build_summary(lawd_list, months_kept, total_txns)
     return 0
 
 
