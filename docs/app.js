@@ -90,15 +90,14 @@ function drawScatter(canvas, history) {
     ctx.fillText(label, pad.left - 4, ly);
   }
 
-  // X-axis labels (years)
+  // X-axis labels (Jan 1 of each year)
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  var startYear = new Date(minT).getFullYear();
-  var endYear = new Date(maxT).getFullYear();
-  for (var yr = startYear; yr <= endYear; yr++) {
-    var xt = new Date(yr, 6, 1).getTime();
+  var xLabels = [2024, 2025, 2026];
+  for (var li = 0; li < xLabels.length; li++) {
+    var xt = new Date(xLabels[li], 0, 1).getTime();
     if (xt < minT || xt > maxT) continue;
-    ctx.fillText(yr.toString(), xPos(xt), pad.top + plotH + 6);
+    ctx.fillText(xLabels[li] + "/1/1", xPos(xt), pad.top + plotH + 6);
   }
 
   // Draw connecting line
@@ -288,10 +287,10 @@ function renderSections() {
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
 
-  if (sidoData.section1) {
-    gridEl.appendChild(renderSection(sidoData.section1));
-  }
   if (sidoData.section2) {
+    gridEl.appendChild(renderSection(sidoData.section2));
+  }
+  if (sidoData.section1) {
     gridEl.appendChild(renderSection(sidoData.section2));
   }
 }
