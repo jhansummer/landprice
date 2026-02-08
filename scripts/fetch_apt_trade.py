@@ -115,8 +115,15 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
     while True:
         params = build_params(service_key, lawd_cd, deal_ym, page_no)
         url = f"{BASE_URL}/{operation_path}"
-        resp = requests.get(url, params=params, timeout=30)
-        resp.raise_for_status()
+        for attempt in range(3):
+            try:
+                resp = requests.get(url, params=params, timeout=30)
+                resp.raise_for_status()
+                break
+            except requests.exceptions.RequestException:
+                if attempt == 2:
+                    raise
+                time.sleep(5 * (attempt + 1))
         items, result = parse_items(resp.content)
         if result.get("resultCode") and result.get("resultCode") not in ("00", "000"):
             raise RuntimeError(f"API error {result.get('resultCode')}: {result.get('resultMsg')}")
