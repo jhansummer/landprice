@@ -23,10 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests lxml python-dateutil
       - name: Fetch data
+        timeout-minutes: 120
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
-          MONTHS_KEPT: "12"
-          LAWD_LIST: "11110,11140,11170,11200,11215,11230,11260,11290,11305,11320,11350,11380,11410,11440,11470,11500,11530,11545,11560,11590,11620,11650,11680,11710,11740"
+          MONTHS_KEPT: "36"
         run: |
           python scripts/fetch_apt_trade.py
       - name: Commit and push if changed

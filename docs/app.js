@@ -1,75 +1,84 @@
 const summaryPath = "data/apt_trade/summary.json";
 
-const LAWD_NAMES = {
-  "11110": "종로구", "11140": "중구", "11170": "용산구",
-  "11200": "성동구", "11215": "광진구", "11230": "동대문구",
-  "11260": "중랑구", "11290": "성북구", "11305": "강북구",
-  "11320": "도봉구", "11350": "노원구", "11380": "은평구",
-  "11410": "서대문구", "11440": "마포구", "11470": "양천구",
-  "11500": "강서구", "11530": "구로구", "11545": "금천구",
-  "11560": "영등포구", "11590": "동작구", "11620": "관악구",
-  "11650": "서초구", "11680": "강남구", "11710": "송파구",
-  "11740": "강동구",
-};
-
 const gridEl = document.getElementById("grid");
 const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
+const tabsEl = document.getElementById("tabs");
+
+let globalData = null;
+let activeSido = null;
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
 }
 
-function renderCard(lawdCd, top3) {
-  const card = document.createElement("div");
+function renderTabs(sidoOrder) {
+  tabsEl.innerHTML = "";
+  sidoOrder.forEach(function (sido) {
+    var btn = document.createElement("button");
+    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.textContent = sido;
+    btn.addEventListener("click", function () {
+      activeSido = sido;
+      renderTabs(sidoOrder);
+      renderGrid();
+      history.replaceState(null, "", "#" + sido);
+    });
+    tabsEl.appendChild(btn);
+  });
+}
+
+function renderCard(lawdCd, districtData) {
+  var card = document.createElement("div");
   card.className = "card";
 
-  const title = document.createElement("h2");
+  var title = document.createElement("h2");
   title.className = "card-title";
-  title.textContent = LAWD_NAMES[lawdCd] || lawdCd;
+  title.textContent = districtData.name || lawdCd;
   card.appendChild(title);
 
+  var top3 = districtData.top3 || [];
   if (!top3.length) {
-    const p = document.createElement("p");
+    var p = document.createElement("p");
     p.className = "no-data";
-    p.textContent = "비교 가능한 상승 거래 없음";
+    p.textContent = "\uBE44\uAD50 \uAC00\uB2A5\uD55C \uC0C1\uC2B9 \uAC70\uB798 \uC5C6\uC74C";
     card.appendChild(p);
     return card;
   }
 
-  const ul = document.createElement("ul");
+  var ul = document.createElement("ul");
   ul.className = "rank-list";
 
-  top3.forEach((r, i) => {
-    const li = document.createElement("li");
+  top3.forEach(function (r, i) {
+    var li = document.createElement("li");
     li.className = "rank-item";
 
-    const num = document.createElement("span");
-    num.className = `rank-num n${i + 1}`;
+    var num = document.createElement("span");
+    num.className = "rank-num n" + (i + 1);
     num.textContent = i + 1;
     li.appendChild(num);
 
-    const info = document.createElement("div");
+    var info = document.createElement("div");
     info.className = "rank-info";
-    const aptEl = document.createElement("div");
+    var aptEl = document.createElement("div");
     aptEl.className = "rank-apt";
     aptEl.textContent = r.apt_name;
     info.appendChild(aptEl);
-    const detail = document.createElement("div");
+    var detail = document.createElement("div");
     detail.className = "rank-detail";
-    detail.textContent = `${r.area_m2}m\u00B2 · ${r.dong_name} · ${r.latest_date}`;
+    detail.textContent = r.area_m2 + "m\u00B2 \u00B7 " + r.dong_name + " \u00B7 " + r.latest_date;
     info.appendChild(detail);
     li.appendChild(info);
 
-    const changeEl = document.createElement("div");
+    var changeEl = document.createElement("div");
     changeEl.className = "rank-change";
-    const pctEl = document.createElement("div");
+    var pctEl = document.createElement("div");
     pctEl.className = "rank-pct";
-    pctEl.textContent = `+${r.pct.toFixed(1)}%`;
+    pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
     changeEl.appendChild(pctEl);
-    const diffEl = document.createElement("div");
+    var diffEl = document.createElement("div");
     diffEl.className = "rank-diff";
-    diffEl.textContent = `${fmt(r.prev_price)} \u2192 ${fmt(r.latest_price)}만`;
+    diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
     changeEl.appendChild(diffEl);
     li.appendChild(changeEl);
 
@@ -80,23 +89,39 @@ function renderCard(lawdCd, top3) {
   return card;
 }
 
-async function init() {
-  const response = await fetch(summaryPath);
-  if (!response.ok) {
-    statusEl.textContent = "데이터를 불러오지 못했습니다.";
-    return;
-  }
-  const data = await response.json();
-  const lawdList = data.lawd_list || [];
+function renderGrid() {
+  gridEl.innerHTML = "";
+  if (!globalData || !activeSido) return;
 
-  for (const lawdCd of lawdList) {
-    const top3 = data.by_lawd[lawdCd] || [];
-    const card = renderCard(lawdCd, top3);
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+
+  var codes = Object.keys(sidoData.districts).sort();
+  for (var i = 0; i < codes.length; i++) {
+    var card = renderCard(codes[i], sidoData.districts[codes[i]]);
     gridEl.appendChild(card);
   }
+}
+
+async function init() {
+  var response = await fetch(summaryPath);
+  if (!response.ok) {
+    statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
+    return;
+  }
+  globalData = await response.json();
+
+  var sidoOrder = globalData.sido_order || [];
+  var hash = decodeURIComponent(location.hash.replace("#", ""));
+  activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
+
+  renderTabs(sidoOrder);
+  renderGrid();
 
   statusEl.textContent = "";
-  metaEl.textContent = `업데이트: ${data.updated_at} · 총 거래 ${fmt(data.total_txns)}건 · ${data.months_kept}개월`;
+  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + globalData.updated_at +
+    " \u00B7 \uCD1D \uAC70\uB798 " + fmt(globalData.total_txns) + "\uAC74" +
+    " \u00B7 " + globalData.months_kept + "\uAC1C\uC6D4";
 }
 
 init();

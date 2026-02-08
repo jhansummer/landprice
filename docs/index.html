@@ -58,6 +58,41 @@
       color: var(--muted);
       margin-bottom: 20px;
     }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 0 20px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
     .grid {
       display: grid;
       gap: 16px;
@@ -140,6 +175,8 @@
     }
     @media (max-width: 720px) {
       h1 { font-size: 26px; }
+      .tabs { padding: 0 16px 10px; gap: 4px; }
+      .tab-btn { padding: 6px 14px; font-size: 13px; }
       .grid {
         grid-template-columns: 1fr;
       }
@@ -152,8 +189,9 @@
 <body>
   <header>
     <h1>아파트 실거래가 상승 TOP 3</h1>
-    <p>국토부 실거래가 OpenAPI · 서울 25개 구별 직전 대비 상승 순위</p>
+    <p>국토부 실거래가 OpenAPI · 전국 주요 시도 시군구별 직전 대비 상승 순위</p>
   </header>
+  <nav id="tabs" class="tabs"></nav>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>

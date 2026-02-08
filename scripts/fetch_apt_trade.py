@@ -11,6 +11,8 @@ import requests
 from dateutil.relativedelta import relativedelta
 from lxml import etree
 
+from lawd_codes import LAWD_CODES, SIDO_ORDER, all_lawd_list, sido_for_lawd, lawd_name
+
 BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade"
 DEFAULT_OPERATION_PATH = "getRTMSDataSvcAptTrade"
 
@@ -137,7 +139,7 @@ def load_lawd_list() -> List[str]:
     env_val = os.getenv("LAWD_LIST", "")
     if env_val.strip():
         return [v.strip() for v in env_val.split(",") if v.strip()]
-    return ["11110", "11680"]
+    return all_lawd_list()
 
 
 def ensure_dirs() -> None:
@@ -202,25 +204,32 @@ def top3_for_lawd(all_records: List[Dict[str, object]]) -> List[Dict[str, object
 
 
 def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
-    """Read saved JSON files and write a single summary.json with top 3 per district."""
-    summary_data = {}
+    """Read saved JSON files and write summary.json with 시도 hierarchy."""
+    sidos: Dict[str, Dict] = {}
     for lawd_cd in lawd_list:
         lawd_dir = BY_LAWD_DIR / lawd_cd
-        if not lawd_dir.exists():
-            summary_data[lawd_cd] = []
-            continue
-        all_records = []
-        for f in sorted(lawd_dir.glob("*.json")):
-            with f.open("r", encoding="utf-8") as fp:
-                all_records.extend(json.load(fp))
-        summary_data[lawd_cd] = top3_for_lawd(all_records)
+        all_records: List[Dict[str, object]] = []
+        if lawd_dir.exists():
+            for f in sorted(lawd_dir.glob("*.json")):
+                with f.open("r", encoding="utf-8") as fp:
+                    all_records.extend(json.load(fp))
+        top3 = top3_for_lawd(all_records)
+
+        sido = sido_for_lawd(lawd_cd)
+        if sido and sido not in sidos:
+            sidos[sido] = {"districts": {}}
+        if sido:
+            sidos[sido]["districts"][lawd_cd] = {
+                "name": lawd_name(lawd_cd),
+                "top3": top3,
+            }
 
     summary = {
         "updated_at": iso_now_utc(),
         "months_kept": months_kept,
-        "lawd_list": lawd_list,
         "total_txns": total_txns,
-        "by_lawd": summary_data,
+        "sido_order": [s for s in SIDO_ORDER if s in sidos],
+        "sidos": sidos,
     }
     write_json(SUMMARY_PATH, summary)
 
@@ -240,8 +249,13 @@ def main() -> int:
     cleanup_old_files(lawd_list, months)
 
     index_files = []
+    total_jobs = len(lawd_list) * len(months)
+    done = 0
     for lawd_cd in lawd_list:
         for deal_ym in months:
+            done += 1
+            name = lawd_name(lawd_cd)
+            print(f"[{done}/{total_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
             records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
             out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
             write_json(out_path, records)
