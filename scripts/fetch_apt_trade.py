@@ -115,13 +115,18 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
     while True:
         params = build_params(service_key, lawd_cd, deal_ym, page_no)
         url = f"{BASE_URL}/{operation_path}"
-        for attempt in range(3):
+        for attempt in range(5):
             try:
                 resp = requests.get(url, params=params, timeout=30)
+                if resp.status_code == 429:
+                    wait = min(30, 10 * (attempt + 1))
+                    print(f"  429 rate-limited, waiting {wait}s (attempt {attempt+1}/5)", flush=True)
+                    time.sleep(wait)
+                    continue
                 resp.raise_for_status()
                 break
             except requests.exceptions.RequestException:
-                if attempt == 2:
+                if attempt == 4:
                     raise
                 time.sleep(5 * (attempt + 1))
         items, result = parse_items(resp.content)
@@ -137,7 +142,7 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
             seen.add(key)
             records.append(norm)
         page_no += 1
-        time.sleep(0.2)
+        time.sleep(1.0)
     records.sort(key=lambda x: (x["deal_date"], x["apt_name"], x["floor"]))
     return records
 
