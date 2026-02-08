@@ -288,6 +288,58 @@ def section2_top3(records: List[Dict[str, object]], min_trades: int = 20) -> Dic
     }
 
 
+def section3_top3(records: List[Dict[str, object]], today_str: str) -> Dict[str, object]:
+    """오늘 거래 중 상승률 TOP 3. 오늘 데이터 없으면 가장 최근 거래일 fallback."""
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    # Find latest deal_date in the dataset
+    all_dates = sorted(set(r["deal_date"] for r in records), reverse=True)
+    target_date = today_str
+    if today_str not in all_dates:
+        target_date = all_dates[0] if all_dates else today_str
+
+    # Filter: latest transaction must be on target_date
+    compared = []
+    for txns in groups.values():
+        txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+        latest = txns_sorted[0]
+        if latest["deal_date"] != target_date:
+            continue
+        prev_txns = [t for t in txns_sorted if t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        if not prev_txns:
+            continue
+        prev = max(prev_txns, key=lambda x: x["price_man"])
+        if not prev["price_man"]:
+            continue
+        change = latest["price_man"] - prev["price_man"]
+        pct = (change / prev["price_man"]) * 100
+        if pct <= 0:
+            continue
+        compared.append({
+            "apt_name": latest["apt_name"],
+            "sigungu": latest.get("sigungu", ""),
+            "dong_name": latest["dong_name"],
+            "area_m2": latest["area_m2"],
+            "latest_date": latest["deal_date"],
+            "latest_price": latest["price_man"],
+            "prev_date": prev["deal_date"],
+            "prev_price": prev["price_man"],
+            "change": change,
+            "pct": round(pct, 2),
+            "history": build_history(txns),
+        })
+    compared.sort(key=lambda x: -x["pct"])
+
+    return {
+        "title": "오늘의 상승률 TOP 3",
+        "date": target_date,
+        "top3": compared[:3],
+    }
+
+
 def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
     """Read saved JSON files and write summary.json with 시도-level sections."""
     # Group lawd codes by sido
@@ -299,6 +351,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
 
     today = datetime.utcnow().date()
     current_month = today.strftime("%Y%m")
+    today_str = today.strftime("%Y-%m-%d")
 
     sidos: Dict[str, Dict] = {}
     for sido, codes in sido_lawds.items():
@@ -306,6 +359,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records),
+            "section3": section3_top3(records, today_str),
         }
 
     summary = {

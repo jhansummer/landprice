@@ -263,6 +263,12 @@ function renderSection(sectionData) {
     sub.textContent = sectionData.month.slice(0, 4) + "\uB144 " + parseInt(sectionData.month.slice(4), 10) + "\uC6D4 \uAE30\uC900";
     sec.appendChild(sub);
   }
+  if (sectionData.date) {
+    var sub = document.createElement("p");
+    sub.className = "section-sub";
+    sub.textContent = sectionData.date + " \uAE30\uC900";
+    sec.appendChild(sub);
+  }
 
   var top3 = sectionData.top3 || [];
   if (!top3.length) {
@@ -291,7 +297,10 @@ function renderSections() {
     gridEl.appendChild(renderSection(sidoData.section2));
   }
   if (sidoData.section1) {
-    gridEl.appendChild(renderSection(sidoData.section2));
+    gridEl.appendChild(renderSection(sidoData.section1));
+  }
+  if (sidoData.section3) {
+    gridEl.appendChild(renderSection(sidoData.section3));
   }
 }
 
