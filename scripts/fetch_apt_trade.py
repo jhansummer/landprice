@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime
@@ -334,14 +335,23 @@ def section3_top3(records: List[Dict[str, object]], today_str: str) -> Dict[str,
     compared.sort(key=lambda x: -x["pct"])
 
     return {
-        "title": "오늘의 상승률 TOP 3",
+        "title": "오늘의 실거래 TOP 3",
         "date": target_date,
         "top3": compared[:3],
     }
 
 
+def _district_group(sido: str, sigungu_name: str) -> str:
+    """서울은 구 그대로, 경기는 시 단위로 묶기, 나머지는 그대로."""
+    if sido == "경기":
+        m = re.match(r'^(.+시).+[구군]$', sigungu_name)
+        if m:
+            return m.group(1)
+    return sigungu_name
+
+
 def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
-    """Read saved JSON files and write summary.json with 시도-level sections."""
+    """Read saved JSON files and write summary.json with 시도-level + district sections."""
     # Group lawd codes by sido
     sido_lawds: Dict[str, List[str]] = {}
     for lawd_cd in lawd_list:
@@ -356,10 +366,33 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
     sidos: Dict[str, Dict] = {}
     for sido, codes in sido_lawds.items():
         records = gather_sido_records(codes)
+
+        # District grouping
+        dist_groups: Dict[str, List[str]] = {}
+        for lawd_cd in codes:
+            name = lawd_name(lawd_cd)
+            group = _district_group(sido, name)
+            dist_groups.setdefault(group, []).append(lawd_cd)
+
+        district_order = sorted(dist_groups.keys())
+        districts: Dict[str, Dict] = {}
+        for group_name, group_codes in dist_groups.items():
+            group_set = set(group_codes)
+            dist_records = [r for r in records if r["lawd_cd"] in group_set]
+            if not dist_records:
+                continue
+            districts[group_name] = {
+                "section1": section1_top3(dist_records, current_month),
+                "section2": section2_top3(dist_records),
+                "section3": section3_top3(dist_records, today_str),
+            }
+
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records),
             "section3": section3_top3(records, today_str),
+            "district_order": district_order,
+            "districts": districts,
         }
 
     summary = {

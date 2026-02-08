@@ -4,9 +4,11 @@ const gridEl = document.getElementById("grid");
 const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 const tabsEl = document.getElementById("tabs");
+const subtabsEl = document.getElementById("subtabs");
 
 let globalData = null;
 let activeSido = null;
+let activeDistrict = null;
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
@@ -20,7 +22,9 @@ function renderTabs(sidoOrder) {
     btn.textContent = sido;
     btn.addEventListener("click", function () {
       activeSido = sido;
+      activeDistrict = null;
       renderTabs(sidoOrder);
+      renderSubTabs();
       renderSections();
       history.replaceState(null, "", "#" + sido);
     });
@@ -286,6 +290,35 @@ function renderSection(sectionData) {
   return sec;
 }
 
+function renderSubTabs() {
+  subtabsEl.innerHTML = "";
+  if (!globalData || !activeSido) return;
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
+
+  var allBtn = document.createElement("button");
+  allBtn.className = "sub-btn" + (activeDistrict === null ? " active" : "");
+  allBtn.textContent = "\uC804\uCCB4";
+  allBtn.addEventListener("click", function () {
+    activeDistrict = null;
+    renderSubTabs();
+    renderSections();
+  });
+  subtabsEl.appendChild(allBtn);
+
+  sidoData.district_order.forEach(function (dist) {
+    var btn = document.createElement("button");
+    btn.className = "sub-btn" + (dist === activeDistrict ? " active" : "");
+    btn.textContent = dist;
+    btn.addEventListener("click", function () {
+      activeDistrict = dist;
+      renderSubTabs();
+      renderSections();
+    });
+    subtabsEl.appendChild(btn);
+  });
+}
+
 function renderSections() {
   gridEl.innerHTML = "";
   if (!globalData || !activeSido) return;
@@ -293,14 +326,19 @@ function renderSections() {
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
 
-  if (sidoData.section2) {
-    gridEl.appendChild(renderSection(sidoData.section2));
+  var data = sidoData;
+  if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
+    data = sidoData.districts[activeDistrict];
   }
-  if (sidoData.section1) {
-    gridEl.appendChild(renderSection(sidoData.section1));
+
+  if (data.section2) {
+    gridEl.appendChild(renderSection(data.section2));
   }
-  if (sidoData.section3) {
-    gridEl.appendChild(renderSection(sidoData.section3));
+  if (data.section1) {
+    gridEl.appendChild(renderSection(data.section1));
+  }
+  if (data.section3) {
+    gridEl.appendChild(renderSection(data.section3));
   }
 }
 
@@ -317,6 +355,7 @@ async function init() {
   activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
 
   renderTabs(sidoOrder);
+  renderSubTabs();
   renderSections();
 
   statusEl.textContent = "";

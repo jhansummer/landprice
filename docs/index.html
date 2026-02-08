@@ -93,6 +93,32 @@
       color: #fff;
       font-weight: 700;
     }
+    .subtabs {
+      display: flex;
+      gap: 4px;
+      padding: 0 20px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      flex-wrap: wrap;
+    }
+    .subtabs::-webkit-scrollbar { display: none; }
+    .sub-btn {
+      padding: 4px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .sub-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .sub-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -195,11 +221,12 @@
     <p>국토부 실거래가 OpenAPI · 시도별 이번달 상승 및 거래량 기준 TOP 3</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
+  <nav id="subtabs" class="subtabs"></nav>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>
     <div id="grid"></div>
   </main>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
