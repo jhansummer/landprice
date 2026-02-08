@@ -338,9 +338,9 @@ def section3_top3(records: List[Dict[str, object]], today_str: str) -> Dict[str,
     compared.sort(key=lambda x: -x["pct"])
 
     return {
-        "title": "오늘의 실거래 TOP 3",
+        "title": "오늘의 실거래",
         "date": target_date,
-        "top3": compared[:3],
+        "top3": compared,
     }
 
 
@@ -431,6 +431,8 @@ def main() -> int:
     fetched = 0
     skipped = 0
     errors = 0
+    consecutive_errors = 0
+    rate_limited = False
     for lawd_cd in lawd_list:
         for deal_ym in months:
             done += 1
@@ -450,12 +452,31 @@ def main() -> int:
                 skipped += 1
                 continue
 
+            # If rate-limited, skip remaining API calls but keep existing data
+            if rate_limited:
+                if out_path.exists():
+                    with out_path.open("r", encoding="utf-8") as fp:
+                        existing = json.load(fp)
+                    index_files.append({
+                        "lawd_cd": lawd_cd,
+                        "deal_ym": deal_ym,
+                        "count": len(existing),
+                        "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
+                    })
+                skipped += 1
+                continue
+
             print(f"[{done}/{total_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
             try:
                 records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
+                consecutive_errors = 0
             except Exception as e:
                 print(f"  ERROR: {e} - skipping", flush=True)
                 errors += 1
+                consecutive_errors += 1
+                if consecutive_errors >= 3:
+                    print("  3 consecutive errors - stopping API calls, keeping existing data", flush=True)
+                    rate_limited = True
                 # Keep existing file if available
                 if out_path.exists():
                     with out_path.open("r", encoding="utf-8") as fp:

@@ -23,7 +23,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests lxml python-dateutil
       - name: Fetch data
-        timeout-minutes: 120
+        timeout-minutes: 110
+        continue-on-error: true
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
           MONTHS_KEPT: "84"

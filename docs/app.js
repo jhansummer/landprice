@@ -193,7 +193,8 @@ function renderRankedItem(r, idx) {
 
   // Rank number
   var num = document.createElement("span");
-  num.className = "rank-num n" + (idx + 1);
+  var nClass = idx < 3 ? " n" + (idx + 1) : "";
+  num.className = "rank-num" + nClass;
   num.textContent = idx + 1;
   card.appendChild(num);
 
@@ -212,12 +213,16 @@ function renderRankedItem(r, idx) {
   info.appendChild(aptEl);
   var detail = document.createElement("div");
   detail.className = "rank-detail";
-  var detailText = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2 \u00B7 " + r.latest_date;
+  var detailText = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
   if (r.total_trades) {
     detailText += " \u00B7 " + r.total_trades + "\uAC74";
   }
   detail.textContent = detailText;
   info.appendChild(detail);
+  var dateEl = document.createElement("div");
+  dateEl.className = "rank-detail";
+  dateEl.textContent = r.latest_date;
+  info.appendChild(dateEl);
   top.appendChild(info);
 
   var changeEl = document.createElement("div");
@@ -361,7 +366,8 @@ async function init() {
   renderSections();
 
   statusEl.textContent = "";
-  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + globalData.updated_at +
+  var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
+  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly +
     " \u00B7 \uCD1D \uAC70\uB798 " + fmt(globalData.total_txns) + "\uAC74" +
     " \u00B7 " + globalData.months_kept + "\uAC1C\uC6D4";
 }
