@@ -116,20 +116,23 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
     while True:
         params = build_params(service_key, lawd_cd, deal_ym, page_no)
         url = f"{BASE_URL}/{operation_path}"
-        for attempt in range(5):
+        resp = None
+        for attempt in range(8):
             try:
                 resp = requests.get(url, params=params, timeout=30)
                 if resp.status_code == 429:
-                    wait = min(30, 10 * (attempt + 1))
-                    print(f"  429 rate-limited, waiting {wait}s (attempt {attempt+1}/5)", flush=True)
+                    wait = min(60, 15 * (attempt + 1))
+                    print(f"  429 rate-limited, waiting {wait}s (attempt {attempt+1}/8)", flush=True)
                     time.sleep(wait)
                     continue
                 resp.raise_for_status()
                 break
             except requests.exceptions.RequestException:
-                if attempt == 4:
+                if attempt == 7:
                     raise
                 time.sleep(5 * (attempt + 1))
+        if resp is None or resp.status_code == 429:
+            raise RuntimeError("API rate limit exceeded after 8 retries")
         items, result = parse_items(resp.content)
         if result.get("resultCode") and result.get("resultCode") not in ("00", "000"):
             raise RuntimeError(f"API error {result.get('resultCode')}: {result.get('resultMsg')}")
@@ -143,7 +146,7 @@ def fetch_month(service_key: str, lawd_cd: str, deal_ym: str, operation_path: st
             seen.add(key)
             records.append(norm)
         page_no += 1
-        time.sleep(1.0)
+        time.sleep(2.0)
     records.sort(key=lambda x: (x["deal_date"], x["apt_name"], x["floor"]))
     return records
 
