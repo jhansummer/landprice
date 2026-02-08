@@ -196,7 +196,7 @@ def build_history(txns: List[Dict[str, object]]) -> List[List]:
 
 
 def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None) -> List[Dict[str, object]]:
-    """Compare latest vs prev in each group, return list sorted by pct desc."""
+    """Compare latest vs past high in each group, return list sorted by pct desc."""
     compared = []
     for txns in groups.values():
         txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
@@ -207,12 +207,12 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
             latest = latest_candidates[0]
         else:
             latest = txns_sorted[0]
-        prev = None
-        for t in txns_sorted:
-            if t["deal_date"] < latest["deal_date"]:
-                prev = t
-                break
-        if not prev or not prev["price_man"]:
+        # Find past high: max price among all transactions before the latest date
+        prev_txns = [t for t in txns_sorted if t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        if not prev_txns:
+            continue
+        prev = max(prev_txns, key=lambda x: x["price_man"])
+        if not prev["price_man"]:
             continue
         change = latest["price_man"] - prev["price_man"]
         pct = (change / prev["price_man"]) * 100
@@ -255,7 +255,7 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "이번달 상승률 TOP 3",
+        "title": "이번달 역대 최고가 대비 상승률 TOP 3",
         "month": month_label,
         "top3": compared[:3],
     }
@@ -278,7 +278,7 @@ def section2_top3(records: List[Dict[str, object]], min_trades: int = 20) -> Dic
         entry["total_trades"] = len(groups.get(key, []))
 
     return {
-        "title": "거래량 %d건 이상 단지 상승률 TOP 3" % min_trades,
+        "title": "거래량 %d건 이상 단지 역대 최고가 대비 상승률 TOP 3" % min_trades,
         "top3": compared[:3],
     }
 
