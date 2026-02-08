@@ -260,7 +260,7 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "이번달 역대 최고가 대비 상승률 TOP 3",
+        "title": "이번달 직전 3년 최고가 대비 상승률 TOP 3",
         "month": month_label,
         "top3": compared[:3],
     }
@@ -283,7 +283,7 @@ def section2_top3(records: List[Dict[str, object]], min_trades: int = 20) -> Dic
         entry["total_trades"] = len(groups.get(key, []))
 
     return {
-        "title": "거래량 %d건 이상 단지 역대 최고가 대비 상승률 TOP 3" % min_trades,
+        "title": "거래량 %d건 이상 단지 직전 3년 최고가 대비 상승률 TOP 3" % min_trades,
         "top3": compared[:3],
     }
 

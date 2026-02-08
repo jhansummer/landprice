@@ -101,6 +101,19 @@ function drawScatter(canvas, history) {
     ctx.fillText(yr.toString(), xPos(xt), pad.top + plotH + 6);
   }
 
+  // Draw connecting line
+  ctx.strokeStyle = "#1a6f5a";
+  ctx.lineWidth = 1.2;
+  ctx.globalAlpha = 0.5;
+  ctx.beginPath();
+  for (var i = 0; i < points.length; i++) {
+    var px = xPos(points[i].t);
+    var py = yPos(points[i].price);
+    if (i === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
+  }
+  ctx.stroke();
+  ctx.globalAlpha = 1.0;
+
   // Plot points
   ctx.fillStyle = "#1a6f5a";
   for (var i = 0; i < points.length; i++) {
@@ -110,6 +123,58 @@ function drawScatter(canvas, history) {
     ctx.arc(px, py, 2.5, 0, Math.PI * 2);
     ctx.fill();
   }
+
+  // Pick key points for labels: first, min, max, last
+  var labelIndices = {};
+  labelIndices[0] = true;
+  labelIndices[points.length - 1] = true;
+  var minIdx = 0, maxIdx = 0;
+  for (var i = 1; i < points.length; i++) {
+    if (points[i].price < points[minIdx].price) minIdx = i;
+    if (points[i].price > points[maxIdx].price) maxIdx = i;
+  }
+  labelIndices[minIdx] = true;
+  labelIndices[maxIdx] = true;
+
+  // Draw labels on key points
+  ctx.font = "9px sans-serif";
+  var drawn = [];
+  Object.keys(labelIndices).sort(function(a,b){return a-b;}).forEach(function(idx) {
+    idx = parseInt(idx);
+    var pt = points[idx];
+    var px = xPos(pt.t);
+    var py = yPos(pt.price);
+    var d = new Date(pt.t);
+    var dateStr = (d.getMonth()+1) + "/" + d.getDate();
+    var priceStr = (pt.price / 10000).toFixed(1) + "\uc5b5";
+    var label = dateStr + " " + priceStr;
+    var labelW = ctx.measureText(label).width;
+
+    // Position above point, shift down if near top
+    var ly = py - 10;
+    if (ly < pad.top + 4) ly = py + 14;
+
+    // Align: left edge for early points, right edge for late points
+    var lx = px;
+    var align = "center";
+    if (px - labelW / 2 < pad.left) { align = "left"; lx = px; }
+    else if (px + labelW / 2 > pad.left + plotW) { align = "right"; lx = px; }
+
+    // Skip if overlapping with previously drawn labels
+    var overlap = false;
+    for (var j = 0; j < drawn.length; j++) {
+      if (Math.abs(lx - drawn[j].x) < 50 && Math.abs(ly - drawn[j].y) < 12) {
+        overlap = true; break;
+      }
+    }
+    if (overlap) return;
+
+    ctx.textAlign = align;
+    ctx.textBaseline = "bottom";
+    ctx.fillStyle = idx === points.length - 1 ? "#d63a3a" : "#6e6a63";
+    ctx.fillText(label, lx, ly);
+    drawn.push({ x: lx, y: ly });
+  });
 
   // Highlight latest point
   var last = points[points.length - 1];
