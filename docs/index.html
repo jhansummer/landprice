@@ -17,7 +17,7 @@
       --gold: #b8860b;
       --silver: #6e6a63;
       --bronze: #8b5e3c;
-      --font-title: "Eczar", "Georgia", serif;
+      --font-title: "Playfair Display", "Eczar", "Georgia", serif;
       --font-body: "DM Sans", "Helvetica Neue", sans-serif;
     }
     body {
@@ -33,9 +33,10 @@
     h1 {
       margin: 0 0 8px;
       font-family: var(--font-title);
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
     }
     header p {
       margin: 0;
@@ -93,32 +94,30 @@
       color: #fff;
       font-weight: 700;
     }
-    .subtabs {
-      display: flex;
-      gap: 4px;
-      padding: 0 20px 12px;
+    .district-select-wrap {
       max-width: 1200px;
       margin: 0 auto;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      flex-wrap: wrap;
+      padding: 0 20px 14px;
     }
-    .subtabs::-webkit-scrollbar { display: none; }
-    .sub-btn {
-      padding: 4px 12px;
+    .district-select {
+      padding: 8px 32px 8px 14px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 10px;
       background: var(--paper);
-      color: var(--muted);
+      color: var(--ink);
       font-family: var(--font-body);
-      font-size: 12px;
+      font-size: 14px;
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
     }
-    .sub-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .sub-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+    .district-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -213,20 +212,20 @@
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Eczar:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Eczar:wght@600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <h1>아파트 실거래가 상승 TOP 3</h1>
-    <p>국토부 실거래가 OpenAPI · 시도별 이번달 상승 및 거래량 기준 TOP 3</p>
+    <p>출처 : 국토교통부 실거래가</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
-  <nav id="subtabs" class="subtabs"></nav>
+  <div id="subtabs" class="district-select-wrap"></div>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>
     <div id="grid"></div>
   </main>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

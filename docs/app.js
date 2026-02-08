@@ -296,27 +296,29 @@ function renderSubTabs() {
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
 
-  var allBtn = document.createElement("button");
-  allBtn.className = "sub-btn" + (activeDistrict === null ? " active" : "");
-  allBtn.textContent = "\uC804\uCCB4";
-  allBtn.addEventListener("click", function () {
-    activeDistrict = null;
-    renderSubTabs();
-    renderSections();
-  });
-  subtabsEl.appendChild(allBtn);
+  var select = document.createElement("select");
+  select.className = "district-select";
+
+  var allOpt = document.createElement("option");
+  allOpt.value = "";
+  allOpt.textContent = activeSido + " \uC804\uCCB4";
+  if (activeDistrict === null) allOpt.selected = true;
+  select.appendChild(allOpt);
 
   sidoData.district_order.forEach(function (dist) {
-    var btn = document.createElement("button");
-    btn.className = "sub-btn" + (dist === activeDistrict ? " active" : "");
-    btn.textContent = dist;
-    btn.addEventListener("click", function () {
-      activeDistrict = dist;
-      renderSubTabs();
-      renderSections();
-    });
-    subtabsEl.appendChild(btn);
+    var opt = document.createElement("option");
+    opt.value = dist;
+    opt.textContent = dist;
+    if (dist === activeDistrict) opt.selected = true;
+    select.appendChild(opt);
   });
+
+  select.addEventListener("change", function () {
+    activeDistrict = select.value || null;
+    renderSections();
+  });
+
+  subtabsEl.appendChild(select);
 }
 
 function renderSections() {
