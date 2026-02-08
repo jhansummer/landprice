@@ -21,85 +21,213 @@ function renderTabs(sidoOrder) {
     btn.addEventListener("click", function () {
       activeSido = sido;
       renderTabs(sidoOrder);
-      renderGrid();
+      renderSections();
       history.replaceState(null, "", "#" + sido);
     });
     tabsEl.appendChild(btn);
   });
 }
 
-function renderCard(lawdCd, districtData) {
+function drawScatter(canvas, history) {
+  if (!history || !history.length) return;
+
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width * dpr;
+  var h = rect.height * dpr;
+  canvas.width = w;
+  canvas.height = h;
+
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 8, right: 12, bottom: 22, left: 42 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // Parse data
+  var points = history.map(function (p) {
+    var d = new Date(p[0]);
+    return { t: d.getTime(), price: p[1] };
+  });
+
+  var minT = points[0].t;
+  var maxT = points[points.length - 1].t;
+  if (minT === maxT) { maxT = minT + 86400000; }
+
+  var prices = points.map(function (p) { return p.price; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.05;
+
+  function xPos(t) { return pad.left + ((t - minT) / (maxT - minT)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  // Grid lines
+  ctx.strokeStyle = "#e8e0d4";
+  ctx.lineWidth = 0.5;
+  for (var i = 0; i <= 3; i++) {
+    var gy = pad.top + (plotH / 3) * i;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, gy);
+    ctx.lineTo(pad.left + plotW, gy);
+    ctx.stroke();
+  }
+
+  // Y-axis labels (억원)
+  ctx.fillStyle = "#9a9590";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  for (var i = 0; i <= 3; i++) {
+    var val = minP + ((maxP - minP) / 3) * (3 - i);
+    var label = (val / 10000).toFixed(1) + "\uc5b5";
+    var ly = pad.top + (plotH / 3) * i;
+    ctx.fillText(label, pad.left - 4, ly);
+  }
+
+  // X-axis labels (years)
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  var startYear = new Date(minT).getFullYear();
+  var endYear = new Date(maxT).getFullYear();
+  for (var yr = startYear; yr <= endYear; yr++) {
+    var xt = new Date(yr, 6, 1).getTime();
+    if (xt < minT || xt > maxT) continue;
+    ctx.fillText(yr.toString(), xPos(xt), pad.top + plotH + 6);
+  }
+
+  // Plot points
+  ctx.fillStyle = "#1a6f5a";
+  for (var i = 0; i < points.length; i++) {
+    var px = xPos(points[i].t);
+    var py = yPos(points[i].price);
+    ctx.beginPath();
+    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Highlight latest point
+  var last = points[points.length - 1];
+  ctx.fillStyle = "#d63a3a";
+  ctx.beginPath();
+  ctx.arc(xPos(last.t), yPos(last.price), 4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function renderRankedItem(r, idx) {
   var card = document.createElement("div");
-  card.className = "card";
+  card.className = "rank-card";
+
+  // Rank number
+  var num = document.createElement("span");
+  num.className = "rank-num n" + (idx + 1);
+  num.textContent = idx + 1;
+  card.appendChild(num);
+
+  // Content area
+  var content = document.createElement("div");
+
+  // Top row: info + change
+  var top = document.createElement("div");
+  top.className = "rank-top";
+
+  var info = document.createElement("div");
+  info.className = "rank-info";
+  var aptEl = document.createElement("div");
+  aptEl.className = "rank-apt";
+  aptEl.textContent = r.apt_name;
+  info.appendChild(aptEl);
+  var detail = document.createElement("div");
+  detail.className = "rank-detail";
+  var detailText = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2 \u00B7 " + r.latest_date;
+  if (r.total_trades) {
+    detailText += " \u00B7 " + r.total_trades + "\uAC74";
+  }
+  detail.textContent = detailText;
+  info.appendChild(detail);
+  top.appendChild(info);
+
+  var changeEl = document.createElement("div");
+  changeEl.className = "rank-change";
+  var pctEl = document.createElement("div");
+  pctEl.className = "rank-pct";
+  pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
+  changeEl.appendChild(pctEl);
+  var diffEl = document.createElement("div");
+  diffEl.className = "rank-diff";
+  diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
+  changeEl.appendChild(diffEl);
+  top.appendChild(changeEl);
+
+  content.appendChild(top);
+
+  // Scatter chart
+  if (r.history && r.history.length > 1) {
+    var chartDiv = document.createElement("div");
+    chartDiv.className = "scatter-chart";
+    var canvas = document.createElement("canvas");
+    chartDiv.appendChild(canvas);
+    content.appendChild(chartDiv);
+
+    // Draw after DOM insertion
+    requestAnimationFrame(function () {
+      drawScatter(canvas, r.history);
+    });
+  }
+
+  card.appendChild(content);
+  return card;
+}
+
+function renderSection(sectionData) {
+  var sec = document.createElement("div");
+  sec.className = "section";
 
   var title = document.createElement("h2");
-  title.className = "card-title";
-  title.textContent = districtData.name || lawdCd;
-  card.appendChild(title);
+  title.className = "section-title";
+  title.textContent = sectionData.title;
+  sec.appendChild(title);
 
-  var top3 = districtData.top3 || [];
+  if (sectionData.month) {
+    var sub = document.createElement("p");
+    sub.className = "section-sub";
+    sub.textContent = sectionData.month.slice(0, 4) + "\uB144 " + parseInt(sectionData.month.slice(4), 10) + "\uC6D4 \uAE30\uC900";
+    sec.appendChild(sub);
+  }
+
+  var top3 = sectionData.top3 || [];
   if (!top3.length) {
     var p = document.createElement("p");
     p.className = "no-data";
     p.textContent = "\uBE44\uAD50 \uAC00\uB2A5\uD55C \uC0C1\uC2B9 \uAC70\uB798 \uC5C6\uC74C";
-    card.appendChild(p);
-    return card;
+    sec.appendChild(p);
+    return sec;
   }
 
-  var ul = document.createElement("ul");
-  ul.className = "rank-list";
-
   top3.forEach(function (r, i) {
-    var li = document.createElement("li");
-    li.className = "rank-item";
-
-    var num = document.createElement("span");
-    num.className = "rank-num n" + (i + 1);
-    num.textContent = i + 1;
-    li.appendChild(num);
-
-    var info = document.createElement("div");
-    info.className = "rank-info";
-    var aptEl = document.createElement("div");
-    aptEl.className = "rank-apt";
-    aptEl.textContent = r.apt_name;
-    info.appendChild(aptEl);
-    var detail = document.createElement("div");
-    detail.className = "rank-detail";
-    detail.textContent = r.area_m2 + "m\u00B2 \u00B7 " + r.dong_name + " \u00B7 " + r.latest_date;
-    info.appendChild(detail);
-    li.appendChild(info);
-
-    var changeEl = document.createElement("div");
-    changeEl.className = "rank-change";
-    var pctEl = document.createElement("div");
-    pctEl.className = "rank-pct";
-    pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
-    changeEl.appendChild(pctEl);
-    var diffEl = document.createElement("div");
-    diffEl.className = "rank-diff";
-    diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
-    changeEl.appendChild(diffEl);
-    li.appendChild(changeEl);
-
-    ul.appendChild(li);
+    sec.appendChild(renderRankedItem(r, i));
   });
 
-  card.appendChild(ul);
-  return card;
+  return sec;
 }
 
-function renderGrid() {
+function renderSections() {
   gridEl.innerHTML = "";
   if (!globalData || !activeSido) return;
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
 
-  var codes = Object.keys(sidoData.districts).sort();
-  for (var i = 0; i < codes.length; i++) {
-    var card = renderCard(codes[i], sidoData.districts[codes[i]]);
-    gridEl.appendChild(card);
+  if (sidoData.section1) {
+    gridEl.appendChild(renderSection(sidoData.section1));
+  }
+  if (sidoData.section2) {
+    gridEl.appendChild(renderSection(sidoData.section2));
   }
 }
 
@@ -116,7 +244,7 @@ async function init() {
   activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
 
   renderTabs(sidoOrder);
-  renderGrid();
+  renderSections();
 
   statusEl.textContent = "";
   metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + globalData.updated_at +

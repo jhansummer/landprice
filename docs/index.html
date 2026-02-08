@@ -93,52 +93,49 @@
       color: #fff;
       font-weight: 700;
     }
-    .grid {
-      display: grid;
-      gap: 16px;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    }
-    .card {
+    .section {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 16px 18px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
       box-shadow: 0 6px 20px rgba(28, 27, 25, 0.06);
     }
-    .card-title {
+    .section-title {
       font-family: var(--font-title);
       font-size: 20px;
       font-weight: 700;
-      margin: 0 0 12px;
+      margin: 0 0 4px;
     }
-    .rank-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    .section-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 16px;
     }
-    .rank-item {
+    .rank-card {
       display: grid;
-      grid-template-columns: 28px 1fr auto;
-      align-items: start;
-      gap: 8px;
-      padding: 8px 0;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      padding: 14px 0;
       border-bottom: 1px solid var(--line);
     }
-    .rank-item:last-child {
-      border-bottom: none;
-    }
+    .rank-card:last-child { border-bottom: none; }
     .rank-num {
       font-family: var(--font-title);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       line-height: 1.2;
     }
     .rank-num.n1 { color: var(--gold); }
     .rank-num.n2 { color: var(--silver); }
     .rank-num.n3 { color: var(--bronze); }
-    .rank-info {
-      min-width: 0;
+    .rank-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
     }
+    .rank-info { min-width: 0; }
     .rank-apt {
       font-size: 14px;
       font-weight: 600;
@@ -154,19 +151,27 @@
     .rank-change {
       text-align: right;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .rank-pct {
       font-size: 16px;
       font-weight: 700;
       color: var(--up);
     }
-    .rank-pct.down {
-      color: var(--down);
-    }
     .rank-diff {
       font-size: 11px;
       color: var(--muted);
       margin-top: 2px;
+    }
+    .scatter-chart {
+      margin-top: 10px;
+      width: 100%;
+      height: 120px;
+    }
+    .scatter-chart canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
     .no-data {
       font-size: 13px;
@@ -177,9 +182,7 @@
       h1 { font-size: 26px; }
       .tabs { padding: 0 16px 10px; gap: 4px; }
       .tab-btn { padding: 6px 14px; font-size: 13px; }
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .section { padding: 14px 16px; }
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -189,13 +192,13 @@
 <body>
   <header>
     <h1>아파트 실거래가 상승 TOP 3</h1>
-    <p>국토부 실거래가 OpenAPI · 전국 주요 시도 시군구별 직전 대비 상승 순위</p>
+    <p>국토부 실거래가 OpenAPI · 시도별 이번달 상승 및 거래량 기준 TOP 3</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>
-    <div id="grid" class="grid"></div>
+    <div id="grid"></div>
   </main>
   <script src="app.js"></script>
 </body>

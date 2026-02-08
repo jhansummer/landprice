@@ -173,20 +173,43 @@ def cleanup_old_files(lawd_list: List[str], months: List[str]) -> None:
                 file.unlink()
 
 
-def top3_for_lawd(all_records: List[Dict[str, object]]) -> List[Dict[str, object]]:
-    """Group by (apt_name, area_m2), compare latest vs prev transaction, return top 3 increases."""
-    groups: Dict[str, List[Dict[str, object]]] = {}
-    for r in all_records:
-        key = f"{r['apt_name']}\t{r['area_m2']}"
-        groups.setdefault(key, []).append(r)
+def gather_sido_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
+    """Load all saved JSON files for the given LAWD codes and add sigungu field."""
+    records: List[Dict[str, object]] = []
+    for lawd_cd in lawd_codes:
+        sigungu = lawd_name(lawd_cd)
+        lawd_dir = BY_LAWD_DIR / lawd_cd
+        if not lawd_dir.exists():
+            continue
+        for f in sorted(lawd_dir.glob("*.json")):
+            with f.open("r", encoding="utf-8") as fp:
+                for r in json.load(fp):
+                    r["sigungu"] = sigungu
+                    records.append(r)
+    return records
 
+
+def build_history(txns: List[Dict[str, object]]) -> List[List]:
+    """Convert transactions to [[date, price], ...] sorted by date."""
+    txns.sort(key=lambda x: x["deal_date"])
+    return [[t["deal_date"], t["price_man"]] for t in txns]
+
+
+def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None) -> List[Dict[str, object]]:
+    """Compare latest vs prev in each group, return list sorted by pct desc."""
     compared = []
     for txns in groups.values():
-        txns.sort(key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
-        latest = txns[0]
+        txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+        if filter_month:
+            latest_candidates = [t for t in txns_sorted if t["deal_date"][:7].replace("-", "") == filter_month]
+            if not latest_candidates:
+                continue
+            latest = latest_candidates[0]
+        else:
+            latest = txns_sorted[0]
         prev = None
-        for t in txns[1:]:
-            if t["deal_date"] != latest["deal_date"]:
+        for t in txns_sorted:
+            if t["deal_date"] < latest["deal_date"]:
                 prev = t
                 break
         if not prev or not prev["price_man"]:
@@ -195,8 +218,9 @@ def top3_for_lawd(all_records: List[Dict[str, object]]) -> List[Dict[str, object
         pct = (change / prev["price_man"]) * 100
         if pct <= 0:
             continue
-        compared.append({
+        entry = {
             "apt_name": latest["apt_name"],
+            "sigungu": latest.get("sigungu", ""),
             "dong_name": latest["dong_name"],
             "area_m2": latest["area_m2"],
             "latest_date": latest["deal_date"],
@@ -205,36 +229,85 @@ def top3_for_lawd(all_records: List[Dict[str, object]]) -> List[Dict[str, object
             "prev_price": prev["price_man"],
             "change": change,
             "pct": round(pct, 2),
-        })
+            "history": build_history(txns),
+        }
+        compared.append(entry)
     compared.sort(key=lambda x: -x["pct"])
-    return compared[:3]
+    return compared
+
+
+def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
+    """이번달 거래 중 상승률 TOP 3. 데이터 부족 시 전월 fallback."""
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    compared = _compare_groups(groups, filter_month=current_month)
+    month_label = current_month
+    if len(compared) < 3:
+        # fallback to previous month
+        dt = datetime.strptime(current_month, "%Y%m") - relativedelta(months=1)
+        prev_month = dt.strftime("%Y%m")
+        compared_prev = _compare_groups(groups, filter_month=prev_month)
+        if len(compared_prev) > len(compared):
+            compared = compared_prev
+            month_label = prev_month
+
+    return {
+        "title": "이번달 상승률 TOP 3",
+        "month": month_label,
+        "top3": compared[:3],
+    }
+
+
+def section2_top3(records: List[Dict[str, object]], min_trades: int = 20) -> Dict[str, object]:
+    """3년간 거래량 min_trades건 이상 단지 중 상승률 TOP 3."""
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    # Filter to groups with enough trades
+    filtered = {k: v for k, v in groups.items() if len(v) >= min_trades}
+    compared = _compare_groups(filtered)
+
+    # Add total_trades to each entry
+    for entry in compared:
+        key = f"{entry['apt_name']}\t{entry['area_m2']}"
+        entry["total_trades"] = len(groups.get(key, []))
+
+    return {
+        "title": "거래량 %d건 이상 단지 상승률 TOP 3" % min_trades,
+        "top3": compared[:3],
+    }
 
 
 def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
-    """Read saved JSON files and write summary.json with 시도 hierarchy."""
-    sidos: Dict[str, Dict] = {}
+    """Read saved JSON files and write summary.json with 시도-level sections."""
+    # Group lawd codes by sido
+    sido_lawds: Dict[str, List[str]] = {}
     for lawd_cd in lawd_list:
-        lawd_dir = BY_LAWD_DIR / lawd_cd
-        all_records: List[Dict[str, object]] = []
-        if lawd_dir.exists():
-            for f in sorted(lawd_dir.glob("*.json")):
-                with f.open("r", encoding="utf-8") as fp:
-                    all_records.extend(json.load(fp))
-        top3 = top3_for_lawd(all_records)
-
         sido = sido_for_lawd(lawd_cd)
-        if sido and sido not in sidos:
-            sidos[sido] = {"districts": {}}
         if sido:
-            sidos[sido]["districts"][lawd_cd] = {
-                "name": lawd_name(lawd_cd),
-                "top3": top3,
-            }
+            sido_lawds.setdefault(sido, []).append(lawd_cd)
+
+    today = datetime.utcnow().date()
+    current_month = today.strftime("%Y%m")
+
+    sidos: Dict[str, Dict] = {}
+    for sido, codes in sido_lawds.items():
+        records = gather_sido_records(codes)
+        sidos[sido] = {
+            "section1": section1_top3(records, current_month),
+            "section2": section2_top3(records),
+        }
 
     summary = {
         "updated_at": iso_now_utc(),
         "months_kept": months_kept,
         "total_txns": total_txns,
+        "current_month": current_month,
         "sido_order": [s for s in SIDO_ORDER if s in sidos],
         "sidos": sidos,
     }
