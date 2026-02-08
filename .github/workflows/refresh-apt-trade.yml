@@ -26,7 +26,8 @@ jobs:
         timeout-minutes: 120
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
-          MONTHS_KEPT: "36"
+          MONTHS_KEPT: "84"
+          REFRESH_MONTHS: "3"
         run: |
           python scripts/fetch_apt_trade.py
       - name: Commit and push if changed

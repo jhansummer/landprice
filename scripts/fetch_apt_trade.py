@@ -416,9 +416,11 @@ def main() -> int:
         return 1
 
     operation_path = os.getenv("APT_TRADE_OPERATION_PATH", DEFAULT_OPERATION_PATH)
-    months_kept = int(os.getenv("MONTHS_KEPT", "12"))
+    months_kept = int(os.getenv("MONTHS_KEPT", "84"))
+    refresh_months = int(os.getenv("REFRESH_MONTHS", "3"))
     lawd_list = load_lawd_list()
     months = month_list(months_kept)
+    refresh_set = set(month_list(refresh_months))
 
     ensure_dirs()
     cleanup_old_files(lawd_list, months)
@@ -426,13 +428,45 @@ def main() -> int:
     index_files = []
     total_jobs = len(lawd_list) * len(months)
     done = 0
+    fetched = 0
+    skipped = 0
+    errors = 0
     for lawd_cd in lawd_list:
         for deal_ym in months:
             done += 1
-            name = lawd_name(lawd_cd)
-            print(f"[{done}/{total_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
-            records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
             out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
+            name = lawd_name(lawd_cd)
+
+            # Skip: file exists and not in refresh window
+            if out_path.exists() and deal_ym not in refresh_set:
+                with out_path.open("r", encoding="utf-8") as fp:
+                    existing = json.load(fp)
+                index_files.append({
+                    "lawd_cd": lawd_cd,
+                    "deal_ym": deal_ym,
+                    "count": len(existing),
+                    "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
+                })
+                skipped += 1
+                continue
+
+            print(f"[{done}/{total_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
+            try:
+                records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
+            except Exception as e:
+                print(f"  ERROR: {e} - skipping", flush=True)
+                errors += 1
+                # Keep existing file if available
+                if out_path.exists():
+                    with out_path.open("r", encoding="utf-8") as fp:
+                        existing = json.load(fp)
+                    index_files.append({
+                        "lawd_cd": lawd_cd,
+                        "deal_ym": deal_ym,
+                        "count": len(existing),
+                        "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
+                    })
+                continue
             write_json(out_path, records)
             index_files.append({
                 "lawd_cd": lawd_cd,
@@ -440,6 +474,9 @@ def main() -> int:
                 "count": len(records),
                 "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
             })
+            fetched += 1
+
+    print(f"Done: fetched={fetched}, skipped={skipped}, errors={errors}", flush=True)
 
     index = {
         "updated_at": iso_now_utc(),
