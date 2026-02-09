@@ -345,8 +345,6 @@ def section3_weekly(records: List[Dict[str, object]], today_str: str) -> Dict[st
                 continue
             change = latest["price_man"] - prev["price_man"]
             pct = (change / prev["price_man"]) * 100
-            if pct <= 0:
-                continue
             result.append({
                 "apt_name": latest["apt_name"],
                 "sigungu": latest.get("sigungu", ""),

@@ -230,7 +230,13 @@ function renderRankedItem(r, idx) {
   changeEl.className = "rank-change";
   var pctEl = document.createElement("div");
   pctEl.className = "rank-pct";
-  pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
+  if (r.pct >= 0) {
+    pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
+    pctEl.style.color = "var(--up)";
+  } else {
+    pctEl.textContent = r.pct.toFixed(1) + "%";
+    pctEl.style.color = "var(--down)";
+  }
   changeEl.appendChild(pctEl);
   var diffEl = document.createElement("div");
   diffEl.className = "rank-diff";
