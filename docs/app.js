@@ -215,10 +215,26 @@ function renderRankedItem(r, idx) {
   var detail = document.createElement("div");
   detail.className = "rank-detail";
   var detailText = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
+  if (r.floor) {
+    detailText += " \u00B7 " + r.floor + "\uCE35";
+  }
   if (r.total_trades) {
     detailText += " \u00B7 " + r.total_trades + "\uAC74";
   }
   detail.textContent = detailText;
+  // 직거래 / 저층 태그
+  if (r.deal_type && r.deal_type !== "\uC911\uAC1C\uAC70\uB798") {
+    var tag = document.createElement("span");
+    tag.className = "tag tag-warn";
+    tag.textContent = r.deal_type;
+    detail.appendChild(tag);
+  }
+  if (r.floor && r.floor <= 2) {
+    var tag = document.createElement("span");
+    tag.className = "tag tag-muted";
+    tag.textContent = "\uC800\uCE35";
+    detail.appendChild(tag);
+  }
   info.appendChild(detail);
   var dateEl = document.createElement("div");
   dateEl.className = "rank-detail";

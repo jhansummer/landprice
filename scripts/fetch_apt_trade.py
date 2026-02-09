@@ -71,6 +71,7 @@ def parse_items(xml_bytes: bytes) -> Tuple[List[Dict[str, str]], Dict[str, str]]
             "build_year": (item.findtext("buildYear") or item.findtext("건축년도") or "").strip(),
             "dong_name": (item.findtext("umdNm") or item.findtext("법정동") or "").strip(),
             "jibun": (item.findtext("jibun") or item.findtext("지번") or "").strip(),
+            "deal_type": (item.findtext("dealType") or item.findtext("거래유형") or "").strip(),
         })
     return items, result
 
@@ -84,6 +85,8 @@ def normalize_item(raw: Dict[str, str], lawd_cd: str, deal_ym: str) -> Dict[str,
     floor = int(raw["floor"]) if raw["floor"] else 0
     build_year = int(raw["build_year"]) if raw["build_year"] else 0
 
+    deal_type = raw.get("deal_type", "")
+
     return {
         "lawd_cd": lawd_cd,
         "deal_ym": deal_ym,
@@ -95,6 +98,7 @@ def normalize_item(raw: Dict[str, str], lawd_cd: str, deal_ym: str) -> Dict[str,
         "build_year": build_year,
         "dong_name": raw["dong_name"],
         "jibun": raw["jibun"],
+        "deal_type": deal_type,
     }
 
 
@@ -240,6 +244,8 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
             "prev_price": prev["price_man"],
             "change": change,
             "pct": round(pct, 2),
+            "floor": latest.get("floor", 0),
+            "deal_type": latest.get("deal_type", ""),
             "history": build_history(txns),
         }
         compared.append(entry)
@@ -356,6 +362,8 @@ def section3_weekly(records: List[Dict[str, object]], today_str: str) -> Dict[st
                 "prev_price": prev["price_man"],
                 "change": change,
                 "pct": round(pct, 2),
+                "floor": latest.get("floor", 0),
+                "deal_type": latest.get("deal_type", ""),
                 "history": build_history(txns),
             })
         result.sort(key=lambda x: -x["pct"])
