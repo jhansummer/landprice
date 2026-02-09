@@ -199,13 +199,14 @@ def gather_sido_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
 
 
 def build_history(txns: List[Dict[str, object]]) -> List[List]:
-    """Convert transactions to [[date, price], ...] sorted by date."""
+    """Convert transactions to [[date, price], ...] sorted by date, last 5 years only."""
+    cutoff = (datetime.utcnow() - relativedelta(years=5)).strftime("%Y-%m-%d")
     txns.sort(key=lambda x: x["deal_date"])
-    return [[t["deal_date"], t["price_man"]] for t in txns]
+    return [[t["deal_date"], t["price_man"]] for t in txns if t["deal_date"] >= cutoff]
 
 
 def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None) -> List[Dict[str, object]]:
-    """Compare latest vs past high in each group, return list sorted by pct desc."""
+    """Compare latest vs 5-year past high in each group, return list sorted by pct desc."""
     compared = []
     for txns in groups.values():
         txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
@@ -216,8 +217,9 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
             latest = latest_candidates[0]
         else:
             latest = txns_sorted[0]
-        # Find past high: max price among all transactions before the latest date
-        prev_txns = [t for t in txns_sorted if t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        # 직전 5년내 최고가: latest 기준 5년 전까지만
+        cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
+        prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
         if not prev_txns:
             continue
         prev = max(prev_txns, key=lambda x: x["price_man"])
@@ -264,14 +266,14 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "이번달 직전 3년 최고가 대비 상승률 TOP 3",
+        "title": "이번달 직전 5년 최고가 대비 상승률 TOP 3",
         "month": month_label,
         "top3": compared[:3],
     }
 
 
 def section2_top3(records: List[Dict[str, object]], current_month: str, min_trades: int = 20) -> Dict[str, object]:
-    """3년간 거래량 min_trades건 이상, 최근 3개월 내 거래 단지 중 상승률 TOP 3."""
+    """5년간 거래량 min_trades건 이상, 최근 3개월 내 거래 단지 중 상승률 TOP 3."""
     # 최근 3개월 범위 계산
     dt = datetime.strptime(current_month, "%Y%m")
     months_3 = set()
@@ -334,7 +336,8 @@ def section3_weekly(records: List[Dict[str, object]], today_str: str) -> Dict[st
                     break
             if not latest:
                 continue
-            prev_txns = [t for t in txns_sorted if t["deal_date"] < latest["deal_date"] and t["price_man"]]
+            cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
+            prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
             if not prev_txns:
                 continue
             prev = max(prev_txns, key=lambda x: x["price_man"])
