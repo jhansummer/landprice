@@ -38,6 +38,7 @@ jobs:
             git config user.email "github-actions@users.noreply.github.com"
             git add docs/data/apt_trade
             git commit -m "chore: refresh apt trade data"
+            git pull --rebase origin main
             git push
           else
             echo "No changes to commit"
