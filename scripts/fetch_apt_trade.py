@@ -530,6 +530,9 @@ def main() -> int:
                         "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
                     })
                 continue
+            if not records:
+                print(f"  {lawd_cd}/{deal_ym}: empty response, skipping save", flush=True)
+                continue
             write_json(out_path, records)
             index_files.append({
                 "lawd_cd": lawd_cd,
