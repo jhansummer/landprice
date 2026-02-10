@@ -272,7 +272,7 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "이번달 직전 5년 최고가 대비 상승률 TOP 3",
+        "title": "3개월내 최고가 대비 상승률 TOP 3",
         "month": month_label,
         "top3": compared[:3],
     }
