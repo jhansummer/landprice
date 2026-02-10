@@ -365,9 +365,13 @@ def section3_recent(records: List[Dict[str, object]], current_month: str) -> Dic
         })
     compared.sort(key=lambda x: -x["pct"])
 
+    # section3은 건수가 많으므로 history 제외, 상위 100건 제한
+    for entry in compared:
+        entry.pop("history", None)
+
     return {
         "title": "최근 3개월 실거래",
-        "top3": compared,
+        "top3": compared[:100],
     }
 
 
