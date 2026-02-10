@@ -97,7 +97,7 @@ function drawScatter(canvas, history) {
   // X-axis labels (Jan 1 of each year)
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  var xLabels = [2022, 2023, 2024, 2025, 2026];
+  var xLabels = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
   for (var li = 0; li < xLabels.length; li++) {
     var xt = new Date(xLabels[li], 0, 1).getTime();
     if (xt < minT || xt > maxT) continue;

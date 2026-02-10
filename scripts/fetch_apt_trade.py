@@ -203,8 +203,8 @@ def gather_sido_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
 
 
 def build_history(txns: List[Dict[str, object]]) -> List[List]:
-    """Convert transactions to [[date, price], ...] sorted by date, last 5 years only."""
-    cutoff = (datetime.utcnow() - relativedelta(years=5)).strftime("%Y-%m-%d")
+    """Convert transactions to [[date, price], ...] sorted by date, last 7 years only."""
+    cutoff = (datetime.utcnow() - relativedelta(years=7)).strftime("%Y-%m-%d")
     txns.sort(key=lambda x: x["deal_date"])
     return [[t["deal_date"], t["price_man"]] for t in txns if t["deal_date"] >= cutoff]
 
@@ -315,73 +315,58 @@ def section2_top3(records: List[Dict[str, object]], current_month: str, min_trad
     }
 
 
-def section3_weekly(records: List[Dict[str, object]], today_str: str) -> Dict[str, object]:
-    """이번주 실거래 중 상승률 전체. 데이터 없으면 직전 주 fallback."""
-    from datetime import timedelta
-    today = datetime.strptime(today_str, "%Y-%m-%d").date()
-    # 이번주 월~일
-    week_start = today - timedelta(days=today.weekday())
-    week_end = week_start + timedelta(days=6)
-    week_start_str = week_start.strftime("%Y-%m-%d")
-    week_end_str = week_end.strftime("%Y-%m-%d")
+def section3_recent(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
+    """최근 3개월내 거래 중 5년 최고가 대비 상승률 전체."""
+    dt = datetime.strptime(current_month, "%Y%m")
+    months_3 = set()
+    for i in range(3):
+        m = dt - relativedelta(months=i)
+        months_3.add(m.strftime("%Y%m"))
 
     groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
         key = f"{r['apt_name']}\t{r['area_m2']}"
         groups.setdefault(key, []).append(r)
 
-    def _collect_week(ws: str, we: str) -> List[Dict[str, object]]:
-        result = []
-        for txns in groups.values():
-            txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
-            # Find latest in the week range
-            latest = None
-            for t in txns_sorted:
-                if ws <= t["deal_date"] <= we:
-                    latest = t
-                    break
-            if not latest:
-                continue
-            cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
-            prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
-            if not prev_txns:
-                continue
-            prev = max(prev_txns, key=lambda x: x["price_man"])
-            if not prev["price_man"]:
-                continue
-            change = latest["price_man"] - prev["price_man"]
-            pct = (change / prev["price_man"]) * 100
-            result.append({
-                "apt_name": latest["apt_name"],
-                "sigungu": latest.get("sigungu", ""),
-                "dong_name": latest["dong_name"],
-                "area_m2": latest["area_m2"],
-                "latest_date": latest["deal_date"],
-                "latest_price": latest["price_man"],
-                "prev_date": prev["deal_date"],
-                "prev_price": prev["price_man"],
-                "change": change,
-                "pct": round(pct, 2),
-                "floor": latest.get("floor", 0),
-                "deal_type": latest.get("deal_type", ""),
-                "history": build_history(txns),
-            })
-        result.sort(key=lambda x: -x["pct"])
-        return result
-
-    compared = _collect_week(week_start_str, week_end_str)
-    label = f"{week_start_str} ~ {week_end_str}"
-
-    # Fallback to previous week if empty
-    if not compared:
-        prev_start = week_start - timedelta(days=7)
-        prev_end = prev_start + timedelta(days=6)
-        compared = _collect_week(prev_start.strftime("%Y-%m-%d"), prev_end.strftime("%Y-%m-%d"))
-        label = f"{prev_start.strftime('%Y-%m-%d')} ~ {prev_end.strftime('%Y-%m-%d')}"
+    compared = []
+    for txns in groups.values():
+        txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+        # 최근 3개월내 최신 거래
+        latest = None
+        for t in txns_sorted:
+            if t["deal_date"][:7].replace("-", "") in months_3:
+                latest = t
+                break
+        if not latest:
+            continue
+        cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
+        prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        if not prev_txns:
+            continue
+        prev = max(prev_txns, key=lambda x: x["price_man"])
+        if not prev["price_man"]:
+            continue
+        change = latest["price_man"] - prev["price_man"]
+        pct = (change / prev["price_man"]) * 100
+        compared.append({
+            "apt_name": latest["apt_name"],
+            "sigungu": latest.get("sigungu", ""),
+            "dong_name": latest["dong_name"],
+            "area_m2": latest["area_m2"],
+            "latest_date": latest["deal_date"],
+            "latest_price": latest["price_man"],
+            "prev_date": prev["deal_date"],
+            "prev_price": prev["price_man"],
+            "change": change,
+            "pct": round(pct, 2),
+            "floor": latest.get("floor", 0),
+            "deal_type": latest.get("deal_type", ""),
+            "history": build_history(txns),
+        })
+    compared.sort(key=lambda x: -x["pct"])
 
     return {
-        "title": "이번주 실거래",
-        "date": label,
+        "title": "최근 3개월 실거래",
         "top3": compared,
     }
 
@@ -429,13 +414,13 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             districts[group_name] = {
                 "section1": section1_top3(dist_records, current_month),
                 "section2": section2_top3(dist_records, current_month),
-                "section3": section3_weekly(dist_records, today_str),
+                "section3": section3_recent(dist_records, current_month),
             }
 
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records, current_month),
-            "section3": section3_weekly(records, today_str),
+            "section3": section3_recent(records, current_month),
             "district_order": district_order,
             "districts": districts,
         }
