@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>APTmine - 아파트 실거래가 분석</title>
-  <meta name="description" content="국토교통부 실거래가 기반 아파트 매매 상승률 TOP 3, 시도별 거래 분석 대시보드. 매일 업데이트." />
-  <meta name="keywords" content="아파트 실거래가, 부동산, 매매, 상승률, 국토교통부, 아파트 시세" />
-  <meta property="og:title" content="APTmine - 아파트 실거래가 분석" />
-  <meta property="og:description" content="국토교통부 실거래가 기반 아파트 매매 상승률 분석 대시보드" />
+  <title>아파트 실거래가 APT Mine</title>
+  <meta name="description" content="아파트 실거래가 APT Mine - 국토교통부 실거래가 기반 아파트 매매 상승률 TOP 3, 시도별 거래 분석 대시보드. 매일 업데이트." />
+  <meta name="keywords" content="아파트 실거래가, APT Mine, 부동산, 매매, 상승률, 국토교통부, 아파트 시세" />
+  <meta property="og:title" content="아파트 실거래가 APT Mine" />
+  <meta property="og:description" content="아파트 실거래가 APT Mine - 국토교통부 실거래가 기반 아파트 매매 상승률 분석 대시보드" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aptmine.com" />
   <link rel="canonical" href="https://aptmine.com" />
@@ -125,6 +125,51 @@
       outline: none;
       border-color: var(--accent);
     }
+    .filter-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .dong-select {
+      padding: 8px 32px 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .dong-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .search-input {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      width: 180px;
+      max-width: 40vw;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .search-input::placeholder {
+      color: var(--muted);
+    }
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -240,11 +285,12 @@
 </head>
 <body>
   <header>
-    <h1>아파트 실거래가 상승 TOP 3</h1>
+    <h1>아파트 실거래가 APT Mine</h1>
     <p>출처 : 국토교통부 실거래가</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
+  <div id="filters" class="filter-bar"></div>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>
@@ -258,6 +304,6 @@
   <!-- AdSense: 승인 후 아래 주석을 해제하고 ca-pub-ID를 교체하세요
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
   -->
-  <script src="app.js?v=17"></script>
+  <script src="app.js?v=18"></script>
 </body>
 </html>
