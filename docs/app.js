@@ -442,9 +442,11 @@ function renderSections() {
       s3Container.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
     }
 
-    searchInput.addEventListener("input", function () {
-      searchQuery = searchInput.value;
-      updateSection3();
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        searchQuery = searchInput.value;
+        updateSection3();
+      }
     });
     searchSec.appendChild(searchInput);
     gridEl.appendChild(searchSec);
