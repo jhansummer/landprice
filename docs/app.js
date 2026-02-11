@@ -396,16 +396,7 @@ function renderFilters() {
     filtersEl.appendChild(dongSelect);
   }
 
-  var searchInput = document.createElement("input");
-  searchInput.type = "text";
-  searchInput.className = "search-input";
-  searchInput.placeholder = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
-  searchInput.value = searchQuery;
-  searchInput.addEventListener("input", function () {
-    searchQuery = searchInput.value;
-    renderSections();
-  });
-  filtersEl.appendChild(searchInput);
+  // 검색창은 section3 바로 위에서 렌더링
 }
 
 function renderSections() {
@@ -427,6 +418,25 @@ function renderSections() {
     gridEl.appendChild(renderSection(data.section1));
   }
   if (data.section3) {
+    var searchSec = document.createElement("div");
+    searchSec.className = "section";
+    var searchTitle = document.createElement("h2");
+    searchTitle.className = "section-title";
+    searchTitle.textContent = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
+    searchSec.appendChild(searchTitle);
+    var searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.className = "search-input";
+    searchInput.placeholder = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
+    searchInput.value = searchQuery;
+    searchInput.style.width = "100%";
+    searchInput.addEventListener("input", function () {
+      searchQuery = searchInput.value;
+      renderSections();
+    });
+    searchSec.appendChild(searchInput);
+    gridEl.appendChild(searchSec);
+
     var s3 = data.section3;
     var items = s3.top3 || [];
     if (activeDong) {
