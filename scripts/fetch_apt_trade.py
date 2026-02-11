@@ -210,7 +210,7 @@ def build_history(txns: List[Dict[str, object]]) -> List[List]:
 
 
 def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None) -> List[Dict[str, object]]:
-    """Compare latest vs 5-year past high in each group, return list sorted by pct desc."""
+    """Compare latest vs prior all-time high in each group, return list sorted by pct desc."""
     compared = []
     for txns in groups.values():
         txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
@@ -221,9 +221,8 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
             latest = latest_candidates[0]
         else:
             latest = txns_sorted[0]
-        # 직전 5년내 최고가: latest 기준 5년 전까지만
-        cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
-        prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        # 직전 신고가: latest 이전 전체 기간 중 최고가
+        prev_txns = [t for t in txns_sorted if t["deal_date"] < latest["deal_date"] and t["price_man"]]
         if not prev_txns:
             continue
         prev = max(prev_txns, key=lambda x: x["price_man"])
@@ -272,7 +271,7 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "3개월내 최고가 대비 상승률 TOP 3",
+        "title": "이번달 직전 신고가 대비 상승률 TOP3",
         "month": month_label,
         "top3": compared[:3],
     }
