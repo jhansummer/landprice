@@ -419,34 +419,37 @@ function renderSections() {
   }
   if (data.section3) {
     var searchSec = document.createElement("div");
-    searchSec.className = "section";
-    var searchTitle = document.createElement("h2");
-    searchTitle.className = "section-title";
-    searchTitle.textContent = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
-    searchSec.appendChild(searchTitle);
+    searchSec.className = "search-bar";
     var searchInput = document.createElement("input");
     searchInput.type = "text";
     searchInput.className = "search-input";
-    searchInput.placeholder = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
+    searchInput.placeholder = "";
     searchInput.value = searchQuery;
     searchInput.style.width = "100%";
+    var s3Container = document.createElement("div");
+
+    function updateSection3() {
+      s3Container.innerHTML = "";
+      var s3 = data.section3;
+      var items = s3.top3 || [];
+      if (activeDong) {
+        items = items.filter(function (r) { return r.dong_name === activeDong; });
+      }
+      if (searchQuery && searchQuery.trim().length >= 2) {
+        var q = searchQuery.trim().toLowerCase();
+        items = items.filter(function (r) { return r.apt_name.toLowerCase().indexOf(q) >= 0; });
+      }
+      s3Container.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
+    }
+
     searchInput.addEventListener("input", function () {
       searchQuery = searchInput.value;
-      renderSections();
+      updateSection3();
     });
     searchSec.appendChild(searchInput);
     gridEl.appendChild(searchSec);
-
-    var s3 = data.section3;
-    var items = s3.top3 || [];
-    if (activeDong) {
-      items = items.filter(function (r) { return r.dong_name === activeDong; });
-    }
-    if (searchQuery) {
-      var q = searchQuery.toLowerCase();
-      items = items.filter(function (r) { return r.apt_name.toLowerCase().indexOf(q) >= 0; });
-    }
-    gridEl.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
+    updateSection3();
+    gridEl.appendChild(s3Container);
   }
 }
 
