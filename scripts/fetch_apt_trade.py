@@ -315,8 +315,8 @@ def section2_top3(records: List[Dict[str, object]], current_month: str, min_trad
     }
 
 
-def section3_recent(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
-    """최근 3개월내 거래 중 5년 최고가 대비 상승률 전체."""
+def section3_recent(records: List[Dict[str, object]], current_month: str, limit: int = 0) -> Dict[str, object]:
+    """최근 3개월내 거래 중 5년 최고가 대비 상승률. limit>0이면 상위 N건만."""
     dt = datetime.strptime(current_month, "%Y%m")
     months_3 = set()
     for i in range(3):
@@ -365,13 +365,13 @@ def section3_recent(records: List[Dict[str, object]], current_month: str) -> Dic
         })
     compared.sort(key=lambda x: -x["pct"])
 
-    # section3은 건수가 많으므로 history 제외, 상위 100건 제한
+    # section3은 건수가 많으므로 history 제외
     for entry in compared:
         entry.pop("history", None)
 
     return {
         "title": "최근 3개월 실거래",
-        "top3": compared[:100],
+        "top3": compared[:limit] if limit else compared,
     }
 
 
@@ -415,16 +415,18 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             dist_records = [r for r in records if r["lawd_cd"] in group_set]
             if not dist_records:
                 continue
+            dong_names = sorted(set(r["dong_name"] for r in dist_records if r["dong_name"]))
             districts[group_name] = {
                 "section1": section1_top3(dist_records, current_month),
                 "section2": section2_top3(dist_records, current_month),
                 "section3": section3_recent(dist_records, current_month),
+                "dong_order": dong_names,
             }
 
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records, current_month),
-            "section3": section3_recent(records, current_month),
+            "section3": section3_recent(records, current_month, limit=100),
             "district_order": district_order,
             "districts": districts,
         }
@@ -441,13 +443,33 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
 
 
 def main() -> int:
+    summary_only = "--summary-only" in sys.argv
+
+    months_kept = int(os.getenv("MONTHS_KEPT", "84"))
+
+    if summary_only:
+        lawd_list = load_lawd_list()
+        # Count existing transactions
+        total_txns = 0
+        for lawd_cd in lawd_list:
+            lawd_dir = BY_LAWD_DIR / lawd_cd
+            if not lawd_dir.exists():
+                continue
+            for f in lawd_dir.glob("*.json"):
+                with f.open("r", encoding="utf-8") as fp:
+                    total_txns += len(json.load(fp))
+        print(f"Rebuilding summary from existing data ({total_txns} txns)...", flush=True)
+        build_summary(lawd_list, months_kept, total_txns)
+        size = SUMMARY_PATH.stat().st_size
+        print(f"summary.json: {size:,} bytes ({size/1024/1024:.1f} MB)", flush=True)
+        return 0
+
     service_key = os.getenv("MOLIT_SERVICE_KEY")
     if not service_key:
         print("MOLIT_SERVICE_KEY is not set", file=sys.stderr)
         return 1
 
     operation_path = os.getenv("APT_TRADE_OPERATION_PATH", DEFAULT_OPERATION_PATH)
-    months_kept = int(os.getenv("MONTHS_KEPT", "84"))
     refresh_months = int(os.getenv("REFRESH_MONTHS", "3"))
     lawd_list = load_lawd_list()
     months = month_list(months_kept)

@@ -5,10 +5,13 @@ const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 const tabsEl = document.getElementById("tabs");
 const subtabsEl = document.getElementById("subtabs");
+const filtersEl = document.getElementById("filters");
 
 let globalData = null;
 let activeSido = null;
 let activeDistrict = null;
+let activeDong = null;
+let searchQuery = "";
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
@@ -23,8 +26,11 @@ function renderTabs(sidoOrder) {
     btn.addEventListener("click", function () {
       activeSido = sido;
       activeDistrict = null;
+      activeDong = null;
+      searchQuery = "";
       renderTabs(sidoOrder);
       renderSubTabs();
+      renderFilters();
       renderSections();
       history.replaceState(null, "", "#" + sido);
     });
@@ -343,10 +349,63 @@ function renderSubTabs() {
 
   select.addEventListener("change", function () {
     activeDistrict = select.value || null;
+    activeDong = null;
+    searchQuery = "";
+    renderFilters();
     renderSections();
   });
 
   subtabsEl.appendChild(select);
+}
+
+function renderFilters() {
+  filtersEl.innerHTML = "";
+  if (!globalData || !activeSido) return;
+
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+
+  var data = sidoData;
+  if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
+    data = sidoData.districts[activeDistrict];
+  }
+
+  var dongOrder = data.dong_order || [];
+  if (dongOrder.length > 0) {
+    var dongSelect = document.createElement("select");
+    dongSelect.className = "dong-select";
+    var allOpt = document.createElement("option");
+    allOpt.value = "";
+    allOpt.textContent = "\uB3D9 \uC804\uCCB4";
+    if (!activeDong) allOpt.selected = true;
+    dongSelect.appendChild(allOpt);
+
+    dongOrder.forEach(function (dong) {
+      var opt = document.createElement("option");
+      opt.value = dong;
+      opt.textContent = dong;
+      if (dong === activeDong) opt.selected = true;
+      dongSelect.appendChild(opt);
+    });
+
+    dongSelect.addEventListener("change", function () {
+      activeDong = dongSelect.value || null;
+      renderSections();
+    });
+
+    filtersEl.appendChild(dongSelect);
+  }
+
+  var searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.className = "search-input";
+  searchInput.placeholder = "\uC544\uD30C\uD2B8 \uAC80\uC0C9";
+  searchInput.value = searchQuery;
+  searchInput.addEventListener("input", function () {
+    searchQuery = searchInput.value;
+    renderSections();
+  });
+  filtersEl.appendChild(searchInput);
 }
 
 function renderSections() {
@@ -368,7 +427,16 @@ function renderSections() {
     gridEl.appendChild(renderSection(data.section1));
   }
   if (data.section3) {
-    gridEl.appendChild(renderSection(data.section3));
+    var s3 = data.section3;
+    var items = s3.top3 || [];
+    if (activeDong) {
+      items = items.filter(function (r) { return r.dong_name === activeDong; });
+    }
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      items = items.filter(function (r) { return r.apt_name.toLowerCase().indexOf(q) >= 0; });
+    }
+    gridEl.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
   }
 }
 
@@ -386,13 +454,12 @@ async function init() {
 
   renderTabs(sidoOrder);
   renderSubTabs();
+  renderFilters();
   renderSections();
 
   statusEl.textContent = "";
   var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
-  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly +
-    " \u00B7 \uCD1D \uAC70\uB798 " + fmt(globalData.total_txns) + "\uAC74" +
-    " \u00B7 " + globalData.months_kept + "\uAC1C\uC6D4";
+  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly;
 }
 
 init();
