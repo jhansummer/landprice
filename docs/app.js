@@ -423,7 +423,7 @@ function renderSections() {
     var searchInput = document.createElement("input");
     searchInput.type = "text";
     searchInput.className = "search-input";
-    searchInput.placeholder = "";
+    searchInput.placeholder = "\uB2E8\uC9C0\uBA85\uAC80\uC0C9";
     searchInput.value = searchQuery;
     searchInput.style.width = "100%";
     var s3Container = document.createElement("div");
