@@ -283,6 +283,15 @@ function renderRankedItem(r, idx) {
   }
 
   card.appendChild(content);
+
+  // section3 항목 (id 있음): 클릭 시 상세 이력 팝업
+  if (r.id) {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", function () {
+      showDetail(r);
+    });
+  }
+
   return card;
 }
 
@@ -453,6 +462,92 @@ function renderSections() {
     updateSection3();
     gridEl.appendChild(s3Container);
   }
+}
+
+function showDetail(r) {
+  // 기존 모달 제거
+  var old = document.getElementById("detail-modal");
+  if (old) old.remove();
+
+  var overlay = document.createElement("div");
+  overlay.id = "detail-modal";
+  overlay.className = "modal-overlay";
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) overlay.remove();
+  });
+
+  var modal = document.createElement("div");
+  modal.className = "modal-content";
+
+  // 닫기 버튼
+  var closeBtn = document.createElement("button");
+  closeBtn.className = "modal-close";
+  closeBtn.textContent = "\u2715";
+  closeBtn.addEventListener("click", function () { overlay.remove(); });
+  modal.appendChild(closeBtn);
+
+  // 헤더
+  var title = document.createElement("h2");
+  title.className = "modal-title";
+  title.textContent = r.apt_name;
+  modal.appendChild(title);
+
+  var sub = document.createElement("p");
+  sub.className = "modal-sub";
+  sub.textContent = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
+  modal.appendChild(sub);
+
+  // 로딩
+  var body = document.createElement("div");
+  body.className = "modal-body";
+  body.textContent = "\uB85C\uB529 \uC911...";
+  modal.appendChild(body);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  // history 로드
+  fetch("data/apt_trade/by_apt/" + r.id + ".json")
+    .then(function (res) {
+      if (!res.ok) throw new Error("not found");
+      return res.json();
+    })
+    .then(function (history) {
+      body.innerHTML = "";
+
+      // 차트
+      if (history.length > 1) {
+        var chartDiv = document.createElement("div");
+        chartDiv.className = "scatter-chart modal-chart";
+        var canvas = document.createElement("canvas");
+        chartDiv.appendChild(canvas);
+        body.appendChild(chartDiv);
+        requestAnimationFrame(function () { drawScatter(canvas, history); });
+      }
+
+      // 거래 테이블
+      var table = document.createElement("table");
+      table.className = "modal-table";
+      var thead = document.createElement("thead");
+      thead.innerHTML = "<tr><th>\uB0A0\uC9DC</th><th>\uAC00\uACA9(\uB9CC)</th></tr>";
+      table.appendChild(thead);
+      var tbody = document.createElement("tbody");
+      for (var i = history.length - 1; i >= 0; i--) {
+        var tr = document.createElement("tr");
+        var tdDate = document.createElement("td");
+        tdDate.textContent = history[i][0];
+        var tdPrice = document.createElement("td");
+        tdPrice.textContent = fmt(history[i][1]);
+        tr.appendChild(tdDate);
+        tr.appendChild(tdPrice);
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      body.appendChild(table);
+    })
+    .catch(function () {
+      body.textContent = "\uC774\uB825 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
+    });
 }
 
 async function init() {

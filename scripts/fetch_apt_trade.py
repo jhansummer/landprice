@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 import json
 import os
 import re
@@ -20,6 +21,7 @@ DEFAULT_OPERATION_PATH = "getRTMSDataSvcAptTrade"
 DOCS_DIR = Path(__file__).resolve().parents[1] / "docs"
 DATA_DIR = DOCS_DIR / "data" / "apt_trade"
 BY_LAWD_DIR = DATA_DIR / "by_lawd"
+BY_APT_DIR = DATA_DIR / "by_apt"
 INDEX_PATH = DATA_DIR / "index.json"
 SUMMARY_PATH = DATA_DIR / "summary.json"
 
@@ -347,7 +349,16 @@ def section3_recent(records: List[Dict[str, object]], current_month: str, limit:
             continue
         change = latest["price_man"] - prev["price_man"]
         pct = (change / prev["price_man"]) * 100
+        apt_id = hashlib.md5(f"{latest.get('sigungu','')}\t{latest['apt_name']}\t{latest['area_m2']}".encode()).hexdigest()[:10]
+        history = build_history(txns)
+
+        # 개별 history 파일 저장
+        if history:
+            apt_path = BY_APT_DIR / f"{apt_id}.json"
+            write_json(apt_path, history)
+
         compared.append({
+            "id": apt_id,
             "apt_name": latest["apt_name"],
             "sigungu": latest.get("sigungu", ""),
             "dong_name": latest["dong_name"],
@@ -360,13 +371,8 @@ def section3_recent(records: List[Dict[str, object]], current_month: str, limit:
             "pct": round(pct, 2),
             "floor": latest.get("floor", 0),
             "deal_type": latest.get("deal_type", ""),
-            "history": build_history(txns),
         })
     compared.sort(key=lambda x: -x["pct"])
-
-    # section3은 건수가 많으므로 history 제외
-    for entry in compared:
-        entry.pop("history", None)
 
     return {
         "title": "최근 3개월 실거래",
