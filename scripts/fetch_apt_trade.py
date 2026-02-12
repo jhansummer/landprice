@@ -425,7 +425,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records, current_month),
-            "section3": section3_recent(records, current_month, limit=100),
+            "section3": section3_recent(records, current_month),
             "district_order": district_order,
             "districts": districts,
         }
