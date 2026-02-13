@@ -56,6 +56,9 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
     .search-input {
       padding: 10px 14px;
@@ -65,7 +68,8 @@
       color: var(--ink);
       font-family: var(--font-body);
       font-size: 15px;
-      width: 100%;
+      flex: 1;
+      min-width: 0;
       box-sizing: border-box;
     }
     .search-input:focus {
@@ -75,10 +79,21 @@
     .search-input::placeholder {
       color: var(--muted);
     }
-    .search-hint {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
+    .search-btn {
+      flex-shrink: 0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .search-btn:hover {
+      background: #155c4a;
     }
     .status {
       text-align: center;
@@ -331,8 +346,8 @@
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
   <div class="search-wrap">
-    <input id="searchInput" type="text" class="search-input" placeholder="단지명을 입력하세요 (엔터로 검색)" autofocus />
-    <div class="search-hint">2글자 이상 입력 후 엔터</div>
+    <input id="searchInput" type="text" class="search-input" placeholder="단지명 검색 (2글자 이상)" autofocus />
+    <button id="searchBtn" class="search-btn">검색</button>
   </div>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
@@ -344,7 +359,7 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="search.js?v=3"></script>
+  <script src="search.js?v=4"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

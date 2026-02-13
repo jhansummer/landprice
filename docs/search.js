@@ -2,6 +2,7 @@ var summaryPath = "data/apt_trade/search_index.json";
 var statusEl = document.getElementById("status");
 var resultsEl = document.getElementById("results");
 var searchInput = document.getElementById("searchInput");
+var searchBtn = document.getElementById("searchBtn");
 var tabsEl = document.getElementById("tabs");
 var subtabsEl = document.getElementById("subtabs");
 
@@ -167,6 +168,9 @@ function groupByApt(items) {
       groups.push(map[key]);
     }
     map[key].items.push(r);
+  });
+  groups.forEach(function (g) {
+    g.items.sort(function (a, b) { return a.area_m2 - b.area_m2; });
   });
   return groups;
 }
@@ -406,6 +410,10 @@ searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     doSearch(searchInput.value);
   }
+});
+
+searchBtn.addEventListener("click", function () {
+  doSearch(searchInput.value);
 });
 
 async function init() {
