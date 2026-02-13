@@ -427,6 +427,12 @@ function renderSections() {
   if (data.section1) {
     gridEl.appendChild(renderSection(data.section1));
   }
+  if (data.section4) {
+    gridEl.appendChild(renderSection(data.section4));
+  }
+  if (data.section3) {
+    gridEl.appendChild(renderSection(data.section3));
+  }
 }
 
 function showDetail(r) {

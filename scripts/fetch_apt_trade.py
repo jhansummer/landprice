@@ -212,12 +212,17 @@ def build_history(txns: List[Dict[str, object]]) -> List[List]:
     return [[t["deal_date"], t["price_man"]] for t in txns if t["deal_date"] >= cutoff]
 
 
-def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None) -> List[Dict[str, object]]:
+def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: str = None, filter_months: set = None) -> List[Dict[str, object]]:
     """Compare latest vs prior all-time high in each group, return list sorted by pct desc."""
     compared = []
     for txns in groups.values():
         txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
-        if filter_month:
+        if filter_months:
+            latest_candidates = [t for t in txns_sorted if t["deal_date"][:7].replace("-", "") in filter_months]
+            if not latest_candidates:
+                continue
+            latest = latest_candidates[0]
+        elif filter_month:
             latest_candidates = [t for t in txns_sorted if t["deal_date"][:7].replace("-", "") == filter_month]
             if not latest_candidates:
                 continue
@@ -319,6 +324,56 @@ def section2_top3(records: List[Dict[str, object]], current_month: str, min_trad
 
     return {
         "title": "오늘의 실거래(거래 %d건이상 단지) TOP 3" % min_trades,
+        "top3": compared[:3],
+    }
+
+
+def section3_3m_top3(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
+    """최근 3개월 거래 중 상승률 TOP 3."""
+    dt = datetime.strptime(current_month, "%Y%m")
+    months_3 = set()
+    for i in range(3):
+        m = dt - relativedelta(months=i)
+        months_3.add(m.strftime("%Y%m"))
+
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    compared = _compare_groups(groups, filter_months=months_3)
+    return {
+        "title": "3개월내 실거래 TOP 3",
+        "top3": compared[:3],
+    }
+
+
+def section4_3m_min_trades(records: List[Dict[str, object]], current_month: str, min_trades: int = 20) -> Dict[str, object]:
+    """최근 3개월 거래, 거래 20건 이상 단지 상승률 TOP 3."""
+    dt = datetime.strptime(current_month, "%Y%m")
+    months_3 = set()
+    for i in range(3):
+        m = dt - relativedelta(months=i)
+        months_3.add(m.strftime("%Y%m"))
+
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    filtered = {}
+    for k, v in groups.items():
+        if len(v) < min_trades:
+            continue
+        filtered[k] = v
+
+    compared = _compare_groups(filtered, filter_months=months_3)
+    for entry in compared:
+        key = f"{entry['apt_name']}\t{entry['area_m2']}"
+        entry["total_trades"] = len(groups.get(key, []))
+
+    return {
+        "title": "3개월내 실거래(거래 %d건이상 단지) TOP 3" % min_trades,
         "top3": compared[:3],
     }
 
@@ -483,6 +538,8 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             districts[group_name] = {
                 "section1": section1_top3(dist_records, current_month),
                 "section2": section2_top3(dist_records, current_month),
+                "section3": section3_3m_top3(dist_records, current_month),
+                "section4": section4_3m_min_trades(dist_records, current_month),
                 "dong_order": dong_names,
             }
             # 검색 인덱스 (3개월 제한 없음)
@@ -495,6 +552,8 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records, current_month),
+            "section3": section3_3m_top3(records, current_month),
+            "section4": section4_3m_min_trades(records, current_month),
             "district_order": district_order,
             "districts": districts,
         }
