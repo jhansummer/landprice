@@ -235,7 +235,13 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
         pct = (change / prev["price_man"]) * 100
         if pct <= 0:
             continue
+        apt_id = hashlib.md5(f"{latest.get('sigungu','')}\t{latest['apt_name']}\t{latest['area_m2']}".encode()).hexdigest()[:10]
+        history = build_history(txns)
+        if history:
+            apt_path = BY_APT_DIR / f"{apt_id}.json"
+            write_json(apt_path, history)
         entry = {
+            "id": apt_id,
             "apt_name": latest["apt_name"],
             "sigungu": latest.get("sigungu", ""),
             "dong_name": latest["dong_name"],
@@ -248,7 +254,7 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
             "pct": round(pct, 2),
             "floor": latest.get("floor", 0),
             "deal_type": latest.get("deal_type", ""),
-            "history": build_history(txns),
+            "history": history,
         }
         compared.append(entry)
     compared.sort(key=lambda x: -x["pct"])
