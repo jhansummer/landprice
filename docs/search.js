@@ -157,81 +157,81 @@ function drawScatter(canvas, history) {
   ctx.fill();
 }
 
-function renderRankedItem(r, idx) {
-  var card = document.createElement("div");
-  card.className = "rank-card";
+function groupByApt(items) {
+  var groups = [];
+  var map = {};
+  items.forEach(function (r) {
+    var key = r.apt_name + "\t" + r.sigungu + "\t" + r.dong_name;
+    if (!map[key]) {
+      map[key] = { apt_name: r.apt_name, sigungu: r.sigungu, dong_name: r.dong_name, items: [] };
+      groups.push(map[key]);
+    }
+    map[key].items.push(r);
+  });
+  return groups;
+}
 
-  var num = document.createElement("span");
-  num.className = "rank-num";
-  num.textContent = idx + 1;
-  card.appendChild(num);
+function renderGroup(group) {
+  var wrap = document.createElement("div");
+  wrap.className = "apt-group";
 
-  var content = document.createElement("div");
+  var header = document.createElement("div");
+  header.className = "apt-group-header";
+  var nameEl = document.createElement("span");
+  nameEl.className = "apt-group-name";
+  nameEl.textContent = group.apt_name;
+  header.appendChild(nameEl);
+  var locEl = document.createElement("span");
+  locEl.className = "apt-group-loc";
+  locEl.textContent = group.sigungu + " " + group.dong_name;
+  header.appendChild(locEl);
+  wrap.appendChild(header);
 
-  var top = document.createElement("div");
-  top.className = "rank-top";
+  group.items.forEach(function (r) {
+    var row = document.createElement("div");
+    row.className = "apt-sub-item";
 
-  var info = document.createElement("div");
-  info.className = "rank-info";
-  var aptEl = document.createElement("div");
-  aptEl.className = "rank-apt";
-  aptEl.textContent = r.apt_name;
-  info.appendChild(aptEl);
-  var detail = document.createElement("div");
-  detail.className = "rank-detail";
-  var detailText = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
-  if (r.floor) {
-    detailText += " \u00B7 " + r.floor + "\uCE35";
-  }
-  detail.textContent = detailText;
-  if (r.deal_type && r.deal_type !== "\uC911\uAC1C\uAC70\uB798") {
-    var tag = document.createElement("span");
-    tag.className = "tag tag-warn";
-    tag.textContent = r.deal_type;
-    detail.appendChild(tag);
-  }
-  if (r.floor && r.floor <= 2) {
-    var tag = document.createElement("span");
-    tag.className = "tag tag-muted";
-    tag.textContent = "\uC800\uCE35";
-    detail.appendChild(tag);
-  }
-  info.appendChild(detail);
-  var dateEl = document.createElement("div");
-  dateEl.className = "rank-detail";
-  dateEl.textContent = r.latest_date;
-  info.appendChild(dateEl);
-  top.appendChild(info);
+    var info = document.createElement("div");
+    info.className = "apt-sub-info";
+    var areaEl = document.createElement("span");
+    areaEl.className = "apt-sub-area";
+    areaEl.textContent = r.area_m2 + "m\u00B2";
+    info.appendChild(areaEl);
+    var detailEl = document.createElement("div");
+    detailEl.className = "apt-sub-detail";
+    var detailText = r.latest_date;
+    if (r.floor) detailText += " \u00B7 " + r.floor + "\uCE35";
+    if (r.deal_type && r.deal_type !== "\uC911\uAC1C\uAC70\uB798") detailText += " \u00B7 " + r.deal_type;
+    detailEl.textContent = detailText;
+    info.appendChild(detailEl);
+    row.appendChild(info);
 
-  var changeEl = document.createElement("div");
-  changeEl.className = "rank-change";
-  var pctEl = document.createElement("div");
-  pctEl.className = "rank-pct";
-  if (r.pct >= 0) {
-    pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
-    pctEl.style.color = "var(--up)";
-  } else {
-    pctEl.textContent = r.pct.toFixed(1) + "%";
-    pctEl.style.color = "var(--down)";
-  }
-  changeEl.appendChild(pctEl);
-  var diffEl = document.createElement("div");
-  diffEl.className = "rank-diff";
-  diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
-  changeEl.appendChild(diffEl);
-  top.appendChild(changeEl);
+    var changeEl = document.createElement("div");
+    changeEl.className = "apt-sub-change";
+    var pctEl = document.createElement("div");
+    pctEl.className = "apt-sub-pct";
+    if (r.pct >= 0) {
+      pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
+      pctEl.style.color = "var(--up)";
+    } else {
+      pctEl.textContent = r.pct.toFixed(1) + "%";
+      pctEl.style.color = "var(--down)";
+    }
+    changeEl.appendChild(pctEl);
+    var diffEl = document.createElement("div");
+    diffEl.className = "apt-sub-diff";
+    diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
+    changeEl.appendChild(diffEl);
+    row.appendChild(changeEl);
 
-  content.appendChild(top);
-  card.appendChild(content);
+    if (r.id) {
+      row.addEventListener("click", function () { showDetail(r); });
+    }
 
-  if (r.id) {
-    card.style.cursor = "pointer";
-    card.addEventListener("click", function () {
-      showDetail(r);
-    });
-  }
+    wrap.appendChild(row);
+  });
 
-  return card;
+  return wrap;
 }
 
 function showDetail(r) {
@@ -385,17 +385,19 @@ function doSearch(query) {
     return r.apt_name.toLowerCase().indexOf(q) >= 0;
   });
 
+  var groups = groupByApt(matched);
+
   var countDiv = document.createElement("div");
   countDiv.className = "result-count";
-  countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + matched.length + '\uAC74';
+  countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
   resultsEl.appendChild(countDiv);
 
-  if (!matched.length) return;
+  if (!groups.length) return;
 
   var sec = document.createElement("div");
   sec.className = "section";
-  matched.forEach(function (r, i) {
-    sec.appendChild(renderRankedItem(r, i));
+  groups.forEach(function (g) {
+    sec.appendChild(renderGroup(g));
   });
   resultsEl.appendChild(sec);
 }
