@@ -427,14 +427,6 @@ function renderSections() {
   if (data.section1) {
     gridEl.appendChild(renderSection(data.section1));
   }
-  if (data.section3) {
-    var s3 = data.section3;
-    var items = s3.top3 || [];
-    if (activeDong) {
-      items = items.filter(function (r) { return r.dong_name === activeDong; });
-    }
-    gridEl.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
-  }
 }
 
 function showDetail(r) {

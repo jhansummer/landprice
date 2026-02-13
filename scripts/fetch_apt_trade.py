@@ -274,7 +274,7 @@ def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[
             month_label = prev_month
 
     return {
-        "title": "이번달 직전 신고가 대비 상승률 TOP3",
+        "title": "오늘의 실거래 TOP 3",
         "month": month_label,
         "top3": compared[:3],
     }
@@ -312,7 +312,7 @@ def section2_top3(records: List[Dict[str, object]], current_month: str, min_trad
         entry["total_trades"] = len(groups.get(key, []))
 
     return {
-        "title": "최근 3개월 거래 · %d건 이상 단지 상승률 TOP 3" % min_trades,
+        "title": "오늘의 실거래(거래 %d건이상 단지) TOP 3" % min_trades,
         "top3": compared[:3],
     }
 
@@ -477,7 +477,6 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             districts[group_name] = {
                 "section1": section1_top3(dist_records, current_month),
                 "section2": section2_top3(dist_records, current_month),
-                "section3": section3_recent(dist_records, current_month),
                 "dong_order": dong_names,
             }
             # 검색 인덱스 (3개월 제한 없음)
@@ -490,7 +489,6 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
             "section2": section2_top3(records, current_month),
-            "section3": section3_recent(records, current_month),
             "district_order": district_order,
             "districts": districts,
         }
