@@ -1,39 +1,12 @@
-const summaryPath = "data/apt_trade/summary.json";
+var summaryPath = "data/apt_trade/summary.json";
+var statusEl = document.getElementById("status");
+var resultsEl = document.getElementById("results");
+var searchInput = document.getElementById("searchInput");
 
-const gridEl = document.getElementById("grid");
-const statusEl = document.getElementById("status");
-const metaEl = document.getElementById("meta");
-const tabsEl = document.getElementById("tabs");
-const subtabsEl = document.getElementById("subtabs");
-const filtersEl = document.getElementById("filters");
-
-let globalData = null;
-let activeSido = null;
-let activeDistrict = null;
-let activeDong = null;
+var allItems = [];
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
-}
-
-function renderTabs(sidoOrder) {
-  tabsEl.innerHTML = "";
-  sidoOrder.forEach(function (sido) {
-    var btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.textContent = sido;
-    btn.addEventListener("click", function () {
-      activeSido = sido;
-      activeDistrict = null;
-      activeDong = null;
-      renderTabs(sidoOrder);
-      renderSubTabs();
-      renderFilters();
-      renderSections();
-      history.replaceState(null, "", "#" + sido);
-    });
-    tabsEl.appendChild(btn);
-  });
 }
 
 function drawScatter(canvas, history) {
@@ -55,7 +28,6 @@ function drawScatter(canvas, history) {
   var plotW = cw - pad.left - pad.right;
   var plotH = ch - pad.top - pad.bottom;
 
-  // Parse data
   var points = history.map(function (p) {
     var d = new Date(p[0]);
     return { t: d.getTime(), price: p[1] };
@@ -75,7 +47,6 @@ function drawScatter(canvas, history) {
   function xPos(t) { return pad.left + ((t - minT) / (maxT - minT)) * plotW; }
   function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
 
-  // Grid lines
   ctx.strokeStyle = "#e8e0d4";
   ctx.lineWidth = 0.5;
   for (var i = 0; i <= 3; i++) {
@@ -86,7 +57,6 @@ function drawScatter(canvas, history) {
     ctx.stroke();
   }
 
-  // Y-axis labels (억원)
   ctx.fillStyle = "#9a9590";
   ctx.font = "10px sans-serif";
   ctx.textAlign = "right";
@@ -98,7 +68,6 @@ function drawScatter(canvas, history) {
     ctx.fillText(label, pad.left - 4, ly);
   }
 
-  // X-axis labels (Jan 1 of each year)
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
   var xLabels = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
@@ -109,7 +78,6 @@ function drawScatter(canvas, history) {
     ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
   }
 
-  // Draw connecting line
   ctx.strokeStyle = "#1a6f5a";
   ctx.lineWidth = 1.2;
   ctx.globalAlpha = 0.5;
@@ -122,7 +90,6 @@ function drawScatter(canvas, history) {
   ctx.stroke();
   ctx.globalAlpha = 1.0;
 
-  // Plot points
   ctx.fillStyle = "#1a6f5a";
   for (var i = 0; i < points.length; i++) {
     var px = xPos(points[i].t);
@@ -132,7 +99,6 @@ function drawScatter(canvas, history) {
     ctx.fill();
   }
 
-  // Pick key points for labels: first, min, max, last
   var labelIndices = {};
   labelIndices[0] = true;
   labelIndices[points.length - 1] = true;
@@ -144,7 +110,6 @@ function drawScatter(canvas, history) {
   labelIndices[minIdx] = true;
   labelIndices[maxIdx] = true;
 
-  // Draw labels on key points
   ctx.font = "9px sans-serif";
   var drawn = [];
   Object.keys(labelIndices).sort(function(a,b){return a-b;}).forEach(function(idx) {
@@ -158,17 +123,14 @@ function drawScatter(canvas, history) {
     var label = dateStr + " " + priceStr;
     var labelW = ctx.measureText(label).width;
 
-    // Position above point, shift down if near top
     var ly = py - 10;
     if (ly < pad.top + 4) ly = py + 14;
 
-    // Align: left edge for early points, right edge for late points
     var lx = px;
     var align = "center";
     if (px - labelW / 2 < pad.left) { align = "left"; lx = px; }
     else if (px + labelW / 2 > pad.left + plotW) { align = "right"; lx = px; }
 
-    // Skip if overlapping with previously drawn labels
     var overlap = false;
     for (var j = 0; j < drawn.length; j++) {
       if (Math.abs(lx - drawn[j].x) < 50 && Math.abs(ly - drawn[j].y) < 12) {
@@ -184,7 +146,6 @@ function drawScatter(canvas, history) {
     drawn.push({ x: lx, y: ly });
   });
 
-  // Highlight latest point
   var last = points[points.length - 1];
   ctx.fillStyle = "#d63a3a";
   ctx.beginPath();
@@ -196,17 +157,13 @@ function renderRankedItem(r, idx) {
   var card = document.createElement("div");
   card.className = "rank-card";
 
-  // Rank number
   var num = document.createElement("span");
-  var nClass = idx < 3 ? " n" + (idx + 1) : "";
-  num.className = "rank-num" + nClass;
+  num.className = "rank-num";
   num.textContent = idx + 1;
   card.appendChild(num);
 
-  // Content area
   var content = document.createElement("div");
 
-  // Top row: info + change
   var top = document.createElement("div");
   top.className = "rank-top";
 
@@ -226,7 +183,6 @@ function renderRankedItem(r, idx) {
     detailText += " \u00B7 " + r.total_trades + "\uAC74";
   }
   detail.textContent = detailText;
-  // 직거래 / 저층 태그
   if (r.deal_type && r.deal_type !== "\uC911\uAC1C\uAC70\uB798") {
     var tag = document.createElement("span");
     tag.className = "tag tag-warn";
@@ -266,15 +222,12 @@ function renderRankedItem(r, idx) {
 
   content.appendChild(top);
 
-  // Scatter chart
   if (r.history && r.history.length > 1) {
     var chartDiv = document.createElement("div");
     chartDiv.className = "scatter-chart";
     var canvas = document.createElement("canvas");
     chartDiv.appendChild(canvas);
     content.appendChild(chartDiv);
-
-    // Draw after DOM insertion
     requestAnimationFrame(function () {
       drawScatter(canvas, r.history);
     });
@@ -282,7 +235,6 @@ function renderRankedItem(r, idx) {
 
   card.appendChild(content);
 
-  // section3 항목 (id 있음): 클릭 시 상세 이력 팝업
   if (r.id) {
     card.style.cursor = "pointer";
     card.addEventListener("click", function () {
@@ -293,152 +245,7 @@ function renderRankedItem(r, idx) {
   return card;
 }
 
-function renderSection(sectionData) {
-  var sec = document.createElement("div");
-  sec.className = "section";
-
-  var title = document.createElement("h2");
-  title.className = "section-title";
-  title.textContent = sectionData.title;
-  sec.appendChild(title);
-
-  if (sectionData.month) {
-    var sub = document.createElement("p");
-    sub.className = "section-sub";
-    sub.textContent = sectionData.month.slice(0, 4) + "\uB144 " + parseInt(sectionData.month.slice(4), 10) + "\uC6D4 \uAE30\uC900";
-    sec.appendChild(sub);
-  }
-  if (sectionData.date) {
-    var sub = document.createElement("p");
-    sub.className = "section-sub";
-    sub.textContent = sectionData.date + " \uAE30\uC900";
-    sec.appendChild(sub);
-  }
-
-  var top3 = sectionData.top3 || [];
-  if (!top3.length) {
-    var p = document.createElement("p");
-    p.className = "no-data";
-    p.textContent = "\uBE44\uAD50 \uAC00\uB2A5\uD55C \uC0C1\uC2B9 \uAC70\uB798 \uC5C6\uC74C";
-    sec.appendChild(p);
-    return sec;
-  }
-
-  top3.forEach(function (r, i) {
-    sec.appendChild(renderRankedItem(r, i));
-  });
-
-  return sec;
-}
-
-function renderSubTabs() {
-  subtabsEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
-
-  var select = document.createElement("select");
-  select.className = "district-select";
-
-  var allOpt = document.createElement("option");
-  allOpt.value = "";
-  allOpt.textContent = activeSido + " \uC804\uCCB4";
-  if (activeDistrict === null) allOpt.selected = true;
-  select.appendChild(allOpt);
-
-  sidoData.district_order.forEach(function (dist) {
-    var opt = document.createElement("option");
-    opt.value = dist;
-    opt.textContent = dist;
-    if (dist === activeDistrict) opt.selected = true;
-    select.appendChild(opt);
-  });
-
-  select.addEventListener("change", function () {
-    activeDistrict = select.value || null;
-    activeDong = null;
-    renderFilters();
-    renderSections();
-  });
-
-  subtabsEl.appendChild(select);
-}
-
-function renderFilters() {
-  filtersEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
-
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData) return;
-
-  var data = sidoData;
-  if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
-    data = sidoData.districts[activeDistrict];
-  }
-
-  var dongOrder = data.dong_order || [];
-  if (dongOrder.length > 0) {
-    var dongSelect = document.createElement("select");
-    dongSelect.className = "dong-select";
-    var allOpt = document.createElement("option");
-    allOpt.value = "";
-    allOpt.textContent = "\uB3D9 \uC804\uCCB4";
-    if (!activeDong) allOpt.selected = true;
-    dongSelect.appendChild(allOpt);
-
-    dongOrder.forEach(function (dong) {
-      var opt = document.createElement("option");
-      opt.value = dong;
-      opt.textContent = dong;
-      if (dong === activeDong) opt.selected = true;
-      dongSelect.appendChild(opt);
-    });
-
-    dongSelect.addEventListener("change", function () {
-      activeDong = dongSelect.value || null;
-      renderSections();
-    });
-
-    filtersEl.appendChild(dongSelect);
-  }
-
-  var searchLink = document.createElement("a");
-  searchLink.href = "search.html";
-  searchLink.className = "search-link-btn";
-  searchLink.textContent = "\uB2E8\uC9C0\uBA85\uAC80\uC0C9";
-  filtersEl.appendChild(searchLink);
-}
-
-function renderSections() {
-  gridEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
-
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData) return;
-
-  var data = sidoData;
-  if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
-    data = sidoData.districts[activeDistrict];
-  }
-
-  if (data.section2) {
-    gridEl.appendChild(renderSection(data.section2));
-  }
-  if (data.section1) {
-    gridEl.appendChild(renderSection(data.section1));
-  }
-  if (data.section3) {
-    var s3 = data.section3;
-    var items = s3.top3 || [];
-    if (activeDong) {
-      items = items.filter(function (r) { return r.dong_name === activeDong; });
-    }
-    gridEl.appendChild(renderSection({ title: s3.title, month: s3.month, date: s3.date, top3: items }));
-  }
-}
-
 function showDetail(r) {
-  // 기존 모달 제거
   var old = document.getElementById("detail-modal");
   if (old) old.remove();
 
@@ -452,14 +259,12 @@ function showDetail(r) {
   var modal = document.createElement("div");
   modal.className = "modal-content";
 
-  // 닫기 버튼
   var closeBtn = document.createElement("button");
   closeBtn.className = "modal-close";
   closeBtn.textContent = "\u2715";
   closeBtn.addEventListener("click", function () { overlay.remove(); });
   modal.appendChild(closeBtn);
 
-  // 헤더
   var title = document.createElement("h2");
   title.className = "modal-title";
   title.textContent = r.apt_name;
@@ -470,7 +275,6 @@ function showDetail(r) {
   sub.textContent = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
   modal.appendChild(sub);
 
-  // 로딩
   var body = document.createElement("div");
   body.className = "modal-body";
   body.textContent = "\uB85C\uB529 \uC911...";
@@ -479,7 +283,6 @@ function showDetail(r) {
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // history 로드
   fetch("data/apt_trade/by_apt/" + r.id + ".json")
     .then(function (res) {
       if (!res.ok) throw new Error("not found");
@@ -488,7 +291,6 @@ function showDetail(r) {
     .then(function (history) {
       body.innerHTML = "";
 
-      // 차트
       if (history.length > 1) {
         var chartDiv = document.createElement("div");
         chartDiv.className = "scatter-chart modal-chart";
@@ -498,7 +300,6 @@ function showDetail(r) {
         requestAnimationFrame(function () { drawScatter(canvas, history); });
       }
 
-      // 거래 테이블
       var table = document.createElement("table");
       table.className = "modal-table";
       var thead = document.createElement("thead");
@@ -523,26 +324,80 @@ function showDetail(r) {
     });
 }
 
+function doSearch(query) {
+  resultsEl.innerHTML = "";
+  if (!query || query.trim().length < 2) {
+    resultsEl.innerHTML = '<div class="result-count">2글자 이상 입력해주세요.</div>';
+    return;
+  }
+  var q = query.trim().toLowerCase();
+  var matched = allItems.filter(function (r) {
+    return r.apt_name.toLowerCase().indexOf(q) >= 0;
+  });
+
+  var countDiv = document.createElement("div");
+  countDiv.className = "result-count";
+  countDiv.textContent = '"' + query.trim() + '" 검색결과 ' + matched.length + '건';
+  resultsEl.appendChild(countDiv);
+
+  if (!matched.length) return;
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  matched.forEach(function (r, i) {
+    sec.appendChild(renderRankedItem(r, i));
+  });
+  resultsEl.appendChild(sec);
+}
+
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    doSearch(searchInput.value);
+  }
+});
+
 async function init() {
   var response = await fetch(summaryPath);
   if (!response.ok) {
     statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
     return;
   }
-  globalData = await response.json();
-
-  var sidoOrder = globalData.sido_order || [];
-  var hash = decodeURIComponent(location.hash.replace("#", ""));
-  activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
-
-  renderTabs(sidoOrder);
-  renderSubTabs();
-  renderFilters();
-  renderSections();
-
+  var data = await response.json();
   statusEl.textContent = "";
-  var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
-  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly;
+
+  // Collect all section3 items from all sidos/districts, dedup by id
+  var seen = {};
+  var sidoOrder = data.sido_order || [];
+  sidoOrder.forEach(function (sido) {
+    var sidoData = data.sidos[sido];
+    if (!sidoData) return;
+
+    // sido-level section3
+    if (sidoData.section3 && sidoData.section3.top3) {
+      sidoData.section3.top3.forEach(function (item) {
+        if (item.id && !seen[item.id]) {
+          seen[item.id] = true;
+          allItems.push(item);
+        }
+      });
+    }
+
+    // district-level section3
+    if (sidoData.districts) {
+      var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+      distOrder.forEach(function (dist) {
+        var distData = sidoData.districts[dist];
+        if (distData && distData.section3 && distData.section3.top3) {
+          distData.section3.top3.forEach(function (item) {
+            if (item.id && !seen[item.id]) {
+              seen[item.id] = true;
+              allItems.push(item);
+            }
+          });
+        }
+      });
+    }
+  });
 }
 
 init();
