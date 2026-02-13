@@ -267,53 +267,29 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
 
 
 def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
-    """이번달 거래 중 상승률 TOP 3. 데이터 부족 시 전월 fallback."""
+    """전체 최신 거래 기준 상승률 TOP 3."""
     groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
         key = f"{r['apt_name']}\t{r['area_m2']}"
         groups.setdefault(key, []).append(r)
 
-    compared = _compare_groups(groups, filter_month=current_month)
-    month_label = current_month
-    if len(compared) < 3:
-        # fallback to previous month
-        dt = datetime.strptime(current_month, "%Y%m") - relativedelta(months=1)
-        prev_month = dt.strftime("%Y%m")
-        compared_prev = _compare_groups(groups, filter_month=prev_month)
-        if len(compared_prev) > len(compared):
-            compared = compared_prev
-            month_label = prev_month
+    compared = _compare_groups(groups)
 
     return {
         "title": "오늘의 실거래 TOP 3",
-        "month": month_label,
         "top3": compared[:3],
     }
 
 
 def section2_top3(records: List[Dict[str, object]], current_month: str, min_trades: int = 20) -> Dict[str, object]:
-    """5년간 거래량 min_trades건 이상, 최근 3개월 내 거래 단지 중 상승률 TOP 3."""
-    # 최근 3개월 범위 계산
-    dt = datetime.strptime(current_month, "%Y%m")
-    months_3 = set()
-    for i in range(3):
-        m = dt - relativedelta(months=i)
-        months_3.add(m.strftime("%Y%m"))
-
+    """거래량 min_trades건 이상 단지 중 상승률 TOP 3."""
     groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
         key = f"{r['apt_name']}\t{r['area_m2']}"
         groups.setdefault(key, []).append(r)
 
-    # Filter: 20건 이상 + 최근 3개월 내 거래 존재
-    filtered = {}
-    for k, v in groups.items():
-        if len(v) < min_trades:
-            continue
-        has_recent = any(t["deal_date"][:7].replace("-", "") in months_3 for t in v)
-        if not has_recent:
-            continue
-        filtered[k] = v
+    # Filter: 20건 이상
+    filtered = {k: v for k, v in groups.items() if len(v) >= min_trades}
 
     compared = _compare_groups(filtered)
 
