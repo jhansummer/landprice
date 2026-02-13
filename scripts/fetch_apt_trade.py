@@ -24,6 +24,7 @@ BY_LAWD_DIR = DATA_DIR / "by_lawd"
 BY_APT_DIR = DATA_DIR / "by_apt"
 INDEX_PATH = DATA_DIR / "index.json"
 SUMMARY_PATH = DATA_DIR / "summary.json"
+SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
 
 
 def iso_now_utc() -> str:
@@ -380,6 +381,55 @@ def section3_recent(records: List[Dict[str, object]], current_month: str, limit:
     }
 
 
+def build_search_items(records: List[Dict[str, object]]) -> List[Dict[str, object]]:
+    """모든 단지의 최신 거래 vs 5년 내 이전 최고가 비교. 3개월 제한 없음."""
+    groups: Dict[str, List[Dict[str, object]]] = {}
+    for r in records:
+        key = f"{r['apt_name']}\t{r['area_m2']}"
+        groups.setdefault(key, []).append(r)
+
+    items = []
+    for txns in groups.values():
+        txns_sorted = sorted(txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+        latest = txns_sorted[0]
+        apt_id = hashlib.md5(f"{latest.get('sigungu','')}\t{latest['apt_name']}\t{latest['area_m2']}".encode()).hexdigest()[:10]
+
+        # by_apt 파일 생성
+        history = build_history(txns)
+        if history:
+            apt_path = BY_APT_DIR / f"{apt_id}.json"
+            write_json(apt_path, history)
+
+        # 5년 내 이전 최고가 비교
+        cutoff_5y = (datetime.strptime(latest["deal_date"][:10], "%Y-%m-%d") - relativedelta(years=5)).strftime("%Y-%m-%d")
+        prev_txns = [t for t in txns_sorted if cutoff_5y <= t["deal_date"] < latest["deal_date"] and t["price_man"]]
+        if prev_txns:
+            prev = max(prev_txns, key=lambda x: x["price_man"])
+            change = latest["price_man"] - prev["price_man"]
+            pct = (change / prev["price_man"]) * 100 if prev["price_man"] else 0
+        else:
+            prev = None
+            change = 0
+            pct = 0
+
+        items.append({
+            "id": apt_id,
+            "apt_name": latest["apt_name"],
+            "sigungu": latest.get("sigungu", ""),
+            "dong_name": latest["dong_name"],
+            "area_m2": latest["area_m2"],
+            "latest_date": latest["deal_date"],
+            "latest_price": latest["price_man"],
+            "prev_price": prev["price_man"] if prev else latest["price_man"],
+            "pct": round(pct, 2),
+            "change": change,
+            "floor": latest.get("floor", 0),
+            "deal_type": latest.get("deal_type", ""),
+        })
+    items.sort(key=lambda x: -x["pct"])
+    return items
+
+
 def _district_group(sido: str, sigungu_name: str) -> str:
     """서울은 구 그대로, 경기는 시 단위로 묶기, 나머지는 그대로."""
     if sido == "경기":
@@ -403,6 +453,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
     today_str = today.strftime("%Y-%m-%d")
 
     sidos: Dict[str, Dict] = {}
+    search_sidos: Dict[str, Dict] = {}
     for sido, codes in sido_lawds.items():
         records = gather_sido_records(codes)
 
@@ -415,6 +466,8 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
 
         district_order = sorted(dist_groups.keys())
         districts: Dict[str, Dict] = {}
+        search_items: List[Dict[str, object]] = []
+        seen_ids: set = set()
         for group_name, group_codes in dist_groups.items():
             group_set = set(group_codes)
             dist_records = [r for r in records if r["lawd_cd"] in group_set]
@@ -427,6 +480,12 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
                 "section3": section3_recent(dist_records, current_month),
                 "dong_order": dong_names,
             }
+            # 검색 인덱스 (3개월 제한 없음)
+            for item in build_search_items(dist_records):
+                item["district"] = group_name
+                if item["id"] not in seen_ids:
+                    seen_ids.add(item["id"])
+                    search_items.append(item)
 
         sidos[sido] = {
             "section1": section1_top3(records, current_month),
@@ -434,6 +493,11 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             "section3": section3_recent(records, current_month),
             "district_order": district_order,
             "districts": districts,
+        }
+        search_items.sort(key=lambda x: -x["pct"])
+        search_sidos[sido] = {
+            "district_order": district_order,
+            "items": search_items,
         }
 
     summary = {
@@ -445,6 +509,13 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         "sidos": sidos,
     }
     write_json(SUMMARY_PATH, summary)
+
+    search_index = {
+        "updated_at": iso_now_utc(),
+        "sido_order": [s for s in SIDO_ORDER if s in search_sidos],
+        "sidos": search_sidos,
+    }
+    write_json(SEARCH_INDEX_PATH, search_index)
 
 
 def main() -> int:

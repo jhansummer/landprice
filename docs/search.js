@@ -1,9 +1,13 @@
-var summaryPath = "data/apt_trade/summary.json";
+var summaryPath = "data/apt_trade/search_index.json";
 var statusEl = document.getElementById("status");
 var resultsEl = document.getElementById("results");
 var searchInput = document.getElementById("searchInput");
+var tabsEl = document.getElementById("tabs");
+var subtabsEl = document.getElementById("subtabs");
 
-var allItems = [];
+var globalData = null;
+var activeSido = null;
+var activeDistrict = null;
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
@@ -179,9 +183,6 @@ function renderRankedItem(r, idx) {
   if (r.floor) {
     detailText += " \u00B7 " + r.floor + "\uCE35";
   }
-  if (r.total_trades) {
-    detailText += " \u00B7 " + r.total_trades + "\uAC74";
-  }
   detail.textContent = detailText;
   if (r.deal_type && r.deal_type !== "\uC911\uAC1C\uAC70\uB798") {
     var tag = document.createElement("span");
@@ -221,18 +222,6 @@ function renderRankedItem(r, idx) {
   top.appendChild(changeEl);
 
   content.appendChild(top);
-
-  if (r.history && r.history.length > 1) {
-    var chartDiv = document.createElement("div");
-    chartDiv.className = "scatter-chart";
-    var canvas = document.createElement("canvas");
-    chartDiv.appendChild(canvas);
-    content.appendChild(chartDiv);
-    requestAnimationFrame(function () {
-      drawScatter(canvas, r.history);
-    });
-  }
-
   card.appendChild(content);
 
   if (r.id) {
@@ -324,20 +313,81 @@ function showDetail(r) {
     });
 }
 
+function renderTabs() {
+  tabsEl.innerHTML = "";
+  if (!globalData) return;
+  globalData.sido_order.forEach(function (sido) {
+    var btn = document.createElement("button");
+    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.textContent = sido;
+    btn.addEventListener("click", function () {
+      activeSido = sido;
+      activeDistrict = null;
+      renderTabs();
+      renderSubTabs();
+      resultsEl.innerHTML = "";
+    });
+    tabsEl.appendChild(btn);
+  });
+}
+
+function renderSubTabs() {
+  subtabsEl.innerHTML = "";
+  if (!globalData || !activeSido) return;
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
+
+  var select = document.createElement("select");
+  select.className = "district-select";
+
+  var allOpt = document.createElement("option");
+  allOpt.value = "";
+  allOpt.textContent = activeSido + " \uC804\uCCB4";
+  if (activeDistrict === null) allOpt.selected = true;
+  select.appendChild(allOpt);
+
+  sidoData.district_order.forEach(function (dist) {
+    var opt = document.createElement("option");
+    opt.value = dist;
+    opt.textContent = dist;
+    if (dist === activeDistrict) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", function () {
+    activeDistrict = select.value || null;
+    resultsEl.innerHTML = "";
+  });
+
+  subtabsEl.appendChild(select);
+}
+
+function getFilteredItems() {
+  if (!globalData || !activeSido) return [];
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return [];
+  var items = sidoData.items || [];
+  if (activeDistrict) {
+    items = items.filter(function (r) { return r.district === activeDistrict; });
+  }
+  return items;
+}
+
 function doSearch(query) {
   resultsEl.innerHTML = "";
   if (!query || query.trim().length < 2) {
-    resultsEl.innerHTML = '<div class="result-count">2글자 이상 입력해주세요.</div>';
+    resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD574\uC8FC\uC138\uC694.</div>';
     return;
   }
+  var items = getFilteredItems();
   var q = query.trim().toLowerCase();
-  var matched = allItems.filter(function (r) {
+  var matched = items.filter(function (r) {
     return r.apt_name.toLowerCase().indexOf(q) >= 0;
   });
 
   var countDiv = document.createElement("div");
   countDiv.className = "result-count";
-  countDiv.textContent = '"' + query.trim() + '" 검색결과 ' + matched.length + '건';
+  countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + matched.length + '\uAC74';
   resultsEl.appendChild(countDiv);
 
   if (!matched.length) return;
@@ -362,42 +412,12 @@ async function init() {
     statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
     return;
   }
-  var data = await response.json();
+  globalData = await response.json();
   statusEl.textContent = "";
 
-  // Collect all section3 items from all sidos/districts, dedup by id
-  var seen = {};
-  var sidoOrder = data.sido_order || [];
-  sidoOrder.forEach(function (sido) {
-    var sidoData = data.sidos[sido];
-    if (!sidoData) return;
-
-    // sido-level section3
-    if (sidoData.section3 && sidoData.section3.top3) {
-      sidoData.section3.top3.forEach(function (item) {
-        if (item.id && !seen[item.id]) {
-          seen[item.id] = true;
-          allItems.push(item);
-        }
-      });
-    }
-
-    // district-level section3
-    if (sidoData.districts) {
-      var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
-      distOrder.forEach(function (dist) {
-        var distData = sidoData.districts[dist];
-        if (distData && distData.section3 && distData.section3.top3) {
-          distData.section3.top3.forEach(function (item) {
-            if (item.id && !seen[item.id]) {
-              seen[item.id] = true;
-              allItems.push(item);
-            }
-          });
-        }
-      });
-    }
-  });
+  activeSido = globalData.sido_order[0] || null;
+  renderTabs();
+  renderSubTabs();
 }
 
 init();
