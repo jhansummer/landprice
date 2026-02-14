@@ -504,21 +504,36 @@ function getFilteredItems() {
 
 function doSearch(query) {
   resultsEl.innerHTML = "";
-  if (!query || query.trim().length < 2) {
-    resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD574\uC8FC\uC138\uC694.</div>';
+  var q = (query || "").trim().toLowerCase();
+  var items = getFilteredItems();
+
+  // 검색어 없이 지역도 구/동 선택 안 했으면 안내 표시
+  if (q.length < 2 && !activeDistrict && !activeDong) {
+    resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD558\uAC70\uB098 \uC9C0\uC5ED\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694.</div>';
     return;
   }
-  var items = getFilteredItems();
-  var q = query.trim().toLowerCase();
-  var matched = items.filter(function (r) {
-    return r.apt_name.toLowerCase().indexOf(q) >= 0;
-  });
+
+  var matched;
+  if (q.length >= 2) {
+    matched = items.filter(function (r) {
+      return r.apt_name.toLowerCase().indexOf(q) >= 0;
+    });
+  } else {
+    matched = items;
+  }
 
   var groups = groupByApt(matched);
 
   var countDiv = document.createElement("div");
   countDiv.className = "result-count";
-  countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
+  if (q.length >= 2) {
+    countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
+  } else {
+    var label = activeSido || "";
+    if (activeDistrict) label += " " + activeDistrict;
+    if (activeDong) label += " " + activeDong;
+    countDiv.textContent = label + ' \uC804\uCCB4 ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
+  }
   resultsEl.appendChild(countDiv);
 
   if (!groups.length) return;
