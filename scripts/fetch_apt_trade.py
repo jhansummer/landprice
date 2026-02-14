@@ -266,14 +266,66 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
     return compared
 
 
-def section1_top3(records: List[Dict[str, object]], current_month: str) -> Dict[str, object]:
-    """전체 최신 거래 기준 상승률 TOP 3."""
-    groups: Dict[str, List[Dict[str, object]]] = {}
+def section1_top3(records: List[Dict[str, object]], current_month: str,
+                   new_records: List[Dict[str, object]] = None) -> Dict[str, object]:
+    """오늘의 실거래 TOP 3. new_records가 있으면 신규 거래 기준, 없으면 전체 최신 거래 기준."""
+    # 전체 거래를 그룹핑 (직전 최고가 비교용)
+    all_groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
         key = f"{r['apt_name']}\t{r['area_m2']}"
-        groups.setdefault(key, []).append(r)
+        all_groups.setdefault(key, []).append(r)
 
-    compared = _compare_groups(groups)
+    if new_records:
+        # 신규 거래만으로 비교: 각 신규 거래의 직전 최고가를 전체 이력에서 찾음
+        compared = []
+        new_groups: Dict[str, List[Dict[str, object]]] = {}
+        for r in new_records:
+            key = f"{r['apt_name']}\t{r['area_m2']}"
+            new_groups.setdefault(key, []).append(r)
+
+        for key, new_txns in new_groups.items():
+            all_txns = all_groups.get(key, new_txns)
+            new_txns_sorted = sorted(new_txns, key=lambda x: (x["deal_date"], -x["price_man"]), reverse=True)
+            latest = new_txns_sorted[0]
+
+            # 직전 최고가: latest 이전 전체 기간 중 최고가
+            prev_txns = [t for t in all_txns if t["deal_date"] < latest["deal_date"] and t["price_man"]]
+            if not prev_txns:
+                continue
+            prev = max(prev_txns, key=lambda x: x["price_man"])
+            if not prev["price_man"]:
+                continue
+            change = latest["price_man"] - prev["price_man"]
+            pct = (change / prev["price_man"]) * 100
+            if pct <= 0:
+                continue
+
+            apt_id = hashlib.md5(f"{latest.get('sigungu','')}\t{latest['apt_name']}\t{latest['area_m2']}".encode()).hexdigest()[:10]
+            history = build_history(all_txns)
+            if history:
+                apt_path = BY_APT_DIR / f"{apt_id}.json"
+                write_json(apt_path, history)
+
+            compared.append({
+                "id": apt_id,
+                "apt_name": latest["apt_name"],
+                "sigungu": latest.get("sigungu", ""),
+                "dong_name": latest["dong_name"],
+                "area_m2": latest["area_m2"],
+                "latest_date": latest["deal_date"],
+                "latest_price": latest["price_man"],
+                "prev_date": prev["deal_date"],
+                "prev_price": prev["price_man"],
+                "change": change,
+                "pct": round(pct, 2),
+                "floor": latest.get("floor", 0),
+                "deal_type": latest.get("deal_type", ""),
+                "history": history,
+            })
+        compared.sort(key=lambda x: -x["pct"])
+    else:
+        # 폴백: 전체 최신 거래 기준
+        compared = _compare_groups(all_groups)
 
     return {
         "title": "오늘의 실거래 TOP 3",
@@ -476,7 +528,8 @@ def _district_group(sido: str, sigungu_name: str) -> str:
     return sigungu_name
 
 
-def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> None:
+def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
+                   new_records: List[Dict[str, object]] = None) -> None:
     """Read saved JSON files and write summary.json with 시도-level + district sections."""
     # Group lawd codes by sido
     sido_lawds: Dict[str, List[str]] = {}
@@ -484,6 +537,14 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
         sido = sido_for_lawd(lawd_cd)
         if sido:
             sido_lawds.setdefault(sido, []).append(lawd_cd)
+
+    # new_records를 sido별로 분리
+    new_by_sido: Dict[str, List[Dict[str, object]]] = {}
+    if new_records:
+        for r in new_records:
+            sido = sido_for_lawd(r["lawd_cd"])
+            if sido:
+                new_by_sido.setdefault(sido, []).append(r)
 
     today = datetime.utcnow().date()
     current_month = today.strftime("%Y%m")
@@ -493,6 +554,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
     search_sidos: Dict[str, Dict] = {}
     for sido, codes in sido_lawds.items():
         records = gather_sido_records(codes)
+        sido_new = new_by_sido.get(sido, [])
 
         # District grouping
         dist_groups: Dict[str, List[str]] = {}
@@ -510,9 +572,11 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
             dist_records = [r for r in records if r["lawd_cd"] in group_set]
             if not dist_records:
                 continue
+            # district별 신규 거래 필터링
+            dist_new = [r for r in sido_new if r["lawd_cd"] in group_set] if sido_new else []
             dong_names = sorted(set(r["dong_name"] for r in dist_records if r["dong_name"]))
             districts[group_name] = {
-                "section1": section1_top3(dist_records, current_month),
+                "section1": section1_top3(dist_records, current_month, dist_new or None),
                 "section2": section2_top3(dist_records, current_month),
                 "section3": section3_3m_top3(dist_records, current_month),
                 "section4": section4_3m_min_trades(dist_records, current_month),
@@ -526,7 +590,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int) -> No
                     search_items.append(item)
 
         sidos[sido] = {
-            "section1": section1_top3(records, current_month),
+            "section1": section1_top3(records, current_month, sido_new or None),
             "section2": section2_top3(records, current_month),
             "section3": section3_3m_top3(records, current_month),
             "section4": section4_3m_min_trades(records, current_month),
@@ -592,6 +656,17 @@ def main() -> int:
 
     ensure_dirs()
     cleanup_old_files(lawd_list, months)
+
+    # 리프레시 전 기존 거래 키 수집 (신규 거래 탐지용)
+    old_keys: set = set()
+    for lawd_cd in lawd_list:
+        for deal_ym in refresh_set:
+            out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
+            if out_path.exists():
+                with out_path.open("r", encoding="utf-8") as fp:
+                    for r in json.load(fp):
+                        old_keys.add(dedupe_key(r))
+    print(f"Old keys collected: {len(old_keys):,}", flush=True)
 
     index_files = []
     total_jobs = len(lawd_list) * len(months)
@@ -670,6 +745,18 @@ def main() -> int:
 
     print(f"Done: fetched={fetched}, skipped={skipped}, errors={errors}", flush=True)
 
+    # 리프레시 후 신규 거래 수집
+    new_records: List[Dict[str, object]] = []
+    for lawd_cd in lawd_list:
+        for deal_ym in refresh_set:
+            out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
+            if out_path.exists():
+                with out_path.open("r", encoding="utf-8") as fp:
+                    for r in json.load(fp):
+                        if dedupe_key(r) not in old_keys:
+                            new_records.append(r)
+    print(f"New records found: {len(new_records):,}", flush=True)
+
     index = {
         "updated_at": iso_now_utc(),
         "months_kept": months_kept,
@@ -679,7 +766,7 @@ def main() -> int:
     write_json(INDEX_PATH, index)
 
     total_txns = sum(e["count"] for e in index_files)
-    build_summary(lawd_list, months_kept, total_txns)
+    build_summary(lawd_list, months_kept, total_txns, new_records=new_records)
     return 0
 
 
