@@ -326,6 +326,35 @@
       outline: none;
       border-color: var(--accent);
     }
+    .filter-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .dong-select,
+    .danji-select {
+      padding: 8px 32px 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .dong-select:focus,
+    .danji-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
     @media (max-width: 720px) {
       h1 { font-size: 26px; }
       .tabs { padding: 0 16px 10px; gap: 4px; }
@@ -345,6 +374,7 @@
   </header>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
+  <div id="filters" class="filter-wrap"></div>
   <div class="search-wrap">
     <input id="searchInput" type="text" class="search-input" placeholder="단지명 검색 (2글자 이상)" autofocus />
     <button id="searchBtn" class="search-btn">검색</button>
@@ -359,7 +389,7 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="search.js?v=4"></script>
+  <script src="search.js?v=5"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

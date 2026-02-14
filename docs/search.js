@@ -6,9 +6,13 @@ var searchBtn = document.getElementById("searchBtn");
 var tabsEl = document.getElementById("tabs");
 var subtabsEl = document.getElementById("subtabs");
 
+var filtersEl = document.getElementById("filters");
+
 var globalData = null;
 var activeSido = null;
 var activeDistrict = null;
+var activeDong = null;
+var activeDanji = null;
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
@@ -327,8 +331,11 @@ function renderTabs() {
     btn.addEventListener("click", function () {
       activeSido = sido;
       activeDistrict = null;
+      activeDong = null;
+      activeDanji = null;
       renderTabs();
       renderSubTabs();
+      renderFilters();
       resultsEl.innerHTML = "";
     });
     tabsEl.appendChild(btn);
@@ -360,10 +367,122 @@ function renderSubTabs() {
 
   select.addEventListener("change", function () {
     activeDistrict = select.value || null;
+    activeDong = null;
+    activeDanji = null;
+    renderFilters();
     resultsEl.innerHTML = "";
   });
 
   subtabsEl.appendChild(select);
+}
+
+function renderFilters() {
+  filtersEl.innerHTML = "";
+  if (!globalData || !activeSido || !activeDistrict) return;
+
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+  var items = sidoData.items.filter(function (r) { return r.district === activeDistrict; });
+
+  // 동 목록 추출 (가나다순)
+  var dongSet = {};
+  items.forEach(function (r) { if (r.dong_name) dongSet[r.dong_name] = true; });
+  var dongList = Object.keys(dongSet).sort();
+
+  if (dongList.length === 0) return;
+
+  // 동 드롭다운
+  var dongSelect = document.createElement("select");
+  dongSelect.className = "dong-select";
+  var allDongOpt = document.createElement("option");
+  allDongOpt.value = "";
+  allDongOpt.textContent = "\uB3D9 \uC804\uCCB4";
+  if (!activeDong) allDongOpt.selected = true;
+  dongSelect.appendChild(allDongOpt);
+
+  dongList.forEach(function (dong) {
+    var opt = document.createElement("option");
+    opt.value = dong;
+    opt.textContent = dong;
+    if (dong === activeDong) opt.selected = true;
+    dongSelect.appendChild(opt);
+  });
+
+  dongSelect.addEventListener("change", function () {
+    activeDong = dongSelect.value || null;
+    activeDanji = null;
+    renderFilters();
+    resultsEl.innerHTML = "";
+  });
+
+  filtersEl.appendChild(dongSelect);
+
+  // 단지 드롭다운 (동이 선택된 경우만)
+  if (activeDong) {
+    var dongItems = items.filter(function (r) { return r.dong_name === activeDong; });
+    var danjiSet = {};
+    dongItems.forEach(function (r) { if (r.apt_name) danjiSet[r.apt_name] = true; });
+    var danjiList = Object.keys(danjiSet).sort();
+
+    if (danjiList.length > 0) {
+      var danjiSelect = document.createElement("select");
+      danjiSelect.className = "danji-select";
+      var allDanjiOpt = document.createElement("option");
+      allDanjiOpt.value = "";
+      allDanjiOpt.textContent = "\uB2E8\uC9C0 \uC804\uCCB4";
+      if (!activeDanji) allDanjiOpt.selected = true;
+      danjiSelect.appendChild(allDanjiOpt);
+
+      danjiList.forEach(function (name) {
+        var opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        if (name === activeDanji) opt.selected = true;
+        danjiSelect.appendChild(opt);
+      });
+
+      danjiSelect.addEventListener("change", function () {
+        activeDanji = danjiSelect.value || null;
+        if (activeDanji) {
+          showDanjiResult();
+        } else {
+          resultsEl.innerHTML = "";
+        }
+      });
+
+      filtersEl.appendChild(danjiSelect);
+    }
+  }
+}
+
+function showDanjiResult() {
+  resultsEl.innerHTML = "";
+  if (!globalData || !activeSido || !activeDistrict || !activeDong || !activeDanji) return;
+
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+
+  var matched = sidoData.items.filter(function (r) {
+    return r.district === activeDistrict && r.dong_name === activeDong && r.apt_name === activeDanji;
+  });
+
+  if (!matched.length) {
+    resultsEl.innerHTML = '<div class="result-count">\uAC80\uC0C9\uACB0\uACFC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+    return;
+  }
+
+  var groups = groupByApt(matched);
+  var countDiv = document.createElement("div");
+  countDiv.className = "result-count";
+  countDiv.textContent = activeDanji + " " + matched.length + "\uAC74";
+  resultsEl.appendChild(countDiv);
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  groups.forEach(function (g) {
+    sec.appendChild(renderGroup(g));
+  });
+  resultsEl.appendChild(sec);
 }
 
 function getFilteredItems() {
@@ -373,6 +492,9 @@ function getFilteredItems() {
   var items = sidoData.items || [];
   if (activeDistrict) {
     items = items.filter(function (r) { return r.district === activeDistrict; });
+  }
+  if (activeDong) {
+    items = items.filter(function (r) { return r.dong_name === activeDong; });
   }
   return items;
 }
