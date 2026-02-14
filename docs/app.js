@@ -368,40 +368,6 @@ function renderFilters() {
   filtersEl.innerHTML = "";
   if (!globalData || !activeSido) return;
 
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData) return;
-
-  var data = sidoData;
-  if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
-    data = sidoData.districts[activeDistrict];
-  }
-
-  var dongOrder = data.dong_order || [];
-  if (dongOrder.length > 0) {
-    var dongSelect = document.createElement("select");
-    dongSelect.className = "dong-select";
-    var allOpt = document.createElement("option");
-    allOpt.value = "";
-    allOpt.textContent = "\uB3D9 \uC804\uCCB4";
-    if (!activeDong) allOpt.selected = true;
-    dongSelect.appendChild(allOpt);
-
-    dongOrder.forEach(function (dong) {
-      var opt = document.createElement("option");
-      opt.value = dong;
-      opt.textContent = dong;
-      if (dong === activeDong) opt.selected = true;
-      dongSelect.appendChild(opt);
-    });
-
-    dongSelect.addEventListener("change", function () {
-      activeDong = dongSelect.value || null;
-      renderSections();
-    });
-
-    filtersEl.appendChild(dongSelect);
-  }
-
   var searchLink = document.createElement("a");
   searchLink.href = "search.html";
   searchLink.className = "search-link-btn";

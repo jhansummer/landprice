@@ -378,11 +378,14 @@ function renderSubTabs() {
 
 function renderFilters() {
   filtersEl.innerHTML = "";
-  if (!globalData || !activeSido || !activeDistrict) return;
+  if (!globalData || !activeSido) return;
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
-  var items = sidoData.items.filter(function (r) { return r.district === activeDistrict; });
+  var items = sidoData.items || [];
+  if (activeDistrict) {
+    items = items.filter(function (r) { return r.district === activeDistrict; });
+  }
 
   // 동 목록 추출 (가나다순)
   var dongSet = {};
@@ -550,6 +553,7 @@ async function init() {
   activeSido = globalData.sido_order[0] || null;
   renderTabs();
   renderSubTabs();
+  renderFilters();
 }
 
 init();
