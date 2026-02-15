@@ -304,6 +304,9 @@ def main() -> None:
 
                     if not compares:
                         continue
+                    compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
+                        1, sum(1 for c in compares if c.get("recent_avg"))
+                    )
                     undervalued.append(
                         {
                             "id": m["id"],
@@ -313,6 +316,7 @@ def main() -> None:
                             "area_m2": m["area_m2"],
                             "current_price": m["current_price"],
                             "recent_avg": m["recent_avg"],
+                            "compare_avg_recent": compare_avg_recent,
                             "cluster_avg": round(avg_current, 2),
                             "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
                             "trade_count": m["trade_count"],
@@ -321,8 +325,8 @@ def main() -> None:
                         }
                     )
 
-        undervalued = [u for u in undervalued if u.get("recent_avg") is not None]
-        undervalued.sort(key=lambda x: x["recent_avg"])
+        undervalued = [u for u in undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
+        undervalued.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
         output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued[:3]}
 
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
