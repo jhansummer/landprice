@@ -318,6 +318,9 @@ def main() -> None:
                 for other in members:
                     if other["id"] == m["id"]:
                         continue
+                    # Skip same-name apartments (different area of same complex)
+                    if other["apt_name"] == m["apt_name"] and other["sigungu"] == m["sigungu"]:
+                        continue
                     corr = series_corr(m["series"], other["series"], sp["min_valid"])
                     if corr is None:
                         continue
@@ -387,11 +390,19 @@ def main() -> None:
                 # Band-level candidates: any peer-undervalued member
                 band_candidates.append(entry)
 
+        def recent_gap_score(u):
+            """Lower = more recently undervalued. (6m ratio) - (3y ratio)."""
+            r6 = u["recent_avg"] / u["compare_avg_recent"] - 1  # e.g. -0.05
+            if u.get("avg_36") and u.get("compare_avg_36") and u["compare_avg_36"] > 0:
+                r36 = u["avg_36"] / u["compare_avg_36"] - 1  # e.g. 0.0
+                return r6 - r36  # e.g. -0.05
+            return r6  # fallback: 6m ratio only
+
         undervalued = [u for u in undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
-        undervalued.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
+        undervalued.sort(key=recent_gap_score)
 
         # Band-level: use all peer-undervalued candidates (not just cluster-avg gated)
-        band_candidates.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
+        band_candidates.sort(key=recent_gap_score)
         bands_out = []
         for label, low, high in bands:
             if high is None:

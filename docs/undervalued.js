@@ -13,6 +13,10 @@ function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
 }
 
+function fmtEok(v) {
+  return (v / 10000).toFixed(2) + "\uC5B5";
+}
+
 function sortTxns(txns) {
   return (txns || []).slice().sort(function (a, b) {
     return new Date(a[0]).getTime() - new Date(b[0]).getTime();
@@ -181,14 +185,14 @@ function renderItem(r, idx) {
   // 최근 6개월 행
   const pct = document.createElement("div");
   pct.className = "rank-pct";
-  pct.innerHTML = "\uCD5C\uADFC6\uAC1C\uC6D4 " + fmt(Math.round(r.recent_avg)) + "\uB9CC"
+  pct.innerHTML = "\uCD5C\uADFC6\uAC1C\uC6D4 " + fmtEok(r.recent_avg)
     + (ratio6 !== null ? " <span class=\"pct-value\">" + ratio6.toFixed(1) + "%</span>" : "");
   change.appendChild(pct);
 
   // 비교평균 행
   const diff = document.createElement("div");
   diff.className = "rank-diff";
-  diff.textContent = "\uBE44\uAD50\uD3C9\uADE0 " + fmt(Math.round(r.compare_avg_recent)) + "\uB9CC";
+  diff.textContent = "\uBE44\uAD50\uD3C9\uADE0 " + fmtEok(r.compare_avg_recent);
   change.appendChild(diff);
 
   // 최근 3년 행 - 6개월과 비교
@@ -304,7 +308,7 @@ async function toggleCompare(card, r) {
     item.appendChild(dot);
 
     const label = document.createElement("span");
-    const priceText = s.last_price ? (fmt(Math.round(s.last_price)) + "만") : "-";
+    const priceText = s.last_price ? fmtEok(s.last_price) : "-";
     const dateText = s.last_date ? s.last_date : "";
     const locText = (s.sigungu || s.dong_name) ? (" · " + s.sigungu + " " + s.dong_name) : "";
     label.textContent = s.name + locText + " · 최근거래 " + dateText + " · " + priceText;
