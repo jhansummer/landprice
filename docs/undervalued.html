@@ -33,13 +33,52 @@
     }
     h1 {
       font-family: var(--font-title);
-      font-size: 28px;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
       margin: 0 0 8px;
     }
     .sub {
       color: var(--muted);
       font-size: 12px;
       margin: 0;
+    }
+    .filter-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-link-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      background: var(--paper);
+      color: var(--accent);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-link-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .search-link-btn.active {
+      background: var(--accent);
+      color: #fff;
+      cursor: default;
     }
     .tabs {
       display: flex;
@@ -112,10 +151,15 @@
 </head>
 <body>
   <header>
-    <h1>저평가 TOP3</h1>
-    <p class="sub">비교 단지 평균 대비 최근 6개월 평균가가 낮은 순</p>
+    <h1>아파트 실거래가 APT Mine</h1>
+    <p class="sub">출처 : 국토교통부 실거래가</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
+  <div class="filter-bar">
+    <a class="search-link-btn" href="index.html">메인</a>
+    <a class="search-link-btn" href="search.html">단지명 검색</a>
+    <span class="search-link-btn active">저평가 TOP3</span>
+  </div>
   <div class="wrap">
     <div id="content"></div>
   </div>
