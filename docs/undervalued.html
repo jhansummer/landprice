@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>저평가 TOP3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600;700&family=Inter:wght@400;500;600;700&family=Nanum+Gothic:wght@400;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper: #fbf8f2;
+      --ink: #1d1b18;
+      --muted: #6e6a63;
+      --line: #d8cfc1;
+      --accent: #8c3b1f;
+      --bg: #f4efe8;
+      --up: #1f6f52;
+      --down: #c0392b;
+      --font-title: "Playfair Display", serif;
+      --font-body: "Nanum Gothic", "Inter", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--bg);
+    }
+    header {
+      text-align: center;
+      padding: 32px 20px 12px;
+    }
+    h1 {
+      font-family: var(--font-title);
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0 20px 12px;
+    }
+    .tab-btn {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .tab-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+    }
+    .section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 20px rgba(28, 27, 25, 0.06);
+    }
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      margin: 0 0 4px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0 0 10px;
+    }
+    .rank-card {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .rank-card:last-child { border-bottom: none; }
+    .rank-num {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .rank-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .rank-apt { font-weight: 700; font-size: 14px; }
+    .rank-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .rank-change { text-align: right; white-space: nowrap; }
+    .rank-pct { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .rank-diff { font-size: 11px; color: var(--muted); }
+    .no-data { font-size: 12px; color: var(--muted); padding: 6px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>저평가 TOP3</h1>
+    <p class="sub">비교 단지 평균 대비 최근 6개월 평균가가 낮은 순</p>
+  </header>
+  <nav id="tabs" class="tabs"></nav>
+  <div class="wrap">
+    <div id="content"></div>
+  </div>
+  <script src="undervalued.js?v=1"></script>
+</body>
+</html>

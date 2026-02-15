@@ -567,6 +567,12 @@ function renderFilters() {
   searchLink.className = "search-link-btn";
   searchLink.textContent = "\uB2E8\uC9C0\uBA85\uAC80\uC0C9";
   filtersEl.appendChild(searchLink);
+
+  var undervalLink = document.createElement("a");
+  undervalLink.href = "undervalued.html";
+  undervalLink.className = "search-link-btn";
+  undervalLink.textContent = "\uC800\uD3C9\uAC00 TOP3";
+  filtersEl.appendChild(undervalLink);
 }
 
 function renderSections() {
