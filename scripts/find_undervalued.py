@@ -82,7 +82,7 @@ def recent_avg(series: List[Optional[float]], months: int = 6) -> Optional[float
     return sum(vals) / len(vals)
 
 
-def level_similar(a: Optional[float], b: Optional[float], max_ratio: float = 1.15) -> bool:
+def level_similar(a: Optional[float], b: Optional[float], max_ratio: float = 1.30) -> bool:
     if a is None or b is None or a <= 0 or b <= 0:
         return False
     ratio = max(a, b) / min(a, b)
@@ -296,7 +296,7 @@ def main() -> None:
                         hist_diff = mean_abs_pct_diff(m["series"], other["series"])
                         if hist_diff is None or hist_diff > 0.10:
                             continue
-                        if not level_similar(m["recent_avg"], other["recent_avg"], 1.15):
+                        if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
                             continue
                         sims.append((corr, hist_diff, other))
 
