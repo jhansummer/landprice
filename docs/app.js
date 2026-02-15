@@ -1,4 +1,5 @@
 const summaryPath = "data/apt_trade/summary.json";
+const undervaluedPath = "data/apt_trade/undervalued.json";
 
 const gridEl = document.getElementById("grid");
 const statusEl = document.getElementById("status");
@@ -8,6 +9,7 @@ const subtabsEl = document.getElementById("subtabs");
 const filtersEl = document.getElementById("filters");
 
 let globalData = null;
+let globalUndervalued = null;
 let activeSido = null;
 let activeDistrict = null;
 let activeDong = null;
@@ -293,6 +295,56 @@ function renderRankedItem(r, idx) {
   return card;
 }
 
+function renderUndervaluedItem(r, idx) {
+  var card = document.createElement("div");
+  card.className = "rank-card";
+
+  var num = document.createElement("span");
+  var nClass = idx < 3 ? " n" + (idx + 1) : "";
+  num.className = "rank-num" + nClass;
+  num.textContent = idx + 1;
+  card.appendChild(num);
+
+  var content = document.createElement("div");
+  var top = document.createElement("div");
+  top.className = "rank-top";
+
+  var info = document.createElement("div");
+  info.className = "rank-info";
+  var aptEl = document.createElement("div");
+  aptEl.className = "rank-apt";
+  aptEl.textContent = r.apt_name;
+  info.appendChild(aptEl);
+  var detail = document.createElement("div");
+  detail.className = "rank-detail";
+  detail.textContent = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
+  info.appendChild(detail);
+  top.appendChild(info);
+
+  var change = document.createElement("div");
+  change.className = "rank-change";
+  var pctEl = document.createElement("div");
+  pctEl.className = "rank-pct";
+  pctEl.textContent = r.gap_pct + "%";
+  pctEl.style.color = "var(--down)";
+  change.appendChild(pctEl);
+  var diffEl = document.createElement("div");
+  diffEl.className = "rank-diff";
+  diffEl.textContent = fmt(Math.round(r.current_price)) + " \u2192 " + fmt(Math.round(r.cluster_avg)) + "\uB9CC";
+  change.appendChild(diffEl);
+  top.appendChild(change);
+
+  content.appendChild(top);
+
+  var meta = document.createElement("div");
+  meta.className = "rank-detail";
+  meta.textContent = "\uAC70\uB798\uB7C9 3\uB144 " + r.trade_count + "\uAC74 \u00B7 \uD074\uB7EC\uC2A4\uD130 " + r.cluster_size + "\uB2E8\uC9C0";
+  content.appendChild(meta);
+
+  card.appendChild(content);
+  return card;
+}
+
 function renderSection(sectionData) {
   var sec = document.createElement("div");
   sec.className = "section";
@@ -399,6 +451,31 @@ function renderSections() {
   if (data.section3) {
     gridEl.appendChild(renderSection(data.section3));
   }
+  if (globalUndervalued && globalUndervalued.sidos && globalUndervalued.sidos[activeSido]) {
+    var under = globalUndervalued.sidos[activeSido].undervalued || [];
+    var sec = document.createElement("div");
+    sec.className = "section";
+    var title = document.createElement("h2");
+    title.className = "section-title";
+    title.textContent = "\uC800\uD3C9\uAC00 \uB2E8\uC9C0 TOP 3";
+    sec.appendChild(title);
+    var sub = document.createElement("p");
+    sub.className = "section-sub";
+    sub.textContent = "\uD604\uC7AC\uAC00\uAC00 \uD074\uB7EC\uC2A4\uD130 \uD3C9\uADE0\uAC00 \uB300\uBE44 20% \uC774\uC0C1 \uB0AE\uC740 \uB2E8\uC9C0";
+    sec.appendChild(sub);
+
+    if (!under.length) {
+      var p = document.createElement("p");
+      p.className = "no-data";
+      p.textContent = "\uC870\uAC74\uC5D0 \uD574\uB2F9\uD558\uB294 \uB2E8\uC9C0 \uC5C6\uC74C";
+      sec.appendChild(p);
+    } else {
+      under.slice(0, 3).forEach(function (r, i) {
+        sec.appendChild(renderUndervaluedItem(r, i));
+      });
+    }
+    gridEl.appendChild(sec);
+  }
 }
 
 function showDetail(r) {
@@ -494,6 +571,14 @@ async function init() {
     return;
   }
   globalData = await response.json();
+  try {
+    var resUnder = await fetch(undervaluedPath);
+    if (resUnder.ok) {
+      globalUndervalued = await resUnder.json();
+    }
+  } catch (e) {
+    globalUndervalued = null;
+  }
 
   var sidoOrder = globalData.sido_order || [];
   var hash = decodeURIComponent(location.hash.replace("#", ""));

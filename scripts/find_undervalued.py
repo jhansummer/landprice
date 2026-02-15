@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+import json
+import math
+import argparse
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "docs" / "data" / "apt_trade"
+BY_APT_DIR = DATA_DIR / "by_apt"
+SUMMARY_PATH = DATA_DIR / "summary.json"
+SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
+OUT_PATH = DATA_DIR / "undervalued.json"
+
+
+def month_add(yyyymm: str, delta: int) -> str:
+    dt = datetime.strptime(yyyymm, "%Y%m")
+    y = dt.year + (dt.month - 1 + delta) // 12
+    m = (dt.month - 1 + delta) % 12 + 1
+    return f"{y:04d}{m:02d}"
+
+
+def month_range(end_yyyymm: str, months: int) -> List[str]:
+    return [month_add(end_yyyymm, -i) for i in reversed(range(months))]
+
+
+def parse_month(date_str: str) -> str:
+    return date_str[:7].replace("-", "")
+
+
+def pearson_corr(a: List[float], b: List[float]) -> Optional[float]:
+    if len(a) != len(b) or len(a) == 0:
+        return None
+    mean_a = sum(a) / len(a)
+    mean_b = sum(b) / len(b)
+    da = [x - mean_a for x in a]
+    db = [x - mean_b for x in b]
+    var_a = sum(x * x for x in da)
+    var_b = sum(x * x for x in db)
+    if var_a <= 0 or var_b <= 0:
+        return None
+    cov = sum(x * y for x, y in zip(da, db))
+    return cov / math.sqrt(var_a * var_b)
+
+
+def forward_fill(values: List[Optional[float]]) -> List[Optional[float]]:
+    out: List[Optional[float]] = []
+    last: Optional[float] = None
+    for v in values:
+        if v is None:
+            out.append(last)
+        else:
+            last = v
+            out.append(v)
+    return out
+
+
+def build_series(txns: List[List], months: List[str]) -> Tuple[List[Optional[float]], int]:
+    # txns: [[date, price], ...]
+    month_values: Dict[str, List[float]] = {}
+    for d, p in txns:
+        m = parse_month(d)
+        if m in months:
+            month_values.setdefault(m, []).append(float(p))
+    monthly_avg: Dict[str, float] = {m: sum(v) / len(v) for m, v in month_values.items()}
+    series: List[Optional[float]] = [monthly_avg.get(m) for m in months]
+    series = forward_fill(series)
+    valid = sum(1 for v in series if v is not None)
+    return series, valid
+
+
+def load_txns(apt_id: str) -> List[List]:
+    p = BY_APT_DIR / f"{apt_id}.json"
+    if not p.exists():
+        return []
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--corr", type=float, default=0.90, help="Pearson correlation threshold")
+    ap.add_argument("--months", type=int, default=36, help="Months window")
+    ap.add_argument("--min-trades", type=int, default=20, help="Min trades in window")
+    ap.add_argument("--min-valid", type=int, default=24, help="Min non-empty months after fill")
+    ap.add_argument("--gap", type=float, default=0.20, help="Undervalued gap (20% => 0.20)")
+    args = ap.parse_args()
+
+    summary = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
+    search = json.loads(SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+
+    current_month = summary.get("current_month")
+    if not current_month:
+        raise SystemExit("current_month not found in summary.json")
+
+    months = month_range(current_month, args.months)
+
+    output = {
+        "updated_at": summary.get("updated_at"),
+        "current_month": current_month,
+        "params": {
+            "months": args.months,
+            "min_trades": args.min_trades,
+            "min_valid_months": args.min_valid,
+            "corr_threshold": args.corr,
+            "undervalued_gap": args.gap,
+            "region_level": "sido",
+        },
+        "sidos": {},
+    }
+
+    for sido in search.get("sidos", {}).keys():
+        items = search["sidos"][sido]["items"]
+        series_map: Dict[str, Dict] = {}
+
+        for item in items:
+            apt_id = item["id"]
+            txns = load_txns(apt_id)
+            if not txns:
+                continue
+
+            # trades in last N months
+            trades_window = [t for t in txns if parse_month(t[0]) in months]
+            if len(trades_window) < args.min_trades:
+                continue
+
+            series, valid = build_series(txns, months)
+            if valid < args.min_valid:
+                continue
+
+            current_price = series[-1]
+            if current_price is None:
+                continue
+
+            key = f"{item['apt_name']}\t{item['area_m2']}"
+            series_map[key] = {
+                "id": apt_id,
+                "apt_name": item["apt_name"],
+                "sigungu": item.get("sigungu", ""),
+                "dong_name": item.get("dong_name", ""),
+                "area_m2": item.get("area_m2"),
+                "district": item.get("district", ""),
+                "series": series,
+                "current_price": current_price,
+                "trade_count": len(trades_window),
+            }
+
+        keys = list(series_map.keys())
+        n = len(keys)
+        if n == 0:
+            output["sidos"][sido] = {"clusters": [], "undervalued": []}
+            continue
+
+        adj: Dict[int, List[int]] = {i: [] for i in range(n)}
+        for i in range(n):
+            si = series_map[keys[i]]["series"]
+            for j in range(i + 1, n):
+                sj = series_map[keys[j]]["series"]
+                paired: List[Tuple[float, float]] = [(a, b) for a, b in zip(si, sj) if a is not None and b is not None]
+                if len(paired) < args.min_valid:
+                    continue
+                ai = [p[0] for p in paired]
+                bj = [p[1] for p in paired]
+                corr = pearson_corr(ai, bj)
+                if corr is not None and corr >= args.corr:
+                    adj[i].append(j)
+                    adj[j].append(i)
+
+        visited = [False] * n
+        clusters = []
+        undervalued = []
+
+        for i in range(n):
+            if visited[i]:
+                continue
+            # BFS component
+            stack = [i]
+            comp = []
+            visited[i] = True
+            while stack:
+                cur = stack.pop()
+                comp.append(cur)
+                for nb in adj[cur]:
+                    if not visited[nb]:
+                        visited[nb] = True
+                        stack.append(nb)
+
+            if len(comp) < 3:
+                continue
+
+            members = [series_map[keys[idx]] for idx in comp]
+            avg_current = sum(m["current_price"] for m in members) / len(members)
+            cluster = {
+                "size": len(members),
+                "avg_current_price": round(avg_current, 2),
+                "members": [
+                    {
+                        "id": m["id"],
+                        "apt_name": m["apt_name"],
+                        "sigungu": m["sigungu"],
+                        "dong_name": m["dong_name"],
+                        "area_m2": m["area_m2"],
+                        "current_price": m["current_price"],
+                        "trade_count": m["trade_count"],
+                    }
+                    for m in members
+                ],
+            }
+            clusters.append(cluster)
+
+            for m in members:
+                if m["current_price"] <= (1.0 - args.gap) * avg_current:
+                    undervalued.append(
+                        {
+                            "id": m["id"],
+                            "apt_name": m["apt_name"],
+                            "sigungu": m["sigungu"],
+                            "dong_name": m["dong_name"],
+                            "area_m2": m["area_m2"],
+                            "current_price": m["current_price"],
+                            "cluster_avg": round(avg_current, 2),
+                            "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
+                            "trade_count": m["trade_count"],
+                            "cluster_size": len(members),
+                        }
+                    )
+
+        output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued}
+
+    OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Saved: {OUT_PATH}")
+
+
+if __name__ == "__main__":
+    main()
