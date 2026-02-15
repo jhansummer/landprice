@@ -369,11 +369,24 @@ function renderRankedItem(r, idx) {
 
   // Scatter chart
   if (r.history && r.history.length > 1) {
+    var chartRow = document.createElement("div");
+    chartRow.className = "chart-row";
+
+    var detailBtn = document.createElement("button");
+    detailBtn.className = "detail-btn";
+    detailBtn.textContent = "\uC2DC\uC138 \uC790\uC138\uD788\uBCF4\uAE30";
+    detailBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      showDetail(r);
+    });
+    chartRow.appendChild(detailBtn);
+
     var chartDiv = document.createElement("div");
     chartDiv.className = "scatter-chart";
     var canvas = document.createElement("canvas");
     chartDiv.appendChild(canvas);
-    content.appendChild(chartDiv);
+    chartRow.appendChild(chartDiv);
+    content.appendChild(chartRow);
 
     // Draw after DOM insertion
     requestAnimationFrame(function () {
