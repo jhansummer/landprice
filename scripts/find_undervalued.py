@@ -140,6 +140,19 @@ def main() -> None:
 
     months = month_range(current_month, args.months)
 
+    bands = [
+        ("5억 미만", 0, 50000),
+        ("5~8억", 50000, 80000),
+        ("8~12억", 80000, 120000),
+        ("12~15억", 120000, 150000),
+        ("15~20억", 150000, 200000),
+        ("20~25억", 200000, 250000),
+        ("25~30억", 250000, 300000),
+        ("30~40억", 300000, 400000),
+        ("40~50억", 400000, 500000),
+        ("50억 이상", 500000, None),
+    ]
+
     output = {
         "updated_at": summary.get("updated_at"),
         "current_month": current_month,
@@ -150,6 +163,7 @@ def main() -> None:
             "corr_threshold": args.corr,
             "undervalued_gap": args.gap,
             "region_level": "sido",
+            "bands": [b[0] for b in bands],
         },
         "sidos": {},
     }
@@ -327,7 +341,23 @@ def main() -> None:
 
         undervalued = [u for u in undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
         undervalued.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
-        output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued[:3]}
+
+        bands_out = []
+        for label, low, high in bands:
+            if high is None:
+                items = [u for u in undervalued if u["recent_avg"] >= low]
+            else:
+                items = [u for u in undervalued if low <= u["recent_avg"] < high]
+            bands_out.append({
+                "label": label,
+                "top3": items[:3],
+            })
+
+        output["sidos"][sido] = {
+            "clusters": clusters,
+            "undervalued": undervalued[:3],
+            "bands": bands_out,
+        }
 
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Saved: {OUT_PATH}")

@@ -7,7 +7,19 @@
     "min_valid_months": 30,
     "corr_threshold": 0.97,
     "undervalued_gap": 0.2,
-    "region_level": "sido"
+    "region_level": "sido",
+    "bands": [
+      "5억 미만",
+      "5~8억",
+      "8~12억",
+      "12~15억",
+      "15~20억",
+      "20~25억",
+      "25~30억",
+      "30~40억",
+      "40~50억",
+      "50억 이상"
+    ]
   },
   "sidos": {
     "서울": {
@@ -6065,6 +6077,497 @@
             }
           ]
         }
+      ],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": [
+            {
+              "id": "93b01e261f",
+              "apt_name": "답십리청솔우성",
+              "sigungu": "동대문구",
+              "dong_name": "답십리동",
+              "area_m2": 59.74,
+              "current_price": 81100.0,
+              "recent_avg": 78694.44444444445,
+              "compare_avg_recent": 85926.14267676767,
+              "cluster_avg": 218342.94,
+              "gap_pct": -62.86,
+              "trade_count": 37,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "235069d8ea",
+                  "apt_name": "벽산블루밍",
+                  "sigungu": "관악구",
+                  "dong_name": "봉천동",
+                  "area_m2": 59.99,
+                  "current_price": 91800.0,
+                  "recent_avg": 86703.67424242424,
+                  "corr": 0.961,
+                  "hist_diff_pct": 5.22
+                },
+                {
+                  "id": "f561f7e66b",
+                  "apt_name": "전농SK",
+                  "sigungu": "동대문구",
+                  "dong_name": "전농동",
+                  "area_m2": 59.34,
+                  "current_price": 89800.0,
+                  "recent_avg": 85148.61111111111,
+                  "corr": 0.952,
+                  "hist_diff_pct": 3.34
+                }
+              ]
+            },
+            {
+              "id": "1955d28bab",
+              "apt_name": "백련산파크자이",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 49.759,
+              "current_price": 71233.33333333333,
+              "recent_avg": 69616.66666666666,
+              "compare_avg_recent": 74831.94444444445,
+              "cluster_avg": 218342.94,
+              "gap_pct": -67.38,
+              "trade_count": 23,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "aa8b120f11",
+                  "apt_name": "두산위브트레지움",
+                  "sigungu": "강북구",
+                  "dong_name": "미아동",
+                  "area_m2": 59.54,
+                  "current_price": 74900.0,
+                  "recent_avg": 74622.22222222223,
+                  "corr": 0.936,
+                  "hist_diff_pct": 5.7
+                },
+                {
+                  "id": "ee1815bf37",
+                  "apt_name": "동아하이빌아파트",
+                  "sigungu": "강동구",
+                  "dong_name": "천호동",
+                  "area_m2": 59.98,
+                  "current_price": 75000.0,
+                  "recent_avg": 75041.66666666667,
+                  "corr": 0.918,
+                  "hist_diff_pct": 5.37
+                }
+              ]
+            },
+            {
+              "id": "d1fab927d3",
+              "apt_name": "동신",
+              "sigungu": "노원구",
+              "dong_name": "월계동",
+              "area_m2": 70.81,
+              "current_price": 75900.0,
+              "recent_avg": 72050.0,
+              "compare_avg_recent": 75652.77777777778,
+              "cluster_avg": 218342.94,
+              "gap_pct": -65.24,
+              "trade_count": 27,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "80a9d67d1a",
+                  "apt_name": "길음뉴타운2단지푸르지오",
+                  "sigungu": "성북구",
+                  "dong_name": "길음동",
+                  "area_m2": 59.77,
+                  "current_price": 78000.0,
+                  "recent_avg": 75652.77777777778,
+                  "corr": 0.937,
+                  "hist_diff_pct": 8.7
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "8~12억",
+          "top3": [
+            {
+              "id": "1ac9a1f74f",
+              "apt_name": "주공2",
+              "sigungu": "동작구",
+              "dong_name": "대방동",
+              "area_m2": 51.66,
+              "current_price": 106000.0,
+              "recent_avg": 102442.85714285714,
+              "compare_avg_recent": 115808.33333333334,
+              "cluster_avg": 218342.94,
+              "gap_pct": -51.45,
+              "trade_count": 39,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "80e30aebfa",
+                  "apt_name": "신성둔촌미소지움2",
+                  "sigungu": "강동구",
+                  "dong_name": "둔촌동",
+                  "area_m2": 59.88,
+                  "current_price": 120000.0,
+                  "recent_avg": 114950.0,
+                  "corr": 0.987,
+                  "hist_diff_pct": 7.14
+                },
+                {
+                  "id": "e8900092e0",
+                  "apt_name": "삼성",
+                  "sigungu": "성동구",
+                  "dong_name": "마장동",
+                  "area_m2": 59.76,
+                  "current_price": 120000.0,
+                  "recent_avg": 116666.66666666667,
+                  "corr": 0.949,
+                  "hist_diff_pct": 8.76
+                }
+              ]
+            },
+            {
+              "id": "ad3562be62",
+              "apt_name": "길음뉴타운8단지(래미안)",
+              "sigungu": "성북구",
+              "dong_name": "길음동",
+              "area_m2": 59.99,
+              "current_price": 112000.0,
+              "recent_avg": 107126.38888888888,
+              "compare_avg_recent": 120749.40476190476,
+              "cluster_avg": 218342.94,
+              "gap_pct": -48.7,
+              "trade_count": 90,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "9cf48e678e",
+                  "apt_name": "DMC파크뷰자이3단지",
+                  "sigungu": "서대문구",
+                  "dong_name": "남가좌동",
+                  "area_m2": 59.981,
+                  "current_price": 127750.0,
+                  "recent_avg": 122208.33333333333,
+                  "corr": 0.956,
+                  "hist_diff_pct": 9.77
+                },
+                {
+                  "id": "269ec1bb64",
+                  "apt_name": "녹번역e편한세상캐슬",
+                  "sigungu": "은평구",
+                  "dong_name": "응암동",
+                  "area_m2": 59.97,
+                  "current_price": 128500.0,
+                  "recent_avg": 119290.4761904762,
+                  "corr": 0.956,
+                  "hist_diff_pct": 9.1
+                }
+              ]
+            },
+            {
+              "id": "ab01878414",
+              "apt_name": "래미안라센트",
+              "sigungu": "성북구",
+              "dong_name": "종암동",
+              "area_m2": 59.98,
+              "current_price": 99250.0,
+              "recent_avg": 98458.33333333333,
+              "compare_avg_recent": 110400.0,
+              "cluster_avg": 218342.94,
+              "gap_pct": -54.54,
+              "trade_count": 34,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "2ddb65a711",
+                  "apt_name": "힐스테이트청계",
+                  "sigungu": "동대문구",
+                  "dong_name": "답십리동",
+                  "area_m2": 48.98,
+                  "current_price": 110000.0,
+                  "recent_avg": 108733.33333333333,
+                  "corr": 0.962,
+                  "hist_diff_pct": 4.72
+                },
+                {
+                  "id": "5f6e4e9bff",
+                  "apt_name": "힐스테이트녹번",
+                  "sigungu": "은평구",
+                  "dong_name": "녹번동",
+                  "area_m2": 59.9,
+                  "current_price": 116000.0,
+                  "recent_avg": 112066.66666666667,
+                  "corr": 0.954,
+                  "hist_diff_pct": 7.05
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "12~15억",
+          "top3": [
+            {
+              "id": "129d1b1e35",
+              "apt_name": "송파파인타운3단지",
+              "sigungu": "송파구",
+              "dong_name": "장지동",
+              "area_m2": 84.93,
+              "current_price": 149500.0,
+              "recent_avg": 149458.33333333334,
+              "compare_avg_recent": 169500.0,
+              "cluster_avg": 218342.94,
+              "gap_pct": -31.53,
+              "trade_count": 34,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "c4c56beb3d",
+                  "apt_name": "이수힐스테이트",
+                  "sigungu": "동작구",
+                  "dong_name": "동작동",
+                  "area_m2": 59.9992,
+                  "current_price": 170000.0,
+                  "recent_avg": 170000.0,
+                  "corr": 0.988,
+                  "hist_diff_pct": 7.72
+                },
+                {
+                  "id": "eef20d02e7",
+                  "apt_name": "고덕 아이파크",
+                  "sigungu": "강동구",
+                  "dong_name": "고덕동",
+                  "area_m2": 59.99,
+                  "current_price": 169000.0,
+                  "recent_avg": 169000.0,
+                  "corr": 0.985,
+                  "hist_diff_pct": 6.36
+                }
+              ]
+            },
+            {
+              "id": "0710710b68",
+              "apt_name": "신촌삼익",
+              "sigungu": "마포구",
+              "dong_name": "신수동",
+              "area_m2": 59.85,
+              "current_price": 122500.0,
+              "recent_avg": 120550.0,
+              "compare_avg_recent": 135479.16666666666,
+              "cluster_avg": 218342.94,
+              "gap_pct": -43.9,
+              "trade_count": 25,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "5e2de04545",
+                  "apt_name": "강변래미안",
+                  "sigungu": "영등포구",
+                  "dong_name": "당산동",
+                  "area_m2": 55.91,
+                  "current_price": 138550.0,
+                  "recent_avg": 135416.66666666666,
+                  "corr": 0.983,
+                  "hist_diff_pct": 6.75
+                },
+                {
+                  "id": "0bc7652d01",
+                  "apt_name": "둔촌푸르지오",
+                  "sigungu": "강동구",
+                  "dong_name": "둔촌동",
+                  "area_m2": 59.98,
+                  "current_price": 146500.0,
+                  "recent_avg": 135541.66666666666,
+                  "corr": 0.972,
+                  "hist_diff_pct": 7.5
+                }
+              ]
+            },
+            {
+              "id": "b3e3f0087b",
+              "apt_name": "래미안길음센터피스",
+              "sigungu": "성북구",
+              "dong_name": "길음동",
+              "area_m2": 59.9,
+              "current_price": 134000.0,
+              "recent_avg": 127750.0,
+              "compare_avg_recent": 143477.77777777778,
+              "cluster_avg": 218342.94,
+              "gap_pct": -38.63,
+              "trade_count": 50,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "69a1012cfb",
+                  "apt_name": "고덕센트럴푸르지오",
+                  "sigungu": "강동구",
+                  "dong_name": "고덕동",
+                  "area_m2": 59.09,
+                  "current_price": 148000.0,
+                  "recent_avg": 143777.77777777778,
+                  "corr": 0.985,
+                  "hist_diff_pct": 5.0
+                },
+                {
+                  "id": "2ba94c35d3",
+                  "apt_name": "래미안영등포프레비뉴",
+                  "sigungu": "영등포구",
+                  "dong_name": "신길동",
+                  "area_m2": 59.99,
+                  "current_price": 149000.0,
+                  "recent_avg": 143177.77777777778,
+                  "corr": 0.983,
+                  "hist_diff_pct": 6.6
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "15~20억",
+          "top3": [
+            {
+              "id": "65601ac8f2",
+              "apt_name": "송파파인타운11단지",
+              "sigungu": "송파구",
+              "dong_name": "장지동",
+              "area_m2": 84.94,
+              "current_price": 167000.0,
+              "recent_avg": 163875.0,
+              "compare_avg_recent": 184187.5,
+              "cluster_avg": 218342.94,
+              "gap_pct": -23.51,
+              "trade_count": 30,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "190a0e30f2",
+                  "apt_name": "롯데캐슬퍼스트",
+                  "sigungu": "강동구",
+                  "dong_name": "암사동",
+                  "area_m2": 84.81,
+                  "current_price": 189000.0,
+                  "recent_avg": 182041.66666666666,
+                  "corr": 0.974,
+                  "hist_diff_pct": 9.72
+                },
+                {
+                  "id": "0968a4e339",
+                  "apt_name": "센트라스",
+                  "sigungu": "성동구",
+                  "dong_name": "하왕십리동",
+                  "area_m2": 59.99,
+                  "current_price": 190000.0,
+                  "recent_avg": 186333.33333333334,
+                  "corr": 0.974,
+                  "hist_diff_pct": 5.82
+                }
+              ]
+            },
+            {
+              "id": "69128a8693",
+              "apt_name": "우성",
+              "sigungu": "마포구",
+              "dong_name": "도화동",
+              "area_m2": 79.97,
+              "current_price": 160750.0,
+              "recent_avg": 158958.33333333334,
+              "compare_avg_recent": 177604.86111111112,
+              "cluster_avg": 218342.94,
+              "gap_pct": -26.38,
+              "trade_count": 39,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "5400019934",
+                  "apt_name": "e편한세상신촌1단지",
+                  "sigungu": "서대문구",
+                  "dong_name": "북아현동",
+                  "area_m2": 59.85,
+                  "current_price": 185500.0,
+                  "recent_avg": 182472.22222222225,
+                  "corr": 0.979,
+                  "hist_diff_pct": 8.97
+                },
+                {
+                  "id": "e683758553",
+                  "apt_name": "고덕롯데캐슬베네루체",
+                  "sigungu": "강동구",
+                  "dong_name": "상일동",
+                  "area_m2": 84.923,
+                  "current_price": 177000.0,
+                  "recent_avg": 172737.5,
+                  "corr": 0.978,
+                  "hist_diff_pct": 7.88
+                }
+              ]
+            },
+            {
+              "id": "9ee5d25598",
+              "apt_name": "자양2현대",
+              "sigungu": "광진구",
+              "dong_name": "자양동",
+              "area_m2": 84.88,
+              "current_price": 166000.0,
+              "recent_avg": 163333.33333333334,
+              "compare_avg_recent": 178937.5,
+              "cluster_avg": 218342.94,
+              "gap_pct": -23.97,
+              "trade_count": 20,
+              "cluster_size": 659,
+              "compare": [
+                {
+                  "id": "0968a4e339",
+                  "apt_name": "센트라스",
+                  "sigungu": "성동구",
+                  "dong_name": "하왕십리동",
+                  "area_m2": 59.99,
+                  "current_price": 190000.0,
+                  "recent_avg": 186333.33333333334,
+                  "corr": 0.982,
+                  "hist_diff_pct": 8.76
+                },
+                {
+                  "id": "ef3558286b",
+                  "apt_name": "마포센트럴 아이파크",
+                  "sigungu": "마포구",
+                  "dong_name": "아현동",
+                  "area_m2": 59.9718,
+                  "current_price": 174800.0,
+                  "recent_avg": 171541.66666666666,
+                  "corr": 0.979,
+                  "hist_diff_pct": 8.85
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
       ]
     },
     "경기": {
@@ -7727,15 +8230,349 @@
             }
           ]
         }
+      ],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": [
+            {
+              "id": "a6438f5d18",
+              "apt_name": "e편한세상수택센트럴파크",
+              "sigungu": "구리시",
+              "dong_name": "수택동",
+              "area_m2": 59.972,
+              "current_price": 84000.0,
+              "recent_avg": 78958.33333333333,
+              "compare_avg_recent": 83659.02777777778,
+              "cluster_avg": 146480.23,
+              "gap_pct": -42.65,
+              "trade_count": 20,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "522a729ab3",
+                  "apt_name": "벽산블루밍2단지",
+                  "sigungu": "용인시수지구",
+                  "dong_name": "죽전동",
+                  "area_m2": 59.97,
+                  "current_price": 83500.0,
+                  "recent_avg": 82323.61111111111,
+                  "corr": 0.96,
+                  "hist_diff_pct": 3.14
+                },
+                {
+                  "id": "c067c7f72e",
+                  "apt_name": "중앙동힐스테이트1차",
+                  "sigungu": "성남시중원구",
+                  "dong_name": "중앙동",
+                  "area_m2": 59.98,
+                  "current_price": 87000.0,
+                  "recent_avg": 84994.44444444445,
+                  "corr": 0.959,
+                  "hist_diff_pct": 9.79
+                }
+              ]
+            },
+            {
+              "id": "9f24fc750c",
+              "apt_name": "비산힐스테이트",
+              "sigungu": "안양시동안구",
+              "dong_name": "비산동",
+              "area_m2": 59.979,
+              "current_price": 61400.0,
+              "recent_avg": 61450.0,
+              "compare_avg_recent": 64512.5,
+              "cluster_avg": 146480.23,
+              "gap_pct": -58.08,
+              "trade_count": 37,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "825f5e16cd",
+                  "apt_name": "e편한세상인창어반포레",
+                  "sigungu": "구리시",
+                  "dong_name": "인창동",
+                  "area_m2": 39.754,
+                  "current_price": 69000.0,
+                  "recent_avg": 64512.5,
+                  "corr": 0.822,
+                  "hist_diff_pct": 4.65
+                }
+              ]
+            },
+            {
+              "id": "9da248e35b",
+              "apt_name": "무지개(12단지)(주공뜨란체)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 49.67,
+              "current_price": 80000.0,
+              "recent_avg": 75104.16666666667,
+              "compare_avg_recent": 77561.11111111111,
+              "cluster_avg": 146480.23,
+              "gap_pct": -45.39,
+              "trade_count": 28,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "f7504370c4",
+                  "apt_name": "미사강변트래지안",
+                  "sigungu": "하남시",
+                  "dong_name": "망월동",
+                  "area_m2": 51.67,
+                  "current_price": 80750.0,
+                  "recent_avg": 77561.11111111111,
+                  "corr": 0.905,
+                  "hist_diff_pct": 9.19
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "8~12억",
+          "top3": [
+            {
+              "id": "5f971a6637",
+              "apt_name": "하남더샵센트럴뷰",
+              "sigungu": "하남시",
+              "dong_name": "덕풍동",
+              "area_m2": 84.306,
+              "current_price": 104300.0,
+              "recent_avg": 102191.66666666667,
+              "compare_avg_recent": 112090.69444444444,
+              "cluster_avg": 146480.23,
+              "gap_pct": -28.8,
+              "trade_count": 20,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "e9eb69ee36",
+                  "apt_name": "신흥역하늘채랜더스원2단지",
+                  "sigungu": "성남시중원구",
+                  "dong_name": "중앙동",
+                  "area_m2": 59.88,
+                  "current_price": 110325.0,
+                  "recent_avg": 107291.38888888889,
+                  "corr": 0.969,
+                  "hist_diff_pct": 6.52
+                },
+                {
+                  "id": "89d7eb5811",
+                  "apt_name": "광교자이더클래스",
+                  "sigungu": "용인시수지구",
+                  "dong_name": "상현동",
+                  "area_m2": 59.902,
+                  "current_price": 115000.0,
+                  "recent_avg": 116890.0,
+                  "corr": 0.967,
+                  "hist_diff_pct": 9.68
+                }
+              ]
+            },
+            {
+              "id": "b63b1a88df",
+              "apt_name": "인덕원 센트럴 자이 2단지",
+              "sigungu": "의왕시",
+              "dong_name": "내손동",
+              "area_m2": 59.84,
+              "current_price": 96500.0,
+              "recent_avg": 93550.0,
+              "compare_avg_recent": 102295.69444444444,
+              "cluster_avg": 146480.23,
+              "gap_pct": -34.12,
+              "trade_count": 47,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "6ccb9064ba",
+                  "apt_name": "미사강변루나리움",
+                  "sigungu": "하남시",
+                  "dong_name": "망월동",
+                  "area_m2": 59.88,
+                  "current_price": 98000.0,
+                  "recent_avg": 97300.0,
+                  "corr": 0.974,
+                  "hist_diff_pct": 5.41
+                },
+                {
+                  "id": "e9eb69ee36",
+                  "apt_name": "신흥역하늘채랜더스원2단지",
+                  "sigungu": "성남시중원구",
+                  "dong_name": "중앙동",
+                  "area_m2": 59.88,
+                  "current_price": 110325.0,
+                  "recent_avg": 107291.38888888889,
+                  "corr": 0.966,
+                  "hist_diff_pct": 8.92
+                }
+              ]
+            },
+            {
+              "id": "b6cfe5787b",
+              "apt_name": "미사강변동원로얄듀크",
+              "sigungu": "하남시",
+              "dong_name": "풍산동",
+              "area_m2": 74.7041,
+              "current_price": 98000.0,
+              "recent_avg": 96583.33333333333,
+              "compare_avg_recent": 105038.6574074074,
+              "cluster_avg": 146480.23,
+              "gap_pct": -33.1,
+              "trade_count": 35,
+              "cluster_size": 155,
+              "compare": [
+                {
+                  "id": "cbbe14b4c8",
+                  "apt_name": "영통아이파크캐슬1단지",
+                  "sigungu": "수원시영통구",
+                  "dong_name": "망포동",
+                  "area_m2": 84.69,
+                  "current_price": 106000.0,
+                  "recent_avg": 102785.92592592591,
+                  "corr": 0.95,
+                  "hist_diff_pct": 5.76
+                },
+                {
+                  "id": "e9eb69ee36",
+                  "apt_name": "신흥역하늘채랜더스원2단지",
+                  "sigungu": "성남시중원구",
+                  "dong_name": "중앙동",
+                  "area_m2": 59.88,
+                  "current_price": 110325.0,
+                  "recent_avg": 107291.38888888889,
+                  "corr": 0.948,
+                  "hist_diff_pct": 5.36
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
       ]
     },
     "부산": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "대구": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "인천": {
       "clusters": [
@@ -7782,23 +8619,233 @@
           ]
         }
       ],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "광주": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "대전": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "울산": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     },
     "세종": {
       "clusters": [],
-      "undervalued": []
+      "undervalued": [],
+      "bands": [
+        {
+          "label": "5억 미만",
+          "top3": []
+        },
+        {
+          "label": "5~8억",
+          "top3": []
+        },
+        {
+          "label": "8~12억",
+          "top3": []
+        },
+        {
+          "label": "12~15억",
+          "top3": []
+        },
+        {
+          "label": "15~20억",
+          "top3": []
+        },
+        {
+          "label": "20~25억",
+          "top3": []
+        },
+        {
+          "label": "25~30억",
+          "top3": []
+        },
+        {
+          "label": "30~40억",
+          "top3": []
+        },
+        {
+          "label": "40~50억",
+          "top3": []
+        },
+        {
+          "label": "50억 이상",
+          "top3": []
+        }
+      ]
     }
   }
 }

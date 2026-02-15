@@ -452,13 +452,15 @@ function renderUndervaluedItem(r, idx) {
   }
   var baseAvg = compareAvg || r.cluster_avg;
   var gapPct = (r.recent_avg && baseAvg) ? ((r.recent_avg / baseAvg - 1) * 100) : r.gap_pct;
+  var ratio = (r.recent_avg && baseAvg) ? (r.recent_avg / baseAvg) : null;
+  var ratioText = ratio ? ("비율 " + (ratio * 100).toFixed(1) + "%") : "";
   pctEl.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg || r.current_price)) + "만";
   pctEl.style.color = "var(--ink)";
   change.appendChild(pctEl);
   var diffEl = document.createElement("div");
   diffEl.className = "rank-diff";
   if (baseAvg) {
-    diffEl.textContent = "비교평균 " + fmt(Math.round(baseAvg)) + "만";
+    diffEl.textContent = "비교평균 " + fmt(Math.round(baseAvg)) + "만" + (ratioText ? " · " + ratioText : "");
   } else {
     diffEl.textContent = "";
   }
@@ -601,7 +603,7 @@ function renderSections() {
     sec.appendChild(title);
     var sub = document.createElement("p");
     sub.className = "section-sub";
-    sub.textContent = "\uD604\uC7AC\uAC00\uAC00 \uD074\uB7EC\uC2A4\uD130 \uD3C9\uADE0\uAC00 \uB300\uBE44 20% \uC774\uC0C1 \uB0AE\uC740 \uB2E8\uC9C0";
+    sub.textContent = "\uBE44\uAD50 \uB2E8\uC9C0 2\uAC1C \uD3C9\uADE0 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uB0AE\uC740 \uC21C";
     sec.appendChild(sub);
 
     if (!under.length) {
@@ -615,6 +617,25 @@ function renderSections() {
       });
     }
     gridEl.appendChild(sec);
+
+    var bands = globalUndervalued.sidos[activeSido].bands || [];
+    bands.forEach(function (b) {
+      if (!b.top3 || !b.top3.length) return;
+      var bsec = document.createElement("div");
+      bsec.className = "section";
+      var btitle = document.createElement("h2");
+      btitle.className = "section-title";
+      btitle.textContent = "\uC800\uD3C9\uAC00 TOP3 (\uAC00\uACA9\uB300: " + b.label + ")";
+      bsec.appendChild(btitle);
+      var bsub = document.createElement("p");
+      bsub.className = "section-sub";
+      bsub.textContent = "\uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uAE30\uC900";
+      bsec.appendChild(bsub);
+      b.top3.forEach(function (r, i) {
+        bsec.appendChild(renderUndervaluedItem(r, i));
+      });
+      gridEl.appendChild(bsec);
+    });
   }
 }
 
