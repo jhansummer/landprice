@@ -82,6 +82,13 @@ def recent_avg(series: List[Optional[float]], months: int = 6) -> Optional[float
     return sum(vals) / len(vals)
 
 
+def series_avg(series: List[Optional[float]]) -> Optional[float]:
+    vals = [v for v in series if v is not None]
+    if not vals:
+        return None
+    return sum(vals) / len(vals)
+
+
 def level_similar(a: Optional[float], b: Optional[float], max_ratio: float = 1.30) -> bool:
     if a is None or b is None or a <= 0 or b <= 0:
         return False
@@ -202,6 +209,7 @@ def main() -> None:
                 "series": series,
                 "current_price": current_price,
                 "recent_avg": recent_avg(series, 6),
+                "avg_36": series_avg(series),
                 "trade_count": len(trades_window),
             }
 
@@ -310,6 +318,7 @@ def main() -> None:
                             "area_m2": o["area_m2"],
                             "current_price": o["current_price"],
                             "recent_avg": o["recent_avg"],
+                            "avg_36": o["avg_36"],
                             "corr": round(c, 3),
                             "hist_diff_pct": round(hdiff * 100, 2),
                         }
@@ -321,6 +330,9 @@ def main() -> None:
                     compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
                         1, sum(1 for c in compares if c.get("recent_avg"))
                     )
+                    compare_avg_36 = sum(c["avg_36"] for c in compares if c.get("avg_36")) / max(
+                        1, sum(1 for c in compares if c.get("avg_36"))
+                    )
                     undervalued.append(
                         {
                             "id": m["id"],
@@ -330,7 +342,9 @@ def main() -> None:
                             "area_m2": m["area_m2"],
                             "current_price": m["current_price"],
                             "recent_avg": m["recent_avg"],
+                            "avg_36": m["avg_36"],
                             "compare_avg_recent": compare_avg_recent,
+                            "compare_avg_36": compare_avg_36,
                             "cluster_avg": round(avg_current, 2),
                             "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
                             "trade_count": m["trade_count"],

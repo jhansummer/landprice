@@ -7942,7 +7942,9 @@
           "area_m2": 84.98,
           "current_price": 145750.0,
           "recent_avg": 145541.66666666666,
+          "avg_36": 125318.09523809525,
           "compare_avg_recent": 179909.72222222225,
+          "compare_avg_36": 136637.27805010893,
           "cluster_avg": 219750.19,
           "gap_pct": -33.67,
           "trade_count": 38,
@@ -7956,6 +7958,7 @@
               "area_m2": 53.46,
               "current_price": 172333.33333333334,
               "recent_avg": 175194.44444444447,
+              "avg_36": 137024.50980392154,
               "corr": 0.967,
               "hist_diff_pct": 7.87
             },
@@ -7967,6 +7970,7 @@
               "area_m2": 55.02,
               "current_price": 183500.0,
               "recent_avg": 184625.0,
+              "avg_36": 136250.0462962963,
               "corr": 0.965,
               "hist_diff_pct": 7.93
             }
@@ -7980,7 +7984,9 @@
           "area_m2": 84.854,
           "current_price": 140000.0,
           "recent_avg": 138216.66666666666,
+          "avg_36": 119035.23809523809,
           "compare_avg_recent": 169862.5,
+          "compare_avg_36": 131557.04365079364,
           "cluster_avg": 219750.19,
           "gap_pct": -36.29,
           "trade_count": 15,
@@ -7994,6 +8000,7 @@
               "area_m2": 53.9,
               "current_price": 183000.0,
               "recent_avg": 179083.33333333334,
+              "avg_36": 132631.94444444444,
               "corr": 0.979,
               "hist_diff_pct": 9.41
             },
@@ -8005,6 +8012,7 @@
               "area_m2": 84.975,
               "current_price": 165000.0,
               "recent_avg": 160641.66666666666,
+              "avg_36": 130482.14285714286,
               "corr": 0.979,
               "hist_diff_pct": 8.41
             }
@@ -8018,7 +8026,9 @@
           "area_m2": 65.46,
           "current_price": 86000.0,
           "recent_avg": 84666.66666666667,
+          "avg_36": 74431.81818181818,
           "compare_avg_recent": 103684.72222222222,
+          "compare_avg_36": 78888.43584656084,
           "cluster_avg": 219750.19,
           "gap_pct": -60.86,
           "trade_count": 16,
@@ -8032,6 +8042,7 @@
               "area_m2": 59.65,
               "current_price": 99666.66666666667,
               "recent_avg": 97611.11111111112,
+              "avg_36": 76490.15740740739,
               "corr": 0.982,
               "hist_diff_pct": 4.75
             },
@@ -8043,6 +8054,7 @@
               "area_m2": 46.75,
               "current_price": 113666.66666666667,
               "recent_avg": 109758.33333333333,
+              "avg_36": 81286.71428571428,
               "corr": 0.958,
               "hist_diff_pct": 9.61
             }
@@ -8065,7 +8077,9 @@
               "area_m2": 59.77,
               "current_price": 78000.0,
               "recent_avg": 75652.77777777778,
+              "avg_36": 65233.82352941176,
               "compare_avg_recent": 88217.86616161617,
+              "compare_avg_36": 70766.18949915824,
               "cluster_avg": 219750.19,
               "gap_pct": -64.51,
               "trade_count": 20,
@@ -8079,6 +8093,7 @@
                   "area_m2": 51.44,
                   "current_price": 99000.0,
                   "recent_avg": 92300.0,
+                  "avg_36": 70796.75925925926,
                   "corr": 0.969,
                   "hist_diff_pct": 8.28
                 },
@@ -8090,6 +8105,7 @@
                   "area_m2": 59.99,
                   "current_price": 88725.0,
                   "recent_avg": 84135.73232323233,
+                  "avg_36": 70735.61973905722,
                   "corr": 0.947,
                   "hist_diff_pct": 8.39
                 }
@@ -8103,7 +8119,9 @@
               "area_m2": 49.759,
               "current_price": 71233.33333333333,
               "recent_avg": 69616.66666666666,
+              "avg_36": 65115.15151515151,
               "compare_avg_recent": 79378.97727272728,
+              "compare_avg_36": 69761.14320286195,
               "cluster_avg": 219750.19,
               "gap_pct": -67.58,
               "trade_count": 23,
@@ -8117,6 +8135,7 @@
                   "area_m2": 59.99,
                   "current_price": 88725.0,
                   "recent_avg": 84135.73232323233,
+                  "avg_36": 70735.61973905722,
                   "corr": 0.937,
                   "hist_diff_pct": 8.53
                 },
@@ -8128,6 +8147,7 @@
                   "area_m2": 59.54,
                   "current_price": 74900.0,
                   "recent_avg": 74622.22222222223,
+                  "avg_36": 68786.66666666666,
                   "corr": 0.936,
                   "hist_diff_pct": 5.7
                 }
@@ -8141,7 +8161,9 @@
               "area_m2": 59.74,
               "current_price": 81100.0,
               "recent_avg": 78694.44444444445,
+              "avg_36": 71204.56989247313,
               "compare_avg_recent": 88768.50378787878,
+              "compare_avg_36": 74595.68096641013,
               "cluster_avg": 219750.19,
               "gap_pct": -63.09,
               "trade_count": 37,
@@ -8155,6 +8177,7 @@
                   "area_m2": 59.99,
                   "current_price": 91800.0,
                   "recent_avg": 86703.67424242424,
+                  "avg_36": 73851.36193282026,
                   "corr": 0.961,
                   "hist_diff_pct": 5.22
                 },
@@ -8166,6 +8189,7 @@
                   "area_m2": 59.85,
                   "current_price": 96000.0,
                   "recent_avg": 90833.33333333333,
+                  "avg_36": 75340.0,
                   "corr": 0.959,
                   "hist_diff_pct": 6.75
                 }
@@ -8184,7 +8208,9 @@
               "area_m2": 65.46,
               "current_price": 86000.0,
               "recent_avg": 84666.66666666667,
+              "avg_36": 74431.81818181818,
               "compare_avg_recent": 103684.72222222222,
+              "compare_avg_36": 78888.43584656084,
               "cluster_avg": 219750.19,
               "gap_pct": -60.86,
               "trade_count": 16,
@@ -8198,6 +8224,7 @@
                   "area_m2": 59.65,
                   "current_price": 99666.66666666667,
                   "recent_avg": 97611.11111111112,
+                  "avg_36": 76490.15740740739,
                   "corr": 0.982,
                   "hist_diff_pct": 4.75
                 },
@@ -8209,6 +8236,7 @@
                   "area_m2": 46.75,
                   "current_price": 113666.66666666667,
                   "recent_avg": 109758.33333333333,
+                  "avg_36": 81286.71428571428,
                   "corr": 0.958,
                   "hist_diff_pct": 9.61
                 }
@@ -8222,7 +8250,9 @@
               "area_m2": 84.93,
               "current_price": 103250.0,
               "recent_avg": 101727.7777777778,
+              "avg_36": 89407.4074074074,
               "compare_avg_recent": 122155.55555555556,
+              "compare_avg_36": 92891.5476190476,
               "cluster_avg": 219750.19,
               "gap_pct": -53.01,
               "trade_count": 28,
@@ -8236,6 +8266,7 @@
                   "area_m2": 51.57,
                   "current_price": 134000.0,
                   "recent_avg": 129500.0,
+                  "avg_36": 98108.33333333333,
                   "corr": 0.972,
                   "hist_diff_pct": 7.61
                 },
@@ -8247,6 +8278,7 @@
                   "area_m2": 46.75,
                   "current_price": 120000.0,
                   "recent_avg": 114811.11111111112,
+                  "avg_36": 87674.7619047619,
                   "corr": 0.971,
                   "hist_diff_pct": 9.14
                 }
@@ -8260,7 +8292,9 @@
               "area_m2": 84.61,
               "current_price": 110000.0,
               "recent_avg": 107116.66666666667,
+              "avg_36": 94273.8888888889,
               "compare_avg_recent": 126208.33333333334,
+              "compare_avg_36": 97209.02777777778,
               "cluster_avg": 219750.19,
               "gap_pct": -49.94,
               "trade_count": 23,
@@ -8274,6 +8308,7 @@
                   "area_m2": 59.76,
                   "current_price": 120000.0,
                   "recent_avg": 116666.66666666667,
+                  "avg_36": 92341.66666666667,
                   "corr": 0.948,
                   "hist_diff_pct": 4.88
                 },
@@ -8285,6 +8320,7 @@
                   "area_m2": 59.98,
                   "current_price": 139500.0,
                   "recent_avg": 135750.0,
+                  "avg_36": 102076.38888888889,
                   "corr": 0.946,
                   "hist_diff_pct": 9.54
                 }
@@ -8303,7 +8339,9 @@
               "area_m2": 84.98,
               "current_price": 145750.0,
               "recent_avg": 145541.66666666666,
+              "avg_36": 125318.09523809525,
               "compare_avg_recent": 179909.72222222225,
+              "compare_avg_36": 136637.27805010893,
               "cluster_avg": 219750.19,
               "gap_pct": -33.67,
               "trade_count": 38,
@@ -8317,6 +8355,7 @@
                   "area_m2": 53.46,
                   "current_price": 172333.33333333334,
                   "recent_avg": 175194.44444444447,
+                  "avg_36": 137024.50980392154,
                   "corr": 0.967,
                   "hist_diff_pct": 7.87
                 },
@@ -8328,6 +8367,7 @@
                   "area_m2": 55.02,
                   "current_price": 183500.0,
                   "recent_avg": 184625.0,
+                  "avg_36": 136250.0462962963,
                   "corr": 0.965,
                   "hist_diff_pct": 7.93
                 }
@@ -8341,7 +8381,9 @@
               "area_m2": 84.854,
               "current_price": 140000.0,
               "recent_avg": 138216.66666666666,
+              "avg_36": 119035.23809523809,
               "compare_avg_recent": 169862.5,
+              "compare_avg_36": 131557.04365079364,
               "cluster_avg": 219750.19,
               "gap_pct": -36.29,
               "trade_count": 15,
@@ -8355,6 +8397,7 @@
                   "area_m2": 53.9,
                   "current_price": 183000.0,
                   "recent_avg": 179083.33333333334,
+                  "avg_36": 132631.94444444444,
                   "corr": 0.979,
                   "hist_diff_pct": 9.41
                 },
@@ -8366,6 +8409,7 @@
                   "area_m2": 84.975,
                   "current_price": 165000.0,
                   "recent_avg": 160641.66666666666,
+                  "avg_36": 130482.14285714286,
                   "corr": 0.979,
                   "hist_diff_pct": 8.41
                 }
@@ -8379,7 +8423,9 @@
               "area_m2": 59.82,
               "current_price": 140500.0,
               "recent_avg": 138541.66666666666,
+              "avg_36": 115129.29292929296,
               "compare_avg_recent": 166675.0,
+              "compare_avg_36": 119647.08333333333,
               "cluster_avg": 219750.19,
               "gap_pct": -36.06,
               "trade_count": 30,
@@ -8393,6 +8439,7 @@
                   "area_m2": 59.85,
                   "current_price": 162000.0,
                   "recent_avg": 155975.0,
+                  "avg_36": 120147.22222222222,
                   "corr": 0.973,
                   "hist_diff_pct": 5.44
                 },
@@ -8404,6 +8451,7 @@
                   "area_m2": 39.51,
                   "current_price": 185000.0,
                   "recent_avg": 177375.0,
+                  "avg_36": 119146.94444444444,
                   "corr": 0.968,
                   "hist_diff_pct": 7.64
                 }
@@ -8422,7 +8470,9 @@
               "area_m2": 79.97,
               "current_price": 160750.0,
               "recent_avg": 158958.33333333334,
+              "avg_36": 129435.29411764706,
               "compare_avg_recent": 184402.7777777778,
+              "compare_avg_36": 140175.05952380953,
               "cluster_avg": 219750.19,
               "gap_pct": -26.85,
               "trade_count": 39,
@@ -8436,6 +8486,7 @@
                   "area_m2": 59.99,
                   "current_price": 190000.0,
                   "recent_avg": 186333.33333333334,
+                  "avg_36": 137988.45238095237,
                   "corr": 0.987,
                   "hist_diff_pct": 6.57
                 },
@@ -8447,6 +8498,7 @@
                   "area_m2": 59.85,
                   "current_price": 185500.0,
                   "recent_avg": 182472.22222222225,
+                  "avg_36": 142361.6666666667,
                   "corr": 0.979,
                   "hist_diff_pct": 8.97
                 }
@@ -8460,7 +8512,9 @@
               "area_m2": 84.98,
               "current_price": 151125.0,
               "recent_avg": 150920.83333333334,
+              "avg_36": 139492.96875,
               "compare_avg_recent": 174400.0,
+              "compare_avg_36": 141363.05827886707,
               "cluster_avg": 219750.19,
               "gap_pct": -31.23,
               "trade_count": 18,
@@ -8474,6 +8528,7 @@
                   "area_m2": 84.38,
                   "current_price": 179500.0,
                   "recent_avg": 171966.66666666666,
+                  "avg_36": 143474.26470588235,
                   "corr": 0.969,
                   "hist_diff_pct": 6.1
                 },
@@ -8485,6 +8540,7 @@
                   "area_m2": 59.052,
                   "current_price": 176833.33333333334,
                   "recent_avg": 176833.33333333334,
+                  "avg_36": 139251.8518518518,
                   "corr": 0.967,
                   "hist_diff_pct": 6.89
                 }
@@ -8498,7 +8554,9 @@
               "area_m2": 84.92,
               "current_price": 161000.0,
               "recent_avg": 157795.83333333334,
+              "avg_36": 137736.42857142858,
               "compare_avg_recent": 177715.27777777778,
+              "compare_avg_36": 140616.70634920633,
               "cluster_avg": 219750.19,
               "gap_pct": -26.73,
               "trade_count": 16,
@@ -8512,6 +8570,7 @@
                   "area_m2": 39.53,
                   "current_price": 195000.0,
                   "recent_avg": 174763.8888888889,
+                  "avg_36": 130930.55555555556,
                   "corr": 0.956,
                   "hist_diff_pct": 9.22
                 },
@@ -8523,6 +8582,7 @@
                   "area_m2": 84.9557,
                   "current_price": 186000.0,
                   "recent_avg": 180666.66666666666,
+                  "avg_36": 150302.85714285713,
                   "corr": 0.953,
                   "hist_diff_pct": 8.27
                 }
@@ -10631,7 +10691,9 @@
           "area_m2": 59.997,
           "current_price": 114000.0,
           "recent_avg": 109225.0,
+          "avg_36": 95615.87962962962,
           "compare_avg_recent": 133873.61111111112,
+          "compare_avg_36": 104169.07407407407,
           "cluster_avg": 149597.25,
           "gap_pct": -23.8,
           "trade_count": 53,
@@ -10645,6 +10707,7 @@
               "area_m2": 58.8,
               "current_price": 148166.66666666666,
               "recent_avg": 133397.22222222222,
+              "avg_36": 105783.46064814815,
               "corr": 0.968,
               "hist_diff_pct": 8.79
             },
@@ -10656,6 +10719,7 @@
               "area_m2": 55.42,
               "current_price": 144500.0,
               "recent_avg": 134350.0,
+              "avg_36": 102554.6875,
               "corr": 0.963,
               "hist_diff_pct": 6.66
             }
@@ -10669,7 +10733,9 @@
           "area_m2": 84.94,
           "current_price": 108500.0,
           "recent_avg": 103916.66666666667,
+          "avg_36": 90777.77777777778,
           "compare_avg_recent": 122004.16666666666,
+          "compare_avg_36": 98604.3005952381,
           "cluster_avg": 149597.25,
           "gap_pct": -27.47,
           "trade_count": 16,
@@ -10683,6 +10749,7 @@
               "area_m2": 42.56,
               "current_price": 139000.0,
               "recent_avg": 131125.0,
+              "avg_36": 97680.4761904762,
               "corr": 0.97,
               "hist_diff_pct": 8.32
             },
@@ -10694,6 +10761,7 @@
               "area_m2": 59.9861,
               "current_price": 115900.0,
               "recent_avg": 112883.33333333333,
+              "avg_36": 99528.125,
               "corr": 0.969,
               "hist_diff_pct": 7.75
             }
@@ -10707,7 +10775,9 @@
           "area_m2": 82.95,
           "current_price": 60900.0,
           "recent_avg": 59950.0,
+          "avg_36": 55332.25806451613,
           "compare_avg_recent": 69808.33333333334,
+          "compare_avg_36": 56786.4914021164,
           "cluster_avg": 149597.25,
           "gap_pct": -59.29,
           "trade_count": 16,
@@ -10721,6 +10791,7 @@
               "area_m2": 39.754,
               "current_price": 69000.0,
               "recent_avg": 64512.5,
+              "avg_36": 53837.26851851851,
               "corr": 0.906,
               "hist_diff_pct": 4.66
             },
@@ -10732,6 +10803,7 @@
               "area_m2": 49.67,
               "current_price": 80000.0,
               "recent_avg": 75104.16666666667,
+              "avg_36": 59735.71428571428,
               "corr": 0.9,
               "hist_diff_pct": 7.92
             }
@@ -10754,7 +10826,9 @@
               "area_m2": 82.95,
               "current_price": 60900.0,
               "recent_avg": 59950.0,
+              "avg_36": 55332.25806451613,
               "compare_avg_recent": 69808.33333333334,
+              "compare_avg_36": 56786.4914021164,
               "cluster_avg": 149597.25,
               "gap_pct": -59.29,
               "trade_count": 16,
@@ -10768,6 +10842,7 @@
                   "area_m2": 39.754,
                   "current_price": 69000.0,
                   "recent_avg": 64512.5,
+                  "avg_36": 53837.26851851851,
                   "corr": 0.906,
                   "hist_diff_pct": 4.66
                 },
@@ -10779,6 +10854,7 @@
                   "area_m2": 49.67,
                   "current_price": 80000.0,
                   "recent_avg": 75104.16666666667,
+                  "avg_36": 59735.71428571428,
                   "corr": 0.9,
                   "hist_diff_pct": 7.92
                 }
@@ -10792,7 +10868,9 @@
               "area_m2": 70.01,
               "current_price": 73900.0,
               "recent_avg": 73716.66666666667,
+              "avg_36": 69192.7238095238,
               "compare_avg_recent": 84838.88888888889,
+              "compare_avg_36": 74552.79139433551,
               "cluster_avg": 149597.25,
               "gap_pct": -50.6,
               "trade_count": 16,
@@ -10806,6 +10884,7 @@
                   "area_m2": 59.3,
                   "current_price": 85200.0,
                   "recent_avg": 84683.33333333333,
+                  "avg_36": 74605.09259259257,
                   "corr": 0.943,
                   "hist_diff_pct": 7.21
                 },
@@ -10817,6 +10896,7 @@
                   "area_m2": 59.98,
                   "current_price": 87000.0,
                   "recent_avg": 84994.44444444445,
+                  "avg_36": 74500.49019607843,
                   "corr": 0.94,
                   "hist_diff_pct": 6.79
                 }
@@ -10830,7 +10910,9 @@
               "area_m2": 59.972,
               "current_price": 84000.0,
               "recent_avg": 78958.33333333333,
+              "avg_36": 67032.85714285714,
               "compare_avg_recent": 89425.13888888889,
+              "compare_avg_36": 70037.2797230003,
               "cluster_avg": 149597.25,
               "gap_pct": -43.85,
               "trade_count": 20,
@@ -10844,6 +10926,7 @@
                   "area_m2": 49.67,
                   "current_price": 99072.0,
                   "recent_avg": 96526.66666666667,
+                  "avg_36": 73393.53431372548,
                   "corr": 0.967,
                   "hist_diff_pct": 7.53
                 },
@@ -10855,6 +10938,7 @@
                   "area_m2": 59.97,
                   "current_price": 83500.0,
                   "recent_avg": 82323.61111111111,
+                  "avg_36": 66681.02513227513,
                   "corr": 0.96,
                   "hist_diff_pct": 3.14
                 }
@@ -10873,7 +10957,9 @@
               "area_m2": 59.997,
               "current_price": 114000.0,
               "recent_avg": 109225.0,
+              "avg_36": 95615.87962962962,
               "compare_avg_recent": 133873.61111111112,
+              "compare_avg_36": 104169.07407407407,
               "cluster_avg": 149597.25,
               "gap_pct": -23.8,
               "trade_count": 53,
@@ -10887,6 +10973,7 @@
                   "area_m2": 58.8,
                   "current_price": 148166.66666666666,
                   "recent_avg": 133397.22222222222,
+                  "avg_36": 105783.46064814815,
                   "corr": 0.968,
                   "hist_diff_pct": 8.79
                 },
@@ -10898,6 +10985,7 @@
                   "area_m2": 55.42,
                   "current_price": 144500.0,
                   "recent_avg": 134350.0,
+                  "avg_36": 102554.6875,
                   "corr": 0.963,
                   "hist_diff_pct": 6.66
                 }
@@ -10911,7 +10999,9 @@
               "area_m2": 84.94,
               "current_price": 108500.0,
               "recent_avg": 103916.66666666667,
+              "avg_36": 90777.77777777778,
               "compare_avg_recent": 122004.16666666666,
+              "compare_avg_36": 98604.3005952381,
               "cluster_avg": 149597.25,
               "gap_pct": -27.47,
               "trade_count": 16,
@@ -10925,6 +11015,7 @@
                   "area_m2": 42.56,
                   "current_price": 139000.0,
                   "recent_avg": 131125.0,
+                  "avg_36": 97680.4761904762,
                   "corr": 0.97,
                   "hist_diff_pct": 8.32
                 },
@@ -10936,6 +11027,7 @@
                   "area_m2": 59.9861,
                   "current_price": 115900.0,
                   "recent_avg": 112883.33333333333,
+                  "avg_36": 99528.125,
                   "corr": 0.969,
                   "hist_diff_pct": 7.75
                 }
@@ -10949,7 +11041,9 @@
               "area_m2": 84.75,
               "current_price": 118000.0,
               "recent_avg": 115694.44444444445,
+              "avg_36": 99601.90476190476,
               "compare_avg_recent": 132284.1666666667,
+              "compare_avg_36": 108497.25418871253,
               "cluster_avg": 149597.25,
               "gap_pct": -21.12,
               "trade_count": 24,
@@ -10963,6 +11057,7 @@
                   "area_m2": 51.89,
                   "current_price": 149250.0,
                   "recent_avg": 142083.33333333334,
+                  "avg_36": 109872.93430335096,
                   "corr": 0.971,
                   "hist_diff_pct": 9.17
                 },
@@ -10974,6 +11069,7 @@
                   "area_m2": 84.8152,
                   "current_price": 124000.0,
                   "recent_avg": 122485.0,
+                  "avg_36": 107121.57407407409,
                   "corr": 0.969,
                   "hist_diff_pct": 7.21
                 }
@@ -11116,7 +11212,9 @@
           "area_m2": 18.285,
           "current_price": 5500.0,
           "recent_avg": 5500.0,
+          "avg_36": 5900.0,
           "compare_avg_recent": 5600.0,
+          "compare_avg_36": 6022.222222222223,
           "cluster_avg": 8500.0,
           "gap_pct": -35.29,
           "trade_count": 15,
@@ -11130,6 +11228,7 @@
               "area_m2": 18.615,
               "current_price": 5600.0,
               "recent_avg": 5600.0,
+              "avg_36": 6022.222222222223,
               "corr": 1.0,
               "hist_diff_pct": 2.01
             }
@@ -11143,7 +11242,9 @@
           "area_m2": 18.615,
           "current_price": 5600.0,
           "recent_avg": 5600.0,
+          "avg_36": 6022.222222222223,
           "compare_avg_recent": 5500.0,
+          "compare_avg_36": 5900.0,
           "cluster_avg": 8500.0,
           "gap_pct": -34.12,
           "trade_count": 18,
@@ -11157,6 +11258,7 @@
               "area_m2": 18.285,
               "current_price": 5500.0,
               "recent_avg": 5500.0,
+              "avg_36": 5900.0,
               "corr": 1.0,
               "hist_diff_pct": 2.05
             }
@@ -11175,7 +11277,9 @@
               "area_m2": 18.285,
               "current_price": 5500.0,
               "recent_avg": 5500.0,
+              "avg_36": 5900.0,
               "compare_avg_recent": 5600.0,
+              "compare_avg_36": 6022.222222222223,
               "cluster_avg": 8500.0,
               "gap_pct": -35.29,
               "trade_count": 15,
@@ -11189,6 +11293,7 @@
                   "area_m2": 18.615,
                   "current_price": 5600.0,
                   "recent_avg": 5600.0,
+                  "avg_36": 6022.222222222223,
                   "corr": 1.0,
                   "hist_diff_pct": 2.01
                 }
@@ -11202,7 +11307,9 @@
               "area_m2": 18.615,
               "current_price": 5600.0,
               "recent_avg": 5600.0,
+              "avg_36": 6022.222222222223,
               "compare_avg_recent": 5500.0,
+              "compare_avg_36": 5900.0,
               "cluster_avg": 8500.0,
               "gap_pct": -34.12,
               "trade_count": 18,
@@ -11216,6 +11323,7 @@
                   "area_m2": 18.285,
                   "current_price": 5500.0,
                   "recent_avg": 5500.0,
+                  "avg_36": 5900.0,
                   "corr": 1.0,
                   "hist_diff_pct": 2.05
                 }

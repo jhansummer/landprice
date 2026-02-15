@@ -182,6 +182,15 @@ function renderItem(r, idx) {
   diff.className = "rank-diff";
   diff.textContent = "비교평균 " + fmt(Math.round(r.compare_avg_recent)) + "만";
   change.appendChild(diff);
+  const ratio36 = (r.avg_36 && r.compare_avg_36)
+    ? ((r.avg_36 / r.compare_avg_36 - 1) * 100)
+    : null;
+  const diff36 = document.createElement("div");
+  diff36.className = "rank-diff";
+  diff36.textContent = (ratio36 !== null)
+    ? ("최근3년 비교평균 대비 " + ratio36.toFixed(1) + "%")
+    : "최근3년 비교평균 대비 -";
+  change.appendChild(diff36);
   top.appendChild(change);
 
   content.appendChild(top);
