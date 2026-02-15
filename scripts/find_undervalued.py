@@ -257,6 +257,7 @@ def main() -> None:
         visited = [False] * n
         clusters = []
         undervalued = []
+        band_candidates = []
 
         for i in range(n):
             if visited[i]:
@@ -312,79 +313,94 @@ def main() -> None:
             clusters.append(cluster)
 
             for m in members:
-                if m["current_price"] <= (1.0 - args.gap) * avg_current:
-                    # Pick up to 2 compare units: most similar price series
-                    sims = []
-                    for other in members:
-                        if other["id"] == m["id"]:
-                            continue
-                        corr = series_corr(m["series"], other["series"], sp["min_valid"])
-                        if corr is None:
-                            continue
-                        hist_diff = mean_abs_pct_diff(m["series"], other["series"])
-                        if hist_diff is None or hist_diff > 0.10:
-                            continue
-                        if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
-                            continue
-                        sims.append((corr, hist_diff, other))
-
-                    sims.sort(key=lambda x: (-x[0], x[1]))
-                    compares = [
-                        {
-                            "id": o["id"],
-                            "apt_name": o["apt_name"],
-                            "sigungu": o["sigungu"],
-                            "dong_name": o["dong_name"],
-                            "area_m2": o["area_m2"],
-                            "current_price": o["current_price"],
-                            "recent_avg": o["recent_avg"],
-                            "avg_36": o["avg_36"],
-                            "corr": round(c, 3),
-                            "hist_diff_pct": round(hdiff * 100, 2),
-                        }
-                        for c, hdiff, o in sims[:2]
-                    ]
-
-                    if not compares:
+                # Find up to 2 compare units: most similar price series
+                sims = []
+                for other in members:
+                    if other["id"] == m["id"]:
                         continue
-                    compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
-                        1, sum(1 for c in compares if c.get("recent_avg"))
-                    )
-                    compare_avg_36 = sum(c["avg_36"] for c in compares if c.get("avg_36")) / max(
-                        1, sum(1 for c in compares if c.get("avg_36"))
-                    )
-                    undervalued.append(
-                        {
-                            "id": m["id"],
-                            "apt_name": m["apt_name"],
-                            "sigungu": m["sigungu"],
-                            "dong_name": m["dong_name"],
-                            "area_m2": m["area_m2"],
-                            "current_price": m["current_price"],
-                            "recent_avg": m["recent_avg"],
-                            "avg_36": m["avg_36"],
-                            "compare_avg_recent": compare_avg_recent,
-                            "compare_avg_36": compare_avg_36,
-                            "cluster_avg": round(avg_current, 2),
-                            "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
-                            "trade_count": m["trade_count"],
-                            "cluster_size": len(members),
-                            "compare": compares,
-                        }
-                    )
+                    corr = series_corr(m["series"], other["series"], sp["min_valid"])
+                    if corr is None:
+                        continue
+                    hist_diff = mean_abs_pct_diff(m["series"], other["series"])
+                    if hist_diff is None or hist_diff > 0.10:
+                        continue
+                    if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
+                        continue
+                    sims.append((corr, hist_diff, other))
+
+                if not sims:
+                    continue
+
+                sims.sort(key=lambda x: (-x[0], x[1]))
+                compares = [
+                    {
+                        "id": o["id"],
+                        "apt_name": o["apt_name"],
+                        "sigungu": o["sigungu"],
+                        "dong_name": o["dong_name"],
+                        "area_m2": o["area_m2"],
+                        "current_price": o["current_price"],
+                        "recent_avg": o["recent_avg"],
+                        "avg_36": o["avg_36"],
+                        "corr": round(c, 3),
+                        "hist_diff_pct": round(hdiff * 100, 2),
+                    }
+                    for c, hdiff, o in sims[:2]
+                ]
+
+                compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
+                    1, sum(1 for c in compares if c.get("recent_avg"))
+                )
+                compare_avg_36 = sum(c["avg_36"] for c in compares if c.get("avg_36")) / max(
+                    1, sum(1 for c in compares if c.get("avg_36"))
+                )
+
+                # Skip if not undervalued vs compare peers
+                if m["recent_avg"] is None or compare_avg_recent <= 0:
+                    continue
+                ratio = m["recent_avg"] / compare_avg_recent
+                if ratio >= 1.0:
+                    continue
+
+                entry = {
+                    "id": m["id"],
+                    "apt_name": m["apt_name"],
+                    "sigungu": m["sigungu"],
+                    "dong_name": m["dong_name"],
+                    "area_m2": m["area_m2"],
+                    "current_price": m["current_price"],
+                    "recent_avg": m["recent_avg"],
+                    "avg_36": m["avg_36"],
+                    "compare_avg_recent": compare_avg_recent,
+                    "compare_avg_36": compare_avg_36,
+                    "cluster_avg": round(avg_current, 2),
+                    "gap_pct": round((ratio - 1) * 100, 2),
+                    "trade_count": m["trade_count"],
+                    "cluster_size": len(members),
+                    "compare": compares,
+                }
+
+                # Overall undervalued: strict gap vs cluster average
+                if m["current_price"] <= (1.0 - args.gap) * avg_current:
+                    undervalued.append(entry)
+
+                # Band-level candidates: any peer-undervalued member
+                band_candidates.append(entry)
 
         undervalued = [u for u in undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
         undervalued.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
 
+        # Band-level: use all peer-undervalued candidates (not just cluster-avg gated)
+        band_candidates.sort(key=lambda x: (x["recent_avg"] / x["compare_avg_recent"]))
         bands_out = []
         for label, low, high in bands:
             if high is None:
-                items = [u for u in undervalued if u["recent_avg"] >= low]
+                b_items = [u for u in band_candidates if u["recent_avg"] >= low]
             else:
-                items = [u for u in undervalued if low <= u["recent_avg"] < high]
+                b_items = [u for u in band_candidates if low <= u["recent_avg"] < high]
             bands_out.append({
                 "label": label,
-                "top3": items[:3],
+                "top3": b_items[:3],
             })
 
         output["sidos"][sido] = {
