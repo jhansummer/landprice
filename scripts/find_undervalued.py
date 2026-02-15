@@ -190,6 +190,19 @@ def main() -> None:
 
             members = [series_map[keys[idx]] for idx in comp]
             avg_current = sum(m["current_price"] for m in members) / len(members)
+            # Precompute representative compare candidates (highest current price)
+            compare_sorted = sorted(members, key=lambda x: x["current_price"], reverse=True)
+            compare_list = [
+                {
+                    "id": m["id"],
+                    "apt_name": m["apt_name"],
+                    "sigungu": m["sigungu"],
+                    "dong_name": m["dong_name"],
+                    "area_m2": m["area_m2"],
+                }
+                for m in compare_sorted
+            ]
+
             cluster = {
                 "size": len(members),
                 "avg_current_price": round(avg_current, 2),
@@ -210,6 +223,8 @@ def main() -> None:
 
             for m in members:
                 if m["current_price"] <= (1.0 - args.gap) * avg_current:
+                    # Pick up to 2 compare units excluding self
+                    compares = [c for c in compare_list if c["id"] != m["id"]][:2]
                     undervalued.append(
                         {
                             "id": m["id"],
@@ -222,11 +237,12 @@ def main() -> None:
                             "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
                             "trade_count": m["trade_count"],
                             "cluster_size": len(members),
+                            "compare": compares,
                         }
                     )
 
         undervalued.sort(key=lambda x: x["gap_pct"])
-        output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued}
+        output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued[:3]}
 
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Saved: {OUT_PATH}")

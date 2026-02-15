@@ -194,6 +194,105 @@ function drawScatter(canvas, history) {
   ctx.fill();
 }
 
+function drawMultiScatter(canvas, seriesList) {
+  if (!seriesList || !seriesList.length) return;
+
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width * dpr;
+  var h = rect.height * dpr;
+  canvas.width = w;
+  canvas.height = h;
+
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 8, right: 12, bottom: 22, left: 42 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var allPoints = [];
+  seriesList.forEach(function (s) {
+    var pts = s.history.map(function (p) {
+      var d = new Date(p[0]);
+      return { t: d.getTime(), price: p[1] };
+    });
+    s._points = pts;
+    allPoints = allPoints.concat(pts);
+  });
+
+  if (!allPoints.length) return;
+
+  var minT = Math.min.apply(null, allPoints.map(function (p) { return p.t; }));
+  var maxT = Math.max.apply(null, allPoints.map(function (p) { return p.t; }));
+  if (minT === maxT) { maxT = minT + 86400000; }
+
+  var prices = allPoints.map(function (p) { return p.price; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.05;
+
+  function xPos(t) { return pad.left + ((t - minT) / (maxT - minT)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  ctx.strokeStyle = "#e8e0d4";
+  ctx.lineWidth = 0.5;
+  for (var i = 0; i <= 3; i++) {
+    var gy = pad.top + (plotH / 3) * i;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, gy);
+    ctx.lineTo(pad.left + plotW, gy);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = "#9a9590";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  for (var i = 0; i <= 3; i++) {
+    var val = minP + ((maxP - minP) / 3) * (3 - i);
+    var label = (val / 10000).toFixed(1) + "\uc5b5";
+    var ly = pad.top + (plotH / 3) * i;
+    ctx.fillText(label, pad.left - 4, ly);
+  }
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  var xLabels = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  for (var li = 0; li < xLabels.length; li++) {
+    var xt = new Date(xLabels[li], 0, 1).getTime();
+    if (xt < minT || xt > maxT) continue;
+    var shortY = String(xLabels[li]).slice(2);
+    ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
+  }
+
+  var colors = ["#1a6f5a", "#2a6f97", "#b56576"];
+  seriesList.forEach(function (s, idx) {
+    var pts = s._points || [];
+    if (pts.length < 2) return;
+    ctx.strokeStyle = colors[idx % colors.length];
+    ctx.lineWidth = 1.2;
+    ctx.globalAlpha = 0.7;
+    ctx.beginPath();
+    for (var i = 0; i < pts.length; i++) {
+      var px = xPos(pts[i].t);
+      var py = yPos(pts[i].price);
+      if (i === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
+    }
+    ctx.stroke();
+
+    var last = pts[pts.length - 1];
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = colors[idx % colors.length];
+    ctx.beginPath();
+    ctx.arc(xPos(last.t), yPos(last.price), 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
 function renderRankedItem(r, idx) {
   var card = document.createElement("div");
   card.className = "rank-card";
@@ -524,23 +623,39 @@ function showDetail(r) {
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // history 로드
-  fetch("data/apt_trade/by_apt/" + r.id + ".json")
-    .then(function (res) {
-      if (!res.ok) throw new Error("not found");
-      return res.json();
-    })
-    .then(function (history) {
+  var compare = (r.compare || []).slice(0, 2);
+  var targets = [{ id: r.id, name: r.apt_name }].concat(compare.map(function (c) {
+    return { id: c.id, name: c.apt_name };
+  }));
+
+  Promise.all(targets.map(function (t) {
+    return fetch("data/apt_trade/by_apt/" + t.id + ".json")
+      .then(function (res) {
+        if (!res.ok) throw new Error("not found");
+        return res.json();
+      })
+      .then(function (history) { return { name: t.name, history: history }; });
+  }))
+    .then(function (seriesList) {
       body.innerHTML = "";
 
       // 차트
-      if (history.length > 1) {
+      var baseHistory = seriesList[0] ? seriesList[0].history : [];
+      if (baseHistory.length > 1) {
         var chartDiv = document.createElement("div");
         chartDiv.className = "scatter-chart modal-chart";
         var canvas = document.createElement("canvas");
         chartDiv.appendChild(canvas);
         body.appendChild(chartDiv);
-        requestAnimationFrame(function () { drawScatter(canvas, history); });
+        requestAnimationFrame(function () { drawMultiScatter(canvas, seriesList); });
+      }
+
+      // 범례
+      if (seriesList.length > 1) {
+        var legend = document.createElement("div");
+        legend.className = "rank-detail";
+        legend.textContent = "\uBE44\uAD50: " + seriesList.map(function (s) { return s.name; }).join(" \u00b7 ");
+        body.appendChild(legend);
       }
 
       // 거래 테이블
@@ -550,12 +665,12 @@ function showDetail(r) {
       thead.innerHTML = "<tr><th>\uB0A0\uC9DC</th><th>\uAC00\uACA9(\uB9CC)</th></tr>";
       table.appendChild(thead);
       var tbody = document.createElement("tbody");
-      for (var i = history.length - 1; i >= 0; i--) {
+      for (var i = baseHistory.length - 1; i >= 0; i--) {
         var tr = document.createElement("tr");
         var tdDate = document.createElement("td");
-        tdDate.textContent = history[i][0];
+        tdDate.textContent = baseHistory[i][0];
         var tdPrice = document.createElement("td");
-        tdPrice.textContent = fmt(history[i][1]);
+        tdPrice.textContent = fmt(baseHistory[i][1]);
         tr.appendChild(tdDate);
         tr.appendChild(tdPrice);
         tbody.appendChild(tr);
