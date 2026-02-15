@@ -624,8 +624,8 @@ function showDetail(r) {
   document.body.appendChild(overlay);
 
   var compare = (r.compare || []).slice(0, 2);
-  var targets = [{ id: r.id, name: r.apt_name }].concat(compare.map(function (c) {
-    return { id: c.id, name: c.apt_name };
+  var targets = [{ id: r.id, name: r.apt_name, price: r.current_price }].concat(compare.map(function (c) {
+    return { id: c.id, name: c.apt_name, price: c.current_price };
   }));
 
   Promise.all(targets.map(function (t) {
@@ -654,7 +654,29 @@ function showDetail(r) {
       if (seriesList.length > 1) {
         var legend = document.createElement("div");
         legend.className = "rank-detail";
-        legend.textContent = "\uBE44\uAD50: " + seriesList.map(function (s) { return s.name; }).join(" \u00b7 ");
+        var colors = ["#1a6f5a", "#2a6f97", "#b56576"];
+        seriesList.forEach(function (s, idx) {
+          var wrap = document.createElement("span");
+          wrap.style.display = "inline-flex";
+          wrap.style.alignItems = "center";
+          wrap.style.gap = "6px";
+          wrap.style.marginRight = "10px";
+
+          var dot = document.createElement("span");
+          dot.style.display = "inline-block";
+          dot.style.width = "8px";
+          dot.style.height = "8px";
+          dot.style.borderRadius = "50%";
+          dot.style.background = colors[idx % colors.length];
+          wrap.appendChild(dot);
+
+          var label = document.createElement("span");
+          var priceText = (s.price != null) ? (" (현재 " + fmt(Math.round(s.price)) + "만)") : "";
+          label.textContent = s.name + priceText;
+          wrap.appendChild(label);
+
+          legend.appendChild(wrap);
+        });
         body.appendChild(legend);
       }
 

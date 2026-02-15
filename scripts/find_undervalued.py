@@ -44,6 +44,15 @@ def pearson_corr(a: List[float], b: List[float]) -> Optional[float]:
     return cov / math.sqrt(var_a * var_b)
 
 
+def series_corr(sa: List[Optional[float]], sb: List[Optional[float]], min_valid: int) -> Optional[float]:
+    paired = [(a, b) for a, b in zip(sa, sb) if a is not None and b is not None]
+    if len(paired) < min_valid:
+        return None
+    aa = [p[0] for p in paired]
+    bb = [p[1] for p in paired]
+    return pearson_corr(aa, bb)
+
+
 def forward_fill(values: List[Optional[float]]) -> List[Optional[float]]:
     out: List[Optional[float]] = []
     last: Optional[float] = None
@@ -199,6 +208,7 @@ def main() -> None:
                     "sigungu": m["sigungu"],
                     "dong_name": m["dong_name"],
                     "area_m2": m["area_m2"],
+                    "current_price": m["current_price"],
                 }
                 for m in compare_sorted
             ]
@@ -223,8 +233,28 @@ def main() -> None:
 
             for m in members:
                 if m["current_price"] <= (1.0 - args.gap) * avg_current:
-                    # Pick up to 2 compare units excluding self
-                    compares = [c for c in compare_list if c["id"] != m["id"]][:2]
+                    # Pick up to 2 most similar series within cluster (highest correlation)
+                    sims = []
+                    for other in members:
+                        if other["id"] == m["id"]:
+                            continue
+                        corr = series_corr(m["series"], other["series"], args.min_valid)
+                        if corr is None:
+                            continue
+                        sims.append((corr, other))
+                    sims.sort(key=lambda x: x[0], reverse=True)
+                    compares = [
+                        {
+                            "id": o["id"],
+                            "apt_name": o["apt_name"],
+                            "sigungu": o["sigungu"],
+                            "dong_name": o["dong_name"],
+                            "area_m2": o["area_m2"],
+                            "current_price": o["current_price"],
+                            "corr": round(c, 3),
+                        }
+                        for c, o in sims[:2]
+                    ]
                     undervalued.append(
                         {
                             "id": m["id"],
