@@ -74,6 +74,14 @@ def mean_recent_gap(sa: List[Optional[float]], sb: List[Optional[float]], recent
     return abs(ma - mb) / mb
 
 
+def recent_avg(series: List[Optional[float]], months: int = 6) -> Optional[float]:
+    tail = series[-months:]
+    vals = [v for v in tail if v is not None]
+    if not vals:
+        return None
+    return sum(vals) / len(vals)
+
+
 def forward_fill(values: List[Optional[float]]) -> List[Optional[float]]:
     out: List[Optional[float]] = []
     last: Optional[float] = None
@@ -172,6 +180,7 @@ def main() -> None:
                 "district": item.get("district", ""),
                 "series": series,
                 "current_price": current_price,
+                "recent_avg": recent_avg(series, 6),
                 "trade_count": len(trades_window),
             }
 
@@ -220,8 +229,8 @@ def main() -> None:
 
             members = [series_map[keys[idx]] for idx in comp]
             avg_current = sum(m["current_price"] for m in members) / len(members)
-            # Precompute representative compare candidates (highest current price)
-            compare_sorted = sorted(members, key=lambda x: x["current_price"], reverse=True)
+            # Precompute representative compare candidates (highest recent avg)
+            compare_sorted = sorted(members, key=lambda x: x["recent_avg"] or 0, reverse=True)
             compare_list = [
                 {
                     "id": m["id"],
@@ -230,6 +239,7 @@ def main() -> None:
                     "dong_name": m["dong_name"],
                     "area_m2": m["area_m2"],
                     "current_price": m["current_price"],
+                    "recent_avg": m["recent_avg"],
                 }
                 for m in compare_sorted
             ]
@@ -254,44 +264,20 @@ def main() -> None:
 
             for m in members:
                 if m["current_price"] <= (1.0 - args.gap) * avg_current:
-                    # Pick up to 2 compare units: similar history, but recent 3~6 months diverged
+                    # Pick up to 2 compare units: most similar price series
                     sims = []
                     for other in members:
                         if other["id"] == m["id"]:
                             continue
-                        # history similarity excluding recent 6 months
-                        hist_a = m["series"][:-6]
-                        hist_b = other["series"][:-6]
-                        corr = series_corr(hist_a, hist_b, max(18, args.min_valid - 6))
+                        corr = series_corr(m["series"], other["series"], args.min_valid)
                         if corr is None:
                             continue
-                        hist_diff = mean_abs_pct_diff(hist_a, hist_b)
-                        if hist_diff is None or hist_diff > 0.08:
+                        hist_diff = mean_abs_pct_diff(m["series"], other["series"])
+                        if hist_diff is None or hist_diff > 0.10:
                             continue
-                        recent_gap = mean_recent_gap(m["series"], other["series"], 6)
-                        if recent_gap is None or recent_gap < 0.10:
-                            continue
-                        sims.append((corr, hist_diff, recent_gap, other, False))
+                        sims.append((corr, hist_diff, other))
 
-                    if not sims:
-                        # Fallback: choose most similar history even if recent gap is small
-                        for other in members:
-                            if other["id"] == m["id"]:
-                                continue
-                            hist_a = m["series"][:-6]
-                            hist_b = other["series"][:-6]
-                            corr = series_corr(hist_a, hist_b, max(18, args.min_valid - 6))
-                            if corr is None:
-                                continue
-                            hist_diff = mean_abs_pct_diff(hist_a, hist_b)
-                            if hist_diff is None or hist_diff > 0.08:
-                                continue
-                            recent_gap = mean_recent_gap(m["series"], other["series"], 6)
-                            if recent_gap is None:
-                                continue
-                            sims.append((corr, hist_diff, recent_gap, other, True))
-
-                    sims.sort(key=lambda x: (-x[0], x[1], -x[2]))
+                    sims.sort(key=lambda x: (-x[0], x[1]))
                     compares = [
                         {
                             "id": o["id"],
@@ -300,12 +286,11 @@ def main() -> None:
                             "dong_name": o["dong_name"],
                             "area_m2": o["area_m2"],
                             "current_price": o["current_price"],
+                            "recent_avg": o["recent_avg"],
                             "corr": round(c, 3),
                             "hist_diff_pct": round(hdiff * 100, 2),
-                            "gap_pct": round(gap * 100, 2),
-                            "relaxed": relaxed,
                         }
-                        for c, hdiff, gap, o, relaxed in sims[:2]
+                        for c, hdiff, o in sims[:2]
                     ]
                     undervalued.append(
                         {
@@ -315,6 +300,7 @@ def main() -> None:
                             "dong_name": m["dong_name"],
                             "area_m2": m["area_m2"],
                             "current_price": m["current_price"],
+                            "recent_avg": m["recent_avg"],
                             "cluster_avg": round(avg_current, 2),
                             "gap_pct": round((m["current_price"] / avg_current - 1) * 100, 2),
                             "trade_count": m["trade_count"],
@@ -323,7 +309,8 @@ def main() -> None:
                         }
                     )
 
-        undervalued.sort(key=lambda x: x["gap_pct"])
+        undervalued = [u for u in undervalued if u.get("recent_avg") is not None]
+        undervalued.sort(key=lambda x: x["recent_avg"])
         output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued[:3]}
 
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")

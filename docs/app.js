@@ -446,21 +446,21 @@ function renderUndervaluedItem(r, idx) {
     var sum = 0;
     var cnt = 0;
     r.compare.forEach(function (c) {
-      if (c.current_price) { sum += c.current_price; cnt++; }
+      if (c.recent_avg) { sum += c.recent_avg; cnt++; }
     });
     if (cnt > 0) compareAvg = sum / cnt;
   }
   var baseAvg = compareAvg || r.cluster_avg;
-  var gapPct = baseAvg ? ((r.current_price / baseAvg - 1) * 100) : r.gap_pct;
-  pctEl.textContent = gapPct.toFixed(2) + "%";
-  pctEl.style.color = "var(--down)";
+  var gapPct = (r.recent_avg && baseAvg) ? ((r.recent_avg / baseAvg - 1) * 100) : r.gap_pct;
+  pctEl.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg || r.current_price)) + "만";
+  pctEl.style.color = "var(--ink)";
   change.appendChild(pctEl);
   var diffEl = document.createElement("div");
   diffEl.className = "rank-diff";
   if (baseAvg) {
-    diffEl.textContent = fmt(Math.round(r.current_price)) + " \u2192 " + fmt(Math.round(baseAvg)) + "\uB9CC";
+    diffEl.textContent = "비교평균 " + fmt(Math.round(baseAvg)) + "만";
   } else {
-    diffEl.textContent = fmt(Math.round(r.current_price)) + "\uB9CC";
+    diffEl.textContent = "";
   }
   change.appendChild(diffEl);
   top.appendChild(change);
