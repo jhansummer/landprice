@@ -441,12 +441,27 @@ function renderUndervaluedItem(r, idx) {
   change.className = "rank-change";
   var pctEl = document.createElement("div");
   pctEl.className = "rank-pct";
-  pctEl.textContent = r.gap_pct + "%";
+  var compareAvg = null;
+  if (r.compare && r.compare.length) {
+    var sum = 0;
+    var cnt = 0;
+    r.compare.forEach(function (c) {
+      if (c.current_price) { sum += c.current_price; cnt++; }
+    });
+    if (cnt > 0) compareAvg = sum / cnt;
+  }
+  var baseAvg = compareAvg || r.cluster_avg;
+  var gapPct = baseAvg ? ((r.current_price / baseAvg - 1) * 100) : r.gap_pct;
+  pctEl.textContent = gapPct.toFixed(2) + "%";
   pctEl.style.color = "var(--down)";
   change.appendChild(pctEl);
   var diffEl = document.createElement("div");
   diffEl.className = "rank-diff";
-  diffEl.textContent = fmt(Math.round(r.current_price)) + " \u2192 " + fmt(Math.round(r.cluster_avg)) + "\uB9CC";
+  if (baseAvg) {
+    diffEl.textContent = fmt(Math.round(r.current_price)) + " \u2192 " + fmt(Math.round(baseAvg)) + "\uB9CC";
+  } else {
+    diffEl.textContent = fmt(Math.round(r.current_price)) + "\uB9CC";
+  }
   change.appendChild(diffEl);
   top.appendChild(change);
 
@@ -454,7 +469,16 @@ function renderUndervaluedItem(r, idx) {
 
   var meta = document.createElement("div");
   meta.className = "rank-detail";
-  meta.textContent = "\uAC70\uB798\uB7C9 3\uB144 " + r.trade_count + "\uAC74 \u00B7 \uD074\uB7EC\uC2A4\uD130 " + r.cluster_size + "\uB2E8\uC9C0";
+  var metaText = "\uAC70\uB798\uB7C9 3\uB144 " + r.trade_count + "\uAC74";
+  if (r.compare && r.compare.length) {
+    var names = r.compare.map(function (c) {
+      return c.apt_name + "(" + c.sigungu + " " + c.dong_name + ")";
+    });
+    metaText += " \u00B7 \uBE44\uAD50: " + names.join(" \u00B7 ");
+  } else {
+    metaText += " \u00B7 \uD074\uB7EC\uC2A4\uD130 " + r.cluster_size + "\uB2E8\uC9C0";
+  }
+  meta.textContent = metaText;
   content.appendChild(meta);
 
   card.appendChild(content);
@@ -637,8 +661,8 @@ function showDetail(r) {
   document.body.appendChild(overlay);
 
   var compare = (r.compare || []).slice(0, 2);
-  var targets = [{ id: r.id, name: r.apt_name, price: r.current_price }].concat(compare.map(function (c) {
-    return { id: c.id, name: c.apt_name, price: c.current_price };
+  var targets = [{ id: r.id, name: r.apt_name, price: r.current_price, region: r.sigungu + " " + r.dong_name }].concat(compare.map(function (c) {
+    return { id: c.id, name: c.apt_name, price: c.current_price, region: c.sigungu + " " + c.dong_name };
   }));
 
   Promise.all(targets.map(function (t) {
@@ -647,7 +671,7 @@ function showDetail(r) {
         if (!res.ok) throw new Error("not found");
         return res.json();
       })
-      .then(function (history) { return { name: t.name, history: history }; });
+      .then(function (history) { return { name: t.name, history: history, price: t.price, region: t.region }; });
   }))
     .then(function (seriesList) {
       body.innerHTML = "";
@@ -685,7 +709,8 @@ function showDetail(r) {
 
           var label = document.createElement("span");
           var priceText = (s.price != null) ? (" (현재 " + fmt(Math.round(s.price)) + "만)") : "";
-          label.textContent = s.name + priceText;
+          var regionText = s.region ? (" \u00B7 " + s.region) : "";
+          label.textContent = s.name + regionText + priceText;
           wrap.appendChild(label);
 
           legend.appendChild(wrap);
