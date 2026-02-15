@@ -53,7 +53,11 @@ function renderItem(r, idx) {
   change.className = "rank-change";
   const pct = document.createElement("div");
   pct.className = "rank-pct";
-  pct.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg)) + "만";
+  const ratio = (r.recent_avg && r.compare_avg_recent)
+    ? ((r.recent_avg / r.compare_avg_recent - 1) * 100)
+    : null;
+  const ratioText = (ratio !== null) ? (" · " + ratio.toFixed(1) + "%") : "";
+  pct.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg)) + "만" + ratioText;
   change.appendChild(pct);
   const diff = document.createElement("div");
   diff.className = "rank-diff";
