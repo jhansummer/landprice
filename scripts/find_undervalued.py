@@ -53,6 +53,27 @@ def series_corr(sa: List[Optional[float]], sb: List[Optional[float]], min_valid:
     return pearson_corr(aa, bb)
 
 
+def mean_abs_pct_diff(sa: List[Optional[float]], sb: List[Optional[float]]) -> Optional[float]:
+    paired = [(a, b) for a, b in zip(sa, sb) if a is not None and b is not None and b != 0]
+    if not paired:
+        return None
+    diffs = [abs(a - b) / b for a, b in paired]
+    return sum(diffs) / len(diffs)
+
+
+def mean_recent_gap(sa: List[Optional[float]], sb: List[Optional[float]], recent_months: int = 6) -> Optional[float]:
+    ra = sa[-recent_months:]
+    rb = sb[-recent_months:]
+    paired = [(a, b) for a, b in zip(ra, rb) if a is not None and b is not None and b != 0]
+    if len(paired) < 3:
+        return None
+    ma = sum(p[0] for p in paired) / len(paired)
+    mb = sum(p[1] for p in paired) / len(paired)
+    if mb == 0:
+        return None
+    return abs(ma - mb) / mb
+
+
 def forward_fill(values: List[Optional[float]]) -> List[Optional[float]]:
     out: List[Optional[float]] = []
     last: Optional[float] = None
@@ -233,16 +254,44 @@ def main() -> None:
 
             for m in members:
                 if m["current_price"] <= (1.0 - args.gap) * avg_current:
-                    # Pick up to 2 most similar series within cluster (highest correlation)
+                    # Pick up to 2 compare units: similar history, but recent 3~6 months diverged
                     sims = []
                     for other in members:
                         if other["id"] == m["id"]:
                             continue
-                        corr = series_corr(m["series"], other["series"], args.min_valid)
+                        # history similarity excluding recent 6 months
+                        hist_a = m["series"][:-6]
+                        hist_b = other["series"][:-6]
+                        corr = series_corr(hist_a, hist_b, max(18, args.min_valid - 6))
                         if corr is None:
                             continue
-                        sims.append((corr, other))
-                    sims.sort(key=lambda x: x[0], reverse=True)
+                        hist_diff = mean_abs_pct_diff(hist_a, hist_b)
+                        if hist_diff is None or hist_diff > 0.08:
+                            continue
+                        recent_gap = mean_recent_gap(m["series"], other["series"], 6)
+                        if recent_gap is None or recent_gap < 0.10:
+                            continue
+                        sims.append((corr, hist_diff, recent_gap, other, False))
+
+                    if not sims:
+                        # Fallback: choose most similar history even if recent gap is small
+                        for other in members:
+                            if other["id"] == m["id"]:
+                                continue
+                            hist_a = m["series"][:-6]
+                            hist_b = other["series"][:-6]
+                            corr = series_corr(hist_a, hist_b, max(18, args.min_valid - 6))
+                            if corr is None:
+                                continue
+                            hist_diff = mean_abs_pct_diff(hist_a, hist_b)
+                            if hist_diff is None or hist_diff > 0.08:
+                                continue
+                            recent_gap = mean_recent_gap(m["series"], other["series"], 6)
+                            if recent_gap is None:
+                                continue
+                            sims.append((corr, hist_diff, recent_gap, other, True))
+
+                    sims.sort(key=lambda x: (-x[0], x[1], -x[2]))
                     compares = [
                         {
                             "id": o["id"],
@@ -252,8 +301,11 @@ def main() -> None:
                             "area_m2": o["area_m2"],
                             "current_price": o["current_price"],
                             "corr": round(c, 3),
+                            "hist_diff_pct": round(hdiff * 100, 2),
+                            "gap_pct": round(gap * 100, 2),
+                            "relaxed": relaxed,
                         }
-                        for c, o in sims[:2]
+                        for c, hdiff, gap, o, relaxed in sims[:2]
                     ]
                     undervalued.append(
                         {

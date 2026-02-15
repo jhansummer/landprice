@@ -374,7 +374,7 @@ function renderRankedItem(r, idx) {
 
     var detailBtn = document.createElement("button");
     detailBtn.className = "detail-btn";
-    detailBtn.textContent = "\uC2DC\uC138 \uC790\uC138\uD788\uBCF4\uAE30";
+    detailBtn.textContent = "\uC790\uC138\uD788";
     detailBtn.addEventListener("click", function (e) {
       e.stopPropagation();
       showDetail(r);

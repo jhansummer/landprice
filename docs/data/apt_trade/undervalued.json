@@ -5964,22 +5964,28 @@
           "cluster_size": 659,
           "compare": [
             {
-              "id": "d0cb106e54",
-              "apt_name": "아크로타워스퀘어",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동7가",
-              "area_m2": 59.7,
-              "current_price": 170000.0,
-              "corr": 0.976
+              "id": "bf4ec3d226",
+              "apt_name": "쌍용",
+              "sigungu": "동대문구",
+              "dong_name": "이문동",
+              "area_m2": 59.99,
+              "current_price": 88725.0,
+              "corr": 0.905,
+              "hist_diff_pct": 6.61,
+              "gap_pct": 17.26,
+              "relaxed": false
             },
             {
-              "id": "e5bed8cc5a",
-              "apt_name": "마곡13단지힐스테이트마스터",
-              "sigungu": "강서구",
-              "dong_name": "마곡동",
-              "area_m2": 59.9825,
-              "current_price": 144875.0,
-              "corr": 0.972
+              "id": "cc069abcb9",
+              "apt_name": "우성",
+              "sigungu": "강동구",
+              "dong_name": "천호동",
+              "area_m2": 51.44,
+              "current_price": 99000.0,
+              "corr": 0.885,
+              "hist_diff_pct": 6.49,
+              "gap_pct": 24.58,
+              "relaxed": false
             }
           ]
         },
@@ -5996,22 +6002,28 @@
           "cluster_size": 659,
           "compare": [
             {
-              "id": "af259c4880",
-              "apt_name": "트리지움",
-              "sigungu": "송파구",
-              "dong_name": "잠실동",
-              "area_m2": 59.88,
-              "current_price": 293500.0,
-              "corr": 0.98
+              "id": "cc069abcb9",
+              "apt_name": "우성",
+              "sigungu": "강동구",
+              "dong_name": "천호동",
+              "area_m2": 51.44,
+              "current_price": 99000.0,
+              "corr": 0.922,
+              "hist_diff_pct": 6.71,
+              "gap_pct": 20.61,
+              "relaxed": false
             },
             {
-              "id": "4c9097f482",
-              "apt_name": "목동신시가지3",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 64.98,
-              "current_price": 245750.0,
-              "corr": 0.979
+              "id": "bf4ec3d226",
+              "apt_name": "쌍용",
+              "sigungu": "동대문구",
+              "dong_name": "이문동",
+              "area_m2": 59.99,
+              "current_price": 88725.0,
+              "corr": 0.92,
+              "hist_diff_pct": 3.68,
+              "gap_pct": 12.91,
+              "relaxed": false
             }
           ]
         },
@@ -6028,22 +6040,28 @@
           "cluster_size": 659,
           "compare": [
             {
-              "id": "9543ecc02c",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 59.98,
-              "current_price": 380000.0,
-              "corr": 0.977
+              "id": "cc069abcb9",
+              "apt_name": "우성",
+              "sigungu": "강동구",
+              "dong_name": "천호동",
+              "area_m2": 51.44,
+              "current_price": 99000.0,
+              "corr": 0.964,
+              "hist_diff_pct": 5.26,
+              "gap_pct": 19.15,
+              "relaxed": false
             },
             {
-              "id": "a107018b66",
-              "apt_name": "개포래미안포레스트",
-              "sigungu": "강남구",
-              "dong_name": "개포동",
-              "area_m2": 74.66,
-              "current_price": 314000.0,
-              "corr": 0.977
+              "id": "46ffcba063",
+              "apt_name": "관악드림(삼성)",
+              "sigungu": "관악구",
+              "dong_name": "봉천동",
+              "area_m2": 59.85,
+              "current_price": 95850.0,
+              "corr": 0.932,
+              "hist_diff_pct": 7.14,
+              "gap_pct": 17.83,
+              "relaxed": false
             }
           ]
         }
@@ -7606,26 +7624,7 @@
           "gap_pct": -76.11,
           "trade_count": 28,
           "cluster_size": 155,
-          "compare": [
-            {
-              "id": "5d0c5efeee",
-              "apt_name": "주공5",
-              "sigungu": "과천시",
-              "dong_name": "별양동",
-              "area_m2": 103.64,
-              "current_price": 277000.0,
-              "corr": 0.973
-            },
-            {
-              "id": "8db2c9cbfc",
-              "apt_name": "백현마을2단지",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 84.5,
-              "current_price": 209500.0,
-              "corr": 0.952
-            }
-          ]
+          "compare": []
         },
         {
           "id": "9f24fc750c",
@@ -7640,22 +7639,28 @@
           "cluster_size": 155,
           "compare": [
             {
-              "id": "f1429723ce",
-              "apt_name": "주공10",
-              "sigungu": "과천시",
-              "dong_name": "중앙동",
-              "area_m2": 124.45,
-              "current_price": 356725.0,
-              "corr": 0.986
+              "id": "9da248e35b",
+              "apt_name": "무지개(12단지)(주공뜨란체)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 49.67,
+              "current_price": 80000.0,
+              "corr": 0.81,
+              "hist_diff_pct": 5.45,
+              "gap_pct": 18.18,
+              "relaxed": false
             },
             {
-              "id": "d9caa99264",
-              "apt_name": "래미안슈르",
-              "sigungu": "과천시",
-              "dong_name": "원문동",
-              "area_m2": 84.946,
-              "current_price": 221500.0,
-              "corr": 0.974
+              "id": "1a841b6716",
+              "apt_name": "양지마을(5단지)(한양501-514)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 28.16,
+              "current_price": 95400.0,
+              "corr": 0.648,
+              "hist_diff_pct": 5.55,
+              "gap_pct": 32.52,
+              "relaxed": false
             }
           ]
         },
@@ -7672,22 +7677,16 @@
           "cluster_size": 155,
           "compare": [
             {
-              "id": "32291a5e37",
-              "apt_name": "미사강변루나리움",
-              "sigungu": "하남시",
-              "dong_name": "망월동",
-              "area_m2": 59.84,
-              "current_price": 105000.0,
-              "corr": 0.97
-            },
-            {
-              "id": "3ceaacddd1",
-              "apt_name": "구리역한양수자인리버시티",
-              "sigungu": "구리시",
-              "dong_name": "수택동",
-              "area_m2": 59.9935,
-              "current_price": 92585.71428571429,
-              "corr": 0.963
+              "id": "1a841b6716",
+              "apt_name": "양지마을(5단지)(한양501-514)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 28.16,
+              "current_price": 95400.0,
+              "corr": 0.412,
+              "hist_diff_pct": 6.55,
+              "gap_pct": 29.16,
+              "relaxed": false
             }
           ]
         }
