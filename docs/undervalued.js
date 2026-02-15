@@ -235,7 +235,14 @@ async function toggleCompare(card, r) {
   legend.className = "compare-legend";
   panel.appendChild(legend);
 
+  const loading = document.createElement("div");
+  loading.className = "rank-detail";
+  loading.textContent = "로딩 중...";
+  panel.appendChild(loading);
+
   const ids = [r.id].concat((r.compare || []).map(function (c) { return c.id; }));
+  card.appendChild(panel);
+
   const txnsList = await Promise.all(ids.map(loadTxns));
 
   const seriesList = ids.map(function (id, i) {
@@ -260,7 +267,11 @@ async function toggleCompare(card, r) {
     };
   });
 
-  drawMultiSeries(canvas, seriesList);
+  loading.remove();
+
+  requestAnimationFrame(function () {
+    drawMultiSeries(canvas, seriesList);
+  });
 
   seriesList.forEach(function (s) {
     const item = document.createElement("div");
@@ -280,8 +291,6 @@ async function toggleCompare(card, r) {
 
     legend.appendChild(item);
   });
-
-  card.appendChild(panel);
 }
 
 function renderSection(title, sub, items) {
