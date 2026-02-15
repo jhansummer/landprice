@@ -79,10 +79,10 @@ def load_txns(apt_id: str) -> List[List]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--corr", type=float, default=0.90, help="Pearson correlation threshold")
+    ap.add_argument("--corr", type=float, default=0.97, help="Pearson correlation threshold")
     ap.add_argument("--months", type=int, default=36, help="Months window")
     ap.add_argument("--min-trades", type=int, default=20, help="Min trades in window")
-    ap.add_argument("--min-valid", type=int, default=24, help="Min non-empty months after fill")
+    ap.add_argument("--min-valid", type=int, default=30, help="Min non-empty months after fill")
     ap.add_argument("--gap", type=float, default=0.20, help="Undervalued gap (20% => 0.20)")
     args = ap.parse_args()
 
@@ -225,6 +225,7 @@ def main() -> None:
                         }
                     )
 
+        undervalued.sort(key=lambda x: x["gap_pct"])
         output["sidos"][sido] = {"clusters": clusters, "undervalued": undervalued}
 
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")

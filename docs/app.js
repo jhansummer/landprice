@@ -298,6 +298,10 @@ function renderRankedItem(r, idx) {
 function renderUndervaluedItem(r, idx) {
   var card = document.createElement("div");
   card.className = "rank-card";
+  card.style.cursor = "pointer";
+  card.addEventListener("click", function () {
+    showDetail(r);
+  });
 
   var num = document.createElement("span");
   var nClass = idx < 3 ? " n" + (idx + 1) : "";
