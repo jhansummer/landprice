@@ -363,30 +363,26 @@ function renderRankedItem(r, idx) {
   diffEl.className = "rank-diff";
   diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
   changeEl.appendChild(diffEl);
+  var detailBtn = document.createElement("button");
+  detailBtn.className = "detail-btn";
+  detailBtn.textContent = "\uC790\uC138\uD788";
+  detailBtn.style.marginTop = "6px";
+  detailBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    showDetail(r);
+  });
+  changeEl.appendChild(detailBtn);
   top.appendChild(changeEl);
 
   content.appendChild(top);
 
   // Scatter chart
   if (r.history && r.history.length > 1) {
-    var chartRow = document.createElement("div");
-    chartRow.className = "chart-row";
-
-    var detailBtn = document.createElement("button");
-    detailBtn.className = "detail-btn";
-    detailBtn.textContent = "\uC790\uC138\uD788";
-    detailBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      showDetail(r);
-    });
-    chartRow.appendChild(detailBtn);
-
     var chartDiv = document.createElement("div");
     chartDiv.className = "scatter-chart";
     var canvas = document.createElement("canvas");
     chartDiv.appendChild(canvas);
-    chartRow.appendChild(chartDiv);
-    content.appendChild(chartRow);
+    content.appendChild(chartDiv);
 
     // Draw after DOM insertion
     requestAnimationFrame(function () {
@@ -573,6 +569,11 @@ function renderFilters() {
   undervalLink.className = "search-link-btn";
   undervalLink.textContent = "\uC800\uD3C9\uAC00 TOP3";
   filtersEl.appendChild(undervalLink);
+
+  var mainLink = document.createElement("span");
+  mainLink.className = "search-link-btn active";
+  mainLink.textContent = "\uBA54\uC778";
+  filtersEl.insertBefore(mainLink, searchLink);
 }
 
 function renderSections() {

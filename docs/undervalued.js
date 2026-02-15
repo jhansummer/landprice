@@ -149,7 +149,7 @@ function renderItem(r, idx) {
   card.className = "rank-card";
 
   const num = document.createElement("div");
-  num.className = "rank-num";
+  num.className = "rank-num" + (idx < 3 ? " n" + (idx + 1) : "");
   num.textContent = idx + 1;
   card.appendChild(num);
 
@@ -170,27 +170,48 @@ function renderItem(r, idx) {
 
   const change = document.createElement("div");
   change.className = "rank-change";
-  const pct = document.createElement("div");
-  pct.className = "rank-pct";
-  const ratio = (r.recent_avg && r.compare_avg_recent)
+
+  const ratio6 = (r.recent_avg && r.compare_avg_recent)
     ? ((r.recent_avg / r.compare_avg_recent - 1) * 100)
     : null;
-  const ratioText = (ratio !== null) ? (" · " + ratio.toFixed(1) + "%") : "";
-  pct.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg)) + "만" + ratioText;
-  change.appendChild(pct);
-  const diff = document.createElement("div");
-  diff.className = "rank-diff";
-  diff.textContent = "비교평균 " + fmt(Math.round(r.compare_avg_recent)) + "만";
-  change.appendChild(diff);
   const ratio36 = (r.avg_36 && r.compare_avg_36)
     ? ((r.avg_36 / r.compare_avg_36 - 1) * 100)
     : null;
+
+  // 최근 6개월 행
+  const pct = document.createElement("div");
+  pct.className = "rank-pct";
+  pct.innerHTML = "\uCD5C\uADFC6\uAC1C\uC6D4 " + fmt(Math.round(r.recent_avg)) + "\uB9CC"
+    + (ratio6 !== null ? " <span class=\"pct-value\">" + ratio6.toFixed(1) + "%</span>" : "");
+  change.appendChild(pct);
+
+  // 비교평균 행
+  const diff = document.createElement("div");
+  diff.className = "rank-diff";
+  diff.textContent = "\uBE44\uAD50\uD3C9\uADE0 " + fmt(Math.round(r.compare_avg_recent)) + "\uB9CC";
+  change.appendChild(diff);
+
+  // 최근 3년 행 - 6개월과 비교
   const diff36 = document.createElement("div");
   diff36.className = "rank-diff";
-  diff36.textContent = (ratio36 !== null)
-    ? ("최근3년 비교평균 대비 " + ratio36.toFixed(1) + "%")
-    : "최근3년 비교평균 대비 -";
+  diff36.style.marginTop = "6px";
+  if (ratio36 !== null && ratio6 !== null) {
+    var arrow = (ratio36 > ratio6) ? "\u25B2" : (ratio36 < ratio6) ? "\u25BC" : "";
+    diff36.innerHTML = "\uCD5C\uADFC3\uB144 \uBE44\uAD50\uD3C9\uADE0 \uB300\uBE44 <span class=\"pct-value\">" + ratio36.toFixed(1) + "%</span>"
+      + (arrow ? " <span style=\"font-size:10px;color:" + (ratio36 > ratio6 ? "var(--up)" : "var(--down)") + "\">" + arrow + "</span>" : "");
+  } else {
+    diff36.textContent = "\uCD5C\uADFC3\uB144 \uBE44\uAD50\uD3C9\uADE0 \uB300\uBE44 -";
+  }
   change.appendChild(diff36);
+  var detailBtn = document.createElement("button");
+  detailBtn.className = "detail-btn";
+  detailBtn.textContent = "\uC790\uC138\uD788";
+  detailBtn.style.marginTop = "6px";
+  detailBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleCompare(card, r);
+  });
+  change.appendChild(detailBtn);
   top.appendChild(change);
 
   content.appendChild(top);

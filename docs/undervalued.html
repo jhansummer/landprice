@@ -8,41 +8,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600;700&family=Inter:wght@400;500;600;700&family=Nanum+Gothic:wght@400;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --paper: #fbf8f2;
-      --ink: #1d1b18;
+    :root {
+      --bg: #f6f1e8;
+      --ink: #1c1b19;
+      --accent: #1a6f5a;
+      --paper: #ffffff;
       --muted: #6e6a63;
       --line: #d8cfc1;
-      --accent: #8c3b1f;
-      --bg: #f4efe8;
-      --up: #1f6f52;
-      --down: #c0392b;
-      --font-title: "Playfair Display", serif;
-      --font-body: "Nanum Gothic", "Inter", sans-serif;
+      --up: #d63a3a;
+      --down: #2563eb;
+      --gold: #b8860b;
+      --silver: #6e6a63;
+      --bronze: #8b5e3c;
+      --font-title: "Playfair Display", "Eczar", "Georgia", serif;
+      --font-body: "Inter", "Nanum Gothic", "Helvetica Neue", sans-serif;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: var(--font-body);
       color: var(--ink);
-      background: var(--bg);
+      background: radial-gradient(circle at 10% 10%, #f9f3e7, #efe4d6 50%, #e9dccb);
     }
     header {
+      padding: 32px 20px 16px;
       text-align: center;
-      padding: 32px 20px 12px;
     }
     h1 {
+      margin: 0 0 8px;
       font-family: var(--font-title);
       font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.5px;
       color: var(--accent);
-      margin: 0 0 8px;
     }
-    .sub {
-      color: var(--muted);
-      font-size: 12px;
+    header p {
       margin: 0;
+      color: var(--muted);
     }
     .filter-bar {
       max-width: 1200px;
@@ -82,50 +84,66 @@
     }
     .tabs {
       display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
+      gap: 6px;
       padding: 0 20px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
       border: 1px solid var(--line);
+      border-radius: 20px;
       background: var(--paper);
-      padding: 6px 14px;
-      border-radius: 999px;
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      font-size: 13px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
     }
-    .tab-btn.active {
+    .tab-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
       font-weight: 700;
     }
     .wrap {
-      max-width: 1080px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 16px 40px;
+      padding: 0 20px 40px;
     }
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 16px 18px;
-      margin-bottom: 16px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
       box-shadow: 0 6px 20px rgba(28, 27, 25, 0.06);
     }
     .section-title {
       font-family: var(--font-title);
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 700;
       margin: 0 0 4px;
     }
     .section-sub {
-      color: var(--muted);
       font-size: 12px;
-      margin: 0 0 10px;
+      color: var(--muted);
+      margin: 0 0 16px;
     }
     .rank-card {
       display: grid;
-      grid-template-columns: 26px 1fr;
+      grid-template-columns: 30px 1fr;
       gap: 10px;
       padding: 14px 0;
       border-bottom: 1px solid var(--line);
@@ -134,19 +152,25 @@
     .rank-card:last-child { border-bottom: none; }
     .rank-num {
       font-family: var(--font-title);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
+      line-height: 1.2;
     }
+    .rank-num.n1 { color: var(--gold); }
+    .rank-num.n2 { color: var(--silver); }
+    .rank-num.n3 { color: var(--bronze); }
     .rank-top {
       display: flex;
       justify-content: space-between;
       gap: 8px;
     }
     .rank-apt { font-weight: 700; font-size: 14px; }
-    .rank-detail { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.8; }
+    .rank-detail { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
     .rank-change { text-align: right; white-space: nowrap; }
-    .rank-pct { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-    .rank-diff { font-size: 11px; color: var(--muted); }
+    .rank-pct { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .rank-pct .pct-value { color: var(--down); font-weight: 700; }
+    .rank-diff { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+    .rank-diff .pct-value { color: var(--down); font-weight: 600; }
     .compare-panel {
       grid-column: 2 / -1;
       background: #fff;
@@ -184,13 +208,46 @@
       border-radius: 50%;
       flex-shrink: 0;
     }
+    .detail-btn {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 4px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      line-height: 1.2;
+      transition: all 0.15s ease;
+    }
+    .detail-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
     .no-data { font-size: 12px; color: var(--muted); padding: 6px 0; }
+    @media (max-width: 720px) {
+      h1 { font-size: 26px; }
+      .tabs { padding: 0 16px 10px; gap: 4px; }
+      .tab-btn { padding: 6px 14px; font-size: 13px; }
+      .section { padding: 14px 16px; }
+      .rank-apt {
+        font-size: 13px;
+        line-height: 1.35;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>아파트 실거래가 APT Mine</h1>
-    <p class="sub">출처 : 국토교통부 실거래가</p>
+    <p>출처 : 국토교통부 실거래가</p>
   </header>
   <nav id="tabs" class="tabs"></nav>
   <div class="filter-bar">

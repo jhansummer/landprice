@@ -189,6 +189,11 @@
       background: var(--accent);
       color: #fff;
     }
+    .search-link-btn.active {
+      background: var(--accent);
+      color: #fff;
+      cursor: default;
+    }
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -271,21 +276,22 @@
       margin-top: 10px;
     }
     .detail-btn {
-      background: transparent;
-      border: 1px solid #e2d9cd;
-      color: #6e6a63;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--muted);
       font-family: var(--font-body);
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 600;
       border-radius: 999px;
-      padding: 1px 5px;
+      padding: 4px 10px;
       cursor: pointer;
       white-space: nowrap;
-      line-height: 1;
+      line-height: 1.2;
+      transition: all 0.15s ease;
     }
     .detail-btn:hover {
-      border-color: #b9ad9c;
-      color: #4a463f;
+      border-color: var(--accent);
+      color: var(--accent);
     }
     .scatter-chart canvas {
       width: 100%;

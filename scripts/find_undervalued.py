@@ -160,6 +160,24 @@ def main() -> None:
         ("50억 이상", 500000, None),
     ]
 
+    # Region-specific parameters: relaxed for non-Seoul/Gyeonggi regions
+    RELAXED_SIDOS = {"부산", "대구", "인천", "광주", "대전", "울산", "세종"}
+
+    def sido_params(sido: str):
+        if sido in RELAXED_SIDOS:
+            return {
+                "corr": min(args.corr, 0.93),
+                "min_trades": min(args.min_trades, 10),
+                "min_valid": min(args.min_valid, 20),
+                "min_cluster": 2,
+            }
+        return {
+            "corr": args.corr,
+            "min_trades": args.min_trades,
+            "min_valid": args.min_valid,
+            "min_cluster": 3,
+        }
+
     output = {
         "updated_at": summary.get("updated_at"),
         "current_month": current_month,
@@ -171,11 +189,13 @@ def main() -> None:
             "undervalued_gap": args.gap,
             "region_level": "sido",
             "bands": [b[0] for b in bands],
+            "relaxed_sidos": sorted(RELAXED_SIDOS),
         },
         "sidos": {},
     }
 
     for sido in search.get("sidos", {}).keys():
+        sp = sido_params(sido)
         items = search["sidos"][sido]["items"]
         series_map: Dict[str, Dict] = {}
 
@@ -187,11 +207,11 @@ def main() -> None:
 
             # trades in last N months
             trades_window = [t for t in txns if parse_month(t[0]) in months]
-            if len(trades_window) < args.min_trades:
+            if len(trades_window) < sp["min_trades"]:
                 continue
 
             series, valid = build_series(txns, months)
-            if valid < args.min_valid:
+            if valid < sp["min_valid"]:
                 continue
 
             current_price = series[-1]
@@ -225,12 +245,12 @@ def main() -> None:
             for j in range(i + 1, n):
                 sj = series_map[keys[j]]["series"]
                 paired: List[Tuple[float, float]] = [(a, b) for a, b in zip(si, sj) if a is not None and b is not None]
-                if len(paired) < args.min_valid:
+                if len(paired) < sp["min_valid"]:
                     continue
                 ai = [p[0] for p in paired]
                 bj = [p[1] for p in paired]
                 corr = pearson_corr(ai, bj)
-                if corr is not None and corr >= args.corr:
+                if corr is not None and corr >= sp["corr"]:
                     adj[i].append(j)
                     adj[j].append(i)
 
@@ -253,7 +273,7 @@ def main() -> None:
                         visited[nb] = True
                         stack.append(nb)
 
-            if len(comp) < 3:
+            if len(comp) < sp["min_cluster"]:
                 continue
 
             members = [series_map[keys[idx]] for idx in comp]
@@ -298,7 +318,7 @@ def main() -> None:
                     for other in members:
                         if other["id"] == m["id"]:
                             continue
-                        corr = series_corr(m["series"], other["series"], args.min_valid)
+                        corr = series_corr(m["series"], other["series"], sp["min_valid"])
                         if corr is None:
                             continue
                         hist_diff = mean_abs_pct_diff(m["series"], other["series"])
