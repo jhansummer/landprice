@@ -3,6 +3,9 @@ name: Refresh Apt Trade Data
 on:
   schedule:
     - cron: "15 0 * * *"
+    - cron: "15 6 * * *"
+    - cron: "15 12 * * *"
+    - cron: "15 18 * * *"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +32,7 @@ jobs:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
           MONTHS_KEPT: "84"
           REFRESH_MONTHS: "3"
+          RENT_REFRESH_MONTHS: "6"
         run: |
           python scripts/fetch_apt_trade.py
       - name: Find undervalued apartments

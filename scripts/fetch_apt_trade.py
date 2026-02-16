@@ -1035,9 +1035,12 @@ def main() -> int:
 
     print(f"Done trade: fetched={fetched}, skipped={skipped}, errors={errors}", flush=True)
 
-    # 전세 데이터 fetch (최근 12개월만)
+    # 전세 데이터 fetch (RENT_MONTHS_KEPT=84 전체 범위, 리프레시는 RENT_REFRESH_MONTHS만)
+    rent_refresh_months = int(os.getenv("RENT_REFRESH_MONTHS", "6"))
     rent_months = month_list(RENT_MONTHS_KEPT)
+    rent_refresh_set = set(month_list(rent_refresh_months))
     rent_fetched = 0
+    rent_skipped = 0
     rent_errors = 0
     rent_consecutive_errors = 0
     rent_rate_limited = False
@@ -1051,11 +1054,13 @@ def main() -> int:
             out_path = rent_dir / f"{deal_ym}.json"
             name = lawd_name(lawd_cd)
 
-            # 이번달/지난달만 리프레시, 나머지는 있으면 스킵
-            if out_path.exists() and deal_ym not in refresh_set:
+            # 파일 있고 리프레시 대상 아니면 스킵
+            if out_path.exists() and deal_ym not in rent_refresh_set:
+                rent_skipped += 1
                 continue
 
             if rent_rate_limited:
+                rent_skipped += 1
                 continue
 
             print(f"[rent {rent_done}/{total_rent_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
@@ -1074,7 +1079,7 @@ def main() -> int:
                 write_json(out_path, rent_recs)
                 rent_fetched += 1
 
-    print(f"Done rent: fetched={rent_fetched}, errors={rent_errors}", flush=True)
+    print(f"Done rent: fetched={rent_fetched}, skipped={rent_skipped}, errors={rent_errors}", flush=True)
 
     # 리프레시 후 신규 거래 수집
     new_records: List[Dict[str, object]] = []
