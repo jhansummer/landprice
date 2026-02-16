@@ -198,6 +198,25 @@
     .dong-stat-bar-wrap { height: 16px; background: #f0ebe3; border-radius: 3px; overflow: hidden; }
     .dong-stat-bar { height: 100%; background: var(--accent); border-radius: 3px; min-width: 2px; }
     .dong-stat-val { text-align: right; color: var(--muted); font-size: 11px; white-space: nowrap; }
+    /* 시도 전체: 구 라벨 포함 넓은 행 */
+    .dong-stat-row-wide {
+      grid-template-columns: 50px 70px 1fr 100px;
+    }
+    .dong-stat-district {
+      font-size: 10px; font-weight: 700;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    /* 구 범례 */
+    .dong-legend {
+      display: flex; flex-wrap: wrap; gap: 6px 12px;
+      margin-bottom: 14px; font-size: 11px; color: var(--muted);
+    }
+    .dong-legend-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .dong-legend-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
     /* 전세가율 */
     .jeonse-ratio-big {
       font-size: 32px; font-weight: 800; color: var(--accent);
@@ -209,6 +228,8 @@
       .tab-btn { padding: 6px 14px; font-size: 13px; }
       .section { padding: 14px 16px; }
       .dong-stat-row { grid-template-columns: 60px 1fr 90px; }
+      .dong-stat-row-wide { grid-template-columns: 40px 55px 1fr 80px; }
+      .dong-stat-district { font-size: 9px; }
     }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -243,6 +264,6 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="regional.js?v=1"></script>
+  <script src="regional.js?v=2"></script>
 </body>
 </html>

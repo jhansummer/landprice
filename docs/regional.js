@@ -192,7 +192,20 @@ function renderTrendSection(trendData, title) {
   return sec;
 }
 
-/* ── 동네별 시세 비교 ── */
+/* ── 구별 색상 팔레트 ── */
+var DIST_COLORS = [
+  "#1a6f5a", "#2a6f97", "#b56576", "#e07a3a", "#6a4c93",
+  "#2d6a4f", "#457b9d", "#e63946", "#f4a261", "#7209b7",
+  "#264653", "#e76f51", "#3a86ff", "#8338ec", "#06d6a0",
+  "#118ab2", "#ef476f", "#ffd166", "#073b4c", "#84a59d",
+  "#d4a373", "#588157", "#bc6c25", "#6c757d", "#495057"
+];
+
+function getDistColor(idx) {
+  return DIST_COLORS[idx % DIST_COLORS.length];
+}
+
+/* ── 동네별 시세 비교 (단일 구) ── */
 function renderDongStats(dongStats, title) {
   if (!dongStats || !dongStats.length) return null;
   var sec = document.createElement("div");
@@ -223,6 +236,98 @@ function renderDongStats(dongStats, title) {
     bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
     barWrap.appendChild(bar);
     row.appendChild(barWrap);
+    var valEl = document.createElement("span");
+    valEl.className = "dong-stat-val";
+    valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "\uAC74)";
+    row.appendChild(valEl);
+    table.appendChild(row);
+  });
+  sec.appendChild(table);
+  return sec;
+}
+
+/* ── 동네별 시세 비교 (시도 전체 — 모든 구의 동을 합쳐서 구별 색상 구분) ── */
+function renderAllDongStats(sidoData, title) {
+  if (!sidoData || !sidoData.districts) return null;
+  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+
+  // 구별 색상 매핑 + 전체 동 데이터 합치기
+  var distColorMap = {};
+  var allDongs = [];
+  distOrder.forEach(function (distName, idx) {
+    var dist = sidoData.districts[distName];
+    if (!dist || !dist.dong_stats) return;
+    distColorMap[distName] = getDistColor(idx);
+    dist.dong_stats.forEach(function (d) {
+      allDongs.push({
+        dong_name: d.dong_name,
+        avg_per_m2: d.avg_per_m2,
+        txn_count: d.txn_count,
+        district: distName,
+        color: getDistColor(idx)
+      });
+    });
+  });
+
+  if (!allDongs.length) return null;
+
+  // 가격 내림차순 정렬
+  allDongs.sort(function (a, b) { return b.avg_per_m2 - a.avg_per_m2; });
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uCD5C\uADFC 3\uAC1C\uC6D4 \uAC70\uB798 \uAE30\uC900 \u00B7 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 (\uB9CC\uC6D0) \u00B7 \uAD6C\uBCC4 \uC0C9\uC0C1 \uAD6C\uBD84";
+  sec.appendChild(sub);
+
+  // 범례
+  var legend = document.createElement("div");
+  legend.className = "dong-legend";
+  distOrder.forEach(function (distName, idx) {
+    if (!sidoData.districts[distName] || !sidoData.districts[distName].dong_stats) return;
+    var chip = document.createElement("span");
+    chip.className = "dong-legend-chip";
+    var dot = document.createElement("span");
+    dot.className = "dong-legend-dot";
+    dot.style.background = getDistColor(idx);
+    chip.appendChild(dot);
+    chip.appendChild(document.createTextNode(distName));
+    legend.appendChild(chip);
+  });
+  sec.appendChild(legend);
+
+  var maxVal = allDongs[0].avg_per_m2;
+  var table = document.createElement("div");
+  table.className = "dong-stats-list";
+  allDongs.slice(0, 50).forEach(function (d) {
+    var row = document.createElement("div");
+    row.className = "dong-stat-row dong-stat-row-wide";
+    // 구 라벨
+    var distLabel = document.createElement("span");
+    distLabel.className = "dong-stat-district";
+    distLabel.textContent = d.district;
+    distLabel.style.color = d.color;
+    row.appendChild(distLabel);
+    // 동 이름
+    var nameEl = document.createElement("span");
+    nameEl.className = "dong-stat-name";
+    nameEl.textContent = d.dong_name;
+    row.appendChild(nameEl);
+    // 바
+    var barWrap = document.createElement("div");
+    barWrap.className = "dong-stat-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "dong-stat-bar";
+    bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
+    bar.style.background = d.color;
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    // 값
     var valEl = document.createElement("span");
     valEl.className = "dong-stat-val";
     valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "\uAC74)";
@@ -390,10 +495,15 @@ function renderSections() {
     gridEl.appendChild(renderTrendSection(data.trend, regionName + " \uC2DC\uC138 \uCD94\uC774"));
   }
 
-  // 동네별 시세 비교 (구 선택시만)
+  // 동네별 시세 비교
   if (activeDistrict && data.dong_stats && data.dong_stats.length > 1) {
+    // 구 선택: 해당 구의 동만 표시
     var dongSec = renderDongStats(data.dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC2DC\uC138 \uBE44\uAD50");
     if (dongSec) gridEl.appendChild(dongSec);
+  } else if (!activeDistrict && sidoData.districts) {
+    // 시도 전체: 모든 구의 동을 합쳐서 구별 색상 구분
+    var allDongSec = renderAllDongStats(sidoData, activeSido + " \uB3D9\uBCC4 \uC2DC\uC138 \uBE44\uAD50");
+    if (allDongSec) gridEl.appendChild(allDongSec);
   }
 
   // 전세가율
