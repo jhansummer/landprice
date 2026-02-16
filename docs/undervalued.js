@@ -246,11 +246,27 @@ async function toggleCompare(card, r) {
 
   const panel = document.createElement("div");
   panel.className = "compare-panel";
+  panel.addEventListener("click", function (e) {
+    e.stopPropagation();
+  });
+
+  const header = document.createElement("div");
+  header.className = "compare-header";
 
   const title = document.createElement("div");
   title.className = "compare-title";
   title.textContent = "단지별 시세 비교";
-  panel.appendChild(title);
+  header.appendChild(title);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "compare-close";
+  closeBtn.textContent = "닫기";
+  closeBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    panel.remove();
+  });
+  header.appendChild(closeBtn);
+  panel.appendChild(header);
 
   const canvas = document.createElement("canvas");
   canvas.className = "compare-chart";

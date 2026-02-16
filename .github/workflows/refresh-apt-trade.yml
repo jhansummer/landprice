@@ -31,6 +31,9 @@ jobs:
           REFRESH_MONTHS: "3"
         run: |
           python scripts/fetch_apt_trade.py
+      - name: Find undervalued apartments
+        run: |
+          python scripts/find_undervalued.py
       - name: Commit and push if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
