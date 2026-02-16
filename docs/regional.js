@@ -70,7 +70,7 @@ function renderSubTabs() {
   subtabsEl.appendChild(select);
 }
 
-/* ── 차트: 시세 추이 ── */
+/* ── 차트: 시세 추이 + 거래량 ── */
 function drawTrendChart(canvas, trendData) {
   if (!trendData || trendData.length < 2) return;
   var dpr = window.devicePixelRatio || 1;
@@ -83,7 +83,7 @@ function drawTrendChart(canvas, trendData) {
   ctx.scale(dpr, dpr);
   var cw = rect.width;
   var ch = rect.height;
-  var pad = { top: 10, right: 12, bottom: 24, left: 48 };
+  var pad = { top: 10, right: 40, bottom: 24, left: 48 };
   var plotW = cw - pad.left - pad.right;
   var plotH = ch - pad.top - pad.bottom;
 
@@ -94,8 +94,25 @@ function drawTrendChart(canvas, trendData) {
   minP -= pRange * 0.05;
   maxP += pRange * 0.05;
 
+  // 거래량
+  var volumes = trendData.map(function (d) { return d[2] || 0; });
+  var maxVol = Math.max.apply(null, volumes) || 1;
+  var volMaxH = plotH * 0.30; // 하단 30% 영역에 막대
+
   function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
   function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  // 거래량 막대 (시세 라인보다 먼저 그려서 뒤에 깔림)
+  var barW = Math.max(2, plotW / trendData.length * 0.6);
+  for (var i = 0; i < trendData.length; i++) {
+    var vol = volumes[i];
+    if (vol <= 0) continue;
+    var barH = (vol / maxVol) * volMaxH;
+    var bx = xPos(i) - barW / 2;
+    var by = pad.top + plotH - barH;
+    ctx.fillStyle = "rgba(26,111,90,0.13)";
+    ctx.fillRect(bx, by, barW, barH);
+  }
 
   // 그리드
   ctx.strokeStyle = "#e8e0d4";
@@ -104,13 +121,21 @@ function drawTrendChart(canvas, trendData) {
     var gy = pad.top + (plotH / 4) * g;
     ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
   }
-  // Y축 라벨
+  // Y축 라벨 (시세 — 왼쪽)
   ctx.fillStyle = "#9a9590"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
   for (var g = 0; g <= 4; g++) {
     var val = minP + ((maxP - minP) / 4) * (4 - g);
     ctx.fillText(Math.round(val).toLocaleString(), pad.left - 4, pad.top + (plotH / 4) * g);
   }
+  // Y축 라벨 (거래량 — 오른쪽)
+  ctx.fillStyle = "#b5b0a8"; ctx.textAlign = "left";
+  for (var g = 0; g <= 2; g++) {
+    var vVal = Math.round(maxVol / 2 * (2 - g));
+    var vy = pad.top + plotH - (volMaxH / 2) * (2 - g);
+    ctx.fillText(vVal.toLocaleString(), pad.left + plotW + 4, vy);
+  }
   // X축 라벨 (연도)
+  ctx.fillStyle = "#9a9590";
   ctx.textAlign = "center"; ctx.textBaseline = "top";
   var seenYear = {};
   for (var i = 0; i < trendData.length; i++) {
@@ -153,11 +178,11 @@ function renderTrendSection(trendData, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "\uC6D4\uBCC4 \uD3C9\uADE0 m\u00B2\uB2F9 \uAC00\uACA9 \uCD94\uC774";
+  sub.textContent = "\uC6D4\uBCC4 \uD3C9\uADE0 m\u00B2\uB2F9 \uAC00\uACA9 + \uAC70\uB798\uB7C9";
   sec.appendChild(sub);
   var chartDiv = document.createElement("div");
   chartDiv.className = "scatter-chart";
-  chartDiv.style.height = "220px";
+  chartDiv.style.height = "250px";
   var canvas = document.createElement("canvas");
   chartDiv.appendChild(canvas);
   sec.appendChild(chartDiv);
