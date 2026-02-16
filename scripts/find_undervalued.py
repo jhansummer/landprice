@@ -244,7 +244,14 @@ def main() -> None:
         adj: Dict[int, List[int]] = {i: [] for i in range(n)}
         for i in range(n):
             si = series_map[keys[i]]["series"]
+            area_i = series_map[keys[i]].get("area_m2") or 0
             for j in range(i + 1, n):
+                # 면적 30% 이내만 비교
+                area_j = series_map[keys[j]].get("area_m2") or 0
+                if area_i > 0 and area_j > 0:
+                    area_ratio = max(area_i, area_j) / min(area_i, area_j)
+                    if area_ratio > 1.30:
+                        continue
                 sj = series_map[keys[j]]["series"]
                 paired: List[Tuple[float, float]] = [(a, b) for a, b in zip(si, sj) if a is not None and b is not None]
                 if len(paired) < sp["min_valid"]:
@@ -305,6 +312,11 @@ def main() -> None:
                     if other["id"] == m["id"]:
                         continue
                     if other["apt_name"] == m["apt_name"] and other["sigungu"] == m["sigungu"]:
+                        continue
+                    # 면적 30% 이내만 비교
+                    m_area = m.get("area_m2") or 0
+                    o_area = other.get("area_m2") or 0
+                    if m_area > 0 and o_area > 0 and max(m_area, o_area) / min(m_area, o_area) > 1.30:
                         continue
                     corr = series_corr(m["series"], other["series"], sp["min_valid"])
                     if corr is None:
