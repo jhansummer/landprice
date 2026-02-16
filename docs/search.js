@@ -333,6 +333,10 @@ function showDetail(r) {
 function renderTabs() {
   tabsEl.innerHTML = "";
   if (!globalData) return;
+  var label = document.createElement("span");
+  label.className = "region-label";
+  label.textContent = "지역";
+  tabsEl.appendChild(label);
   globalData.sido_order.forEach(function (sido) {
     var btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");

@@ -5,7 +5,7 @@ const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 const tabsEl = document.getElementById("tabs");
 const subtabsEl = document.getElementById("subtabs");
-const filtersEl = document.getElementById("filters");
+// filtersEl removed - nav is now hardcoded in HTML
 
 let globalData = null;
 let activeSido = null;
@@ -25,6 +25,10 @@ function calcChangeBadge(history, latestPrice) {
 
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
+  var label = document.createElement("span");
+  label.className = "region-label";
+  label.textContent = "지역";
+  tabsEl.appendChild(label);
   sidoOrder.forEach(function (sido) {
     var btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
@@ -35,7 +39,6 @@ function renderTabs(sidoOrder) {
       activeDong = null;
       renderTabs(sidoOrder);
       renderSubTabs();
-      renderFilters();
       renderSections();
       history.replaceState(null, "", "#" + sido);
     });
@@ -482,41 +485,13 @@ function renderSubTabs() {
   select.addEventListener("change", function () {
     activeDistrict = select.value || null;
     activeDong = null;
-    renderFilters();
     renderSections();
   });
 
   subtabsEl.appendChild(select);
 }
 
-function renderFilters() {
-  filtersEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
-
-  var searchLink = document.createElement("a");
-  searchLink.href = "search.html";
-  searchLink.className = "search-link-btn";
-  searchLink.textContent = "\uB2E8\uC9C0\uBA85\uAC80\uC0C9";
-  filtersEl.appendChild(searchLink);
-
-  var undervalLink = document.createElement("a");
-  undervalLink.href = "undervalued.html";
-  undervalLink.className = "search-link-btn";
-  undervalLink.textContent = "\uC800\uD3C9\uAC00 TOP3";
-  filtersEl.appendChild(undervalLink);
-
-  var regionalLink = document.createElement("a");
-  regionalLink.href = "regional.html";
-  regionalLink.className = "search-link-btn";
-  regionalLink.textContent = "\uC9C0\uC5ED\uC2DC\uC138";
-  filtersEl.appendChild(regionalLink);
-
-  var mainLink = document.createElement("span");
-  mainLink.className = "search-link-btn active";
-  mainLink.textContent = "\uBA54\uC778";
-  filtersEl.insertBefore(mainLink, searchLink);
-
-}
+// renderFilters removed - nav is now hardcoded in HTML
 
 function renderRecentSection() {
   var recents = getRecent();
@@ -752,7 +727,6 @@ async function init() {
 
   renderTabs(sidoOrder);
   renderSubTabs();
-  renderFilters();
   renderSections();
 
   statusEl.textContent = "";

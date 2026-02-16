@@ -135,6 +135,10 @@ function drawMultiSeries(canvas, seriesList) {
 
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
+  var label = document.createElement("span");
+  label.className = "region-label";
+  label.textContent = "지역";
+  tabsEl.appendChild(label);
   sidoOrder.forEach(function (sido) {
     const btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");

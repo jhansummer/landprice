@@ -97,7 +97,7 @@ function drawTrendChart(canvas, trendData) {
   // 거래량
   var volumes = trendData.map(function (d) { return d[2] || 0; });
   var maxVol = Math.max.apply(null, volumes) || 1;
-  var volMaxH = plotH * 0.30; // 하단 30% 영역에 막대
+  var volMaxH = plotH * 0.75; // 하단 75% 영역에 막대
 
   function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
   function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
@@ -129,9 +129,9 @@ function drawTrendChart(canvas, trendData) {
   }
   // Y축 라벨 (거래량 — 오른쪽)
   ctx.fillStyle = "#b5b0a8"; ctx.textAlign = "left";
-  for (var g = 0; g <= 2; g++) {
-    var vVal = Math.round(maxVol / 2 * (2 - g));
-    var vy = pad.top + plotH - (volMaxH / 2) * (2 - g);
+  for (var g = 0; g <= 3; g++) {
+    var vVal = Math.round(maxVol / 3 * (3 - g));
+    var vy = pad.top + plotH - (volMaxH / 3) * (3 - g);
     ctx.fillText(vVal.toLocaleString(), pad.left + plotW + 4, vy);
   }
   // X축 라벨 (연도)
@@ -457,6 +457,184 @@ function renderJeonseTrendSection(jeonseTrend, title) {
   return sec;
 }
 
+/* ── 시세 선행/후행 네트워크 ── */
+function drawLeadLagChart(canvas, edges, distOrder) {
+  if (!edges || !edges.length) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width * dpr;
+  var h = rect.height * dpr;
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+
+  // 노드 = 등장하는 구/단지만 추출
+  var nodeSet = {};
+  edges.forEach(function (e) { nodeSet[e.from] = true; nodeSet[e.to] = true; });
+  var nodes;
+  if (distOrder && distOrder.length) {
+    nodes = distOrder.filter(function (d) { return nodeSet[d]; });
+  } else {
+    nodes = Object.keys(nodeSet);
+  }
+  if (nodes.length < 2) return;
+
+  // 선행 점수 계산 (많이 선행 → 위쪽)
+  var score = {};
+  nodes.forEach(function (n) { score[n] = 0; });
+  edges.forEach(function (e) {
+    score[e.from] = (score[e.from] || 0) + 1;
+    score[e.to] = (score[e.to] || 0) - 1;
+  });
+  nodes.sort(function (a, b) { return (score[b] || 0) - (score[a] || 0); });
+
+  // 원형 레이아웃
+  var isApt = !distOrder;
+  var cx = cw / 2;
+  var cy = ch / 2;
+  var radius = Math.min(cw, ch) / 2 - (isApt ? 50 : 40);
+  var pos = {};
+  nodes.forEach(function (n, i) {
+    var angle = -Math.PI / 2 + (2 * Math.PI * i) / nodes.length;
+    pos[n] = { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+  });
+
+  // 상위 엣지만 (corr >= 0.5, 최대 20개)
+  var topEdges = edges.filter(function (e) { return e.corr >= 0.5 && pos[e.from] && pos[e.to]; });
+  topEdges = topEdges.slice(0, 20);
+
+  // 엣지 그리기 (화살표)
+  topEdges.forEach(function (e) {
+    var from = pos[e.from];
+    var to = pos[e.to];
+    if (!from || !to) return;
+    var dx = to.x - from.x;
+    var dy = to.y - from.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 1) return;
+    var ux = dx / dist;
+    var uy = dy / dist;
+    // 노드 반경만큼 줄이기
+    var nr = isApt ? 24 : 18;
+    var sx = from.x + ux * nr;
+    var sy = from.y + uy * nr;
+    var ex = to.x - ux * nr;
+    var ey = to.y - uy * nr;
+
+    var alpha = Math.min(1, (e.corr - 0.4) / 0.5) * 0.5 + 0.15;
+    ctx.strokeStyle = "rgba(26,111,90," + alpha + ")";
+    ctx.lineWidth = Math.max(1, e.corr * 2);
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+
+    // 화살표 머리
+    var arrowLen = 6;
+    var arrowAngle = Math.atan2(ey - sy, ex - sx);
+    ctx.fillStyle = "rgba(26,111,90," + alpha + ")";
+    ctx.beginPath();
+    ctx.moveTo(ex, ey);
+    ctx.lineTo(ex - arrowLen * Math.cos(arrowAngle - 0.4), ey - arrowLen * Math.sin(arrowAngle - 0.4));
+    ctx.lineTo(ex - arrowLen * Math.cos(arrowAngle + 0.4), ey - arrowLen * Math.sin(arrowAngle + 0.4));
+    ctx.closePath();
+    ctx.fill();
+
+    // lag 라벨 (엣지 중간)
+    var mx = (sx + ex) / 2;
+    var my = (sy + ey) / 2;
+    ctx.fillStyle = "#9a9590";
+    ctx.font = "9px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(e.lag + "m", mx, my - 6);
+  });
+
+  // 노드 그리기
+  nodes.forEach(function (n) {
+    var p = pos[n];
+    var s = score[n] || 0;
+    var r = isApt ? 22 : 16;
+    // 선행 → 진한 색, 후행 → 연한 색
+    if (s > 0) {
+      ctx.fillStyle = "#1a6f5a";
+    } else if (s < 0) {
+      ctx.fillStyle = "#d8cfc1";
+    } else {
+      ctx.fillStyle = "#b5b0a8";
+    }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+    ctx.fill();
+    // 라벨
+    ctx.fillStyle = s > 0 ? "#fff" : "#1c1b19";
+    ctx.font = isApt ? "bold 7px sans-serif" : "bold 9px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    var label;
+    if (isApt) {
+      // 단지명: 2줄로 나누기 (이름 + 면적)
+      var parts = n.split(" ");
+      var namePart = parts.slice(0, -1).join(" ");
+      var areaPart = parts[parts.length - 1] || "";
+      if (namePart.length > 5) namePart = namePart.slice(0, 5) + "..";
+      ctx.fillText(namePart, p.x, p.y - 4);
+      ctx.font = "6px sans-serif";
+      ctx.fillText(areaPart, p.x, p.y + 5);
+    } else {
+      label = n.length > 4 ? n.replace(/시$|구$|군$/, "") : n;
+      if (label.length > 4) label = label.slice(0, 3) + "..";
+      ctx.fillText(label, p.x, p.y);
+    }
+  });
+}
+
+function renderLeadLagSection(edges, distOrder, title) {
+  if (!edges || !edges.length) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  var isAptLevel = !distOrder;
+  sub.textContent = isAptLevel
+    ? "\uAC70\uB798\uB7C9 \uC0C1\uC704 \uB2E8\uC9C0 \uAD50\uCC28\uC0C1\uAD00 \uBD84\uC11D \u00B7 \uD654\uC0B4\uD45C = \uC120\uD589 \u2192 \uD6C4\uD589"
+    : "\uAD6C\uBCC4 \uC2DC\uC138 \uAD50\uCC28\uC0C1\uAD00 \uBD84\uC11D \u00B7 \uD654\uC0B4\uD45C = \uC120\uD589 \u2192 \uD6C4\uD589 \u00B7 \uC9C4\uD55C \uB178\uB4DC = \uC120\uD589 \uC9C0\uC5ED";
+  sec.appendChild(sub);
+
+  var chartDiv = document.createElement("div");
+  chartDiv.className = "scatter-chart";
+  chartDiv.style.height = "360px";
+  var canvas = document.createElement("canvas");
+  chartDiv.appendChild(canvas);
+  sec.appendChild(chartDiv);
+  requestAnimationFrame(function () { drawLeadLagChart(canvas, edges, distOrder); });
+
+  // 상위 관계 텍스트 리스트
+  var list = document.createElement("div");
+  list.className = "dong-stats-list";
+  list.style.marginTop = "12px";
+  var topEdges = edges.filter(function (e) { return e.corr >= 0.5; }).slice(0, 10);
+  topEdges.forEach(function (e) {
+    var row = document.createElement("div");
+    row.style.cssText = "display:flex;gap:8px;align-items:center;font-size:12px;padding:4px 0;";
+    row.innerHTML = "<span style='font-weight:700;color:#1a6f5a;min-width:60px;'>" + e.from + "</span>"
+      + "<span style='color:#9a9590;'>\u2192</span>"
+      + "<span style='font-weight:600;min-width:60px;'>" + e.to + "</span>"
+      + "<span style='color:#9a9590;font-size:11px;'>" + e.lag + "\uAC1C\uC6D4 \uC120\uD589 (corr " + e.corr + ")</span>";
+    list.appendChild(row);
+  });
+  sec.appendChild(list);
+
+  return sec;
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -486,6 +664,18 @@ function renderSections() {
     // 시도 전체: 모든 구의 동을 합쳐서 구별 색상 구분
     var allDongSec = renderAllDongStats(sidoData, activeSido + " \uB3D9\uBCC4 \uC2DC\uC138 \uBE44\uAD50");
     if (allDongSec) gridEl.appendChild(allDongSec);
+  }
+
+  // 시세 선행/후행 관계 (시도 전체 선택 시에만)
+  if (!activeDistrict && sidoData.lead_lag && sidoData.lead_lag.length > 0) {
+    var llSec = renderLeadLagSection(sidoData.lead_lag, sidoData.district_order, activeSido + " 시세 선행/후행 관계");
+    if (llSec) gridEl.appendChild(llSec);
+  }
+
+  // 단지별 시세 선행/후행 관계 (구 선택 시)
+  if (activeDistrict && data.apt_lead_lag && data.apt_lead_lag.length > 0) {
+    var aptLlSec = renderLeadLagSection(data.apt_lead_lag, null, activeDistrict + " 단지별 시세 영향도");
+    if (aptLlSec) gridEl.appendChild(aptLlSec);
   }
 
   // 전세가율

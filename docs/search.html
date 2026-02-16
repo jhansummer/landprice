@@ -37,12 +37,8 @@
       font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.5px;
-    }
-    h1 a {
       color: var(--accent);
-      text-decoration: none;
     }
-    h1 a:hover { text-decoration: underline; }
     header p {
       margin: 0;
       color: var(--muted);
@@ -267,40 +263,60 @@
     .modal-table td:last-child {
       text-align: right;
     }
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
     .tabs {
       display: flex;
-      gap: 6px;
-      padding: 0 20px 12px;
+      gap: 0;
+      padding: 0 20px 14px;
       max-width: 1200px;
       margin: 0 auto;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      border-bottom: 2px solid var(--line);
     }
     .tabs::-webkit-scrollbar { display: none; }
+    .region-label {
+      flex-shrink: 0;
+      padding: 8px 12px 10px 0;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+    }
     .tab-btn {
       flex-shrink: 0;
-      padding: 8px 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: var(--paper);
+      padding: 8px 14px 10px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      border-radius: 0;
+      background: transparent;
       color: var(--muted);
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s ease;
       white-space: nowrap;
     }
     .tab-btn:hover {
-      border-color: var(--accent);
       color: var(--accent);
+      border-bottom-color: var(--accent);
     }
     .tab-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      color: var(--accent);
       font-weight: 700;
+      border-bottom-color: var(--accent);
+      background: transparent;
     }
     .district-select-wrap {
       max-width: 1200px;
@@ -332,15 +348,6 @@
       padding: 0 20px 14px;
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
-    }
-    .filter-bar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px 14px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
       flex-wrap: wrap;
     }
     .search-link-btn {
@@ -393,8 +400,11 @@
     }
     @media (max-width: 720px) {
       h1 { font-size: 26px; }
-      .tabs { padding: 0 16px 10px; gap: 4px; }
-      .tab-btn { padding: 6px 14px; font-size: 13px; }
+      .nav-bar { padding: 0 16px 10px; gap: 4px; }
+      .search-link-btn { padding: 6px 14px; font-size: 13px; }
+      .tabs { padding: 0 16px 10px; }
+      .tab-btn { padding: 6px 10px 8px; font-size: 12px; }
+      .region-label { font-size: 11px; padding-right: 6px; }
       .section { padding: 14px 16px; }
       .modal-content { padding: 16px; }
     }
@@ -409,17 +419,17 @@
 </head>
 <body>
   <header>
-    <h1><a href="index.html">아파트 실거래가 APT Mine</a></h1>
-    <p>단지명검색</p>
+    <h1>아파트 실거래가 APT Mine</h1>
+    <p>출처 : 국토교통부 실거래가</p>
   </header>
-  <nav id="tabs" class="tabs"></nav>
-  <div id="subtabs" class="district-select-wrap"></div>
-  <div id="navBar" class="filter-bar">
+  <div id="navBar" class="nav-bar">
     <a class="search-link-btn" href="index.html">메인</a>
     <span class="search-link-btn active">단지명 검색</span>
     <a class="search-link-btn" href="undervalued.html">저평가 TOP3</a>
     <a class="search-link-btn" href="regional.html">지역시세</a>
   </div>
+  <nav id="tabs" class="tabs"></nav>
+  <div id="subtabs" class="district-select-wrap"></div>
   <div id="filters" class="filter-wrap"></div>
   <div class="search-wrap">
     <input id="searchInput" type="text" class="search-input" placeholder="단지명 검색 (2글자 이상)" autofocus />
@@ -436,7 +446,7 @@
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
   <script src="favorites.js?v=2"></script>
-  <script src="search.js?v=7"></script>
+  <script src="search.js?v=8"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>
