@@ -6,7 +6,6 @@ const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 const tabsEl = document.getElementById("tabs");
 const subtabsEl = document.getElementById("subtabs");
-const filtersEl = document.getElementById("filters");
 
 let globalData = null;
 let activeSido = null;
@@ -19,6 +18,10 @@ function fmt(v) {
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
+  var label = document.createElement("span");
+  label.className = "region-label";
+  label.textContent = "지역";
+  tabsEl.appendChild(label);
   sidoOrder.forEach(function (sido) {
     var btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
@@ -28,7 +31,6 @@ function renderTabs(sidoOrder) {
       activeDistrict = null;
       renderTabs(sidoOrder);
       renderSubTabs();
-      renderFilters();
       renderSections();
       history.replaceState(null, "", "#" + sido);
     });
@@ -66,35 +68,6 @@ function renderSubTabs() {
   });
 
   subtabsEl.appendChild(select);
-}
-
-/* ── 네비 버튼 ── */
-function renderFilters() {
-  filtersEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
-
-  var mainLink = document.createElement("a");
-  mainLink.href = "index.html";
-  mainLink.className = "search-link-btn";
-  mainLink.textContent = "메인";
-  filtersEl.appendChild(mainLink);
-
-  var searchLink = document.createElement("a");
-  searchLink.href = "search.html";
-  searchLink.className = "search-link-btn";
-  searchLink.textContent = "단지명검색";
-  filtersEl.appendChild(searchLink);
-
-  var undervalLink = document.createElement("a");
-  undervalLink.href = "undervalued.html";
-  undervalLink.className = "search-link-btn";
-  undervalLink.textContent = "저평가 TOP3";
-  filtersEl.appendChild(undervalLink);
-
-  var selfLink = document.createElement("span");
-  selfLink.className = "search-link-btn active";
-  selfLink.textContent = "지역시세";
-  filtersEl.appendChild(selfLink);
 }
 
 /* ── 차트: 시세 추이 ── */
@@ -192,13 +165,13 @@ function renderTrendSection(trendData, title) {
   return sec;
 }
 
-/* ── 구별 색상 팔레트 ── */
+/* ── 구별 색상 팔레트 (사이트 톤에 맞춘 어스톤) ── */
 var DIST_COLORS = [
-  "#1a6f5a", "#2a6f97", "#b56576", "#e07a3a", "#6a4c93",
-  "#2d6a4f", "#457b9d", "#e63946", "#f4a261", "#7209b7",
-  "#264653", "#e76f51", "#3a86ff", "#8338ec", "#06d6a0",
-  "#118ab2", "#ef476f", "#ffd166", "#073b4c", "#84a59d",
-  "#d4a373", "#588157", "#bc6c25", "#6c757d", "#495057"
+  "#1a6f5a", "#b07d4f", "#8b6b4a", "#5a7f6e", "#a0522d",
+  "#6b8e6b", "#c08552", "#3d6b5e", "#d4956a", "#4e7a5e",
+  "#8c7051", "#537d6d", "#bf7b3f", "#728a6e", "#9e6b42",
+  "#5f8a72", "#c47d5a", "#4a6e56", "#a87d52", "#6d8b66",
+  "#b5885a", "#3f7a6a", "#ca9060", "#588068", "#9c7a55"
 ];
 
 function getDistColor(idx) {
@@ -284,22 +257,6 @@ function renderAllDongStats(sidoData, title) {
   sub.className = "section-sub";
   sub.textContent = "\uCD5C\uADFC 3\uAC1C\uC6D4 \uAC70\uB798 \uAE30\uC900 \u00B7 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 (\uB9CC\uC6D0) \u00B7 \uAD6C\uBCC4 \uC0C9\uC0C1 \uAD6C\uBD84";
   sec.appendChild(sub);
-
-  // 범례
-  var legend = document.createElement("div");
-  legend.className = "dong-legend";
-  distOrder.forEach(function (distName, idx) {
-    if (!sidoData.districts[distName] || !sidoData.districts[distName].dong_stats) return;
-    var chip = document.createElement("span");
-    chip.className = "dong-legend-chip";
-    var dot = document.createElement("span");
-    dot.className = "dong-legend-dot";
-    dot.style.background = getDistColor(idx);
-    chip.appendChild(dot);
-    chip.appendChild(document.createTextNode(distName));
-    legend.appendChild(chip);
-  });
-  sec.appendChild(legend);
 
   var maxVal = allDongs[0].avg_per_m2;
   var table = document.createElement("div");
@@ -544,7 +501,6 @@ async function init() {
 
   renderTabs(sidoOrder);
   renderSubTabs();
-  renderFilters();
   renderSections();
 
   statusEl.textContent = "";

@@ -224,7 +224,7 @@ function renderItem(r, idx) {
   meta.className = "rank-detail";
   if (r.compare && r.compare.length) {
     const names = r.compare.map(function (c) {
-      return c.apt_name + "(" + c.sigungu + " " + c.dong_name + ")";
+      return c.apt_name + " " + c.area_m2 + "m²(" + c.sigungu + " " + c.dong_name + ")";
     });
     meta.textContent = "비교: " + names.join(" · ");
   }
@@ -327,7 +327,8 @@ async function toggleCompare(card, r) {
     const priceText = s.last_price ? fmtEok(s.last_price) : "-";
     const dateText = s.last_date ? s.last_date : "";
     const locText = (s.sigungu || s.dong_name) ? (" · " + s.sigungu + " " + s.dong_name) : "";
-    label.textContent = s.name + locText + " · 최근거래 " + dateText + " · " + priceText;
+    const areaText = s.area_m2 ? " " + s.area_m2 + "m²" : "";
+    label.textContent = s.name + areaText + locText + " · 최근거래 " + dateText + " · " + priceText;
     item.appendChild(label);
 
     legend.appendChild(item);

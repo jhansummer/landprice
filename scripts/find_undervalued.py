@@ -129,6 +129,84 @@ def load_txns(apt_id: str) -> List[List]:
     return json.loads(p.read_text(encoding="utf-8"))
 
 
+# 인접 구/시 매핑 — 같은 구 + 인접 지역까지 비교 대상 확장
+ADJACENT: Dict[str, List[str]] = {
+    # ── 서울 ──
+    "강남구": ["서초구", "송파구", "강동구"],
+    "서초구": ["강남구", "동작구", "관악구"],
+    "송파구": ["강남구", "강동구", "광진구"],
+    "강동구": ["송파구", "강남구", "광진구"],
+    "용산구": ["서초구", "마포구", "중구", "성동구"],
+    "성동구": ["광진구", "용산구", "동대문구", "중구"],
+    "광진구": ["성동구", "송파구", "강동구", "중랑구"],
+    "마포구": ["서대문구", "용산구", "은평구"],
+    "서대문구": ["마포구", "은평구", "종로구", "중구"],
+    "은평구": ["마포구", "서대문구", "종로구"],
+    "종로구": ["중구", "서대문구", "은평구", "성북구"],
+    "중구": ["종로구", "용산구", "성동구", "동대문구"],
+    "동대문구": ["중랑구", "성동구", "성북구", "중구"],
+    "중랑구": ["노원구", "동대문구", "광진구", "성북구"],
+    "성북구": ["강북구", "종로구", "동대문구", "중랑구", "노원구"],
+    "강북구": ["도봉구", "노원구", "성북구"],
+    "도봉구": ["강북구", "노원구"],
+    "노원구": ["도봉구", "강북구", "중랑구"],
+    "영등포구": ["동작구", "양천구", "구로구", "마포구"],
+    "동작구": ["서초구", "관악구", "영등포구"],
+    "관악구": ["서초구", "동작구", "금천구", "구로구"],
+    "구로구": ["영등포구", "금천구", "관악구", "양천구"],
+    "금천구": ["관악구", "구로구"],
+    "양천구": ["강서구", "영등포구", "구로구"],
+    "강서구": ["양천구", "영등포구"],
+    # ── 경기 ──
+    "성남시": ["과천시", "광주시", "하남시", "용인시"],
+    "과천시": ["성남시", "안양시", "의왕시"],
+    "광명시": ["구로구", "안양시", "시흥시"],
+    "하남시": ["성남시", "광주시", "남양주시"],
+    "구리시": ["남양주시", "의정부시"],
+    "안양시": ["과천시", "군포시", "의왕시", "광명시"],
+    "군포시": ["안양시", "의왕시", "수원시"],
+    "의왕시": ["안양시", "군포시", "과천시", "수원시"],
+    "수원시": ["용인시", "화성시", "오산시", "군포시", "의왕시"],
+    "용인시": ["수원시", "성남시", "광주시", "화성시"],
+    "화성시": ["수원시", "오산시", "용인시"],
+    "오산시": ["수원시", "화성시", "평택시"],
+    "고양시": ["파주시", "김포시", "양주시"],
+    "김포시": ["고양시", "파주시"],
+    "파주시": ["고양시", "김포시"],
+    "남양주시": ["구리시", "하남시", "양주시", "의정부시"],
+    "의정부시": ["남양주시", "양주시", "구리시", "포천시"],
+    "양주시": ["의정부시", "고양시", "남양주시", "포천시"],
+    "부천시": ["광명시", "시흥시"],
+    "시흥시": ["광명시", "안산시", "부천시"],
+    "안산시": ["시흥시", "화성시"],
+    "광주시": ["성남시", "하남시", "용인시", "이천시", "여주시"],
+    "이천시": ["광주시", "여주시"],
+    "여주시": ["이천시", "광주시"],
+    "평택시": ["오산시", "안성시"],
+    "안성시": ["평택시"],
+    "동두천시": ["양주시", "포천시"],
+    "포천시": ["의정부시", "양주시", "동두천시"],
+    "양평군": ["광주시", "여주시"],
+    # ── 부산 ──
+    "해운대구": ["수영구", "기장군", "동래구"],
+    "수영구": ["해운대구", "남구", "동래구"],
+    "동래구": ["수영구", "해운대구", "부산진구", "연제구"],
+    "남구": ["수영구", "동래구", "연제구"],
+    "연제구": ["동래구", "남구", "부산진구"],
+    "부산진구": ["동래구", "연제구", "중구"],
+    # ── 대구 ──
+    "수성구": ["달서구", "중구", "남구"],
+    "달서구": ["수성구", "남구", "서구"],
+    # ── 인천 ──
+    "연수구": ["남동구", "미추홀구"],
+    "남동구": ["연수구", "미추홀구", "부평구"],
+    "부평구": ["남동구", "계양구", "서구"],
+    "계양구": ["부평구", "서구"],
+    "서구": ["부평구", "계양구"],
+    "미추홀구": ["연수구", "남동구"],
+}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--corr", type=float, default=0.93, help="Pearson correlation threshold")
@@ -187,7 +265,7 @@ def main() -> None:
             "min_valid_months": args.min_valid,
             "corr_threshold": args.corr,
             "undervalued_gap": args.gap,
-            "region_level": "district",
+            "region_level": "district+adjacent",
             "bands": [b[0] for b in bands],
             "relaxed_sidos": sorted(RELAXED_SIDOS),
         },
@@ -400,12 +478,31 @@ def main() -> None:
         all_clusters = []
         all_undervalued = []
         all_band_candidates = []
+        seen_uv: set = set()
+        seen_bc: set = set()
 
         for dist_name, dist_items in district_items.items():
-            clusters, undervalued, band_cands = find_undervalued_in_group(dist_items, sp, args.gap)
+            # 같은 구 + 인접 구 아이템 합치기
+            group_items = list(dist_items)
+            group_ids = {it["id"] for it in group_items}
+            for adj_dist in ADJACENT.get(dist_name, []):
+                for it in district_items.get(adj_dist, []):
+                    if it["id"] not in group_ids:
+                        group_items.append(it)
+                        group_ids.add(it["id"])
+
+            clusters, undervalued, band_cands = find_undervalued_in_group(group_items, sp, args.gap)
             all_clusters.extend(clusters)
-            all_undervalued.extend(undervalued)
-            all_band_candidates.extend(band_cands)
+            # 중복 제거: 인접 구 확장으로 같은 아파트가 여러 그룹에서 나올 수 있음
+            # 같은 아파트가 여러번 나오면 gap_pct가 더 낮은(더 저평가된) 걸 유지
+            for u in undervalued:
+                if u["id"] not in seen_uv:
+                    seen_uv.add(u["id"])
+                    all_undervalued.append(u)
+            for bc in band_cands:
+                if bc["id"] not in seen_bc:
+                    seen_bc.add(bc["id"])
+                    all_band_candidates.append(bc)
 
         all_undervalued = [u for u in all_undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
         all_undervalued.sort(key=recent_gap_score)

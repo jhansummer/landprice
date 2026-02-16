@@ -63,40 +63,60 @@
       color: var(--muted);
       margin-bottom: 20px;
     }
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
     .tabs {
       display: flex;
-      gap: 6px;
-      padding: 0 20px 12px;
+      gap: 0;
+      padding: 0 20px 14px;
       max-width: 1200px;
       margin: 0 auto;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      border-bottom: 2px solid var(--line);
     }
     .tabs::-webkit-scrollbar { display: none; }
+    .region-label {
+      flex-shrink: 0;
+      padding: 8px 12px 10px 0;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+    }
     .tab-btn {
       flex-shrink: 0;
-      padding: 8px 18px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: var(--paper);
+      padding: 8px 14px 10px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      border-radius: 0;
+      background: transparent;
       color: var(--muted);
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s ease;
       white-space: nowrap;
     }
     .tab-btn:hover {
-      border-color: var(--accent);
       color: var(--accent);
+      border-bottom-color: var(--accent);
     }
     .tab-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      color: var(--accent);
       font-weight: 700;
+      border-bottom-color: var(--accent);
+      background: transparent;
     }
     .district-select-wrap {
       max-width: 1200px;
@@ -121,14 +141,6 @@
     .district-select:focus {
       outline: none;
       border-color: var(--accent);
-    }
-    .filter-bar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px 14px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
     }
     .search-link-btn {
       flex-shrink: 0;
@@ -206,17 +218,6 @@
       font-size: 10px; font-weight: 700;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    /* 구 범례 */
-    .dong-legend {
-      display: flex; flex-wrap: wrap; gap: 6px 12px;
-      margin-bottom: 14px; font-size: 11px; color: var(--muted);
-    }
-    .dong-legend-chip {
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .dong-legend-dot {
-      display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-    }
     /* 전세가율 */
     .jeonse-ratio-big {
       font-size: 32px; font-weight: 800; color: var(--accent);
@@ -224,8 +225,11 @@
     }
     @media (max-width: 720px) {
       h1 { font-size: 26px; }
-      .tabs { padding: 0 16px 10px; gap: 4px; }
-      .tab-btn { padding: 6px 14px; font-size: 13px; }
+      .nav-bar { padding: 0 16px 10px; gap: 4px; }
+      .search-link-btn { padding: 6px 14px; font-size: 13px; }
+      .tabs { padding: 0 16px 10px; }
+      .tab-btn { padding: 6px 10px 8px; font-size: 12px; }
+      .region-label { font-size: 11px; padding-right: 6px; }
       .section { padding: 14px 16px; }
       .dong-stat-row { grid-template-columns: 60px 1fr 90px; }
       .dong-stat-row-wide { grid-template-columns: 40px 55px 1fr 80px; }
@@ -247,12 +251,17 @@
 </head>
 <body>
   <header>
-    <h1>지역별 시세</h1>
-    <p>시세 추이 · 동네별 비교 · 전세가율</p>
+    <h1>아파트 실거래가 APT Mine</h1>
+    <p>출처 : 국토교통부 실거래가</p>
   </header>
+  <div class="nav-bar">
+    <a class="search-link-btn" href="index.html">메인</a>
+    <a class="search-link-btn" href="search.html">단지명 검색</a>
+    <a class="search-link-btn" href="undervalued.html">저평가 TOP3</a>
+    <span class="search-link-btn active">지역시세</span>
+  </div>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
-  <div id="filters" class="filter-bar"></div>
   <main>
     <div id="status" class="status">데이터 로딩 중...</div>
     <div id="meta" class="meta"></div>
@@ -264,6 +273,6 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="regional.js?v=2"></script>
+  <script src="regional.js?v=4"></script>
 </body>
 </html>
