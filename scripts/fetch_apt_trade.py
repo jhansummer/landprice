@@ -21,7 +21,7 @@ DEFAULT_OPERATION_PATH = "getRTMSDataSvcAptTrade"
 RENT_BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptRent"
 RENT_OPERATION_PATH = "getRTMSDataSvcAptRent"
 BY_RENT_DIR = None  # set in ensure_dirs()
-RENT_MONTHS_KEPT = 12
+RENT_MONTHS_KEPT = 84
 
 DOCS_DIR = Path(__file__).resolve().parents[1] / "docs"
 DATA_DIR = DOCS_DIR / "data" / "apt_trade"
@@ -602,6 +602,60 @@ def build_jeonse_summary(rent_records: List[Dict[str, object]],
     }
 
 
+def build_jeonse_trend(rent_records: List[Dict[str, object]],
+                        sale_records: List[Dict[str, object]]) -> List[List]:
+    """월별 전세가율 시계열. [[yyyymm, avg_ratio, count], ...]
+    각 월의 전세가율 = 해당 월 전세거래 보증금 / 동일 단지·면적 최근 매매가 * 100
+    """
+    # 매매 이력: (apt_name, area_m2) → [(deal_date, price_man), ...] sorted by date
+    sale_by_key: Dict[Tuple, List[Tuple[str, int]]] = {}
+    for r in sale_records:
+        if r["price_man"] and r["area_m2"]:
+            key = (r["apt_name"], r["area_m2"])
+            sale_by_key.setdefault(key, []).append((r["deal_date"], r["price_man"]))
+    for v in sale_by_key.values():
+        v.sort()
+
+    # 전세 월별 그룹핑
+    rent_by_month: Dict[str, List] = {}
+    for r in rent_records:
+        if not r["deposit_man"] or not r["area_m2"]:
+            continue
+        ym = r["deal_ym"]
+        rent_by_month.setdefault(ym, []).append(r)
+
+    trend = []
+    for ym in sorted(rent_by_month.keys()):
+        ratios = []
+        for r in rent_by_month[ym]:
+            key = (r["apt_name"], r["area_m2"])
+            sale_history = sale_by_key.get(key)
+            if not sale_history:
+                continue
+            # 해당 전세 거래일 이전 가장 가까운 매매가 찾기
+            rent_date = r["deal_date"]
+            sale_price = None
+            for sd, sp in reversed(sale_history):
+                if sd <= rent_date:
+                    sale_price = sp
+                    break
+            if not sale_price:
+                # 전세 거래일 이후의 첫 매매가 사용 (fallback)
+                for sd, sp in sale_history:
+                    if sd >= rent_date:
+                        sale_price = sp
+                        break
+            if not sale_price or sale_price <= 0:
+                continue
+            ratio = (r["deposit_man"] / sale_price) * 100
+            if 10 <= ratio <= 120:
+                ratios.append(ratio)
+        if ratios:
+            avg_ratio = round(sum(ratios) / len(ratios), 1)
+            trend.append([ym, avg_ratio, len(ratios)])
+    return trend
+
+
 def gather_rent_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
     """Load saved rent JSON files."""
     if BY_RENT_DIR is None:
@@ -803,6 +857,9 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 jeonse = build_jeonse_summary(dist_rent, dist_records)
                 if jeonse:
                     dist_data["jeonse"] = jeonse
+                jeonse_trend = build_jeonse_trend(dist_rent, dist_records)
+                if jeonse_trend:
+                    dist_data["jeonse_trend"] = jeonse_trend
             districts[group_name] = dist_data
             # 검색 인덱스 (3개월 제한 없음)
             for item in build_search_items(dist_records):
@@ -824,6 +881,9 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             jeonse = build_jeonse_summary(rent_records, records)
             if jeonse:
                 sido_data["jeonse"] = jeonse
+            jeonse_trend = build_jeonse_trend(rent_records, records)
+            if jeonse_trend:
+                sido_data["jeonse_trend"] = jeonse_trend
         sidos[sido] = sido_data
         search_items.sort(key=lambda x: -x["pct"])
         search_sidos[sido] = {

@@ -484,6 +484,101 @@ function renderJeonseSection(jeonse) {
   return sec;
 }
 
+function drawJeonseTrendChart(canvas, trendData) {
+  if (!trendData || trendData.length < 2) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width * dpr;
+  var h = rect.height * dpr;
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 42 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var ratios = trendData.map(function (d) { return d[1]; });
+  var minR = Math.min.apply(null, ratios);
+  var maxR = Math.max.apply(null, ratios);
+  var rRange = maxR - minR || 1;
+  minR -= rRange * 0.05;
+  maxR += rRange * 0.05;
+
+  function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
+  function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }
+
+  // \uADF8\uB9AC\uB4DC
+  ctx.strokeStyle = "#e8e0d4";
+  ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  // Y\uCD95 \uB77C\uBCA8
+  ctx.fillStyle = "#9a9590"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minR + ((maxR - minR) / 4) * (4 - g);
+    ctx.fillText(val.toFixed(0) + "%", pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  // X\uCD95 \uB77C\uBCA8 (\uC5F0\uB3C4)
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < trendData.length; i++) {
+    var ym = trendData[i][0];
+    var yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  }
+  // \uC601\uC5ED \uCC44\uC6B0\uAE30
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
+  ctx.lineTo(xPos(0), pad.top + plotH);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(37,99,235,0.08)";
+  ctx.fill();
+  // \uB77C\uC778
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
+  // \uCD5C\uC2E0 \uD3EC\uC778\uD2B8
+  var lastIdx = trendData.length - 1;
+  ctx.fillStyle = "#d63a3a";
+  ctx.beginPath(); ctx.arc(xPos(lastIdx), yPos(trendData[lastIdx][1]), 4, 0, Math.PI * 2); ctx.fill();
+  // \uCD5C\uC2E0\uAC12 \uB77C\uBCA8
+  ctx.fillStyle = "#d63a3a"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillText(trendData[lastIdx][1].toFixed(1) + "%", xPos(lastIdx) - 6, yPos(trendData[lastIdx][1]) - 6);
+}
+
+function renderJeonseTrendSection(jeonseTrend, title) {
+  if (!jeonseTrend || jeonseTrend.length < 2) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uC6D4\uBCC4 \uD3C9\uADE0 \uC804\uC138\uAC00\uC728 \uCD94\uC774";
+  sec.appendChild(sub);
+  var chartDiv = document.createElement("div");
+  chartDiv.className = "scatter-chart";
+  chartDiv.style.height = "180px";
+  var canvas = document.createElement("canvas");
+  chartDiv.appendChild(canvas);
+  sec.appendChild(chartDiv);
+  requestAnimationFrame(function () { drawJeonseTrendChart(canvas, jeonseTrend); });
+  return sec;
+}
+
 function renderRankedItem(r, idx) {
   var card = document.createElement("div");
   card.className = "rank-card";
@@ -507,18 +602,6 @@ function renderRankedItem(r, idx) {
   var aptEl = document.createElement("div");
   aptEl.className = "rank-apt";
   aptEl.textContent = r.apt_name;
-  if (r.id) {
-    var starBtn = document.createElement("button");
-    starBtn.className = "fav-btn" + (isFavorite(r.id) ? " fav-active" : "");
-    starBtn.textContent = isFavorite(r.id) ? "\u2605" : "\u2606";
-    starBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var added = toggleFavorite(r);
-      starBtn.textContent = added ? "\u2605" : "\u2606";
-      starBtn.className = "fav-btn" + (added ? " fav-active" : "");
-    });
-    aptEl.appendChild(starBtn);
-  }
   info.appendChild(aptEl);
   var detail = document.createElement("div");
   detail.className = "rank-detail";
@@ -713,63 +796,6 @@ function renderFilters() {
   mainLink.textContent = "\uBA54\uC778";
   filtersEl.insertBefore(mainLink, searchLink);
 
-  var favCount = getFavorites().length;
-  var favBtn = document.createElement("button");
-  favBtn.className = "search-link-btn";
-  favBtn.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30" + (favCount ? " (" + favCount + ")" : "");
-  favBtn.addEventListener("click", function () { showFavoritesModal(); });
-  filtersEl.appendChild(favBtn);
-}
-
-function showFavoritesModal() {
-  var old = document.getElementById("fav-modal");
-  if (old) old.remove();
-  var overlay = document.createElement("div");
-  overlay.id = "fav-modal";
-  overlay.className = "modal-overlay";
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
-  var modal = document.createElement("div");
-  modal.className = "modal-content";
-  var closeBtn = document.createElement("button");
-  closeBtn.className = "modal-close";
-  closeBtn.textContent = "\u2715";
-  closeBtn.addEventListener("click", function () { overlay.remove(); });
-  modal.appendChild(closeBtn);
-  var title = document.createElement("h2");
-  title.className = "modal-title";
-  title.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30";
-  modal.appendChild(title);
-  var favs = getFavorites();
-  if (!favs.length) {
-    var empty = document.createElement("p");
-    empty.className = "no-data";
-    empty.textContent = "\uC990\uACA8\uCC3E\uAE30\uD55C \uB2E8\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
-    modal.appendChild(empty);
-  } else {
-    favs.forEach(function (f) {
-      var row = document.createElement("div");
-      row.className = "recent-row";
-      var info = document.createElement("div");
-      info.className = "recent-info";
-      var nameEl = document.createElement("span");
-      nameEl.className = "recent-name";
-      nameEl.textContent = f.apt_name;
-      info.appendChild(nameEl);
-      var detailEl = document.createElement("div");
-      detailEl.className = "recent-detail";
-      detailEl.textContent = (f.sigungu ? f.sigungu + " " : "") + f.dong_name + " \u00B7 " + f.area_m2 + "m\u00B2";
-      info.appendChild(detailEl);
-      row.appendChild(info);
-      var priceEl = document.createElement("div");
-      priceEl.className = "recent-price";
-      priceEl.textContent = fmt(f.latest_price) + "\uB9CC";
-      row.appendChild(priceEl);
-      row.addEventListener("click", function () { overlay.remove(); showDetail(f); });
-      modal.appendChild(row);
-    });
-  }
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
 }
 
 function renderRecentSection() {
@@ -881,6 +907,13 @@ function renderSections() {
   if (data.jeonse) {
     var jeonseSec = renderJeonseSection(data.jeonse);
     if (jeonseSec) gridEl.appendChild(jeonseSec);
+  }
+
+  // 전세가율 추이
+  if (data.jeonse_trend && data.jeonse_trend.length > 1) {
+    var jtTitle = activeDistrict ? activeDistrict + " \uC804\uC138\uAC00\uC728 \uCD94\uC774" : activeSido + " \uC804\uC138\uAC00\uC728 \uCD94\uC774";
+    var jtSec = renderJeonseTrendSection(data.jeonse_trend, jtTitle);
+    if (jtSec) gridEl.appendChild(jtSec);
   }
 }
 

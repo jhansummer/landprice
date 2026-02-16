@@ -209,18 +209,6 @@ function renderGroup(group) {
 
     var info = document.createElement("div");
     info.className = "apt-sub-info";
-    if (r.id) {
-      var starBtn = document.createElement("button");
-      starBtn.className = "fav-btn" + (isFavorite(r.id) ? " fav-active" : "");
-      starBtn.textContent = isFavorite(r.id) ? "\u2605" : "\u2606";
-      starBtn.addEventListener("click", function (e) {
-        e.stopPropagation();
-        var added = toggleFavorite(r);
-        starBtn.textContent = added ? "\u2605" : "\u2606";
-        starBtn.className = "fav-btn" + (added ? " fav-active" : "");
-      });
-      info.appendChild(starBtn);
-    }
     var areaEl = document.createElement("span");
     areaEl.className = "apt-sub-area";
     areaEl.textContent = r.area_m2 + "m\u00B2";
@@ -653,67 +641,9 @@ function showRecentModal() {
   document.body.appendChild(overlay);
 }
 
-function showFavoritesModal() {
-  var old = document.getElementById("fav-modal");
-  if (old) old.remove();
-  var overlay = document.createElement("div");
-  overlay.id = "fav-modal";
-  overlay.className = "modal-overlay";
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
-  var modal = document.createElement("div");
-  modal.className = "modal-content";
-  var closeBtn = document.createElement("button");
-  closeBtn.className = "modal-close";
-  closeBtn.textContent = "\u2715";
-  closeBtn.addEventListener("click", function () { overlay.remove(); });
-  modal.appendChild(closeBtn);
-  var title = document.createElement("h2");
-  title.className = "modal-title";
-  title.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30";
-  modal.appendChild(title);
-  var favs = getFavorites();
-  if (!favs.length) {
-    var empty = document.createElement("p");
-    empty.className = "no-data";
-    empty.textContent = "\uC990\uACA8\uCC3E\uAE30\uD55C \uB2E8\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
-    modal.appendChild(empty);
-  } else {
-    favs.forEach(function (f) {
-      var row = document.createElement("div");
-      row.className = "apt-sub-item";
-      row.style.cursor = "pointer";
-      var info = document.createElement("div");
-      info.className = "apt-sub-info";
-      var nameEl = document.createElement("span");
-      nameEl.className = "apt-sub-area";
-      nameEl.textContent = f.apt_name;
-      info.appendChild(nameEl);
-      var detailEl = document.createElement("div");
-      detailEl.className = "apt-sub-detail";
-      detailEl.textContent = (f.sigungu ? f.sigungu + " " : "") + f.dong_name + " \u00B7 " + f.area_m2 + "m\u00B2";
-      info.appendChild(detailEl);
-      row.appendChild(info);
-      var priceEl = document.createElement("div");
-      priceEl.className = "apt-sub-change";
-      priceEl.textContent = new Intl.NumberFormat("ko-KR").format(f.latest_price) + "\uB9CC";
-      row.appendChild(priceEl);
-      row.addEventListener("click", function () { overlay.remove(); showDetail(f); });
-      modal.appendChild(row);
-    });
-  }
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-}
-
 function initNavButtons() {
   var navBar = document.getElementById("navBar");
   if (!navBar) return;
-  var favBtn = document.createElement("button");
-  favBtn.className = "search-link-btn";
-  var favCount = getFavorites().length;
-  favBtn.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30" + (favCount ? " (" + favCount + ")" : "");
-  favBtn.addEventListener("click", function () { showFavoritesModal(); });
-  navBar.appendChild(favBtn);
 
   var recentBtn = document.createElement("button");
   recentBtn.className = "search-link-btn";
