@@ -398,6 +398,16 @@
       .section { padding: 14px 16px; }
       .modal-content { padding: 16px; }
     }
+    /* 즐겨찾기 별 */
+    .fav-btn {
+      background: none; border: none; font-size: 16px; color: var(--muted);
+      cursor: pointer; padding: 0 4px; line-height: 1; vertical-align: middle;
+    }
+    .fav-btn.fav-active { color: #f5a623; }
+    .fav-btn:hover { color: #f5a623; }
+    /* 등락률 뱃지 */
+    .tag-change-up { background: #fde8e8; color: var(--up); }
+    .tag-change-down { background: #e8f0fd; color: var(--down); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -411,7 +421,7 @@
   </header>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
-  <div class="filter-bar">
+  <div id="navBar" class="filter-bar">
     <a class="search-link-btn" href="index.html">메인</a>
     <span class="search-link-btn active">단지명 검색</span>
     <a class="search-link-btn" href="undervalued.html">저평가 TOP3</a>
@@ -431,7 +441,8 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="search.js?v=5"></script>
+  <script src="favorites.js?v=1"></script>
+  <script src="search.js?v=6"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

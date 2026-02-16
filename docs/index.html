@@ -402,6 +402,30 @@
       }
       .modal-content { padding: 16px; }
     }
+    /* 최근 본 단지 */
+    .recent-header {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; gap: 8px;
+    }
+    .recent-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; cursor: pointer; border-radius: 6px;
+    }
+    .recent-row:hover { background: #f6f1e8; margin: 0 -6px; padding: 8px 6px; }
+    .recent-info { font-size: 13px; min-width: 0; }
+    .recent-name { font-weight: 600; }
+    .recent-detail { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .recent-price { text-align: right; white-space: nowrap; font-size: 13px; font-weight: 600; }
+    /* 즐겨찾기 별 */
+    .fav-btn {
+      background: none; border: none; font-size: 16px; color: var(--muted);
+      cursor: pointer; padding: 0 4px; line-height: 1; vertical-align: middle;
+    }
+    .fav-btn.fav-active { color: #f5a623; }
+    .fav-btn:hover { color: #f5a623; }
+    /* 등락률 뱃지 */
+    .tag-change-up { background: #fde8e8; color: var(--up); }
+    .tag-change-down { background: #e8f0fd; color: var(--down); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -435,6 +459,7 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="app.js?v=21"></script>
+  <script src="favorites.js?v=1"></script>
+  <script src="app.js?v=22"></script>
 </body>
 </html>

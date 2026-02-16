@@ -1,5 +1,4 @@
 const summaryPath = "data/apt_trade/summary.json";
-const undervaluedPath = "data/apt_trade/undervalued.json";
 
 const gridEl = document.getElementById("grid");
 const statusEl = document.getElementById("status");
@@ -9,13 +8,30 @@ const subtabsEl = document.getElementById("subtabs");
 const filtersEl = document.getElementById("filters");
 
 let globalData = null;
-let globalUndervalued = null;
 let activeSido = null;
 let activeDistrict = null;
 let activeDong = null;
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
+}
+
+function calcChangeBadges(history, latestPrice, latestDateStr) {
+  if (!history || history.length < 2 || !latestDateStr) return { mom: null, yoy: null };
+  var latestDt = new Date(latestDateStr).getTime();
+  var mom = null, yoy = null;
+  for (var i = history.length - 1; i >= 0; i--) {
+    var dt = new Date(history[i][0]).getTime();
+    var days = (latestDt - dt) / 86400000;
+    if (mom === null && days >= 20 && days <= 90 && history[i][1]) {
+      mom = ((latestPrice / history[i][1]) - 1) * 100;
+    }
+    if (yoy === null && days >= 300 && days <= 425 && history[i][1]) {
+      yoy = ((latestPrice / history[i][1]) - 1) * 100;
+    }
+    if (mom !== null && yoy !== null) break;
+  }
+  return { mom: mom, yoy: yoy };
 }
 
 function renderTabs(sidoOrder) {
@@ -316,6 +332,18 @@ function renderRankedItem(r, idx) {
   var aptEl = document.createElement("div");
   aptEl.className = "rank-apt";
   aptEl.textContent = r.apt_name;
+  if (r.id) {
+    var starBtn = document.createElement("button");
+    starBtn.className = "fav-btn" + (isFavorite(r.id) ? " fav-active" : "");
+    starBtn.textContent = isFavorite(r.id) ? "\u2605" : "\u2606";
+    starBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var added = toggleFavorite(r);
+      starBtn.textContent = added ? "\u2605" : "\u2606";
+      starBtn.className = "fav-btn" + (added ? " fav-active" : "");
+    });
+    aptEl.appendChild(starBtn);
+  }
   info.appendChild(aptEl);
   var detail = document.createElement("div");
   detail.className = "rank-detail";
@@ -339,6 +367,20 @@ function renderRankedItem(r, idx) {
     tag.className = "tag tag-muted";
     tag.textContent = "\uC800\uCE35";
     detail.appendChild(tag);
+  }
+  // 전월/전년 등락률 뱃지
+  var badges = calcChangeBadges(r.history, r.latest_price, r.latest_date);
+  if (badges.mom !== null) {
+    var momTag = document.createElement("span");
+    momTag.className = "tag " + (badges.mom >= 0 ? "tag-change-up" : "tag-change-down");
+    momTag.textContent = "\uC804\uC6D4 " + (badges.mom >= 0 ? "+" : "") + badges.mom.toFixed(1) + "%";
+    detail.appendChild(momTag);
+  }
+  if (badges.yoy !== null) {
+    var yoyTag = document.createElement("span");
+    yoyTag.className = "tag " + (badges.yoy >= 0 ? "tag-change-up" : "tag-change-down");
+    yoyTag.textContent = "\uC804\uB144 " + (badges.yoy >= 0 ? "+" : "") + badges.yoy.toFixed(1) + "%";
+    detail.appendChild(yoyTag);
   }
   info.appendChild(detail);
   var dateEl = document.createElement("div");
@@ -403,85 +445,6 @@ function renderRankedItem(r, idx) {
   return card;
 }
 
-function renderUndervaluedItem(r, idx) {
-  var card = document.createElement("div");
-  card.className = "rank-card";
-  card.style.cursor = "pointer";
-  card.addEventListener("click", function () {
-    showDetail(r);
-  });
-
-  var num = document.createElement("span");
-  var nClass = idx < 3 ? " n" + (idx + 1) : "";
-  num.className = "rank-num" + nClass;
-  num.textContent = idx + 1;
-  card.appendChild(num);
-
-  var content = document.createElement("div");
-  var top = document.createElement("div");
-  top.className = "rank-top";
-
-  var info = document.createElement("div");
-  info.className = "rank-info";
-  var aptEl = document.createElement("div");
-  aptEl.className = "rank-apt";
-  aptEl.textContent = r.apt_name;
-  info.appendChild(aptEl);
-  var detail = document.createElement("div");
-  detail.className = "rank-detail";
-  detail.textContent = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
-  info.appendChild(detail);
-  top.appendChild(info);
-
-  var change = document.createElement("div");
-  change.className = "rank-change";
-  var pctEl = document.createElement("div");
-  pctEl.className = "rank-pct";
-  var compareAvg = null;
-  if (r.compare && r.compare.length) {
-    var sum = 0;
-    var cnt = 0;
-    r.compare.forEach(function (c) {
-      if (c.recent_avg) { sum += c.recent_avg; cnt++; }
-    });
-    if (cnt > 0) compareAvg = sum / cnt;
-  }
-  var baseAvg = compareAvg || r.cluster_avg;
-  var gapPct = (r.recent_avg && baseAvg) ? ((r.recent_avg / baseAvg - 1) * 100) : r.gap_pct;
-  var ratio = (r.recent_avg && baseAvg) ? (r.recent_avg / baseAvg) : null;
-  var ratioText = ratio ? ("비율 " + (ratio * 100).toFixed(1) + "%") : "";
-  pctEl.textContent = "최근6개월 " + fmt(Math.round(r.recent_avg || r.current_price)) + "만";
-  pctEl.style.color = "var(--ink)";
-  change.appendChild(pctEl);
-  var diffEl = document.createElement("div");
-  diffEl.className = "rank-diff";
-  if (baseAvg) {
-    diffEl.textContent = "비교평균 " + fmt(Math.round(baseAvg)) + "만" + (ratioText ? " · " + ratioText : "");
-  } else {
-    diffEl.textContent = "";
-  }
-  change.appendChild(diffEl);
-  top.appendChild(change);
-
-  content.appendChild(top);
-
-  var meta = document.createElement("div");
-  meta.className = "rank-detail";
-  var metaText = "\uAC70\uB798\uB7C9 3\uB144 " + r.trade_count + "\uAC74";
-  if (r.compare && r.compare.length) {
-    var names = r.compare.map(function (c) {
-      return c.apt_name + "(" + c.sigungu + " " + c.dong_name + ")";
-    });
-    metaText += " \u00B7 \uBE44\uAD50: " + names.join(" \u00B7 ");
-  } else {
-    metaText += " \u00B7 \uD074\uB7EC\uC2A4\uD130 " + r.cluster_size + "\uB2E8\uC9C0";
-  }
-  meta.textContent = metaText;
-  content.appendChild(meta);
-
-  card.appendChild(content);
-  return card;
-}
 
 function renderSection(sectionData) {
   var sec = document.createElement("div");
@@ -574,6 +537,128 @@ function renderFilters() {
   mainLink.className = "search-link-btn active";
   mainLink.textContent = "\uBA54\uC778";
   filtersEl.insertBefore(mainLink, searchLink);
+
+  var favCount = getFavorites().length;
+  var favBtn = document.createElement("button");
+  favBtn.className = "search-link-btn";
+  favBtn.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30" + (favCount ? " (" + favCount + ")" : "");
+  favBtn.addEventListener("click", function () { showFavoritesModal(); });
+  filtersEl.appendChild(favBtn);
+}
+
+function showFavoritesModal() {
+  var old = document.getElementById("fav-modal");
+  if (old) old.remove();
+  var overlay = document.createElement("div");
+  overlay.id = "fav-modal";
+  overlay.className = "modal-overlay";
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
+  var modal = document.createElement("div");
+  modal.className = "modal-content";
+  var closeBtn = document.createElement("button");
+  closeBtn.className = "modal-close";
+  closeBtn.textContent = "\u2715";
+  closeBtn.addEventListener("click", function () { overlay.remove(); });
+  modal.appendChild(closeBtn);
+  var title = document.createElement("h2");
+  title.className = "modal-title";
+  title.textContent = "\u2605 \uC990\uACA8\uCC3E\uAE30";
+  modal.appendChild(title);
+  var favs = getFavorites();
+  if (!favs.length) {
+    var empty = document.createElement("p");
+    empty.className = "no-data";
+    empty.textContent = "\uC990\uACA8\uCC3E\uAE30\uD55C \uB2E8\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
+    modal.appendChild(empty);
+  } else {
+    favs.forEach(function (f) {
+      var row = document.createElement("div");
+      row.className = "recent-row";
+      var info = document.createElement("div");
+      info.className = "recent-info";
+      var nameEl = document.createElement("span");
+      nameEl.className = "recent-name";
+      nameEl.textContent = f.apt_name;
+      info.appendChild(nameEl);
+      var detailEl = document.createElement("div");
+      detailEl.className = "recent-detail";
+      detailEl.textContent = (f.sigungu ? f.sigungu + " " : "") + f.dong_name + " \u00B7 " + f.area_m2 + "m\u00B2";
+      info.appendChild(detailEl);
+      row.appendChild(info);
+      var priceEl = document.createElement("div");
+      priceEl.className = "recent-price";
+      priceEl.textContent = fmt(f.latest_price) + "\uB9CC";
+      row.appendChild(priceEl);
+      row.addEventListener("click", function () { overlay.remove(); showDetail(f); });
+      modal.appendChild(row);
+    });
+  }
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function renderRecentSection() {
+  var recents = getRecent();
+  if (!recents.length) return null;
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+
+  var header = document.createElement("div");
+  header.className = "recent-header";
+
+  var title = document.createElement("h2");
+  title.className = "section-title";
+  title.textContent = "\uCD5C\uADFC \uBCF8 \uB2E8\uC9C0";
+  title.style.margin = "0";
+  header.appendChild(title);
+
+  var toggleIcon = document.createElement("span");
+  toggleIcon.textContent = "\u25BC";
+  toggleIcon.style.color = "var(--muted)";
+  toggleIcon.style.fontSize = "11px";
+  header.appendChild(toggleIcon);
+
+  sec.appendChild(header);
+
+  var body = document.createElement("div");
+  body.className = "recent-body";
+
+  recents.slice(0, 5).forEach(function (item) {
+    var row = document.createElement("div");
+    row.className = "recent-row";
+
+    var info = document.createElement("div");
+    info.className = "recent-info";
+    var nameEl = document.createElement("span");
+    nameEl.className = "recent-name";
+    nameEl.textContent = item.apt_name;
+    info.appendChild(nameEl);
+    var detailEl = document.createElement("div");
+    detailEl.className = "recent-detail";
+    detailEl.textContent = (item.sigungu ? item.sigungu + " " : "") + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2";
+    info.appendChild(detailEl);
+    row.appendChild(info);
+
+    var priceEl = document.createElement("div");
+    priceEl.className = "recent-price";
+    priceEl.textContent = fmt(item.latest_price) + "\uB9CC";
+    row.appendChild(priceEl);
+
+    row.addEventListener("click", function () { showDetail(item); });
+    body.appendChild(row);
+  });
+
+  sec.appendChild(body);
+
+  var collapsed = false;
+  header.addEventListener("click", function () {
+    collapsed = !collapsed;
+    body.style.display = collapsed ? "none" : "block";
+    toggleIcon.textContent = collapsed ? "\u25B6" : "\u25BC";
+  });
+
+  return sec;
 }
 
 function renderSections() {
@@ -582,6 +667,10 @@ function renderSections() {
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
+
+  // 최근 본 단지
+  var recentSec = renderRecentSection();
+  if (recentSec) gridEl.appendChild(recentSec);
 
   var data = sidoData;
   if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
@@ -600,53 +689,10 @@ function renderSections() {
   if (data.section3) {
     gridEl.appendChild(renderSection(data.section3));
   }
-  if (globalUndervalued && globalUndervalued.sidos && globalUndervalued.sidos[activeSido]) {
-    var under = globalUndervalued.sidos[activeSido].undervalued || [];
-    var sec = document.createElement("div");
-    sec.className = "section";
-    var title = document.createElement("h2");
-    title.className = "section-title";
-    title.textContent = "\uC800\uD3C9\uAC00 \uB2E8\uC9C0 TOP 3";
-    sec.appendChild(title);
-    var sub = document.createElement("p");
-    sub.className = "section-sub";
-    sub.textContent = "\uBE44\uAD50 \uB2E8\uC9C0 2\uAC1C \uD3C9\uADE0 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uB0AE\uC740 \uC21C";
-    sec.appendChild(sub);
-
-    if (!under.length) {
-      var p = document.createElement("p");
-      p.className = "no-data";
-      p.textContent = "\uC870\uAC74\uC5D0 \uD574\uB2F9\uD558\uB294 \uB2E8\uC9C0 \uC5C6\uC74C";
-      sec.appendChild(p);
-    } else {
-      under.slice(0, 3).forEach(function (r, i) {
-        sec.appendChild(renderUndervaluedItem(r, i));
-      });
-    }
-    gridEl.appendChild(sec);
-
-    var bands = globalUndervalued.sidos[activeSido].bands || [];
-    bands.forEach(function (b) {
-      if (!b.top3 || !b.top3.length) return;
-      var bsec = document.createElement("div");
-      bsec.className = "section";
-      var btitle = document.createElement("h2");
-      btitle.className = "section-title";
-      btitle.textContent = "\uC800\uD3C9\uAC00 TOP3 (\uAC00\uACA9\uB300: " + b.label + ")";
-      bsec.appendChild(btitle);
-      var bsub = document.createElement("p");
-      bsub.className = "section-sub";
-      bsub.textContent = "\uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uAE30\uC900";
-      bsec.appendChild(bsub);
-      b.top3.forEach(function (r, i) {
-        bsec.appendChild(renderUndervaluedItem(r, i));
-      });
-      gridEl.appendChild(bsec);
-    });
-  }
 }
 
 function showDetail(r) {
+  if (r.id) addRecent(r);
   // 기존 모달 제거
   var old = document.getElementById("detail-modal");
   if (old) old.remove();
@@ -778,14 +824,6 @@ async function init() {
     return;
   }
   globalData = await response.json();
-  try {
-    var resUnder = await fetch(undervaluedPath);
-    if (resUnder.ok) {
-      globalUndervalued = await resUnder.json();
-    }
-  } catch (e) {
-    globalUndervalued = null;
-  }
 
   var sidoOrder = globalData.sido_order || [];
   var hash = decodeURIComponent(location.hash.replace("#", ""));
