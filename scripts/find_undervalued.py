@@ -131,7 +131,7 @@ def load_txns(apt_id: str) -> List[List]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--corr", type=float, default=0.97, help="Pearson correlation threshold")
+    ap.add_argument("--corr", type=float, default=0.93, help="Pearson correlation threshold")
     ap.add_argument("--months", type=int, default=36, help="Months window")
     ap.add_argument("--min-trades", type=int, default=15, help="Min trades in window")
     ap.add_argument("--min-valid", type=int, default=30, help="Min non-empty months after fill")
@@ -166,16 +166,16 @@ def main() -> None:
     def sido_params(sido: str):
         if sido in RELAXED_SIDOS:
             return {
-                "corr": min(args.corr, 0.93),
-                "min_trades": min(args.min_trades, 10),
-                "min_valid": min(args.min_valid, 20),
+                "corr": min(args.corr, 0.90),
+                "min_trades": min(args.min_trades, 8),
+                "min_valid": min(args.min_valid, 18),
                 "min_cluster": 2,
             }
         return {
             "corr": args.corr,
             "min_trades": args.min_trades,
             "min_valid": args.min_valid,
-            "min_cluster": 3,
+            "min_cluster": 2,
         }
 
     output = {
@@ -187,37 +187,40 @@ def main() -> None:
             "min_valid_months": args.min_valid,
             "corr_threshold": args.corr,
             "undervalued_gap": args.gap,
-            "region_level": "sido",
+            "region_level": "district",
             "bands": [b[0] for b in bands],
             "relaxed_sidos": sorted(RELAXED_SIDOS),
         },
         "sidos": {},
     }
 
-    for sido in search.get("sidos", {}).keys():
-        sp = sido_params(sido)
-        items = search["sidos"][sido]["items"]
-        series_map: Dict[str, Dict] = {}
+    def recent_gap_score(u):
+        """Lower = more recently undervalued. (6m ratio) - (3y ratio)."""
+        r6 = u["recent_avg"] / u["compare_avg_recent"] - 1
+        if u.get("avg_36") and u.get("compare_avg_36") and u["compare_avg_36"] > 0:
+            r36 = u["avg_36"] / u["compare_avg_36"] - 1
+            return r6 - r36
+        return r6
 
-        for item in items:
+    def find_undervalued_in_group(item_list, sp, gap):
+        """Run undervalued detection on a list of items (same district)."""
+        series_map: Dict[str, Dict] = {}
+        months_set = set(months)
+
+        for item in item_list:
             apt_id = item["id"]
             txns = load_txns(apt_id)
             if not txns:
                 continue
-
-            # trades in last N months
-            trades_window = [t for t in txns if parse_month(t[0]) in months]
+            trades_window = [t for t in txns if parse_month(t[0]) in months_set]
             if len(trades_window) < sp["min_trades"]:
                 continue
-
             series, valid = build_series(txns, months)
             if valid < sp["min_valid"]:
                 continue
-
             current_price = series[-1]
             if current_price is None:
                 continue
-
             key = f"{item['apt_name']}\t{item['area_m2']}"
             series_map[key] = {
                 "id": apt_id,
@@ -236,8 +239,7 @@ def main() -> None:
         keys = list(series_map.keys())
         n = len(keys)
         if n == 0:
-            output["sidos"][sido] = {"clusters": [], "undervalued": []}
-            continue
+            return [], [], []
 
         adj: Dict[int, List[int]] = {i: [] for i in range(n)}
         for i in range(n):
@@ -262,7 +264,6 @@ def main() -> None:
         for i in range(n):
             if visited[i]:
                 continue
-            # BFS component
             stack = [i]
             comp = []
             visited[i] = True
@@ -279,20 +280,6 @@ def main() -> None:
 
             members = [series_map[keys[idx]] for idx in comp]
             avg_current = sum(m["current_price"] for m in members) / len(members)
-            # Precompute representative compare candidates (highest recent avg)
-            compare_sorted = sorted(members, key=lambda x: x["recent_avg"] or 0, reverse=True)
-            compare_list = [
-                {
-                    "id": m["id"],
-                    "apt_name": m["apt_name"],
-                    "sigungu": m["sigungu"],
-                    "dong_name": m["dong_name"],
-                    "area_m2": m["area_m2"],
-                    "current_price": m["current_price"],
-                    "recent_avg": m["recent_avg"],
-                }
-                for m in compare_sorted
-            ]
 
             cluster = {
                 "size": len(members),
@@ -313,12 +300,10 @@ def main() -> None:
             clusters.append(cluster)
 
             for m in members:
-                # Find up to 2 compare units: most similar price series
                 sims = []
                 for other in members:
                     if other["id"] == m["id"]:
                         continue
-                    # Skip same-name apartments (different area of same complex)
                     if other["apt_name"] == m["apt_name"] and other["sigungu"] == m["sigungu"]:
                         continue
                     corr = series_corr(m["series"], other["series"], sp["min_valid"])
@@ -358,7 +343,6 @@ def main() -> None:
                     1, sum(1 for c in compares if c.get("avg_36"))
                 )
 
-                # Skip if not undervalued vs compare peers
                 if m["recent_avg"] is None or compare_avg_recent <= 0:
                     continue
                 ratio = m["recent_avg"] / compare_avg_recent
@@ -383,40 +367,52 @@ def main() -> None:
                     "compare": compares,
                 }
 
-                # Overall undervalued: strict gap vs cluster average
-                if m["current_price"] <= (1.0 - args.gap) * avg_current:
+                if m["current_price"] <= (1.0 - gap) * avg_current:
                     undervalued.append(entry)
 
-                # Band-level candidates: any peer-undervalued member
                 band_candidates.append(entry)
 
-        def recent_gap_score(u):
-            """Lower = more recently undervalued. (6m ratio) - (3y ratio)."""
-            r6 = u["recent_avg"] / u["compare_avg_recent"] - 1  # e.g. -0.05
-            if u.get("avg_36") and u.get("compare_avg_36") and u["compare_avg_36"] > 0:
-                r36 = u["avg_36"] / u["compare_avg_36"] - 1  # e.g. 0.0
-                return r6 - r36  # e.g. -0.05
-            return r6  # fallback: 6m ratio only
+        return clusters, undervalued, band_candidates
 
-        undervalued = [u for u in undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
-        undervalued.sort(key=recent_gap_score)
+    for sido in search.get("sidos", {}).keys():
+        sp = sido_params(sido)
+        items = search["sidos"][sido]["items"]
 
-        # Band-level: use all peer-undervalued candidates (not just cluster-avg gated)
-        band_candidates.sort(key=recent_gap_score)
+        # 구(district)별로 그룹핑
+        district_items: Dict[str, List] = {}
+        for item in items:
+            dist = item.get("district", "")
+            if dist:
+                district_items.setdefault(dist, []).append(item)
+
+        all_clusters = []
+        all_undervalued = []
+        all_band_candidates = []
+
+        for dist_name, dist_items in district_items.items():
+            clusters, undervalued, band_cands = find_undervalued_in_group(dist_items, sp, args.gap)
+            all_clusters.extend(clusters)
+            all_undervalued.extend(undervalued)
+            all_band_candidates.extend(band_cands)
+
+        all_undervalued = [u for u in all_undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
+        all_undervalued.sort(key=recent_gap_score)
+
+        all_band_candidates.sort(key=recent_gap_score)
         bands_out = []
         for label, low, high in bands:
             if high is None:
-                b_items = [u for u in band_candidates if u["recent_avg"] >= low]
+                b_items = [u for u in all_band_candidates if u["recent_avg"] >= low]
             else:
-                b_items = [u for u in band_candidates if low <= u["recent_avg"] < high]
+                b_items = [u for u in all_band_candidates if low <= u["recent_avg"] < high]
             bands_out.append({
                 "label": label,
                 "top3": b_items[:3],
             })
 
         output["sidos"][sido] = {
-            "clusters": clusters,
-            "undervalued": undervalued[:3],
+            "clusters": all_clusters,
+            "undervalued": all_undervalued[:3],
             "bands": bands_out,
         }
 
