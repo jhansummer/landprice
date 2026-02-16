@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>지역별 시세 - APT Mine</title>
+  <meta name="description" content="지역별 아파트 시세 추이, 동네별 시세 비교, 전세가율 분석. 국토교통부 실거래가 기반." />
+  <meta name="keywords" content="아파트 시세, 지역별 시세, 시세 추이, 전세가율, 동네별 비교, APT Mine" />
+  <meta property="og:title" content="지역별 시세 - APT Mine" />
+  <meta property="og:description" content="지역별 아파트 시세 추이, 동네별 시세 비교, 전세가율 분석" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aptmine.com/regional.html" />
+  <link rel="canonical" href="https://aptmine.com/regional.html" />
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #1c1b19;
+      --accent: #1a6f5a;
+      --paper: #ffffff;
+      --muted: #6e6a63;
+      --line: #d8cfc1;
+      --up: #d63a3a;
+      --down: #2563eb;
+      --font-title: "Playfair Display", "Eczar", "Georgia", serif;
+      --font-body: "Inter", "Nanum Gothic", "Helvetica Neue", sans-serif;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 10%, #f9f3e7, #efe4d6 50%, #e9dccb);
+    }
+    header {
+      padding: 32px 20px 16px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-family: "Pretendard", "Nanum Gothic", sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .status {
+      text-align: center;
+      font-size: 14px;
+      color: var(--accent);
+      margin: 20px 0;
+    }
+    .meta {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 0 20px 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .tab-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .district-select-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+    }
+    .district-select {
+      padding: 8px 32px 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .district-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .filter-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .search-link-btn {
+      flex-shrink: 0;
+      padding: 8px 18px;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      background: var(--paper);
+      color: var(--accent);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .search-link-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .search-link-btn.active {
+      background: var(--accent);
+      color: #fff;
+      cursor: default;
+    }
+    .section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(28, 27, 25, 0.06);
+    }
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+    .no-data {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 0;
+    }
+    .scatter-chart {
+      margin-top: 10px;
+      width: 100%;
+      height: 150px;
+    }
+    .scatter-chart canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* 동네별 시세 비교 */
+    .dong-stats-list { display: flex; flex-direction: column; gap: 6px; }
+    .dong-stat-row {
+      display: grid; grid-template-columns: 70px 1fr 100px;
+      align-items: center; gap: 8px; font-size: 12px;
+    }
+    .dong-stat-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dong-stat-bar-wrap { height: 16px; background: #f0ebe3; border-radius: 3px; overflow: hidden; }
+    .dong-stat-bar { height: 100%; background: var(--accent); border-radius: 3px; min-width: 2px; }
+    .dong-stat-val { text-align: right; color: var(--muted); font-size: 11px; white-space: nowrap; }
+    /* 전세가율 */
+    .jeonse-ratio-big {
+      font-size: 32px; font-weight: 800; color: var(--accent);
+      text-align: center; margin: 8px 0 4px;
+    }
+    @media (max-width: 720px) {
+      h1 { font-size: 26px; }
+      .tabs { padding: 0 16px 10px; gap: 4px; }
+      .tab-btn { padding: 6px 14px; font-size: 13px; }
+      .section { padding: 14px 16px; }
+      .dong-stat-row { grid-template-columns: 60px 1fr 90px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600;700&family=Inter:wght@400;500;600;700&family=Nanum+Gothic:wght@400;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H9MBJYB0DQ');
+  </script>
+</head>
+<body>
+  <header>
+    <h1>지역별 시세</h1>
+    <p>시세 추이 · 동네별 비교 · 전세가율</p>
+  </header>
+  <nav id="tabs" class="tabs"></nav>
+  <div id="subtabs" class="district-select-wrap"></div>
+  <div id="filters" class="filter-bar"></div>
+  <main>
+    <div id="status" class="status">데이터 로딩 중...</div>
+    <div id="meta" class="meta"></div>
+    <div id="grid"></div>
+  </main>
+  <footer style="text-align:center;padding:24px 20px;font-size:12px;color:#6e6a63;">
+    <a href="/privacy.html" style="color:#6e6a63;">개인정보처리방침</a>
+    <span style="margin:0 6px;">|</span>
+    <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
+  </footer>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
+  <script src="regional.js?v=1"></script>
+</body>
+</html>
