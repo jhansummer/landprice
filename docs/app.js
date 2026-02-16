@@ -16,22 +16,11 @@ function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
 }
 
-function calcChangeBadges(history, latestPrice, latestDateStr) {
-  if (!history || history.length < 2 || !latestDateStr) return { mom: null, yoy: null };
-  var latestDt = new Date(latestDateStr).getTime();
-  var mom = null, yoy = null;
-  for (var i = history.length - 1; i >= 0; i--) {
-    var dt = new Date(history[i][0]).getTime();
-    var days = (latestDt - dt) / 86400000;
-    if (mom === null && days >= 20 && days <= 90 && history[i][1]) {
-      mom = ((latestPrice / history[i][1]) - 1) * 100;
-    }
-    if (yoy === null && days >= 300 && days <= 425 && history[i][1]) {
-      yoy = ((latestPrice / history[i][1]) - 1) * 100;
-    }
-    if (mom !== null && yoy !== null) break;
-  }
-  return { mom: mom, yoy: yoy };
+function calcChangeBadge(history, latestPrice) {
+  if (!history || history.length < 2 || !latestPrice) return null;
+  var prevPrice = history[history.length - 2][1];
+  if (!prevPrice) return null;
+  return ((latestPrice / prevPrice) - 1) * 100;
 }
 
 function renderTabs(sidoOrder) {
@@ -626,19 +615,13 @@ function renderRankedItem(r, idx) {
     tag.textContent = "\uC800\uCE35";
     detail.appendChild(tag);
   }
-  // 전월/전년 등락률 뱃지
-  var badges = calcChangeBadges(r.history, r.latest_price, r.latest_date);
-  if (badges.mom !== null) {
-    var momTag = document.createElement("span");
-    momTag.className = "tag " + (badges.mom >= 0 ? "tag-change-up" : "tag-change-down");
-    momTag.textContent = "\uC804\uC6D4 " + (badges.mom >= 0 ? "+" : "") + badges.mom.toFixed(1) + "%";
-    detail.appendChild(momTag);
-  }
-  if (badges.yoy !== null) {
-    var yoyTag = document.createElement("span");
-    yoyTag.className = "tag " + (badges.yoy >= 0 ? "tag-change-up" : "tag-change-down");
-    yoyTag.textContent = "\uC804\uB144 " + (badges.yoy >= 0 ? "+" : "") + badges.yoy.toFixed(1) + "%";
-    detail.appendChild(yoyTag);
+  // 직전 거래 대비 등락률 뱃지
+  var prevChg = calcChangeBadge(r.history, r.latest_price);
+  if (prevChg !== null) {
+    var chgTag = document.createElement("span");
+    chgTag.className = "tag " + (prevChg >= 0 ? "tag-change-up" : "tag-change-down");
+    chgTag.textContent = "\uC9C1\uC804 " + (prevChg >= 0 ? "+" : "") + prevChg.toFixed(1) + "%";
+    detail.appendChild(chgTag);
   }
   info.appendChild(detail);
   var dateEl = document.createElement("div");
