@@ -1027,7 +1027,7 @@ function showDetail(r) {
 }
 
 async function init() {
-  var response = await fetch(summaryPath);
+  var response = await fetch(summaryPath + "?t=" + Date.now());
   if (!response.ok) {
     statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
     return;
