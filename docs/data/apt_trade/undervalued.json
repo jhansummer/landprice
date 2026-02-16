@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-16T14:08:55Z",
+  "updated_at": "2026-02-16T19:34:32Z",
   "current_month": "202602",
   "params": {
     "months": 36,
@@ -13706,7 +13706,7 @@
         },
         {
           "size": 241,
-          "avg_current_price": 157354.57,
+          "avg_current_price": 157361.2,
           "members": [
             {
               "id": "9aea9479e7",
@@ -14051,6 +14051,15 @@
               "trade_count": 70
             },
             {
+              "id": "97eae5bd36",
+              "apt_name": "산들마을2단지",
+              "sigungu": "성남시중원구",
+              "dong_name": "여수동",
+              "area_m2": 51.93,
+              "current_price": 80400.0,
+              "trade_count": 151
+            },
+            {
               "id": "618bb004c9",
               "apt_name": "양지마을(5단지)(한양501-514)",
               "sigungu": "성남시분당구",
@@ -14344,8 +14353,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
               "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
+              "current_price": 159500.0,
+              "trade_count": 76
             },
             {
               "id": "f66ef6f7a8",
@@ -15624,15 +15633,6 @@
               "area_m2": 51.89,
               "current_price": 149250.0,
               "trade_count": 153
-            },
-            {
-              "id": "97eae5bd36",
-              "apt_name": "산들마을2단지",
-              "sigungu": "성남시중원구",
-              "dong_name": "여수동",
-              "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
             },
             {
               "id": "91a50188fa",
@@ -17275,7 +17275,7 @@
           "avg_36": 68241.89814814815,
           "compare_avg_recent": 95583.33333333333,
           "compare_avg_36": 72111.6544117647,
-          "cluster_avg": 157354.57,
+          "cluster_avg": 157361.2,
           "gap_pct": -19.49,
           "trade_count": 38,
           "cluster_size": 241,
@@ -17317,7 +17317,7 @@
           "avg_36": 109956.66666666664,
           "compare_avg_recent": 144458.33333333334,
           "compare_avg_36": 113644.46428571429,
-          "cluster_avg": 157354.57,
+          "cluster_avg": 157361.2,
           "gap_pct": -15.84,
           "trade_count": 26,
           "cluster_size": 241,
@@ -17359,7 +17359,7 @@
           "avg_36": 80809.37019969277,
           "compare_avg_recent": 102351.66666666667,
           "compare_avg_36": 79664.36706349206,
-          "cluster_avg": 157354.57,
+          "cluster_avg": 157361.2,
           "gap_pct": -9.72,
           "trade_count": 42,
           "cluster_size": 241,
@@ -17471,7 +17471,7 @@
               "avg_36": 68241.89814814815,
               "compare_avg_recent": 95583.33333333333,
               "compare_avg_36": 72111.6544117647,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -19.49,
               "trade_count": 38,
               "cluster_size": 241,
@@ -17508,14 +17508,14 @@
               "sigungu": "성남시중원구",
               "dong_name": "여수동",
               "area_m2": 51.93,
-              "current_price": 79800.0,
-              "recent_avg": 76917.87037037038,
-              "avg_36": 68330.88734567902,
+              "current_price": 80400.0,
+              "recent_avg": 77017.87037037038,
+              "avg_36": 68347.55401234567,
               "compare_avg_recent": 93193.75,
               "compare_avg_36": 73369.69539760347,
-              "cluster_avg": 157354.57,
-              "gap_pct": -17.46,
-              "trade_count": 150,
+              "cluster_avg": 157361.2,
+              "gap_pct": -17.36,
+              "trade_count": 151,
               "cluster_size": 241,
               "compare": [
                 {
@@ -17527,8 +17527,8 @@
                   "current_price": 95662.5,
                   "recent_avg": 89860.83333333333,
                   "avg_36": 73345.85648148147,
-                  "corr": 0.906,
-                  "hist_diff_pct": 6.47
+                  "corr": 0.907,
+                  "hist_diff_pct": 6.46
                 },
                 {
                   "id": "5b939197d5",
@@ -17540,7 +17540,7 @@
                   "recent_avg": 96526.66666666667,
                   "avg_36": 73393.53431372548,
                   "corr": 0.898,
-                  "hist_diff_pct": 8.67
+                  "hist_diff_pct": 8.66
                 }
               ]
             },
@@ -17555,7 +17555,7 @@
               "avg_36": 66634.55882352941,
               "compare_avg_recent": 93471.66666666667,
               "compare_avg_36": 73354.8690087146,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -19.09,
               "trade_count": 16,
               "cluster_size": 241,
@@ -17644,7 +17644,7 @@
               "avg_36": 80809.37019969277,
               "compare_avg_recent": 102351.66666666667,
               "compare_avg_36": 79664.36706349206,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -9.72,
               "trade_count": 42,
               "cluster_size": 241,
@@ -17686,7 +17686,7 @@
               "avg_36": 88458.82352941176,
               "compare_avg_recent": 126413.19444444444,
               "compare_avg_36": 95524.09692159694,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -17.93,
               "trade_count": 17,
               "cluster_size": 241,
@@ -17733,7 +17733,7 @@
               "avg_36": 109956.66666666664,
               "compare_avg_recent": 144458.33333333334,
               "compare_avg_36": 113644.46428571429,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -15.84,
               "trade_count": 26,
               "cluster_size": 241,
@@ -17775,7 +17775,7 @@
               "avg_36": 128885.64814814816,
               "compare_avg_recent": 165366.6666666667,
               "compare_avg_36": 129812.38425925927,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -12.92,
               "trade_count": 53,
               "cluster_size": 241,
@@ -17817,7 +17817,7 @@
               "avg_36": 137195.45454545456,
               "compare_avg_recent": 171333.3333333333,
               "compare_avg_36": 138379.57589285716,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -12.84,
               "trade_count": 15,
               "cluster_size": 241,
@@ -17864,7 +17864,7 @@
               "avg_36": 143570.83333333334,
               "compare_avg_recent": 192483.3333333333,
               "compare_avg_36": 150476.98412698414,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -15.58,
               "trade_count": 15,
               "cluster_size": 241,
@@ -17906,7 +17906,7 @@
               "avg_36": 155572.38095238095,
               "compare_avg_recent": 194583.3333333333,
               "compare_avg_36": 161688.32589285716,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -13.56,
               "trade_count": 23,
               "cluster_size": 241,
@@ -17995,7 +17995,7 @@
               "avg_36": 193089.98599439778,
               "compare_avg_recent": 230750.0,
               "compare_avg_36": 193309.4494047619,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -9.21,
               "trade_count": 27,
               "cluster_size": 241,
@@ -18079,7 +18079,7 @@
               "avg_36": 185222.6851851852,
               "compare_avg_recent": 243750.0,
               "compare_avg_36": 197609.28571428574,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -12.62,
               "trade_count": 35,
               "cluster_size": 241,
@@ -18168,7 +18168,7 @@
               "avg_36": 242350.0,
               "compare_avg_recent": 277500.0,
               "compare_avg_36": 234548.6666666667,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -2.25,
               "trade_count": 21,
               "cluster_size": 241,
@@ -18198,7 +18198,7 @@
               "avg_36": 236025.51020408163,
               "compare_avg_recent": 269250.0,
               "compare_avg_36": 228781.4761904762,
-              "cluster_avg": 157354.57,
+              "cluster_avg": 157361.2,
               "gap_pct": -1.44,
               "trade_count": 38,
               "cluster_size": 241,
