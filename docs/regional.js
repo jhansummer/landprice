@@ -997,6 +997,18 @@ function renderSections() {
     if (allDongSec) gridEl.appendChild(allDongSec);
   }
 
+  // 시세 회복 현황 (바 차트 — 항상 표시)
+  var recovery = sidoData.recovery;
+  if (!activeDistrict && recovery && recovery.items && recovery.items.length) {
+    var recSec = renderRecoverySection(recovery.items, activeSido + " \uC2DC\uC138 \uD68C\uBCF5 \uD604\uD669", false);
+    if (recSec) gridEl.appendChild(recSec);
+  }
+  var dongRec = data.dong_recovery;
+  if (activeDistrict && dongRec && dongRec.items && dongRec.items.length) {
+    var dRecSec = renderRecoverySection(dongRec.items, activeDistrict + " \uB3D9\uBCC4 \uD68C\uBCF5 \uD604\uD669", true);
+    if (dRecSec) gridEl.appendChild(dRecSec);
+  }
+
   // 전세가율
   if (data.jeonse) {
     var jeonseSec = renderJeonseSection(data.jeonse);
