@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-16T07:40:32Z",
+  "updated_at": "2026-02-17T03:49:27Z",
   "current_month": "202602",
   "params": {
     "months": 36,
@@ -58586,7 +58586,7 @@
         },
         {
           "size": 401,
-          "avg_current_price": 135430.31,
+          "avg_current_price": 135434.3,
           "members": [
             {
               "id": "36020b2d5e",
@@ -58605,6 +58605,15 @@
               "area_m2": 58.49,
               "current_price": 118750.0,
               "trade_count": 70
+            },
+            {
+              "id": "97eae5bd36",
+              "apt_name": "산들마을2단지",
+              "sigungu": "성남시중원구",
+              "dong_name": "여수동",
+              "area_m2": 51.93,
+              "current_price": 80400.0,
+              "trade_count": 151
             },
             {
               "id": "9a89787b52",
@@ -58918,8 +58927,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
               "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
+              "current_price": 159500.0,
+              "trade_count": 76
             },
             {
               "id": "858688afe9",
@@ -62043,15 +62052,6 @@
               "area_m2": 51.89,
               "current_price": 149250.0,
               "trade_count": 153
-            },
-            {
-              "id": "97eae5bd36",
-              "apt_name": "산들마을2단지",
-              "sigungu": "성남시중원구",
-              "dong_name": "여수동",
-              "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
             },
             {
               "id": "618bb004c9",
@@ -65222,7 +65222,7 @@
         },
         {
           "size": 485,
-          "avg_current_price": 141141.07,
+          "avg_current_price": 141144.37,
           "members": [
             {
               "id": "9aea9479e7",
@@ -66188,6 +66188,15 @@
               "trade_count": 24
             },
             {
+              "id": "d890084774",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.4621,
+              "current_price": 159500.0,
+              "trade_count": 76
+            },
+            {
               "id": "54cdb1f02a",
               "apt_name": "푸른마을(쌍용)",
               "sigungu": "성남시분당구",
@@ -66204,15 +66213,6 @@
               "area_m2": 84.981,
               "current_price": 65900.0,
               "trade_count": 34
-            },
-            {
-              "id": "d890084774",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
             },
             {
               "id": "3d811c3e01",
@@ -69154,8 +69154,8 @@
               "sigungu": "성남시중원구",
               "dong_name": "여수동",
               "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
+              "current_price": 80400.0,
+              "trade_count": 151
             },
             {
               "id": "32e6e37939",
@@ -69860,7 +69860,7 @@
         },
         {
           "size": 364,
-          "avg_current_price": 143246.56,
+          "avg_current_price": 143250.96,
           "members": [
             {
               "id": "c84c83e883",
@@ -70565,6 +70565,15 @@
               "trade_count": 70
             },
             {
+              "id": "97eae5bd36",
+              "apt_name": "산들마을2단지",
+              "sigungu": "성남시중원구",
+              "dong_name": "여수동",
+              "area_m2": 51.93,
+              "current_price": 80400.0,
+              "trade_count": 151
+            },
+            {
               "id": "618bb004c9",
               "apt_name": "양지마을(5단지)(한양501-514)",
               "sigungu": "성남시분당구",
@@ -70714,8 +70723,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
               "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
+              "current_price": 159500.0,
+              "trade_count": 76
             },
             {
               "id": "24b6cd7455",
@@ -73040,15 +73049,6 @@
               "trade_count": 153
             },
             {
-              "id": "97eae5bd36",
-              "apt_name": "산들마을2단지",
-              "sigungu": "성남시중원구",
-              "dong_name": "여수동",
-              "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
-            },
-            {
               "id": "cd7891d5a0",
               "apt_name": "단대푸르지오",
               "sigungu": "성남시수정구",
@@ -74534,7 +74534,7 @@
         },
         {
           "size": 451,
-          "avg_current_price": 135315.62,
+          "avg_current_price": 135319.17,
           "members": [
             {
               "id": "d825b7bea0",
@@ -75473,6 +75473,15 @@
               "trade_count": 24
             },
             {
+              "id": "d890084774",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.4621,
+              "current_price": 159500.0,
+              "trade_count": 76
+            },
+            {
               "id": "54cdb1f02a",
               "apt_name": "푸른마을(쌍용)",
               "sigungu": "성남시분당구",
@@ -75489,15 +75498,6 @@
               "area_m2": 84.981,
               "current_price": 65900.0,
               "trade_count": 34
-            },
-            {
-              "id": "d890084774",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
             },
             {
               "id": "3d811c3e01",
@@ -76472,6 +76472,15 @@
               "trade_count": 70
             },
             {
+              "id": "97eae5bd36",
+              "apt_name": "산들마을2단지",
+              "sigungu": "성남시중원구",
+              "dong_name": "여수동",
+              "area_m2": 51.93,
+              "current_price": 80400.0,
+              "trade_count": 151
+            },
+            {
               "id": "618bb004c9",
               "apt_name": "양지마을(5단지)(한양501-514)",
               "sigungu": "성남시분당구",
@@ -76515,15 +76524,6 @@
               "area_m2": 51.89,
               "current_price": 149250.0,
               "trade_count": 153
-            },
-            {
-              "id": "97eae5bd36",
-              "apt_name": "산들마을2단지",
-              "sigungu": "성남시중원구",
-              "dong_name": "여수동",
-              "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
             },
             {
               "id": "aaf0882f45",
@@ -78719,7 +78719,7 @@
         },
         {
           "size": 366,
-          "avg_current_price": 149333.19,
+          "avg_current_price": 149337.56,
           "members": [
             {
               "id": "1d6f450de8",
@@ -79348,17 +79348,8 @@
               "sigungu": "성남시중원구",
               "dong_name": "여수동",
               "area_m2": 51.93,
-              "current_price": 79800.0,
-              "trade_count": 150
-            },
-            {
-              "id": "c63bdd6da1",
-              "apt_name": "래미안안양메가트리아",
-              "sigungu": "안양시만안구",
-              "dong_name": "안양동",
-              "area_m2": 59.94,
-              "current_price": 88000.0,
-              "trade_count": 88
+              "current_price": 80400.0,
+              "trade_count": 151
             },
             {
               "id": "47f027955d",
@@ -79404,6 +79395,15 @@
               "area_m2": 58.71,
               "current_price": 130000.0,
               "trade_count": 24
+            },
+            {
+              "id": "c63bdd6da1",
+              "apt_name": "래미안안양메가트리아",
+              "sigungu": "안양시만안구",
+              "dong_name": "안양동",
+              "area_m2": 59.94,
+              "current_price": 88000.0,
+              "trade_count": 88
             },
             {
               "id": "4ff08ffb66",
@@ -79546,8 +79546,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
               "area_m2": 85.4621,
-              "current_price": 158500.0,
-              "trade_count": 75
+              "current_price": 159500.0,
+              "trade_count": 76
             },
             {
               "id": "d9fb4c62ec",
@@ -82201,7 +82201,7 @@
           "avg_36": 76494.11764705883,
           "compare_avg_recent": 90099.51388888889,
           "compare_avg_36": 72955.25079851851,
-          "cluster_avg": 135430.31,
+          "cluster_avg": 135434.3,
           "gap_pct": -8.06,
           "trade_count": 33,
           "cluster_size": 401,
@@ -82243,7 +82243,7 @@
           "avg_36": 80809.37019969277,
           "compare_avg_recent": 102351.66666666667,
           "compare_avg_36": 79664.36706349206,
-          "cluster_avg": 135430.31,
+          "cluster_avg": 135434.3,
           "gap_pct": -9.72,
           "trade_count": 42,
           "cluster_size": 401,
@@ -82290,7 +82290,7 @@
               "avg_36": 43304.292929292926,
               "compare_avg_recent": 52400.69444444445,
               "compare_avg_36": 45909.12730833073,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -10.62,
               "trade_count": 22,
               "cluster_size": 401,
@@ -82439,7 +82439,7 @@
               "avg_36": 70139.70588235294,
               "compare_avg_recent": 87355.95619658119,
               "compare_avg_36": 71091.89479638009,
-              "cluster_avg": 141141.07,
+              "cluster_avg": 141144.37,
               "gap_pct": -11.74,
               "trade_count": 29,
               "cluster_size": 485,
@@ -82481,7 +82481,7 @@
               "avg_36": 68241.89814814815,
               "compare_avg_recent": 93274.51388888889,
               "compare_avg_36": 73741.23391398691,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -17.5,
               "trade_count": 38,
               "cluster_size": 401,
@@ -82528,7 +82528,7 @@
               "avg_36": 80809.37019969277,
               "compare_avg_recent": 102351.66666666667,
               "compare_avg_36": 79664.36706349206,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -9.72,
               "trade_count": 42,
               "cluster_size": 401,
@@ -82570,7 +82570,7 @@
               "avg_36": 88458.82352941176,
               "compare_avg_recent": 126413.19444444444,
               "compare_avg_36": 95524.09692159694,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -17.93,
               "trade_count": 17,
               "cluster_size": 401,
@@ -82612,7 +82612,7 @@
               "avg_36": 93308.59375,
               "compare_avg_recent": 120826.3888888889,
               "compare_avg_36": 92595.07275132273,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -9.29,
               "trade_count": 44,
               "cluster_size": 401,
@@ -82659,7 +82659,7 @@
               "avg_36": 111232.8431372549,
               "compare_avg_recent": 139856.94444444444,
               "compare_avg_36": 109680.19047619047,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -10.92,
               "trade_count": 26,
               "cluster_size": 401,
@@ -82701,7 +82701,7 @@
               "avg_36": 128885.64814814816,
               "compare_avg_recent": 165366.6666666667,
               "compare_avg_36": 129812.38425925927,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -12.92,
               "trade_count": 53,
               "cluster_size": 401,
@@ -82743,7 +82743,7 @@
               "avg_36": 137195.45454545456,
               "compare_avg_recent": 171333.3333333333,
               "compare_avg_36": 138379.57589285716,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -12.84,
               "trade_count": 15,
               "cluster_size": 401,
@@ -82790,7 +82790,7 @@
               "avg_36": 143570.83333333334,
               "compare_avg_recent": 192483.3333333333,
               "compare_avg_36": 150476.98412698414,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -15.58,
               "trade_count": 15,
               "cluster_size": 401,
@@ -82832,7 +82832,7 @@
               "avg_36": 147063.23529411765,
               "compare_avg_recent": 189666.6666666667,
               "compare_avg_36": 151191.5806878307,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -13.27,
               "trade_count": 17,
               "cluster_size": 401,
@@ -82874,7 +82874,7 @@
               "avg_36": 155572.38095238095,
               "compare_avg_recent": 194583.3333333333,
               "compare_avg_36": 161688.32589285716,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -13.56,
               "trade_count": 23,
               "cluster_size": 401,
@@ -82921,7 +82921,7 @@
               "avg_36": 193089.98599439778,
               "compare_avg_recent": 230750.0,
               "compare_avg_36": 193309.4494047619,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -9.21,
               "trade_count": 27,
               "cluster_size": 401,
@@ -83005,7 +83005,7 @@
               "avg_36": 175387.14285714287,
               "compare_avg_recent": 218125.0,
               "compare_avg_36": 169510.6245590829,
-              "cluster_avg": 141141.07,
+              "cluster_avg": 141144.37,
               "gap_pct": -3.27,
               "trade_count": 15,
               "cluster_size": 485,
@@ -83094,7 +83094,7 @@
               "avg_36": 242350.0,
               "compare_avg_recent": 277500.0,
               "compare_avg_36": 234548.6666666667,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -2.25,
               "trade_count": 21,
               "cluster_size": 401,
@@ -83124,7 +83124,7 @@
               "avg_36": 236025.51020408163,
               "compare_avg_recent": 269250.0,
               "compare_avg_36": 228781.4761904762,
-              "cluster_avg": 135430.31,
+              "cluster_avg": 135434.3,
               "gap_pct": -1.44,
               "trade_count": 38,
               "cluster_size": 401,
@@ -83171,7 +83171,7 @@
               "avg_36": 295519.53125,
               "compare_avg_recent": 364666.6666666667,
               "compare_avg_36": 279540.27777777775,
-              "cluster_avg": 141141.07,
+              "cluster_avg": 141144.37,
               "gap_pct": -3.22,
               "trade_count": 20,
               "cluster_size": 485,
