@@ -971,6 +971,134 @@ def build_jeonse_dong_stats(rent_records: List[Dict[str, object]],
     return stats
 
 
+def build_gap_analysis(rent_records: List[Dict[str, object]],
+                       sale_records: List[Dict[str, object]]) -> Dict[str, object]:
+    """갭투자 분석: 매매가-전세가 차이(갭) 현황 + 월별 추이."""
+    # 최신 매매가 {(apt_name, area_m2): {price, deal_date, dong_name}}
+    sale_latest: Dict[Tuple, Dict] = {}
+    for r in sorted(sale_records, key=lambda x: x["deal_date"], reverse=True):
+        key = (r["apt_name"], r["area_m2"])
+        if key not in sale_latest and r["price_man"]:
+            sale_latest[key] = {
+                "price": r["price_man"],
+                "deal_date": r["deal_date"],
+                "dong_name": r.get("dong_name", ""),
+            }
+
+    # 최신 전세가 {(apt_name, area_m2): deposit}
+    rent_latest: Dict[Tuple, int] = {}
+    for r in sorted(rent_records, key=lambda x: x["deal_date"], reverse=True):
+        key = (r["apt_name"], r["area_m2"])
+        if key not in rent_latest and r["deposit_man"]:
+            rent_latest[key] = r["deposit_man"]
+
+    # 매칭 → 갭 계산
+    items = []
+    for key, deposit in rent_latest.items():
+        sale = sale_latest.get(key)
+        if not sale or sale["price"] <= 0:
+            continue
+        gap = sale["price"] - deposit
+        if gap < 0:
+            continue
+        items.append({
+            "apt_name": key[0],
+            "area_m2": key[1],
+            "dong_name": sale["dong_name"],
+            "sale_price": sale["price"],
+            "jeonse_price": deposit,
+            "gap": gap,
+            "ratio": round((deposit / sale["price"]) * 100, 1),
+        })
+
+    if not items:
+        return {}
+
+    items.sort(key=lambda x: x["gap"])
+    gaps = [it["gap"] for it in items]
+    avg_gap = round(sum(gaps) / len(gaps))
+
+    # 월별 평균 갭 추이
+    sale_by_key: Dict[Tuple, List[Tuple[str, int]]] = {}
+    for r in sale_records:
+        if r["price_man"] and r["area_m2"]:
+            key = (r["apt_name"], r["area_m2"])
+            sale_by_key.setdefault(key, []).append((r["deal_date"], r["price_man"]))
+    for v in sale_by_key.values():
+        v.sort()
+
+    rent_by_month: Dict[str, List] = {}
+    for r in rent_records:
+        if r["deposit_man"] and r["area_m2"]:
+            rent_by_month.setdefault(r["deal_ym"], []).append(r)
+
+    gap_trend = []
+    for ym in sorted(rent_by_month.keys()):
+        month_gaps = []
+        for r in rent_by_month[ym]:
+            key = (r["apt_name"], r["area_m2"])
+            sale_history = sale_by_key.get(key)
+            if not sale_history:
+                continue
+            sale_price = None
+            for sd, sp in reversed(sale_history):
+                if sd <= r["deal_date"]:
+                    sale_price = sp
+                    break
+            if not sale_price:
+                for sd, sp in sale_history:
+                    if sd >= r["deal_date"]:
+                        sale_price = sp
+                        break
+            if sale_price and sale_price > 0:
+                g = sale_price - r["deposit_man"]
+                if g >= 0:
+                    month_gaps.append(g)
+        if month_gaps:
+            gap_trend.append([ym, round(sum(month_gaps) / len(month_gaps)), len(month_gaps)])
+
+    return {
+        "avg_gap": avg_gap,
+        "count": len(items),
+        "top5_low_gap": items[:5],
+        "gap_trend": gap_trend,
+    }
+
+
+SIZE_LABELS = {"small": "소형(~60m²)", "mid": "중형(60~85m²)", "large": "대형(85m²~)"}
+
+
+def _size_bucket(area_m2: float) -> str:
+    if area_m2 < 60:
+        return "small"
+    elif area_m2 < 85:
+        return "mid"
+    else:
+        return "large"
+
+
+def build_trend_by_size(records: List[Dict[str, object]]) -> Dict[str, List]:
+    """평형대별(소형/중형/대형) 월별 m²당 평균가 추이."""
+    buckets: Dict[str, Dict[str, List[float]]] = {"small": {}, "mid": {}, "large": {}}
+    for r in records:
+        if not r.get("price_man") or not r.get("area_m2") or r["area_m2"] <= 0:
+            continue
+        bucket = _size_bucket(r["area_m2"])
+        ym = r["deal_date"][:4] + r["deal_date"][5:7]
+        per_m2 = r["price_man"] / r["area_m2"]
+        buckets[bucket].setdefault(ym, []).append(per_m2)
+
+    result = {}
+    for bucket, by_month in buckets.items():
+        trend = []
+        for ym in sorted(by_month.keys()):
+            vals = by_month[ym]
+            trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
+        if len(trend) >= 2:
+            result[bucket] = trend
+    return result if result else {}
+
+
 def section3_recent(records: List[Dict[str, object]], current_month: str, limit: int = 0) -> Dict[str, object]:
     """최근 3개월내 거래 중 5년 최고가 대비 상승률. limit>0이면 상위 N건만."""
     dt = datetime.strptime(current_month, "%Y%m")
@@ -1167,6 +1295,13 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 jds = build_jeonse_dong_stats(dist_rent, current_month)
                 if jds:
                     dist_data["jeonse_dong_stats"] = jds
+                gap = build_gap_analysis(dist_rent, dist_records)
+                if gap:
+                    dist_data["gap_analysis"] = gap
+            # 평형대별 추이
+            tbs = build_trend_by_size(dist_records)
+            if tbs:
+                dist_data["trend_by_size"] = tbs
             # 동별 회복 현황 (같은 단지 같은 평수 기준)
             dong_recovery = build_dong_recovery(dist_records, current_month)
             if dong_recovery:
@@ -1206,6 +1341,12 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             jvol = build_jeonse_volume(rent_records)
             if jvol:
                 sido_data["jeonse_volume"] = jvol
+            gap = build_gap_analysis(rent_records, records)
+            if gap:
+                sido_data["gap_analysis"] = gap
+        tbs = build_trend_by_size(records)
+        if tbs:
+            sido_data["trend_by_size"] = tbs
         sidos[sido] = sido_data
         search_items.sort(key=lambda x: -x["pct"])
         search_sidos[sido] = {

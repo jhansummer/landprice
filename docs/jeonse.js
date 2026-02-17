@@ -291,6 +291,83 @@ function renderJeonseDongStats(dongStats) {
   return sec;
 }
 
+/* ── 갭투자 분석 ── */
+function renderGapAnalysis(gap) {
+  if (!gap || !gap.avg_gap) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = "갭투자 분석";
+  sec.appendChild(h2);
+
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "매매가 - 전세가 차이 (갭) · " + gap.count + "개 단지 기준";
+  sec.appendChild(sub);
+
+  // 평균 갭 큰 숫자
+  var bigNum = document.createElement("div");
+  bigNum.className = "jeonse-ratio-big";
+  bigNum.style.color = "#f97316";
+  var avgGap = gap.avg_gap;
+  bigNum.textContent = avgGap >= 10000
+    ? (avgGap / 10000).toFixed(1) + "\uc5b5"
+    : fmt(avgGap) + "만";
+  sec.appendChild(bigNum);
+
+  var avgLabel = document.createElement("p");
+  avgLabel.className = "section-sub";
+  avgLabel.textContent = "평균 갭 (매매가 - 전세가)";
+  sec.appendChild(avgLabel);
+
+  // 갭 추이 차트
+  if (gap.gap_trend && gap.gap_trend.length >= 2) {
+    var chartTitle = document.createElement("h3");
+    chartTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
+    chartTitle.textContent = "월별 평균 갭 추이";
+    sec.appendChild(chartTitle);
+    var chartDiv = document.createElement("div");
+    chartDiv.className = "scatter-chart";
+    chartDiv.style.height = "200px";
+    var canvas = document.createElement("canvas");
+    chartDiv.appendChild(canvas);
+    sec.appendChild(chartDiv);
+    requestAnimationFrame(function() { drawGapTrendChart(canvas, gap.gap_trend); });
+  }
+
+  // 갭 최소 TOP5
+  if (gap.top5_low_gap && gap.top5_low_gap.length) {
+    var listTitle = document.createElement("h3");
+    listTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
+    listTitle.textContent = "갭 최소 아파트 (투자 진입가 낮은 순)";
+    sec.appendChild(listTitle);
+
+    var list = document.createElement("div");
+    list.className = "dong-stats-list";
+    gap.top5_low_gap.forEach(function(item) {
+      var row = document.createElement("div");
+      row.className = "dong-stat-row";
+      var nameEl = document.createElement("span");
+      nameEl.className = "dong-stat-name";
+      nameEl.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
+      row.appendChild(nameEl);
+      var valEl = document.createElement("span");
+      valEl.className = "dong-stat-val";
+      var gapVal = item.gap >= 10000
+        ? (item.gap / 10000).toFixed(1) + "\uc5b5"
+        : fmt(item.gap) + "만";
+      valEl.textContent = "갭 " + gapVal + " (전세가율 " + item.ratio + "%)";
+      row.appendChild(valEl);
+      list.appendChild(row);
+    });
+    sec.appendChild(list);
+  }
+
+  return sec;
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -328,11 +405,15 @@ function renderSections() {
   var top3Sec = renderJeonseTop3(data.jeonse_top3);
   if (top3Sec) gridEl.appendChild(top3Sec);
 
-  // 4. 전세 거래량 추이
+  // 4. 갭투자 분석
+  var gapSec = renderGapAnalysis(data.gap_analysis);
+  if (gapSec) gridEl.appendChild(gapSec);
+
+  // 5. 전세 거래량 추이
   var volSec = renderJeonseVolume(data.jeonse_volume);
   if (volSec) gridEl.appendChild(volSec);
 
-  // 5. 동별 전세 시세 (구 선택시만)
+  // 6. 동별 전세 시세 (구 선택시만)
   if (activeDistrict && data.jeonse_dong_stats) {
     var dongSec = renderJeonseDongStats(data.jeonse_dong_stats);
     if (dongSec) gridEl.appendChild(dongSec);

@@ -331,6 +331,24 @@ function renderDashboard() {
     dashEl.appendChild(cards);
   }
 
+  // 시세 + 거래량 추이 차트
+  if (trend && trend.length > 2) {
+    var trendSec = document.createElement("div");
+    trendSec.className = "popular-districts";
+    var trendTitle = document.createElement("h3");
+    trendTitle.className = "popular-title";
+    trendTitle.textContent = "거래 단가 + 거래량 추이";
+    trendSec.appendChild(trendTitle);
+    var chartDiv = document.createElement("div");
+    chartDiv.className = "scatter-chart";
+    chartDiv.style.height = "180px";
+    var chartCanvas = document.createElement("canvas");
+    chartDiv.appendChild(chartCanvas);
+    trendSec.appendChild(chartDiv);
+    dashEl.appendChild(trendSec);
+    requestAnimationFrame(function() { drawPriceVolumeChart(chartCanvas, trend); });
+  }
+
   // 인기 지역 (거래량 상위 5)
   if (sidoData.districts) {
     var distOrder = sidoData.district_order || Object.keys(sidoData.districts);

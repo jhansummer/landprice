@@ -1006,6 +1006,45 @@ function renderSections() {
     gridEl.appendChild(renderTrendSection(data.trend, regionName + " 시세 추이"));
   }
 
+  // 평형대별 추이
+  if (data.trend_by_size) {
+    var sizeSec = document.createElement("div");
+    sizeSec.className = "section";
+    var sizeH2 = document.createElement("h2");
+    sizeH2.className = "section-title";
+    sizeH2.textContent = regionName + " 평형대별 추이";
+    sizeSec.appendChild(sizeH2);
+    var sizeSub = document.createElement("p");
+    sizeSub.className = "section-sub";
+    sizeSub.textContent = "소형(~60m\u00B2) · 중형(60~85m\u00B2) · 대형(85m\u00B2~) m\u00B2당 평균가";
+    sizeSec.appendChild(sizeSub);
+    var sizeChart = document.createElement("div");
+    sizeChart.className = "scatter-chart";
+    sizeChart.style.height = "220px";
+    var sizeCanvas = document.createElement("canvas");
+    sizeChart.appendChild(sizeCanvas);
+    sizeSec.appendChild(sizeChart);
+    requestAnimationFrame(function() { drawSizeTrendChart(sizeCanvas, data.trend_by_size); });
+    // 범례
+    var legend = document.createElement("div");
+    legend.className = "rank-detail";
+    legend.style.marginTop = "8px";
+    ["small", "mid", "large"].forEach(function(k) {
+      if (!data.trend_by_size[k]) return;
+      var wrap = document.createElement("span");
+      wrap.style.cssText = "display:inline-flex;align-items:center;gap:5px;margin-right:12px";
+      var dot = document.createElement("span");
+      dot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:50%;background:" + SIZE_COLORS[k];
+      wrap.appendChild(dot);
+      var lbl = document.createElement("span");
+      lbl.textContent = SIZE_NAMES[k];
+      wrap.appendChild(lbl);
+      legend.appendChild(wrap);
+    });
+    sizeSec.appendChild(legend);
+    gridEl.appendChild(sizeSec);
+  }
+
   // 구별 비교 차트 (시도 전체일 때만)
   if (!activeDistrict && sidoData.districts) {
     var compareSec = renderCompareSection(sidoData);

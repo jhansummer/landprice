@@ -378,3 +378,236 @@ function drawJeonseVolumeChart(canvas, volumeData) {
   var lastH = (lastC / maxC) * plotH;
   ctx.fillText(lastC.toLocaleString() + "건", lastX, pad.top + plotH - lastH - 12);
 }
+
+/* ── 갭 추이 차트 ── */
+function drawGapTrendChart(canvas, trendData) {
+  if (!trendData || trendData.length < 2) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width, ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 50 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var gaps = trendData.map(function(d) { return d[1]; });
+  var minG = Math.min.apply(null, gaps);
+  var maxG = Math.max.apply(null, gaps);
+  var gRange = maxG - minG || 1;
+  minG -= gRange * 0.05; maxG += gRange * 0.05;
+
+  function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
+  function yPos(g) { return pad.top + (1 - (g - minG) / (maxG - minG)) * plotH; }
+
+  // Grid
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  // Y labels (만원)
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minG + ((maxG - minG) / 4) * (4 - g);
+    var label = val >= 10000 ? (val / 10000).toFixed(1) + "\uc5b5" : Math.round(val).toLocaleString() + "만";
+    ctx.fillText(label, pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  // X labels
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < trendData.length; i++) {
+    var ym = trendData[i][0], yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  }
+  // Area fill
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
+  ctx.lineTo(xPos(0), pad.top + plotH);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(249,115,22,0.06)"; ctx.fill();
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.strokeStyle = "#f97316"; ctx.lineWidth = 1.5; ctx.stroke();
+  // Latest dot
+  var li = trendData.length - 1;
+  ctx.fillStyle = "#ef4444";
+  ctx.beginPath(); ctx.arc(xPos(li), yPos(trendData[li][1]), 4, 0, Math.PI * 2); ctx.fill();
+  var lv = trendData[li][1];
+  var lbl = lv >= 10000 ? (lv / 10000).toFixed(1) + "\uc5b5" : Math.round(lv).toLocaleString() + "만";
+  ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillText(lbl, xPos(li) - 6, yPos(lv) - 6);
+}
+
+/* ── 평형대별 추이 차트 (멀티라인) ── */
+var SIZE_COLORS = { small: "#3b82f6", mid: "#10b981", large: "#f59e0b" };
+var SIZE_NAMES = { small: "소형(~60)", mid: "중형(60~85)", large: "대형(85~)" };
+
+function drawSizeTrendChart(canvas, trendBySize) {
+  if (!trendBySize) return;
+  var keys = Object.keys(trendBySize);
+  if (!keys.length) return;
+
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width, ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // Collect all months + price range
+  var allMonths = {};
+  var minP = Infinity, maxP = -Infinity;
+  keys.forEach(function(k) {
+    trendBySize[k].forEach(function(d) {
+      allMonths[d[0]] = true;
+      if (d[1] < minP) minP = d[1];
+      if (d[1] > maxP) maxP = d[1];
+    });
+  });
+  var months = Object.keys(allMonths).sort();
+  if (months.length < 2) return;
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05; maxP += pRange * 0.05;
+
+  var monthIdx = {};
+  months.forEach(function(m, i) { monthIdx[m] = i; });
+
+  function xPos(i) { return pad.left + (i / (months.length - 1)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  // Grid
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minP + ((maxP - minP) / 4) * (4 - g);
+    ctx.fillText(Math.round(val).toLocaleString(), pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < months.length; i++) {
+    var yr = months[i].slice(0, 4);
+    if (months[i].slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  }
+
+  // Draw each size line
+  var order = ["small", "mid", "large"];
+  order.forEach(function(k) {
+    var trend = trendBySize[k];
+    if (!trend || trend.length < 2) return;
+    ctx.strokeStyle = SIZE_COLORS[k]; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.8;
+    ctx.beginPath();
+    var started = false;
+    for (var i = 0; i < trend.length; i++) {
+      var mi = monthIdx[trend[i][0]];
+      if (mi === undefined) continue;
+      if (!started) { ctx.moveTo(xPos(mi), yPos(trend[i][1])); started = true; }
+      else ctx.lineTo(xPos(mi), yPos(trend[i][1]));
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    // Latest dot + label
+    var last = trend[trend.length - 1];
+    var lmi = monthIdx[last[0]];
+    ctx.fillStyle = SIZE_COLORS[k];
+    ctx.beginPath(); ctx.arc(xPos(lmi), yPos(last[1]), 3, 0, Math.PI * 2); ctx.fill();
+    ctx.font = "9px sans-serif"; ctx.textAlign = "left";
+    ctx.fillText(SIZE_NAMES[k], xPos(lmi) + 6, yPos(last[1]) - 4);
+  });
+}
+
+/* ── 가격+거래량 듀얼 차트 ── */
+function drawPriceVolumeChart(canvas, trendData) {
+  if (!trendData || trendData.length < 2) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width, ch = rect.height;
+  var pad = { top: 10, right: 40, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var prices = trendData.map(function(d) { return d[1]; });
+  var volumes = trendData.map(function(d) { return d[2] || 0; });
+  var minP = Math.min.apply(null, prices), maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05; maxP += pRange * 0.05;
+  var maxV = Math.max.apply(null, volumes) || 1;
+
+  function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
+  function yPosP(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+  function yPosV(v) { return pad.top + plotH - (v / maxV) * plotH * 0.4; }
+
+  // Grid
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  // Y left (price)
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minP + ((maxP - minP) / 4) * (4 - g);
+    ctx.fillText(Math.round(val).toLocaleString(), pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  // Y right (volume)
+  ctx.textAlign = "left";
+  for (var g = 0; g <= 2; g++) {
+    var vVal = Math.round(maxV * (2 - g) / 2);
+    var vy = pad.top + plotH - (vVal / maxV) * plotH * 0.4;
+    ctx.fillText(vVal.toLocaleString(), pad.left + plotW + 4, vy);
+  }
+  // X labels
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < trendData.length; i++) {
+    var ym = trendData[i][0], yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  }
+  // Volume bars
+  var barW = Math.max(2, (plotW / trendData.length) - 2);
+  for (var i = 0; i < trendData.length; i++) {
+    var v = volumes[i];
+    var bx = xPos(i) - barW / 2;
+    var bh = (v / maxV) * plotH * 0.4;
+    ctx.fillStyle = "rgba(37,99,235,0.10)";
+    ctx.fillRect(bx, pad.top + plotH - bh, barW, bh);
+  }
+  // Price line
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPosP(prices[0]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPosP(prices[i]));
+  ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
+  // Latest dot
+  var li = trendData.length - 1;
+  ctx.fillStyle = "#ef4444";
+  ctx.beginPath(); ctx.arc(xPos(li), yPosP(prices[li]), 4, 0, Math.PI * 2); ctx.fill();
+  ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillText(Math.round(prices[li]).toLocaleString() + "만", xPos(li) - 6, yPosP(prices[li]) - 6);
+}
