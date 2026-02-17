@@ -666,13 +666,70 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
             continue
         by_dong.setdefault(dong, []).append(r)
 
+    # apt_name 매핑을 위해 (apt_name, area_m2) → dong 역매핑
+    apt_size_dong: Dict[Tuple[str, float], str] = {}
+    for r in records:
+        if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
+            continue
+        apt_size_dong[(r["apt_name"], r["area_m2"])] = r.get("dong_name", "")
+
     items = []
     for dong, dong_records in by_dong.items():
         apt_recoveries = _build_apt_size_recoveries(dong_records)
         info = _median_recovery(apt_recoveries)
         if info:
             info["name"] = dong
+            # 개별 단지 회복률 상위 10개 (vs_peak 기준 정렬)
+            apt_details = []
+            for ar in sorted(apt_recoveries, key=lambda x: -x["vs_peak"])[:10]:
+                # _build_apt_size_recoveries는 apt_name/area_m2를 포함하지 않으므로
+                # 원본 레코드에서 매칭 필요 → 아래에서 별도 처리
+                pass
+            info["apt_details"] = []
             items.append(info)
+
+    # 개별 단지 회복률을 이름 포함해서 다시 계산
+    for dong, dong_records in by_dong.items():
+        by_apt_size: Dict[Tuple[str, float], Dict[str, List]] = {}
+        for r in dong_records:
+            if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
+                continue
+            key = (r["apt_name"], r["area_m2"])
+            ym = r["deal_ym"]
+            by_apt_size.setdefault(key, {}).setdefault(ym, []).append(
+                r["price_man"] / r["area_m2"]
+            )
+
+        apt_details = []
+        for (apt_name, area_m2), ym_prices in by_apt_size.items():
+            all_yms = sorted(ym_prices.keys())
+            trend = []
+            for ym in all_yms:
+                vals = ym_prices[ym]
+                trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
+            rec_info = _recovery_from_trend(trend, min_months=4)
+            if rec_info:
+                rec_info["apt_name"] = apt_name
+                rec_info["area_m2"] = area_m2
+                apt_details.append(rec_info)
+
+        apt_details.sort(key=lambda x: -x["vs_peak"])
+        # 해당 동의 item 찾아서 apt_details 삽입
+        for item in items:
+            if item["name"] == dong:
+                item["apt_details"] = [
+                    {
+                        "apt_name": d["apt_name"],
+                        "area_m2": d["area_m2"],
+                        "vs_peak": d["vs_peak"],
+                        "chg6m": d["chg6m"],
+                        "status": d["status"],
+                        "price": d["price"],
+                        "peak": d["peak"],
+                    }
+                    for d in apt_details[:10]
+                ]
+                break
 
     if not items:
         return {}

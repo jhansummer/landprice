@@ -796,6 +796,22 @@ function renderCombinedMap(dongStats, dongRecovery, title, sido, district) {
               + '<div class="map-info-stat"><span class="map-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="map-info-val">' + chg6mStr + '</span></div>';
           }
           html += '</div>';
+          // 개별 단지 회복률 리스트
+          if (rec && rec.apt_details && rec.apt_details.length) {
+            html += '<div class="apt-detail-list">'
+              + '<div class="apt-detail-header">\uB2E8\uC9C0\uBCC4 \uD68C\uBCF5\uB960 (\uAC19\uC740 \uD3C9\uC218 \uAE30\uC900)</div>';
+            rec.apt_details.forEach(function(a) {
+              var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
+              var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
+              html += '<div class="apt-detail-row">'
+                + '<span class="apt-detail-name">' + a.apt_name + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
+                + '<span class="apt-detail-val">'
+                + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
+                + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'
+                + '</span></div>';
+            });
+            html += '</div>';
+          }
           infoPanel.innerHTML = html;
           infoPanel.style.display = "block";
           infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });

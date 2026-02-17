@@ -243,3 +243,11 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .map-info-stat{display:flex;flex-direction:column;gap:2px}
 .map-info-label{font-size:11px;color:var(--muted);font-weight:600}
 .map-info-val{font-size:16px;font-weight:800}
+
+/* ── Apt Detail List (in map info panel) ── */
+.apt-detail-list{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.apt-detail-header{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.apt-detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);gap:8px}
+.apt-detail-row:last-child{border-bottom:none}
+.apt-detail-name{font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apt-detail-val{flex-shrink:0;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:4px}
