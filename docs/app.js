@@ -240,9 +240,130 @@ function renderSubTabs() {
 
 // renderFilters removed - nav is now hardcoded in HTML
 
+/* ── 대시보드 ── */
+function renderDashboard() {
+  var dashEl = document.getElementById("dashboard");
+  if (!dashEl || !globalData || !activeSido) return;
+  dashEl.innerHTML = "";
+
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+
+  var trend = sidoData.trend;
+  if (trend && trend.length >= 2) {
+    var latest = trend[trend.length - 1];
+    var prev = trend[trend.length - 2];
+    var avgPrice = latest[1];
+    var momChange = ((avgPrice / prev[1]) - 1) * 100;
+    var txnCount = latest[2] || 0;
+
+    var recDist = { recovered: 0, rising: 0, flat: 0, falling: 0 };
+    if (sidoData.recovery && sidoData.recovery.items) {
+      sidoData.recovery.items.forEach(function(item) {
+        if (recDist[item.status] !== undefined) recDist[item.status]++;
+      });
+    }
+    var totalRec = recDist.recovered + recDist.rising + recDist.flat + recDist.falling;
+
+    // 시장 요약 문장
+    var summaryText = activeSido + " 아파트 시장은 전월 대비 "
+      + (momChange >= 0 ? "+" : "") + momChange.toFixed(1) + "% "
+      + (momChange >= 0 ? "상승" : "하락");
+    if (totalRec > 0) {
+      summaryText += ", " + totalRec + "개 구 중 " + recDist.recovered + "개 구 전고점 회복";
+    }
+    var summary = document.createElement("p");
+    summary.className = "market-summary";
+    summary.textContent = summaryText;
+    dashEl.appendChild(summary);
+
+    // 지표 카드
+    var cards = document.createElement("div");
+    cards.className = "dashboard-cards";
+
+    var card1 = document.createElement("div");
+    card1.className = "dash-card";
+    card1.innerHTML = '<div class="dash-card-label">평균 m\u00B2당 가격</div>'
+      + '<div class="dash-card-value">' + Math.round(avgPrice).toLocaleString() + '<span class="dash-card-unit">만원</span></div>'
+      + '<div class="dash-card-change ' + (momChange >= 0 ? 'up' : 'down') + '">'
+      + (momChange >= 0 ? '\u25B2' : '\u25BC') + ' ' + Math.abs(momChange).toFixed(1) + '% 전월대비</div>';
+    cards.appendChild(card1);
+
+    var card2 = document.createElement("div");
+    card2.className = "dash-card";
+    card2.innerHTML = '<div class="dash-card-label">이번 달 거래건수</div>'
+      + '<div class="dash-card-value">' + txnCount.toLocaleString() + '<span class="dash-card-unit">건</span></div>';
+    cards.appendChild(card2);
+
+    if (totalRec > 0) {
+      var card3 = document.createElement("div");
+      card3.className = "dash-card dash-card-wide";
+      var recBarHTML = '<div class="recovery-dist-bar">';
+      if (recDist.recovered > 0) recBarHTML += '<div class="rec-bar-seg recovered" style="width:' + (recDist.recovered / totalRec * 100) + '%">' + recDist.recovered + '</div>';
+      if (recDist.rising > 0) recBarHTML += '<div class="rec-bar-seg rising" style="width:' + (recDist.rising / totalRec * 100) + '%">' + recDist.rising + '</div>';
+      if (recDist.flat > 0) recBarHTML += '<div class="rec-bar-seg flat" style="width:' + (recDist.flat / totalRec * 100) + '%">' + recDist.flat + '</div>';
+      if (recDist.falling > 0) recBarHTML += '<div class="rec-bar-seg falling" style="width:' + (recDist.falling / totalRec * 100) + '%">' + recDist.falling + '</div>';
+      recBarHTML += '</div>';
+      card3.innerHTML = '<div class="dash-card-label">회복 상태 분포</div>'
+        + recBarHTML
+        + '<div class="recovery-dist-legend">'
+        + '<span><span class="rec-dot recovered"></span>회복 ' + recDist.recovered + '</span>'
+        + '<span><span class="rec-dot rising"></span>상승 ' + recDist.rising + '</span>'
+        + '<span><span class="rec-dot flat"></span>횡보 ' + recDist.flat + '</span>'
+        + '<span><span class="rec-dot falling"></span>하락 ' + recDist.falling + '</span>'
+        + '</div>';
+      cards.appendChild(card3);
+    }
+
+    dashEl.appendChild(cards);
+  }
+
+  // 인기 지역 (거래량 상위 5)
+  if (sidoData.districts) {
+    var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+    var distStats = [];
+    distOrder.forEach(function(distName) {
+      var dist = sidoData.districts[distName];
+      if (!dist || !dist.dong_stats) return;
+      var totalCount = 0, totalPrice = 0;
+      dist.dong_stats.forEach(function(d) {
+        totalCount += d.txn_count;
+        totalPrice += d.avg_per_m2 * d.txn_count;
+      });
+      if (totalCount === 0) return;
+      distStats.push({ name: distName, avg_per_m2: Math.round(totalPrice / totalCount), txn_count: totalCount });
+    });
+    distStats.sort(function(a, b) { return b.txn_count - a.txn_count; });
+    var top5 = distStats.slice(0, 5);
+
+    if (top5.length) {
+      var popularSec = document.createElement("div");
+      popularSec.className = "popular-districts";
+      var ptitle = document.createElement("h3");
+      ptitle.className = "popular-title";
+      ptitle.textContent = "\uC778\uAE30 \uC9C0\uC5ED";
+      popularSec.appendChild(ptitle);
+      var plist = document.createElement("div");
+      plist.className = "popular-list";
+      top5.forEach(function(d) {
+        var item = document.createElement("a");
+        item.className = "popular-item";
+        item.href = "regional.html#" + activeSido + "/" + d.name;
+        item.innerHTML = '<span class="popular-name">' + d.name + '</span>'
+          + '<span class="popular-meta">' + d.txn_count + '\uAC74 \u00B7 m\u00B2\uB2F9 ' + d.avg_per_m2.toLocaleString() + '\uB9CC</span>';
+        plist.appendChild(item);
+      });
+      popularSec.appendChild(plist);
+      dashEl.appendChild(popularSec);
+    }
+  }
+}
+
 function renderSections() {
   gridEl.innerHTML = "";
   if (!globalData || !activeSido) return;
+
+  renderDashboard();
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;

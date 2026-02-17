@@ -23,6 +23,87 @@ var AREA_RANGES = [
   { label: "135m\u00B2+ (50\uD3C9\uB300+)", min: 126, max: Infinity }
 ];
 
+/* ── 자동완성 ── */
+var acDropdown = null;
+var acTimeout = null;
+
+function createAutocomplete() {
+  acDropdown = document.createElement("div");
+  acDropdown.className = "autocomplete-dropdown";
+  acDropdown.style.display = "none";
+  var wrap = searchInput.closest(".search-wrap");
+  if (wrap) wrap.appendChild(acDropdown);
+}
+
+function showAutocomplete(query) {
+  if (!acDropdown || query.length < 2) {
+    if (acDropdown) acDropdown.style.display = "none";
+    return;
+  }
+
+  var items = getFilteredItems();
+  var q = query.toLowerCase();
+  var seen = {};
+  var results = [];
+  for (var i = 0; i < items.length && results.length < 10; i++) {
+    var r = items[i];
+    if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
+    var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
+    if (seen[key]) continue;
+    seen[key] = true;
+    results.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name });
+  }
+
+  if (!results.length) {
+    acDropdown.style.display = "none";
+    return;
+  }
+
+  acDropdown.innerHTML = "";
+  results.forEach(function(r) {
+    var item = document.createElement("div");
+    item.className = "ac-item";
+    item.innerHTML = '<span class="ac-name">' + escapeHTML(r.apt_name) + '</span>'
+      + '<span class="ac-loc">' + escapeHTML(r.district + " " + r.dong_name) + '</span>';
+    item.addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      searchInput.value = r.apt_name;
+      acDropdown.style.display = "none";
+      doSearch(r.apt_name);
+      updateURL();
+    });
+    acDropdown.appendChild(item);
+  });
+  acDropdown.style.display = "block";
+}
+
+function escapeHTML(s) {
+  var d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+/* ── URL 상태 유지 ── */
+function updateURL() {
+  var parts = [];
+  if (activeSido) parts.push(activeSido);
+  if (activeDistrict) parts.push(activeDistrict);
+  var hash = parts.join("/");
+  var q = searchInput.value.trim();
+  if (q) hash += "?q=" + encodeURIComponent(q);
+  if (hash) history.replaceState(null, "", "#" + hash);
+}
+
+function parseURL() {
+  var hash = decodeURIComponent(location.hash.replace("#", ""));
+  if (!hash) return {};
+  var qIdx = hash.indexOf("?q=");
+  var path = qIdx >= 0 ? hash.slice(0, qIdx) : hash;
+  var query = qIdx >= 0 ? decodeURIComponent(hash.slice(qIdx + 3)) : "";
+  var parts = path.split("/");
+  return { sido: parts[0] || null, district: parts[1] || null, query: query };
+}
+
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
 }
@@ -68,9 +149,18 @@ function renderGroup(group) {
   nameEl.className = "apt-group-name";
   nameEl.textContent = group.apt_name;
   header.appendChild(nameEl);
+
   var locEl = document.createElement("span");
   locEl.className = "apt-group-loc";
+  var txnTotal = group.items.reduce(function(s, r) { return s + (r.total_trades || 0); }, 0);
   locEl.textContent = group.sigungu + " " + group.dong_name;
+  if (txnTotal > 0) {
+    var txnBadge = document.createElement("span");
+    txnBadge.className = "tag tag-muted";
+    txnBadge.style.marginLeft = "6px";
+    txnBadge.textContent = txnTotal + "\uAC74";
+    locEl.appendChild(txnBadge);
+  }
   header.appendChild(locEl);
   wrap.appendChild(header);
 
@@ -98,11 +188,9 @@ function renderGroup(group) {
     var pctEl = document.createElement("div");
     pctEl.className = "apt-sub-pct";
     if (r.pct >= 0) {
-      pctEl.textContent = "+" + r.pct.toFixed(1) + "%";
-      pctEl.style.color = "var(--up)";
+      pctEl.innerHTML = '<span style="color:var(--up);">\u25B2 +' + r.pct.toFixed(1) + '%</span>';
     } else {
-      pctEl.textContent = r.pct.toFixed(1) + "%";
-      pctEl.style.color = "var(--down)";
+      pctEl.innerHTML = '<span style="color:var(--down);">\u25BC ' + r.pct.toFixed(1) + '%</span>';
     }
     changeEl.appendChild(pctEl);
     var diffEl = document.createElement("div");
@@ -130,7 +218,7 @@ function showDetail(r) {
   overlay.className = "modal-overlay";
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
-  overlay.setAttribute("aria-label", r.apt_name + " 거래 이력");
+  overlay.setAttribute("aria-label", r.apt_name + " \uAC70\uB798 \uC774\uB825");
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) overlay.remove();
   });
@@ -140,7 +228,7 @@ function showDetail(r) {
 
   var closeBtn = document.createElement("button");
   closeBtn.className = "modal-close";
-  closeBtn.setAttribute("aria-label", "닫기");
+  closeBtn.setAttribute("aria-label", "\uB2EB\uAE30");
   closeBtn.textContent = "\u2715";
   closeBtn.addEventListener("click", function () { overlay.remove(); });
   modal.appendChild(closeBtn);
@@ -210,7 +298,7 @@ function renderTabs() {
   tabsEl.setAttribute("role", "tablist");
   var label = document.createElement("span");
   label.className = "region-label";
-  label.textContent = "지역";
+  label.textContent = "\uC9C0\uC5ED";
   tabsEl.appendChild(label);
   globalData.sido_order.forEach(function (sido) {
     var btn = document.createElement("button");
@@ -229,6 +317,7 @@ function renderTabs() {
         renderSubTabs();
         renderFilters();
         resultsEl.innerHTML = "";
+        updateURL();
       });
     });
     tabsEl.appendChild(btn);
@@ -264,6 +353,7 @@ function renderSubTabs() {
     activeDanji = null;
     renderFilters();
     resultsEl.innerHTML = "";
+    updateURL();
   });
 
   subtabsEl.appendChild(select);
@@ -280,14 +370,12 @@ function renderFilters() {
     items = items.filter(function (r) { return r.district === activeDistrict; });
   }
 
-  // 동 목록 추출 (가나다순)
   var dongSet = {};
   items.forEach(function (r) { if (r.dong_name) dongSet[r.dong_name] = true; });
   var dongList = Object.keys(dongSet).sort();
 
   if (dongList.length === 0) return;
 
-  // 동 드롭다운
   var dongSelect = document.createElement("select");
   dongSelect.className = "dong-select";
   var allDongOpt = document.createElement("option");
@@ -309,11 +397,11 @@ function renderFilters() {
     activeDanji = null;
     renderFilters();
     resultsEl.innerHTML = "";
+    updateURL();
   });
 
   filtersEl.appendChild(dongSelect);
 
-  // 단지 드롭다운 (동이 선택된 경우만)
   if (activeDong) {
     var dongItems = items.filter(function (r) { return r.dong_name === activeDong; });
     var danjiSet = {};
@@ -350,7 +438,6 @@ function renderFilters() {
     }
   }
 
-  // 면적 드롭다운
   var areaSelect = document.createElement("select");
   areaSelect.className = "dong-select";
   AREA_RANGES.forEach(function (range, idx) {
@@ -423,7 +510,6 @@ function doSearch(query) {
   var q = (query || "").trim().toLowerCase();
   var items = getFilteredItems();
 
-  // 검색어 없이 지역도 구/동 선택 안 했으면 안내 표시
   if (q.length < 2 && !activeDistrict && !activeDong) {
     resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD558\uAC70\uB098 \uC9C0\uC5ED\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694.</div>';
     return;
@@ -460,15 +546,31 @@ function doSearch(query) {
     sec.appendChild(renderGroup(g));
   });
   resultsEl.appendChild(sec);
+  updateURL();
 }
 
 searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
+    if (acDropdown) acDropdown.style.display = "none";
     doSearch(searchInput.value);
   }
 });
 
+searchInput.addEventListener("input", function () {
+  clearTimeout(acTimeout);
+  acTimeout = setTimeout(function () {
+    showAutocomplete(searchInput.value.trim());
+  }, 200);
+});
+
+searchInput.addEventListener("blur", function () {
+  setTimeout(function () {
+    if (acDropdown) acDropdown.style.display = "none";
+  }, 150);
+});
+
 searchBtn.addEventListener("click", function () {
+  if (acDropdown) acDropdown.style.display = "none";
   doSearch(searchInput.value);
 });
 
@@ -481,15 +583,38 @@ async function init() {
     }
     globalData = await response.json();
 
-    activeSido = globalData.sido_order[0] || null;
+    // URL 상태 복원
+    var urlState = parseURL();
+    if (urlState.sido && globalData.sido_order.indexOf(urlState.sido) >= 0) {
+      activeSido = urlState.sido;
+    } else {
+      activeSido = globalData.sido_order[0] || null;
+    }
+
     renderTabs();
 
-    // 첫 시도 데이터 로드
     if (activeSido) {
       await loadSido(activeSido);
     }
+
+    // URL에서 구 복원
+    if (urlState.district) {
+      var sidoData = getSidoData();
+      if (sidoData && sidoData.district_order && sidoData.district_order.indexOf(urlState.district) >= 0) {
+        activeDistrict = urlState.district;
+      }
+    }
+
     renderSubTabs();
     renderFilters();
+    createAutocomplete();
+
+    // URL에서 검색어 복원
+    if (urlState.query) {
+      searchInput.value = urlState.query;
+      doSearch(urlState.query);
+    }
+
     statusEl.innerHTML = "";
   } catch (e) {
     statusEl.textContent = "\uB124\uD2B8\uC6CC\uD06C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\uD574\uC8FC\uC138\uC694.";

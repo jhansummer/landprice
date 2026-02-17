@@ -223,31 +223,137 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .dong-stat-row-wide{grid-template-columns:40px 55px 1fr 80px}
   .dong-stat-district{font-size:9px}
   .recovery-row{grid-template-columns:55px 1fr 105px}
-  .map-info-stats{grid-template-columns:repeat(2,1fr)}
-  .map-container{height:360px!important}
+  .heatmap-info-stats{grid-template-columns:repeat(2,1fr)}
 }
 
-/* ── Recovery Map (Kakao Maps) ── */
-.map-container{width:100%;height:480px;border-radius:12px;overflow:hidden;margin-bottom:16px}
-.map-marker{padding:5px 10px;border-radius:20px;color:#fff;font-weight:700;text-align:center;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;transition:transform .15s,box-shadow .15s;line-height:1.3;position:relative}
-.map-marker:hover{transform:scale(1.12);box-shadow:0 4px 16px rgba(0,0,0,0.35);z-index:10!important}
-.map-marker-name{font-size:10px;opacity:.85}
-.map-marker-value{font-size:13px;font-weight:800}
-.map-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-.map-legend-item{display:flex;align-items:center;gap:6px}
-.map-legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-.map-info-panel{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;margin-top:12px}
-.map-info-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.map-info-name{font-size:16px;font-weight:800}
-.map-info-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.map-info-stat{display:flex;flex-direction:column;gap:2px}
-.map-info-label{font-size:11px;color:var(--muted);font-weight:600}
-.map-info-val{font-size:16px;font-weight:800}
+/* ── Heatmap Grid (replaces Kakao Maps) ── */
+.heatmap-legend{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:16px;font-size:11px;color:var(--muted)}
+.heatmap-legend-label{font-weight:600}
+.heatmap-gradient{display:inline-block;width:120px;height:10px;border-radius:5px;background:linear-gradient(90deg,#06b6d4,#2563eb,#7c3aed)}
+.heatmap-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.heatmap-cell{padding:14px 12px;border-radius:12px;color:#fff;cursor:pointer;transition:transform .15s,box-shadow .15s;line-height:1.3;text-align:center;min-width:90px;position:relative}
+.heatmap-cell:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.25);z-index:2}
+.heatmap-cell-active{outline:3px solid var(--accent);outline-offset:2px;transform:translateY(-3px)}
+.heatmap-cell-name{font-size:11px;font-weight:600;opacity:.9;margin-bottom:2px}
+.heatmap-cell-price{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+.heatmap-cell-vol{font-size:10px;opacity:.7;margin-top:1px}
+.heatmap-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:4px}
+.heatmap-badge.recovered{background:rgba(255,255,255,0.25);color:#fff}
+.heatmap-badge.rising{background:rgba(255,255,255,0.25);color:#fff}
+.heatmap-badge.flat{background:rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)}
+.heatmap-badge.falling{background:rgba(255,255,255,0.25);color:#fff}
+.heatmap-info{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px;margin-top:12px}
+.heatmap-info-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.heatmap-info-name{font-size:16px;font-weight:800}
+.heatmap-info-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.heatmap-info-stat{display:flex;flex-direction:column;gap:2px}
+.heatmap-info-label{font-size:11px;color:var(--muted);font-weight:600}
+.heatmap-info-val{font-size:16px;font-weight:800}
 
-/* ── Apt Detail List (in map info panel) ── */
+/* ── Sort Buttons ── */
+.sort-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sort-btns{display:flex;gap:4px}
+.sort-btn{padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--muted);font-family:var(--font-body);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.sort-btn:hover{border-color:var(--accent);color:var(--accent)}
+.sort-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── Compare Chart ── */
+.compare-checks{display:flex;flex-wrap:wrap;gap:6px 12px;margin-bottom:12px}
+.compare-check-label{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--ink-light);cursor:pointer;padding:4px 0;white-space:nowrap}
+.compare-check{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+.compare-hint{font-size:12px;color:var(--muted);text-align:center;padding:20px 0;margin:0}
+.compare-chart-area{margin-top:8px}
+
+/* ── Dashboard ── */
+.dashboard{max-width:1200px;margin:0 auto;padding:0 24px}
+.market-summary{font-size:15px;font-weight:600;color:var(--ink);line-height:1.7;padding:16px 20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.dashboard-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.dash-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);transition:box-shadow .2s}
+.dash-card:hover{box-shadow:var(--shadow-md)}
+.dash-card-wide{grid-column:span 2}
+.dash-card-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.dash-card-value{font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-0.5px}
+.dash-card-unit{font-size:14px;font-weight:600;color:var(--muted);margin-left:4px}
+.dash-card-change{font-size:12px;font-weight:700;margin-top:4px}
+.dash-card-change.up{color:var(--up)}
+.dash-card-change.down{color:var(--down)}
+.recovery-dist-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;margin:8px 0}
+.rec-bar-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:20px;transition:width .3s}
+.rec-bar-seg.recovered{background:#2563eb}
+.rec-bar-seg.rising{background:#16a34a}
+.rec-bar-seg.flat{background:#94a3b8}
+.rec-bar-seg.falling{background:#ef4444}
+.recovery-dist-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.rec-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.rec-dot.recovered{background:#2563eb}
+.rec-dot.rising{background:#16a34a}
+.rec-dot.flat{background:#94a3b8}
+.rec-dot.falling{background:#ef4444}
+.popular-districts{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.popular-title{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 12px}
+.popular-list{display:flex;flex-wrap:wrap;gap:8px}
+.popular-item{display:flex;flex-direction:column;gap:2px;padding:10px 16px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);text-decoration:none;transition:all .15s;flex:1;min-width:140px}
+.popular-item:hover{border-color:var(--accent);background:var(--accent-soft)}
+.popular-name{font-size:14px;font-weight:700;color:var(--ink)}
+.popular-meta{font-size:11px;color:var(--muted)}
+
+/* ── Autocomplete ── */
+.search-wrap{position:relative}
+.autocomplete-dropdown{position:absolute;top:100%;left:24px;right:24px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);z-index:100;max-height:320px;overflow-y:auto;margin-top:2px}
+.ac-item{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);transition:background .1s;gap:8px}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:var(--accent-soft)}
+.ac-name{font-weight:600;font-size:13px;color:var(--ink)}
+.ac-loc{font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* ── Apt Detail List ── */
 .apt-detail-list{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
 .apt-detail-header{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px}
 .apt-detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);gap:8px}
 .apt-detail-row:last-child{border-bottom:none}
 .apt-detail-name{font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .apt-detail-val{flex-shrink:0;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:4px}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .header-inner{padding:16px 12px 0}
+  .logo{font-size:18px}
+  .tagline{display:none}
+  .nav-bar{padding:6px 12px 10px;gap:1px}
+  .nav-link{padding:6px 10px;font-size:11px}
+  .tabs{padding:0 12px}
+  .tab-btn{padding:8px 10px;font-size:11px;min-height:44px}
+  .region-label{font-size:9px;padding:8px 8px 8px 0}
+  .district-select-wrap{padding:10px 12px 0}
+  .district-select,.dong-select,.danji-select{min-height:44px;font-size:14px}
+  main{padding:12px}
+  .wrap{padding:12px 12px 24px}
+  .section{padding:14px 12px;border-radius:10px;margin-bottom:12px}
+  .section-title{font-size:15px}
+  .section-sub{font-size:11px}
+  .search-wrap{padding:0 12px 12px}
+  .search-input{padding:12px 14px;font-size:14px;min-height:44px}
+  .search-btn{padding:12px 16px;font-size:14px;min-height:44px}
+  .heatmap-grid{gap:6px}
+  .heatmap-cell{padding:10px 8px;min-width:75px;border-radius:10px}
+  .heatmap-cell-price{font-size:15px}
+  .heatmap-cell-name{font-size:10px}
+  .heatmap-info-stats{grid-template-columns:repeat(2,1fr)}
+  .dashboard-cards{grid-template-columns:1fr}
+  .dash-card-wide{grid-column:span 1}
+  .dash-card-value{font-size:22px}
+  .market-summary{font-size:13px;padding:12px 14px}
+  .popular-list{flex-direction:column}
+  .popular-item{min-width:0}
+  .sort-bar{flex-direction:column;align-items:flex-start}
+  .compare-checks{gap:4px 8px}
+  .compare-check-label{font-size:11px;min-height:44px;display:inline-flex;align-items:center}
+  .dong-stat-row{grid-template-columns:55px 1fr 80px;font-size:11px}
+  .dong-stat-row-wide{grid-template-columns:35px 50px 1fr 70px}
+  .recovery-row{grid-template-columns:50px 1fr 95px;font-size:11px}
+  .autocomplete-dropdown{left:12px;right:12px}
+  .rank-card{grid-template-columns:22px 1fr}
+  .rank-apt{font-size:13px}
+  .rank-pct{font-size:14px}
+  .site-footer{padding:20px 12px;font-size:11px}
+}
