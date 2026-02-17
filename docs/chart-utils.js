@@ -40,7 +40,7 @@ function drawScatter(canvas, history) {
   function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
 
   // Grid lines
-  ctx.strokeStyle = "#e8e0d4";
+  ctx.strokeStyle = "#e2e8f0";
   ctx.lineWidth = 0.5;
   for (var i = 0; i <= 3; i++) {
     var gy = pad.top + (plotH / 3) * i;
@@ -51,7 +51,7 @@ function drawScatter(canvas, history) {
   }
 
   // Y-axis labels
-  ctx.fillStyle = "#9a9590";
+  ctx.fillStyle = "#64748b";
   ctx.font = "10px sans-serif";
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
@@ -74,7 +74,7 @@ function drawScatter(canvas, history) {
   }
 
   // Draw connecting line
-  ctx.strokeStyle = "#1a6f5a";
+  ctx.strokeStyle = "#1e3a5f";
   ctx.lineWidth = 1.2;
   ctx.globalAlpha = 0.5;
   ctx.beginPath();
@@ -87,7 +87,7 @@ function drawScatter(canvas, history) {
   ctx.globalAlpha = 1.0;
 
   // Plot points
-  ctx.fillStyle = "#1a6f5a";
+  ctx.fillStyle = "#1e3a5f";
   for (var i = 0; i < points.length; i++) {
     var px = xPos(points[i].t);
     var py = yPos(points[i].price);
@@ -140,14 +140,14 @@ function drawScatter(canvas, history) {
 
     ctx.textAlign = align;
     ctx.textBaseline = "bottom";
-    ctx.fillStyle = idx === points.length - 1 ? "#d63a3a" : "#6e6a63";
+    ctx.fillStyle = idx === points.length - 1 ? "#dc2626" : "#64748b";
     ctx.fillText(label, lx, ly);
     drawn.push({ x: lx, y: ly });
   });
 
   // Highlight latest point
   var last = points[points.length - 1];
-  ctx.fillStyle = "#d63a3a";
+  ctx.fillStyle = "#dc2626";
   ctx.beginPath();
   ctx.arc(xPos(last.t), yPos(last.price), 4, 0, Math.PI * 2);
   ctx.fill();
@@ -198,7 +198,7 @@ function drawMultiScatter(canvas, seriesList) {
   function xPos(t) { return pad.left + ((t - minT) / (maxT - minT)) * plotW; }
   function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
 
-  ctx.strokeStyle = "#e8e0d4";
+  ctx.strokeStyle = "#e2e8f0";
   ctx.lineWidth = 0.5;
   for (var i = 0; i <= 3; i++) {
     var gy = pad.top + (plotH / 3) * i;
@@ -208,7 +208,7 @@ function drawMultiScatter(canvas, seriesList) {
     ctx.stroke();
   }
 
-  ctx.fillStyle = "#9a9590";
+  ctx.fillStyle = "#64748b";
   ctx.font = "10px sans-serif";
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
@@ -229,7 +229,7 @@ function drawMultiScatter(canvas, seriesList) {
     ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
   }
 
-  var colors = ["#1a6f5a", "#2a6f97", "#b56576"];
+  var colors = ["#1e3a5f", "#2d5a8e", "#dc2626"];
   seriesList.forEach(function (s, idx) {
     var pts = s._points || [];
     if (pts.length < 2) return;

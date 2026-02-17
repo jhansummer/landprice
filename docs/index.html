@@ -4,96 +4,115 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>아파트 실거래가 APT Mine</title>
-  <meta name="description" content="아파트 실거래가 APT Mine - 국토교통부 실거래가 기반 아파트 매매 상승률 TOP 3, 시도별 거래 분석 대시보드. 매일 업데이트." />
+  <meta name="description" content="국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스. 매일 업데이트." />
   <meta name="keywords" content="아파트 실거래가, APT Mine, 부동산, 매매, 상승률, 국토교통부, 아파트 시세" />
   <meta property="og:title" content="아파트 실거래가 APT Mine" />
-  <meta property="og:description" content="아파트 실거래가 APT Mine - 국토교통부 실거래가 기반 아파트 매매 상승률 분석 대시보드" />
+  <meta property="og:description" content="국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aptmine.com" />
   <link rel="canonical" href="https://aptmine.com" />
   <style>
     :root {
-      --bg: #f6f1e8;
-      --ink: #1c1b19;
-      --accent: #1a6f5a;
+      --bg: #f0f4f8;
+      --ink: #1a1d23;
+      --accent: #1e3a5f;
+      --accent-light: #2d5a8e;
+      --accent-glow: rgba(30, 58, 95, 0.08);
       --paper: #ffffff;
-      --muted: #5a5650;
-      --line: #d8cfc1;
-      --up: #d63a3a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --up: #dc2626;
       --down: #2563eb;
-      --gold: #b8860b;
-      --silver: #6e6a63;
-      --bronze: #8b5e3c;
-      --font-title: "Playfair Display", "Eczar", "Georgia", serif;
-      --font-body: "Inter", "Nanum Gothic", "Helvetica Neue", sans-serif;
+      --gold: #d97706;
+      --silver: #64748b;
+      --bronze: #a16207;
+      --font-body: "Pretendard", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
+      --radius: 16px;
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: var(--font-body);
       color: var(--ink);
-      background: radial-gradient(circle at 10% 10%, #f9f3e7, #efe4d6 50%, #e9dccb);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
     }
-    header {
-      padding: 32px 20px 16px;
+    /* 히어로 헤더 */
+    .hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #3b7dbd 100%);
+      color: #fff;
+      padding: 40px 20px 28px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    h1 {
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -30%;
+      width: 160%;
+      height: 200%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
       margin: 0 0 8px;
-      font-family: "Pretendard", "Nanum Gothic", sans-serif;
-      font-size: 34px;
+      font-size: 28px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      color: var(--accent);
+      position: relative;
     }
-    header p {
+    .hero p {
       margin: 0;
-      color: var(--muted);
-    }
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .status {
-      text-align: center;
       font-size: 14px;
-      color: var(--accent);
-      margin: 20px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      opacity: 0.75;
+      position: relative;
     }
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 3px solid var(--line);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      display: inline-block;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .meta {
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
+    /* 네비게이션 */
     .nav-bar {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px 14px;
+      padding: 16px 20px 12px;
       display: flex;
       gap: 8px;
       align-items: center;
     }
+    .nav-link {
+      flex-shrink: 0;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 24px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-link:hover {
+      color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .nav-link.active {
+      background: var(--accent);
+      color: #fff;
+      cursor: default;
+      box-shadow: 0 2px 8px rgba(30,58,95,0.25);
+    }
+    /* 탭 */
     .tabs {
       display: flex;
       gap: 0;
-      padding: 0 20px 14px;
+      padding: 0 20px;
       max-width: 1200px;
       margin: 0 auto;
       overflow-x: auto;
@@ -104,24 +123,24 @@
     .tabs::-webkit-scrollbar { display: none; }
     .region-label {
       flex-shrink: 0;
-      padding: 8px 12px 10px 0;
-      font-family: var(--font-body);
+      padding: 10px 14px 12px 0;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       white-space: nowrap;
     }
     .tab-btn {
       flex-shrink: 0;
-      padding: 8px 14px 10px;
+      padding: 10px 16px 12px;
       border: none;
       border-bottom: 2px solid transparent;
       margin-bottom: -2px;
-      border-radius: 0;
       background: transparent;
       color: var(--muted);
       font-family: var(--font-body);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -129,23 +148,22 @@
     }
     .tab-btn:hover {
       color: var(--accent);
-      border-bottom-color: var(--accent);
     }
     .tab-btn.active {
       color: var(--accent);
       font-weight: 700;
       border-bottom-color: var(--accent);
-      background: transparent;
     }
+    /* 서브탭 드롭다운 */
     .district-select-wrap {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 10px 20px 14px;
+      padding: 12px 20px 0;
     }
-    .district-select {
-      padding: 8px 32px 8px 14px;
+    .district-select, .dong-select {
+      padding: 10px 36px 10px 16px;
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 12px;
       background: var(--paper);
       color: var(--ink);
       font-family: var(--font-body);
@@ -153,107 +171,89 @@
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 12px center;
+      background-position: right 14px center;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .district-select:focus {
+    .district-select:focus, .dong-select:focus {
       outline: none;
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
-    .dong-select {
-      padding: 8px 32px 8px 14px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--font-body);
+    /* 로딩 */
+    .status {
+      text-align: center;
       font-size: 14px;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6a63' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-    }
-    .dong-select:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    .search-input {
-      padding: 8px 14px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 14px;
-      width: 180px;
-      max-width: 40vw;
-    }
-    .search-input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-    .search-input::placeholder {
-      color: var(--muted);
-    }
-    .search-link-btn {
-      flex-shrink: 0;
-      padding: 8px 18px;
-      border: 1px solid var(--accent);
-      border-radius: 20px;
-      background: var(--paper);
       color: var(--accent);
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: all 0.15s ease;
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    .search-link-btn:hover {
-      background: var(--accent);
-      color: #fff;
+    .spinner {
+      width: 22px;
+      height: 22px;
+      border: 3px solid var(--line);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
     }
-    .search-link-btn.active {
-      background: var(--accent);
-      color: #fff;
-      cursor: default;
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .meta {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
     }
+    /* 메인 레이아웃 */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    /* 섹션 카드 */
     .section {
       background: var(--paper);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px 22px;
+      border-radius: var(--radius);
+      padding: 24px;
       margin-bottom: 20px;
-      box-shadow: 0 6px 20px rgba(28, 27, 25, 0.06);
+      box-shadow: var(--shadow-md);
+      transition: box-shadow 0.2s;
+    }
+    .section:hover {
+      box-shadow: var(--shadow-lg);
     }
     .section-title {
-      font-family: var(--font-title);
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       margin: 0 0 4px;
+      color: var(--ink);
     }
     .section-sub {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
     }
+    /* 랭크 카드 */
     .rank-card {
       display: grid;
-      grid-template-columns: 30px 1fr;
-      gap: 10px;
-      padding: 14px 0;
+      grid-template-columns: 32px 1fr;
+      gap: 12px;
+      padding: 16px 0;
       border-bottom: 1px solid var(--line);
+      transition: background 0.15s;
     }
     .rank-card:last-child { border-bottom: none; }
+    .rank-card:hover { background: var(--accent-glow); margin: 0 -12px; padding: 16px 12px; border-radius: 12px; }
     .rank-num {
-      font-family: var(--font-title);
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 22px;
+      font-weight: 800;
       line-height: 1.2;
+      color: var(--muted);
     }
     .rank-num.n1 { color: var(--gold); }
     .rank-num.n2 { color: var(--silver); }
@@ -262,12 +262,13 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 8px;
+      gap: 12px;
     }
     .rank-info { min-width: 0; }
     .rank-apt {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -275,7 +276,8 @@
     .rank-detail {
       font-size: 12px;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
+      line-height: 1.5;
     }
     .rank-change {
       text-align: right;
@@ -283,26 +285,40 @@
       flex-shrink: 0;
     }
     .rank-pct {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--up);
+      font-size: 18px;
+      font-weight: 800;
     }
     .rank-diff {
       font-size: 11px;
       color: var(--muted);
-      margin-top: 2px;
+      margin-top: 3px;
     }
+    /* 차트 */
     .scatter-chart {
-      margin-top: 10px;
+      margin-top: 12px;
       width: 100%;
       height: 150px;
     }
-    .chart-row {
-      display: flex;
-      align-items: stretch;
-      gap: 10px;
-      margin-top: 10px;
+    .scatter-chart canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
+    /* 태그 */
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-warn { background: #fef3c7; color: #d97706; }
+    .tag-muted { background: #f1f5f9; color: var(--muted); }
+    .tag-change-up { background: #fef2f2; color: var(--up); }
+    .tag-change-down { background: #eff6ff; color: var(--down); }
+    /* 버튼 */
     .detail-btn {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -311,47 +327,28 @@
       font-size: 11px;
       font-weight: 600;
       border-radius: 999px;
-      padding: 4px 10px;
+      padding: 5px 12px;
       cursor: pointer;
       white-space: nowrap;
-      line-height: 1.2;
       transition: all 0.15s ease;
     }
     .detail-btn:hover {
       border-color: var(--accent);
       color: var(--accent);
-    }
-    .scatter-chart canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    .tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-    .tag-warn {
-      background: #fff3e0;
-      color: #e65100;
-    }
-    .tag-muted {
-      background: #f0ece6;
-      color: var(--muted);
+      background: var(--accent-glow);
     }
     .no-data {
       font-size: 13px;
       color: var(--muted);
-      padding: 8px 0;
+      padding: 12px 0;
     }
+    /* 모달 */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(15,23,42,0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       z-index: 1000;
       display: flex;
       align-items: center;
@@ -360,39 +357,46 @@
     }
     .modal-content {
       background: var(--paper);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: var(--radius);
+      padding: 28px;
       max-width: 600px;
       width: 100%;
       max-height: 80vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-lg);
     }
     .modal-close {
       position: absolute;
-      top: 12px;
-      right: 16px;
-      background: none;
+      top: 16px;
+      right: 20px;
+      background: var(--bg);
       border: none;
-      font-size: 20px;
+      font-size: 16px;
       color: var(--muted);
       cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
     }
+    .modal-close:hover { background: var(--line); }
     .modal-title {
-      font-family: var(--font-title);
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       margin: 0 0 4px;
     }
     .modal-sub {
       font-size: 13px;
       color: var(--muted);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
     }
     .modal-chart {
-      height: 200px;
-      margin-bottom: 16px;
+      height: 220px;
+      margin-bottom: 20px;
     }
     .modal-table {
       width: 100%;
@@ -402,49 +406,59 @@
     .modal-table th {
       text-align: left;
       color: var(--muted);
-      font-weight: 600;
-      padding: 6px 8px;
+      font-weight: 700;
+      padding: 8px 10px;
       border-bottom: 2px solid var(--line);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
     .modal-table td {
-      padding: 6px 8px;
+      padding: 8px 10px;
       border-bottom: 1px solid var(--line);
     }
-    .modal-table td:last-child {
-      text-align: right;
-    }
+    .modal-table td:last-child { text-align: right; font-weight: 600; }
+    .modal-table tbody tr:hover { background: var(--accent-glow); }
+    /* 포커스 */
     button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
+    /* 푸터 */
+    .site-footer {
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 20px;
+    }
+    .site-footer a { color: var(--muted); text-decoration: none; }
+    .site-footer a:hover { color: var(--accent); }
+    /* 반응형 */
     @media (max-width: 720px) {
-      h1 { font-size: 26px; }
-      .nav-bar { padding: 0 16px 10px; gap: 4px; }
-      .search-link-btn { padding: 6px 14px; font-size: 13px; }
-      .tabs { padding: 0 16px 10px; }
-      .tab-btn { padding: 6px 10px 8px; font-size: 12px; }
-      .region-label { font-size: 11px; padding-right: 6px; }
-      .section { padding: 14px 16px; }
-      .chart-row { flex-direction: column; }
+      .hero { padding: 32px 16px 24px; }
+      .hero h1 { font-size: 22px; }
+      .nav-bar { padding: 12px 16px 8px; gap: 6px; }
+      .nav-link { padding: 7px 14px; font-size: 13px; }
+      .tabs { padding: 0 16px; }
+      .tab-btn { padding: 8px 12px 10px; font-size: 13px; }
+      .region-label { font-size: 11px; padding-right: 8px; }
+      .section { padding: 18px 16px; border-radius: 14px; }
       .rank-apt {
         font-size: 13px;
-        line-height: 1.35;
+        line-height: 1.4;
         white-space: normal;
         overflow: visible;
         text-overflow: clip;
         word-break: keep-all;
         overflow-wrap: anywhere;
       }
-      .modal-content { padding: 16px; }
+      .rank-pct { font-size: 16px; }
+      .modal-content { padding: 20px 16px; }
     }
-    /* 등락률 뱃지 */
-    .tag-change-up { background: #fde8e8; color: var(--up); }
-    .tag-change-down { background: #e8f0fd; color: var(--down); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600;700&family=Inter:wght@400;500;600;700&family=Nanum+Gothic:wght@400;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
@@ -455,15 +469,15 @@
   </script>
 </head>
 <body>
-  <header>
-    <h1>아파트 실거래가 APT Mine</h1>
-    <p>출처 : 국토교통부 실거래가</p>
-  </header>
+  <div class="hero">
+    <h1>APT Mine</h1>
+    <p>국토교통부 실거래가 기반 아파트 시세 분석</p>
+  </div>
   <div class="nav-bar">
-    <span class="search-link-btn active">메인</span>
-    <a class="search-link-btn" href="search.html">단지명 검색</a>
-    <a class="search-link-btn" href="undervalued.html">저평가 TOP3</a>
-    <a class="search-link-btn" href="regional.html">지역시세</a>
+    <span class="nav-link active">메인</span>
+    <a class="nav-link" href="search.html">단지명 검색</a>
+    <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
+    <a class="nav-link" href="regional.html">지역시세</a>
   </div>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
@@ -472,13 +486,13 @@
     <div id="meta" class="meta"></div>
     <div id="grid"></div>
   </main>
-  <footer style="text-align:center;padding:24px 20px;font-size:12px;color:#5a5650;">
-    <a href="/privacy.html" style="color:#5a5650;">개인정보처리방침</a>
-    <span style="margin:0 6px;">|</span>
+  <footer class="site-footer">
+    <a href="/privacy.html">개인정보처리방침</a>
+    <span style="margin:0 8px;">·</span>
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="chart-utils.js?v=1"></script>
-  <script src="app.js?v=28"></script>
+  <script src="chart-utils.js?v=2"></script>
+  <script src="app.js?v=29"></script>
 </body>
 </html>
