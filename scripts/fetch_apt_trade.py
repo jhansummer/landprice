@@ -520,278 +520,125 @@ def build_trend_data(records: List[Dict[str, object]]) -> List[List]:
     return trend
 
 
-def _pearson(a: List[float], b: List[float]):
-    n = len(a)
-    if n < 24:
-        return None
-    ma = sum(a) / n
-    mb = sum(b) / n
-    da = [x - ma for x in a]
-    db = [x - mb for x in b]
-    va = sum(x * x for x in da)
-    vb = sum(x * x for x in db)
-    if va <= 0 or vb <= 0:
-        return None
-    import math
-    return sum(x * y for x, y in zip(da, db)) / math.sqrt(va * vb)
+def _recovery_from_trend(trend: List[List]) -> Dict:
+    """trend [[yyyymm, avg_per_m2, count], ...] 에서 전고점 대비 회복 지표 계산."""
+    if len(trend) < 12:
+        return {}
+    ym_price = {t[0]: t[1] for t in trend}
+    all_yms = sorted(ym_price.keys())
 
-
-def _cross_corr(a: List[float], b: List[float], lag: int):
-    """a를 lag만큼 앞당겼을 때 b와의 상관. lag>0 => a 선행."""
-    if lag >= 0:
-        sa, sb = a[lag:], b[:len(a) - lag]
-    else:
-        sb, sa = b[-lag:], a[:len(b) + lag]
-    paired = [(x, y) for x, y in zip(sa, sb) if x is not None and y is not None]
-    if len(paired) < 24:
-        return None
-    return _pearson([p[0] for p in paired], [p[1] for p in paired])
-
-
-def _compute_tiers(edges: List[Dict], all_nodes: List[str],
-                    price_level: Dict[str, float] = None) -> Dict:
-    """교차상관 net lead score 기반 tier 분류.
-    from(패턴선행) → +lag*corr, to(패턴후행) → -lag*corr.
-    union-find로 동행(lag≤1, corr≥0.7) 그룹핑.
-    """
-    if not edges and not all_nodes:
+    # peak: 2021.01~2022.12 구간 최고가
+    peak_val, peak_ym = 0, ""
+    for ym in all_yms:
+        if "202101" <= ym <= "202212":
+            if ym_price[ym] > peak_val:
+                peak_val = ym_price[ym]
+                peak_ym = ym
+    if peak_val <= 0:
         return {}
 
-    # 1) net lead score (lag·corr 가중)
-    score: Dict[str, float] = {}
-    for n in all_nodes:
-        score[n] = 0.0
-    for e in edges:
-        w = e["lag"] * e["corr"]
-        score[e["from"]] = score.get(e["from"], 0.0) + w
-        score[e["to"]] = score.get(e["to"], 0.0) - w
+    # trough: peak 이후 최저가
+    trough_val, trough_ym = peak_val, peak_ym
+    for ym in all_yms:
+        if ym > peak_ym and ym_price[ym] < trough_val:
+            trough_val = ym_price[ym]
+            trough_ym = ym
 
-    # 2) union-find로 co-mover 그룹핑 (lag ≤ 1 AND corr ≥ 0.7)
-    parent: Dict[str, str] = {n: n for n in all_nodes}
+    # current: 최근 3개월 평균
+    recent_3 = [t[1] for t in trend[-3:]]
+    current = sum(recent_3) / len(recent_3)
 
-    def find(x: str) -> str:
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
+    # vs_peak
+    vs_peak = round((current - peak_val) / peak_val * 100, 1)
 
-    def union(a: str, b: str):
-        ra, rb = find(a), find(b)
-        if ra != rb:
-            parent[ra] = rb
+    # chg6m, chg3m
+    chg6m, chg3m = 0.0, 0.0
+    if len(trend) >= 7:
+        p6 = trend[-7][1]
+        if p6 > 0:
+            chg6m = round((current - p6) / p6 * 100, 1)
+    if len(trend) >= 4:
+        p3 = trend[-4][1]
+        if p3 > 0:
+            chg3m = round((current - p3) / p3 * 100, 1)
 
-    for e in edges:
-        if e["lag"] <= 1 and e["corr"] >= 0.7:
-            if e["from"] in parent and e["to"] in parent:
-                union(e["from"], e["to"])
-
-    # 3) 그룹별 평균 점수
-    groups: Dict[str, List[str]] = {}
-    for n in all_nodes:
-        root = find(n)
-        groups.setdefault(root, []).append(n)
-
-    group_scores: List[tuple] = []
-    for root, members in groups.items():
-        avg = sum(score[m] for m in members) / len(members) if members else 0
-        group_scores.append((avg, sorted(members)))
-
-    if not group_scores:
-        return {}
-
-    # 4) 3분위 tier
-    group_scores.sort(key=lambda x: -x[0])
-    n_groups = len(group_scores)
-
-    tier_lead = []
-    tier_mid = []
-    tier_lag = []
-
-    if n_groups <= 2:
-        tier_lead = group_scores[0][1]
-        tier_lag = group_scores[-1][1] if n_groups > 1 else []
+    # status
+    if vs_peak >= 0:
+        status = "recovered"
+    elif chg6m > 2:
+        status = "rising"
+    elif chg6m < -2:
+        status = "falling"
     else:
-        cut1 = max(1, n_groups // 3)
-        cut2 = max(cut1 + 1, n_groups - n_groups // 3)
-        for i, (_, members) in enumerate(group_scores):
-            if i < cut1:
-                tier_lead.extend(members)
-            elif i < cut2:
-                tier_mid.extend(members)
-            else:
-                tier_lag.extend(members)
+        status = "flat"
 
-    tiers = []
-    if tier_lead:
-        tiers.append({"level": 0, "label": "먼저 움직임", "nodes": tier_lead})
-    if tier_mid:
-        tiers.append({"level": 1, "label": "동행", "nodes": tier_mid})
-    if tier_lag:
-        tiers.append({"level": 2, "label": "나중에 움직임", "nodes": tier_lag})
-
-    for i, t in enumerate(tiers):
-        t["level"] = i
-
-    return {"tiers": tiers, "edges": edges}
+    return {
+        "price": round(current, 1),
+        "peak": round(peak_val, 1),
+        "peak_ym": peak_ym,
+        "trough": round(trough_val, 1),
+        "trough_ym": trough_ym,
+        "vs_peak": vs_peak,
+        "chg6m": chg6m,
+        "chg3m": chg3m,
+        "status": status,
+    }
 
 
-def build_lead_lag(sido_data: Dict) -> Dict:
-    """구별 trend 데이터로 시차(교차상관) 분석. 정규화 레벨 기반. tier 포함."""
+def build_recovery(sido_data: Dict) -> Dict:
+    """구/시별 전고점 대비 회복률 + 최근 변화율 계산."""
     districts = sido_data.get("districts", {})
-    if len(districts) < 3:
+    if not districts:
         return {}
 
-    # 구별 정규화 시세 추출
-    norm_series: Dict[str, List[float]] = {}
+    items = []
     for dname, ddata in districts.items():
         trend = ddata.get("trend", [])
-        if len(trend) < 48:
-            continue
-        prices = [t[1] for t in trend]
-        mn, mx = min(prices), max(prices)
-        r = mx - mn if mx != mn else 1
-        norm_series[dname] = [(p - mn) / r for p in prices]
+        info = _recovery_from_trend(trend)
+        if info:
+            info["name"] = dname
+            items.append(info)
 
-    names = sorted(norm_series.keys())
-    if len(names) < 3:
+    if not items:
         return {}
 
-    MAX_LAG = 12
-    edges = []
-    for i, a_name in enumerate(names):
-        for j in range(i + 1, len(names)):
-            b_name = names[j]
-            a_s, b_s = norm_series[a_name], norm_series[b_name]
-            c0 = _cross_corr(a_s, b_s, 0)
-            best_lag, best_corr = 0, c0 if c0 is not None else -1
-            for lag in range(-MAX_LAG, MAX_LAG + 1):
-                if lag == 0:
-                    continue
-                c = _cross_corr(a_s, b_s, lag)
-                if c is not None and c > best_corr:
-                    best_corr, best_lag = c, lag
-            improvement = (best_corr - (c0 or 0)) if best_lag != 0 else 0
-            if best_lag != 0 and improvement > 0.02 and best_corr >= 0.4:
-                leader = a_name if best_lag > 0 else b_name
-                follower = b_name if best_lag > 0 else a_name
-                edges.append({
-                    "from": leader,
-                    "to": follower,
-                    "lag": abs(best_lag),
-                    "corr": round(best_corr, 3),
-                })
-
-    edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
-    edges = edges[:40]
-    return _compute_tiers(edges, names)
+    items.sort(key=lambda x: -x["vs_peak"])
+    return {"items": items}
 
 
-def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> Dict:
-    """단지별 시세 선행/후행 관계 분석. 거래량 상위 단지 대상. tier 포함."""
-    dt = datetime.strptime(current_month, "%Y%m")
-    months_36 = set()
-    for i in range(36):
-        m = dt - relativedelta(months=i)
-        months_36.add(m.strftime("%Y%m"))
-
-    # 전체 기간 월 목록
-    all_yms = sorted(set(r["deal_ym"] for r in records))
-    if len(all_yms) < 36:
-        return []
-    ym_idx = {ym: i for i, ym in enumerate(all_yms)}
-
-    # 단지별 월별 m²단가 시계열 구축 (apt_name + area_m2 조합을 키로)
-    apt_series: Dict[str, Dict] = {}  # key -> {name, series, count}
+def build_dong_recovery(records: List[Dict[str, object]], current_month: str) -> Dict:
+    """동별 전고점 대비 회복률 계산. raw records에서 동별 월별 시계열 구축."""
+    by_dong: Dict[str, Dict[str, List]] = {}  # dong -> {ym: [price_per_m2, ...]}
     for r in records:
         if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
             continue
-        key = f"{r.get('apt_name', '')}\t{r.get('area_m2', 0)}"
-        if key not in apt_series:
-            apt_series[key] = {
-                "name": r.get("apt_name", ""),
-                "dong": r.get("dong_name", ""),
-                "area": r.get("area_m2", 0),
-                "by_month": {},
-                "count_36": 0,
-            }
+        dong = r.get("dong_name", "")
+        if not dong:
+            continue
         ym = r["deal_ym"]
-        price_m2 = r["price_man"] / r["area_m2"]
-        apt_series[key]["by_month"].setdefault(ym, []).append(price_m2)
-        if ym in months_36:
-            apt_series[key]["count_36"] += 1
+        by_dong.setdefault(dong, {}).setdefault(ym, []).append(
+            r["price_man"] / r["area_m2"]
+        )
 
-    # 36개월 거래 8건 이상만, 상위 15개
-    candidates = [(k, v) for k, v in apt_series.items() if v["count_36"] >= 8]
-    candidates.sort(key=lambda x: -x[1]["count_36"])
-    candidates = candidates[:15]
-
-    if len(candidates) < 3:
-        return {}
-
-    # 월별 평균 시계열 → 정규화
-    def make_norm_series(by_month):
-        series = []
+    items = []
+    for dong, ym_prices in by_dong.items():
+        all_yms = sorted(ym_prices.keys())
+        if len(all_yms) < 12:
+            continue
+        trend = []
         for ym in all_yms:
-            vals = by_month.get(ym)
-            series.append(sum(vals) / len(vals) if vals else None)
-        # forward fill
-        last = None
-        for i in range(len(series)):
-            if series[i] is None:
-                series[i] = last
-            else:
-                last = series[i]
-        vals = [v for v in series if v is not None]
-        if len(vals) < 36:
-            return None
-        mn, mx = min(vals), max(vals)
-        r = mx - mn if mx != mn else 1
-        return [(v - mn) / r if v is not None else None for v in series]
+            vals = ym_prices[ym]
+            trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
+        info = _recovery_from_trend(trend)
+        if info:
+            info["name"] = dong
+            items.append(info)
 
-    norm_map = {}
-    label_map = {}
-    for key, info in candidates:
-        ns = make_norm_series(info["by_month"])
-        if ns:
-            short = info["name"]
-            if len(short) > 8:
-                short = short[:7] + ".."
-            label = short + " " + str(round(info["area"], 0)).replace(".0", "") + "m²"
-            norm_map[key] = ns
-            label_map[key] = label
-
-    keys = list(norm_map.keys())
-    if len(keys) < 3:
+    if not items:
         return {}
 
-    MAX_LAG = 6
-    edges = []
-    for i in range(len(keys)):
-        for j in range(i + 1, len(keys)):
-            a_s, b_s = norm_map[keys[i]], norm_map[keys[j]]
-            c0 = _cross_corr(a_s, b_s, 0)
-            best_lag, best_corr = 0, c0 if c0 is not None else -1
-            for lag in range(-MAX_LAG, MAX_LAG + 1):
-                if lag == 0:
-                    continue
-                c = _cross_corr(a_s, b_s, lag)
-                if c is not None and c > best_corr:
-                    best_corr, best_lag = c, lag
-            improvement = (best_corr - (c0 or 0)) if best_lag != 0 else 0
-            if best_lag != 0 and improvement > 0.02 and best_corr >= 0.4:
-                li = i if best_lag > 0 else j
-                fi = j if best_lag > 0 else i
-                edges.append({
-                    "from": label_map[keys[li]],
-                    "to": label_map[keys[fi]],
-                    "lag": abs(best_lag),
-                    "corr": round(best_corr, 3),
-                })
-
-    edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
-    edges = edges[:20]
-    all_labels = list(label_map.values())
-    return _compute_tiers(edges, all_labels)
+    items.sort(key=lambda x: -x["vs_peak"])
+    return {"items": items}
 
 
 def build_dong_stats(records: List[Dict[str, object]], current_month: str) -> List[Dict[str, object]]:
@@ -1134,10 +981,10 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 jeonse_trend = build_jeonse_trend(dist_rent, dist_records)
                 if jeonse_trend:
                     dist_data["jeonse_trend"] = jeonse_trend
-            # 단지별 선행/후행 관계
-            apt_ll = build_apt_lead_lag(dist_records, current_month)
-            if apt_ll:
-                dist_data["apt_lead_lag"] = apt_ll
+            # 동별 회복 현황
+            dong_recovery = build_dong_recovery(dist_records, current_month)
+            if dong_recovery:
+                dist_data["dong_recovery"] = dong_recovery
             districts[group_name] = dist_data
             # 검색 인덱스 (3개월 제한 없음)
             for item in build_search_items(dist_records):
@@ -1169,11 +1016,11 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             "items": search_items,
         }
 
-    # 시차(lead-lag) 분석: 구별 시세 선행/후행 관계
+    # 시세 회복 지도: 구/시별 전고점 대비 회복률
     for sido_name, sido_data in sidos.items():
-        lead_lag = build_lead_lag(sido_data)
-        if lead_lag:
-            sido_data["lead_lag"] = lead_lag
+        recovery = build_recovery(sido_data)
+        if recovery:
+            sido_data["recovery"] = recovery
 
     summary = {
         "updated_at": iso_now_utc(),
