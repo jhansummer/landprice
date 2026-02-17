@@ -656,6 +656,293 @@ function renderRecoveryMap(items, title, sido, district) {
   return sec;
 }
 
+/* ── 통합 지도: 동별 시세 + 회복률 ── */
+function priceColor(price, minP, maxP) {
+  var t = maxP > minP ? (price - minP) / (maxP - minP) : 0.5;
+  t = Math.max(0, Math.min(1, t));
+  // 저가(cyan) → 중가(blue) → 고가(violet)
+  var r, g, b;
+  if (t < 0.5) {
+    var s = t / 0.5;
+    r = Math.round(6 + (37 - 6) * s);
+    g = Math.round(182 + (99 - 182) * s);
+    b = Math.round(212 + (235 - 212) * s);
+  } else {
+    var s = (t - 0.5) / 0.5;
+    r = Math.round(37 + (124 - 37) * s);
+    g = Math.round(99 + (58 - 99) * s);
+    b = Math.round(235 + (237 - 235) * s);
+  }
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
+
+function renderCombinedMap(dongStats, dongRecovery, title, sido, district) {
+  if (!dongStats || !dongStats.length) return null;
+  if (typeof kakao === "undefined" || !kakao.maps) return null;
+
+  // dong_recovery를 name으로 매핑
+  var recoveryMap = {};
+  if (dongRecovery && dongRecovery.items) {
+    dongRecovery.items.forEach(function(item) {
+      recoveryMap[item.name] = item;
+    });
+  }
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00B7 \uB9C8\uCEE4 \uD06C\uAE30=\uAC70\uB798\uB7C9, \uC0C9\uC0C1=\uAC00\uACA9\uB300 \u00B7 \uD074\uB9AD\uC2DC \uC0C1\uC138 \uC815\uBCF4";
+  sec.appendChild(sub);
+
+  var mapDiv = document.createElement("div");
+  mapDiv.className = "map-container";
+  sec.appendChild(mapDiv);
+
+  // 범례: 가격대 그라데이션
+  var legend = document.createElement("div");
+  legend.className = "map-legend";
+  legend.style.gap = "8px";
+  legend.innerHTML = '<span style="font-size:11px;color:var(--muted);">\uC800\uAC00</span>'
+    + '<span style="display:inline-block;width:120px;height:10px;border-radius:5px;background:linear-gradient(90deg,#06b6d4,#2563eb,#7c3aed);"></span>'
+    + '<span style="font-size:11px;color:var(--muted);">\uACE0\uAC00</span>'
+    + '<span style="margin-left:16px;font-size:11px;color:var(--muted);">\u25CF \uD06C\uAE30 = \uAC70\uB798\uB7C9</span>';
+  sec.appendChild(legend);
+
+  var infoPanel = document.createElement("div");
+  infoPanel.className = "map-info-panel";
+  infoPanel.style.display = "none";
+  sec.appendChild(infoPanel);
+
+  var prices = dongStats.map(function(d) { return d.avg_per_m2; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var volumes = dongStats.map(function(d) { return d.txn_count; });
+  var maxVol = Math.max.apply(null, volumes) || 1;
+
+  requestAnimationFrame(function() {
+    var center = SIDO_CENTERS[sido] || { lat: 37.5665, lng: 126.9780, level: 8 };
+    var level = district ? 5 : center.level;
+
+    var map = new kakao.maps.Map(mapDiv, {
+      center: new kakao.maps.LatLng(center.lat, center.lng),
+      level: level
+    });
+    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+    if (district) {
+      geocodeAddr(sido + " " + district).then(function(c) {
+        if (c) map.setCenter(new kakao.maps.LatLng(c.lat, c.lng));
+      });
+    }
+
+    dongStats.forEach(function(dong) {
+      var addr = district
+        ? (sido + " " + district + " " + dong.dong_name)
+        : (sido + " " + dong.dong_name);
+
+      geocodeAddr(addr).then(function(c) {
+        if (!c) return;
+        var color = priceColor(dong.avg_per_m2, minP, maxP);
+        var volRatio = dong.txn_count / maxVol;
+        var size = Math.round(28 + volRatio * 28);
+        var rec = recoveryMap[dong.dong_name];
+        var recBadge = "";
+        if (rec) {
+          var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+          recBadge = '<div style="font-size:8px;margin-top:1px;opacity:.85;">' + st.label + '</div>';
+        }
+
+        var el = document.createElement("div");
+        el.className = "map-marker";
+        el.style.background = color;
+        el.style.minWidth = size + "px";
+        el.style.padding = "4px 8px";
+        el.style.fontSize = "10px";
+        el.innerHTML = '<div style="font-size:9px;opacity:.85;">' + dong.dong_name + '</div>'
+          + '<div style="font-size:12px;font-weight:800;">' + Math.round(dong.avg_per_m2).toLocaleString() + '</div>'
+          + recBadge;
+
+        var overlay = new kakao.maps.CustomOverlay({
+          position: new kakao.maps.LatLng(c.lat, c.lng),
+          content: el,
+          yAnchor: 0.5,
+          xAnchor: 0.5
+        });
+        overlay.setMap(map);
+
+        el.addEventListener("click", function() {
+          var html = '<div class="map-info-header">'
+            + '<span class="map-info-name">' + dong.dong_name + '</span>';
+          if (rec) {
+            var st2 = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+            html += '<span class="recovery-badge ' + rec.status + '">' + st2.label + '</span>';
+          }
+          html += '</div><div class="map-info-stats">'
+            + '<div class="map-info-stat"><span class="map-info-label">m\u00B2\uB2F9 \uD3C9\uADE0</span><span class="map-info-val">' + Math.round(dong.avg_per_m2).toLocaleString() + '\uB9CC</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">\uAC70\uB798\uAC74\uC218</span><span class="map-info-val">' + dong.txn_count + '\uAC74</span></div>';
+          if (dong.median_price) {
+            html += '<div class="map-info-stat"><span class="map-info-label">\uC911\uC704 \uB9E4\uB9E4\uAC00</span><span class="map-info-val">' + (dong.median_price / 10000).toFixed(1) + '\uC5B5</span></div>';
+          }
+          if (rec) {
+            var vsPeakStr = (rec.vs_peak >= 0 ? "+" : "") + rec.vs_peak + "%";
+            var chg6mStr = (rec.chg6m >= 0 ? "+" : "") + rec.chg6m + "%";
+            var st3 = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+            html += '<div class="map-info-stat"><span class="map-info-label">\uC804\uACE0\uC810 \uB300\uBE44</span><span class="map-info-val" style="color:' + st3.textColor + '">' + vsPeakStr + '</span></div>'
+              + '<div class="map-info-stat"><span class="map-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="map-info-val">' + chg6mStr + '</span></div>';
+          }
+          html += '</div>';
+          infoPanel.innerHTML = html;
+          infoPanel.style.display = "block";
+          infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      });
+    });
+  });
+
+  return sec;
+}
+
+/* ── 시도 전체: 구별 시세 지도 ── */
+function renderDistrictMap(sidoData, title, sido) {
+  if (!sidoData || !sidoData.districts) return null;
+  if (typeof kakao === "undefined" || !kakao.maps) return null;
+
+  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+  var distStats = [];
+  distOrder.forEach(function(distName) {
+    var dist = sidoData.districts[distName];
+    if (!dist || !dist.dong_stats || !dist.dong_stats.length) return;
+    var totalPrice = 0, totalCount = 0;
+    dist.dong_stats.forEach(function(d) {
+      totalPrice += d.avg_per_m2 * d.txn_count;
+      totalCount += d.txn_count;
+    });
+    if (totalCount === 0) return;
+    var rec = null;
+    if (sidoData.recovery && sidoData.recovery.items) {
+      sidoData.recovery.items.forEach(function(r) {
+        if (r.name === distName) rec = r;
+      });
+    }
+    distStats.push({
+      name: distName,
+      avg_per_m2: Math.round(totalPrice / totalCount),
+      txn_count: totalCount,
+      dong_count: dist.dong_stats.length,
+      recovery: rec
+    });
+  });
+
+  if (!distStats.length) return null;
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uAD6C\uBCC4 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 + \uD68C\uBCF5\uB960 \u00B7 \uD074\uB9AD\uC2DC \uC0C1\uC138 \uC815\uBCF4";
+  sec.appendChild(sub);
+
+  var mapDiv = document.createElement("div");
+  mapDiv.className = "map-container";
+  sec.appendChild(mapDiv);
+
+  var legend = document.createElement("div");
+  legend.className = "map-legend";
+  legend.style.gap = "8px";
+  legend.innerHTML = '<span style="font-size:11px;color:var(--muted);">\uC800\uAC00</span>'
+    + '<span style="display:inline-block;width:120px;height:10px;border-radius:5px;background:linear-gradient(90deg,#06b6d4,#2563eb,#7c3aed);"></span>'
+    + '<span style="font-size:11px;color:var(--muted);">\uACE0\uAC00</span>'
+    + '<span style="margin-left:12px;font-size:11px;color:var(--muted);">\u25CF \uD06C\uAE30 = \uAC70\uB798\uB7C9</span>';
+  sec.appendChild(legend);
+
+  var infoPanel = document.createElement("div");
+  infoPanel.className = "map-info-panel";
+  infoPanel.style.display = "none";
+  sec.appendChild(infoPanel);
+
+  var prices = distStats.map(function(d) { return d.avg_per_m2; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var volumes = distStats.map(function(d) { return d.txn_count; });
+  var maxVol = Math.max.apply(null, volumes) || 1;
+
+  requestAnimationFrame(function() {
+    var center = SIDO_CENTERS[sido] || { lat: 37.5665, lng: 126.9780, level: 8 };
+    var map = new kakao.maps.Map(mapDiv, {
+      center: new kakao.maps.LatLng(center.lat, center.lng),
+      level: center.level
+    });
+    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+    distStats.forEach(function(dist) {
+      geocodeAddr(sido + " " + dist.name).then(function(c) {
+        if (!c) return;
+        var color = priceColor(dist.avg_per_m2, minP, maxP);
+        var volRatio = dist.txn_count / maxVol;
+        var size = Math.round(36 + volRatio * 36);
+        var rec = dist.recovery;
+        var recLine = "";
+        if (rec) {
+          var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+          var vsPeak = (rec.vs_peak >= 0 ? "+" : "") + rec.vs_peak + "%";
+          recLine = '<div style="font-size:9px;margin-top:1px;">' + st.label + ' ' + vsPeak + '</div>';
+        }
+
+        var el = document.createElement("div");
+        el.className = "map-marker";
+        el.style.background = color;
+        el.style.minWidth = size + "px";
+        el.style.padding = "5px 10px";
+        el.innerHTML = '<div style="font-size:10px;opacity:.85;">' + dist.name + '</div>'
+          + '<div style="font-size:13px;font-weight:800;">' + dist.avg_per_m2.toLocaleString() + '</div>'
+          + recLine;
+
+        var overlay = new kakao.maps.CustomOverlay({
+          position: new kakao.maps.LatLng(c.lat, c.lng),
+          content: el,
+          yAnchor: 0.5,
+          xAnchor: 0.5
+        });
+        overlay.setMap(map);
+
+        el.addEventListener("click", function() {
+          var html = '<div class="map-info-header"><span class="map-info-name">' + dist.name + '</span>';
+          if (rec) {
+            var st2 = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+            html += '<span class="recovery-badge ' + rec.status + '">' + st2.label + '</span>';
+          }
+          html += '</div><div class="map-info-stats">'
+            + '<div class="map-info-stat"><span class="map-info-label">m\u00B2\uB2F9 \uD3C9\uADE0</span><span class="map-info-val">' + dist.avg_per_m2.toLocaleString() + '\uB9CC</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">\uAC70\uB798\uAC74\uC218</span><span class="map-info-val">' + dist.txn_count + '\uAC74</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">\uB3D9 \uC218</span><span class="map-info-val">' + dist.dong_count + '\uAC1C</span></div>';
+          if (rec) {
+            var vsPeakStr = (rec.vs_peak >= 0 ? "+" : "") + rec.vs_peak + "%";
+            var chg6mStr = (rec.chg6m >= 0 ? "+" : "") + rec.chg6m + "%";
+            var st3 = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+            html += '<div class="map-info-stat"><span class="map-info-label">\uC804\uACE0\uC810 \uB300\uBE44</span><span class="map-info-val" style="color:' + st3.textColor + '">' + vsPeakStr + '</span></div>'
+              + '<div class="map-info-stat"><span class="map-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="map-info-val">' + chg6mStr + '</span></div>';
+          }
+          html += '</div>';
+          infoPanel.innerHTML = html;
+          infoPanel.style.display = "block";
+          infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      });
+    });
+  });
+
+  return sec;
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -671,34 +958,27 @@ function renderSections() {
 
   var regionName = activeDistrict || activeSido;
 
+  // 통합 지도 (시세 + 회복률)
+  if (activeDistrict && data.dong_stats && data.dong_stats.length > 1) {
+    var mapSec = renderCombinedMap(data.dong_stats, data.dong_recovery, activeDistrict + " \uB3D9\uBCC4 \uC2DC\uC138 \uC9C0\uB3C4", activeSido, activeDistrict);
+    if (mapSec) gridEl.appendChild(mapSec);
+  } else if (!activeDistrict && sidoData.districts) {
+    var distMapSec = renderDistrictMap(sidoData, activeSido + " \uAD6C\uBCC4 \uC2DC\uC138 \uC9C0\uB3C4", activeSido);
+    if (distMapSec) gridEl.appendChild(distMapSec);
+  }
+
   // 시세 추이 차트
   if (data.trend && data.trend.length > 1) {
     gridEl.appendChild(renderTrendSection(data.trend, regionName + " \uC2DC\uC138 \uCD94\uC774"));
   }
 
-  // 동네별 시세 비교
+  // 동네별 시세 비교 (바 차트)
   if (activeDistrict && data.dong_stats && data.dong_stats.length > 1) {
-    // 구 선택: 해당 구의 동만 표시
     var dongSec = renderDongStats(data.dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC2DC\uC138 \uBE44\uAD50");
     if (dongSec) gridEl.appendChild(dongSec);
   } else if (!activeDistrict && sidoData.districts) {
-    // 시도 전체: 모든 구의 동을 합쳐서 구별 색상 구분
     var allDongSec = renderAllDongStats(sidoData, activeSido + " \uB3D9\uBCC4 \uC2DC\uC138 \uBE44\uAD50");
     if (allDongSec) gridEl.appendChild(allDongSec);
-  }
-
-  // 시세 회복 지도 (시도 전체 선택 시)
-  var recovery = sidoData.recovery;
-  if (!activeDistrict && recovery && recovery.items && recovery.items.length) {
-    var recSec = renderRecoveryMap(recovery.items, activeSido + " \uC2DC\uC138 \uD68C\uBCF5 \uC9C0\uB3C4", activeSido, null);
-    if (recSec) gridEl.appendChild(recSec);
-  }
-
-  // 동별 회복 현황 (구 선택 시)
-  var dongRec = data.dong_recovery;
-  if (activeDistrict && dongRec && dongRec.items && dongRec.items.length) {
-    var dRecSec = renderRecoveryMap(dongRec.items, activeDistrict + " \uB3D9\uBCC4 \uD68C\uBCF5 \uD604\uD669", activeSido, activeDistrict);
-    if (dRecSec) gridEl.appendChild(dRecSec);
   }
 
   // 전세가율
