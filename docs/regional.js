@@ -479,7 +479,7 @@ function renderRecoverySection(items, title, isDong) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uD68C\uBCF5\uB960 \u00B7 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \uAE30\uC900";
+  sub.textContent = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uD68C\uBCF5\uB960 \u00B7 \uAC19\uC740 \uB2E8\uC9C0 \uAC19\uC740 \uD3C9\uC218 \uAE30\uC900 \uC911\uC559\uAC12 \u00B7 \uD074\uB9AD\uC2DC \uB2E8\uC9C0\uBCC4 \uC0C1\uC138";
   sec.appendChild(sub);
 
   var list = document.createElement("div");
@@ -490,13 +490,19 @@ function renderRecoverySection(items, title, isDong) {
     var st = RECOVERY_STATUS[item.status] || RECOVERY_STATUS.flat;
     var ratio = item.peak > 0 ? Math.min(item.price / item.peak * 100, 120) : 0;
 
+    var rowWrap = document.createElement("div");
+
     var row = document.createElement("div");
     row.className = "recovery-row";
+    row.style.cursor = item.apt_details && item.apt_details.length ? "pointer" : "default";
 
     // 이름
     var nameEl = document.createElement("span");
     nameEl.className = "dong-stat-name";
     nameEl.textContent = item.name;
+    if (item.apt_details && item.apt_details.length) {
+      nameEl.innerHTML = item.name + ' <span style="font-size:9px;color:var(--muted);">\u25BC</span>';
+    }
     row.appendChild(nameEl);
 
     // 바
@@ -506,7 +512,6 @@ function renderRecoverySection(items, title, isDong) {
     bar.className = "recovery-bar " + item.status;
     bar.style.width = Math.min(ratio, 100) + "%";
     barWrap.appendChild(bar);
-    // 전고점 마커 (바의 오른쪽 끝 = peak 100%)
     if (ratio < 100) {
       var peakLine = document.createElement("div");
       peakLine.className = "recovery-peak-line";
@@ -527,7 +532,42 @@ function renderRecoverySection(items, title, isDong) {
     valEl.appendChild(badge);
     row.appendChild(valEl);
 
-    list.appendChild(row);
+    rowWrap.appendChild(row);
+
+    // 클릭 시 단지별 회복률 펼침
+    if (item.apt_details && item.apt_details.length) {
+      row.addEventListener("click", function() {
+        var existing = rowWrap.querySelector(".apt-detail-list");
+        if (existing) {
+          existing.remove();
+          nameEl.innerHTML = item.name + ' <span style="font-size:9px;color:var(--muted);">\u25BC</span>';
+          return;
+        }
+        nameEl.innerHTML = item.name + ' <span style="font-size:9px;color:var(--muted);">\u25B2</span>';
+        var detailList = document.createElement("div");
+        detailList.className = "apt-detail-list";
+        var header = document.createElement("div");
+        header.className = "apt-detail-header";
+        header.textContent = item.name + " \uB2E8\uC9C0\uBCC4 \uD68C\uBCF5\uB960 (\uAC19\uC740 \uD3C9\uC218 \uAE30\uC900)";
+        detailList.appendChild(header);
+        item.apt_details.forEach(function(a) {
+          var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
+          var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
+          var aRow = document.createElement("div");
+          aRow.className = "apt-detail-row";
+          aRow.innerHTML = '<span class="apt-detail-name">' + a.apt_name
+            + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
+            + '<span class="apt-detail-val">'
+            + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
+            + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'
+            + '</span>';
+          detailList.appendChild(aRow);
+        });
+        rowWrap.appendChild(detailList);
+      });
+    }
+
+    list.appendChild(rowWrap);
   });
   sec.appendChild(list);
   return sec;
