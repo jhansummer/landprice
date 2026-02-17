@@ -767,9 +767,13 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
             label = short + " " + str(round(info["area"], 0)).replace(".0", "") + "m²"
             norm_map[key] = ns
             label_map[key] = label
-            # 최근 12개월 평균 m²단가
-            recent_vals = [v for v in ns[-12:] if v is not None]
-            apt_price_level[label] = sum(recent_vals) / len(recent_vals) if recent_vals else 0.5
+            # 최근 12개월 실제 m²단가 평균 (정규화 아닌 원본)
+            recent_raw = []
+            sorted_yms = sorted(info["by_month"].keys())
+            for ym in sorted_yms[-12:]:
+                vals = info["by_month"][ym]
+                recent_raw.append(sum(vals) / len(vals))
+            apt_price_level[label] = sum(recent_raw) / len(recent_raw) if recent_raw else 0
 
     keys = list(norm_map.keys())
     if len(keys) < 3:
