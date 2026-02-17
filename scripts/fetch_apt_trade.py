@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import re
+import statistics
 import sys
 import time
 from datetime import datetime
@@ -520,9 +521,9 @@ def build_trend_data(records: List[Dict[str, object]]) -> List[List]:
     return trend
 
 
-def _recovery_from_trend(trend: List[List]) -> Dict:
+def _recovery_from_trend(trend: List[List], min_months: int = 12) -> Dict:
     """trend [[yyyymm, avg_per_m2, count], ...] 에서 전고점 대비 회복 지표 계산."""
-    if len(trend) < 12:
+    if len(trend) < min_months:
         return {}
     ym_price = {t[0]: t[1] for t in trend}
     all_yms = sorted(ym_price.keys())
@@ -585,51 +586,90 @@ def _recovery_from_trend(trend: List[List]) -> Dict:
     }
 
 
-def build_recovery(sido_data: Dict) -> Dict:
-    """구/시별 전고점 대비 회복률 + 최근 변화율 계산."""
-    districts = sido_data.get("districts", {})
-    if not districts:
-        return {}
+def _build_apt_size_recoveries(records: List[Dict[str, object]], min_months: int = 4) -> List[Dict]:
+    """같은 단지 + 같은 평수별로 개별 전고점 대비 회복 지표 계산."""
+    by_apt_size: Dict[Tuple[str, float], Dict[str, List]] = {}
+    for r in records:
+        if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
+            continue
+        key = (r["apt_name"], r["area_m2"])
+        ym = r["deal_ym"]
+        by_apt_size.setdefault(key, {}).setdefault(ym, []).append(
+            r["price_man"] / r["area_m2"]
+        )
 
-    items = []
-    for dname, ddata in districts.items():
-        trend = ddata.get("trend", [])
-        info = _recovery_from_trend(trend)
+    results = []
+    for (apt_name, area_m2), ym_prices in by_apt_size.items():
+        all_yms = sorted(ym_prices.keys())
+        trend = []
+        for ym in all_yms:
+            vals = ym_prices[ym]
+            trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
+        info = _recovery_from_trend(trend, min_months=min_months)
         if info:
-            info["name"] = dname
-            items.append(info)
+            results.append(info)
+    return results
 
-    if not items:
+
+def _median_recovery(recoveries: List[Dict]) -> Dict:
+    """여러 (단지, 평수) 회복 지표의 중앙값으로 대표값 계산."""
+    if not recoveries:
         return {}
+    if len(recoveries) == 1:
+        return dict(recoveries[0])
 
-    items.sort(key=lambda x: -x["vs_peak"])
-    return {"items": items}
+    vs_peak = round(statistics.median([r["vs_peak"] for r in recoveries]), 1)
+    chg6m = round(statistics.median([r["chg6m"] for r in recoveries]), 1)
+    chg3m = round(statistics.median([r["chg3m"] for r in recoveries]), 1)
+
+    if vs_peak >= 0:
+        status = "recovered"
+    elif chg6m > 2:
+        status = "rising"
+    elif chg6m < -2:
+        status = "falling"
+    else:
+        status = "flat"
+
+    # peak_ym, trough_ym: 중앙값에 가장 가까운 항목에서 가져옴
+    by_vp = sorted(recoveries, key=lambda x: x["vs_peak"])
+    mid = by_vp[len(by_vp) // 2]
+
+    return {
+        "price": round(statistics.median([r["price"] for r in recoveries]), 1),
+        "peak": round(statistics.median([r["peak"] for r in recoveries]), 1),
+        "peak_ym": mid["peak_ym"],
+        "trough": round(statistics.median([r["trough"] for r in recoveries]), 1),
+        "trough_ym": mid["trough_ym"],
+        "vs_peak": vs_peak,
+        "chg6m": chg6m,
+        "chg3m": chg3m,
+        "status": status,
+    }
+
+
+def build_recovery_from_records(dist_records: List[Dict[str, object]]) -> Dict:
+    """같은 단지 같은 평수 기준 중앙값으로 회복 지표 계산."""
+    apt_recoveries = _build_apt_size_recoveries(dist_records)
+    return _median_recovery(apt_recoveries)
 
 
 def build_dong_recovery(records: List[Dict[str, object]], current_month: str) -> Dict:
-    """동별 전고점 대비 회복률 계산. raw records에서 동별 월별 시계열 구축."""
-    by_dong: Dict[str, Dict[str, List]] = {}  # dong -> {ym: [price_per_m2, ...]}
+    """동별 전고점 대비 회복률 계산 - 같은 단지 같은 평수 기준 중앙값."""
+    # 동별로 레코드 분리
+    by_dong: Dict[str, List] = {}
     for r in records:
         if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
             continue
         dong = r.get("dong_name", "")
         if not dong:
             continue
-        ym = r["deal_ym"]
-        by_dong.setdefault(dong, {}).setdefault(ym, []).append(
-            r["price_man"] / r["area_m2"]
-        )
+        by_dong.setdefault(dong, []).append(r)
 
     items = []
-    for dong, ym_prices in by_dong.items():
-        all_yms = sorted(ym_prices.keys())
-        if len(all_yms) < 12:
-            continue
-        trend = []
-        for ym in all_yms:
-            vals = ym_prices[ym]
-            trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
-        info = _recovery_from_trend(trend)
+    for dong, dong_records in by_dong.items():
+        apt_recoveries = _build_apt_size_recoveries(dong_records)
+        info = _median_recovery(apt_recoveries)
         if info:
             info["name"] = dong
             items.append(info)
@@ -981,10 +1021,15 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 jeonse_trend = build_jeonse_trend(dist_rent, dist_records)
                 if jeonse_trend:
                     dist_data["jeonse_trend"] = jeonse_trend
-            # 동별 회복 현황
+            # 동별 회복 현황 (같은 단지 같은 평수 기준)
             dong_recovery = build_dong_recovery(dist_records, current_month)
             if dong_recovery:
                 dist_data["dong_recovery"] = dong_recovery
+            # 구 단위 회복 지표 (시도 회복 지도 조립용)
+            dist_recovery_info = build_recovery_from_records(dist_records)
+            if dist_recovery_info:
+                dist_recovery_info["name"] = group_name
+                dist_data["_recovery_info"] = dist_recovery_info
             districts[group_name] = dist_data
             # 검색 인덱스 (3개월 제한 없음)
             for item in build_search_items(dist_records):
@@ -1016,11 +1061,16 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             "items": search_items,
         }
 
-    # 시세 회복 지도: 구/시별 전고점 대비 회복률
+    # 시세 회복 지도: 구/시별 전고점 대비 회복률 (같은 단지 같은 평수 기준)
     for sido_name, sido_data in sidos.items():
-        recovery = build_recovery(sido_data)
-        if recovery:
-            sido_data["recovery"] = recovery
+        recovery_items = []
+        for dname, ddata in sido_data.get("districts", {}).items():
+            info = ddata.pop("_recovery_info", None)
+            if info:
+                recovery_items.append(info)
+        if recovery_items:
+            recovery_items.sort(key=lambda x: -x["vs_peak"])
+            sido_data["recovery"] = {"items": recovery_items}
 
     summary = {
         "updated_at": iso_now_utc(),

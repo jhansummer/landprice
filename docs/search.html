@@ -11,121 +11,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aptmine.com/search.html" />
   <link rel="canonical" href="https://aptmine.com/search.html" />
-  <style>
-    :root {
-      --bg: #f0f4f8;
-      --ink: #1a1d23;
-      --accent: #1e3a5f;
-      --accent-light: #2d5a8e;
-      --accent-glow: rgba(30, 58, 95, 0.08);
-      --paper: #ffffff;
-      --muted: #64748b;
-      --line: #e2e8f0;
-      --up: #dc2626;
-      --down: #2563eb;
-      --font-body: "Pretendard", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
-      --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
-      --radius: 16px;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: var(--font-body); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
-    .hero { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #3b7dbd 100%); color: #fff; padding: 40px 20px 28px; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -50%; left: -30%; width: 160%; height: 200%; background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%); pointer-events: none; }
-    .hero h1 { margin: 0 0 8px; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; position: relative; }
-    .hero p { margin: 0; font-size: 14px; opacity: 0.75; position: relative; }
-    .nav-bar { max-width: 1200px; margin: 0 auto; padding: 16px 20px 12px; display: flex; gap: 8px; align-items: center; }
-    .nav-link { flex-shrink: 0; padding: 8px 20px; border: none; border-radius: 24px; background: var(--paper); color: var(--muted); font-family: var(--font-body); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; transition: all 0.2s ease; box-shadow: var(--shadow-sm); }
-    .nav-link:hover { color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .nav-link.active { background: var(--accent); color: #fff; cursor: default; box-shadow: 0 2px 8px rgba(30,58,95,0.25); }
-    .tabs { display: flex; gap: 0; padding: 0 20px; max-width: 1200px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-bottom: 2px solid var(--line); }
-    .tabs::-webkit-scrollbar { display: none; }
-    .region-label { flex-shrink: 0; padding: 10px 14px 12px 0; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; white-space: nowrap; }
-    .tab-btn { flex-shrink: 0; padding: 10px 16px 12px; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; background: transparent; color: var(--muted); font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; white-space: nowrap; }
-    .tab-btn:hover { color: var(--accent); }
-    .tab-btn.active { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
-    .district-select-wrap { max-width: 1200px; margin: 0 auto; padding: 12px 20px 0; }
-    .district-select, .dong-select, .danji-select {
-      padding: 10px 36px 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink);
-      font-family: var(--font-body); font-size: 14px; cursor: pointer; appearance: none; -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 14px center; box-shadow: var(--shadow-sm); transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .district-select:focus, .dong-select:focus, .danji-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .filter-wrap { max-width: 1200px; margin: 0 auto; padding: 8px 20px 12px; display: flex; gap: 8px; flex-wrap: wrap; }
-    /* 검색바 */
-    .search-wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px 16px; display: flex; gap: 8px; align-items: center; }
-    .search-input {
-      padding: 12px 18px; border: 2px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink);
-      font-family: var(--font-body); font-size: 15px; flex: 1; min-width: 0; box-shadow: var(--shadow-sm); transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
-    .search-input::placeholder { color: var(--muted); }
-    .search-btn {
-      flex-shrink: 0; padding: 12px 28px; border: none; border-radius: 14px; background: var(--accent); color: #fff;
-      font-family: var(--font-body); font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 2px 8px rgba(30,58,95,0.2);
-    }
-    .search-btn:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,58,95,0.25); }
-    /* 로딩 */
-    .status { text-align: center; font-size: 14px; color: var(--accent); margin: 32px 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .spinner { width: 22px; height: 22px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    main { max-width: 1200px; margin: 0 auto; padding: 0 20px 20px; }
-    .result-count { font-size: 13px; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
-    .section { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-md); }
-    .apt-group { padding: 16px 0; border-bottom: 1px solid var(--line); }
-    .apt-group:last-child { border-bottom: none; }
-    .apt-group-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
-    .apt-group-name { font-size: 16px; font-weight: 700; }
-    .apt-group-loc { font-size: 12px; color: var(--muted); }
-    .apt-sub-item { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 8px 8px; cursor: pointer; border-radius: 10px; transition: background 0.15s; }
-    .apt-sub-item:hover { background: var(--accent-glow); }
-    .apt-sub-info { font-size: 13px; color: var(--ink); min-width: 0; }
-    .apt-sub-area { font-weight: 700; }
-    .apt-sub-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .apt-sub-change { text-align: right; white-space: nowrap; flex-shrink: 0; }
-    .apt-sub-pct { font-size: 15px; font-weight: 800; }
-    .apt-sub-diff { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .scatter-chart { margin-top: 12px; width: 100%; height: 150px; }
-    .scatter-chart canvas { width: 100%; height: 100%; display: block; }
-    .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }
-    .tag-warn { background: #fef3c7; color: #d97706; }
-    .tag-muted { background: #f1f5f9; color: var(--muted); }
-    .tag-change-up { background: #fef2f2; color: var(--up); }
-    .tag-change-down { background: #eff6ff; color: var(--down); }
-    /* 모달 */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .modal-content { background: var(--paper); border-radius: var(--radius); padding: 28px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: var(--shadow-lg); }
-    .modal-close { position: absolute; top: 16px; right: 20px; background: var(--bg); border: none; font-size: 16px; color: var(--muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
-    .modal-close:hover { background: var(--line); }
-    .modal-title { font-size: 20px; font-weight: 800; margin: 0 0 4px; }
-    .modal-sub { font-size: 13px; color: var(--muted); margin: 0 0 20px; }
-    .modal-chart { height: 220px; margin-bottom: 20px; }
-    .modal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .modal-table th { text-align: left; color: var(--muted); font-weight: 700; padding: 8px 10px; border-bottom: 2px solid var(--line); font-size: 12px; letter-spacing: 0.3px; }
-    .modal-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
-    .modal-table td:last-child { text-align: right; font-weight: 600; }
-    .modal-table tbody tr:hover { background: var(--accent-glow); }
-    button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .site-footer { text-align: center; padding: 32px 20px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 20px; }
-    .site-footer a { color: var(--muted); text-decoration: none; }
-    .site-footer a:hover { color: var(--accent); }
-    @media (max-width: 720px) {
-      .hero { padding: 32px 16px 24px; }
-      .hero h1 { font-size: 22px; }
-      .nav-bar { padding: 12px 16px 8px; gap: 6px; }
-      .nav-link { padding: 7px 14px; font-size: 13px; }
-      .tabs { padding: 0 16px; }
-      .tab-btn { padding: 8px 12px 10px; font-size: 13px; }
-      .section { padding: 18px 16px; }
-      .modal-content { padding: 20px 16px; }
-      .search-input { padding: 10px 14px; font-size: 14px; }
-      .search-btn { padding: 10px 20px; font-size: 14px; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css?v=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -135,16 +22,18 @@
   </script>
 </head>
 <body>
-  <div class="hero">
-    <h1>APT Mine</h1>
-    <p>국토교통부 실거래가 기반 아파트 시세 분석</p>
-  </div>
-  <div id="navBar" class="nav-bar">
-    <a class="nav-link" href="index.html">메인</a>
-    <span class="nav-link active">단지명 검색</span>
-    <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
-    <a class="nav-link" href="regional.html">지역시세</a>
-  </div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">APT Mine</a>
+      <span class="tagline">실거래가 기반 아파트 시세 분석</span>
+    </div>
+    <nav class="nav-bar">
+      <a class="nav-link" href="index.html">메인</a>
+      <span class="nav-link active">단지명 검색</span>
+      <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
+      <a class="nav-link" href="regional.html">지역시세</a>
+    </nav>
+  </header>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
   <div id="filters" class="filter-wrap"></div>
@@ -162,8 +51,8 @@
     <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="chart-utils.js?v=2"></script>
-  <script src="search.js?v=11"></script>
+  <script src="chart-utils.js?v=3"></script>
+  <script src="search.js?v=12"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

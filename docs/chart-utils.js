@@ -41,7 +41,7 @@ function drawScatter(canvas, history) {
 
   // Grid lines
   ctx.strokeStyle = "#e2e8f0";
-  ctx.lineWidth = 0.5;
+  ctx.lineWidth = 0.6;
   for (var i = 0; i <= 3; i++) {
     var gy = pad.top + (plotH / 3) * i;
     ctx.beginPath();
@@ -51,7 +51,7 @@ function drawScatter(canvas, history) {
   }
 
   // Y-axis labels
-  ctx.fillStyle = "#64748b";
+  ctx.fillStyle = "#94a3b8";
   ctx.font = "10px sans-serif";
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
@@ -74,7 +74,7 @@ function drawScatter(canvas, history) {
   }
 
   // Draw connecting line
-  ctx.strokeStyle = "#1e3a5f";
+  ctx.strokeStyle = "#2563eb";
   ctx.lineWidth = 1.2;
   ctx.globalAlpha = 0.5;
   ctx.beginPath();
@@ -87,7 +87,7 @@ function drawScatter(canvas, history) {
   ctx.globalAlpha = 1.0;
 
   // Plot points
-  ctx.fillStyle = "#1e3a5f";
+  ctx.fillStyle = "#2563eb";
   for (var i = 0; i < points.length; i++) {
     var px = xPos(points[i].t);
     var py = yPos(points[i].price);
@@ -140,14 +140,14 @@ function drawScatter(canvas, history) {
 
     ctx.textAlign = align;
     ctx.textBaseline = "bottom";
-    ctx.fillStyle = idx === points.length - 1 ? "#dc2626" : "#64748b";
+    ctx.fillStyle = idx === points.length - 1 ? "#ef4444" : "#94a3b8";
     ctx.fillText(label, lx, ly);
     drawn.push({ x: lx, y: ly });
   });
 
   // Highlight latest point
   var last = points[points.length - 1];
-  ctx.fillStyle = "#dc2626";
+  ctx.fillStyle = "#ef4444";
   ctx.beginPath();
   ctx.arc(xPos(last.t), yPos(last.price), 4, 0, Math.PI * 2);
   ctx.fill();
@@ -229,7 +229,7 @@ function drawMultiScatter(canvas, seriesList) {
     ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
   }
 
-  var colors = ["#1e3a5f", "#2d5a8e", "#dc2626"];
+  var colors = ["#2563eb", "#94a3b8", "#ef4444"];
   seriesList.forEach(function (s, idx) {
     var pts = s._points || [];
     if (pts.length < 2) return;

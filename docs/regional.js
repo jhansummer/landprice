@@ -113,32 +113,32 @@ function drawTrendChart(canvas, trendData) {
     var barH = (vol / maxVol) * volMaxH;
     var bx = xPos(i) - barW / 2;
     var by = pad.top + plotH - barH;
-    ctx.fillStyle = "rgba(26,111,90,0.13)";
+    ctx.fillStyle = "rgba(37,99,235,0.1)";
     ctx.fillRect(bx, by, barW, barH);
   }
 
   // 그리드
-  ctx.strokeStyle = "#e8e0d4";
+  ctx.strokeStyle = "#e2e8f0";
   ctx.lineWidth = 0.5;
   for (var g = 0; g <= 4; g++) {
     var gy = pad.top + (plotH / 4) * g;
     ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
   }
   // Y축 라벨 (시세 — 왼쪽)
-  ctx.fillStyle = "#9a9590"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
   for (var g = 0; g <= 4; g++) {
     var val = minP + ((maxP - minP) / 4) * (4 - g);
     ctx.fillText(Math.round(val).toLocaleString(), pad.left - 4, pad.top + (plotH / 4) * g);
   }
   // Y축 라벨 (거래량 — 오른쪽)
-  ctx.fillStyle = "#b5b0a8"; ctx.textAlign = "left";
+  ctx.fillStyle = "#94a3b8"; ctx.textAlign = "left";
   for (var g = 0; g <= 3; g++) {
     var vVal = Math.round(maxVol / 3 * (3 - g));
     var vy = pad.top + plotH - (volMaxH / 3) * (3 - g);
     ctx.fillText(vVal.toLocaleString(), pad.left + plotW + 4, vy);
   }
   // X축 라벨 (연도)
-  ctx.fillStyle = "#9a9590";
+  ctx.fillStyle = "#94a3b8";
   ctx.textAlign = "center"; ctx.textBaseline = "top";
   var seenYear = {};
   for (var i = 0; i < trendData.length; i++) {
@@ -156,19 +156,19 @@ function drawTrendChart(canvas, trendData) {
   ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
   ctx.lineTo(xPos(0), pad.top + plotH);
   ctx.closePath();
-  ctx.fillStyle = "rgba(26,111,90,0.1)";
+  ctx.fillStyle = "rgba(37,99,235,0.06)";
   ctx.fill();
   // 라인
   ctx.beginPath();
   ctx.moveTo(xPos(0), yPos(trendData[0][1]));
   for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
-  ctx.strokeStyle = "#1a6f5a"; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
   // 최신 포인트
   var lastIdx = trendData.length - 1;
-  ctx.fillStyle = "#d63a3a";
+  ctx.fillStyle = "#ef4444";
   ctx.beginPath(); ctx.arc(xPos(lastIdx), yPos(trendData[lastIdx][1]), 4, 0, Math.PI * 2); ctx.fill();
   // 최신값 라벨
-  ctx.fillStyle = "#d63a3a"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillStyle = "#ef4444"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
   ctx.fillText(Math.round(trendData[lastIdx][1]).toLocaleString() + "\uB9CC/m\u00B2", xPos(lastIdx) - 6, yPos(trendData[lastIdx][1]) - 6);
 }
 
@@ -392,14 +392,14 @@ function drawJeonseTrendChart(canvas, trendData) {
   function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }
 
   // 그리드
-  ctx.strokeStyle = "#e8e0d4";
+  ctx.strokeStyle = "#e2e8f0";
   ctx.lineWidth = 0.5;
   for (var g = 0; g <= 4; g++) {
     var gy = pad.top + (plotH / 4) * g;
     ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
   }
   // Y축 라벨
-  ctx.fillStyle = "#9a9590"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
   for (var g = 0; g <= 4; g++) {
     var val = minR + ((maxR - minR) / 4) * (4 - g);
     ctx.fillText(val.toFixed(0) + "%", pad.left - 4, pad.top + (plotH / 4) * g);
@@ -422,7 +422,7 @@ function drawJeonseTrendChart(canvas, trendData) {
   ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
   ctx.lineTo(xPos(0), pad.top + plotH);
   ctx.closePath();
-  ctx.fillStyle = "rgba(37,99,235,0.08)";
+  ctx.fillStyle = "rgba(37,99,235,0.06)";
   ctx.fill();
   // 라인
   ctx.beginPath();
@@ -431,10 +431,10 @@ function drawJeonseTrendChart(canvas, trendData) {
   ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
   // 최신 포인트
   var lastIdx = trendData.length - 1;
-  ctx.fillStyle = "#d63a3a";
+  ctx.fillStyle = "#ef4444";
   ctx.beginPath(); ctx.arc(xPos(lastIdx), yPos(trendData[lastIdx][1]), 4, 0, Math.PI * 2); ctx.fill();
   // 최신값 라벨
-  ctx.fillStyle = "#d63a3a"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillStyle = "#ef4444"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
   ctx.fillText(trendData[lastIdx][1].toFixed(1) + "%", xPos(lastIdx) - 6, yPos(trendData[lastIdx][1]) - 6);
 }
 
@@ -462,10 +462,10 @@ function renderJeonseTrendSection(jeonseTrend, title) {
 
 /* ── 시세 회복 지도 ── */
 var RECOVERY_STATUS = {
-  recovered: { label: "\uD68C\uBCF5", color: "#1a6f5a", barColor: "#1a6f5a", bgColor: "#e8f5e9", textColor: "#2e7d32" },
-  rising:    { label: "\uC0C1\uC2B9\uC911", color: "#4caf50", barColor: "#4caf50", bgColor: "#f1f8e9", textColor: "#558b2f" },
-  flat:      { label: "\uD6A1\uBCF4", color: "#b5b0a8", barColor: "#b5b0a8", bgColor: "#f5f5f5", textColor: "#757575" },
-  falling:   { label: "\uD558\uB77D", color: "#e57373", barColor: "#e57373", bgColor: "#ffebee", textColor: "#c62828" }
+  recovered: { label: "\uD68C\uBCF5", color: "#2563eb", barColor: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
+  rising:    { label: "\uC0C1\uC2B9\uC911", color: "#16a34a", barColor: "#16a34a", bgColor: "#dcfce7", textColor: "#166534" },
+  flat:      { label: "\uD6A1\uBCF4", color: "#94a3b8", barColor: "#94a3b8", bgColor: "#f1f5f9", textColor: "#64748b" },
+  falling:   { label: "\uD558\uB77D", color: "#ef4444", barColor: "#ef4444", bgColor: "#fef2f2", textColor: "#dc2626" }
 };
 
 function renderRecoverySection(items, title, isDong) {
@@ -533,6 +533,129 @@ function renderRecoverySection(items, title, isDong) {
   return sec;
 }
 
+/* ── 카카오 지도 기반 회복 지도 ── */
+var SIDO_CENTERS = {
+  "\uC11C\uC6B8": { lat: 37.5665, lng: 126.9780, level: 8 },
+  "\uACBD\uAE30": { lat: 37.4138, lng: 127.0183, level: 10 },
+  "\uBD80\uC0B0": { lat: 35.1796, lng: 129.0756, level: 8 },
+  "\uB300\uAD6C": { lat: 35.8714, lng: 128.6014, level: 8 },
+  "\uC778\uCC9C": { lat: 37.4563, lng: 126.7052, level: 8 },
+  "\uAD11\uC8FC": { lat: 35.1595, lng: 126.8526, level: 7 },
+  "\uB300\uC804": { lat: 36.3504, lng: 127.3845, level: 7 },
+  "\uC6B8\uC0B0": { lat: 35.5384, lng: 129.3114, level: 8 },
+  "\uC138\uC885": { lat: 36.4800, lng: 127.0000, level: 7 }
+};
+
+var coordCache = {};
+try { coordCache = JSON.parse(localStorage.getItem("aptmine_geo") || "{}"); } catch(e) {}
+
+function geocodeAddr(addr) {
+  return new Promise(function(resolve) {
+    if (coordCache[addr]) { resolve(coordCache[addr]); return; }
+    if (typeof kakao === "undefined" || !kakao.maps || !kakao.maps.services) { resolve(null); return; }
+    var gc = new kakao.maps.services.Geocoder();
+    gc.addressSearch(addr, function(result, status) {
+      if (status === kakao.maps.services.Status.OK && result.length) {
+        var c = { lat: parseFloat(result[0].y), lng: parseFloat(result[0].x) };
+        coordCache[addr] = c;
+        try { localStorage.setItem("aptmine_geo", JSON.stringify(coordCache)); } catch(e) {}
+        resolve(c);
+      } else { resolve(null); }
+    });
+  });
+}
+
+function renderRecoveryMap(items, title, sido, district) {
+  if (!items || !items.length) return null;
+  if (typeof kakao === "undefined" || !kakao.maps) {
+    return renderRecoverySection(items, title, !!district);
+  }
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uD68C\uBCF5\uB960 \u00B7 \uAC19\uC740 \uB2E8\uC9C0 \uAC19\uC740 \uD3C9\uC218 \uAE30\uC900 \uC911\uC559\uAC12";
+  sec.appendChild(sub);
+
+  var mapDiv = document.createElement("div");
+  mapDiv.className = "map-container";
+  sec.appendChild(mapDiv);
+
+  var legend = document.createElement("div");
+  legend.className = "map-legend";
+  legend.innerHTML = '<span class="map-legend-item"><span class="map-legend-dot" style="background:#2563eb"></span>\uD68C\uBCF5</span>'
+    + '<span class="map-legend-item"><span class="map-legend-dot" style="background:#16a34a"></span>\uC0C1\uC2B9\uC911</span>'
+    + '<span class="map-legend-item"><span class="map-legend-dot" style="background:#94a3b8"></span>\uD6A1\uBCF4</span>'
+    + '<span class="map-legend-item"><span class="map-legend-dot" style="background:#ef4444"></span>\uD558\uB77D</span>';
+  sec.appendChild(legend);
+
+  var infoPanel = document.createElement("div");
+  infoPanel.className = "map-info-panel";
+  infoPanel.style.display = "none";
+  sec.appendChild(infoPanel);
+
+  requestAnimationFrame(function() {
+    var center = SIDO_CENTERS[sido] || { lat: 37.5665, lng: 126.9780, level: 8 };
+    var level = district ? 5 : center.level;
+
+    var map = new kakao.maps.Map(mapDiv, {
+      center: new kakao.maps.LatLng(center.lat, center.lng),
+      level: level
+    });
+    map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+
+    if (district) {
+      geocodeAddr(sido + " " + district).then(function(c) {
+        if (c) map.setCenter(new kakao.maps.LatLng(c.lat, c.lng));
+      });
+    }
+
+    items.forEach(function(item) {
+      var addr = district ? (sido + " " + district + " " + item.name) : (sido + " " + item.name);
+      geocodeAddr(addr).then(function(c) {
+        if (!c) return;
+        var st = RECOVERY_STATUS[item.status] || RECOVERY_STATUS.flat;
+        var vsPeakStr = (item.vs_peak >= 0 ? "+" : "") + item.vs_peak + "%";
+
+        var el = document.createElement("div");
+        el.className = "map-marker";
+        el.style.background = st.color;
+        el.innerHTML = '<div class="map-marker-name">' + item.name + '</div><div class="map-marker-value">' + vsPeakStr + '</div>';
+
+        var overlay = new kakao.maps.CustomOverlay({
+          position: new kakao.maps.LatLng(c.lat, c.lng),
+          content: el,
+          yAnchor: 0.5,
+          xAnchor: 0.5
+        });
+        overlay.setMap(map);
+
+        el.addEventListener("click", function() {
+          var chg6mStr = (item.chg6m >= 0 ? "+" : "") + item.chg6m + "%";
+          var chg3mStr = (item.chg3m >= 0 ? "+" : "") + item.chg3m + "%";
+          infoPanel.style.display = "block";
+          infoPanel.innerHTML = '<div class="map-info-header">'
+            + '<span class="map-info-name">' + item.name + '</span>'
+            + '<span class="recovery-badge ' + item.status + '">' + st.label + '</span></div>'
+            + '<div class="map-info-stats">'
+            + '<div class="map-info-stat"><span class="map-info-label">\uC804\uACE0\uC810 \uB300\uBE44</span><span class="map-info-val" style="color:' + st.textColor + '">' + vsPeakStr + '</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="map-info-val">' + chg6mStr + '</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">\uD604\uC7AC m\u00B2\uB2F9</span><span class="map-info-val">' + Math.round(item.price).toLocaleString() + '\uB9CC</span></div>'
+            + '<div class="map-info-stat"><span class="map-info-label">\uC804\uACE0\uC810 m\u00B2\uB2F9</span><span class="map-info-val">' + Math.round(item.peak).toLocaleString() + '\uB9CC</span></div></div>';
+          infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      });
+    });
+  });
+
+  return sec;
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -567,14 +690,14 @@ function renderSections() {
   // 시세 회복 지도 (시도 전체 선택 시)
   var recovery = sidoData.recovery;
   if (!activeDistrict && recovery && recovery.items && recovery.items.length) {
-    var recSec = renderRecoverySection(recovery.items, activeSido + " \uC2DC\uC138 \uD68C\uBCF5 \uC9C0\uB3C4", false);
+    var recSec = renderRecoveryMap(recovery.items, activeSido + " \uC2DC\uC138 \uD68C\uBCF5 \uC9C0\uB3C4", activeSido, null);
     if (recSec) gridEl.appendChild(recSec);
   }
 
   // 동별 회복 현황 (구 선택 시)
   var dongRec = data.dong_recovery;
   if (activeDistrict && dongRec && dongRec.items && dongRec.items.length) {
-    var dRecSec = renderRecoverySection(dongRec.items, activeDistrict + " \uB3D9\uBCC4 \uD68C\uBCF5 \uD604\uD669", true);
+    var dRecSec = renderRecoveryMap(dongRec.items, activeDistrict + " \uB3D9\uBCC4 \uD68C\uBCF5 \uD604\uD669", activeSido, activeDistrict);
     if (dRecSec) gridEl.appendChild(dRecSec);
   }
 

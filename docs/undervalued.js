@@ -7,7 +7,7 @@ const contentEl = document.getElementById("content");
 let data = null;
 let activeSido = null;
 const txnCache = {};
-const chartColors = ["#1a6f5a", "#d63a3a", "#2563eb", "#8c3b1f"];
+const chartColors = ["#2563eb", "#ef4444", "#16a34a", "#f59e0b"];
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);

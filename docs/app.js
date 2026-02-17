@@ -343,7 +343,7 @@ function showDetail(r) {
       if (seriesList.length > 1) {
         var legend = document.createElement("div");
         legend.className = "rank-detail";
-        var colors = ["#1a6f5a", "#2a6f97", "#b56576"];
+        var colors = ["#2563eb", "#94a3b8", "#ef4444"];
         seriesList.forEach(function (s, idx) {
           var wrap = document.createElement("span");
           wrap.style.display = "inline-flex";
