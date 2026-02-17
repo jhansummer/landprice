@@ -1032,12 +1032,16 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
     }
     write_json(SUMMARY_PATH, summary)
 
-    search_index = {
+    # 시도별 분할 검색 인덱스
+    search_dir = DATA_DIR / "search"
+    search_dir.mkdir(exist_ok=True)
+    search_meta = {
         "updated_at": iso_now_utc(),
         "sido_order": [s for s in SIDO_ORDER if s in search_sidos],
-        "sidos": search_sidos,
     }
-    write_json(SEARCH_INDEX_PATH, search_index)
+    write_json(SEARCH_INDEX_PATH, search_meta)  # 메타만 (수 KB)
+    for sido_name, sido_search in search_sidos.items():
+        write_json(search_dir / f"{sido_name}.json", sido_search)
 
 
 def main() -> int:

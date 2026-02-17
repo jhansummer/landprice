@@ -18,6 +18,7 @@ function fmt(v) {
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
+  tabsEl.setAttribute("role", "tablist");
   var label = document.createElement("span");
   label.className = "region-label";
   label.textContent = "지역";
@@ -25,6 +26,8 @@ function renderTabs(sidoOrder) {
   sidoOrder.forEach(function (sido) {
     var btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
     btn.textContent = sido;
     btn.addEventListener("click", function () {
       activeSido = sido;
@@ -600,24 +603,28 @@ function renderSections() {
 
 /* ── 초기화 ── */
 async function init() {
-  var response = await fetch(summaryPath + "?t=" + Date.now());
-  if (!response.ok) {
-    statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
-    return;
+  try {
+    var response = await fetch(summaryPath + "?t=" + Date.now());
+    if (!response.ok) {
+      statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
+      return;
+    }
+    globalData = await response.json();
+
+    var sidoOrder = globalData.sido_order || [];
+    var hash = decodeURIComponent(location.hash.replace("#", ""));
+    activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
+
+    renderTabs(sidoOrder);
+    renderSubTabs();
+    renderSections();
+
+    statusEl.innerHTML = "";
+    var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
+    metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly;
+  } catch (e) {
+    statusEl.textContent = "\uB124\uD2B8\uC6CC\uD06C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\uD574\uC8FC\uC138\uC694.";
   }
-  globalData = await response.json();
-
-  var sidoOrder = globalData.sido_order || [];
-  var hash = decodeURIComponent(location.hash.replace("#", ""));
-  activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
-
-  renderTabs(sidoOrder);
-  renderSubTabs();
-  renderSections();
-
-  statusEl.textContent = "";
-  var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
-  metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly;
 }
 
 init();

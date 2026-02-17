@@ -135,6 +135,7 @@ function drawMultiSeries(canvas, seriesList) {
 
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
+  tabsEl.setAttribute("role", "tablist");
   var label = document.createElement("span");
   label.className = "region-label";
   label.textContent = "지역";
@@ -142,6 +143,8 @@ function renderTabs(sidoOrder) {
   sidoOrder.forEach(function (sido) {
     const btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
     btn.textContent = sido;
     btn.addEventListener("click", function () {
       activeSido = sido;
@@ -400,16 +403,20 @@ function renderSections() {
 }
 
 async function init() {
-  const res = await fetch(dataPath);
-  if (!res.ok) {
-    contentEl.textContent = "데이터를 불러오지 못했습니다.";
-    return;
+  try {
+    const res = await fetch(dataPath + "?t=" + Date.now());
+    if (!res.ok) {
+      contentEl.textContent = "데이터를 불러오지 못했습니다.";
+      return;
+    }
+    data = await res.json();
+    const sidoOrder = data ? Object.keys(data.sidos || {}) : [];
+    activeSido = sidoOrder[0] || null;
+    renderTabs(sidoOrder);
+    renderSections();
+  } catch (e) {
+    contentEl.textContent = "\uB124\uD2B8\uC6CC\uD06C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\uD574\uC8FC\uC138\uC694.";
   }
-  data = await res.json();
-  const sidoOrder = data ? Object.keys(data.sidos || {}) : [];
-  activeSido = sidoOrder[0] || null;
-  renderTabs(sidoOrder);
-  renderSections();
 }
 
 init();

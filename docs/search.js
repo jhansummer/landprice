@@ -9,6 +9,7 @@ var subtabsEl = document.getElementById("subtabs");
 var filtersEl = document.getElementById("filters");
 
 var globalData = null;
+var sidoCache = {};
 var activeSido = null;
 var activeDistrict = null;
 var activeDong = null;
@@ -26,148 +27,18 @@ function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
 }
 
-function drawScatter(canvas, history) {
-  if (!history || !history.length) return;
+async function loadSido(sido) {
+  if (sidoCache[sido]) return sidoCache[sido];
+  var res = await fetch("data/apt_trade/search/" + encodeURIComponent(sido) + ".json?t=" + Date.now());
+  if (!res.ok) return null;
+  var data = await res.json();
+  sidoCache[sido] = data;
+  return data;
+}
 
-  var dpr = window.devicePixelRatio || 1;
-  var rect = canvas.getBoundingClientRect();
-  var w = rect.width * dpr;
-  var h = rect.height * dpr;
-  canvas.width = w;
-  canvas.height = h;
-
-  var ctx = canvas.getContext("2d");
-  ctx.scale(dpr, dpr);
-
-  var cw = rect.width;
-  var ch = rect.height;
-  var pad = { top: 8, right: 12, bottom: 22, left: 42 };
-  var plotW = cw - pad.left - pad.right;
-  var plotH = ch - pad.top - pad.bottom;
-
-  var points = history.map(function (p) {
-    var d = new Date(p[0]);
-    return { t: d.getTime(), price: p[1] };
-  });
-
-  var minT = points[0].t;
-  var maxT = points[points.length - 1].t;
-  if (minT === maxT) { maxT = minT + 86400000; }
-
-  var prices = points.map(function (p) { return p.price; });
-  var minP = Math.min.apply(null, prices);
-  var maxP = Math.max.apply(null, prices);
-  var pRange = maxP - minP || 1;
-  minP -= pRange * 0.05;
-  maxP += pRange * 0.05;
-
-  function xPos(t) { return pad.left + ((t - minT) / (maxT - minT)) * plotW; }
-  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
-
-  ctx.strokeStyle = "#e8e0d4";
-  ctx.lineWidth = 0.5;
-  for (var i = 0; i <= 3; i++) {
-    var gy = pad.top + (plotH / 3) * i;
-    ctx.beginPath();
-    ctx.moveTo(pad.left, gy);
-    ctx.lineTo(pad.left + plotW, gy);
-    ctx.stroke();
-  }
-
-  ctx.fillStyle = "#9a9590";
-  ctx.font = "10px sans-serif";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "middle";
-  for (var i = 0; i <= 3; i++) {
-    var val = minP + ((maxP - minP) / 3) * (3 - i);
-    var label = (val / 10000).toFixed(1) + "\uc5b5";
-    var ly = pad.top + (plotH / 3) * i;
-    ctx.fillText(label, pad.left - 4, ly);
-  }
-
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  var xLabels = [2020, 2021, 2022, 2023, 2024, 2025, 2026];
-  for (var li = 0; li < xLabels.length; li++) {
-    var xt = new Date(xLabels[li], 0, 1).getTime();
-    if (xt < minT || xt > maxT) continue;
-    var shortY = String(xLabels[li]).slice(2);
-    ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
-  }
-
-  ctx.strokeStyle = "#1a6f5a";
-  ctx.lineWidth = 1.2;
-  ctx.globalAlpha = 0.5;
-  ctx.beginPath();
-  for (var i = 0; i < points.length; i++) {
-    var px = xPos(points[i].t);
-    var py = yPos(points[i].price);
-    if (i === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
-  }
-  ctx.stroke();
-  ctx.globalAlpha = 1.0;
-
-  ctx.fillStyle = "#1a6f5a";
-  for (var i = 0; i < points.length; i++) {
-    var px = xPos(points[i].t);
-    var py = yPos(points[i].price);
-    ctx.beginPath();
-    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  var labelIndices = {};
-  labelIndices[0] = true;
-  labelIndices[points.length - 1] = true;
-  var minIdx = 0, maxIdx = 0;
-  for (var i = 1; i < points.length; i++) {
-    if (points[i].price < points[minIdx].price) minIdx = i;
-    if (points[i].price > points[maxIdx].price) maxIdx = i;
-  }
-  labelIndices[minIdx] = true;
-  labelIndices[maxIdx] = true;
-
-  ctx.font = "9px sans-serif";
-  var drawn = [];
-  Object.keys(labelIndices).sort(function(a,b){return a-b;}).forEach(function(idx) {
-    idx = parseInt(idx);
-    var pt = points[idx];
-    var px = xPos(pt.t);
-    var py = yPos(pt.price);
-    var d = new Date(pt.t);
-    var dateStr = (d.getMonth()+1) + "/" + d.getDate();
-    var priceStr = (pt.price / 10000).toFixed(1) + "\uc5b5";
-    var label = dateStr + " " + priceStr;
-    var labelW = ctx.measureText(label).width;
-
-    var ly = py - 10;
-    if (ly < pad.top + 4) ly = py + 14;
-
-    var lx = px;
-    var align = "center";
-    if (px - labelW / 2 < pad.left) { align = "left"; lx = px; }
-    else if (px + labelW / 2 > pad.left + plotW) { align = "right"; lx = px; }
-
-    var overlap = false;
-    for (var j = 0; j < drawn.length; j++) {
-      if (Math.abs(lx - drawn[j].x) < 50 && Math.abs(ly - drawn[j].y) < 12) {
-        overlap = true; break;
-      }
-    }
-    if (overlap) return;
-
-    ctx.textAlign = align;
-    ctx.textBaseline = "bottom";
-    ctx.fillStyle = idx === points.length - 1 ? "#d63a3a" : "#6e6a63";
-    ctx.fillText(label, lx, ly);
-    drawn.push({ x: lx, y: ly });
-  });
-
-  var last = points[points.length - 1];
-  ctx.fillStyle = "#d63a3a";
-  ctx.beginPath();
-  ctx.arc(xPos(last.t), yPos(last.price), 4, 0, Math.PI * 2);
-  ctx.fill();
+function getSidoData() {
+  if (!activeSido) return null;
+  return sidoCache[activeSido] || null;
 }
 
 function groupByApt(items) {
@@ -257,6 +128,9 @@ function showDetail(r) {
   var overlay = document.createElement("div");
   overlay.id = "detail-modal";
   overlay.className = "modal-overlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", r.apt_name + " 거래 이력");
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) overlay.remove();
   });
@@ -266,6 +140,7 @@ function showDetail(r) {
 
   var closeBtn = document.createElement("button");
   closeBtn.className = "modal-close";
+  closeBtn.setAttribute("aria-label", "닫기");
   closeBtn.textContent = "\u2715";
   closeBtn.addEventListener("click", function () { overlay.remove(); });
   modal.appendChild(closeBtn);
@@ -332,6 +207,7 @@ function showDetail(r) {
 function renderTabs() {
   tabsEl.innerHTML = "";
   if (!globalData) return;
+  tabsEl.setAttribute("role", "tablist");
   var label = document.createElement("span");
   label.className = "region-label";
   label.textContent = "지역";
@@ -339,6 +215,8 @@ function renderTabs() {
   globalData.sido_order.forEach(function (sido) {
     var btn = document.createElement("button");
     btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
     btn.textContent = sido;
     btn.addEventListener("click", function () {
       activeSido = sido;
@@ -347,9 +225,11 @@ function renderTabs() {
       activeDanji = null;
       activeArea = null;
       renderTabs();
-      renderSubTabs();
-      renderFilters();
-      resultsEl.innerHTML = "";
+      loadSido(sido).then(function () {
+        renderSubTabs();
+        renderFilters();
+        resultsEl.innerHTML = "";
+      });
     });
     tabsEl.appendChild(btn);
   });
@@ -358,7 +238,7 @@ function renderTabs() {
 function renderSubTabs() {
   subtabsEl.innerHTML = "";
   if (!globalData || !activeSido) return;
-  var sidoData = globalData.sidos[activeSido];
+  var sidoData = getSidoData();
   if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
 
   var select = document.createElement("select");
@@ -393,7 +273,7 @@ function renderFilters() {
   filtersEl.innerHTML = "";
   if (!globalData || !activeSido) return;
 
-  var sidoData = globalData.sidos[activeSido];
+  var sidoData = getSidoData();
   if (!sidoData) return;
   var items = sidoData.items || [];
   if (activeDistrict) {
@@ -494,7 +374,7 @@ function showDanjiResult() {
   resultsEl.innerHTML = "";
   if (!globalData || !activeSido || !activeDistrict || !activeDong || !activeDanji) return;
 
-  var sidoData = globalData.sidos[activeSido];
+  var sidoData = getSidoData();
   if (!sidoData) return;
 
   var matched = sidoData.items.filter(function (r) {
@@ -522,7 +402,7 @@ function showDanjiResult() {
 
 function getFilteredItems() {
   if (!globalData || !activeSido) return [];
-  var sidoData = globalData.sidos[activeSido];
+  var sidoData = getSidoData();
   if (!sidoData) return [];
   var items = sidoData.items || [];
   if (activeDistrict) {
@@ -593,18 +473,27 @@ searchBtn.addEventListener("click", function () {
 });
 
 async function init() {
-  var response = await fetch(summaryPath);
-  if (!response.ok) {
-    statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
-    return;
-  }
-  globalData = await response.json();
-  statusEl.textContent = "";
+  try {
+    var response = await fetch(summaryPath + "?t=" + Date.now());
+    if (!response.ok) {
+      statusEl.textContent = "\uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
+      return;
+    }
+    globalData = await response.json();
 
-  activeSido = globalData.sido_order[0] || null;
-  renderTabs();
-  renderSubTabs();
-  renderFilters();
+    activeSido = globalData.sido_order[0] || null;
+    renderTabs();
+
+    // 첫 시도 데이터 로드
+    if (activeSido) {
+      await loadSido(activeSido);
+    }
+    renderSubTabs();
+    renderFilters();
+    statusEl.innerHTML = "";
+  } catch (e) {
+    statusEl.textContent = "\uB124\uD2B8\uC6CC\uD06C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\uD574\uC8FC\uC138\uC694.";
+  }
 }
 
 init();
