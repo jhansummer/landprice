@@ -11,6 +11,7 @@ DATA_DIR = ROOT / "docs" / "data" / "apt_trade"
 BY_APT_DIR = DATA_DIR / "by_apt"
 SUMMARY_PATH = DATA_DIR / "summary.json"
 SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
+SEARCH_DIR = DATA_DIR / "search"
 OUT_PATH = DATA_DIR / "undervalued.json"
 
 
@@ -217,7 +218,18 @@ def main() -> None:
     args = ap.parse_args()
 
     summary = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
-    search = json.loads(SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+    search_meta = json.loads(SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+
+    # 분할된 search 파일 또는 기존 통합 구조 모두 지원
+    if "sidos" in search_meta:
+        search_sidos = search_meta["sidos"]
+    else:
+        search_sidos = {}
+        sido_order = search_meta.get("sido_order", [])
+        for sido_name in sido_order:
+            sido_file = SEARCH_DIR / f"{sido_name}.json"
+            if sido_file.exists():
+                search_sidos[sido_name] = json.loads(sido_file.read_text(encoding="utf-8"))
 
     current_month = summary.get("current_month")
     if not current_month:
@@ -464,9 +476,9 @@ def main() -> None:
 
         return clusters, undervalued, band_candidates
 
-    for sido in search.get("sidos", {}).keys():
+    for sido in search_sidos.keys():
         sp = sido_params(sido)
-        items = search["sidos"][sido]["items"]
+        items = search_sidos[sido]["items"]
 
         # 구(district)별로 그룹핑
         district_items: Dict[str, List] = {}
