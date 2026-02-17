@@ -251,7 +251,6 @@ function renderGroup(group) {
 }
 
 function showDetail(r) {
-  if (r.id) addRecent(r);
   var old = document.getElementById("detail-modal");
   if (old) old.remove();
 
@@ -593,69 +592,6 @@ searchBtn.addEventListener("click", function () {
   doSearch(searchInput.value);
 });
 
-function showRecentModal() {
-  var old = document.getElementById("recent-modal");
-  if (old) old.remove();
-  var overlay = document.createElement("div");
-  overlay.id = "recent-modal";
-  overlay.className = "modal-overlay";
-  overlay.addEventListener("click", function (e) { if (e.target === overlay) overlay.remove(); });
-  var modal = document.createElement("div");
-  modal.className = "modal-content";
-  var closeBtn = document.createElement("button");
-  closeBtn.className = "modal-close";
-  closeBtn.textContent = "\u2715";
-  closeBtn.addEventListener("click", function () { overlay.remove(); });
-  modal.appendChild(closeBtn);
-  var title = document.createElement("h2");
-  title.className = "modal-title";
-  title.textContent = "\uCD5C\uADFC \uBCF8 \uB2E8\uC9C0";
-  modal.appendChild(title);
-  var recents = getRecent();
-  if (!recents.length) {
-    var empty = document.createElement("p");
-    empty.className = "no-data";
-    empty.textContent = "\uCD5C\uADFC \uBCF8 \uB2E8\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
-    modal.appendChild(empty);
-  } else {
-    recents.forEach(function (item) {
-      var row = document.createElement("div");
-      row.className = "apt-sub-item";
-      row.style.cursor = "pointer";
-      var info = document.createElement("div");
-      info.className = "apt-sub-info";
-      var nameEl = document.createElement("span");
-      nameEl.className = "apt-sub-area";
-      nameEl.textContent = item.apt_name;
-      info.appendChild(nameEl);
-      var detailEl = document.createElement("div");
-      detailEl.className = "apt-sub-detail";
-      detailEl.textContent = (item.sigungu ? item.sigungu + " " : "") + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2";
-      info.appendChild(detailEl);
-      row.appendChild(info);
-      var priceEl = document.createElement("div");
-      priceEl.className = "apt-sub-change";
-      priceEl.textContent = new Intl.NumberFormat("ko-KR").format(item.latest_price) + "\uB9CC";
-      row.appendChild(priceEl);
-      row.addEventListener("click", function () { overlay.remove(); showDetail(item); });
-      modal.appendChild(row);
-    });
-  }
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-}
-
-function initNavButtons() {
-  var navBar = document.getElementById("navBar");
-  if (!navBar) return;
-
-  var recentBtn = document.createElement("button");
-  recentBtn.className = "search-link-btn";
-  recentBtn.textContent = "\uCD5C\uADFC \uBCF8";
-  recentBtn.addEventListener("click", function () { showRecentModal(); });
-  navBar.appendChild(recentBtn);
-}
-
 async function init() {
   var response = await fetch(summaryPath);
   if (!response.ok) {
@@ -669,7 +605,6 @@ async function init() {
   renderTabs();
   renderSubTabs();
   renderFilters();
-  initNavButtons();
 }
 
 init();

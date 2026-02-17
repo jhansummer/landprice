@@ -458,8 +458,11 @@ function renderJeonseTrendSection(jeonseTrend, title) {
 }
 
 /* ── 시세 선행/후행 네트워크 ── */
-function drawLeadLagChart(canvas, edges, distOrder) {
-  if (!edges || !edges.length) return;
+function drawLeadLagTree(canvas, llData, isApt) {
+  var tiers = llData.tiers || [];
+  var edges = llData.edges || [];
+  if (!tiers.length) return;
+
   var dpr = window.devicePixelRatio || 1;
   var rect = canvas.getBoundingClientRect();
   var w = rect.width * dpr;
@@ -471,70 +474,101 @@ function drawLeadLagChart(canvas, edges, distOrder) {
   var cw = rect.width;
   var ch = rect.height;
 
-  // 노드 = 등장하는 구/단지만 추출
-  var nodeSet = {};
-  edges.forEach(function (e) { nodeSet[e.from] = true; nodeSet[e.to] = true; });
-  var nodes;
-  if (distOrder && distOrder.length) {
-    nodes = distOrder.filter(function (d) { return nodeSet[d]; });
-  } else {
-    nodes = Object.keys(nodeSet);
-  }
-  if (nodes.length < 2) return;
+  var pad = { top: 30, bottom: 20, left: 60, right: 20 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+  var tierCount = tiers.length;
+  var tierH = plotH / Math.max(tierCount, 1);
 
-  // 선행 점수 계산 (많이 선행 → 위쪽)
-  var score = {};
-  nodes.forEach(function (n) { score[n] = 0; });
-  edges.forEach(function (e) {
-    score[e.from] = (score[e.from] || 0) + 1;
-    score[e.to] = (score[e.to] || 0) - 1;
-  });
-  nodes.sort(function (a, b) { return (score[b] || 0) - (score[a] || 0); });
+  // 노드별 tier/위치 맵
+  var nodeInfo = {};  // name -> {tier, x, y, tierIdx}
+  var tierColors = ["#1a6f5a", "#b5b0a8", "#d8cfc1"];
+  var tierTextColors = ["#fff", "#1c1b19", "#1c1b19"];
 
-  // 원형 레이아웃
-  var isApt = !distOrder;
-  var cx = cw / 2;
-  var cy = ch / 2;
-  var radius = Math.min(cw, ch) / 2 - (isApt ? 50 : 40);
-  var pos = {};
-  nodes.forEach(function (n, i) {
-    var angle = -Math.PI / 2 + (2 * Math.PI * i) / nodes.length;
-    pos[n] = { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+  tiers.forEach(function (tier, ti) {
+    var nodes = tier.nodes || [];
+    var tierY = pad.top + tierH * ti + tierH / 2;
+    var nodeCount = nodes.length;
+    nodes.forEach(function (n, ni) {
+      var nodeX = pad.left + plotW * (ni + 1) / (nodeCount + 1);
+      nodeInfo[n] = {
+        tier: ti,
+        x: nodeX,
+        y: tierY,
+        color: tierColors[Math.min(ti, tierColors.length - 1)],
+        textColor: tierTextColors[Math.min(ti, tierTextColors.length - 1)]
+      };
+    });
   });
 
-  // 상위 엣지만 (corr >= 0.5, 최대 20개)
-  var topEdges = edges.filter(function (e) { return e.corr >= 0.5 && pos[e.from] && pos[e.to]; });
-  topEdges = topEdges.slice(0, 20);
+  // tier 구분 점선 + 라벨
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  tiers.forEach(function (tier, ti) {
+    var tierY = pad.top + tierH * ti + tierH / 2;
+    // tier 라벨
+    ctx.fillStyle = tierColors[Math.min(ti, tierColors.length - 1)];
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillText(tier.label, pad.left - 10, tierY);
 
-  // 엣지 그리기 (화살표)
+    // tier 구분 점선 (마지막 제외)
+    if (ti < tierCount - 1) {
+      var lineY = pad.top + tierH * (ti + 1);
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = "#d8cfc1";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, lineY);
+      ctx.lineTo(pad.left + plotW, lineY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  });
+
+  // 엣지 그리기 (위→아래 화살표)
+  var topEdges = edges.filter(function (e) { return e.corr >= 0.4 && nodeInfo[e.from] && nodeInfo[e.to]; });
+  topEdges = topEdges.slice(0, 25);
+  var nodeR = isApt ? 20 : 16;
+
   topEdges.forEach(function (e) {
-    var from = pos[e.from];
-    var to = pos[e.to];
+    var from = nodeInfo[e.from];
+    var to = nodeInfo[e.to];
     if (!from || !to) return;
+
     var dx = to.x - from.x;
     var dy = to.y - from.y;
     var dist = Math.sqrt(dx * dx + dy * dy);
     if (dist < 1) return;
     var ux = dx / dist;
     var uy = dy / dist;
-    // 노드 반경만큼 줄이기
-    var nr = isApt ? 24 : 18;
-    var sx = from.x + ux * nr;
-    var sy = from.y + uy * nr;
-    var ex = to.x - ux * nr;
-    var ey = to.y - uy * nr;
+    var sx = from.x + ux * (nodeR + 2);
+    var sy = from.y + uy * (nodeR + 2);
+    var ex = to.x - ux * (nodeR + 2);
+    var ey = to.y - uy * (nodeR + 2);
 
-    var alpha = Math.min(1, (e.corr - 0.4) / 0.5) * 0.5 + 0.15;
+    var alpha = Math.min(1, (e.corr - 0.3) / 0.5) * 0.45 + 0.15;
+    var lw = Math.max(1, e.corr * 2.5);
     ctx.strokeStyle = "rgba(26,111,90," + alpha + ")";
-    ctx.lineWidth = Math.max(1, e.corr * 2);
+    ctx.lineWidth = lw;
     ctx.beginPath();
     ctx.moveTo(sx, sy);
-    ctx.lineTo(ex, ey);
+    // 커브로 그리기 (같은 tier면 약간 휘어지게)
+    if (from.tier === to.tier) {
+      var cpY = Math.min(sy, ey) - 30;
+      ctx.quadraticCurveTo((sx + ex) / 2, cpY, ex, ey);
+    } else {
+      ctx.lineTo(ex, ey);
+    }
     ctx.stroke();
 
     // 화살표 머리
-    var arrowLen = 6;
-    var arrowAngle = Math.atan2(ey - sy, ex - sx);
+    var arrowLen = 7;
+    var arrowAngle;
+    if (from.tier === to.tier) {
+      arrowAngle = Math.atan2(ey - (Math.min(sy, ey) - 30), ex - (sx + ex) / 2);
+    } else {
+      arrowAngle = Math.atan2(ey - sy, ex - sx);
+    }
     ctx.fillStyle = "rgba(26,111,90," + alpha + ")";
     ctx.beginPath();
     ctx.moveTo(ex, ey);
@@ -543,57 +577,58 @@ function drawLeadLagChart(canvas, edges, distOrder) {
     ctx.closePath();
     ctx.fill();
 
-    // lag 라벨 (엣지 중간)
+    // lag 라벨
     var mx = (sx + ex) / 2;
-    var my = (sy + ey) / 2;
+    var my = from.tier === to.tier ? Math.min(sy, ey) - 30 - 6 : (sy + ey) / 2 - 8;
     ctx.fillStyle = "#9a9590";
     ctx.font = "9px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(e.lag + "m", mx, my - 6);
+    ctx.fillText(e.lag + "m", mx, my);
   });
 
   // 노드 그리기
-  nodes.forEach(function (n) {
-    var p = pos[n];
-    var s = score[n] || 0;
-    var r = isApt ? 22 : 16;
-    // 선행 → 진한 색, 후행 → 연한 색
-    if (s > 0) {
-      ctx.fillStyle = "#1a6f5a";
-    } else if (s < 0) {
-      ctx.fillStyle = "#d8cfc1";
-    } else {
-      ctx.fillStyle = "#b5b0a8";
-    }
+  Object.keys(nodeInfo).forEach(function (n) {
+    var info = nodeInfo[n];
+    ctx.fillStyle = info.color;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+    ctx.arc(info.x, info.y, nodeR, 0, Math.PI * 2);
     ctx.fill();
+
     // 라벨
-    ctx.fillStyle = s > 0 ? "#fff" : "#1c1b19";
-    ctx.font = isApt ? "bold 7px sans-serif" : "bold 9px sans-serif";
+    ctx.fillStyle = info.textColor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    var label;
     if (isApt) {
-      // 단지명: 2줄로 나누기 (이름 + 면적)
       var parts = n.split(" ");
       var namePart = parts.slice(0, -1).join(" ");
       var areaPart = parts[parts.length - 1] || "";
       if (namePart.length > 5) namePart = namePart.slice(0, 5) + "..";
-      ctx.fillText(namePart, p.x, p.y - 4);
+      ctx.font = "bold 7px sans-serif";
+      ctx.fillText(namePart, info.x, info.y - 4);
       ctx.font = "6px sans-serif";
-      ctx.fillText(areaPart, p.x, p.y + 5);
+      ctx.fillText(areaPart, info.x, info.y + 5);
     } else {
-      label = n.length > 4 ? n.replace(/시$|구$|군$/, "") : n;
+      var label = n.length > 4 ? n.replace(/시$|구$|군$/, "") : n;
       if (label.length > 4) label = label.slice(0, 3) + "..";
-      ctx.fillText(label, p.x, p.y);
+      ctx.font = "bold 9px sans-serif";
+      ctx.fillText(label, info.x, info.y);
     }
   });
 }
 
-function renderLeadLagSection(edges, distOrder, title) {
-  if (!edges || !edges.length) return null;
+function renderLeadLagSection(llData, isApt, title) {
+  // llData = {tiers: [...], edges: [...]} 또는 이전 포맷 호환 (배열)
+  var tiers, edges;
+  if (Array.isArray(llData)) {
+    edges = llData;
+    tiers = [];
+  } else {
+    tiers = llData.tiers || [];
+    edges = llData.edges || [];
+  }
+  if (!edges.length && !tiers.length) return null;
+
   var sec = document.createElement("div");
   sec.className = "section";
   var h2 = document.createElement("h2");
@@ -602,19 +637,21 @@ function renderLeadLagSection(edges, distOrder, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  var isAptLevel = !distOrder;
-  sub.textContent = isAptLevel
-    ? "\uAC70\uB798\uB7C9 \uC0C1\uC704 \uB2E8\uC9C0 \uAD50\uCC28\uC0C1\uAD00 \uBD84\uC11D \u00B7 \uD654\uC0B4\uD45C = \uC120\uD589 \u2192 \uD6C4\uD589"
-    : "\uAD6C\uBCC4 \uC2DC\uC138 \uAD50\uCC28\uC0C1\uAD00 \uBD84\uC11D \u00B7 \uD654\uC0B4\uD45C = \uC120\uD589 \u2192 \uD6C4\uD589 \u00B7 \uC9C4\uD55C \uB178\uB4DC = \uC120\uD589 \uC9C0\uC5ED";
+  sub.textContent = isApt
+    ? "거래량 상위 단지 교차상관 분석 · 위=선행 아래=후행"
+    : "구별 시세 교차상관 분석 · 위=선행 아래=후행 · 같은 줄=동행";
   sec.appendChild(sub);
+
+  var canvasH = Math.max(280, tiers.length * 120);
+  if (window.innerWidth < 600) canvasH = Math.max(240, tiers.length * 100);
 
   var chartDiv = document.createElement("div");
   chartDiv.className = "scatter-chart";
-  chartDiv.style.height = "360px";
+  chartDiv.style.height = canvasH + "px";
   var canvas = document.createElement("canvas");
   chartDiv.appendChild(canvas);
   sec.appendChild(chartDiv);
-  requestAnimationFrame(function () { drawLeadLagChart(canvas, edges, distOrder); });
+  requestAnimationFrame(function () { drawLeadLagTree(canvas, llData, isApt); });
 
   // 상위 관계 텍스트 리스트
   var list = document.createElement("div");
@@ -623,11 +660,11 @@ function renderLeadLagSection(edges, distOrder, title) {
   var topEdges = edges.filter(function (e) { return e.corr >= 0.5; }).slice(0, 10);
   topEdges.forEach(function (e) {
     var row = document.createElement("div");
-    row.style.cssText = "display:flex;gap:8px;align-items:center;font-size:12px;padding:4px 0;";
+    row.style.cssText = "display:flex;gap:8px;align-items:center;font-size:12px;padding:4px 0;flex-wrap:wrap;";
     row.innerHTML = "<span style='font-weight:700;color:#1a6f5a;min-width:60px;'>" + e.from + "</span>"
       + "<span style='color:#9a9590;'>\u2192</span>"
       + "<span style='font-weight:600;min-width:60px;'>" + e.to + "</span>"
-      + "<span style='color:#9a9590;font-size:11px;'>" + e.lag + "\uAC1C\uC6D4 \uC120\uD589 (corr " + e.corr + ")</span>";
+      + "<span style='color:#9a9590;font-size:11px;'>" + e.lag + "개월 선행 (corr " + e.corr + ")</span>";
     list.appendChild(row);
   });
   sec.appendChild(list);
@@ -667,14 +704,16 @@ function renderSections() {
   }
 
   // 시세 선행/후행 관계 (시도 전체 선택 시에만)
-  if (!activeDistrict && sidoData.lead_lag && sidoData.lead_lag.length > 0) {
-    var llSec = renderLeadLagSection(sidoData.lead_lag, sidoData.district_order, activeSido + " 시세 선행/후행 관계");
+  var ll = sidoData.lead_lag;
+  if (!activeDistrict && ll && ((ll.tiers && ll.tiers.length) || (ll.edges && ll.edges.length) || (Array.isArray(ll) && ll.length))) {
+    var llSec = renderLeadLagSection(ll, false, activeSido + " 시세 선행/후행 관계");
     if (llSec) gridEl.appendChild(llSec);
   }
 
   // 단지별 시세 선행/후행 관계 (구 선택 시)
-  if (activeDistrict && data.apt_lead_lag && data.apt_lead_lag.length > 0) {
-    var aptLlSec = renderLeadLagSection(data.apt_lead_lag, null, activeDistrict + " 단지별 시세 영향도");
+  var aptLl = data.apt_lead_lag;
+  if (activeDistrict && aptLl && ((aptLl.tiers && aptLl.tiers.length) || (aptLl.edges && aptLl.edges.length) || (Array.isArray(aptLl) && aptLl.length))) {
+    var aptLlSec = renderLeadLagSection(aptLl, true, activeDistrict + " 단지별 시세 영향도");
     if (aptLlSec) gridEl.appendChild(aptLlSec);
   }
 

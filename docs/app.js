@@ -493,80 +493,12 @@ function renderSubTabs() {
 
 // renderFilters removed - nav is now hardcoded in HTML
 
-function renderRecentSection() {
-  var recents = getRecent();
-  if (!recents.length) return null;
-
-  var sec = document.createElement("div");
-  sec.className = "section";
-
-  var header = document.createElement("div");
-  header.className = "recent-header";
-
-  var title = document.createElement("h2");
-  title.className = "section-title";
-  title.textContent = "\uCD5C\uADFC \uBCF8 \uB2E8\uC9C0";
-  title.style.margin = "0";
-  header.appendChild(title);
-
-  var toggleIcon = document.createElement("span");
-  toggleIcon.textContent = "\u25BC";
-  toggleIcon.style.color = "var(--muted)";
-  toggleIcon.style.fontSize = "11px";
-  header.appendChild(toggleIcon);
-
-  sec.appendChild(header);
-
-  var body = document.createElement("div");
-  body.className = "recent-body";
-
-  recents.slice(0, 5).forEach(function (item) {
-    var row = document.createElement("div");
-    row.className = "recent-row";
-
-    var info = document.createElement("div");
-    info.className = "recent-info";
-    var nameEl = document.createElement("span");
-    nameEl.className = "recent-name";
-    nameEl.textContent = item.apt_name;
-    info.appendChild(nameEl);
-    var detailEl = document.createElement("div");
-    detailEl.className = "recent-detail";
-    detailEl.textContent = (item.sigungu ? item.sigungu + " " : "") + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2";
-    info.appendChild(detailEl);
-    row.appendChild(info);
-
-    var priceEl = document.createElement("div");
-    priceEl.className = "recent-price";
-    priceEl.textContent = fmt(item.latest_price) + "\uB9CC";
-    row.appendChild(priceEl);
-
-    row.addEventListener("click", function () { showDetail(item); });
-    body.appendChild(row);
-  });
-
-  sec.appendChild(body);
-
-  var collapsed = false;
-  header.addEventListener("click", function () {
-    collapsed = !collapsed;
-    body.style.display = collapsed ? "none" : "block";
-    toggleIcon.textContent = collapsed ? "\u25B6" : "\u25BC";
-  });
-
-  return sec;
-}
-
 function renderSections() {
   gridEl.innerHTML = "";
   if (!globalData || !activeSido) return;
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
-
-  // 최근 본 단지
-  var recentSec = renderRecentSection();
-  if (recentSec) gridEl.appendChild(recentSec);
 
   var data = sidoData;
   if (activeDistrict && sidoData.districts && sidoData.districts[activeDistrict]) {
@@ -588,7 +520,6 @@ function renderSections() {
 }
 
 function showDetail(r) {
-  if (r.id) addRecent(r);
   // 기존 모달 제거
   var old = document.getElementById("detail-modal");
   if (old) old.remove();

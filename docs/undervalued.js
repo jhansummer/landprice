@@ -220,6 +220,15 @@ function renderItem(r, idx) {
     toggleCompare(card, r);
   });
   change.appendChild(detailBtn);
+  var naverLink = document.createElement("a");
+  naverLink.className = "detail-btn naver-link";
+  naverLink.textContent = "네이버부동산";
+  naverLink.href = "https://new.land.naver.com/search?query=" + encodeURIComponent(r.apt_name + " " + r.sigungu);
+  naverLink.target = "_blank";
+  naverLink.rel = "noopener";
+  naverLink.style.marginTop = "4px";
+  naverLink.addEventListener("click", function (e) { e.stopPropagation(); });
+  change.appendChild(naverLink);
   top.appendChild(change);
 
   content.appendChild(top);

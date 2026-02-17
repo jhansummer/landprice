@@ -548,11 +548,88 @@ def _cross_corr(a: List[float], b: List[float], lag: int):
     return _pearson([p[0] for p in paired], [p[1] for p in paired])
 
 
-def build_lead_lag(sido_data: Dict) -> List[Dict]:
-    """구별 trend 데이터로 시차(교차상관) 분석. 정규화 레벨 기반."""
+def _compute_tiers(edges: List[Dict], all_nodes: List[str]) -> Dict:
+    """edge 기반으로 선행/후행 tier 계산. union-find로 co-mover 그룹핑."""
+    if not edges and not all_nodes:
+        return {}
+
+    # 1) net lead score: from → +1, to → -1
+    score: Dict[str, float] = {}
+    for n in all_nodes:
+        score[n] = 0.0
+    for e in edges:
+        score[e["from"]] = score.get(e["from"], 0.0) + 1
+        score[e["to"]] = score.get(e["to"], 0.0) - 1
+
+    # 2) union-find로 co-mover 그룹핑 (lag ≤ 1 AND corr ≥ 0.7)
+    parent: Dict[str, str] = {n: n for n in all_nodes}
+
+    def find(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a: str, b: str):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+
+    for e in edges:
+        if e["lag"] <= 1 and e["corr"] >= 0.7:
+            if e["from"] in parent and e["to"] in parent:
+                union(e["from"], e["to"])
+
+    # 3) 그룹별 평균 점수 계산
+    groups: Dict[str, List[str]] = {}
+    for n in all_nodes:
+        root = find(n)
+        groups.setdefault(root, []).append(n)
+
+    group_scores: List[tuple] = []  # (avg_score, [nodes])
+    for root, members in groups.items():
+        avg = sum(score[m] for m in members) / len(members) if members else 0
+        group_scores.append((avg, sorted(members)))
+
+    # 4) tier 분류: 양수=선행, 0=중간, 음수=후행
+    if not group_scores:
+        return {}
+
+    # 점수 기준 내림차순 정렬
+    group_scores.sort(key=lambda x: -x[0])
+
+    # 3-tier 분류: 선행(score > 0), 중간(score == 0), 후행(score < 0)
+    tier_lead = []
+    tier_mid = []
+    tier_lag = []
+    for avg_s, members in group_scores:
+        if avg_s > 0.5:
+            tier_lead.extend(members)
+        elif avg_s < -0.5:
+            tier_lag.extend(members)
+        else:
+            tier_mid.extend(members)
+
+    tiers = []
+    if tier_lead:
+        tiers.append({"level": 0, "label": "선행", "nodes": tier_lead})
+    if tier_mid:
+        tiers.append({"level": 1, "label": "동행", "nodes": tier_mid})
+    if tier_lag:
+        tiers.append({"level": 2, "label": "후행", "nodes": tier_lag})
+
+    # 빈 tier가 있으면 레벨 재정렬
+    for i, t in enumerate(tiers):
+        t["level"] = i
+
+    return {"tiers": tiers, "edges": edges}
+
+
+def build_lead_lag(sido_data: Dict) -> Dict:
+    """구별 trend 데이터로 시차(교차상관) 분석. 정규화 레벨 기반. tier 포함."""
     districts = sido_data.get("districts", {})
     if len(districts) < 3:
-        return []
+        return {}
 
     # 구별 정규화 시세 추출
     norm_series: Dict[str, List[float]] = {}
@@ -567,7 +644,7 @@ def build_lead_lag(sido_data: Dict) -> List[Dict]:
 
     names = sorted(norm_series.keys())
     if len(names) < 3:
-        return []
+        return {}
 
     MAX_LAG = 12
     edges = []
@@ -595,11 +672,12 @@ def build_lead_lag(sido_data: Dict) -> List[Dict]:
                 })
 
     edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
-    return edges[:40]
+    edges = edges[:40]
+    return _compute_tiers(edges, names)
 
 
-def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> List[Dict]:
-    """단지별 시세 선행/후행 관계 분석. 거래량 상위 단지 대상."""
+def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> Dict:
+    """단지별 시세 선행/후행 관계 분석. 거래량 상위 단지 대상. tier 포함."""
     dt = datetime.strptime(current_month, "%Y%m")
     months_36 = set()
     for i in range(36):
@@ -638,7 +716,7 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
     candidates = candidates[:15]
 
     if len(candidates) < 3:
-        return []
+        return {}
 
     # 월별 평균 시계열 → 정규화
     def make_norm_series(by_month):
@@ -674,7 +752,7 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
 
     keys = list(norm_map.keys())
     if len(keys) < 3:
-        return []
+        return {}
 
     MAX_LAG = 6
     edges = []
@@ -701,7 +779,9 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
                 })
 
     edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
-    return edges[:20]
+    edges = edges[:20]
+    all_labels = list(label_map.values())
+    return _compute_tiers(edges, all_labels)
 
 
 def build_dong_stats(records: List[Dict[str, object]], current_month: str) -> List[Dict[str, object]]:
