@@ -891,6 +891,86 @@ def gather_rent_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
     return records
 
 
+def build_jeonse_top3(rent_records: List[Dict[str, object]],
+                      sale_records: List[Dict[str, object]]) -> List[Dict[str, object]]:
+    """최근 전세가 가장 많이 오른 아파트 TOP3."""
+    # 아파트별 전세 이력 (최신순)
+    groups: Dict[Tuple, List] = {}
+    for r in rent_records:
+        if not r["deposit_man"]:
+            continue
+        key = (r["apt_name"], r["area_m2"])
+        groups.setdefault(key, []).append(r)
+
+    results = []
+    for key, recs in groups.items():
+        recs_sorted = sorted(recs, key=lambda x: x["deal_date"], reverse=True)
+        if len(recs_sorted) < 2:
+            continue
+        latest = recs_sorted[0]
+        prev = recs_sorted[1]
+        if prev["deposit_man"] <= 0:
+            continue
+        chg_pct = ((latest["deposit_man"] / prev["deposit_man"]) - 1) * 100
+        if chg_pct <= 0:
+            continue
+        results.append({
+            "apt_name": key[0],
+            "area_m2": key[1],
+            "dong_name": latest.get("dong_name", ""),
+            "prev_deposit": prev["deposit_man"],
+            "latest_deposit": latest["deposit_man"],
+            "chg_pct": round(chg_pct, 1),
+            "latest_date": latest["deal_date"],
+        })
+    results.sort(key=lambda x: -x["chg_pct"])
+    return results[:3]
+
+
+def build_jeonse_volume(rent_records: List[Dict[str, object]]) -> List[List]:
+    """월별 전세 거래량 추이. [[yyyymm, count], ...]"""
+    by_month: Dict[str, int] = {}
+    for r in rent_records:
+        ym = r.get("deal_ym", "")
+        if ym:
+            by_month[ym] = by_month.get(ym, 0) + 1
+    return [[ym, cnt] for ym, cnt in sorted(by_month.items())]
+
+
+def build_jeonse_dong_stats(rent_records: List[Dict[str, object]],
+                             current_month: str) -> List[Dict[str, object]]:
+    """동별 평균 전세가(m²당) 통계."""
+    dt = datetime.strptime(current_month, "%Y%m")
+    months_6 = set()
+    for i in range(6):
+        m = dt - relativedelta(months=i)
+        months_6.add(m.strftime("%Y%m"))
+
+    by_dong: Dict[str, List[float]] = {}
+    count_dong: Dict[str, int] = {}
+    for r in rent_records:
+        if r.get("deal_ym") not in months_6:
+            continue
+        if not r.get("deposit_man") or not r.get("area_m2") or r["area_m2"] <= 0:
+            continue
+        dong = r.get("dong_name", "")
+        if not dong:
+            continue
+        per_m2 = r["deposit_man"] / r["area_m2"]
+        by_dong.setdefault(dong, []).append(per_m2)
+        count_dong[dong] = count_dong.get(dong, 0) + 1
+
+    stats = []
+    for dong, prices in by_dong.items():
+        stats.append({
+            "dong_name": dong,
+            "avg_per_m2": round(sum(prices) / len(prices), 1),
+            "txn_count": count_dong[dong],
+        })
+    stats.sort(key=lambda x: -x["avg_per_m2"])
+    return stats
+
+
 def section3_recent(records: List[Dict[str, object]], current_month: str, limit: int = 0) -> Dict[str, object]:
     """최근 3개월내 거래 중 5년 최고가 대비 상승률. limit>0이면 상위 N건만."""
     dt = datetime.strptime(current_month, "%Y%m")
@@ -1078,6 +1158,15 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 jeonse_trend = build_jeonse_trend(dist_rent, dist_records)
                 if jeonse_trend:
                     dist_data["jeonse_trend"] = jeonse_trend
+                jt3 = build_jeonse_top3(dist_rent, dist_records)
+                if jt3:
+                    dist_data["jeonse_top3"] = jt3
+                jvol = build_jeonse_volume(dist_rent)
+                if jvol:
+                    dist_data["jeonse_volume"] = jvol
+                jds = build_jeonse_dong_stats(dist_rent, current_month)
+                if jds:
+                    dist_data["jeonse_dong_stats"] = jds
             # 동별 회복 현황 (같은 단지 같은 평수 기준)
             dong_recovery = build_dong_recovery(dist_records, current_month)
             if dong_recovery:
@@ -1111,6 +1200,12 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             jeonse_trend = build_jeonse_trend(rent_records, records)
             if jeonse_trend:
                 sido_data["jeonse_trend"] = jeonse_trend
+            jt3 = build_jeonse_top3(rent_records, records)
+            if jt3:
+                sido_data["jeonse_top3"] = jt3
+            jvol = build_jeonse_volume(rent_records)
+            if jvol:
+                sido_data["jeonse_volume"] = jvol
         sidos[sido] = sido_data
         search_items.sort(key=lambda x: -x["pct"])
         search_sidos[sido] = {

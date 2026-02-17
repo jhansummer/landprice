@@ -252,3 +252,129 @@ function drawMultiScatter(canvas, seriesList) {
     ctx.fill();
   });
 }
+
+/* ── 전세가율 추이 차트 ── */
+function drawJeonseTrendChart(canvas, trendData) {
+  if (!trendData || trendData.length < 2) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 42 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var ratios = trendData.map(function(d) { return d[1]; });
+  var minR = Math.min.apply(null, ratios);
+  var maxR = Math.max.apply(null, ratios);
+  var rRange = maxR - minR || 1;
+  minR -= rRange * 0.05;
+  maxR += rRange * 0.05;
+
+  function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
+  function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }
+
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minR + ((maxR - minR) / 4) * (4 - g);
+    ctx.fillText(val.toFixed(0) + "%", pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < trendData.length; i++) {
+    var ym = trendData[i][0];
+    var yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  }
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
+  ctx.lineTo(xPos(0), pad.top + plotH);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(37,99,235,0.06)";
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
+  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
+  ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
+  var lastIdx = trendData.length - 1;
+  ctx.fillStyle = "#ef4444";
+  ctx.beginPath(); ctx.arc(xPos(lastIdx), yPos(trendData[lastIdx][1]), 4, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#ef4444"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
+  ctx.fillText(trendData[lastIdx][1].toFixed(1) + "%", xPos(lastIdx) - 6, yPos(trendData[lastIdx][1]) - 6);
+}
+
+/* ── 전세 거래량 바 차트 ── */
+function drawJeonseVolumeChart(canvas, volumeData) {
+  if (!volumeData || volumeData.length < 2) return;
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 42 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var counts = volumeData.map(function(d) { return d[1]; });
+  var maxC = Math.max.apply(null, counts);
+  if (maxC <= 0) return;
+
+  var barW = Math.max(2, (plotW / volumeData.length) - 2);
+
+  // Grid
+  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+  // Y labels
+  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = Math.round(maxC * (4 - g) / 4);
+    ctx.fillText(val.toLocaleString(), pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+  // X labels
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  var seenYear = {};
+  for (var i = 0; i < volumeData.length; i++) {
+    var ym = volumeData[i][0];
+    var yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      var bx = pad.left + (i / (volumeData.length - 1)) * plotW;
+      ctx.fillText(yr, bx, pad.top + plotH + 6);
+    }
+  }
+  // Bars
+  for (var i = 0; i < volumeData.length; i++) {
+    var cnt = volumeData[i][1];
+    var bx = pad.left + (i / (volumeData.length - 1)) * plotW - barW / 2;
+    var bh = (cnt / maxC) * plotH;
+    var by = pad.top + plotH - bh;
+    ctx.fillStyle = i === volumeData.length - 1 ? "rgba(239,68,68,0.7)" : "rgba(37,99,235,0.4)";
+    ctx.fillRect(bx, by, barW, bh);
+  }
+  // Latest count label
+  var lastC = counts[counts.length - 1];
+  ctx.fillStyle = "#ef4444"; ctx.font = "10px sans-serif"; ctx.textAlign = "center";
+  var lastX = pad.left + ((volumeData.length - 1) / (volumeData.length - 1)) * plotW;
+  var lastH = (lastC / maxC) * plotH;
+  ctx.fillText(lastC.toLocaleString() + "건", lastX, pad.top + plotH - lastH - 12);
+}

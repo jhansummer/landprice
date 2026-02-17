@@ -218,8 +218,8 @@ function priceColor(price, minP, maxP) {
 
 /* ── 시세 회복 상태 ── */
 var RECOVERY_STATUS = {
-  recovered: { label: "회복", color: "#2563eb", barColor: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
-  rising:    { label: "상승중", color: "#16a34a", barColor: "#16a34a", bgColor: "#dcfce7", textColor: "#166534" },
+  recovered: { label: "상승", color: "#2563eb", barColor: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
+  rising:    { label: "회복", color: "#16a34a", barColor: "#16a34a", bgColor: "#dcfce7", textColor: "#166534" },
   flat:      { label: "횡보", color: "#94a3b8", barColor: "#94a3b8", bgColor: "#f1f5f9", textColor: "#64748b" },
   falling:   { label: "하락", color: "#ef4444", barColor: "#ef4444", bgColor: "#fef2f2", textColor: "#dc2626" }
 };
@@ -350,7 +350,7 @@ function renderHeatmapGrid(items, title, subtitle) {
       html += '</div>';
 
       if (item.recovery && item.recovery.apt_details && item.recovery.apt_details.length) {
-        html += '<div class="apt-detail-list"><div class="apt-detail-header">단지별 회복률</div>';
+        html += '<div class="apt-detail-list"><div class="apt-detail-header">단지별 고점 대비</div>';
         item.recovery.apt_details.forEach(function(a) {
           var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
           var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
@@ -654,7 +654,7 @@ function renderDongStats(dongStats, title, dongRecovery) {
     listContainer.appendChild(table);
   }
 
-  [["price", "가격순"], ["volume", "거래량순"], ["recovery", "회복률순"]].forEach(function(pair) {
+  [["price", "가격순"], ["volume", "거래량순"], ["recovery", "고점대비순"]].forEach(function(pair) {
     var btn = document.createElement("button");
     btn.className = "sort-btn" + (pair[0] === "price" ? " active" : "");
     btn.textContent = pair[1];
@@ -782,7 +782,7 @@ function renderAllDongStats(sidoData, title) {
     listContainer.appendChild(table);
   }
 
-  [["price", "가격순"], ["volume", "거래량순"], ["recovery", "회복률순"]].forEach(function(pair) {
+  [["price", "가격순"], ["volume", "거래량순"], ["recovery", "고점대비순"]].forEach(function(pair) {
     var btn = document.createElement("button");
     btn.className = "sort-btn" + (pair[0] === "price" ? " active" : "");
     btn.textContent = pair[1];
@@ -813,7 +813,7 @@ function renderRecoverySection(items, title, isDong) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "2021~2022 전고점 대비 회복률 · 같은 단지 같은 평수 기준 중앙값 · 클릭시 단지별 상세";
+  sub.textContent = "2021~2022 전고점 대비 · 같은 단지 같은 평수 기준 중앙값 · 클릭시 단지별 상세";
   sec.appendChild(sub);
 
   var list = document.createElement("div");
@@ -875,7 +875,7 @@ function renderRecoverySection(items, title, isDong) {
         detailList.className = "apt-detail-list";
         var header = document.createElement("div");
         header.className = "apt-detail-header";
-        header.textContent = item.name + " 단지별 회복률 (같은 평수 기준)";
+        header.textContent = item.name + " 단지별 고점 대비 (같은 평수 기준)";
         detailList.appendChild(header);
         item.apt_details.forEach(function(a) {
           var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
@@ -941,69 +941,7 @@ function renderJeonseSection(jeonse) {
   return sec;
 }
 
-/* ── 차트: 전세가율 추이 ── */
-function drawJeonseTrendChart(canvas, trendData) {
-  if (!trendData || trendData.length < 2) return;
-  var dpr = window.devicePixelRatio || 1;
-  var rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  var ctx = canvas.getContext("2d");
-  ctx.scale(dpr, dpr);
-  var cw = rect.width;
-  var ch = rect.height;
-  var pad = { top: 10, right: 12, bottom: 24, left: 42 };
-  var plotW = cw - pad.left - pad.right;
-  var plotH = ch - pad.top - pad.bottom;
-
-  var ratios = trendData.map(function(d) { return d[1]; });
-  var minR = Math.min.apply(null, ratios);
-  var maxR = Math.max.apply(null, ratios);
-  var rRange = maxR - minR || 1;
-  minR -= rRange * 0.05;
-  maxR += rRange * 0.05;
-
-  function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
-  function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }
-
-  ctx.strokeStyle = "#e2e8f0"; ctx.lineWidth = 0.5;
-  for (var g = 0; g <= 4; g++) {
-    var gy = pad.top + (plotH / 4) * g;
-    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
-  }
-  ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
-  for (var g = 0; g <= 4; g++) {
-    var val = minR + ((maxR - minR) / 4) * (4 - g);
-    ctx.fillText(val.toFixed(0) + "%", pad.left - 4, pad.top + (plotH / 4) * g);
-  }
-  ctx.textAlign = "center"; ctx.textBaseline = "top";
-  var seenYear = {};
-  for (var i = 0; i < trendData.length; i++) {
-    var ym = trendData[i][0];
-    var yr = ym.slice(0, 4);
-    if (ym.slice(4) === "01" && !seenYear[yr]) {
-      seenYear[yr] = true;
-      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
-    }
-  }
-  ctx.beginPath();
-  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
-  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
-  ctx.lineTo(xPos(trendData.length - 1), pad.top + plotH);
-  ctx.lineTo(xPos(0), pad.top + plotH);
-  ctx.closePath();
-  ctx.fillStyle = "rgba(37,99,235,0.06)";
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(xPos(0), yPos(trendData[0][1]));
-  for (var i = 1; i < trendData.length; i++) ctx.lineTo(xPos(i), yPos(trendData[i][1]));
-  ctx.strokeStyle = "#2563eb"; ctx.lineWidth = 1.5; ctx.stroke();
-  var lastIdx = trendData.length - 1;
-  ctx.fillStyle = "#ef4444";
-  ctx.beginPath(); ctx.arc(xPos(lastIdx), yPos(trendData[lastIdx][1]), 4, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#ef4444"; ctx.font = "10px sans-serif"; ctx.textAlign = "right";
-  ctx.fillText(trendData[lastIdx][1].toFixed(1) + "%", xPos(lastIdx) - 6, yPos(trendData[lastIdx][1]) - 6);
-}
+/* drawJeonseTrendChart moved to chart-utils.js */
 
 function renderJeonseTrendSection(jeonseTrend, title) {
   if (!jeonseTrend || jeonseTrend.length < 2) return null;
@@ -1086,12 +1024,12 @@ function renderSections() {
   // 시세 회복 현황 (바 차트)
   var recovery = sidoData.recovery;
   if (!activeDistrict && recovery && recovery.items && recovery.items.length) {
-    var recSec = renderRecoverySection(recovery.items, activeSido + " 시세 회복 현황", false);
+    var recSec = renderRecoverySection(recovery.items, activeSido + " 고점 대비 현황", false);
     if (recSec) gridEl.appendChild(recSec);
   }
   var dongRec = data.dong_recovery;
   if (activeDistrict && dongRec && dongRec.items && dongRec.items.length) {
-    var dRecSec = renderRecoverySection(dongRec.items, activeDistrict + " 동별 회복 현황", true);
+    var dRecSec = renderRecoverySection(dongRec.items, activeDistrict + " 동별 고점 대비 현황", true);
     if (dRecSec) gridEl.appendChild(dRecSec);
   }
 
