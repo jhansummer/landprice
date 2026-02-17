@@ -550,14 +550,23 @@ def _cross_corr(a: List[float], b: List[float], lag: int):
 
 def _compute_tiers(edges: List[Dict], all_nodes: List[str],
                     price_level: Dict[str, float] = None) -> Dict:
-    """가격 수준 기반 tier 분류.
-    price_level: 노드별 최근 평균 m²단가.
-    고가=선행, 중간=동행, 저가=후행. union-find로 동행 그룹핑.
+    """교차상관 net lead score 기반 tier 분류.
+    from(패턴선행) → +lag*corr, to(패턴후행) → -lag*corr.
+    union-find로 동행(lag≤1, corr≥0.7) 그룹핑.
     """
     if not edges and not all_nodes:
         return {}
 
-    # 1) union-find로 co-mover 그룹핑 (lag ≤ 1 AND corr ≥ 0.7)
+    # 1) net lead score (lag·corr 가중)
+    score: Dict[str, float] = {}
+    for n in all_nodes:
+        score[n] = 0.0
+    for e in edges:
+        w = e["lag"] * e["corr"]
+        score[e["from"]] = score.get(e["from"], 0.0) + w
+        score[e["to"]] = score.get(e["to"], 0.0) - w
+
+    # 2) union-find로 co-mover 그룹핑 (lag ≤ 1 AND corr ≥ 0.7)
     parent: Dict[str, str] = {n: n for n in all_nodes}
 
     def find(x: str) -> str:
@@ -576,33 +585,21 @@ def _compute_tiers(edges: List[Dict], all_nodes: List[str],
             if e["from"] in parent and e["to"] in parent:
                 union(e["from"], e["to"])
 
-    # 2) 그룹 구성
+    # 3) 그룹별 평균 점수
     groups: Dict[str, List[str]] = {}
     for n in all_nodes:
         root = find(n)
         groups.setdefault(root, []).append(n)
 
-    # 3) 그룹별 점수 = 평균 가격 레벨 (가격 정보 있으면)
-    #    가격 정보 없으면 net lead score 폴백
     group_scores: List[tuple] = []
     for root, members in groups.items():
-        if price_level and any(price_level.get(m, 0) > 0 for m in members):
-            avg = sum(price_level.get(m, 0) for m in members) / len(members)
-        else:
-            # 폴백: net lead score
-            score = {}
-            for n in all_nodes:
-                score[n] = 0
-            for e in edges:
-                score[e["from"]] = score.get(e["from"], 0) + 1
-                score[e["to"]] = score.get(e["to"], 0) - 1
-            avg = sum(score.get(m, 0) for m in members) / len(members)
+        avg = sum(score[m] for m in members) / len(members) if members else 0
         group_scores.append((avg, sorted(members)))
 
     if not group_scores:
         return {}
 
-    # 4) 점수 기준 내림차순 정렬 → 3분위 tier
+    # 4) 3분위 tier
     group_scores.sort(key=lambda x: -x[0])
     n_groups = len(group_scores)
 
@@ -626,11 +623,11 @@ def _compute_tiers(edges: List[Dict], all_nodes: List[str],
 
     tiers = []
     if tier_lead:
-        tiers.append({"level": 0, "label": "선행", "nodes": tier_lead})
+        tiers.append({"level": 0, "label": "먼저 움직임", "nodes": tier_lead})
     if tier_mid:
         tiers.append({"level": 1, "label": "동행", "nodes": tier_mid})
     if tier_lag:
-        tiers.append({"level": 2, "label": "후행", "nodes": tier_lag})
+        tiers.append({"level": 2, "label": "나중에 움직임", "nodes": tier_lag})
 
     for i, t in enumerate(tiers):
         t["level"] = i
@@ -644,9 +641,8 @@ def build_lead_lag(sido_data: Dict) -> Dict:
     if len(districts) < 3:
         return {}
 
-    # 구별 정규화 시세 추출 + 최근 가격 수준
+    # 구별 정규화 시세 추출
     norm_series: Dict[str, List[float]] = {}
-    price_level: Dict[str, float] = {}
     for dname, ddata in districts.items():
         trend = ddata.get("trend", [])
         if len(trend) < 48:
@@ -655,9 +651,6 @@ def build_lead_lag(sido_data: Dict) -> Dict:
         mn, mx = min(prices), max(prices)
         r = mx - mn if mx != mn else 1
         norm_series[dname] = [(p - mn) / r for p in prices]
-        # 최근 12개월 평균 m²단가 = 가격 레벨
-        recent = prices[-12:] if len(prices) >= 12 else prices
-        price_level[dname] = sum(recent) / len(recent)
 
     names = sorted(norm_series.keys())
     if len(names) < 3:
@@ -690,7 +683,7 @@ def build_lead_lag(sido_data: Dict) -> Dict:
 
     edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
     edges = edges[:40]
-    return _compute_tiers(edges, names, price_level)
+    return _compute_tiers(edges, names)
 
 
 def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> Dict:
@@ -757,7 +750,6 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
 
     norm_map = {}
     label_map = {}
-    apt_price_level = {}
     for key, info in candidates:
         ns = make_norm_series(info["by_month"])
         if ns:
@@ -767,13 +759,6 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
             label = short + " " + str(round(info["area"], 0)).replace(".0", "") + "m²"
             norm_map[key] = ns
             label_map[key] = label
-            # 최근 12개월 실제 m²단가 평균 (정규화 아닌 원본)
-            recent_raw = []
-            sorted_yms = sorted(info["by_month"].keys())
-            for ym in sorted_yms[-12:]:
-                vals = info["by_month"][ym]
-                recent_raw.append(sum(vals) / len(vals))
-            apt_price_level[label] = sum(recent_raw) / len(recent_raw) if recent_raw else 0
 
     keys = list(norm_map.keys())
     if len(keys) < 3:
@@ -806,7 +791,7 @@ def build_apt_lead_lag(records: List[Dict[str, object]], current_month: str) -> 
     edges.sort(key=lambda e: (-e["corr"], -e["lag"]))
     edges = edges[:20]
     all_labels = list(label_map.values())
-    return _compute_tiers(edges, all_labels, apt_price_level)
+    return _compute_tiers(edges, all_labels)
 
 
 def build_dong_stats(records: List[Dict[str, object]], current_month: str) -> List[Dict[str, object]]:
