@@ -336,28 +336,35 @@ function renderHeatmapGrid(items, title, subtitle) {
 
         var vp = item.recovery ? item.recovery.vs_peak : 0;
         var barWidth = Math.min(Math.abs(vp) / maxBarVal * 50, 50);
+        var bw = Math.max(barWidth, 2);
 
         var barWrap = document.createElement("div");
         barWrap.className = "vol-bar-wrap";
-        barWrap.style.cssText = "position:relative;height:26px;display:block";
 
-        // 배경 (좌/우 반반)
+        // 수치 (왼쪽 — 하락일 때 표시)
+        var leftCount = document.createElement("span");
+        leftCount.className = "vol-bar-count";
+        leftCount.style.cssText = "min-width:36px;text-align:right;font-size:10px";
+        leftCount.textContent = vp < 0 ? vp + "%" : "";
+        barWrap.appendChild(leftCount);
+
+        // diverging bar track
+        var track = document.createElement("div");
+        track.className = "vol-bar-track";
+        track.style.cssText = "position:relative;overflow:visible;background:transparent;display:flex";
         var bgLeft = document.createElement("div");
-        bgLeft.style.cssText = "position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:6px 0 0 6px";
-        barWrap.appendChild(bgLeft);
+        bgLeft.style.cssText = "flex:1;background:var(--line);border-radius:6px 0 0 6px";
+        track.appendChild(bgLeft);
         var bgRight = document.createElement("div");
-        bgRight.style.cssText = "position:absolute;right:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:0 6px 6px 0";
-        barWrap.appendChild(bgRight);
-
+        bgRight.style.cssText = "flex:1;background:var(--line);border-radius:0 6px 6px 0";
+        track.appendChild(bgRight);
         // 중앙 축
         var centerLine = document.createElement("div");
-        centerLine.style.cssText = "position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--muted);z-index:2;margin-left:-1px;border-radius:1px";
-        barWrap.appendChild(centerLine);
-
+        centerLine.style.cssText = "position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--muted);z-index:2;margin-left:-1px";
+        track.appendChild(centerLine);
         // 막대
         var bar = document.createElement("div");
         bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:4px;z-index:1;transition:width .3s";
-        var bw = Math.max(barWidth, 2);
         if (vp >= 0) {
           bar.style.left = "50%";
           bar.style.width = bw + "%";
@@ -367,18 +374,15 @@ function renderHeatmapGrid(items, title, subtitle) {
           bar.style.width = bw + "%";
           bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
         }
-        barWrap.appendChild(bar);
+        track.appendChild(bar);
+        barWrap.appendChild(track);
 
-        // 수치 라벨 (바 바깥)
-        var countEl = document.createElement("span");
-        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;white-space:nowrap;z-index:3;color:var(--ink)";
-        countEl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
-        if (vp >= 0) {
-          countEl.style.left = (50 + bw + 1) + "%";
-        } else {
-          countEl.style.right = (50 + bw + 1) + "%";
-        }
-        barWrap.appendChild(countEl);
+        // 수치 (오른쪽 — 상승일 때 표시)
+        var rightCount = document.createElement("span");
+        rightCount.className = "vol-bar-count";
+        rightCount.style.cssText = "min-width:36px;text-align:left;font-size:10px";
+        rightCount.textContent = vp >= 0 ? "+" + vp + "%" : "";
+        barWrap.appendChild(rightCount);
         row.appendChild(barWrap);
       } else {
         // 일반 막대 (거래량순, 가격순)
@@ -721,7 +725,7 @@ function renderDongStats(dongStats, title, dongRecovery) {
         var bw = Math.min(Math.abs(vp) / maxVal * 50, 50);
         var barWrap = document.createElement("div");
         barWrap.className = "dong-stat-bar-wrap";
-        barWrap.style.cssText = "position:relative;background:transparent";
+        barWrap.style.cssText = "position:relative;background:transparent;overflow:visible";
         var bgL = document.createElement("div");
         bgL.style.cssText = "position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:4px 0 0 4px";
         barWrap.appendChild(bgL);
@@ -733,22 +737,17 @@ function renderDongStats(dongStats, title, dongRecovery) {
         barWrap.appendChild(axis);
         var bar = document.createElement("div");
         bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:3px;z-index:1";
+        var bwv = Math.max(bw, 1);
         if (vp >= 0) {
           bar.style.left = "50%";
-          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.width = bwv + "%";
           bar.style.background = "linear-gradient(90deg,#2563eb,#60a5fa)";
         } else {
           bar.style.right = "50%";
-          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.width = bwv + "%";
           bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
         }
         barWrap.appendChild(bar);
-        var lbl = document.createElement("span");
-        lbl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3;color:var(--fg)";
-        lbl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
-        if (vp >= 0) { lbl.style.left = (50 + Math.max(bw, 1) + 1) + "%"; }
-        else { lbl.style.right = (50 + Math.max(bw, 1) + 1) + "%"; }
-        barWrap.appendChild(lbl);
         row.appendChild(barWrap);
       } else {
         var barWrap = document.createElement("div");
@@ -769,10 +768,13 @@ function renderDongStats(dongStats, title, dongRecovery) {
       if (sortBy === "volume") {
         valEl.textContent = d.txn_count + "건 (" + Math.round(d.avg_per_m2).toLocaleString() + "만/m²)";
       } else if (sortBy === "recovery") {
-        valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+        var vpVal = rec ? rec.vs_peak : 0;
+        var vpText = (vpVal >= 0 ? "+" : "") + vpVal + "%";
+        valEl.textContent = vpText + " · " + Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
         if (rec) {
           var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
-          valEl.textContent += " ";
+          valEl.textContent = "";
+          valEl.appendChild(document.createTextNode(vpText + " · " + Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건) "));
           var badge = document.createElement("span");
           badge.className = "recovery-badge " + rec.status;
           badge.style.fontSize = "9px";
@@ -941,7 +943,7 @@ function renderAllDongStats(sidoData, title) {
         var bw = Math.min(Math.abs(vp) / maxVal * 50, 50);
         var barWrap = document.createElement("div");
         barWrap.className = "dong-stat-bar-wrap";
-        barWrap.style.cssText = "position:relative;background:transparent";
+        barWrap.style.cssText = "position:relative;background:transparent;overflow:visible";
         var bgL = document.createElement("div");
         bgL.style.cssText = "position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:4px 0 0 4px";
         barWrap.appendChild(bgL);
@@ -963,12 +965,6 @@ function renderAllDongStats(sidoData, title) {
           bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
         }
         barWrap.appendChild(bar);
-        var lbl = document.createElement("span");
-        lbl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3;color:var(--fg)";
-        lbl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
-        if (vp >= 0) { lbl.style.left = (50 + Math.max(bw, 1) + 1) + "%"; }
-        else { lbl.style.right = (50 + Math.max(bw, 1) + 1) + "%"; }
-        barWrap.appendChild(lbl);
         row.appendChild(barWrap);
       } else {
         var barWrap = document.createElement("div");
@@ -991,10 +987,13 @@ function renderAllDongStats(sidoData, title) {
         valEl.textContent = d.txn_count + "건 (" + Math.round(d.avg_per_m2).toLocaleString() + "만/m²)";
       } else if (sortBy === "recovery") {
         var rec = d.recovery;
-        valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+        var vpVal = rec ? rec.vs_peak : 0;
+        var vpText = (vpVal >= 0 ? "+" : "") + vpVal + "%";
+        valEl.textContent = vpText + " · " + Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
         if (rec) {
           var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
-          valEl.textContent += " ";
+          valEl.textContent = "";
+          valEl.appendChild(document.createTextNode(vpText + " · " + Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건) "));
           var badge = document.createElement("span");
           badge.className = "recovery-badge " + rec.status;
           badge.style.fontSize = "9px";

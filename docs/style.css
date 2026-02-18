@@ -271,8 +271,8 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .vol-bar-track{flex:1;min-width:0;height:100%;background:var(--line);border-radius:6px;overflow:hidden}
 .vol-bar{height:100%;border-radius:6px;min-width:4px;transition:width .3s}
 .vol-bar-count{font-size:11px;font-weight:700;color:var(--ink);white-space:nowrap;flex-shrink:0}
-.vol-bar-label{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:90px}
-.vol-bar-name{font-size:14px;font-weight:800;color:var(--ink);white-space:nowrap;line-height:1.2}
+.vol-bar-label{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:90px;max-width:140px;overflow:hidden}
+.vol-bar-name{font-size:14px;font-weight:800;color:var(--ink);white-space:nowrap;line-height:1.2;overflow:hidden;text-overflow:ellipsis}
 .vol-bar-price{font-size:11px;color:var(--muted);white-space:nowrap;line-height:1.2}
 
 /* ── Sort Buttons ── */
@@ -296,7 +296,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .dash-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);transition:box-shadow .2s}
 .dash-card:hover{box-shadow:var(--shadow-md)}
 .dash-card-wide{grid-column:span 2}
-.dash-card-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.dash-card-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:0.3px;line-height:1.5}
 .dash-card-value{font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-0.5px}
 .dash-card-unit{font-size:14px;font-weight:600;color:var(--muted);margin-left:4px}
 .dash-card-change{font-size:12px;font-weight:700;margin-top:4px}
@@ -362,10 +362,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .vol-bar-row{gap:6px}
   .vol-bar-wrap{height:20px}
   .vol-bar-track{height:100%}
-  .vol-bar-label{min-width:60px;max-width:90px}
-  .vol-bar-name{font-size:11px}
+  .vol-bar-label{min-width:50px;max-width:80px}
+  .vol-bar-name{font-size:11px;overflow:hidden;text-overflow:ellipsis}
   .vol-bar-price{font-size:9px;overflow:hidden;text-overflow:ellipsis}
   .vol-bar-count{font-size:9px}
+  .dash-card-label{font-size:11px}
+  .footer-links{gap:10px}
+  .footer-links a{font-size:11px}
   .heatmap-grid{gap:6px}
   .heatmap-cell{padding:10px 8px;min-width:75px;border-radius:10px}
   .heatmap-cell-price{font-size:15px}
