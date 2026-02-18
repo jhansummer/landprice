@@ -269,11 +269,8 @@ function drawJeonseTrendChart(canvas, trendData) {
   var plotH = ch - pad.top - pad.bottom;
 
   var ratios = trendData.map(function(d) { return d[1]; });
-  var minR = Math.min.apply(null, ratios);
-  var maxR = Math.max.apply(null, ratios);
-  var rRange = maxR - minR || 1;
-  minR -= rRange * 0.05;
-  maxR += rRange * 0.05;
+  var minR = 0;
+  var maxR = 80;
 
   function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
   function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }

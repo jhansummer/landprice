@@ -150,6 +150,8 @@ function renderTabs(sidoOrder) {
       activeSido = sido;
       renderTabs(sidoOrder);
       renderSections();
+      history.replaceState(null, "", "#" + sido);
+      APTWatchlist.track("tab_switch", { sido: sido, page: "undervalued" });
     });
     tabsEl.appendChild(btn);
   });
@@ -214,28 +216,89 @@ function renderItem(r, idx) {
     diff36.textContent = "\uCD5C\uADFC3\uB144 \uBE44\uAD50\uD3C9\uADE0 \uB300\uBE44 -";
   }
   change.appendChild(diff36);
+
+  // CTA 버튼 그룹
+  var ctaGroup = document.createElement("div");
+  ctaGroup.className = "cta-group";
+
   var detailBtn = document.createElement("button");
   detailBtn.className = "detail-btn";
-  detailBtn.textContent = "\uC790\uC138\uD788";
-  detailBtn.style.marginTop = "6px";
+  detailBtn.textContent = "\uC0C1\uC138";
   detailBtn.addEventListener("click", function (e) {
     e.stopPropagation();
     toggleCompare(card, r);
+    APTWatchlist.track("view_detail", { apt_name: r.apt_name, page: "undervalued" });
   });
-  change.appendChild(detailBtn);
+  ctaGroup.appendChild(detailBtn);
+
+  if (r.id) {
+    var cmpBtn = document.createElement("button");
+    cmpBtn.className = "detail-btn";
+    cmpBtn.textContent = APTWatchlist.hasCompare(r.id) ? "\uCD94\uAC00\uB428" : "\uBE44\uAD50\uCD94\uAC00";
+    if (APTWatchlist.hasCompare(r.id)) { cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+    cmpBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var added = APTWatchlist.addCompare({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name });
+      if (added) { cmpBtn.textContent = "\uCD94\uAC00\uB428"; cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+      APTWatchlist.track("add_to_compare", { apt_name: r.apt_name, page: "undervalued" });
+    });
+    ctaGroup.appendChild(cmpBtn);
+
+    var watchBtn = document.createElement("button");
+    watchBtn.className = "detail-btn";
+    var isW = APTWatchlist.has(r.id);
+    watchBtn.textContent = isW ? "\uAD00\uC2EC\uD574\uC81C" : "\uAD00\uC2EC";
+    if (isW) { watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)"; }
+    watchBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (APTWatchlist.has(r.id)) {
+        APTWatchlist.remove(r.id);
+        watchBtn.textContent = "\uAD00\uC2EC"; watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
+      } else {
+        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.recent_avg });
+        watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C"; watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
+      }
+      APTWatchlist.track("add_to_watchlist", { apt_name: r.apt_name, page: "undervalued" });
+    });
+    ctaGroup.appendChild(watchBtn);
+  }
+  change.appendChild(ctaGroup);
   top.appendChild(change);
 
   content.appendChild(top);
 
+  // 비교 단지 목록
   const meta = document.createElement("div");
   meta.className = "rank-detail";
   if (r.compare && r.compare.length) {
     const names = r.compare.map(function (c) {
-      return c.apt_name + " " + c.area_m2 + "m²(" + c.sigungu + " " + c.dong_name + ")";
+      return c.apt_name + " " + c.area_m2 + "m\u00B2(" + c.sigungu + " " + c.dong_name + ")";
     });
-    meta.textContent = "비교: " + names.join(" · ");
+    meta.textContent = "\uBE44\uAD50: " + names.join(" \u00B7 ");
   }
   content.appendChild(meta);
+
+  // 저평가 근거 3줄 설명
+  var explain = document.createElement("div");
+  explain.className = "explain-block";
+
+  var reason1 = "\uC774 \uB2E8\uC9C0\uC758 \uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0 \uAC70\uB798\uAC00\uB294 " + fmtEok(r.recent_avg) + "\uC73C\uB85C, ";
+  reason1 += "\uAC19\uC740 \uC9C0\uC5ED \uC720\uC0AC \uBA74\uC801(" + (r.compare ? r.compare.length : 0) + "\uAC1C \uB2E8\uC9C0) \uD3C9\uADE0 " + fmtEok(r.compare_avg_recent) + " \uB300\uBE44 ";
+  reason1 += (ratio6 !== null ? Math.abs(ratio6).toFixed(1) + "% \uB0AE\uC2B5\uB2C8\uB2E4." : "\uBE44\uAD50 \uBD88\uAC00\uC785\uB2C8\uB2E4.");
+
+  var reason2 = "";
+  if (ratio36 !== null && ratio6 !== null) {
+    if (ratio36 > ratio6) {
+      reason2 = "3\uB144 \uC7A5\uAE30\uB85C \uBCF4\uBA74 \uACA9\uCC28\uAC00 \uB354 \uD06C\uBBC0\uB85C(" + Math.abs(ratio36).toFixed(1) + "%), \uCD5C\uADFC \uD68C\uBCF5\uC138\uC785\uB2C8\uB2E4.";
+    } else {
+      reason2 = "3\uB144 \uC7A5\uAE30(" + Math.abs(ratio36).toFixed(1) + "%) \uB300\uBE44 \uCD5C\uADFC \uACA9\uCC28\uAC00 \uB354 \uBC8C\uC5B4\uC9C0\uB294 \uCD94\uC138\uC785\uB2C8\uB2E4.";
+    }
+  }
+
+  var reason3 = "\uBE44\uAD50 \uAE30\uC900: \uAC19\uC740 \uC2DC\uAD70\uAD6C \uB0B4 \uBA74\uC801 \u00B115%, \uAC00\uACA9 \uC218\uC900 \u00B130% \uC774\uB0B4 \uB2E8\uC9C0.";
+
+  explain.innerHTML = reason1 + "<br>" + (reason2 ? reason2 + "<br>" : "") + '<span class="source">' + reason3 + "</span>";
+  content.appendChild(explain);
 
   card.appendChild(content);
   card.addEventListener("click", function () {
@@ -385,12 +448,29 @@ function renderSections() {
   (s.bands || []).forEach(function (b) {
     contentEl.appendChild(
       renderSection(
-        "저평가 TOP3 (가격대: " + b.label + ")",
-        "최근 6개월 평균가 기준",
+        "\uC800\uD3C9\uAC00 TOP3 (\uAC00\uACA9\uB300: " + b.label + ")",
+        "\uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uAE30\uC900",
         b.top3 || []
       )
     );
   });
+
+  // "다음 행동" 섹션
+  var nextAction = document.createElement("div");
+  nextAction.className = "section next-action";
+  nextAction.innerHTML = '<h2 class="section-title">\uB354 \uC54C\uC544\uBCF4\uAE30</h2>'
+    + '<div class="popular-list">'
+    + '<a class="popular-item" href="index.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'undervalued\',target:\'main\'})">'
+    + '<span class="popular-name">\uC624\uB298\uC758 TOP3</span>'
+    + '<span class="popular-meta">\uC0C1\uC2B9 \u00B7 \uAC70\uB798 \u00B7 \uD68C\uBCF5 \uB7AD\uD0B9</span></a>'
+    + '<a class="popular-item" href="regional.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'undervalued\',target:\'regional\'})">'
+    + '<span class="popular-name">\uC9C0\uC5ED \uC2DC\uC138</span>'
+    + '<span class="popular-meta">\uD788\uD2B8\uB9F5 \u00B7 \uB3D9\uBCC4 \uBE44\uAD50</span></a>'
+    + '<a class="popular-item" href="search.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'undervalued\',target:\'search\'})">'
+    + '<span class="popular-name">\uB2E8\uC9C0 \uAC80\uC0C9</span>'
+    + '<span class="popular-meta">\uB2E8\uC9C0\uBA85\uC73C\uB85C \uC2E4\uAC70\uB798 \uC870\uD68C</span></a>'
+    + '</div>';
+  contentEl.appendChild(nextAction);
 }
 
 async function init() {
@@ -402,7 +482,8 @@ async function init() {
     }
     data = await res.json();
     const sidoOrder = data ? Object.keys(data.sidos || {}) : [];
-    activeSido = sidoOrder[0] || null;
+    var hash = decodeURIComponent(location.hash.replace("#", ""));
+    activeSido = (hash && sidoOrder.indexOf(hash) >= 0) ? hash : sidoOrder[0] || null;
     renderTabs(sidoOrder);
     renderSections();
   } catch (e) {

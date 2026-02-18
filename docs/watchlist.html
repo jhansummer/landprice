@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>관심목록 - APT Mine</title>
+  <meta name="description" content="내가 저장한 관심 아파트 목록입니다. 저장된 단지를 한눈에 확인하고 비교할 수 있습니다." />
+  <meta name="keywords" content="관심목록, 아파트 비교, 아파트 즐겨찾기, APT Mine" />
+  <meta property="og:title" content="관심목록 - APT Mine" />
+  <meta property="og:description" content="내가 저장한 관심 아파트 목록입니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aptmine.com/watchlist.html" />
+  <link rel="canonical" href="https://aptmine.com/watchlist.html" />
+  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H9MBJYB0DQ');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">APT Mine</a>
+      <span class="tagline">실거래가 기반 아파트 시세 분석</span>
+    </div>
+    <nav class="nav-bar">
+      <a class="nav-link" href="index.html">메인</a>
+      <a class="nav-link" href="search.html">단지명 검색</a>
+      <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
+      <a class="nav-link" href="regional.html">지역시세</a>
+      <a class="nav-link" href="jeonse.html">전세시세</a>
+      <span class="nav-link active">관심<span id="wl-badge" class="wl-badge"></span></span>
+    </nav>
+  </header>
+  <main>
+    <div id="wl-content" style="padding:0 16px;max-width:720px;margin:0 auto;"></div>
+  </main>
+  <footer class="site-footer">
+    <a href="/privacy.html">개인정보처리방침</a>
+    <span style="margin:0 8px;">·</span>
+    <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
+  </footer>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
+  <script src="chart-utils.js?v=4"></script>
+  <script src="watchlist.js?v=1"></script>
+  <script>
+  /* 관심목록 페이지 렌더 */
+  (function () {
+    var wrap = document.getElementById("wl-content");
+
+    function fmt(v) { return new Intl.NumberFormat("ko-KR").format(v); }
+
+    function render() {
+      var list = APTWatchlist.getList();
+      wrap.innerHTML = "";
+
+      /* 헤더 */
+      var header = document.createElement("div");
+      header.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin:20px 0 12px";
+      var h1 = document.createElement("h1");
+      h1.style.cssText = "font-size:20px;font-weight:800;color:var(--ink);margin:0";
+      h1.textContent = "관심목록 (" + list.length + ")";
+      header.appendChild(h1);
+
+      if (list.length > 0) {
+        var clearBtn = document.createElement("button");
+        clearBtn.style.cssText = "background:none;border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer";
+        clearBtn.textContent = "전체 삭제";
+        clearBtn.addEventListener("click", function () {
+          if (!confirm("관심목록을 모두 삭제하시겠습니까?")) return;
+          list.forEach(function (item) { APTWatchlist.remove(item.id); });
+          render();
+          APTWatchlist.track("watchlist_clear_all");
+        });
+        header.appendChild(clearBtn);
+      }
+      wrap.appendChild(header);
+
+      /* 빈 상태 */
+      if (!list.length) {
+        var empty = document.createElement("div");
+        empty.className = "section";
+        empty.style.textAlign = "center";
+        empty.style.padding = "48px 16px";
+        empty.innerHTML = '<p style="font-size:15px;color:var(--muted);margin:0 0 16px">저장된 관심 아파트가 없습니다.</p>'
+          + '<p style="font-size:13px;color:var(--muted);margin:0 0 20px">메인, 저평가, 검색 페이지에서<br>"관심" 버튼을 눌러 추가하세요.</p>'
+          + '<a href="index.html" style="display:inline-block;background:var(--accent);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600">메인으로 가기</a>';
+        wrap.appendChild(empty);
+        return;
+      }
+
+      /* 목록 */
+      var listEl = document.createElement("div");
+      list.forEach(function (item) {
+        var card = document.createElement("div");
+        card.className = "section";
+        card.style.cssText = "padding:14px 16px;margin-bottom:10px";
+
+        var top = document.createElement("div");
+        top.style.cssText = "display:flex;align-items:flex-start;justify-content:space-between;gap:8px";
+
+        var info = document.createElement("div");
+        info.style.flex = "1";
+        var name = document.createElement("div");
+        name.style.cssText = "font-weight:700;font-size:15px;color:var(--ink)";
+        name.textContent = item.apt_name;
+        info.appendChild(name);
+
+        var meta = document.createElement("div");
+        meta.style.cssText = "font-size:12px;color:var(--muted);margin-top:2px";
+        var parts = [];
+        if (item.sigungu) parts.push(item.sigungu);
+        if (item.dong_name) parts.push(item.dong_name);
+        if (item.area_m2) parts.push(item.area_m2 + "m\u00B2");
+        meta.textContent = parts.join(" \u00B7 ");
+        info.appendChild(meta);
+
+        if (item.latest_price) {
+          var price = document.createElement("div");
+          price.style.cssText = "font-size:13px;color:var(--ink);margin-top:4px;font-weight:600";
+          price.textContent = fmt(item.latest_price) + "\uB9CC";
+          if (item.chg_pct !== undefined) {
+            var pctSpan = document.createElement("span");
+            pctSpan.style.cssText = "margin-left:6px;font-size:12px;font-weight:700;color:" + (item.chg_pct >= 0 ? "var(--up)" : "var(--down)");
+            pctSpan.textContent = (item.chg_pct >= 0 ? "+" : "") + item.chg_pct.toFixed(1) + "%";
+            price.appendChild(pctSpan);
+          }
+          info.appendChild(price);
+        }
+
+        top.appendChild(info);
+
+        /* 버튼 그룹 */
+        var btns = document.createElement("div");
+        btns.className = "cta-group";
+        btns.style.cssText = "flex-shrink:0;gap:6px";
+
+        var cmpBtn = document.createElement("button");
+        cmpBtn.className = "cta-btn cta-compare";
+        cmpBtn.textContent = APTWatchlist.hasCompare(item.id) ? "\uBE44\uAD50\uC911" : "\uBE44\uAD50";
+        cmpBtn.addEventListener("click", function () {
+          if (APTWatchlist.hasCompare(item.id)) {
+            APTWatchlist.removeCompare(item.id);
+          } else {
+            if (!APTWatchlist.addCompare(item)) { alert("\uBE44\uAD50\uB294 \uCD5C\uB300 2\uAC1C\uAE4C\uC9C0 \uAC00\uB2A5\uD569\uB2C8\uB2E4."); return; }
+          }
+          render();
+          APTWatchlist.track("add_to_compare", { apt_name: item.apt_name, source: "watchlist" });
+        });
+        btns.appendChild(cmpBtn);
+
+        var rmBtn = document.createElement("button");
+        rmBtn.className = "cta-btn";
+        rmBtn.style.cssText = "color:var(--down);border-color:var(--down)";
+        rmBtn.textContent = "\uC0AD\uC81C";
+        rmBtn.addEventListener("click", function () {
+          APTWatchlist.remove(item.id);
+          APTWatchlist.removeCompare(item.id);
+          render();
+          APTWatchlist.track("remove_from_watchlist", { apt_name: item.apt_name, source: "watchlist" });
+        });
+        btns.appendChild(rmBtn);
+
+        top.appendChild(btns);
+        card.appendChild(top);
+
+        if (item.added_at) {
+          var date = document.createElement("div");
+          date.style.cssText = "font-size:11px;color:var(--muted);margin-top:6px";
+          date.textContent = "\uCD94\uAC00\uC77C: " + item.added_at.slice(0, 10);
+          card.appendChild(date);
+        }
+
+        listEl.appendChild(card);
+      });
+      wrap.appendChild(listEl);
+
+      /* 다음 행동 */
+      var nextAction = document.createElement("div");
+      nextAction.className = "section next-action";
+      nextAction.innerHTML = '<h2 class="section-title">\uB354 \uC54C\uC544\uBCF4\uAE30</h2>'
+        + '<div class="popular-list">'
+        + '<a class="popular-item" href="index.html" onclick="APTWatchlist.track(\'next_action_click\',{source:\'watchlist\',target:\'main\'})">'
+        + '<span class="popular-name">\uC624\uB298\uC758 TOP3</span>'
+        + '<span class="popular-meta">\uC0C1\uC2B9 \u00B7 \uAC70\uB798 \u00B7 \uD68C\uBCF5 \uB7AD\uD0B9</span></a>'
+        + '<a class="popular-item" href="search.html" onclick="APTWatchlist.track(\'next_action_click\',{source:\'watchlist\',target:\'search\'})">'
+        + '<span class="popular-name">\uB2E8\uC9C0\uBA85 \uAC80\uC0C9</span>'
+        + '<span class="popular-meta">\uAD00\uC2EC \uB2E8\uC9C0 \uC2E4\uAC70\uB798\uAC00 \uC870\uD68C</span></a>'
+        + '</div>';
+      wrap.appendChild(nextAction);
+    }
+
+    document.addEventListener("DOMContentLoaded", render);
+    document.addEventListener("watchlist-change", render);
+    document.addEventListener("compare-change", render);
+  })();
+  </script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
+</body>
+</html>

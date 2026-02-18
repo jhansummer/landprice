@@ -305,6 +305,8 @@ def main() -> None:
             trades_window = [t for t in txns if parse_month(t[0]) in months_set]
             if len(trades_window) < sp["min_trades"]:
                 continue
+            recent_3m_set = set(months[-3:])
+            recent_3m_trades = sum(1 for t in trades_window if parse_month(t[0]) in recent_3m_set)
             series, valid = build_series(txns, months)
             if valid < sp["min_valid"]:
                 continue
@@ -324,6 +326,7 @@ def main() -> None:
                 "recent_avg": recent_avg(series, 6),
                 "avg_36": series_avg(series),
                 "trade_count": len(trades_window),
+                "recent_3m_trades": recent_3m_trades,
             }
 
         keys = list(series_map.keys())
@@ -465,6 +468,7 @@ def main() -> None:
                     "cluster_avg": round(avg_current, 2),
                     "gap_pct": round((ratio - 1) * 100, 2),
                     "trade_count": m["trade_count"],
+                    "recent_3m_trades": m["recent_3m_trades"],
                     "cluster_size": len(members),
                     "compare": compares,
                 }
@@ -516,16 +520,16 @@ def main() -> None:
                     seen_bc.add(bc["id"])
                     all_band_candidates.append(bc)
 
-        all_undervalued = [u for u in all_undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent")]
+        all_undervalued = [u for u in all_undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent") and u.get("recent_3m_trades", 0) > 0]
         all_undervalued.sort(key=recent_gap_score)
 
         all_band_candidates.sort(key=recent_gap_score)
         bands_out = []
         for label, low, high in bands:
             if high is None:
-                b_items = [u for u in all_band_candidates if u["recent_avg"] >= low]
+                b_items = [u for u in all_band_candidates if u["recent_avg"] >= low and u.get("recent_3m_trades", 0) > 0]
             else:
-                b_items = [u for u in all_band_candidates if low <= u["recent_avg"] < high]
+                b_items = [u for u in all_band_candidates if low <= u["recent_avg"] < high and u.get("recent_3m_trades", 0) > 0]
             bands_out.append({
                 "label": label,
                 "top3": b_items[:3],

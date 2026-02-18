@@ -356,4 +356,35 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .rank-apt{font-size:13px}
   .rank-pct{font-size:14px}
   .site-footer{padding:20px 12px;font-size:11px}
+  .compare-float-bar{padding:10px 12px;gap:8px;flex-wrap:wrap}
+  .compare-float-bar .go-btn{width:100%;margin-top:4px;margin-left:0}
+  .explain-block{font-size:11px;padding:8px 10px}
 }
+
+/* ── CTA Group ── */
+.cta-group{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;justify-content:flex-end}
+.cta-group .detail-btn{font-size:11px;padding:5px 10px}
+
+/* ── Compare Floating Bar ── */
+.compare-float-bar{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:2px solid var(--accent);padding:12px 24px;display:flex;align-items:center;gap:12px;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,0.1)}
+.compare-float-bar .cfb-label{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.compare-float-bar .chip{background:var(--accent-soft);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.compare-float-bar .chip .remove{cursor:pointer;opacity:0.6;font-size:10px}
+.compare-float-bar .chip .remove:hover{opacity:1}
+.compare-float-bar .go-btn{margin-left:auto;background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);white-space:nowrap;transition:background .15s}
+.compare-float-bar .go-btn:hover{background:var(--accent-hover)}
+.compare-float-bar .cfb-hint{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.compare-float-bar .cfb-clear{background:none;border:1px solid var(--line);padding:6px 12px;border-radius:6px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-body);white-space:nowrap;transition:all .15s}
+.compare-float-bar .cfb-clear:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Watchlist Badge ── */
+.wl-badge{background:var(--accent);color:#fff;font-size:9px;font-weight:800;border-radius:50%;min-width:16px;height:16px;display:none;align-items:center;justify-content:center;margin-left:2px;padding:0 4px;line-height:1;vertical-align:middle}
+
+/* ── Explain Block (undervalued) ── */
+.explain-block{margin-top:8px;padding:10px 12px;background:var(--accent-soft);border-radius:8px;line-height:1.7;font-size:12px;color:var(--ink-light)}
+.explain-block .source{color:var(--muted);font-size:11px}
+
+/* ── Next Action Section ── */
+.next-action{border-style:dashed;border-color:var(--accent-light);background:var(--accent-soft)}
+.next-action .section-title{color:var(--accent)}
+.next-action .popular-item{background:var(--paper)}

@@ -36,6 +36,7 @@ function renderTabs(sidoOrder) {
       renderSubTabs();
       renderSections();
       history.replaceState(null, "", "#" + sido);
+      APTWatchlist.track("tab_switch", { sido: sido, page: "regional" });
     });
     tabsEl.appendChild(btn);
   });
@@ -69,6 +70,7 @@ function renderSubTabs() {
     activeDistrict = select.value || null;
     renderSections();
     history.replaceState(null, "", "#" + activeSido + (activeDistrict ? "/" + activeDistrict : ""));
+    APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "regional" });
   });
 
   subtabsEl.appendChild(select);
@@ -1090,9 +1092,27 @@ function renderSections() {
     empty.className = "no-data";
     empty.style.textAlign = "center";
     empty.style.padding = "40px 0";
-    empty.textContent = regionName + "의 시세 데이터가 아직 없습니다.";
+    empty.textContent = regionName + "\uC758 \uC2DC\uC138 \uB370\uC774\uD130\uAC00 \uC544\uC9C1 \uC5C6\uC2B5\uB2C8\uB2E4.";
     gridEl.appendChild(empty);
   }
+
+  // "다음 행동" 섹션
+  var distParam = activeDistrict ? "/" + activeDistrict : "";
+  var nextAction = document.createElement("div");
+  nextAction.className = "section next-action";
+  nextAction.innerHTML = '<h2 class="section-title">\uB354 \uC54C\uC544\uBCF4\uAE30</h2>'
+    + '<div class="popular-list">'
+    + '<a class="popular-item" href="index.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'main\'})">'
+    + '<span class="popular-name">\uC624\uB298\uC758 TOP3</span>'
+    + '<span class="popular-meta">\uC0C1\uC2B9 \u00B7 \uAC70\uB798 \u00B7 \uD68C\uBCF5 \uB7AD\uD0B9</span></a>'
+    + '<a class="popular-item" href="undervalued.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'undervalued\'})">'
+    + '<span class="popular-name">\uC800\uD3C9\uAC00 TOP3</span>'
+    + '<span class="popular-meta">\uC778\uADFC \uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00 \uBD84\uC11D</span></a>'
+    + '<a class="popular-item" href="jeonse.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'jeonse\'})">'
+    + '<span class="popular-name">\uC804\uC138 \uC2DC\uC138</span>'
+    + '<span class="popular-meta">\uC804\uC138\uAC00\uC728 \u00B7 \uAC2D\uD22C\uC790 \uBD84\uC11D</span></a>'
+    + '</div>';
+  gridEl.appendChild(nextAction);
 }
 
 /* ── 초기화 ── */

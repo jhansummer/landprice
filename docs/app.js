@@ -44,6 +44,7 @@ function renderTabs(sidoOrder) {
       renderSubTabs();
       renderSections();
       history.replaceState(null, "", "#" + sido);
+      APTWatchlist.track("tab_switch", { sido: sido, page: "main" });
     });
     tabsEl.appendChild(btn);
   });
@@ -127,15 +128,55 @@ function renderRankedItem(r, idx) {
   diffEl.className = "rank-diff";
   diffEl.textContent = fmt(r.prev_price) + " \u2192 " + fmt(r.latest_price) + "\uB9CC";
   changeEl.appendChild(diffEl);
+  // CTA 버튼 그룹
+  var ctaGroup = document.createElement("div");
+  ctaGroup.className = "cta-group";
+
   var detailBtn = document.createElement("button");
   detailBtn.className = "detail-btn";
-  detailBtn.textContent = "\uC790\uC138\uD788";
-  detailBtn.style.marginTop = "6px";
+  detailBtn.textContent = "\uC0C1\uC138";
   detailBtn.addEventListener("click", function (e) {
     e.stopPropagation();
     showDetail(r);
+    APTWatchlist.track("view_detail", { apt_name: r.apt_name, page: "main" });
   });
-  changeEl.appendChild(detailBtn);
+  ctaGroup.appendChild(detailBtn);
+
+  if (r.id) {
+    var cmpBtn = document.createElement("button");
+    cmpBtn.className = "detail-btn";
+    cmpBtn.textContent = APTWatchlist.hasCompare(r.id) ? "\uCD94\uAC00\uB428" : "\uBE44\uAD50\uCD94\uAC00";
+    if (APTWatchlist.hasCompare(r.id)) { cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+    cmpBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var added = APTWatchlist.addCompare({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name });
+      if (added) { cmpBtn.textContent = "\uCD94\uAC00\uB428"; cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+      APTWatchlist.track("add_to_compare", { apt_name: r.apt_name, page: "main" });
+    });
+    ctaGroup.appendChild(cmpBtn);
+
+    var watchBtn = document.createElement("button");
+    watchBtn.className = "detail-btn";
+    var isW = APTWatchlist.has(r.id);
+    watchBtn.textContent = isW ? "\uAD00\uC2EC\uD574\uC81C" : "\uAD00\uC2EC";
+    if (isW) { watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)"; }
+    watchBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (APTWatchlist.has(r.id)) {
+        APTWatchlist.remove(r.id);
+        watchBtn.textContent = "\uAD00\uC2EC";
+        watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
+      } else {
+        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.latest_price, pct: r.pct });
+        watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C";
+        watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
+      }
+      APTWatchlist.track("add_to_watchlist", { apt_name: r.apt_name, page: "main" });
+    });
+    ctaGroup.appendChild(watchBtn);
+  }
+
+  changeEl.appendChild(ctaGroup);
   top.appendChild(changeEl);
 
   content.appendChild(top);
@@ -233,6 +274,10 @@ function renderSubTabs() {
     activeDistrict = select.value || null;
     activeDong = null;
     renderSections();
+    var hash = activeSido;
+    if (activeDistrict) hash += "/" + activeDistrict;
+    history.replaceState(null, "", "#" + hash);
+    APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "main" });
   });
 
   subtabsEl.appendChild(select);
@@ -416,9 +461,31 @@ function renderSections() {
   if (data.section3) {
     gridEl.appendChild(renderSection(data.section3));
   }
+
+  // "다음 행동" 섹션
+  var distParam = activeDistrict ? "/" + activeDistrict : "";
+  var nextAction = document.createElement("div");
+  nextAction.className = "section next-action";
+  nextAction.innerHTML = '<h2 class="section-title">\uB354 \uC54C\uC544\uBCF4\uAE30</h2>'
+    + '<div class="popular-list">'
+    + '<a class="popular-item" href="undervalued.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'undervalued\'})">'
+    + '<span class="popular-name">\uC800\uD3C9\uAC00 TOP3</span>'
+    + '<span class="popular-meta">' + activeSido + ' \uC800\uD3C9\uAC00 \uC544\uD30C\uD2B8 \uBD84\uC11D</span></a>'
+    + '<a class="popular-item" href="regional.html#' + activeSido + distParam + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'regional\'})">'
+    + '<span class="popular-name">\uC9C0\uC5ED \uC2DC\uC138</span>'
+    + '<span class="popular-meta">\uD788\uD2B8\uB9F5 \u00B7 \uCD94\uC774 \u00B7 \uB3D9\uBCC4 \uBE44\uAD50</span></a>'
+    + '<a class="popular-item" href="jeonse.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'jeonse\'})">'
+    + '<span class="popular-name">\uC804\uC138 \uC2DC\uC138</span>'
+    + '<span class="popular-meta">\uC804\uC138\uAC00\uC728 \u00B7 \uAC2D\uD22C\uC790 \uBD84\uC11D</span></a>'
+    + '<a class="popular-item" href="search.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'search\'})">'
+    + '<span class="popular-name">\uB2E8\uC9C0 \uAC80\uC0C9</span>'
+    + '<span class="popular-meta">\uB2E8\uC9C0\uBA85\uC73C\uB85C \uC2E4\uAC70\uB798 \uC870\uD68C</span></a>'
+    + '</div>';
+  gridEl.appendChild(nextAction);
 }
 
 function showDetail(r) {
+  APTWatchlist.track("view_detail", { apt_name: r.apt_name, sigungu: r.sigungu, area_m2: r.area_m2, page: "main" });
   // 기존 모달 제거
   var old = document.getElementById("detail-modal");
   if (old) old.remove();
@@ -558,7 +625,12 @@ async function init() {
 
     var sidoOrder = globalData.sido_order || [];
     var hash = decodeURIComponent(location.hash.replace("#", ""));
-    activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0] || null;
+    var parts = hash.split("/");
+    activeSido = sidoOrder.indexOf(parts[0]) >= 0 ? parts[0] : sidoOrder[0] || null;
+    if (parts[1] && activeSido && globalData.sidos[activeSido]) {
+      var dOrder = globalData.sidos[activeSido].district_order || [];
+      if (dOrder.indexOf(parts[1]) >= 0) activeDistrict = parts[1];
+    }
 
     renderTabs(sidoOrder);
     renderSubTabs();

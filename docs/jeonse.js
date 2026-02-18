@@ -36,6 +36,7 @@ function renderTabs(sidoOrder) {
       renderSubTabs();
       renderSections();
       history.replaceState(null, "", "#" + sido);
+      APTWatchlist.track("tab_switch", { sido: sido, page: "jeonse" });
     });
     tabsEl.appendChild(btn);
   });
@@ -67,6 +68,7 @@ function renderSubTabs() {
   select.addEventListener("change", function() {
     activeDistrict = select.value || null;
     renderSections();
+    APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "jeonse" });
   });
 
   subtabsEl.appendChild(select);
@@ -418,6 +420,23 @@ function renderSections() {
     var dongSec = renderJeonseDongStats(data.jeonse_dong_stats);
     if (dongSec) gridEl.appendChild(dongSec);
   }
+
+  // "다음 행동" 섹션
+  var nextAction = document.createElement("div");
+  nextAction.className = "section next-action";
+  nextAction.innerHTML = '<h2 class="section-title">\ub354 \uc54c\uc544\ubcf4\uae30</h2>'
+    + '<div class="popular-list">'
+    + '<a class="popular-item" href="index.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'jeonse\',target:\'main\'})">'
+    + '<span class="popular-name">\uc624\ub298\uc758 TOP3</span>'
+    + '<span class="popular-meta">\uc0c1\uc2b9 \u00b7 \uac70\ub798 \u00b7 \ud68c\ubcf5 \ub7ad\ud0b9</span></a>'
+    + '<a class="popular-item" href="undervalued.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'jeonse\',target:\'undervalued\'})">'
+    + '<span class="popular-name">\uc800\ud3c9\uac00 TOP3</span>'
+    + '<span class="popular-meta">\uc778\uadfc \ub2e8\uc9c0 \ub300\ube44 \uc800\ud3c9\uac00 \ubd84\uc11d</span></a>'
+    + '<a class="popular-item" href="regional.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'jeonse\',target:\'regional\'})">'
+    + '<span class="popular-name">\uc9c0\uc5ed\ubcc4 \uc2dc\uc138</span>'
+    + '<span class="popular-meta">\ud788\ud2b8\ub9f5 \u00b7 \uad6c\ubcc4 \ube44\uad50 \u00b7 \ud68c\ubcf5 \ud604\ud669</span></a>'
+    + '</div>';
+  gridEl.appendChild(nextAction);
 }
 
 /* ── 초기화 ── */

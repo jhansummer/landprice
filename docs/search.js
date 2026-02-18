@@ -8,7 +8,7 @@ var subtabsEl = document.getElementById("subtabs");
 
 var filtersEl = document.getElementById("filters");
 
-var compareList = []; // A vs B 비교 목록 [{id, apt_name, area_m2, sigungu, dong_name}]
+// compareList now uses APTWatchlist module
 
 var globalData = null;
 var sidoCache = {};
@@ -205,15 +205,41 @@ function renderGroup(group) {
       row.style.cursor = "pointer";
       row.addEventListener("click", function () { showDetail(r); });
 
+      var ctaWrap = document.createElement("div");
+      ctaWrap.className = "cta-group";
+      ctaWrap.style.marginTop = "4px";
+
       var cmpBtn = document.createElement("button");
       cmpBtn.className = "detail-btn";
-      cmpBtn.textContent = "비교";
-      cmpBtn.style.cssText = "margin-left:8px;font-size:11px;padding:3px 8px";
+      cmpBtn.textContent = APTWatchlist.hasCompare(r.id) ? "\uCD94\uAC00\uB428" : "\uBE44\uAD50";
+      if (APTWatchlist.hasCompare(r.id)) { cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
       cmpBtn.addEventListener("click", function(e) {
         e.stopPropagation();
-        addToCompare({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name });
+        var added = APTWatchlist.addCompare({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name });
+        if (added) { cmpBtn.textContent = "\uCD94\uAC00\uB428"; cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+        APTWatchlist.track("add_to_compare", { apt_name: r.apt_name, page: "search" });
       });
-      changeEl.appendChild(cmpBtn);
+      ctaWrap.appendChild(cmpBtn);
+
+      var watchBtn = document.createElement("button");
+      watchBtn.className = "detail-btn";
+      var isW = APTWatchlist.has(r.id);
+      watchBtn.textContent = isW ? "\uAD00\uC2EC\uD574\uC81C" : "\uAD00\uC2EC";
+      if (isW) { watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)"; }
+      watchBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        if (APTWatchlist.has(r.id)) {
+          APTWatchlist.remove(r.id);
+          watchBtn.textContent = "\uAD00\uC2EC"; watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
+        } else {
+          APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu || group.sigungu, dong_name: r.dong_name || group.dong_name, latest_price: r.latest_price, pct: r.pct });
+          watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C"; watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
+        }
+        APTWatchlist.track("add_to_watchlist", { apt_name: r.apt_name, page: "search" });
+      });
+      ctaWrap.appendChild(watchBtn);
+
+      changeEl.appendChild(ctaWrap);
     }
 
     wrap.appendChild(row);
@@ -223,6 +249,7 @@ function renderGroup(group) {
 }
 
 function showDetail(r) {
+  APTWatchlist.track("view_detail", { apt_name: r.apt_name, sigungu: r.sigungu, area_m2: r.area_m2, page: "search" });
   var old = document.getElementById("detail-modal");
   if (old) old.remove();
 
@@ -305,159 +332,8 @@ function showDetail(r) {
     });
 }
 
-/* ── A vs B 비교 ── */
-function renderCompareBar() {
-  var old = document.getElementById("compare-bar");
-  if (old) old.remove();
-  if (!compareList.length) return;
-
-  var bar = document.createElement("div");
-  bar.id = "compare-bar";
-  bar.style.cssText = "position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:2px solid var(--accent);padding:12px 24px;display:flex;align-items:center;gap:12px;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,0.1)";
-
-  var label = document.createElement("span");
-  label.style.cssText = "font-size:13px;font-weight:700;color:var(--ink)";
-  label.textContent = "비교 (" + compareList.length + "/2)";
-  bar.appendChild(label);
-
-  compareList.forEach(function(item, idx) {
-    var chip = document.createElement("span");
-    chip.style.cssText = "background:var(--accent-soft);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px";
-    chip.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
-    var removeBtn = document.createElement("span");
-    removeBtn.textContent = "\u2715";
-    removeBtn.style.cssText = "cursor:pointer;opacity:0.6";
-    removeBtn.addEventListener("click", function() {
-      compareList.splice(idx, 1);
-      renderCompareBar();
-    });
-    chip.appendChild(removeBtn);
-    bar.appendChild(chip);
-  });
-
-  if (compareList.length === 2) {
-    var goBtn = document.createElement("button");
-    goBtn.style.cssText = "margin-left:auto;background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer";
-    goBtn.textContent = "비교 차트 보기";
-    goBtn.addEventListener("click", showCompareModal);
-    bar.appendChild(goBtn);
-  } else {
-    var hint = document.createElement("span");
-    hint.style.cssText = "margin-left:auto;font-size:12px;color:var(--muted)";
-    hint.textContent = "1개 더 선택하세요";
-    bar.appendChild(hint);
-  }
-
-  var clearBtn = document.createElement("button");
-  clearBtn.style.cssText = "background:none;border:1px solid var(--line);padding:6px 12px;border-radius:6px;font-size:12px;color:var(--muted);cursor:pointer";
-  clearBtn.textContent = "초기화";
-  clearBtn.addEventListener("click", function() {
-    compareList = [];
-    renderCompareBar();
-  });
-  bar.appendChild(clearBtn);
-
-  document.body.appendChild(bar);
-}
-
-function addToCompare(item) {
-  if (compareList.length >= 2) return;
-  var exists = compareList.some(function(c) { return c.id === item.id; });
-  if (exists) return;
-  compareList.push(item);
-  renderCompareBar();
-}
-
-function showCompareModal() {
-  if (compareList.length !== 2) return;
-
-  var old = document.getElementById("detail-modal");
-  if (old) old.remove();
-
-  var overlay = document.createElement("div");
-  overlay.id = "detail-modal";
-  overlay.className = "modal-overlay";
-  overlay.addEventListener("click", function(e) { if (e.target === overlay) overlay.remove(); });
-
-  var modal = document.createElement("div");
-  modal.className = "modal-content";
-
-  var closeBtn = document.createElement("button");
-  closeBtn.className = "modal-close";
-  closeBtn.textContent = "\u2715";
-  closeBtn.addEventListener("click", function() { overlay.remove(); });
-  modal.appendChild(closeBtn);
-
-  var title = document.createElement("h2");
-  title.className = "modal-title";
-  title.textContent = "A vs B 비교";
-  modal.appendChild(title);
-
-  var sub = document.createElement("p");
-  sub.className = "modal-sub";
-  sub.textContent = compareList[0].apt_name + " vs " + compareList[1].apt_name;
-  modal.appendChild(sub);
-
-  var body = document.createElement("div");
-  body.className = "modal-body";
-  body.textContent = "로딩 중...";
-  modal.appendChild(body);
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
-  var colors = ["#2563eb", "#ef4444"];
-  Promise.all(compareList.map(function(c) {
-    return fetch("data/apt_trade/by_apt/" + c.id + ".json")
-      .then(function(res) { return res.ok ? res.json() : []; })
-      .then(function(history) { return { name: c.apt_name, history: history, region: c.sigungu + " " + c.dong_name }; });
-  }))
-  .then(function(seriesList) {
-    body.innerHTML = "";
-
-    // 차트
-    var allHist = seriesList.filter(function(s) { return s.history.length > 1; });
-    if (allHist.length) {
-      var chartDiv = document.createElement("div");
-      chartDiv.className = "scatter-chart modal-chart";
-      var canvas = document.createElement("canvas");
-      chartDiv.appendChild(canvas);
-      body.appendChild(chartDiv);
-      requestAnimationFrame(function() { drawMultiScatter(canvas, allHist); });
-    }
-
-    // 범례
-    var legend = document.createElement("div");
-    legend.className = "rank-detail";
-    legend.style.marginBottom = "12px";
-    seriesList.forEach(function(s, idx) {
-      var wrap = document.createElement("span");
-      wrap.style.cssText = "display:inline-flex;align-items:center;gap:6px;margin-right:14px";
-      var dot = document.createElement("span");
-      dot.style.cssText = "display:inline-block;width:10px;height:10px;border-radius:50%;background:" + colors[idx];
-      wrap.appendChild(dot);
-      var lbl = document.createElement("span");
-      lbl.textContent = s.name + " \u00B7 " + s.region;
-      wrap.appendChild(lbl);
-      legend.appendChild(wrap);
-    });
-    body.appendChild(legend);
-
-    // 최신 가격 비교
-    seriesList.forEach(function(s, idx) {
-      if (!s.history.length) return;
-      var last = s.history[s.history.length - 1];
-      var p = document.createElement("p");
-      p.style.cssText = "font-size:14px;margin:4px 0";
-      p.innerHTML = '<span style="color:' + colors[idx] + ';font-weight:700">' + s.name + '</span>: '
-        + fmt(last[1]) + '만 (' + last[0] + ')';
-      body.appendChild(p);
-    });
-  })
-  .catch(function() {
-    body.textContent = "이력 데이터를 불러올 수 없습니다.";
-  });
-}
+/* ── A vs B 비교 (APTWatchlist 모듈 사용) ── */
+/* renderCompareBar, addToCompare, showCompareModal은 watchlist.js에서 공통 처리 */
 
 function renderTabs() {
   tabsEl.innerHTML = "";
@@ -486,6 +362,7 @@ function renderTabs() {
         resultsEl.innerHTML = "";
         updateURL();
       });
+      APTWatchlist.track("tab_switch", { sido: sido, page: "search" });
     });
     tabsEl.appendChild(btn);
   });
@@ -714,6 +591,7 @@ function doSearch(query) {
   });
   resultsEl.appendChild(sec);
   updateURL();
+  APTWatchlist.track("search_execute", { query: q, sido: activeSido, result_count: groups.length });
 }
 
 searchInput.addEventListener("keydown", function (e) {
