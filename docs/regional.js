@@ -356,27 +356,30 @@ function renderHeatmapGrid(items, title, subtitle) {
 
         // 막대
         var bar = document.createElement("div");
-        bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:4px;display:flex;align-items:center;z-index:1;transition:width .3s;overflow:hidden";
+        bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:4px;z-index:1;transition:width .3s";
+        var bw = Math.max(barWidth, 2);
         if (vp >= 0) {
           bar.style.left = "50%";
-          bar.style.width = Math.max(barWidth, 2) + "%";
+          bar.style.width = bw + "%";
           bar.style.background = "linear-gradient(90deg,#2563eb,#60a5fa)";
-          bar.style.justifyContent = "flex-end";
-          bar.style.paddingRight = "4px";
         } else {
           bar.style.right = "50%";
-          bar.style.width = Math.max(barWidth, 2) + "%";
+          bar.style.width = bw + "%";
           bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
-          bar.style.justifyContent = "flex-start";
-          bar.style.paddingLeft = "4px";
         }
+        barWrap.appendChild(bar);
 
+        // 수치 라벨 (바 바깥)
         var countEl = document.createElement("span");
         countEl.className = "vol-bar-count";
-        countEl.style.fontSize = "10px";
+        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3";
         countEl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
-        bar.appendChild(countEl);
-        barWrap.appendChild(bar);
+        if (vp >= 0) {
+          countEl.style.left = (50 + bw + 1) + "%";
+        } else {
+          countEl.style.right = (50 + bw + 1) + "%";
+        }
+        barWrap.appendChild(countEl);
         row.appendChild(barWrap);
       } else {
         // 일반 막대 (거래량순, 가격순)

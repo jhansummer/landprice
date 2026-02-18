@@ -580,7 +580,7 @@ function showDetail(r) {
           wrap.appendChild(dot);
 
           var label = document.createElement("span");
-          var priceText = (s.price != null) ? (" (현재 " + fmt(Math.round(s.price)) + "만)") : "";
+          var priceText = (s.price != null) ? (" (현재 " + (s.price / 10000).toFixed(1) + "억)") : "";
           var regionText = s.region ? (" \u00B7 " + s.region) : "";
           label.textContent = s.name + regionText + priceText;
           wrap.appendChild(label);
@@ -594,7 +594,7 @@ function showDetail(r) {
       var table = document.createElement("table");
       table.className = "modal-table";
       var thead = document.createElement("thead");
-      thead.innerHTML = "<tr><th>\uB0A0\uC9DC</th><th>\uAC00\uACA9(\uB9CC)</th></tr>";
+      thead.innerHTML = "<tr><th>\uB0A0\uC9DC</th><th>\uAC00\uACA9(\uC5B5)</th></tr>";
       table.appendChild(thead);
       var tbody = document.createElement("tbody");
       for (var i = baseHistory.length - 1; i >= 0; i--) {
@@ -602,7 +602,7 @@ function showDetail(r) {
         var tdDate = document.createElement("td");
         tdDate.textContent = baseHistory[i][0];
         var tdPrice = document.createElement("td");
-        tdPrice.textContent = fmt(baseHistory[i][1]);
+        tdPrice.textContent = (baseHistory[i][1] / 10000).toFixed(1) + "\uC5B5";
         tr.appendChild(tdDate);
         tr.appendChild(tdPrice);
         tbody.appendChild(tr);
