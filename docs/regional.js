@@ -304,18 +304,22 @@ function renderHeatmapGrid(items, title, subtitle) {
     nameSpan.className = "vol-bar-name";
     nameSpan.textContent = item.name;
     label.appendChild(nameSpan);
-    var priceSpan = document.createElement("span");
-    priceSpan.className = "vol-bar-price";
-    priceSpan.textContent = Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2";
-    label.appendChild(priceSpan);
+    var metaLine = document.createElement("span");
+    metaLine.className = "vol-bar-price";
+    var metaText = Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2";
     if (item.recovery) {
       var st = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
+      metaText += " ";
+      metaLine.textContent = metaText;
       var badge = document.createElement("span");
       badge.className = "recovery-badge " + item.recovery.status;
-      badge.style.cssText = "font-size:9px;padding:1px 5px;margin-left:4px";
+      badge.style.cssText = "font-size:9px;padding:1px 5px";
       badge.textContent = st.label;
-      label.appendChild(badge);
+      metaLine.appendChild(badge);
+    } else {
+      metaLine.textContent = metaText;
     }
+    label.appendChild(metaLine);
     row.appendChild(label);
 
     list.appendChild(row);
