@@ -263,69 +263,130 @@ function renderHeatmapGrid(items, title, subtitle) {
 
   var sec = document.createElement("div");
   sec.className = "section";
+
+  var topBar = document.createElement("div");
+  topBar.style.cssText = "display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px";
   var h2 = document.createElement("h2");
   h2.className = "section-title";
+  h2.style.margin = "0";
   h2.textContent = title;
-  sec.appendChild(h2);
-  var sub = document.createElement("p");
-  sub.className = "section-sub";
-  sub.textContent = subtitle;
-  sec.appendChild(sub);
+  topBar.appendChild(h2);
 
-  var sorted = items.slice().sort(function(a, b) { return b.txn_count - a.txn_count; });
-  var maxVol = sorted[0].txn_count;
+  var sortWrap = document.createElement("div");
+  sortWrap.className = "sort-btns";
+
   var prices = items.map(function(d) { return d.avg_per_m2; });
   var minP = Math.min.apply(null, prices);
   var maxP = Math.max.apply(null, prices);
 
-  var list = document.createElement("div");
-  list.className = "vol-bar-list";
+  var listContainer = document.createElement("div");
 
-  sorted.forEach(function(item) {
-    var row = document.createElement("div");
-    row.className = "vol-bar-row";
-
-    var barWrap = document.createElement("div");
-    barWrap.className = "vol-bar-wrap";
-    var bar = document.createElement("div");
-    bar.className = "vol-bar";
-    bar.style.width = (item.txn_count / maxVol * 100) + "%";
-    bar.style.background = priceColor(item.avg_per_m2, minP, maxP);
-    var countEl = document.createElement("span");
-    countEl.className = "vol-bar-count";
-    countEl.textContent = item.txn_count + "\uAC74";
-    bar.appendChild(countEl);
-    barWrap.appendChild(bar);
-    row.appendChild(barWrap);
-
-    var label = document.createElement("div");
-    label.className = "vol-bar-label";
-    var nameSpan = document.createElement("span");
-    nameSpan.className = "vol-bar-name";
-    nameSpan.textContent = item.name;
-    label.appendChild(nameSpan);
-    var metaLine = document.createElement("span");
-    metaLine.className = "vol-bar-price";
-    var metaText = Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2";
-    if (item.recovery) {
-      var st = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
-      metaText += " ";
-      metaLine.textContent = metaText;
-      var badge = document.createElement("span");
-      badge.className = "recovery-badge " + item.recovery.status;
-      badge.style.cssText = "font-size:9px;padding:1px 5px";
-      badge.textContent = st.label;
-      metaLine.appendChild(badge);
-    } else {
-      metaLine.textContent = metaText;
+  function renderList(sortBy) {
+    var sorted = items.slice();
+    if (sortBy === "volume") {
+      sorted.sort(function(a, b) { return b.txn_count - a.txn_count; });
+    } else if (sortBy === "price") {
+      sorted.sort(function(a, b) { return b.avg_per_m2 - a.avg_per_m2; });
+    } else if (sortBy === "recovery") {
+      sorted.sort(function(a, b) {
+        var va = a.recovery ? a.recovery.vs_peak : -999;
+        var vb = b.recovery ? b.recovery.vs_peak : -999;
+        return vb - va;
+      });
     }
-    label.appendChild(metaLine);
-    row.appendChild(label);
 
-    list.appendChild(row);
+    listContainer.innerHTML = "";
+    var list = document.createElement("div");
+    list.className = "vol-bar-list";
+
+    // 막대 기준값은 정렬 기준에 따라 결정
+    var maxBarVal;
+    if (sortBy === "price") {
+      maxBarVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
+    } else if (sortBy === "recovery") {
+      var peaks = sorted.map(function(d) { return d.recovery ? Math.abs(d.recovery.vs_peak) : 0; });
+      maxBarVal = Math.max.apply(null, peaks) || 1;
+    } else {
+      maxBarVal = Math.max.apply(null, sorted.map(function(d) { return d.txn_count; }));
+    }
+
+    sorted.forEach(function(item) {
+      var row = document.createElement("div");
+      row.className = "vol-bar-row";
+
+      var barWrap = document.createElement("div");
+      barWrap.className = "vol-bar-wrap";
+      var bar = document.createElement("div");
+      bar.className = "vol-bar";
+
+      var barVal, barText;
+      if (sortBy === "price") {
+        barVal = item.avg_per_m2 / maxBarVal * 100;
+        barText = Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC";
+      } else if (sortBy === "recovery") {
+        var vp = item.recovery ? item.recovery.vs_peak : 0;
+        barVal = Math.abs(vp) / maxBarVal * 100;
+        barText = (vp >= 0 ? "+" : "") + vp + "%";
+      } else {
+        barVal = item.txn_count / maxBarVal * 100;
+        barText = item.txn_count + "\uAC74";
+      }
+      bar.style.width = Math.max(barVal, 3) + "%";
+      bar.style.background = priceColor(item.avg_per_m2, minP, maxP);
+
+      var countEl = document.createElement("span");
+      countEl.className = "vol-bar-count";
+      countEl.textContent = barText;
+      bar.appendChild(countEl);
+      barWrap.appendChild(bar);
+      row.appendChild(barWrap);
+
+      var label = document.createElement("div");
+      label.className = "vol-bar-label";
+      var nameSpan = document.createElement("span");
+      nameSpan.className = "vol-bar-name";
+      nameSpan.textContent = item.name;
+      label.appendChild(nameSpan);
+
+      var metaLine = document.createElement("span");
+      metaLine.className = "vol-bar-price";
+      var metaParts = [];
+      if (sortBy !== "price") metaParts.push(Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2");
+      if (sortBy !== "volume") metaParts.push(item.txn_count + "\uAC74");
+      metaLine.textContent = metaParts.join(" \u00B7 ");
+      if (item.recovery) {
+        var st = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
+        metaLine.textContent += " ";
+        var badge = document.createElement("span");
+        badge.className = "recovery-badge " + item.recovery.status;
+        badge.style.cssText = "font-size:9px;padding:1px 5px";
+        badge.textContent = st.label;
+        metaLine.appendChild(badge);
+      }
+      label.appendChild(metaLine);
+      row.appendChild(label);
+
+      list.appendChild(row);
+    });
+    listContainer.appendChild(list);
+  }
+
+  [["volume", "\uAC70\uB798\uB7C9\uC21C"], ["price", "\uAC00\uACA9\uC21C"], ["recovery", "\uACE0\uC810\uB300\uBE44\uC21C"]].forEach(function(pair) {
+    var btn = document.createElement("button");
+    btn.className = "sort-btn" + (pair[0] === "volume" ? " active" : "");
+    btn.textContent = pair[1];
+    btn.addEventListener("click", function() {
+      sortWrap.querySelectorAll(".sort-btn").forEach(function(b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      renderList(pair[0]);
+    });
+    sortWrap.appendChild(btn);
   });
 
-  sec.appendChild(list);
+  topBar.appendChild(sortWrap);
+  sec.appendChild(topBar);
+  sec.appendChild(listContainer);
+  renderList("volume");
   return sec;
 }
 
