@@ -257,87 +257,7 @@ function buildDistrictStats(sidoData) {
   return stats;
 }
 
-/* ── Squarified 트리맵 레이아웃 ── */
-function squarify(items, rect, GAP) {
-  var result = [];
-  if (!items.length) return result;
-  var total = 0;
-  for (var i = 0; i < items.length; i++) total += items[i].value;
-  if (total <= 0 || rect.w <= 0 || rect.h <= 0) return result;
-
-  function worst(row, sideLen) {
-    if (!row.length) return Infinity;
-    var s = 0;
-    for (var i = 0; i < row.length; i++) s += row[i].value;
-    var rMax = row[0].value, rMin = row[row.length - 1].value;
-    var area = (s / total) * rect.w * rect.h;
-    var side = area / sideLen;
-    var a1 = (sideLen * sideLen * rMax / total * rect.w * rect.h) / (side * side);
-    var a2 = (side * side) / (sideLen * sideLen * rMin / total * rect.w * rect.h);
-    return Math.max(a1, a2);
-  }
-
-  // 실제 squarify 구현
-  function layoutRow(row, x, y, w, h) {
-    var rowTotal = 0;
-    for (var i = 0; i < row.length; i++) rowTotal += row[i].value;
-    var rowRatio = rowTotal / total;
-
-    if (w >= h) {
-      var rowW = w * rowRatio;
-      var cy = y;
-      for (var i = 0; i < row.length; i++) {
-        var itemH = h * (row[i].value / rowTotal);
-        result.push({
-          x: x + GAP / 2, y: cy + GAP / 2,
-          w: rowW - GAP, h: itemH - GAP,
-          item: row[i]
-        });
-        cy += itemH;
-      }
-      return { x: x + rowW, y: y, w: w - rowW, h: h };
-    } else {
-      var rowH = h * rowRatio;
-      var cx = x;
-      for (var i = 0; i < row.length; i++) {
-        var itemW = w * (row[i].value / rowTotal);
-        result.push({
-          x: cx + GAP / 2, y: y + GAP / 2,
-          w: itemW - GAP, h: rowH - GAP,
-          item: row[i]
-        });
-        cx += itemW;
-      }
-      return { x: x, y: y + rowH, w: w, h: h - rowH };
-    }
-  }
-
-  var remaining = items.slice();
-  var cx = rect.x, cy = rect.y, cw = rect.w, ch = rect.h;
-
-  while (remaining.length > 0) {
-    var sideLen = Math.min(cw, ch);
-    var row = [remaining[0]];
-    remaining = remaining.slice(1);
-
-    while (remaining.length > 0) {
-      var newRow = row.concat([remaining[0]]);
-      if (worst(newRow, sideLen) <= worst(row, sideLen)) {
-        row = newRow;
-        remaining = remaining.slice(1);
-      } else {
-        break;
-      }
-    }
-
-    var next = layoutRow(row, cx, cy, cw, ch);
-    cx = next.x; cy = next.y; cw = next.w; ch = next.h;
-  }
-
-  return result;
-}
-
-/* ── 트리맵 시세 현황 ── */
+/* ── 거래량 막대 그래프 (구/동별 시세 현황) ── */
 function renderHeatmapGrid(items, title, subtitle) {
   if (!items || !items.length) return null;
 
@@ -352,131 +272,56 @@ function renderHeatmapGrid(items, title, subtitle) {
   sub.textContent = subtitle;
   sec.appendChild(sub);
 
-  var legend = document.createElement("div");
-  legend.className = "heatmap-legend";
-  legend.innerHTML = '<span class="heatmap-legend-label">\uC800\uAC00</span>'
-    + '<span class="heatmap-gradient"></span>'
-    + '<span class="heatmap-legend-label">\uACE0\uAC00</span>'
-    + '<span style="margin-left:12px;font-size:10px;color:var(--muted)">\uBA74\uC801 = \uAC70\uB798\uB7C9</span>';
-  sec.appendChild(legend);
-
+  var sorted = items.slice().sort(function(a, b) { return b.txn_count - a.txn_count; });
+  var maxVol = sorted[0].txn_count;
   var prices = items.map(function(d) { return d.avg_per_m2; });
   var minP = Math.min.apply(null, prices);
   var maxP = Math.max.apply(null, prices);
 
-  var sorted = items.slice().sort(function(a, b) { return b.txn_count - a.txn_count; });
-  var tmItems = sorted.map(function(d) { return { value: Math.max(d.txn_count, 1), data: d }; });
+  var list = document.createElement("div");
+  list.className = "vol-bar-list";
 
-  var container = document.createElement("div");
-  container.className = "treemap-container";
+  sorted.forEach(function(item) {
+    var row = document.createElement("div");
+    row.className = "vol-bar-row";
 
-  var infoPanel = document.createElement("div");
-  infoPanel.className = "heatmap-info";
-  infoPanel.style.display = "none";
+    var barWrap = document.createElement("div");
+    barWrap.className = "vol-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "vol-bar";
+    bar.style.width = (item.txn_count / maxVol * 100) + "%";
+    bar.style.background = priceColor(item.avg_per_m2, minP, maxP);
+    var countEl = document.createElement("span");
+    countEl.className = "vol-bar-count";
+    countEl.textContent = item.txn_count + "\uAC74";
+    bar.appendChild(countEl);
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
 
-  requestAnimationFrame(function() {
-    var cw = container.offsetWidth || 360;
-    var ch = container.offsetHeight || 400;
-    var GAP = 3;
-    var rects = squarify(tmItems, { x: 0, y: 0, w: cw, h: ch }, GAP);
+    var label = document.createElement("div");
+    label.className = "vol-bar-label";
+    var nameSpan = document.createElement("span");
+    nameSpan.className = "vol-bar-name";
+    nameSpan.textContent = item.name;
+    label.appendChild(nameSpan);
+    var priceSpan = document.createElement("span");
+    priceSpan.className = "vol-bar-price";
+    priceSpan.textContent = Math.round(item.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2";
+    label.appendChild(priceSpan);
+    if (item.recovery) {
+      var st = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
+      var badge = document.createElement("span");
+      badge.className = "recovery-badge " + item.recovery.status;
+      badge.style.cssText = "font-size:9px;padding:1px 5px;margin-left:4px";
+      badge.textContent = st.label;
+      label.appendChild(badge);
+    }
+    row.appendChild(label);
 
-    rects.forEach(function(r) {
-      if (r.w <= 0 || r.h <= 0) return;
-      var item = r.item.data;
-      var cell = document.createElement("div");
-      cell.className = "treemap-cell";
-      cell.style.left = Math.round(r.x) + "px";
-      cell.style.top = Math.round(r.y) + "px";
-      cell.style.width = Math.round(r.w) + "px";
-      cell.style.height = Math.round(r.h) + "px";
-      cell.style.background = priceColor(item.avg_per_m2, minP, maxP);
-
-      // 셀 크기에 따라 폰트 조정
-      var isLarge = r.w >= 80 && r.h >= 65;
-      var isMedium = r.w >= 50 && r.h >= 40;
-
-      var nameEl = document.createElement("div");
-      nameEl.className = "treemap-cell-name";
-      nameEl.style.fontSize = isLarge ? "12px" : "10px";
-      nameEl.textContent = item.name;
-      cell.appendChild(nameEl);
-
-      if (isMedium) {
-        var priceEl = document.createElement("div");
-        priceEl.className = "treemap-cell-price";
-        priceEl.style.fontSize = isLarge ? "18px" : "13px";
-        priceEl.textContent = Math.round(item.avg_per_m2).toLocaleString();
-        cell.appendChild(priceEl);
-      }
-
-      if (isLarge) {
-        var volEl = document.createElement("div");
-        volEl.className = "treemap-cell-vol";
-        volEl.textContent = item.txn_count + "\uAC74";
-        cell.appendChild(volEl);
-      }
-
-      if (isLarge && item.recovery) {
-        var rec = item.recovery;
-        var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
-        var badge = document.createElement("span");
-        badge.className = "heatmap-badge " + rec.status;
-        badge.textContent = st.label;
-        cell.appendChild(badge);
-      }
-
-      cell.addEventListener("click", function() {
-        container.querySelectorAll(".treemap-cell").forEach(function(c) { c.classList.remove("treemap-cell-active"); });
-        cell.classList.add("treemap-cell-active");
-
-        var html = '<div class="heatmap-info-header">'
-          + '<span class="heatmap-info-name">' + item.name + '</span>';
-        if (item.recovery) {
-          var st2 = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
-          html += '<span class="recovery-badge ' + item.recovery.status + '">' + st2.label + '</span>';
-        }
-        html += '</div><div class="heatmap-info-stats">'
-          + '<div class="heatmap-info-stat"><span class="heatmap-info-label">m\u00B2\uB2F9 \uD3C9\uADE0</span><span class="heatmap-info-val">' + Math.round(item.avg_per_m2).toLocaleString() + '\uB9CC</span></div>'
-          + '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uAC70\uB798\uAC74\uC218</span><span class="heatmap-info-val">' + item.txn_count + '\uAC74</span></div>';
-        if (item.dong_count) {
-          html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uB3D9 \uC218</span><span class="heatmap-info-val">' + item.dong_count + '\uAC1C</span></div>';
-        }
-        if (item.recovery) {
-          var rec2 = item.recovery;
-          var vsPeak = (rec2.vs_peak >= 0 ? "+" : "") + rec2.vs_peak + "%";
-          var chg6m = (rec2.chg6m >= 0 ? "+" : "") + rec2.chg6m + "%";
-          var st3 = RECOVERY_STATUS[rec2.status] || RECOVERY_STATUS.flat;
-          html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uC804\uACE0\uC810 \uB300\uBE44</span><span class="heatmap-info-val" style="color:' + st3.textColor + '">' + vsPeak + '</span></div>'
-            + '<div class="heatmap-info-stat"><span class="heatmap-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="heatmap-info-val">' + chg6m + '</span></div>';
-        }
-        html += '</div>';
-
-        if (item.recovery && item.recovery.apt_details && item.recovery.apt_details.length) {
-          html += '<div class="apt-detail-list"><div class="apt-detail-header">\uB2E8\uC9C0\uBCC4 \uACE0\uC810 \uB300\uBE44</div>';
-          item.recovery.apt_details.forEach(function(a) {
-            var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
-            var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
-            html += '<div class="apt-detail-row">'
-              + '<span class="apt-detail-name">' + a.apt_name + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
-              + '<span class="apt-detail-val">'
-              + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
-              + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'
-              + '</span></div>';
-          });
-          html += '</div>';
-        }
-
-        infoPanel.innerHTML = html;
-        infoPanel.style.display = "block";
-        infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      });
-
-      container.appendChild(cell);
-    });
+    list.appendChild(row);
   });
 
-  sec.appendChild(container);
-  sec.appendChild(infoPanel);
+  sec.appendChild(list);
   return sec;
 }
 
