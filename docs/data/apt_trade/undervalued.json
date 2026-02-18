@@ -52955,6 +52955,7 @@
               "current_price": 178500.0,
               "recent_avg": 166722.22222222222,
               "avg_36": 124449.55555555555,
+              "trade_count": 78,
               "corr": 0.979,
               "hist_diff_pct": 7.3
             },
@@ -52967,6 +52968,7 @@
               "current_price": 168750.0,
               "recent_avg": 159305.55555555556,
               "avg_36": 117433.11006894341,
+              "trade_count": 105,
               "corr": 0.967,
               "hist_diff_pct": 7.43
             }
@@ -52999,6 +53001,7 @@
               "current_price": 170000.0,
               "recent_avg": 157825.0,
               "avg_36": 114296.7806036556,
+              "trade_count": 163,
               "corr": 0.956,
               "hist_diff_pct": 7.85
             },
@@ -53011,6 +53014,7 @@
               "current_price": 190000.0,
               "recent_avg": 179555.5555555556,
               "avg_36": 128373.73737373739,
+              "trade_count": 16,
               "corr": 0.956,
               "hist_diff_pct": 8.28
             }
@@ -53043,6 +53047,7 @@
               "current_price": 147333.33333333334,
               "recent_avg": 124944.44444444445,
               "avg_36": 94525.92592592593,
+              "trade_count": 34,
               "corr": 0.968,
               "hist_diff_pct": 5.24
             }
@@ -53084,6 +53089,7 @@
                   "current_price": 91800.0,
                   "recent_avg": 86703.67424242424,
                   "avg_36": 73851.36193282026,
+                  "trade_count": 145,
                   "corr": 0.898,
                   "hist_diff_pct": 5.01
                 },
@@ -53096,6 +53102,7 @@
                   "current_price": 72000.0,
                   "recent_avg": 70633.33333333333,
                   "avg_36": 65390.27777777778,
+                  "trade_count": 15,
                   "corr": 0.895,
                   "hist_diff_pct": 9.41
                 }
@@ -53128,6 +53135,7 @@
                   "current_price": 102300.0,
                   "recent_avg": 91383.33333333333,
                   "avg_36": 80739.81481481482,
+                  "trade_count": 29,
                   "corr": 0.947,
                   "hist_diff_pct": 8.25
                 },
@@ -53140,6 +53148,7 @@
                   "current_price": 95000.0,
                   "recent_avg": 90404.16666666667,
                   "avg_36": 78384.9537037037,
+                  "trade_count": 33,
                   "corr": 0.904,
                   "hist_diff_pct": 6.44
                 }
@@ -53172,6 +53181,7 @@
                   "current_price": 86000.0,
                   "recent_avg": 84666.66666666667,
                   "avg_36": 74431.81818181818,
+                  "trade_count": 16,
                   "corr": 0.917,
                   "hist_diff_pct": 4.67
                 },
@@ -53184,6 +53194,7 @@
                   "current_price": 98500.0,
                   "recent_avg": 94666.66666666667,
                   "avg_36": 75972.40196078432,
+                  "trade_count": 43,
                   "corr": 0.912,
                   "hist_diff_pct": 6.69
                 }
@@ -53221,6 +53232,7 @@
                   "current_price": 147333.33333333334,
                   "recent_avg": 124944.44444444445,
                   "avg_36": 94525.92592592593,
+                  "trade_count": 34,
                   "corr": 0.968,
                   "hist_diff_pct": 5.24
                 }
@@ -53253,6 +53265,7 @@
                   "current_price": 141000.0,
                   "recent_avg": 132044.44444444444,
                   "avg_36": 100458.80952380954,
+                  "trade_count": 58,
                   "corr": 0.928,
                   "hist_diff_pct": 8.51
                 },
@@ -53265,6 +53278,7 @@
                   "current_price": 156500.0,
                   "recent_avg": 145541.66666666666,
                   "avg_36": 112843.57142857143,
+                  "trade_count": 73,
                   "corr": 0.914,
                   "hist_diff_pct": 8.79
                 }
@@ -53297,6 +53311,7 @@
                   "current_price": 129500.0,
                   "recent_avg": 124375.0,
                   "avg_36": 108157.14285714286,
+                  "trade_count": 19,
                   "corr": 0.897,
                   "hist_diff_pct": 6.04
                 },
@@ -53309,6 +53324,7 @@
                   "current_price": 142000.0,
                   "recent_avg": 140450.0,
                   "avg_36": 110857.4074074074,
+                  "trade_count": 43,
                   "corr": 0.864,
                   "hist_diff_pct": 8.66
                 }
@@ -53346,6 +53362,7 @@
                   "current_price": 139500.0,
                   "recent_avg": 136750.0,
                   "avg_36": 107177.94117647059,
+                  "trade_count": 15,
                   "corr": 0.97,
                   "hist_diff_pct": 7.32
                 },
@@ -53358,6 +53375,7 @@
                   "current_price": 144500.0,
                   "recent_avg": 141227.77777777778,
                   "avg_36": 109762.73809523809,
+                  "trade_count": 54,
                   "corr": 0.953,
                   "hist_diff_pct": 6.05
                 }
@@ -53390,6 +53408,7 @@
                   "current_price": 146000.0,
                   "recent_avg": 142200.0,
                   "avg_36": 113772.04761904763,
+                  "trade_count": 44,
                   "corr": 0.963,
                   "hist_diff_pct": 6.44
                 },
@@ -53402,6 +53421,7 @@
                   "current_price": 168750.0,
                   "recent_avg": 159305.55555555556,
                   "avg_36": 117433.11006894341,
+                  "trade_count": 105,
                   "corr": 0.962,
                   "hist_diff_pct": 6.6
                 }
@@ -53434,6 +53454,7 @@
                   "current_price": 156500.0,
                   "recent_avg": 146500.0,
                   "avg_36": 111785.58823529411,
+                  "trade_count": 31,
                   "corr": 0.944,
                   "hist_diff_pct": 8.27
                 },
@@ -53446,6 +53467,7 @@
                   "current_price": 176000.0,
                   "recent_avg": 163833.33333333334,
                   "avg_36": 128835.71428571429,
+                  "trade_count": 17,
                   "corr": 0.938,
                   "hist_diff_pct": 9.5
                 }
@@ -53483,6 +53505,7 @@
                   "current_price": 191500.0,
                   "recent_avg": 186666.66666666666,
                   "avg_36": 150601.38888888888,
+                  "trade_count": 54,
                   "corr": 0.868,
                   "hist_diff_pct": 5.9
                 }
@@ -53515,6 +53538,7 @@
                   "current_price": 230000.0,
                   "recent_avg": 226000.0,
                   "avg_36": 177490.50925925924,
+                  "trade_count": 28,
                   "corr": 0.934,
                   "hist_diff_pct": 9.62
                 },
@@ -53527,6 +53551,7 @@
                   "current_price": 213333.33333333334,
                   "recent_avg": 213333.33333333334,
                   "avg_36": 169293.74999999994,
+                  "trade_count": 29,
                   "corr": 0.923,
                   "hist_diff_pct": 6.08
                 }
@@ -53559,6 +53584,7 @@
                   "current_price": 230000.0,
                   "recent_avg": 204138.88888888888,
                   "avg_36": 142552.94117647057,
+                  "trade_count": 30,
                   "corr": 0.964,
                   "hist_diff_pct": 8.27
                 },
@@ -53571,6 +53597,7 @@
                   "current_price": 225000.0,
                   "recent_avg": 218166.66666666666,
                   "avg_36": 157392.85714285713,
+                  "trade_count": 40,
                   "corr": 0.955,
                   "hist_diff_pct": 9.81
                 }
@@ -53608,6 +53635,7 @@
                   "current_price": 257000.0,
                   "recent_avg": 259500.0,
                   "avg_36": 202063.07997557998,
+                  "trade_count": 78,
                   "corr": 0.948,
                   "hist_diff_pct": 8.54
                 },
@@ -53620,6 +53648,7 @@
                   "current_price": 258500.0,
                   "recent_avg": 257900.0,
                   "avg_36": 202711.80555555556,
+                  "trade_count": 51,
                   "corr": 0.91,
                   "hist_diff_pct": 7.43
                 }
@@ -53652,6 +53681,7 @@
                   "current_price": 237000.0,
                   "recent_avg": 225166.66666666666,
                   "avg_36": 164438.42592592593,
+                  "trade_count": 30,
                   "corr": 0.96,
                   "hist_diff_pct": 8.79
                 },
@@ -53664,6 +53694,7 @@
                   "current_price": 240000.0,
                   "recent_avg": 235916.66666666666,
                   "avg_36": 182568.75,
+                  "trade_count": 52,
                   "corr": 0.951,
                   "hist_diff_pct": 5.95
                 }
@@ -53696,6 +53727,7 @@
                   "current_price": 257000.0,
                   "recent_avg": 259500.0,
                   "avg_36": 202063.07997557998,
+                  "trade_count": 78,
                   "corr": 0.936,
                   "hist_diff_pct": 6.04
                 },
@@ -53708,6 +53740,7 @@
                   "current_price": 287000.0,
                   "recent_avg": 286166.6666666667,
                   "avg_36": 221316.7857142857,
+                  "trade_count": 41,
                   "corr": 0.933,
                   "hist_diff_pct": 9.43
                 }
@@ -53745,6 +53778,7 @@
                   "current_price": 360000.0,
                   "recent_avg": 321666.6666666667,
                   "avg_36": 257686.86868686872,
+                  "trade_count": 21,
                   "corr": 0.951,
                   "hist_diff_pct": 5.58
                 },
@@ -53757,6 +53791,7 @@
                   "current_price": 350000.0,
                   "recent_avg": 347500.0,
                   "avg_36": 272964.28571428574,
+                  "trade_count": 28,
                   "corr": 0.944,
                   "hist_diff_pct": 7.67
                 }
@@ -53789,6 +53824,7 @@
                   "current_price": 301000.0,
                   "recent_avg": 302916.6666666667,
                   "avg_36": 213729.16666666666,
+                  "trade_count": 28,
                   "corr": 0.987,
                   "hist_diff_pct": 5.87
                 },
@@ -53801,6 +53837,7 @@
                   "current_price": 310000.0,
                   "recent_avg": 303458.3333333333,
                   "avg_36": 215578.47222222222,
+                  "trade_count": 50,
                   "corr": 0.981,
                   "hist_diff_pct": 7.45
                 }
@@ -53833,6 +53870,7 @@
                   "current_price": 301233.3333333333,
                   "recent_avg": 296027.7777777777,
                   "avg_36": 231153.8095238095,
+                  "trade_count": 21,
                   "corr": 0.961,
                   "hist_diff_pct": 6.19
                 },
@@ -53845,6 +53883,7 @@
                   "current_price": 278500.0,
                   "recent_avg": 268333.3333333333,
                   "avg_36": 206705.55555555556,
+                  "trade_count": 41,
                   "corr": 0.957,
                   "hist_diff_pct": 7.76
                 }
@@ -53882,6 +53921,7 @@
                   "current_price": 350000.0,
                   "recent_avg": 346666.6666666667,
                   "avg_36": 260764.70588235295,
+                  "trade_count": 25,
                   "corr": 0.963,
                   "hist_diff_pct": 9.43
                 },
@@ -53894,6 +53934,7 @@
                   "current_price": 358000.0,
                   "recent_avg": 354666.6666666667,
                   "avg_36": 259195.83333333334,
+                  "trade_count": 33,
                   "corr": 0.961,
                   "hist_diff_pct": 7.52
                 }
@@ -53926,6 +53967,7 @@
                   "current_price": 358000.0,
                   "recent_avg": 353166.6666666667,
                   "avg_36": 284220.5882352941,
+                  "trade_count": 16,
                   "corr": 0.931,
                   "hist_diff_pct": 5.45
                 },
@@ -53938,6 +53980,7 @@
                   "current_price": 414000.0,
                   "recent_avg": 402861.1111111112,
                   "avg_36": 290969.2129629629,
+                  "trade_count": 98,
                   "corr": 0.9,
                   "hist_diff_pct": 7.55
                 }
@@ -53970,6 +54013,7 @@
                   "current_price": 420000.0,
                   "recent_avg": 417583.3333333333,
                   "avg_36": 311805.1587301587,
+                  "trade_count": 87,
                   "corr": 0.94,
                   "hist_diff_pct": 8.32
                 },
@@ -53982,6 +54026,7 @@
                   "current_price": 361750.0,
                   "recent_avg": 357666.6666666667,
                   "avg_36": 279757.35294117645,
+                  "trade_count": 26,
                   "corr": 0.924,
                   "hist_diff_pct": 8.56
                 }
@@ -54019,6 +54064,7 @@
                   "current_price": 430000.0,
                   "recent_avg": 430000.0,
                   "avg_36": 348221.2962962963,
+                  "trade_count": 38,
                   "corr": 0.972,
                   "hist_diff_pct": 8.05
                 },
@@ -54031,6 +54077,7 @@
                   "current_price": 460000.0,
                   "recent_avg": 460000.0,
                   "avg_36": 353055.55555555556,
+                  "trade_count": 15,
                   "corr": 0.966,
                   "hist_diff_pct": 9.06
                 }
@@ -54063,6 +54110,7 @@
                   "current_price": 500000.0,
                   "recent_avg": 497166.6666666667,
                   "avg_36": 353960.2182539682,
+                  "trade_count": 38,
                   "corr": 0.983,
                   "hist_diff_pct": 7.66
                 },
@@ -54075,6 +54123,7 @@
                   "current_price": 466500.0,
                   "recent_avg": 466500.0,
                   "avg_36": 345881.94444444444,
+                  "trade_count": 21,
                   "corr": 0.981,
                   "hist_diff_pct": 6.51
                 }
@@ -54107,6 +54156,7 @@
                   "current_price": 556166.6666666666,
                   "recent_avg": 515583.33333333326,
                   "avg_36": 421084.2857142857,
+                  "trade_count": 24,
                   "corr": 0.911,
                   "hist_diff_pct": 5.32
                 },
@@ -54119,6 +54169,7 @@
                   "current_price": 520000.0,
                   "recent_avg": 531250.0,
                   "avg_36": 427073.5294117647,
+                  "trade_count": 20,
                   "corr": 0.907,
                   "hist_diff_pct": 7.36
                 }
@@ -54156,6 +54207,7 @@
                   "current_price": 607000.0,
                   "recent_avg": 604666.6666666666,
                   "avg_36": 443986.9791666666,
+                  "trade_count": 31,
                   "corr": 0.951,
                   "hist_diff_pct": 6.42
                 }
@@ -54188,6 +54240,7 @@
                   "current_price": 662500.0,
                   "recent_avg": 643583.3333333334,
                   "avg_36": 506914.28571428574,
+                  "trade_count": 16,
                   "corr": 0.85,
                   "hist_diff_pct": 6.5
                 }
@@ -54220,6 +54273,7 @@
                   "current_price": 520000.0,
                   "recent_avg": 520000.0,
                   "avg_36": 439351.8518518519,
+                  "trade_count": 26,
                   "corr": 0.964,
                   "hist_diff_pct": 3.37
                 },
@@ -54232,6 +54286,7 @@
                   "current_price": 615000.0,
                   "recent_avg": 603708.3333333334,
                   "avg_36": 440726.31313131313,
+                  "trade_count": 30,
                   "corr": 0.961,
                   "hist_diff_pct": 7.47
                 }
@@ -82205,6 +82260,7 @@
               "current_price": 105750.0,
               "recent_avg": 91215.69444444445,
               "avg_36": 72005.40900444443,
+              "trade_count": 358,
               "corr": 0.93,
               "hist_diff_pct": 7.35
             },
@@ -82217,6 +82273,7 @@
               "current_price": 97200.0,
               "recent_avg": 92311.11111111112,
               "avg_36": 72555.00727513227,
+              "trade_count": 124,
               "corr": 0.923,
               "hist_diff_pct": 6.81
             }
@@ -82249,6 +82306,7 @@
               "current_price": 105750.0,
               "recent_avg": 91215.69444444445,
               "avg_36": 72005.40900444443,
+              "trade_count": 358,
               "corr": 0.95,
               "hist_diff_pct": 9.51
             },
@@ -82261,6 +82319,7 @@
               "current_price": 98000.0,
               "recent_avg": 88983.33333333333,
               "avg_36": 73905.09259259258,
+              "trade_count": 76,
               "corr": 0.945,
               "hist_diff_pct": 5.87
             }
@@ -82293,6 +82352,7 @@
               "current_price": 109000.0,
               "recent_avg": 102806.66666666667,
               "avg_36": 76203.59126984126,
+              "trade_count": 85,
               "corr": 0.929,
               "hist_diff_pct": 9.4
             },
@@ -82305,6 +82365,7 @@
               "current_price": 103000.0,
               "recent_avg": 101896.66666666667,
               "avg_36": 83125.14285714286,
+              "trade_count": 29,
               "corr": 0.92,
               "hist_diff_pct": 4.95
             }
@@ -82342,6 +82403,7 @@
                   "current_price": 55700.0,
                   "recent_avg": 52408.333333333336,
                   "avg_36": 46441.735008818345,
+                  "trade_count": 255,
                   "corr": 0.818,
                   "hist_diff_pct": 8.31
                 }
@@ -82374,6 +82436,7 @@
                   "current_price": 55000.0,
                   "recent_avg": 52443.05555555556,
                   "avg_36": 45384.85294117646,
+                  "trade_count": 47,
                   "corr": 0.866,
                   "hist_diff_pct": 5.78
                 },
@@ -82386,6 +82449,7 @@
                   "current_price": 55700.0,
                   "recent_avg": 52408.333333333336,
                   "avg_36": 46441.735008818345,
+                  "trade_count": 255,
                   "corr": 0.851,
                   "hist_diff_pct": 7.77
                 }
@@ -82418,6 +82482,7 @@
                   "current_price": 55700.0,
                   "recent_avg": 52408.333333333336,
                   "avg_36": 46441.735008818345,
+                  "trade_count": 255,
                   "corr": 0.744,
                   "hist_diff_pct": 5.89
                 },
@@ -82430,6 +82495,7 @@
                   "current_price": 54250.0,
                   "recent_avg": 53152.777777777774,
                   "avg_36": 48645.02314814815,
+                  "trade_count": 55,
                   "corr": 0.643,
                   "hist_diff_pct": 9.03
                 }
@@ -82467,6 +82533,7 @@
                   "current_price": 105750.0,
                   "recent_avg": 91215.69444444445,
                   "avg_36": 72005.40900444443,
+                  "trade_count": 358,
                   "corr": 0.93,
                   "hist_diff_pct": 7.35
                 },
@@ -82479,6 +82546,7 @@
                   "current_price": 97200.0,
                   "recent_avg": 92311.11111111112,
                   "avg_36": 72555.00727513227,
+                  "trade_count": 124,
                   "corr": 0.923,
                   "hist_diff_pct": 6.81
                 }
@@ -82511,6 +82579,7 @@
                   "current_price": 114000.0,
                   "recent_avg": 95333.33333333333,
                   "avg_36": 75477.05882352941,
+                  "trade_count": 28,
                   "corr": 0.947,
                   "hist_diff_pct": 6.45
                 },
@@ -82523,6 +82592,7 @@
                   "current_price": 87000.0,
                   "recent_avg": 79378.57905982906,
                   "avg_36": 66706.73076923077,
+                  "trade_count": 180,
                   "corr": 0.938,
                   "hist_diff_pct": 5.98
                 }
@@ -82555,6 +82625,7 @@
                   "current_price": 105750.0,
                   "recent_avg": 91215.69444444445,
                   "avg_36": 72005.40900444443,
+                  "trade_count": 358,
                   "corr": 0.934,
                   "hist_diff_pct": 6.35
                 },
@@ -82567,6 +82638,7 @@
                   "current_price": 114000.0,
                   "recent_avg": 95333.33333333333,
                   "avg_36": 75477.05882352941,
+                  "trade_count": 28,
                   "corr": 0.925,
                   "hist_diff_pct": 8.41
                 }
@@ -82604,6 +82676,7 @@
                   "current_price": 109000.0,
                   "recent_avg": 102806.66666666667,
                   "avg_36": 76203.59126984126,
+                  "trade_count": 85,
                   "corr": 0.929,
                   "hist_diff_pct": 9.4
                 },
@@ -82616,6 +82689,7 @@
                   "current_price": 103000.0,
                   "recent_avg": 101896.66666666667,
                   "avg_36": 83125.14285714286,
+                  "trade_count": 29,
                   "corr": 0.92,
                   "hist_diff_pct": 4.95
                 }
@@ -82648,6 +82722,7 @@
                   "current_price": 120000.0,
                   "recent_avg": 112575.0,
                   "avg_36": 87786.57407407407,
+                  "trade_count": 23,
                   "corr": 0.967,
                   "hist_diff_pct": 6.81
                 },
@@ -82660,6 +82735,7 @@
                   "current_price": 142500.0,
                   "recent_avg": 129077.7777777778,
                   "avg_36": 97403.5714285714,
+                  "trade_count": 37,
                   "corr": 0.958,
                   "hist_diff_pct": 5.81
                 }
@@ -82692,6 +82768,7 @@
                   "current_price": 82800.0,
                   "recent_avg": 79766.66666666666,
                   "avg_36": 71257.14285714287,
+                  "trade_count": 28,
                   "corr": 0.953,
                   "hist_diff_pct": 7.13
                 },
@@ -82704,6 +82781,7 @@
                   "current_price": 105750.0,
                   "recent_avg": 91215.69444444445,
                   "avg_36": 72005.40900444443,
+                  "trade_count": 358,
                   "corr": 0.95,
                   "hist_diff_pct": 9.51
                 }
@@ -82741,6 +82819,7 @@
                   "current_price": 165000.0,
                   "recent_avg": 152254.72222222222,
                   "avg_36": 123791.0148724732,
+                  "trade_count": 180,
                   "corr": 0.948,
                   "hist_diff_pct": 9.42
                 },
@@ -82753,6 +82832,7 @@
                   "current_price": 177000.0,
                   "recent_avg": 170250.0,
                   "avg_36": 145319.03225806452,
+                  "trade_count": 20,
                   "corr": 0.93,
                   "hist_diff_pct": 7.67
                 }
@@ -82785,6 +82865,7 @@
                   "current_price": 161000.0,
                   "recent_avg": 150250.0,
                   "avg_36": 120358.79629629628,
+                  "trade_count": 15,
                   "corr": 0.929,
                   "hist_diff_pct": 7.57
                 },
@@ -82797,6 +82878,7 @@
                   "current_price": 165000.0,
                   "recent_avg": 152254.72222222222,
                   "avg_36": 123791.0148724732,
+                  "trade_count": 180,
                   "corr": 0.921,
                   "hist_diff_pct": 5.26
                 }
@@ -82829,6 +82911,7 @@
                   "current_price": 148166.66666666666,
                   "recent_avg": 133397.22222222222,
                   "avg_36": 105783.46064814815,
+                  "trade_count": 71,
                   "corr": 0.984,
                   "hist_diff_pct": 3.22
                 },
@@ -82841,6 +82924,7 @@
                   "current_price": 170000.0,
                   "recent_avg": 156500.0,
                   "avg_36": 114408.5978835979,
+                  "trade_count": 36,
                   "corr": 0.971,
                   "hist_diff_pct": 6.43
                 }
@@ -82878,6 +82962,7 @@
                   "current_price": 215000.0,
                   "recent_avg": 199966.66666666666,
                   "avg_36": 157161.11111111112,
+                  "trade_count": 30,
                   "corr": 0.928,
                   "hist_diff_pct": 8.27
                 },
@@ -82890,6 +82975,7 @@
                   "current_price": 185000.0,
                   "recent_avg": 185000.0,
                   "avg_36": 143792.85714285713,
+                  "trade_count": 15,
                   "corr": 0.927,
                   "hist_diff_pct": 6.74
                 }
@@ -82922,6 +83008,7 @@
                   "current_price": 195000.0,
                   "recent_avg": 189000.0,
                   "avg_36": 148760.4761904762,
+                  "trade_count": 16,
                   "corr": 0.948,
                   "hist_diff_pct": 7.4
                 },
@@ -82934,6 +83021,7 @@
                   "current_price": 204500.0,
                   "recent_avg": 190333.33333333334,
                   "avg_36": 153622.68518518517,
+                  "trade_count": 34,
                   "corr": 0.932,
                   "hist_diff_pct": 6.27
                 }
@@ -82966,6 +83054,7 @@
                   "current_price": 190000.0,
                   "recent_avg": 182500.0,
                   "avg_36": 154465.7142857143,
+                  "trade_count": 18,
                   "corr": 0.942,
                   "hist_diff_pct": 5.28
                 },
@@ -82978,6 +83067,7 @@
                   "current_price": 212000.0,
                   "recent_avg": 206666.66666666666,
                   "avg_36": 168910.9375,
+                  "trade_count": 21,
                   "corr": 0.939,
                   "hist_diff_pct": 7.98
                 }
@@ -83015,6 +83105,7 @@
                   "current_price": 221500.0,
                   "recent_avg": 220250.0,
                   "avg_36": 166578.39197530865,
+                  "trade_count": 100,
                   "corr": 0.944,
                   "hist_diff_pct": 8.93
                 },
@@ -83027,6 +83118,7 @@
                   "current_price": 284000.0,
                   "recent_avg": 261333.33333333334,
                   "avg_36": 196800.00000000003,
+                  "trade_count": 71,
                   "corr": 0.937,
                   "hist_diff_pct": 9.12
                 }
@@ -83059,6 +83151,7 @@
                   "current_price": 215600.0,
                   "recent_avg": 213000.0,
                   "avg_36": 185222.6851851852,
+                  "trade_count": 35,
                   "corr": 0.955,
                   "hist_diff_pct": 8.61
                 },
@@ -83071,6 +83164,7 @@
                   "current_price": 299000.0,
                   "recent_avg": 276333.3333333333,
                   "avg_36": 214675.2380952381,
+                  "trade_count": 18,
                   "corr": 0.953,
                   "hist_diff_pct": 6.47
                 }
@@ -83103,6 +83197,7 @@
                   "current_price": 240000.0,
                   "recent_avg": 224277.77777777775,
                   "avg_36": 173114.70588235295,
+                  "trade_count": 38,
                   "corr": 0.942,
                   "hist_diff_pct": 8.4
                 },
@@ -83115,6 +83210,7 @@
                   "current_price": 251500.0,
                   "recent_avg": 251500.0,
                   "avg_36": 196118.05555555556,
+                  "trade_count": 17,
                   "corr": 0.938,
                   "hist_diff_pct": 6.38
                 }
@@ -83152,6 +83248,7 @@
                   "current_price": 258000.0,
                   "recent_avg": 255944.4444444444,
                   "avg_36": 208424.2171717172,
+                  "trade_count": 79,
                   "corr": 0.944,
                   "hist_diff_pct": 4.38
                 },
@@ -83164,6 +83261,7 @@
                   "current_price": 277000.0,
                   "recent_avg": 277000.0,
                   "avg_36": 216357.14285714287,
+                  "trade_count": 51,
                   "corr": 0.944,
                   "hist_diff_pct": 7.75
                 }
@@ -83196,6 +83294,7 @@
                   "current_price": 299000.0,
                   "recent_avg": 276333.3333333333,
                   "avg_36": 214675.2380952381,
+                  "trade_count": 18,
                   "corr": 0.947,
                   "hist_diff_pct": 6.59
                 },
@@ -83208,6 +83307,7 @@
                   "current_price": 266250.0,
                   "recent_avg": 265375.0,
                   "avg_36": 236025.51020408163,
+                  "trade_count": 38,
                   "corr": 0.896,
                   "hist_diff_pct": 6.17
                 }
@@ -83240,6 +83340,7 @@
                   "current_price": 255000.0,
                   "recent_avg": 246833.33333333334,
                   "avg_36": 191935.23809523814,
+                  "trade_count": 26,
                   "corr": 0.96,
                   "hist_diff_pct": 7.1
                 },
@@ -83252,6 +83353,7 @@
                   "current_price": 275000.0,
                   "recent_avg": 274166.6666666667,
                   "avg_36": 213344.44444444444,
+                  "trade_count": 22,
                   "corr": 0.948,
                   "hist_diff_pct": 5.48
                 }
@@ -89784,6 +89886,7 @@
               "current_price": 39500.0,
               "recent_avg": 39500.0,
               "avg_36": 36794.61538461538,
+              "trade_count": 14,
               "corr": -0.172,
               "hist_diff_pct": 7.08
             },
@@ -89796,6 +89899,7 @@
               "current_price": 39500.0,
               "recent_avg": 39500.0,
               "avg_36": 37351.51515151515,
+              "trade_count": 10,
               "corr": -0.265,
               "hist_diff_pct": 6.98
             }
@@ -89828,6 +89932,7 @@
               "current_price": 60000.0,
               "recent_avg": 54800.0,
               "avg_36": 47536.50793650794,
+              "trade_count": 8,
               "corr": 0.519,
               "hist_diff_pct": 7.43
             },
@@ -89840,6 +89945,7 @@
               "current_price": 51800.0,
               "recent_avg": 50119.44444444444,
               "avg_36": 46166.482323232325,
+              "trade_count": 52,
               "corr": 0.498,
               "hist_diff_pct": 4.75
             }
@@ -89872,6 +89978,7 @@
               "current_price": 14000.0,
               "recent_avg": 13833.333333333334,
               "avg_36": 14772.857142857143,
+              "trade_count": 17,
               "corr": 0.834,
               "hist_diff_pct": 7.23
             }
@@ -89909,6 +90016,7 @@
                   "current_price": 32387.0,
                   "recent_avg": 32387.0,
                   "avg_36": 35259.857142857145,
+                  "trade_count": 8,
                   "corr": 0.718,
                   "hist_diff_pct": 8.33
                 },
@@ -89921,6 +90029,7 @@
                   "current_price": 40000.0,
                   "recent_avg": 38800.0,
                   "avg_36": 40847.05882352941,
+                  "trade_count": 9,
                   "corr": 0.628,
                   "hist_diff_pct": 7.94
                 }
@@ -89953,6 +90062,7 @@
                   "current_price": 53650.0,
                   "recent_avg": 52304.166666666664,
                   "avg_36": 54531.818181818184,
+                  "trade_count": 8,
                   "corr": 0.943,
                   "hist_diff_pct": 9.26
                 }
@@ -89985,6 +90095,7 @@
                   "current_price": 59000.0,
                   "recent_avg": 59000.0,
                   "avg_36": 59923.529411764706,
+                  "trade_count": 10,
                   "corr": 0.353,
                   "hist_diff_pct": 9.38
                 }
@@ -90022,6 +90133,7 @@
                   "current_price": 64500.0,
                   "recent_avg": 62033.333333333336,
                   "avg_36": 55505.07246376811,
+                  "trade_count": 39,
                   "corr": 0.89,
                   "hist_diff_pct": 3.82
                 },
@@ -90034,6 +90146,7 @@
                   "current_price": 66000.0,
                   "recent_avg": 68766.66666666667,
                   "avg_36": 56393.055555555555,
+                  "trade_count": 11,
                   "corr": 0.854,
                   "hist_diff_pct": 5.97
                 }
@@ -90066,6 +90179,7 @@
                   "current_price": 68300.0,
                   "recent_avg": 66758.33333333333,
                   "avg_36": 61682.55102040816,
+                  "trade_count": 63,
                   "corr": 0.94,
                   "hist_diff_pct": 6.71
                 },
@@ -90078,6 +90192,7 @@
                   "current_price": 83500.0,
                   "recent_avg": 81566.66666666667,
                   "avg_36": 69242.64705882352,
+                  "trade_count": 35,
                   "corr": 0.862,
                   "hist_diff_pct": 7.63
                 }
@@ -90110,6 +90225,7 @@
                   "current_price": 80000.0,
                   "recent_avg": 67359.88888888889,
                   "avg_36": 53088.20430107527,
+                  "trade_count": 9,
                   "corr": 0.803,
                   "hist_diff_pct": 9.98
                 },
@@ -90122,6 +90238,7 @@
                   "current_price": 57000.0,
                   "recent_avg": 54483.333333333336,
                   "avg_36": 49002.2380952381,
+                  "trade_count": 52,
                   "corr": 0.68,
                   "hist_diff_pct": 5.17
                 }
@@ -90159,6 +90276,7 @@
                   "current_price": 110000.0,
                   "recent_avg": 106005.55555555555,
                   "avg_36": 91245.6212121212,
+                  "trade_count": 27,
                   "corr": 0.917,
                   "hist_diff_pct": 3.79
                 },
@@ -90171,6 +90289,7 @@
                   "current_price": 105000.0,
                   "recent_avg": 103830.78703703704,
                   "avg_36": 88583.0101010101,
+                  "trade_count": 37,
                   "corr": 0.905,
                   "hist_diff_pct": 6.55
                 }
@@ -90203,6 +90322,7 @@
                   "current_price": 110000.0,
                   "recent_avg": 106005.55555555555,
                   "avg_36": 91245.6212121212,
+                  "trade_count": 27,
                   "corr": 0.956,
                   "hist_diff_pct": 6.98
                 },
@@ -90215,6 +90335,7 @@
                   "current_price": 105000.0,
                   "recent_avg": 103830.78703703704,
                   "avg_36": 88583.0101010101,
+                  "trade_count": 37,
                   "corr": 0.934,
                   "hist_diff_pct": 8.07
                 }
@@ -90247,6 +90368,7 @@
                   "current_price": 92400.0,
                   "recent_avg": 89383.33333333333,
                   "avg_36": 79780.55555555556,
+                  "trade_count": 34,
                   "corr": 0.735,
                   "hist_diff_pct": 3.87
                 },
@@ -90259,6 +90381,7 @@
                   "current_price": 96700.0,
                   "recent_avg": 94975.0,
                   "avg_36": 82143.54838709677,
+                  "trade_count": 8,
                   "corr": 0.693,
                   "hist_diff_pct": 5.38
                 }
@@ -90296,6 +90419,7 @@
                   "current_price": 138000.0,
                   "recent_avg": 135458.33333333334,
                   "avg_36": 125625.0,
+                  "trade_count": 9,
                   "corr": 0.833,
                   "hist_diff_pct": 1.87
                 },
@@ -90308,6 +90432,7 @@
                   "current_price": 145500.0,
                   "recent_avg": 141750.0,
                   "avg_36": 130541.66666666667,
+                  "trade_count": 16,
                   "corr": 0.766,
                   "hist_diff_pct": 5.07
                 }
@@ -90340,6 +90465,7 @@
                   "current_price": 139000.0,
                   "recent_avg": 134222.22222222222,
                   "avg_36": 125985.50724637683,
+                  "trade_count": 9,
                   "corr": 0.833,
                   "hist_diff_pct": 1.87
                 },
@@ -90352,6 +90478,7 @@
                   "current_price": 145500.0,
                   "recent_avg": 141750.0,
                   "avg_36": 130541.66666666667,
+                  "trade_count": 16,
                   "corr": 0.722,
                   "hist_diff_pct": 5.07
                 }
@@ -92858,6 +92985,7 @@
               "current_price": 12800.0,
               "recent_avg": 12733.333333333334,
               "avg_36": 14266.666666666666,
+              "trade_count": 16,
               "corr": 0.761,
               "hist_diff_pct": 9.62
             }
@@ -92890,6 +93018,7 @@
               "current_price": 16200.0,
               "recent_avg": 16300.0,
               "avg_36": 18182.14285714286,
+              "trade_count": 12,
               "corr": 0.819,
               "hist_diff_pct": 5.37
             }
@@ -92922,6 +93051,7 @@
               "current_price": 76400.0,
               "recent_avg": 76666.66666666667,
               "avg_36": 67404.16666666667,
+              "trade_count": 11,
               "corr": 0.91,
               "hist_diff_pct": 3.64
             },
@@ -92934,6 +93064,7 @@
               "current_price": 73000.0,
               "recent_avg": 70333.33333333333,
               "avg_36": 64374.07407407407,
+              "trade_count": 13,
               "corr": 0.89,
               "hist_diff_pct": 4.98
             }
@@ -92971,6 +93102,7 @@
                   "current_price": 12800.0,
                   "recent_avg": 12733.333333333334,
                   "avg_36": 14266.666666666666,
+                  "trade_count": 16,
                   "corr": 0.761,
                   "hist_diff_pct": 9.62
                 }
@@ -93003,6 +93135,7 @@
                   "current_price": 16200.0,
                   "recent_avg": 16300.0,
                   "avg_36": 18182.14285714286,
+                  "trade_count": 12,
                   "corr": 0.819,
                   "hist_diff_pct": 5.37
                 }
@@ -93035,6 +93168,7 @@
                   "current_price": 28500.0,
                   "recent_avg": 28500.0,
                   "avg_36": 31225.0,
+                  "trade_count": 8,
                   "corr": 0.936,
                   "hist_diff_pct": 7.33
                 }
@@ -93072,6 +93206,7 @@
                   "current_price": 76400.0,
                   "recent_avg": 76666.66666666667,
                   "avg_36": 67404.16666666667,
+                  "trade_count": 11,
                   "corr": 0.91,
                   "hist_diff_pct": 3.64
                 },
@@ -93084,6 +93219,7 @@
                   "current_price": 73000.0,
                   "recent_avg": 70333.33333333333,
                   "avg_36": 64374.07407407407,
+                  "trade_count": 13,
                   "corr": 0.89,
                   "hist_diff_pct": 4.98
                 }
@@ -93116,6 +93252,7 @@
                   "current_price": 67750.0,
                   "recent_avg": 64916.666666666664,
                   "avg_36": 57685.57692307692,
+                  "trade_count": 19,
                   "corr": 0.765,
                   "hist_diff_pct": 4.97
                 },
@@ -93128,6 +93265,7 @@
                   "current_price": 67600.0,
                   "recent_avg": 65225.0,
                   "avg_36": 60391.78921568627,
+                  "trade_count": 43,
                   "corr": 0.725,
                   "hist_diff_pct": 9.99
                 }
@@ -93160,6 +93298,7 @@
                   "current_price": 84700.0,
                   "recent_avg": 79919.44444444444,
                   "avg_36": 69860.1851851852,
+                  "trade_count": 20,
                   "corr": 0.951,
                   "hist_diff_pct": 7.67
                 },
@@ -93172,6 +93311,7 @@
                   "current_price": 70700.0,
                   "recent_avg": 70700.0,
                   "avg_36": 65335.294117647056,
+                  "trade_count": 11,
                   "corr": 0.924,
                   "hist_diff_pct": 2.12
                 }
@@ -93209,6 +93349,7 @@
                   "current_price": 120000.0,
                   "recent_avg": 119333.33333333333,
                   "avg_36": 96210.27777777778,
+                  "trade_count": 25,
                   "corr": 0.958,
                   "hist_diff_pct": 5.19
                 },
@@ -93221,6 +93362,7 @@
                   "current_price": 100000.0,
                   "recent_avg": 96666.66666666667,
                   "avg_36": 84926.38888888889,
+                  "trade_count": 13,
                   "corr": 0.915,
                   "hist_diff_pct": 8.35
                 }
@@ -93253,6 +93395,7 @@
                   "current_price": 85900.0,
                   "recent_avg": 81991.66666666667,
                   "avg_36": 70755.64516129032,
+                  "trade_count": 37,
                   "corr": 0.912,
                   "hist_diff_pct": 8.33
                 },
@@ -93265,6 +93408,7 @@
                   "current_price": 94000.0,
                   "recent_avg": 89993.05555555555,
                   "avg_36": 78095.47619047618,
+                  "trade_count": 60,
                   "corr": 0.9,
                   "hist_diff_pct": 4.79
                 }
@@ -93297,6 +93441,7 @@
                   "current_price": 101000.0,
                   "recent_avg": 96666.66666666667,
                   "avg_36": 89368.05555555556,
+                  "trade_count": 18,
                   "corr": 0.96,
                   "hist_diff_pct": 4.55
                 },
@@ -93309,6 +93454,7 @@
                   "current_price": 98000.0,
                   "recent_avg": 94641.66666666667,
                   "avg_36": 79314.28571428572,
+                  "trade_count": 22,
                   "corr": 0.924,
                   "hist_diff_pct": 6.84
                 }
@@ -100727,6 +100873,7 @@
               "current_price": 55200.0,
               "recent_avg": 54858.333333333336,
               "avg_36": 49015.27777777778,
+              "trade_count": 12,
               "corr": 0.828,
               "hist_diff_pct": 9.54
             }
@@ -100759,6 +100906,7 @@
               "current_price": 39000.0,
               "recent_avg": 39000.0,
               "avg_36": 37646.875,
+              "trade_count": 8,
               "corr": 0.877,
               "hist_diff_pct": 2.5
             },
@@ -100771,6 +100919,7 @@
               "current_price": 42000.0,
               "recent_avg": 42000.0,
               "avg_36": 38594.28571428572,
+              "trade_count": 8,
               "corr": 0.871,
               "hist_diff_pct": 9.19
             }
@@ -100803,6 +100952,7 @@
               "current_price": 36450.0,
               "recent_avg": 36933.333333333336,
               "avg_36": 33373.61111111111,
+              "trade_count": 22,
               "corr": 0.927,
               "hist_diff_pct": 7.44
             },
@@ -100815,6 +100965,7 @@
               "current_price": 32500.0,
               "recent_avg": 32500.0,
               "avg_36": 31408.333333333332,
+              "trade_count": 9,
               "corr": 0.908,
               "hist_diff_pct": 3.32
             }
@@ -100852,6 +101003,7 @@
                   "current_price": 55450.0,
                   "recent_avg": 53883.333333333336,
                   "avg_36": 51351.73280423281,
+                  "trade_count": 48,
                   "corr": 0.923,
                   "hist_diff_pct": 8.27
                 },
@@ -100864,6 +101016,7 @@
                   "current_price": 53100.0,
                   "recent_avg": 52991.666666666664,
                   "avg_36": 49072.05882352941,
+                  "trade_count": 16,
                   "corr": 0.891,
                   "hist_diff_pct": 6.49
                 }
@@ -100896,6 +101049,7 @@
                   "current_price": 55200.0,
                   "recent_avg": 54858.333333333336,
                   "avg_36": 49015.27777777778,
+                  "trade_count": 12,
                   "corr": 0.828,
                   "hist_diff_pct": 9.54
                 }
@@ -100928,6 +101082,7 @@
                   "current_price": 56800.0,
                   "recent_avg": 56350.0,
                   "avg_36": 43518.181818181816,
+                  "trade_count": 10,
                   "corr": 0.962,
                   "hist_diff_pct": 8.64
                 },
@@ -100940,6 +101095,7 @@
                   "current_price": 44500.0,
                   "recent_avg": 44233.333333333336,
                   "avg_36": 40399.21296296296,
+                  "trade_count": 59,
                   "corr": 0.772,
                   "hist_diff_pct": 8.43
                 }
@@ -100977,6 +101133,7 @@
                   "current_price": 53800.0,
                   "recent_avg": 53116.666666666664,
                   "avg_36": 44887.333333333336,
+                  "trade_count": 13,
                   "corr": 0.818,
                   "hist_diff_pct": 8.44
                 },
@@ -100989,6 +101146,7 @@
                   "current_price": 56450.0,
                   "recent_avg": 56016.666666666664,
                   "avg_36": 46297.22222222222,
+                  "trade_count": 9,
                   "corr": 0.793,
                   "hist_diff_pct": 6.74
                 }
@@ -101021,6 +101179,7 @@
                   "current_price": 59360.0,
                   "recent_avg": 60406.666666666664,
                   "avg_36": 54775.42857142857,
+                  "trade_count": 10,
                   "corr": 0.947,
                   "hist_diff_pct": 7.98
                 },
@@ -101033,6 +101192,7 @@
                   "current_price": 69500.0,
                   "recent_avg": 69500.0,
                   "avg_36": 65986.11111111111,
+                  "trade_count": 8,
                   "corr": 0.866,
                   "hist_diff_pct": 6.67
                 }
@@ -101065,6 +101225,7 @@
                   "current_price": 73700.0,
                   "recent_avg": 73850.0,
                   "avg_36": 73282.8125,
+                  "trade_count": 16,
                   "corr": 0.807,
                   "hist_diff_pct": 5.32
                 },
@@ -101077,6 +101238,7 @@
                   "current_price": 90000.0,
                   "recent_avg": 90000.0,
                   "avg_36": 77151.5625,
+                  "trade_count": 12,
                   "corr": 0.582,
                   "hist_diff_pct": 7.47
                 }
@@ -101114,6 +101276,7 @@
                   "current_price": 88750.0,
                   "recent_avg": 87625.0,
                   "avg_36": 82414.70588235292,
+                  "trade_count": 23,
                   "corr": 0.941,
                   "hist_diff_pct": 1.7
                 },
@@ -101126,6 +101289,7 @@
                   "current_price": 94100.0,
                   "recent_avg": 93091.66666666667,
                   "avg_36": 85406.94444444444,
+                  "trade_count": 12,
                   "corr": 0.916,
                   "hist_diff_pct": 4.56
                 }
@@ -101158,6 +101322,7 @@
                   "current_price": 88750.0,
                   "recent_avg": 87625.0,
                   "avg_36": 82414.70588235292,
+                  "trade_count": 23,
                   "corr": 0.904,
                   "hist_diff_pct": 7.99
                 },
@@ -101170,6 +101335,7 @@
                   "current_price": 84000.0,
                   "recent_avg": 83383.33333333333,
                   "avg_36": 77925.0,
+                  "trade_count": 13,
                   "corr": 0.896,
                   "hist_diff_pct": 2.42
                 }
@@ -101202,6 +101368,7 @@
                   "current_price": 84000.0,
                   "recent_avg": 83383.33333333333,
                   "avg_36": 77925.0,
+                  "trade_count": 13,
                   "corr": 0.88,
                   "hist_diff_pct": 1.95
                 },
@@ -101214,6 +101381,7 @@
                   "current_price": 88750.0,
                   "recent_avg": 87625.0,
                   "avg_36": 82414.70588235292,
+                  "trade_count": 23,
                   "corr": 0.872,
                   "hist_diff_pct": 5.85
                 }
@@ -101625,6 +101793,7 @@
                   "current_price": 34300.0,
                   "recent_avg": 34300.0,
                   "avg_36": 36500.0,
+                  "trade_count": 11,
                   "corr": 0.913,
                   "hist_diff_pct": 8.63
                 }
@@ -101657,6 +101826,7 @@
                   "current_price": 29400.0,
                   "recent_avg": 30883.333333333332,
                   "avg_36": 33732.35294117647,
+                  "trade_count": 12,
                   "corr": 0.857,
                   "hist_diff_pct": 6.34
                 }
@@ -101689,6 +101859,7 @@
                   "current_price": 33700.0,
                   "recent_avg": 33033.333333333336,
                   "avg_36": 34722.22222222222,
+                  "trade_count": 12,
                   "corr": 0.913,
                   "hist_diff_pct": 2.29
                 }
@@ -103033,6 +103204,7 @@
               "current_price": 38000.0,
               "recent_avg": 37166.666666666664,
               "avg_36": 32506.896551724138,
+              "trade_count": 19,
               "corr": 0.838,
               "hist_diff_pct": 5.11
             },
@@ -103045,6 +103217,7 @@
               "current_price": 34200.0,
               "recent_avg": 32888.61111111112,
               "avg_36": 28844.027777777777,
+              "trade_count": 90,
               "corr": 0.739,
               "hist_diff_pct": 7.86
             }
@@ -103077,6 +103250,7 @@
               "current_price": 42700.0,
               "recent_avg": 44200.0,
               "avg_36": 37359.11458333333,
+              "trade_count": 18,
               "corr": 0.755,
               "hist_diff_pct": 6.28
             },
@@ -103089,6 +103263,7 @@
               "current_price": 49500.0,
               "recent_avg": 49416.666666666664,
               "avg_36": 39572.22222222222,
+              "trade_count": 10,
               "corr": 0.728,
               "hist_diff_pct": 6.6
             }
@@ -103121,6 +103296,7 @@
               "current_price": 40000.0,
               "recent_avg": 39000.0,
               "avg_36": 34717.142857142855,
+              "trade_count": 9,
               "corr": 0.582,
               "hist_diff_pct": 9.96
             },
@@ -103133,6 +103309,7 @@
               "current_price": 40750.0,
               "recent_avg": 39166.666666666664,
               "avg_36": 31257.14285714286,
+              "trade_count": 15,
               "corr": 0.537,
               "hist_diff_pct": 9.0
             }
@@ -103170,6 +103347,7 @@
                   "current_price": 38000.0,
                   "recent_avg": 37166.666666666664,
                   "avg_36": 32506.896551724138,
+                  "trade_count": 19,
                   "corr": 0.838,
                   "hist_diff_pct": 5.11
                 },
@@ -103182,6 +103360,7 @@
                   "current_price": 34200.0,
                   "recent_avg": 32888.61111111112,
                   "avg_36": 28844.027777777777,
+                  "trade_count": 90,
                   "corr": 0.739,
                   "hist_diff_pct": 7.86
                 }
@@ -103214,6 +103393,7 @@
                   "current_price": 42700.0,
                   "recent_avg": 44200.0,
                   "avg_36": 37359.11458333333,
+                  "trade_count": 18,
                   "corr": 0.755,
                   "hist_diff_pct": 6.28
                 },
@@ -103226,6 +103406,7 @@
                   "current_price": 49500.0,
                   "recent_avg": 49416.666666666664,
                   "avg_36": 39572.22222222222,
+                  "trade_count": 10,
                   "corr": 0.728,
                   "hist_diff_pct": 6.6
                 }
@@ -103258,6 +103439,7 @@
                   "current_price": 40000.0,
                   "recent_avg": 39000.0,
                   "avg_36": 34717.142857142855,
+                  "trade_count": 9,
                   "corr": 0.582,
                   "hist_diff_pct": 9.96
                 },
@@ -103270,6 +103452,7 @@
                   "current_price": 40750.0,
                   "recent_avg": 39166.666666666664,
                   "avg_36": 31257.14285714286,
+                  "trade_count": 15,
                   "corr": 0.537,
                   "hist_diff_pct": 9.0
                 }
@@ -103307,6 +103490,7 @@
                   "current_price": 74150.0,
                   "recent_avg": 72783.33333333333,
                   "avg_36": 63370.606060606064,
+                  "trade_count": 11,
                   "corr": 0.907,
                   "hist_diff_pct": 6.54
                 },
@@ -103319,6 +103503,7 @@
                   "current_price": 82000.0,
                   "recent_avg": 79819.44444444445,
                   "avg_36": 73222.30808080807,
+                  "trade_count": 27,
                   "corr": 0.871,
                   "hist_diff_pct": 9.43
                 }
@@ -103351,6 +103536,7 @@
                   "current_price": 71150.0,
                   "recent_avg": 71244.44444444445,
                   "avg_36": 63242.07598039216,
+                  "trade_count": 18,
                   "corr": 0.939,
                   "hist_diff_pct": 8.34
                 },
@@ -103363,6 +103549,7 @@
                   "current_price": 79650.0,
                   "recent_avg": 76969.44444444445,
                   "avg_36": 70776.85185185185,
+                  "trade_count": 33,
                   "corr": 0.916,
                   "hist_diff_pct": 9.63
                 }
@@ -103395,6 +103582,7 @@
                   "current_price": 94700.0,
                   "recent_avg": 91958.33333333333,
                   "avg_36": 77607.61904761905,
+                  "trade_count": 36,
                   "corr": 0.905,
                   "hist_diff_pct": 6.02
                 },
@@ -103407,6 +103595,7 @@
                   "current_price": 79650.0,
                   "recent_avg": 76969.44444444445,
                   "avg_36": 70776.85185185185,
+                  "trade_count": 33,
                   "corr": 0.893,
                   "hist_diff_pct": 3.16
                 }
@@ -103859,6 +104048,7 @@
                   "current_price": 57700.0,
                   "recent_avg": 57700.0,
                   "avg_36": 52466.666666666664,
+                  "trade_count": 9,
                   "corr": 0.795,
                   "hist_diff_pct": 4.46
                 }
@@ -103896,6 +104086,7 @@
                   "current_price": 93500.0,
                   "recent_avg": 92416.66666666667,
                   "avg_36": 86092.5925925926,
+                  "trade_count": 8,
                   "corr": 0.941,
                   "hist_diff_pct": 4.64
                 },
@@ -103908,6 +104099,7 @@
                   "current_price": 95000.0,
                   "recent_avg": 92000.0,
                   "avg_36": 86597.14285714286,
+                  "trade_count": 11,
                   "corr": 0.833,
                   "hist_diff_pct": 5.26
                 }
@@ -103940,6 +104132,7 @@
                   "current_price": 95000.0,
                   "recent_avg": 90000.0,
                   "avg_36": 88544.11764705883,
+                  "trade_count": 8,
                   "corr": 0.912,
                   "hist_diff_pct": 3.01
                 }
@@ -103972,6 +104165,7 @@
                   "current_price": 93800.0,
                   "recent_avg": 93800.0,
                   "avg_36": 99165.71428571429,
+                  "trade_count": 9,
                   "corr": 0.901,
                   "hist_diff_pct": 4.63
                 }

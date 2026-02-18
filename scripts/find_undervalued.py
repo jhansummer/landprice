@@ -437,6 +437,7 @@ def main() -> None:
                         "current_price": o["current_price"],
                         "recent_avg": o["recent_avg"],
                         "avg_36": o["avg_36"],
+                        "trade_count": o["trade_count"],
                         "corr": round(c, 3),
                         "hist_diff_pct": round(hdiff * 100, 2),
                     }

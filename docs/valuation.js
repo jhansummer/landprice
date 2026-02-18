@@ -25,6 +25,7 @@
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
   function fmtEok(v) { return (v / 10000).toFixed(1) + "\uC5B5"; }
+  function fmtPerM2(price, area) { return (price / area / 1000).toFixed(1) + "\uCC9C\uB9CC/m\u00B2"; }
   function escapeHTML(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
   /* ── URL state ── */
@@ -210,7 +211,7 @@
     var badge = document.createElement("span");
     badge.className = "val-badge val-badge-" + entry.status;
     badge.textContent = STATUS_LABELS[entry.status] || entry.status;
-    header.appendChild(badge);
+    if (entry.status !== "market") header.appendChild(badge);
     var gap = document.createElement("span");
     gap.className = "val-gap " + (entry.gap_pct < 0 ? "negative" : entry.gap_pct > 0 ? "positive" : "");
     gap.textContent = (entry.gap_pct > 0 ? "+" : "") + entry.gap_pct.toFixed(1) + "%";
@@ -228,6 +229,7 @@
     info.className = "val-info";
     info.textContent = entry.sigungu + " " + entry.dong_name + " \u00B7 "
       + entry.area_m2 + "m\u00B2 \u00B7 \uD604\uC7AC " + fmtEok(entry.current_price)
+      + "(" + fmtPerM2(entry.current_price, entry.area_m2) + ")"
       + " \u00B7 \uD074\uB7EC\uC2A4\uD130 " + entry.cluster_size + "\uAC1C \uB2E8\uC9C0";
     card.appendChild(info);
 
@@ -332,7 +334,7 @@
     wrap.className = "val-gauge-wrap";
     var labels = document.createElement("div");
     labels.className = "val-gauge-labels";
-    labels.innerHTML = "<span>\uC800\uD3C9\uAC00</span><span>\uC801\uC815\uAC00</span><span>\uB9AC\uB529</span>";
+    labels.innerHTML = "<span>\uC800\uD3C9\uAC00</span><span>\uB9AC\uB529</span>";
     wrap.appendChild(labels);
     var track = document.createElement("div");
     track.className = "val-gauge-track";
@@ -370,11 +372,16 @@
 
     // tbody
     var tbody = document.createElement("tbody");
+    var e6 = entry.recent_avg, e36 = entry.avg_36, eArea = entry.area_m2;
+    var eDiff = (e6 && e36 && e36 > 0) ? ((e6 / e36 - 1) * 100).toFixed(1) + "%" : "-";
     var rows = [
       ["\uC704\uCE58", entry.sigungu + " " + entry.dong_name],
       ["\uBA74\uC801", entry.area_m2 + "m\u00B2"],
       ["\uD604\uC7AC\uAC00", fmtEok(entry.current_price)],
-      ["6\uAC1C\uC6D4 \uD3C9\uADE0", entry.recent_avg ? fmt(entry.recent_avg) + "\uB9CC/m\u00B2" : "-"],
+      ["\uBA74\uC801\uB2F9\uAC00", eArea ? fmtPerM2(entry.current_price, eArea) : "-"],
+      ["6\uAC1C\uC6D4 \uD3C9\uADE0", e6 ? fmtEok(e6) : "-"],
+      ["3\uB144 \uD3C9\uADE0", e36 ? fmtEok(e36) : "-"],
+      ["3\uB144\u21926\uAC1C\uC6D4", eDiff],
       ["\uAC70\uB798\uB7C9", entry.trade_count + "\uAC74"]
     ];
     rows.forEach(function (r, ri) {
@@ -382,11 +389,15 @@
       tr.innerHTML = "<td>" + r[0] + "</td><td class=\"val-me\">" + r[1] + "</td>";
       entry.compare.forEach(function (c) {
         var val = "-";
+        var c6 = c.recent_avg, c36 = c.avg_36, cArea = c.area_m2;
         if (ri === 0) val = (c.sigungu || "") + " " + (c.dong_name || "");
-        else if (ri === 1) val = c.area_m2 + "m\u00B2";
+        else if (ri === 1) val = cArea + "m\u00B2";
         else if (ri === 2) val = c.current_price ? fmtEok(c.current_price) : "-";
-        else if (ri === 3) val = c.recent_avg ? fmt(c.recent_avg) + "\uB9CC/m\u00B2" : "-";
-        else if (ri === 4) val = c.corr ? c.corr.toFixed(3) : "-";
+        else if (ri === 3) val = (c.current_price && cArea) ? fmtPerM2(c.current_price, cArea) : "-";
+        else if (ri === 4) val = c6 ? fmtEok(c6) : "-";
+        else if (ri === 5) val = c36 ? fmtEok(c36) : "-";
+        else if (ri === 6) val = (c6 && c36 && c36 > 0) ? ((c6 / c36 - 1) * 100).toFixed(1) + "%" : "-";
+        else if (ri === 7) val = c.trade_count ? c.trade_count + "\uAC74" : "-";
         tr.innerHTML += "<td>" + val + "</td>";
       });
       tbody.appendChild(tr);
@@ -408,7 +419,7 @@
     var data = sidoCache[activeSido];
     if (!data) return;
     resultsEl.innerHTML = '<div class="val-hint">' + activeSido + ' ' + (data.count || 0).toLocaleString()
-      + '\uAC1C \uB2E8\uC9C0 \uBD84\uC11D \uAC00\uB2A5<br><span style="font-size:11px">\uB2E8\uC9C0\uBA85\uC744 \uAC80\uC0C9\uD558\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00/\uC801\uC815\uAC00/\uB9AC\uB529 \uC5EC\uBD80\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span></div>';
+      + '\uAC1C \uB2E8\uC9C0 \uBD84\uC11D \uAC00\uB2A5<br><span style="font-size:11px">\uB2E8\uC9C0\uBA85\uC744 \uAC80\uC0C9\uD558\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00/\uB9AC\uB529 \uC5EC\uBD80\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span></div>';
   }
 
   /* ── init ── */
