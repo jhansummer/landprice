@@ -1044,6 +1044,8 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
             continue
         if sale_count.get(key, 0) < 30:
             continue
+        if sale["price"] < 50000:
+            continue
         gap = sale["price"] - deposit
         if gap < 0:
             continue

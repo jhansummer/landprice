@@ -130,6 +130,7 @@ function renderJeonseRatio(jeonse) {
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
         samples.slice(INITIAL_COUNT).forEach(renderSample);
+        list.style.cssText = "max-height:400px;overflow-y:auto";
         moreBtn.remove();
       });
       sec.appendChild(moreBtn);
@@ -367,7 +368,7 @@ function renderGapAnalysis(gap) {
   if (gap.top5_low_gap && gap.top5_low_gap.length) {
     var listTitle = document.createElement("h3");
     listTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
-    listTitle.textContent = "갭 최소 아파트 (매매 30건↑, 갭 낮은 순)";
+    listTitle.textContent = "갭 최소 아파트 (매매 5억↑·30건↑)";
     sec.appendChild(listTitle);
 
     var list = document.createElement("div");
