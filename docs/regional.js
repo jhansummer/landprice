@@ -339,7 +339,7 @@ function renderHeatmapGrid(items, title, subtitle) {
 
         var barWrap = document.createElement("div");
         barWrap.className = "vol-bar-wrap";
-        barWrap.style.cssText = "position:relative;background:transparent;border:none";
+        barWrap.style.cssText = "position:relative;height:26px;display:block";
 
         // 배경 (좌/우 반반)
         var bgLeft = document.createElement("div");
@@ -371,8 +371,7 @@ function renderHeatmapGrid(items, title, subtitle) {
 
         // 수치 라벨 (바 바깥)
         var countEl = document.createElement("span");
-        countEl.className = "vol-bar-count";
-        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3";
+        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;white-space:nowrap;z-index:3;color:var(--ink)";
         countEl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
         if (vp >= 0) {
           countEl.style.left = (50 + bw + 1) + "%";
@@ -385,6 +384,8 @@ function renderHeatmapGrid(items, title, subtitle) {
         // 일반 막대 (거래량순, 가격순)
         var barWrap = document.createElement("div");
         barWrap.className = "vol-bar-wrap";
+        var track = document.createElement("div");
+        track.className = "vol-bar-track";
         var bar = document.createElement("div");
         bar.className = "vol-bar";
 
@@ -396,13 +397,13 @@ function renderHeatmapGrid(items, title, subtitle) {
           barVal = item.txn_count / maxBarVal * 100;
           barText = item.txn_count + "\uAC74";
         }
-        bar.style.width = Math.max(barVal * 0.7, 3) + "%";
+        bar.style.width = Math.max(barVal, 3) + "%";
         bar.style.background = priceColor(item.avg_per_m2, minP, maxP);
-        barWrap.appendChild(bar);
+        track.appendChild(bar);
+        barWrap.appendChild(track);
 
         var countEl = document.createElement("span");
         countEl.className = "vol-bar-count";
-        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;left:" + Math.max(barVal * 0.7, 3) + "%;margin-left:6px";
         countEl.textContent = barText;
         barWrap.appendChild(countEl);
         row.appendChild(barWrap);
