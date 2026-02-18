@@ -290,7 +290,8 @@ function drawJeonseTrendChart(canvas, trendData) {
   for (var i = 0; i < trendData.length; i++) {
     var ym = trendData[i][0];
     var yr = ym.slice(0, 4);
-    if (ym.slice(4) === "01" && !seenYear[yr]) {
+    var mm = ym.slice(4);
+    if ((mm === "01" || i === 0) && !seenYear[yr]) {
       seenYear[yr] = true;
       ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
     }
@@ -353,8 +354,8 @@ function drawJeonseVolumeChart(canvas, volumeData) {
   var seenYear = {};
   for (var i = 0; i < volumeData.length; i++) {
     var ym = volumeData[i][0];
-    var yr = ym.slice(0, 4);
-    if (ym.slice(4) === "01" && !seenYear[yr]) {
+    var yr = ym.slice(0, 4), mm = ym.slice(4);
+    if ((mm === "01" || i === 0) && !seenYear[yr]) {
       seenYear[yr] = true;
       var bx = pad.left + (i / (volumeData.length - 1)) * plotW;
       ctx.fillText(yr, bx, pad.top + plotH + 6);
@@ -417,8 +418,8 @@ function drawGapTrendChart(canvas, trendData) {
   ctx.textAlign = "center"; ctx.textBaseline = "top";
   var seenYear = {};
   for (var i = 0; i < trendData.length; i++) {
-    var ym = trendData[i][0], yr = ym.slice(0, 4);
-    if (ym.slice(4) === "01" && !seenYear[yr]) {
+    var ym = trendData[i][0], yr = ym.slice(0, 4), mm = ym.slice(4);
+    if ((mm === "01" || i === 0) && !seenYear[yr]) {
       seenYear[yr] = true;
       ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
     }
