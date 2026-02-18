@@ -12,11 +12,8 @@
   var resultsEl = document.getElementById("results");
   var searchInput = document.getElementById("searchInput");
   var searchBtn = document.getElementById("searchBtn");
-  var tabsEl = document.getElementById("tabs");
-
   var globalIndex = null;
   var sidoCache = {};
-  var activeSido = null;
   var acDropdown = null;
   var acTimeout = null;
   var txnCache = {};
@@ -29,18 +26,14 @@
 
   /* ── URL state ── */
   function updateURL() {
-    var parts = [];
-    if (activeSido) parts.push(activeSido);
     var q = searchInput.value.trim();
-    var hash = parts.join("/");
-    if (q) hash += "?q=" + encodeURIComponent(q);
-    if (hash) history.replaceState(null, "", "#" + hash);
+    if (q) history.replaceState(null, "", "#?q=" + encodeURIComponent(q));
   }
   function parseURL() {
     var hash = decodeURIComponent(location.hash.replace("#", ""));
     if (!hash) return {};
     var parts = hash.split("?q=");
-    return { sido: parts[0] || "", query: parts[1] || "" };
+    return { query: parts[1] || "" };
   }
 
   /* ── data loading ── */
@@ -53,6 +46,23 @@
     });
   }
 
+  function loadAllSidos() {
+    if (!globalIndex) return Promise.resolve();
+    var promises = globalIndex.sido_order.map(function (sido) { return loadSido(sido); });
+    return Promise.all(promises);
+  }
+
+  function getAllItems() {
+    var all = [];
+    globalIndex.sido_order.forEach(function (sido) {
+      var data = sidoCache[sido];
+      if (data && data.items) {
+        data.items.forEach(function (item) { all.push(item); });
+      }
+    });
+    return all;
+  }
+
   function loadTxn(aptId) {
     if (txnCache[aptId]) return Promise.resolve(txnCache[aptId]);
     return fetch(BY_APT_BASE + aptId + ".json").then(function (r) { return r.json(); }).then(function (data) {
@@ -61,34 +71,7 @@
     }).catch(function () { return []; });
   }
 
-  /* ── tabs ── */
-  function renderTabs(sidoOrder) {
-    tabsEl.innerHTML = "";
-    var label = document.createElement("span");
-    label.className = "region-label";
-    label.textContent = "지역";
-    tabsEl.appendChild(label);
-    sidoOrder.forEach(function (sido) {
-      var btn = document.createElement("button");
-      btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-      btn.textContent = sido;
-      btn.addEventListener("click", function () {
-        if (sido === activeSido) return;
-        activeSido = sido;
-        tabsEl.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        resultsEl.innerHTML = "";
-        searchInput.value = "";
-        statusEl.innerHTML = '<span class="spinner"></span>데이터 로딩 중...';
-        loadSido(sido).then(function () {
-          statusEl.innerHTML = "";
-          showHint();
-          updateURL();
-        });
-      });
-      tabsEl.appendChild(btn);
-    });
-  }
+  /* ── tabs (removed — search is now cross-region) ── */
 
   /* ── autocomplete ── */
   function createAutocomplete() {
@@ -103,13 +86,13 @@
       if (acDropdown) acDropdown.style.display = "none";
       return;
     }
-    var data = sidoCache[activeSido];
-    if (!data || !data.items) return;
+    var allItems = getAllItems();
+    if (!allItems.length) return;
     var q = query.toLowerCase();
     var seen = {};
     var results = [];
-    for (var i = 0; i < data.items.length && results.length < 10; i++) {
-      var r = data.items[i];
+    for (var i = 0; i < allItems.length && results.length < 10; i++) {
+      var r = allItems[i];
       if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
       var key = r.apt_name + "\t" + r.sigungu + "\t" + r.dong_name;
       if (seen[key]) continue;
@@ -138,11 +121,11 @@
   /* ── search ── */
   function doSearch(query) {
     if (!query || query.length < 2) return;
-    var data = sidoCache[activeSido];
-    if (!data || !data.items) { resultsEl.innerHTML = '<div class="val-empty">데이터가 없습니다.</div>'; return; }
+    var allItems = getAllItems();
+    if (!allItems.length) { resultsEl.innerHTML = '<div class="val-empty">데이터가 없습니다.</div>'; return; }
 
     var q = query.toLowerCase();
-    var matches = data.items.filter(function (item) {
+    var matches = allItems.filter(function (item) {
       return item.apt_name.toLowerCase().indexOf(q) >= 0;
     });
 
@@ -412,9 +395,9 @@
 
   /* ── hint ── */
   function showHint() {
-    var data = sidoCache[activeSido];
-    if (!data) return;
-    resultsEl.innerHTML = '<div class="val-hint">' + activeSido + ' ' + (data.count || 0).toLocaleString()
+    var totalCount = 0;
+    globalIndex.sido_order.forEach(function (s) { var d = sidoCache[s]; if (d) totalCount += (d.count || 0); });
+    resultsEl.innerHTML = '<div class="val-hint">\uC804\uAD6D ' + totalCount.toLocaleString()
       + '\uAC1C \uB2E8\uC9C0 \uBD84\uC11D \uAC00\uB2A5<br><span style="font-size:11px">\uB2E8\uC9C0\uBA85\uC744 \uAC80\uC0C9\uD558\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00/\uB9AC\uB529 \uC5EC\uBD80\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span>'
       + '<br><span style="font-size:11px;color:var(--muted)">\uD45C\uC2DC\uB41C %\uB294 \uC720\uC0AC\uB2E8\uC9C0\uC640\uC758 \uAC00\uACA9 \uACA9\uCC28 \uBCC0\uD654\uB97C \uB098\uD0C0\uB0C5\uB2C8\uB2E4. 3\uB144 \uD3C9\uADE0 \uACA9\uCC28 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC9C4 \uC815\uB3C4\uB85C, \uC74C\uC218\uBA74 \uC0C1\uB300\uC801\uC73C\uB85C \uC800\uD3C9\uAC00, \uC591\uC218\uBA74 \uB9AC\uB529\uC785\uB2C8\uB2E4.</span></div>';
   }
@@ -429,10 +412,8 @@
         if (!sidoOrder.length) { statusEl.textContent = "\uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4."; return; }
 
         var parsed = parseURL();
-        activeSido = sidoOrder.indexOf(parsed.sido) >= 0 ? parsed.sido : sidoOrder[0];
-        renderTabs(sidoOrder);
 
-        return loadSido(activeSido).then(function () {
+        return loadAllSidos().then(function () {
           statusEl.innerHTML = "";
           createAutocomplete();
           if (parsed.query) {
@@ -470,15 +451,7 @@
   });
   window.addEventListener("hashchange", function () {
     var parsed = parseURL();
-    if (parsed.sido && parsed.sido !== activeSido) {
-      activeSido = parsed.sido;
-      tabsEl.querySelectorAll(".tab-btn").forEach(function (b) {
-        b.classList.toggle("active", b.textContent === activeSido);
-      });
-      loadSido(activeSido).then(function () {
-        if (parsed.query) { searchInput.value = parsed.query; doSearch(parsed.query); }
-      });
-    } else if (parsed.query) {
+    if (parsed.query) {
       searchInput.value = parsed.query;
       doSearch(parsed.query);
     }
