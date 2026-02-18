@@ -229,7 +229,7 @@
     info.textContent = entry.sigungu + " " + entry.dong_name + " \u00B7 "
       + entry.area_m2 + "m\u00B2 \u00B7 \uD604\uC7AC " + fmtEok(entry.current_price)
       + "(" + fmtPerM2(entry.current_price, entry.area_m2) + ")"
-      + " \u00B7 \uD074\uB7EC\uC2A4\uD130 " + entry.cluster_size + "\uAC1C \uB2E8\uC9C0";
+      + " \u00B7 \uBE44\uAD50\uB2E8\uC9C0 " + (entry.compare ? entry.compare.length : 0) + "\uAC1C";
     card.appendChild(info);
 
     // Gauge bar
