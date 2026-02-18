@@ -13,6 +13,7 @@ SUMMARY_PATH = DATA_DIR / "summary.json"
 SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
 SEARCH_DIR = DATA_DIR / "search"
 OUT_PATH = DATA_DIR / "undervalued.json"
+VALUATION_DIR = DATA_DIR / "valuation"
 
 
 def month_add(yyyymm: str, delta: int) -> str:
@@ -332,7 +333,7 @@ def main() -> None:
         keys = list(series_map.keys())
         n = len(keys)
         if n == 0:
-            return [], [], []
+            return [], [], [], []
 
         adj: Dict[int, List[int]] = {i: [] for i in range(n)}
         for i in range(n):
@@ -360,6 +361,7 @@ def main() -> None:
         clusters = []
         undervalued = []
         band_candidates = []
+        all_valued = []
 
         for i in range(n):
             if visited[i]:
@@ -451,8 +453,15 @@ def main() -> None:
                 if m["recent_avg"] is None or compare_avg_recent <= 0:
                     continue
                 ratio = m["recent_avg"] / compare_avg_recent
-                if ratio >= 1.0:
-                    continue
+                gap_pct = round((ratio - 1) * 100, 2)
+
+                # Classify valuation status
+                if gap_pct < -5:
+                    status = "undervalued"
+                elif gap_pct > 5:
+                    status = "leading"
+                else:
+                    status = "market"
 
                 entry = {
                     "id": m["id"],
@@ -466,19 +475,24 @@ def main() -> None:
                     "compare_avg_recent": compare_avg_recent,
                     "compare_avg_36": compare_avg_36,
                     "cluster_avg": round(avg_current, 2),
-                    "gap_pct": round((ratio - 1) * 100, 2),
+                    "gap_pct": gap_pct,
+                    "status": status,
                     "trade_count": m["trade_count"],
                     "recent_3m_trades": m["recent_3m_trades"],
                     "cluster_size": len(members),
                     "compare": compares,
                 }
 
-                if m["current_price"] <= (1.0 - gap) * avg_current:
-                    undervalued.append(entry)
+                # All entries go to valuation output
+                all_valued.append(entry)
 
-                band_candidates.append(entry)
+                # Existing undervalued/band logic (ratio < 1.0 only)
+                if ratio < 1.0:
+                    if m["current_price"] <= (1.0 - gap) * avg_current:
+                        undervalued.append(entry)
+                    band_candidates.append(entry)
 
-        return clusters, undervalued, band_candidates
+        return clusters, undervalued, band_candidates, all_valued
 
     for sido in search_sidos.keys():
         sp = sido_params(sido)
@@ -494,8 +508,10 @@ def main() -> None:
         all_clusters = []
         all_undervalued = []
         all_band_candidates = []
+        all_valued_entries = []
         seen_uv: set = set()
         seen_bc: set = set()
+        seen_val: set = set()
 
         for dist_name, dist_items in district_items.items():
             # 같은 구 + 인접 구 아이템 합치기
@@ -507,7 +523,7 @@ def main() -> None:
                         group_items.append(it)
                         group_ids.add(it["id"])
 
-            clusters, undervalued, band_cands = find_undervalued_in_group(group_items, sp, args.gap)
+            clusters, undervalued, band_cands, valued = find_undervalued_in_group(group_items, sp, args.gap)
             all_clusters.extend(clusters)
             # 중복 제거: 인접 구 확장으로 같은 아파트가 여러 그룹에서 나올 수 있음
             # 같은 아파트가 여러번 나오면 gap_pct가 더 낮은(더 저평가된) 걸 유지
@@ -519,6 +535,10 @@ def main() -> None:
                 if bc["id"] not in seen_bc:
                     seen_bc.add(bc["id"])
                     all_band_candidates.append(bc)
+            for v in valued:
+                if v["id"] not in seen_val:
+                    seen_val.add(v["id"])
+                    all_valued_entries.append(v)
 
         all_undervalued = [u for u in all_undervalued if u.get("recent_avg") is not None and u.get("compare_avg_recent") and u.get("recent_3m_trades", 0) > 0]
         all_undervalued.sort(key=recent_gap_score)
@@ -541,8 +561,29 @@ def main() -> None:
             "bands": bands_out,
         }
 
+        # Write per-sido valuation JSON (compact, no indent)
+        VALUATION_DIR.mkdir(parents=True, exist_ok=True)
+        val_output = {
+            "updated_at": summary.get("updated_at"),
+            "current_month": current_month,
+            "count": len(all_valued_entries),
+            "items": all_valued_entries,
+        }
+        val_path = VALUATION_DIR / f"{sido}.json"
+        val_path.write_text(json.dumps(val_output, ensure_ascii=False), encoding="utf-8")
+        print(f"Valuation: {val_path} ({len(all_valued_entries)} items)")
+
     OUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Saved: {OUT_PATH}")
+
+    # Write valuation index
+    val_index = {
+        "updated_at": summary.get("updated_at"),
+        "sido_order": list(search_sidos.keys()),
+    }
+    (VALUATION_DIR / "index.json").write_text(
+        json.dumps(val_index, ensure_ascii=False), encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

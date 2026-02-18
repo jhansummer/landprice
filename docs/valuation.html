@@ -4,22 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="naver-site-verification" content="395bc4f52e3a4764f98077727fe6466f57ed40c0" />
-  <title>비교검색 - APT Mine</title>
-  <meta name="description" content="아파트 단지명으로 검색하고 최대 5개 단지 시세를 비교합니다. 국토교통부 실거래가 기반." />
-  <meta name="keywords" content="아파트 비교, 단지 비교검색, 실거래가 비교, 아파트 시세 비교, APT Mine" />
-  <meta property="og:title" content="비교검색 - APT Mine" />
-  <meta property="og:description" content="아파트 단지명으로 검색하고 최대 5개 단지 시세를 비교합니다. 국토교통부 실거래가 기반." />
+  <title>단지분석 - APT Mine</title>
+  <meta name="description" content="유사단지 비교를 통한 아파트 시세 분석. 저평가/적정가/리딩단지 판별. 국토교통부 실거래가 기반." />
+  <meta name="keywords" content="아파트 분석, 저평가 아파트, 유사단지, 시세 비교, APT Mine" />
+  <meta property="og:title" content="단지분석 - APT Mine" />
+  <meta property="og:description" content="유사단지 비교를 통한 아파트 시세 분석. 저평가/적정가/리딩단지 판별." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://aptmine.com/search.html" />
+  <meta property="og:url" content="https://aptmine.com/valuation.html" />
   <meta property="og:site_name" content="APT Mine" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="비교검색 - APT Mine" />
-  <meta name="twitter:description" content="아파트 단지명으로 검색하고 최대 5개 단지 시세를 비교합니다" />
+  <meta name="twitter:title" content="단지분석 - APT Mine" />
+  <meta name="twitter:description" content="유사단지 비교를 통한 아파트 시세 분석" />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="canonical" href="https://aptmine.com/search.html" />
+  <link rel="canonical" href="https://aptmine.com/valuation.html" />
   <link rel="stylesheet" href="style.css?v=7" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
@@ -38,17 +38,15 @@
     </div>
     <nav class="nav-bar">
       <a class="nav-link" href="index.html">메인</a>
-      <span class="nav-link active">비교검색</span>
+      <a class="nav-link" href="search.html">비교검색</a>
       <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
-      <a class="nav-link" href="valuation.html">단지분석</a>
+      <span class="nav-link active">단지분석</span>
       <a class="nav-link" href="regional.html">지역시세</a>
       <a class="nav-link" href="jeonse.html">전세시세</a>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
     </nav>
   </header>
   <nav id="tabs" class="tabs"></nav>
-  <div id="subtabs" class="district-select-wrap"></div>
-  <div id="filters" class="filter-wrap"></div>
   <div class="search-wrap">
     <input id="searchInput" type="text" class="search-input" placeholder="단지명으로 검색 (2글자 이상)" autofocus />
     <button id="searchBtn" class="search-btn">검색</button>
@@ -68,13 +66,14 @@
     </nav>
     <div class="footer-info">
       <a href="/privacy.html">개인정보처리방침</a>
-      <span style="margin:0 6px;">·</span>
+      <span style="margin:0 6px;">&middot;</span>
       <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
     </div>
-  </footer>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
+  </footer>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
   <script src="chart-utils.js?v=5"></script>
   <script src="watchlist.js?v=2"></script>
-  <script src="search.js?v=15"></script>
+  <script src="valuation.js?v=1"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>
