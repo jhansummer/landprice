@@ -692,7 +692,15 @@ function renderDongStats(dongStats, title, dongRecovery) {
     }
 
     listContainer.innerHTML = "";
-    var maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
+    var maxVal;
+    if (sortBy === "volume") {
+      maxVal = Math.max.apply(null, sorted.map(function(d) { return d.txn_count; }));
+    } else if (sortBy === "recovery") {
+      var peaks = sorted.map(function(d) { var r = recoveryMap[d.dong_name]; return r ? Math.abs(r.vs_peak) : 0; });
+      maxVal = Math.max.apply(null, peaks) || 1;
+    } else {
+      maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
+    }
     var table = document.createElement("div");
     table.className = "dong-stats-list";
 
@@ -703,31 +711,88 @@ function renderDongStats(dongStats, title, dongRecovery) {
       nameEl.className = "dong-stat-name";
       nameEl.textContent = d.dong_name;
       row.appendChild(nameEl);
-      var barWrap = document.createElement("div");
-      barWrap.className = "dong-stat-bar-wrap";
-      var bar = document.createElement("div");
-      bar.className = "dong-stat-bar";
-      bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
-      barWrap.appendChild(bar);
-      row.appendChild(barWrap);
+
+      var rec = recoveryMap[d.dong_name];
+
+      if (sortBy === "recovery") {
+        var vp = rec ? rec.vs_peak : 0;
+        var bw = Math.min(Math.abs(vp) / maxVal * 50, 50);
+        var barWrap = document.createElement("div");
+        barWrap.className = "dong-stat-bar-wrap";
+        barWrap.style.cssText = "position:relative;background:transparent";
+        var bgL = document.createElement("div");
+        bgL.style.cssText = "position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:4px 0 0 4px";
+        barWrap.appendChild(bgL);
+        var bgR = document.createElement("div");
+        bgR.style.cssText = "position:absolute;right:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:0 4px 4px 0";
+        barWrap.appendChild(bgR);
+        var axis = document.createElement("div");
+        axis.style.cssText = "position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--muted);z-index:2;margin-left:-1px";
+        barWrap.appendChild(axis);
+        var bar = document.createElement("div");
+        bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:3px;z-index:1";
+        if (vp >= 0) {
+          bar.style.left = "50%";
+          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.background = "linear-gradient(90deg,#2563eb,#60a5fa)";
+        } else {
+          bar.style.right = "50%";
+          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
+        }
+        barWrap.appendChild(bar);
+        var lbl = document.createElement("span");
+        lbl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3;color:var(--fg)";
+        lbl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
+        if (vp >= 0) { lbl.style.left = (50 + Math.max(bw, 1) + 1) + "%"; }
+        else { lbl.style.right = (50 + Math.max(bw, 1) + 1) + "%"; }
+        barWrap.appendChild(lbl);
+        row.appendChild(barWrap);
+      } else {
+        var barWrap = document.createElement("div");
+        barWrap.className = "dong-stat-bar-wrap";
+        var bar = document.createElement("div");
+        bar.className = "dong-stat-bar";
+        if (sortBy === "volume") {
+          bar.style.width = (d.txn_count / maxVal * 100) + "%";
+        } else {
+          bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
+        }
+        barWrap.appendChild(bar);
+        row.appendChild(barWrap);
+      }
+
       var valEl = document.createElement("span");
       valEl.className = "dong-stat-val";
-      var valText = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
-      var rec = recoveryMap[d.dong_name];
-      if (rec) {
-        var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
-        valText += " ";
-        valEl.textContent = "";
-        var span1 = document.createTextNode(Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건) ");
-        valEl.appendChild(span1);
-        var badge = document.createElement("span");
-        badge.className = "recovery-badge " + rec.status;
-        badge.style.fontSize = "9px";
-        badge.style.padding = "1px 6px";
-        badge.textContent = st.label;
-        valEl.appendChild(badge);
+      if (sortBy === "volume") {
+        valEl.textContent = d.txn_count + "건 (" + Math.round(d.avg_per_m2).toLocaleString() + "만/m²)";
+      } else if (sortBy === "recovery") {
+        valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+        if (rec) {
+          var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+          valEl.textContent += " ";
+          var badge = document.createElement("span");
+          badge.className = "recovery-badge " + rec.status;
+          badge.style.fontSize = "9px";
+          badge.style.padding = "1px 6px";
+          badge.textContent = st.label;
+          valEl.appendChild(badge);
+        }
       } else {
-        valEl.textContent = valText;
+        var valText = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+        if (rec) {
+          var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+          valEl.textContent = "";
+          valEl.appendChild(document.createTextNode(valText + " "));
+          var badge = document.createElement("span");
+          badge.className = "recovery-badge " + rec.status;
+          badge.style.fontSize = "9px";
+          badge.style.padding = "1px 6px";
+          badge.textContent = st.label;
+          valEl.appendChild(badge);
+        } else {
+          valEl.textContent = valText;
+        }
       }
       row.appendChild(valEl);
       table.appendChild(row);
@@ -845,7 +910,15 @@ function renderAllDongStats(sidoData, title) {
     }
 
     listContainer.innerHTML = "";
-    var maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
+    var maxVal;
+    if (sortBy === "volume") {
+      maxVal = Math.max.apply(null, sorted.map(function(d) { return d.txn_count; }));
+    } else if (sortBy === "recovery") {
+      var peaks = sorted.map(function(d) { return d.recovery ? Math.abs(d.recovery.vs_peak) : 0; });
+      maxVal = Math.max.apply(null, peaks) || 1;
+    } else {
+      maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
+    }
     var table = document.createElement("div");
     table.className = "dong-stats-list";
     function renderItem(d) {
@@ -860,17 +933,76 @@ function renderAllDongStats(sidoData, title) {
       nameEl.className = "dong-stat-name";
       nameEl.textContent = d.dong_name;
       row.appendChild(nameEl);
-      var barWrap = document.createElement("div");
-      barWrap.className = "dong-stat-bar-wrap";
-      var bar = document.createElement("div");
-      bar.className = "dong-stat-bar";
-      bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
-      bar.style.background = d.color;
-      barWrap.appendChild(bar);
-      row.appendChild(barWrap);
+
+      if (sortBy === "recovery") {
+        var vp = d.recovery ? d.recovery.vs_peak : 0;
+        var bw = Math.min(Math.abs(vp) / maxVal * 50, 50);
+        var barWrap = document.createElement("div");
+        barWrap.className = "dong-stat-bar-wrap";
+        barWrap.style.cssText = "position:relative;background:transparent";
+        var bgL = document.createElement("div");
+        bgL.style.cssText = "position:absolute;left:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:4px 0 0 4px";
+        barWrap.appendChild(bgL);
+        var bgR = document.createElement("div");
+        bgR.style.cssText = "position:absolute;right:0;top:0;bottom:0;width:50%;background:var(--line);border-radius:0 4px 4px 0";
+        barWrap.appendChild(bgR);
+        var axis = document.createElement("div");
+        axis.style.cssText = "position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:var(--muted);z-index:2;margin-left:-1px";
+        barWrap.appendChild(axis);
+        var bar = document.createElement("div");
+        bar.style.cssText = "position:absolute;top:2px;bottom:2px;border-radius:3px;z-index:1";
+        if (vp >= 0) {
+          bar.style.left = "50%";
+          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.background = "linear-gradient(90deg,#2563eb,#60a5fa)";
+        } else {
+          bar.style.right = "50%";
+          bar.style.width = Math.max(bw, 1) + "%";
+          bar.style.background = "linear-gradient(90deg,#f87171,#ef4444)";
+        }
+        barWrap.appendChild(bar);
+        var lbl = document.createElement("span");
+        lbl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);font-size:10px;white-space:nowrap;z-index:3;color:var(--fg)";
+        lbl.textContent = (vp >= 0 ? "+" : "") + vp + "%";
+        if (vp >= 0) { lbl.style.left = (50 + Math.max(bw, 1) + 1) + "%"; }
+        else { lbl.style.right = (50 + Math.max(bw, 1) + 1) + "%"; }
+        barWrap.appendChild(lbl);
+        row.appendChild(barWrap);
+      } else {
+        var barWrap = document.createElement("div");
+        barWrap.className = "dong-stat-bar-wrap";
+        var bar = document.createElement("div");
+        bar.className = "dong-stat-bar";
+        if (sortBy === "volume") {
+          bar.style.width = (d.txn_count / maxVal * 100) + "%";
+        } else {
+          bar.style.width = (d.avg_per_m2 / maxVal * 100) + "%";
+        }
+        bar.style.background = d.color;
+        barWrap.appendChild(bar);
+        row.appendChild(barWrap);
+      }
+
       var valEl = document.createElement("span");
       valEl.className = "dong-stat-val";
-      valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+      if (sortBy === "volume") {
+        valEl.textContent = d.txn_count + "건 (" + Math.round(d.avg_per_m2).toLocaleString() + "만/m²)";
+      } else if (sortBy === "recovery") {
+        var rec = d.recovery;
+        valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+        if (rec) {
+          var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+          valEl.textContent += " ";
+          var badge = document.createElement("span");
+          badge.className = "recovery-badge " + rec.status;
+          badge.style.fontSize = "9px";
+          badge.style.padding = "1px 6px";
+          badge.textContent = st.label;
+          valEl.appendChild(badge);
+        }
+      } else {
+        valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
+      }
       row.appendChild(valEl);
       table.appendChild(row);
     }
