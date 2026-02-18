@@ -601,6 +601,7 @@ function renderDongStats(dongStats, title, dongRecovery) {
   var listContainer = document.createElement("div");
 
   function renderList(sortBy) {
+    var INITIAL_COUNT = 20;
     var sorted = dongStats.slice();
     if (sortBy === "price") {
       sorted.sort(function(a,b) { return b.avg_per_m2 - a.avg_per_m2; });
@@ -617,7 +618,8 @@ function renderDongStats(dongStats, title, dongRecovery) {
     var maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
     var table = document.createElement("div");
     table.className = "dong-stats-list";
-    sorted.slice(0, 30).forEach(function(d) {
+
+    function renderItem(d) {
       var row = document.createElement("div");
       row.className = "dong-stat-row";
       var nameEl = document.createElement("span");
@@ -652,8 +654,22 @@ function renderDongStats(dongStats, title, dongRecovery) {
       }
       row.appendChild(valEl);
       table.appendChild(row);
-    });
+    }
+
+    sorted.slice(0, INITIAL_COUNT).forEach(renderItem);
     listContainer.appendChild(table);
+
+    if (sorted.length > INITIAL_COUNT) {
+      var moreBtn = document.createElement("button");
+      moreBtn.className = "sort-btn";
+      moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+      moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
+      moreBtn.addEventListener("click", function() {
+        sorted.slice(INITIAL_COUNT).forEach(renderItem);
+        moreBtn.remove();
+      });
+      listContainer.appendChild(moreBtn);
+    }
   }
 
   [["price", "가격순"], ["volume", "거래량순"], ["recovery", "고점대비순"]].forEach(function(pair) {
@@ -755,7 +771,7 @@ function renderAllDongStats(sidoData, title) {
     var maxVal = Math.max.apply(null, sorted.map(function(d) { return d.avg_per_m2; }));
     var table = document.createElement("div");
     table.className = "dong-stats-list";
-    sorted.slice(0, 50).forEach(function(d) {
+    function renderItem(d) {
       var row = document.createElement("div");
       row.className = "dong-stat-row dong-stat-row-wide";
       var distLabel = document.createElement("span");
@@ -780,8 +796,23 @@ function renderAllDongStats(sidoData, title) {
       valEl.textContent = Math.round(d.avg_per_m2).toLocaleString() + " (" + d.txn_count + "건)";
       row.appendChild(valEl);
       table.appendChild(row);
-    });
+    }
+
+    var INITIAL_COUNT = 20;
+    sorted.slice(0, INITIAL_COUNT).forEach(renderItem);
     listContainer.appendChild(table);
+
+    if (sorted.length > INITIAL_COUNT) {
+      var moreBtn = document.createElement("button");
+      moreBtn.className = "sort-btn";
+      moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+      moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
+      moreBtn.addEventListener("click", function() {
+        sorted.slice(INITIAL_COUNT).forEach(renderItem);
+        moreBtn.remove();
+      });
+      listContainer.appendChild(moreBtn);
+    }
   }
 
   [["price", "가격순"], ["volume", "거래량순"], ["recovery", "고점대비순"]].forEach(function(pair) {
