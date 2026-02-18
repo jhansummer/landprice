@@ -5,7 +5,6 @@
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
-    market: "적정가",
     leading: "리딩단지"
   };
 
