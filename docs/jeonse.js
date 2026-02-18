@@ -280,7 +280,7 @@ function renderJeonseDongStats(dongStats) {
   var grid = document.createElement("div");
   grid.className = "heatmap-grid";
   grid.style.display = "grid";
-  grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(100px, 1fr))";
+  grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(90px, 1fr))";
   grid.style.gap = "6px";
   grid.style.marginTop = "12px";
 
@@ -374,17 +374,17 @@ function renderGapAnalysis(gap) {
     list.className = "dong-stats-list";
     gap.top5_low_gap.forEach(function(item) {
       var row = document.createElement("div");
-      row.className = "dong-stat-row";
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
       var nameEl = document.createElement("span");
-      nameEl.className = "dong-stat-name";
+      nameEl.style.cssText = "font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1";
       nameEl.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
       row.appendChild(nameEl);
       var valEl = document.createElement("span");
-      valEl.className = "dong-stat-val";
+      valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px";
       var gapVal = item.gap >= 10000
         ? (item.gap / 10000).toFixed(1) + "\uc5b5"
         : fmt(item.gap) + "만";
-      valEl.textContent = "갭 " + gapVal + " (전세가율 " + item.ratio + "%)";
+      valEl.textContent = "\uAC29 " + gapVal + " (" + item.ratio + "%)";
       row.appendChild(valEl);
       list.appendChild(row);
     });

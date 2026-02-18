@@ -30,7 +30,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-body);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-body);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
 
 /* ── Header ── */
 .site-header{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);position:relative;overflow:hidden}
@@ -78,7 +78,7 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
 .wrap{max-width:1200px;margin:0 auto;padding:20px 24px 40px}
 
 /* ── Section Cards ── */
-.section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow-md);transition:box-shadow .2s ease}
+.section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow-md);transition:box-shadow .2s ease;overflow:hidden}
 .section:hover{box-shadow:var(--shadow-lg)}
 .section-title{font-size:18px;font-weight:800;margin:0 0 4px;color:var(--ink);letter-spacing:-0.3px}
 .section-sub{font-size:12px;color:var(--muted);margin:0 0 20px;font-weight:500}
@@ -102,7 +102,7 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
 .rank-diff .pct-value{font-weight:700}
 
 /* ── Charts ── */
-.scatter-chart{margin-top:12px;width:100%;height:150px}
+.scatter-chart{margin-top:12px;width:100%;height:150px;overflow:hidden}
 .scatter-chart canvas{width:100%;height:100%;display:block}
 
 /* ── Tags ── */
@@ -229,7 +229,11 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .dong-stat-row-wide{grid-template-columns:40px 55px 1fr 80px}
   .dong-stat-district{font-size:9px}
   .recovery-row{grid-template-columns:55px 1fr 105px}
+  .recovery-val{font-size:10px}
   .heatmap-info-stats{grid-template-columns:repeat(2,1fr)}
+  .heatmap-info-val{font-size:14px}
+  .vol-bar-row{gap:8px}
+  .sort-btns{flex-wrap:wrap}
 }
 
 /* ── Heatmap Grid (replaces Kakao Maps) ── */
@@ -260,7 +264,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .vol-bar-list{display:flex;flex-direction:column;gap:8px}
 .vol-bar-row{display:flex;align-items:center;gap:12px}
 .vol-bar-wrap{flex:1;min-width:0;height:26px;background:var(--line);border-radius:6px;overflow:hidden}
-.vol-bar{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;min-width:24px;transition:width .3s}
+.vol-bar{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;min-width:24px;transition:width .3s;overflow:hidden}
 .vol-bar-count{font-size:11px;font-weight:700;color:#fff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.3)}
 .vol-bar-label{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:90px}
 .vol-bar-name{font-size:14px;font-weight:800;color:var(--ink);white-space:nowrap;line-height:1.2}
@@ -350,11 +354,12 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .search-wrap{padding:0 12px 12px}
   .search-input{padding:12px 14px;font-size:14px;min-height:44px}
   .search-btn{padding:12px 16px;font-size:14px;min-height:44px}
-  .vol-bar-wrap{height:22px}
-  .vol-bar-label{min-width:70px}
-  .vol-bar-name{font-size:12px}
-  .vol-bar-price{font-size:10px}
-  .vol-bar-count{font-size:10px}
+  .vol-bar-row{gap:6px}
+  .vol-bar-wrap{height:20px}
+  .vol-bar-label{min-width:60px;max-width:90px}
+  .vol-bar-name{font-size:11px}
+  .vol-bar-price{font-size:9px;overflow:hidden;text-overflow:ellipsis}
+  .vol-bar-count{font-size:9px}
   .heatmap-grid{gap:6px}
   .heatmap-cell{padding:10px 8px;min-width:75px;border-radius:10px}
   .heatmap-cell-price{font-size:15px}
@@ -369,20 +374,38 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .sort-bar{flex-direction:column;align-items:flex-start}
   .compare-checks{gap:4px 8px}
   .compare-check-label{font-size:11px;min-height:44px;display:inline-flex;align-items:center}
-  .dong-stat-row{grid-template-columns:50px 1fr 70px;font-size:11px}
-  .dong-stat-row-wide{grid-template-columns:30px 45px 1fr 60px}
-  .recovery-row{grid-template-columns:45px 1fr 85px;font-size:11px}
-  .recovery-val{font-size:10px}
+  .dong-stat-row{grid-template-columns:50px 1fr 80px;font-size:11px}
+  .dong-stat-row-wide{grid-template-columns:30px 40px 1fr 70px}
+  .dong-stat-val{font-size:10px}
+  .recovery-row{grid-template-columns:42px 1fr 90px;font-size:11px}
+  .recovery-val{font-size:9px}
+  .recovery-badge{font-size:9px;padding:1px 5px}
   .jeonse-sample-row{flex-wrap:wrap;gap:4px;padding:8px}
-  .jeonse-sample-name{flex-basis:100%}
+  .jeonse-sample-name{flex-basis:100%;font-size:12px}
+  .jeonse-sample-area{font-size:10px}
+  .jeonse-sample-price{font-size:10px}
+  .jeonse-sample-ratio{font-size:13px;min-width:40px}
+  .heatmap-info-val{font-size:13px}
+  .sort-btns{flex-wrap:wrap}
+  .sort-btn{font-size:10px;padding:4px 10px}
   .autocomplete-dropdown{left:12px;right:12px}
-  .rank-card{grid-template-columns:22px 1fr}
+  .rank-card{grid-template-columns:22px 1fr;gap:8px}
+  .rank-top{flex-direction:column;gap:4px}
   .rank-apt{font-size:13px}
   .rank-pct{font-size:14px}
+  .rank-detail{font-size:11px}
+  .rank-diff{font-size:10px}
+  .rank-change{text-align:left}
+  .section-sub{word-break:keep-all;overflow-wrap:anywhere}
   .site-footer{padding:20px 12px;font-size:11px}
   .compare-float-bar{padding:10px 12px;gap:8px;flex-wrap:wrap}
   .compare-float-bar .go-btn{width:100%;margin-top:4px;margin-left:0}
-  .explain-block{font-size:11px;padding:8px 10px}
+  .explain-block{font-size:11px;padding:8px 10px;word-break:keep-all;overflow-wrap:anywhere}
+  .heatmap-cell{min-width:65px;padding:8px 6px}
+  .heatmap-cell-price{font-size:14px}
+  .apt-detail-name{font-size:12px}
+  .apt-detail-val{font-size:11px}
+  .compare-legend{grid-template-columns:repeat(auto-fit,minmax(100px,1fr));font-size:11px}
 }
 
 /* ── CTA Group ── */
