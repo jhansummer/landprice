@@ -373,7 +373,6 @@
     // tbody
     var tbody = document.createElement("tbody");
     var e6 = entry.recent_avg, e36 = entry.avg_36, eArea = entry.area_m2;
-    var eDiff = (e6 && e36 && e36 > 0) ? ((e6 / e36 - 1) * 100).toFixed(1) + "%" : "-";
     var rows = [
       ["\uC704\uCE58", entry.sigungu + " " + entry.dong_name],
       ["\uBA74\uC801", entry.area_m2 + "m\u00B2"],
@@ -381,7 +380,6 @@
       ["\uBA74\uC801\uB2F9\uAC00", eArea ? fmtPerM2(entry.current_price, eArea) : "-"],
       ["6\uAC1C\uC6D4 \uD3C9\uADE0", e6 ? fmtEok(e6) : "-"],
       ["3\uB144 \uD3C9\uADE0", e36 ? fmtEok(e36) : "-"],
-      ["3\uB144\u21926\uAC1C\uC6D4", eDiff],
       ["\uAC70\uB798\uB7C9", entry.trade_count + "\uAC74"]
     ];
     rows.forEach(function (r, ri) {
@@ -396,8 +394,7 @@
         else if (ri === 3) val = (c.current_price && cArea) ? fmtPerM2(c.current_price, cArea) : "-";
         else if (ri === 4) val = c6 ? fmtEok(c6) : "-";
         else if (ri === 5) val = c36 ? fmtEok(c36) : "-";
-        else if (ri === 6) val = (c6 && c36 && c36 > 0) ? ((c6 / c36 - 1) * 100).toFixed(1) + "%" : "-";
-        else if (ri === 7) val = c.trade_count ? c.trade_count + "\uAC74" : "-";
+        else if (ri === 6) val = c.trade_count ? c.trade_count + "\uAC74" : "-";
         tr.innerHTML += "<td>" + val + "</td>";
       });
       tbody.appendChild(tr);
