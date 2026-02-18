@@ -396,14 +396,15 @@ function renderHeatmapGrid(items, title, subtitle) {
           barVal = item.txn_count / maxBarVal * 100;
           barText = item.txn_count + "\uAC74";
         }
-        bar.style.width = Math.max(barVal, 3) + "%";
+        bar.style.width = Math.max(barVal * 0.7, 3) + "%";
         bar.style.background = priceColor(item.avg_per_m2, minP, maxP);
+        barWrap.appendChild(bar);
 
         var countEl = document.createElement("span");
         countEl.className = "vol-bar-count";
+        countEl.style.cssText = "position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;left:" + Math.max(barVal * 0.7, 3) + "%;margin-left:6px";
         countEl.textContent = barText;
-        bar.appendChild(countEl);
-        barWrap.appendChild(bar);
+        barWrap.appendChild(countEl);
         row.appendChild(barWrap);
 
         var label = document.createElement("div");
