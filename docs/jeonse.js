@@ -363,11 +363,11 @@ function renderGapAnalysis(gap) {
     requestAnimationFrame(function() { drawGapTrendChart(canvas, gap.gap_trend); });
   }
 
-  // 갭 최소 TOP5
+  // 갭 최소 TOP5 (매매 30건 이상)
   if (gap.top5_low_gap && gap.top5_low_gap.length) {
     var listTitle = document.createElement("h3");
     listTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
-    listTitle.textContent = "갭 최소 아파트 (투자 진입가 낮은 순)";
+    listTitle.textContent = "갭 최소 아파트 (매매 30건↑, 갭 낮은 순)";
     sec.appendChild(listTitle);
 
     var list = document.createElement("div");
@@ -384,7 +384,7 @@ function renderGapAnalysis(gap) {
       var gapVal = item.gap >= 10000
         ? (item.gap / 10000).toFixed(1) + "\uc5b5"
         : fmt(item.gap) + "만";
-      valEl.textContent = "\uAC29 " + gapVal + " (" + item.ratio + "%)";
+      valEl.textContent = "갭 " + gapVal + " (" + item.ratio + "%)";
       row.appendChild(valEl);
       list.appendChild(row);
     });

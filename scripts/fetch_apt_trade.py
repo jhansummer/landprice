@@ -1029,11 +1029,20 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
         if key not in rent_latest and r["deposit_man"]:
             rent_latest[key] = r["deposit_man"]
 
-    # 매칭 → 갭 계산
+    # (apt_name, area_m2)별 매매 거래 건수 — 3년치 데이터 기준
+    sale_count: Dict[Tuple, int] = {}
+    for r in sale_records:
+        if r.get("price_man") and r.get("area_m2") and r["area_m2"] > 0:
+            key = (r["apt_name"], r["area_m2"])
+            sale_count[key] = sale_count.get(key, 0) + 1
+
+    # 매칭 → 갭 계산 (매매 거래 30건 이상만)
     items = []
     for key, deposit in rent_latest.items():
         sale = sale_latest.get(key)
         if not sale or sale["price"] <= 0:
+            continue
+        if sale_count.get(key, 0) < 30:
             continue
         gap = sale["price"] - deposit
         if gap < 0:
