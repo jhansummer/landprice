@@ -893,35 +893,50 @@ def gather_rent_records(lawd_codes: List[str]) -> List[Dict[str, object]]:
 
 def build_jeonse_top3(rent_records: List[Dict[str, object]],
                       sale_records: List[Dict[str, object]]) -> List[Dict[str, object]]:
-    """최근 전세가 가장 많이 오른 아파트 TOP3."""
-    # 아파트별 전세 이력 (최신순)
-    groups: Dict[Tuple, List] = {}
+    """최근 전세가 가장 많이 오른 아파트 TOP3.
+
+    최근 6개월 중앙값 vs 이전 6개월 중앙값 비교 (개별 건 비교 시 층/호 차이로 왜곡됨).
+    각 구간 거래 2건 이상 필요.
+    """
+    now = datetime.utcnow().date().replace(day=1)
+    recent_set = set()
+    prev_set = set()
+    for i in range(6):
+        recent_set.add((now - relativedelta(months=i)).strftime("%Y%m"))
+        prev_set.add((now - relativedelta(months=6 + i)).strftime("%Y%m"))
+
+    groups: Dict[Tuple, Dict[str, List[float]]] = {}
+    dong_map: Dict[Tuple, str] = {}
     for r in rent_records:
-        if not r["deposit_man"]:
+        if not r.get("deposit_man") or r["deposit_man"] <= 0:
             continue
         key = (r["apt_name"], r["area_m2"])
-        groups.setdefault(key, []).append(r)
+        ym = r.get("deal_ym", "")
+        if ym in recent_set:
+            groups.setdefault(key, {"recent": [], "prev": []})["recent"].append(r["deposit_man"])
+            dong_map[key] = r.get("dong_name", "")
+        elif ym in prev_set:
+            groups.setdefault(key, {"recent": [], "prev": []})["prev"].append(r["deposit_man"])
 
     results = []
-    for key, recs in groups.items():
-        recs_sorted = sorted(recs, key=lambda x: x["deal_date"], reverse=True)
-        if len(recs_sorted) < 2:
+    for key, g in groups.items():
+        if len(g["recent"]) < 2 or len(g["prev"]) < 2:
             continue
-        latest = recs_sorted[0]
-        prev = recs_sorted[1]
-        if prev["deposit_man"] <= 0:
+        recent_med = statistics.median(g["recent"])
+        prev_med = statistics.median(g["prev"])
+        if prev_med <= 0:
             continue
-        chg_pct = ((latest["deposit_man"] / prev["deposit_man"]) - 1) * 100
-        if chg_pct <= 0:
-            continue
+        chg_pct = ((recent_med / prev_med) - 1) * 100
+        if chg_pct <= 0 or chg_pct > 50:
+            continue  # 50% 초과는 이상치로 제외
         results.append({
             "apt_name": key[0],
             "area_m2": key[1],
-            "dong_name": latest.get("dong_name", ""),
-            "prev_deposit": prev["deposit_man"],
-            "latest_deposit": latest["deposit_man"],
+            "dong_name": dong_map.get(key, ""),
+            "prev_deposit": round(prev_med),
+            "latest_deposit": round(recent_med),
             "chg_pct": round(chg_pct, 1),
-            "latest_date": latest["deal_date"],
+            "latest_date": "",
         })
     results.sort(key=lambda x: -x["chg_pct"])
     return results[:3]

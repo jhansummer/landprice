@@ -332,6 +332,7 @@ function drawJeonseVolumeChart(canvas, volumeData) {
   var counts = volumeData.map(function(d) { return d[1]; });
   var maxC = Math.max.apply(null, counts);
   if (maxC <= 0) return;
+  maxC = Math.ceil(maxC * 1.15); /* 상단 15% 여유 */
 
   var barW = Math.max(2, (plotW / volumeData.length) - 2);
 

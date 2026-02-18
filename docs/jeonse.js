@@ -163,7 +163,7 @@ function renderJeonseTop3(top3) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "최근 전세가 가장 많이 오른 아파트";
+  sub.textContent = "최근 6개월 vs 이전 6개월 중앙값 기준";
   sec.appendChild(sub);
 
   top3.forEach(function(item, idx) {
@@ -188,7 +188,9 @@ function renderJeonseTop3(top3) {
     info.appendChild(aptEl);
     var detail = document.createElement("div");
     detail.className = "rank-detail";
-    detail.textContent = (item.dong_name || "") + " \u00B7 " + item.area_m2 + "m\u00B2 \u00B7 " + item.latest_date;
+    var detailParts = [item.dong_name, item.area_m2 + "m\u00B2"];
+    if (item.latest_date) detailParts.push(item.latest_date);
+    detail.textContent = detailParts.filter(Boolean).join(" \u00B7 ");
     info.appendChild(detail);
     top.appendChild(info);
 
