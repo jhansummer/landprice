@@ -156,20 +156,26 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .apt-sub-diff{font-size:11px;color:var(--muted);margin-top:2px}
 
 /* ── Regional: Dong Stats ── */
-.dong-stats-list{display:flex;flex-direction:column;gap:5px}
-.dong-stat-row{display:grid;grid-template-columns:70px 1fr 100px;align-items:center;gap:8px;font-size:12px}
-.dong-stat-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
-.dong-stat-bar-wrap{height:20px;background:var(--bg);border-radius:6px;overflow:hidden}
+.dong-stats-list{display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.dong-stat-row{display:grid;grid-template-columns:70px 1fr 100px;align-items:center;gap:8px;font-size:12px;min-width:0}
+.dong-stat-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;min-width:0}
+.dong-stat-bar-wrap{height:20px;background:var(--bg);border-radius:6px;overflow:hidden;min-width:0}
 .dong-stat-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-light));border-radius:6px;min-width:2px;transition:width .4s ease}
-.dong-stat-val{text-align:right;color:var(--muted);font-size:11px;white-space:nowrap}
+.dong-stat-val{text-align:right;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .dong-stat-row-wide{grid-template-columns:50px 70px 1fr 100px}
-.dong-stat-district{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dong-stat-district{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 
 /* ── Regional: Jeonse ── */
 .jeonse-ratio-big{font-size:36px;font-weight:800;color:var(--accent);text-align:center;margin:12px 0 4px}
+.jeonse-sample{display:flex;flex-direction:column;gap:6px}
+.jeonse-sample-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;background:var(--bg);border-radius:8px;min-width:0}
+.jeonse-sample-name{font-weight:700;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.jeonse-sample-area{font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.jeonse-sample-ratio{font-size:15px;font-weight:800;color:var(--accent);white-space:nowrap;flex-shrink:0;min-width:48px;text-align:right}
+.jeonse-sample-price{font-size:11px;color:var(--muted);white-space:nowrap;flex-shrink:0;text-align:right}
 
 /* ── Regional: Recovery Map ── */
-.recovery-row{display:grid;grid-template-columns:70px 1fr 120px;align-items:center;gap:8px;font-size:12px;padding:4px 0}
+.recovery-row{display:grid;grid-template-columns:70px 1fr 120px;align-items:center;gap:8px;font-size:12px;padding:4px 0;min-width:0}
 .recovery-bar-wrap{height:22px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative}
 .recovery-bar{height:100%;border-radius:6px;min-width:2px;transition:width .4s ease}
 .recovery-bar.recovered{background:linear-gradient(90deg,#2563eb,#60a5fa)}
@@ -177,7 +183,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .recovery-bar.flat{background:#94a3b8}
 .recovery-bar.falling{background:linear-gradient(90deg,#dc2626,#f87171)}
 .recovery-peak-line{position:absolute;right:0;top:0;bottom:0;width:0;border-right:2px dashed var(--accent);opacity:.2}
-.recovery-val{text-align:right;font-size:11px;white-space:nowrap}
+.recovery-val{text-align:right;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .recovery-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:4px}
 .recovery-badge.recovered{background:#dbeafe;color:#1e40af}
 .recovery-badge.rising{background:#dcfce7;color:#166534}
@@ -309,9 +315,9 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 /* ── Apt Detail List ── */
 .apt-detail-list{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
 .apt-detail-header{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px}
-.apt-detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);gap:8px}
+.apt-detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);gap:8px;min-width:0}
 .apt-detail-row:last-child{border-bottom:none}
-.apt-detail-name{font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apt-detail-name{font-size:13px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 .apt-detail-val{flex-shrink:0;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:4px}
 
 /* ── Mobile: 480px ── */
@@ -348,9 +354,12 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .sort-bar{flex-direction:column;align-items:flex-start}
   .compare-checks{gap:4px 8px}
   .compare-check-label{font-size:11px;min-height:44px;display:inline-flex;align-items:center}
-  .dong-stat-row{grid-template-columns:55px 1fr 80px;font-size:11px}
-  .dong-stat-row-wide{grid-template-columns:35px 50px 1fr 70px}
-  .recovery-row{grid-template-columns:50px 1fr 95px;font-size:11px}
+  .dong-stat-row{grid-template-columns:50px 1fr 70px;font-size:11px}
+  .dong-stat-row-wide{grid-template-columns:30px 45px 1fr 60px}
+  .recovery-row{grid-template-columns:45px 1fr 85px;font-size:11px}
+  .recovery-val{font-size:10px}
+  .jeonse-sample-row{flex-wrap:wrap;gap:4px;padding:8px}
+  .jeonse-sample-name{flex-basis:100%}
   .autocomplete-dropdown{left:12px;right:12px}
   .rank-card{grid-template-columns:22px 1fr}
   .rank-apt{font-size:13px}

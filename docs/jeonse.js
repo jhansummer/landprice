@@ -97,18 +97,26 @@ function renderJeonseRatio(jeonse) {
 
   if (jeonse.sample_apts && jeonse.sample_apts.length) {
     var list = document.createElement("div");
-    list.className = "dong-stats-list";
+    list.className = "jeonse-sample";
     jeonse.sample_apts.forEach(function(a) {
       var row = document.createElement("div");
-      row.className = "dong-stat-row";
+      row.className = "jeonse-sample-row";
       var nameEl = document.createElement("span");
-      nameEl.className = "dong-stat-name";
-      nameEl.textContent = a.apt_name + " " + a.area_m2 + "m\u00B2";
+      nameEl.className = "jeonse-sample-name";
+      nameEl.textContent = a.apt_name;
       row.appendChild(nameEl);
-      var valEl = document.createElement("span");
-      valEl.className = "dong-stat-val";
-      valEl.textContent = fmt(a.jeonse_price) + "/" + fmt(a.sale_price) + "만 = " + a.ratio + "%";
-      row.appendChild(valEl);
+      var areaEl = document.createElement("span");
+      areaEl.className = "jeonse-sample-area";
+      areaEl.textContent = a.area_m2 + "m\u00B2";
+      row.appendChild(areaEl);
+      var priceEl = document.createElement("span");
+      priceEl.className = "jeonse-sample-price";
+      priceEl.textContent = fmt(a.jeonse_price) + "/" + fmt(a.sale_price);
+      row.appendChild(priceEl);
+      var ratioEl = document.createElement("span");
+      ratioEl.className = "jeonse-sample-ratio";
+      ratioEl.textContent = a.ratio + "%";
+      row.appendChild(ratioEl);
       list.appendChild(row);
     });
     sec.appendChild(list);
