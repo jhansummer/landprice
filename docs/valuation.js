@@ -244,57 +244,40 @@
     var cta = document.createElement("div");
     cta.className = "val-cta";
 
-    // Chart toggle
-    var chartBtn = document.createElement("button");
-    chartBtn.className = "detail-btn";
-    chartBtn.textContent = "\uCC28\uD2B8 \uBCF4\uAE30";
-    var chartOpen = false;
-    var chartWrap = null;
-    chartBtn.addEventListener("click", function () {
-      if (chartOpen && chartWrap) {
-        chartWrap.remove();
-        chartWrap = null;
-        chartOpen = false;
-        chartBtn.textContent = "\uCC28\uD2B8 \uBCF4\uAE30";
-        return;
-      }
-      chartBtn.textContent = "\uB85C\uB529...";
-      var ids = [entry.id];
-      entry.compare.forEach(function (c) { ids.push(c.id); });
-      Promise.all(ids.map(loadTxn)).then(function (txns) {
-        chartWrap = document.createElement("div");
+    // Chart — auto load
+    var chartPlaceholder = document.createElement("div");
+    card.appendChild(chartPlaceholder);
+    var ids = [entry.id];
+    entry.compare.forEach(function (c) { ids.push(c.id); });
+    Promise.all(ids.map(loadTxn)).then(function (txns) {
+      var chartWrap = document.createElement("div");
 
-        var canvasWrap = document.createElement("div");
-        canvasWrap.className = "val-chart-wrap";
-        var canvas = document.createElement("canvas");
-        canvasWrap.appendChild(canvas);
-        chartWrap.appendChild(canvasWrap);
+      var canvasWrap = document.createElement("div");
+      canvasWrap.className = "val-chart-wrap";
+      var canvas = document.createElement("canvas");
+      canvasWrap.appendChild(canvas);
+      chartWrap.appendChild(canvasWrap);
 
-        var seriesList = [];
-        seriesList.push({ label: entry.apt_name, color: CHART_COLORS[0], history: txns[0] });
-        entry.compare.forEach(function (c, i) {
-          seriesList.push({ label: c.apt_name, color: CHART_COLORS[i + 1] || "#94a3b8", history: txns[i + 1] });
-        });
-
-        // Legend
-        var legend = document.createElement("div");
-        legend.className = "val-legend";
-        seriesList.forEach(function (s) {
-          var item = document.createElement("span");
-          item.className = "val-legend-item";
-          item.innerHTML = '<span class="val-legend-dot" style="background:' + s.color + '"></span>'
-            + escapeHTML(s.label);
-          legend.appendChild(item);
-        });
-        chartWrap.appendChild(legend);
-
-        card.insertBefore(chartWrap, cta);
-        drawMultiScatter(canvas, seriesList);
-        chartBtn.textContent = "\uCC28\uD2B8 \uC811\uAE30";
-        chartOpen = true;
+      var seriesList = [];
+      seriesList.push({ label: entry.apt_name, color: CHART_COLORS[0], history: txns[0] });
+      entry.compare.forEach(function (c, i) {
+        seriesList.push({ label: c.apt_name, color: CHART_COLORS[i + 1] || "#94a3b8", history: txns[i + 1] });
       });
+
+      var legend = document.createElement("div");
+      legend.className = "val-legend";
+      seriesList.forEach(function (s) {
+        var item = document.createElement("span");
+        item.className = "val-legend-item";
+        item.innerHTML = '<span class="val-legend-dot" style="background:' + s.color + '"></span>'
+          + escapeHTML(s.label);
+        legend.appendChild(item);
+      });
+      chartWrap.appendChild(legend);
+
+      chartPlaceholder.replaceWith(chartWrap);
+      drawMultiScatter(canvas, seriesList);
     });
-    cta.appendChild(chartBtn);
 
     // Watchlist button
     if (typeof APTWatchlist !== "undefined") {
