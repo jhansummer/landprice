@@ -92,7 +92,7 @@ function renderJeonseRatio(jeonse) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "평균 전세가율 (" + jeonse.count + "개 단지 기준)";
+  sub.textContent = "최신 거래 기준 · " + jeonse.count + "개 단지 평균";
   sec.appendChild(sub);
 
   if (jeonse.sample_apts && jeonse.sample_apts.length) {
@@ -151,7 +151,7 @@ function renderJeonseTrend(trendData) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "월별 평균 전세가율 추이";
+  sub.textContent = "최근 7년 · 월별 평균 전세가율 추이";
   sec.appendChild(sub);
 
   var chartDiv = document.createElement("div");
@@ -242,7 +242,7 @@ function renderJeonseVolume(volumeData) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "월별 전세 거래 건수";
+  sub.textContent = "최근 7년 · 월별 전세 거래 건수";
   sec.appendChild(sub);
 
   var chartDiv = document.createElement("div");
@@ -330,7 +330,7 @@ function renderGapAnalysis(gap) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "매매가 - 전세가 차이 (갭) · " + gap.count + "개 단지 기준";
+  sub.textContent = "최신 거래 기준 · 매매가 - 전세가 차이 (갭) · " + gap.count + "개 단지";
   sec.appendChild(sub);
 
   // 평균 갭 큰 숫자
@@ -416,7 +416,7 @@ function renderDistrictJeonseRatio(sidoData, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "\uAD6C\uBCC4 \uD3C9\uADE0 \uC804\uC138\uAC00\uC728 (\uB192\uC740 \uC21C)";
+  sub.textContent = "최신 거래 기준 · 구별 평균 전세가율 (높은 순)";
   sec.appendChild(sub);
 
   var list = document.createElement("div");
@@ -489,7 +489,7 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "\uC804\uC138 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00F7 \uB9E4\uB9E4 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00D7 100";
+  sub.textContent = "매매 최근 3개월 · 전세 최근 6개월 기준";
   sec.appendChild(sub);
 
   var list = document.createElement("div");

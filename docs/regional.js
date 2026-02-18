@@ -174,7 +174,7 @@ function renderTrendSection(trendData, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "월별 평균 m²당 가격 + 거래량";
+  sub.textContent = "최근 7년 월별 평균 m²당 가격 + 거래량";
   sec.appendChild(sub);
   var chartDiv = document.createElement("div");
   chartDiv.className = "scatter-chart";
@@ -271,6 +271,12 @@ function renderHeatmapGrid(items, title, subtitle) {
   h2.style.margin = "0";
   h2.textContent = title;
   topBar.appendChild(h2);
+
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.style.margin = "0 0 10px";
+  sub.textContent = "최근 3개월 거래 기준 · m²당 평균가";
+  sec.appendChild(sub);
 
   var sortWrap = document.createElement("div");
   sortWrap.className = "sort-btns";
@@ -560,7 +566,7 @@ function renderCompareSection(sidoData) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "2~5개 구를 선택하여 시세 추이를 비교하세요";
+  sub.textContent = "최근 7년 · 2~5개 구를 선택하여 시세 추이를 비교하세요";
   sec.appendChild(sub);
 
   var checkWrap = document.createElement("div");
@@ -1052,7 +1058,7 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "\uC804\uC138 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00F7 \uB9E4\uB9E4 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00D7 100";
+  sub.textContent = "매매 최근 3개월 · 전세 최근 6개월 기준";
   sec.appendChild(sub);
 
   var list = document.createElement("div");
@@ -1116,7 +1122,7 @@ function renderJeonseSection(jeonse) {
 
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "평균 전세가율 (" + jeonse.count + "개 단지 기준)";
+  sub.textContent = "최신 거래 기준 · " + jeonse.count + "개 단지 평균";
   sec.appendChild(sub);
 
   if (jeonse.sample_apts && jeonse.sample_apts.length) {
@@ -1174,7 +1180,7 @@ function renderJeonseTrendSection(jeonseTrend, title) {
   sec.appendChild(h2);
   var sub = document.createElement("p");
   sub.className = "section-sub";
-  sub.textContent = "월별 평균 전세가율 추이";
+  sub.textContent = "최근 7년 · 월별 평균 전세가율 추이";
   sec.appendChild(sub);
   var chartDiv = document.createElement("div");
   chartDiv.className = "scatter-chart";
@@ -1237,7 +1243,7 @@ function renderSections() {
     sizeSec.appendChild(sizeH2);
     var sizeSub = document.createElement("p");
     sizeSub.className = "section-sub";
-    sizeSub.textContent = "소형(~60m\u00B2) · 중형(60~85m\u00B2) · 대형(85m\u00B2~) m\u00B2당 평균가";
+    sizeSub.textContent = "최근 7년 · 소형(~60m\u00B2) · 중형(60~85m\u00B2) · 대형(85m\u00B2~) m\u00B2당 평균가";
     sizeSec.appendChild(sizeSub);
     var sizeChart = document.createElement("div");
     sizeChart.className = "scatter-chart";
