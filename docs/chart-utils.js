@@ -229,7 +229,7 @@ function drawMultiScatter(canvas, seriesList) {
     ctx.fillText(shortY + "/1/1", xPos(xt), pad.top + plotH + 6);
   }
 
-  var colors = ["#2563eb", "#94a3b8", "#ef4444"];
+  var colors = ["#2563eb", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6"];
   seriesList.forEach(function (s, idx) {
     var pts = s._points || [];
     if (pts.length < 2) return;

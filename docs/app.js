@@ -151,6 +151,7 @@ function renderRankedItem(r, idx) {
       e.stopPropagation();
       var added = APTWatchlist.addCompare({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name });
       if (added) { cmpBtn.textContent = "\uCD94\uAC00\uB428"; cmpBtn.style.borderColor = "var(--accent)"; cmpBtn.style.color = "var(--accent)"; }
+      else if (!APTWatchlist.hasCompare(r.id)) { alert("\uBE44\uAD50\uB294 \uCD5C\uB300 5\uAC1C\uAE4C\uC9C0 \uAC00\uB2A5\uD569\uB2C8\uB2E4."); }
       APTWatchlist.track("add_to_compare", { apt_name: r.apt_name, page: "main" });
     });
     ctaGroup.appendChild(cmpBtn);

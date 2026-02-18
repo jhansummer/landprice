@@ -29,7 +29,7 @@
     </div>
     <nav class="nav-bar">
       <a class="nav-link" href="index.html">메인</a>
-      <a class="nav-link" href="search.html">단지명 검색</a>
+      <a class="nav-link" href="search.html">비교검색</a>
       <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
       <a class="nav-link" href="regional.html">지역시세</a>
       <a class="nav-link" href="jeonse.html">전세시세</a>
@@ -146,7 +146,7 @@
           if (APTWatchlist.hasCompare(item.id)) {
             APTWatchlist.removeCompare(item.id);
           } else {
-            if (!APTWatchlist.addCompare(item)) { alert("\uBE44\uAD50\uB294 \uCD5C\uB300 2\uAC1C\uAE4C\uC9C0 \uAC00\uB2A5\uD569\uB2C8\uB2E4."); return; }
+            if (!APTWatchlist.addCompare(item)) { alert("\uBE44\uAD50\uB294 \uCD5C\uB300 5\uAC1C\uAE4C\uC9C0 \uAC00\uB2A5\uD569\uB2C8\uB2E4."); return; }
           }
           render();
           APTWatchlist.track("add_to_compare", { apt_name: item.apt_name, source: "watchlist" });

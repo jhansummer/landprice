@@ -1,9 +1,10 @@
-/* APT Mine - 관심목록 / 비교 공통 모듈 v1 */
+/* APT Mine - 관심목록 / 비교 공통 모듈 v2 */
 var APTWatchlist = (function () {
   var WL_KEY = "aptmine_watchlist";
   var CMP_KEY = "aptmine_compare";
   var MAX_WL = 50;
-  var MAX_CMP = 2;
+  var MAX_CMP = 5;
+  var CMP_COLORS = ["#2563eb", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6"];
 
   /* ── 관심목록 (localStorage, 영구) ── */
   function getList() {
@@ -86,10 +87,10 @@ var APTWatchlist = (function () {
 
     var label = document.createElement("span");
     label.className = "cfb-label";
-    label.textContent = "\uBE44\uAD50 (" + list.length + "/2)";
+    label.textContent = "\uBE44\uAD50 (" + list.length + "/" + MAX_CMP + ")";
     bar.appendChild(label);
 
-    list.forEach(function (item, idx) {
+    list.forEach(function (item) {
       var chip = document.createElement("span");
       chip.className = "chip";
       chip.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
@@ -101,10 +102,10 @@ var APTWatchlist = (function () {
       bar.appendChild(chip);
     });
 
-    if (list.length === MAX_CMP) {
+    if (list.length >= 2) {
       var goBtn = document.createElement("button");
       goBtn.className = "go-btn";
-      goBtn.textContent = "\uBE44\uAD50 \uCC28\uD2B8 \uBCF4\uAE30";
+      goBtn.textContent = list.length + "\uAC1C \uBE44\uAD50\uD558\uAE30";
       goBtn.addEventListener("click", function () {
         showCompareModal(list);
       });
@@ -125,9 +126,9 @@ var APTWatchlist = (function () {
     document.body.appendChild(bar);
   }
 
-  /* ── 비교 모달 (어디서든 호출 가능) ── */
+  /* ── 비교 모달 (2~5개 단지) ── */
   function showCompareModal(items) {
-    if (!items || items.length !== 2) return;
+    if (!items || items.length < 2) return;
 
     var old = document.getElementById("detail-modal");
     if (old) old.remove();
@@ -139,6 +140,7 @@ var APTWatchlist = (function () {
 
     var modal = document.createElement("div");
     modal.className = "modal-content";
+    modal.style.maxWidth = "800px";
 
     var closeBtn = document.createElement("button");
     closeBtn.className = "modal-close";
@@ -148,13 +150,8 @@ var APTWatchlist = (function () {
 
     var title = document.createElement("h2");
     title.className = "modal-title";
-    title.textContent = "A vs B \uBE44\uAD50";
+    title.textContent = items.length + "\uAC1C \uB2E8\uC9C0 \uBE44\uAD50";
     modal.appendChild(title);
-
-    var sub = document.createElement("p");
-    sub.className = "modal-sub";
-    sub.textContent = items[0].apt_name + " vs " + items[1].apt_name;
-    modal.appendChild(sub);
 
     var body = document.createElement("div");
     body.className = "modal-body";
@@ -164,7 +161,7 @@ var APTWatchlist = (function () {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    var colors = ["#2563eb", "#ef4444"];
+    var colors = CMP_COLORS.slice(0, items.length);
     Promise.all(items.map(function (c) {
       return fetch("data/apt_trade/by_apt/" + c.id + ".json")
         .then(function (res) { return res.ok ? res.json() : []; })
@@ -175,6 +172,20 @@ var APTWatchlist = (function () {
     .then(function (seriesList) {
       body.innerHTML = "";
 
+      /* 범례 (차트 위) */
+      var legend = document.createElement("div");
+      legend.className = "compare-legend";
+      legend.style.marginBottom = "12px";
+      seriesList.forEach(function (s, idx) {
+        var item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = '<span class="legend-color" style="background:' + colors[idx] + '"></span>'
+          + s.name + " \u00B7 " + s.region;
+        legend.appendChild(item);
+      });
+      body.appendChild(legend);
+
+      /* 차트 */
       if (seriesList.some(function (s) { return s.history.length > 1; })) {
         var chartDiv = document.createElement("div");
         chartDiv.className = "scatter-chart modal-chart";
@@ -186,20 +197,7 @@ var APTWatchlist = (function () {
         });
       }
 
-      var legend = document.createElement("div");
-      legend.className = "compare-legend";
-      legend.style.marginBottom = "16px";
-      seriesList.forEach(function (s, idx) {
-        var item = document.createElement("div");
-        item.className = "legend-item";
-        item.innerHTML = '<span class="legend-color" style="background:' + colors[idx] + '"></span>'
-          + s.name + " \u00B7 " + s.region;
-        legend.appendChild(item);
-      });
-      body.appendChild(legend);
-
       /* 지표 비교 테이블 */
-      var rows = [];
       seriesList.forEach(function (s) {
         if (!s.history.length) { s._stats = {}; return; }
         var ps = s.history.map(function (h) { return h[1]; });
@@ -215,28 +213,51 @@ var APTWatchlist = (function () {
 
       function fmtN(v) { return new Intl.NumberFormat("ko-KR").format(v); }
 
+      var tableWrap = document.createElement("div");
+      tableWrap.style.cssText = "overflow-x:auto;margin-top:16px;-webkit-overflow-scrolling:touch";
       var table = document.createElement("table");
       table.className = "modal-table";
-      table.innerHTML = "<thead><tr><th>\uC9C0\uD45C</th><th>" + seriesList[0].name + "</th><th>" + seriesList[1].name + "</th></tr></thead>";
-      var tbody = document.createElement("tbody");
 
+      /* thead */
+      var thead = document.createElement("thead");
+      var headTr = document.createElement("tr");
+      headTr.innerHTML = "<th>\uC9C0\uD45C</th>";
+      seriesList.forEach(function (s, idx) {
+        var th = document.createElement("th");
+        th.style.color = colors[idx];
+        th.textContent = s.name;
+        headTr.appendChild(th);
+      });
+      thead.appendChild(headTr);
+      table.appendChild(thead);
+
+      /* tbody */
+      var tbody = document.createElement("tbody");
       var metrics = [
-        ["\uCD5C\uADFC \uAC70\uB798\uAC00", function (s) { return fmtN(s._stats.last) + "\uB9CC"; }],
+        ["\uCD5C\uADFC \uAC70\uB798\uAC00", function (s) { return s._stats.last ? fmtN(s._stats.last) + "\uB9CC" : "-"; }],
         ["\uCD5C\uADFC \uAC70\uB798\uC77C", function (s) { return s._stats.lastDate || "-"; }],
-        ["\uCD5C\uACE0\uAC00", function (s) { return fmtN(s._stats.max) + "\uB9CC"; }],
-        ["\uCD5C\uC800\uAC00", function (s) { return fmtN(s._stats.min) + "\uB9CC"; }],
-        ["\uACE0\uC810 \uB300\uBE44", function (s) { return s._stats.vsPeak + "%"; }],
-        ["\uAC70\uB798\uAC74\uC218", function (s) { return s._stats.count + "\uAC74"; }]
+        ["\uCD5C\uACE0\uAC00", function (s) { return s._stats.max ? fmtN(s._stats.max) + "\uB9CC" : "-"; }],
+        ["\uCD5C\uC800\uAC00", function (s) { return s._stats.min ? fmtN(s._stats.min) + "\uB9CC" : "-"; }],
+        ["\uACE0\uC810 \uB300\uBE44", function (s) { return s._stats.vsPeak ? s._stats.vsPeak + "%" : "-"; }],
+        ["\uAC70\uB798\uAC74\uC218", function (s) { return s._stats.count ? s._stats.count + "\uAC74" : "-"; }]
       ];
       metrics.forEach(function (m) {
         var tr = document.createElement("tr");
-        tr.innerHTML = "<td>" + m[0] + "</td><td>" + m[1](seriesList[0]) + "</td><td>" + m[1](seriesList[1]) + "</td>";
+        var td0 = document.createElement("td");
+        td0.textContent = m[0];
+        tr.appendChild(td0);
+        seriesList.forEach(function (s) {
+          var td = document.createElement("td");
+          td.textContent = m[1](s);
+          tr.appendChild(td);
+        });
         tbody.appendChild(tr);
       });
       table.appendChild(tbody);
-      body.appendChild(table);
+      tableWrap.appendChild(table);
+      body.appendChild(tableWrap);
 
-      track("compare_view", { apt_a: items[0].apt_name, apt_b: items[1].apt_name });
+      track("compare_view", { count: items.length, apts: items.map(function (i) { return i.apt_name; }).join(",") });
     })
     .catch(function () {
       body.textContent = "\uC774\uB825 \uB370\uC774\uD130\uB97C \uBD88\uB7EC\uC62C \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.";
