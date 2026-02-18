@@ -807,6 +807,7 @@ function renderAllDongStats(sidoData, title) {
 function renderRecoverySection(items, title, isDong) {
   if (!items || !items.length) return null;
 
+  var INITIAL_COUNT = 20;
   var sec = document.createElement("div");
   sec.className = "section";
   var h2 = document.createElement("h2");
@@ -821,7 +822,9 @@ function renderRecoverySection(items, title, isDong) {
   var list = document.createElement("div");
   list.className = "dong-stats-list";
 
-  items.slice(0, 20).forEach(function(item) {
+  var showCount = Math.min(INITIAL_COUNT, items.length);
+
+  function renderItem(item) {
     var st = RECOVERY_STATUS[item.status] || RECOVERY_STATUS.flat;
     var ratio = item.peak > 0 ? Math.min(item.price / item.peak * 100, 120) : 0;
 
@@ -897,8 +900,23 @@ function renderRecoverySection(items, title, isDong) {
     }
 
     list.appendChild(rowWrap);
-  });
+  }
+
+  items.slice(0, showCount).forEach(renderItem);
   sec.appendChild(list);
+
+  if (items.length > INITIAL_COUNT) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "sort-btn";
+    moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+    moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + items.length + "\uAC1C \uC804\uCCB4)";
+    moreBtn.addEventListener("click", function () {
+      items.slice(showCount).forEach(renderItem);
+      moreBtn.remove();
+    });
+    sec.appendChild(moreBtn);
+  }
+
   return sec;
 }
 
@@ -1070,9 +1088,9 @@ function renderSections() {
     if (allDongSec) gridEl.appendChild(allDongSec);
   }
 
-  // 시세 회복 현황 (바 차트)
+  // 시세 회복 현황 (바 차트) — 시도/구 모두 표시
   var recovery = sidoData.recovery;
-  if (!activeDistrict && recovery && recovery.items && recovery.items.length) {
+  if (recovery && recovery.items && recovery.items.length) {
     var recSec = renderRecoverySection(recovery.items, activeSido + " 고점 대비 현황", false);
     if (recSec) gridEl.appendChild(recSec);
   }
