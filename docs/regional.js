@@ -256,7 +256,46 @@ function buildDistrictStats(sidoData) {
   return stats;
 }
 
-/* ── 히트맵 그리드 (지도 대체) ── */
+/* ── 트리맵 레이아웃 알고리즘 ── */
+function layoutTreemap(items, rect) {
+  if (!items.length) return [];
+  if (items.length === 1) {
+    return [{ x: rect.x, y: rect.y, w: rect.w, h: rect.h, item: items[0] }];
+  }
+  var total = 0;
+  for (var i = 0; i < items.length; i++) total += items[i].value;
+  if (total <= 0) return [];
+
+  // 이진 분할: 총합의 절반 지점에서 나누기
+  var half = total / 2;
+  var sum = 0;
+  var split = 1;
+  for (var i = 0; i < items.length - 1; i++) {
+    sum += items[i].value;
+    if (sum >= half) { split = i + 1; break; }
+  }
+
+  var left = items.slice(0, split);
+  var right = items.slice(split);
+  var leftTotal = 0;
+  for (var i = 0; i < left.length; i++) leftTotal += left[i].value;
+  var ratio = leftTotal / total;
+
+  var lRect, rRect;
+  if (rect.w >= rect.h) {
+    var lw = rect.w * ratio;
+    lRect = { x: rect.x, y: rect.y, w: lw, h: rect.h };
+    rRect = { x: rect.x + lw, y: rect.y, w: rect.w - lw, h: rect.h };
+  } else {
+    var lh = rect.h * ratio;
+    lRect = { x: rect.x, y: rect.y, w: rect.w, h: lh };
+    rRect = { x: rect.x, y: rect.y + lh, w: rect.w, h: rect.h - lh };
+  }
+
+  return layoutTreemap(left, lRect).concat(layoutTreemap(right, rRect));
+}
+
+/* ── 트리맵 그리드 (지도 대체) ── */
 function renderHeatmapGrid(items, title, subtitle) {
   if (!items || !items.length) return null;
 
@@ -273,108 +312,121 @@ function renderHeatmapGrid(items, title, subtitle) {
 
   var legend = document.createElement("div");
   legend.className = "heatmap-legend";
-  legend.innerHTML = '<span class="heatmap-legend-label">저가</span>'
+  legend.innerHTML = '<span class="heatmap-legend-label">\uC800\uAC00</span>'
     + '<span class="heatmap-gradient"></span>'
-    + '<span class="heatmap-legend-label">고가</span>';
+    + '<span class="heatmap-legend-label">\uACE0\uAC00</span>'
+    + '<span style="margin-left:12px;font-size:10px;color:var(--muted)">\uBA74\uC801 = \uAC70\uB798\uB7C9</span>';
   sec.appendChild(legend);
 
   var prices = items.map(function(d) { return d.avg_per_m2; });
   var minP = Math.min.apply(null, prices);
   var maxP = Math.max.apply(null, prices);
-  var maxVol = Math.max.apply(null, items.map(function(d) { return d.txn_count; }));
 
-  var grid = document.createElement("div");
-  grid.className = "heatmap-grid";
+  // 거래량 순 정렬 (트리맵 알고리즘은 큰 값부터)
+  var sorted = items.slice().sort(function(a, b) { return b.txn_count - a.txn_count; });
+  var tmItems = sorted.map(function(d) { return { value: d.txn_count, data: d }; });
+
+  var container = document.createElement("div");
+  container.className = "treemap-container";
 
   var infoPanel = document.createElement("div");
   infoPanel.className = "heatmap-info";
   infoPanel.style.display = "none";
 
-  items.forEach(function(item) {
-    var cell = document.createElement("div");
-    cell.className = "heatmap-cell";
-    cell.style.background = priceColor(item.avg_per_m2, minP, maxP);
+  // requestAnimationFrame으로 실제 렌더링 (컨테이너 크기 필요)
+  requestAnimationFrame(function() {
+    var cw = container.offsetWidth || 360;
+    var ch = container.offsetHeight || 400;
+    var rects = layoutTreemap(tmItems, { x: 0, y: 0, w: cw, h: ch });
 
-    var volRatio = item.txn_count / maxVol;
-    var w = Math.round(100 + volRatio * 60);
-    cell.style.flex = "1 0 " + w + "px";
-    cell.style.maxWidth = (w + 50) + "px";
+    rects.forEach(function(r) {
+      var item = r.item.data;
+      var cell = document.createElement("div");
+      cell.className = "treemap-cell";
+      cell.style.left = r.x + "px";
+      cell.style.top = r.y + "px";
+      cell.style.width = r.w + "px";
+      cell.style.height = r.h + "px";
+      cell.style.background = priceColor(item.avg_per_m2, minP, maxP);
 
-    var nameEl = document.createElement("div");
-    nameEl.className = "heatmap-cell-name";
-    nameEl.textContent = item.name;
-    cell.appendChild(nameEl);
+      var nameEl = document.createElement("div");
+      nameEl.className = "treemap-cell-name";
+      nameEl.textContent = item.name;
+      cell.appendChild(nameEl);
 
-    var priceEl = document.createElement("div");
-    priceEl.className = "heatmap-cell-price";
-    priceEl.textContent = Math.round(item.avg_per_m2).toLocaleString();
-    cell.appendChild(priceEl);
+      // 충분한 크기일 때만 가격/거래량 표시
+      if (r.w >= 55 && r.h >= 45) {
+        var priceEl = document.createElement("div");
+        priceEl.className = "treemap-cell-price";
+        priceEl.textContent = Math.round(item.avg_per_m2).toLocaleString();
+        cell.appendChild(priceEl);
 
-    var volEl = document.createElement("div");
-    volEl.className = "heatmap-cell-vol";
-    volEl.textContent = item.txn_count + "건";
-    cell.appendChild(volEl);
-
-    if (item.recovery) {
-      var rec = item.recovery;
-      var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
-      var badge = document.createElement("span");
-      badge.className = "heatmap-badge " + rec.status;
-      badge.textContent = st.label;
-      cell.appendChild(badge);
-    }
-
-    cell.addEventListener("click", function() {
-      // Remove active from all cells
-      grid.querySelectorAll(".heatmap-cell").forEach(function(c) { c.classList.remove("heatmap-cell-active"); });
-      cell.classList.add("heatmap-cell-active");
-
-      var html = '<div class="heatmap-info-header">'
-        + '<span class="heatmap-info-name">' + item.name + '</span>';
-      if (item.recovery) {
-        var st2 = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
-        html += '<span class="recovery-badge ' + item.recovery.status + '">' + st2.label + '</span>';
+        var volEl = document.createElement("div");
+        volEl.className = "treemap-cell-vol";
+        volEl.textContent = item.txn_count + "\uAC74";
+        cell.appendChild(volEl);
       }
-      html += '</div><div class="heatmap-info-stats">'
-        + '<div class="heatmap-info-stat"><span class="heatmap-info-label">m²당 평균</span><span class="heatmap-info-val">' + Math.round(item.avg_per_m2).toLocaleString() + '만</span></div>'
-        + '<div class="heatmap-info-stat"><span class="heatmap-info-label">거래건수</span><span class="heatmap-info-val">' + item.txn_count + '건</span></div>';
-      if (item.dong_count) {
-        html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">동 수</span><span class="heatmap-info-val">' + item.dong_count + '개</span></div>';
-      }
-      if (item.recovery) {
-        var rec2 = item.recovery;
-        var vsPeak = (rec2.vs_peak >= 0 ? "+" : "") + rec2.vs_peak + "%";
-        var chg6m = (rec2.chg6m >= 0 ? "+" : "") + rec2.chg6m + "%";
-        var st3 = RECOVERY_STATUS[rec2.status] || RECOVERY_STATUS.flat;
-        html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">전고점 대비</span><span class="heatmap-info-val" style="color:' + st3.textColor + '">' + vsPeak + '</span></div>'
-          + '<div class="heatmap-info-stat"><span class="heatmap-info-label">6개월 변화</span><span class="heatmap-info-val">' + chg6m + '</span></div>';
-      }
-      html += '</div>';
 
-      if (item.recovery && item.recovery.apt_details && item.recovery.apt_details.length) {
-        html += '<div class="apt-detail-list"><div class="apt-detail-header">단지별 고점 대비</div>';
-        item.recovery.apt_details.forEach(function(a) {
-          var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
-          var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
-          html += '<div class="apt-detail-row">'
-            + '<span class="apt-detail-name">' + a.apt_name + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
-            + '<span class="apt-detail-val">'
-            + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
-            + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'
-            + '</span></div>';
-        });
+      if (r.w >= 70 && r.h >= 60 && item.recovery) {
+        var rec = item.recovery;
+        var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
+        var badge = document.createElement("span");
+        badge.className = "heatmap-badge " + rec.status;
+        badge.textContent = st.label;
+        cell.appendChild(badge);
+      }
+
+      cell.addEventListener("click", function() {
+        container.querySelectorAll(".treemap-cell").forEach(function(c) { c.classList.remove("treemap-cell-active"); });
+        cell.classList.add("treemap-cell-active");
+
+        var html = '<div class="heatmap-info-header">'
+          + '<span class="heatmap-info-name">' + item.name + '</span>';
+        if (item.recovery) {
+          var st2 = RECOVERY_STATUS[item.recovery.status] || RECOVERY_STATUS.flat;
+          html += '<span class="recovery-badge ' + item.recovery.status + '">' + st2.label + '</span>';
+        }
+        html += '</div><div class="heatmap-info-stats">'
+          + '<div class="heatmap-info-stat"><span class="heatmap-info-label">m\u00B2\uB2F9 \uD3C9\uADE0</span><span class="heatmap-info-val">' + Math.round(item.avg_per_m2).toLocaleString() + '\uB9CC</span></div>'
+          + '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uAC70\uB798\uAC74\uC218</span><span class="heatmap-info-val">' + item.txn_count + '\uAC74</span></div>';
+        if (item.dong_count) {
+          html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uB3D9 \uC218</span><span class="heatmap-info-val">' + item.dong_count + '\uAC1C</span></div>';
+        }
+        if (item.recovery) {
+          var rec2 = item.recovery;
+          var vsPeak = (rec2.vs_peak >= 0 ? "+" : "") + rec2.vs_peak + "%";
+          var chg6m = (rec2.chg6m >= 0 ? "+" : "") + rec2.chg6m + "%";
+          var st3 = RECOVERY_STATUS[rec2.status] || RECOVERY_STATUS.flat;
+          html += '<div class="heatmap-info-stat"><span class="heatmap-info-label">\uC804\uACE0\uC810 \uB300\uBE44</span><span class="heatmap-info-val" style="color:' + st3.textColor + '">' + vsPeak + '</span></div>'
+            + '<div class="heatmap-info-stat"><span class="heatmap-info-label">6\uAC1C\uC6D4 \uBCC0\uD654</span><span class="heatmap-info-val">' + chg6m + '</span></div>';
+        }
         html += '</div>';
-      }
 
-      infoPanel.innerHTML = html;
-      infoPanel.style.display = "block";
-      infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        if (item.recovery && item.recovery.apt_details && item.recovery.apt_details.length) {
+          html += '<div class="apt-detail-list"><div class="apt-detail-header">\uB2E8\uC9C0\uBCC4 \uACE0\uC810 \uB300\uBE44</div>';
+          item.recovery.apt_details.forEach(function(a) {
+            var ast = RECOVERY_STATUS[a.status] || RECOVERY_STATUS.flat;
+            var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
+            html += '<div class="apt-detail-row">'
+              + '<span class="apt-detail-name">' + a.apt_name + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
+              + '<span class="apt-detail-val">'
+              + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
+              + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'
+              + '</span></div>';
+          });
+          html += '</div>';
+        }
+
+        infoPanel.innerHTML = html;
+        infoPanel.style.display = "block";
+        infoPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+
+      container.appendChild(cell);
     });
-
-    grid.appendChild(cell);
   });
 
-  sec.appendChild(grid);
+  sec.appendChild(container);
   sec.appendChild(infoPanel);
   return sec;
 }
