@@ -402,7 +402,8 @@ def main() -> None:
             clusters.append(cluster)
 
             for m in members:
-                sims = []
+                same_dong_sims = []
+                other_sims = []
                 for other in members:
                     if other["id"] == m["id"]:
                         continue
@@ -416,17 +417,32 @@ def main() -> None:
                     corr = series_corr(m["series"], other["series"], sp["min_valid"])
                     if corr is None:
                         continue
+                    is_same_dong = (m.get("dong_name") == other.get("dong_name")
+                                    and m.get("sigungu") == other.get("sigungu"))
+                    # 같은 동: 상관계수 0.85 이상, 다른 동: 기존 기준
+                    min_corr = 0.85 if is_same_dong else sp["corr"]
+                    if corr < min_corr:
+                        continue
                     hist_diff = mean_abs_pct_diff(m["series"], other["series"])
                     if hist_diff is None or hist_diff > 0.10:
                         continue
                     if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
                         continue
-                    sims.append((corr, hist_diff, other))
+                    if is_same_dong:
+                        same_dong_sims.append((corr, hist_diff, other))
+                    else:
+                        other_sims.append((corr, hist_diff, other))
 
-                if not sims:
+                # 같은 동 우선, 부족하면 다른 동으로 채움
+                same_dong_sims.sort(key=lambda x: (-x[0], x[1]))
+                other_sims.sort(key=lambda x: (-x[0], x[1]))
+                picked = same_dong_sims[:2]
+                if len(picked) < 2:
+                    picked += other_sims[:2 - len(picked)]
+
+                if not picked:
                     continue
 
-                sims.sort(key=lambda x: (-x[0], x[1]))
                 compares = [
                     {
                         "id": o["id"],
@@ -441,7 +457,7 @@ def main() -> None:
                         "corr": round(c, 3),
                         "hist_diff_pct": round(hdiff * 100, 2),
                     }
-                    for c, hdiff, o in sims[:2]
+                    for c, hdiff, o in picked
                 ]
 
                 compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
