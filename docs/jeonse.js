@@ -364,11 +364,53 @@ function renderGapAnalysis(gap) {
     requestAnimationFrame(function() { drawGapTrendChart(canvas, gap.gap_trend); });
   }
 
-  // 갭 최소 TOP5 (매매 30건 이상)
-  if (gap.top5_low_gap && gap.top5_low_gap.length) {
+  // 갭 구간별 매물 (매매 3억↑·30건↑)
+  if (gap.gap_ranges && gap.gap_ranges.length) {
+    gap.gap_ranges.forEach(function(range) {
+      var rangeTitle = document.createElement("h3");
+      rangeTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
+      rangeTitle.textContent = range.label + " (" + range.count + "개)";
+      sec.appendChild(rangeTitle);
+
+      var INITIAL_COUNT = 5;
+      var list = document.createElement("div");
+      list.className = "dong-stats-list";
+      function renderGapItem(item) {
+        var row = document.createElement("div");
+        row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
+        var nameEl = document.createElement("span");
+        nameEl.style.cssText = "font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1";
+        nameEl.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
+        row.appendChild(nameEl);
+        var valEl = document.createElement("span");
+        valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px";
+        var gapVal = item.gap >= 10000
+          ? (item.gap / 10000).toFixed(1) + "\uc5b5"
+          : fmt(item.gap) + "\ub9cc";
+        valEl.textContent = "\uac2d " + gapVal + " (" + item.ratio + "%)";
+        row.appendChild(valEl);
+        list.appendChild(row);
+      }
+      range.items.slice(0, INITIAL_COUNT).forEach(renderGapItem);
+      sec.appendChild(list);
+      if (range.items.length > INITIAL_COUNT) {
+        var moreBtn = document.createElement("button");
+        moreBtn.className = "sort-btn";
+        moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+        moreBtn.textContent = "\ub354\ubcf4\uae30 (" + range.items.length + "\uac1c \uc804\uccb4)";
+        moreBtn.addEventListener("click", function() {
+          range.items.slice(INITIAL_COUNT).forEach(renderGapItem);
+          list.style.cssText = "max-height:300px;overflow-y:auto";
+          moreBtn.remove();
+        });
+        sec.appendChild(moreBtn);
+      }
+    });
+  } else if (gap.top5_low_gap && gap.top5_low_gap.length) {
+    // fallback for old data without gap_ranges
     var listTitle = document.createElement("h3");
     listTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
-    listTitle.textContent = "갭 최소 아파트 (매매 5억↑·30건↑)";
+    listTitle.textContent = "\uac2d \ucd5c\uc18c \uc544\ud30c\ud2b8 (\ub9e4\ub9e4 3\uc5b5\u2191\u00b730\uac74\u2191)";
     sec.appendChild(listTitle);
 
     var list = document.createElement("div");
@@ -384,8 +426,8 @@ function renderGapAnalysis(gap) {
       valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px";
       var gapVal = item.gap >= 10000
         ? (item.gap / 10000).toFixed(1) + "\uc5b5"
-        : fmt(item.gap) + "만";
-      valEl.textContent = "갭 " + gapVal + " (" + item.ratio + "%)";
+        : fmt(item.gap) + "\ub9cc";
+      valEl.textContent = "\uac2d " + gapVal + " (" + item.ratio + "%)";
       row.appendChild(valEl);
       list.appendChild(row);
     });
@@ -455,6 +497,7 @@ function renderDistrictJeonseRatio(sidoData, title) {
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
       rows.slice(INITIAL_COUNT).forEach(renderItem);
+      list.style.cssText = "max-height:400px;overflow-y:auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -528,6 +571,7 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
       rows.slice(INITIAL_COUNT).forEach(renderItem);
+      list.style.cssText = "max-height:400px;overflow-y:auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);

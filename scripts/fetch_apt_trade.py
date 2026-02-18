@@ -1036,7 +1036,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
             key = (r["apt_name"], r["area_m2"])
             sale_count[key] = sale_count.get(key, 0) + 1
 
-    # 매칭 → 갭 계산 (매매 거래 30건 이상만)
+    # 매칭 → 갭 계산 (매매 거래 30건 이상, 매매가 3억 이상)
     items = []
     for key, deposit in rent_latest.items():
         sale = sale_latest.get(key)
@@ -1044,7 +1044,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
             continue
         if sale_count.get(key, 0) < 30:
             continue
-        if sale["price"] < 50000:
+        if sale["price"] < 30000:
             continue
         gap = sale["price"] - deposit
         if gap < 0:
@@ -1065,6 +1065,24 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
     items.sort(key=lambda x: x["gap"])
     gaps = [it["gap"] for it in items]
     avg_gap = round(sum(gaps) / len(gaps))
+
+    # 갭 구간별 분류
+    GAP_RANGES = [
+        {"label": "갭 1억대", "min": 10000, "max": 20000},
+        {"label": "갭 2~3억대", "min": 20000, "max": 30000},
+        {"label": "갭 3~5억대", "min": 30000, "max": 50000},
+        {"label": "갭 5~7억대", "min": 50000, "max": 70000},
+    ]
+    gap_ranges = []
+    for gr in GAP_RANGES:
+        range_items = [it for it in items if gr["min"] <= it["gap"] < gr["max"]]
+        if range_items:
+            range_items.sort(key=lambda x: x["gap"])
+            gap_ranges.append({
+                "label": gr["label"],
+                "count": len(range_items),
+                "items": range_items[:10],
+            })
 
     # 월별 평균 갭 추이
     sale_by_key: Dict[Tuple, List[Tuple[str, int]]] = {}
@@ -1109,6 +1127,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
         "avg_gap": avg_gap,
         "count": len(items),
         "top5_low_gap": items[:5],
+        "gap_ranges": gap_ranges,
         "gap_trend": gap_trend,
     }
 

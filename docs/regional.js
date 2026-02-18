@@ -812,6 +812,7 @@ function renderDongStats(dongStats, title, dongRecovery) {
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
         sorted.slice(INITIAL_COUNT).forEach(renderItem);
+        table.style.cssText = "max-height:400px;overflow-y:auto";
         moreBtn.remove();
       });
       listContainer.appendChild(moreBtn);
@@ -1019,6 +1020,7 @@ function renderAllDongStats(sidoData, title) {
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
         sorted.slice(INITIAL_COUNT).forEach(renderItem);
+        table.style.cssText = "max-height:400px;overflow-y:auto";
         moreBtn.remove();
       });
       listContainer.appendChild(moreBtn);
@@ -1153,6 +1155,7 @@ function renderRecoverySection(items, title, isDong) {
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + items.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function () {
       items.slice(showCount).forEach(renderItem);
+      list.style.cssText = "max-height:400px;overflow-y:auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -1233,6 +1236,7 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
       rows.slice(INITIAL_COUNT).forEach(renderItem);
+      list.style.cssText = "max-height:400px;overflow-y:auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -1313,6 +1317,7 @@ function renderJeonseSection(jeonse) {
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
         samples.slice(INITIAL_COUNT).forEach(renderSample);
+        list.style.cssText = "max-height:400px;overflow-y:auto";
         moreBtn.remove();
       });
       sec.appendChild(moreBtn);
