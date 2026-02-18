@@ -453,8 +453,9 @@ def main() -> None:
 
                 if m["recent_avg"] is None or compare_avg_recent <= 0:
                     continue
-                ratio = m["recent_avg"] / compare_avg_recent
-                gap_pct = round((ratio - 1) * 100, 2)
+                recent_gap = m["recent_avg"] / compare_avg_recent - 1
+                hist_gap = (m["avg_36"] / compare_avg_36 - 1) if (m.get("avg_36") and compare_avg_36 > 0) else 0
+                gap_pct = round((recent_gap - hist_gap) * 100, 2)
 
                 # Classify valuation status
                 if gap_pct < -5:
@@ -488,7 +489,7 @@ def main() -> None:
                 all_valued.append(entry)
 
                 # Existing undervalued/band logic (ratio < 1.0 only)
-                if ratio < 1.0:
+                if recent_gap < 0:
                     if m["current_price"] <= (1.0 - gap) * avg_current:
                         undervalued.append(entry)
                     band_candidates.append(entry)
