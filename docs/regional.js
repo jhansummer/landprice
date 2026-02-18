@@ -203,18 +203,19 @@ function getDistColor(idx) {
 function priceColor(price, minP, maxP) {
   var t = maxP > minP ? (price - minP) / (maxP - minP) : 0.5;
   t = Math.max(0, Math.min(1, t));
-  var r, g, b;
-  if (t < 0.5) {
-    var s = t / 0.5;
-    r = Math.round(6 + (37 - 6) * s);
-    g = Math.round(182 + (99 - 182) * s);
-    b = Math.round(212 + (235 - 212) * s);
-  } else {
-    var s = (t - 0.5) / 0.5;
-    r = Math.round(37 + (124 - 37) * s);
-    g = Math.round(99 + (58 - 99) * s);
-    b = Math.round(235 + (237 - 235) * s);
-  }
+  // 4-stop gradient: #2563eb(blue) → #0891b2(teal) → #d97706(amber) → #dc2626(red)
+  var stops = [
+    [37, 99, 235],   // 0.0 blue
+    [8, 145, 178],   // 0.33 teal
+    [217, 119, 6],   // 0.66 amber
+    [220, 38, 38]    // 1.0 red
+  ];
+  var seg = t * (stops.length - 1);
+  var i = Math.min(Math.floor(seg), stops.length - 2);
+  var s = seg - i;
+  var r = Math.round(stops[i][0] + (stops[i + 1][0] - stops[i][0]) * s);
+  var g = Math.round(stops[i][1] + (stops[i + 1][1] - stops[i][1]) * s);
+  var b = Math.round(stops[i][2] + (stops[i + 1][2] - stops[i][2]) * s);
   return "rgb(" + r + "," + g + "," + b + ")";
 }
 
@@ -256,46 +257,87 @@ function buildDistrictStats(sidoData) {
   return stats;
 }
 
-/* ── 트리맵 레이아웃 알고리즘 ── */
-function layoutTreemap(items, rect) {
-  if (!items.length) return [];
-  if (items.length === 1) {
-    return [{ x: rect.x, y: rect.y, w: rect.w, h: rect.h, item: items[0] }];
-  }
+/* ── Squarified 트리맵 레이아웃 ── */
+function squarify(items, rect, GAP) {
+  var result = [];
+  if (!items.length) return result;
   var total = 0;
   for (var i = 0; i < items.length; i++) total += items[i].value;
-  if (total <= 0) return [];
+  if (total <= 0 || rect.w <= 0 || rect.h <= 0) return result;
 
-  // 이진 분할: 총합의 절반 지점에서 나누기
-  var half = total / 2;
-  var sum = 0;
-  var split = 1;
-  for (var i = 0; i < items.length - 1; i++) {
-    sum += items[i].value;
-    if (sum >= half) { split = i + 1; break; }
+  function worst(row, sideLen) {
+    if (!row.length) return Infinity;
+    var s = 0;
+    for (var i = 0; i < row.length; i++) s += row[i].value;
+    var rMax = row[0].value, rMin = row[row.length - 1].value;
+    var area = (s / total) * rect.w * rect.h;
+    var side = area / sideLen;
+    var a1 = (sideLen * sideLen * rMax / total * rect.w * rect.h) / (side * side);
+    var a2 = (side * side) / (sideLen * sideLen * rMin / total * rect.w * rect.h);
+    return Math.max(a1, a2);
   }
 
-  var left = items.slice(0, split);
-  var right = items.slice(split);
-  var leftTotal = 0;
-  for (var i = 0; i < left.length; i++) leftTotal += left[i].value;
-  var ratio = leftTotal / total;
+  // 실제 squarify 구현
+  function layoutRow(row, x, y, w, h) {
+    var rowTotal = 0;
+    for (var i = 0; i < row.length; i++) rowTotal += row[i].value;
+    var rowRatio = rowTotal / total;
 
-  var lRect, rRect;
-  if (rect.w >= rect.h) {
-    var lw = rect.w * ratio;
-    lRect = { x: rect.x, y: rect.y, w: lw, h: rect.h };
-    rRect = { x: rect.x + lw, y: rect.y, w: rect.w - lw, h: rect.h };
-  } else {
-    var lh = rect.h * ratio;
-    lRect = { x: rect.x, y: rect.y, w: rect.w, h: lh };
-    rRect = { x: rect.x, y: rect.y + lh, w: rect.w, h: rect.h - lh };
+    if (w >= h) {
+      var rowW = w * rowRatio;
+      var cy = y;
+      for (var i = 0; i < row.length; i++) {
+        var itemH = h * (row[i].value / rowTotal);
+        result.push({
+          x: x + GAP / 2, y: cy + GAP / 2,
+          w: rowW - GAP, h: itemH - GAP,
+          item: row[i]
+        });
+        cy += itemH;
+      }
+      return { x: x + rowW, y: y, w: w - rowW, h: h };
+    } else {
+      var rowH = h * rowRatio;
+      var cx = x;
+      for (var i = 0; i < row.length; i++) {
+        var itemW = w * (row[i].value / rowTotal);
+        result.push({
+          x: cx + GAP / 2, y: y + GAP / 2,
+          w: itemW - GAP, h: rowH - GAP,
+          item: row[i]
+        });
+        cx += itemW;
+      }
+      return { x: x, y: y + rowH, w: w, h: h - rowH };
+    }
   }
 
-  return layoutTreemap(left, lRect).concat(layoutTreemap(right, rRect));
+  var remaining = items.slice();
+  var cx = rect.x, cy = rect.y, cw = rect.w, ch = rect.h;
+
+  while (remaining.length > 0) {
+    var sideLen = Math.min(cw, ch);
+    var row = [remaining[0]];
+    remaining = remaining.slice(1);
+
+    while (remaining.length > 0) {
+      var newRow = row.concat([remaining[0]]);
+      if (worst(newRow, sideLen) <= worst(row, sideLen)) {
+        row = newRow;
+        remaining = remaining.slice(1);
+      } else {
+        break;
+      }
+    }
+
+    var next = layoutRow(row, cx, cy, cw, ch);
+    cx = next.x; cy = next.y; cw = next.w; ch = next.h;
+  }
+
+  return result;
 }
 
-/* ── 트리맵 그리드 (지도 대체) ── */
+/* ── 트리맵 시세 현황 ── */
 function renderHeatmapGrid(items, title, subtitle) {
   if (!items || !items.length) return null;
 
@@ -322,9 +364,8 @@ function renderHeatmapGrid(items, title, subtitle) {
   var minP = Math.min.apply(null, prices);
   var maxP = Math.max.apply(null, prices);
 
-  // 거래량 순 정렬 (트리맵 알고리즘은 큰 값부터)
   var sorted = items.slice().sort(function(a, b) { return b.txn_count - a.txn_count; });
-  var tmItems = sorted.map(function(d) { return { value: d.txn_count, data: d }; });
+  var tmItems = sorted.map(function(d) { return { value: Math.max(d.txn_count, 1), data: d }; });
 
   var container = document.createElement("div");
   container.className = "treemap-container";
@@ -333,41 +374,49 @@ function renderHeatmapGrid(items, title, subtitle) {
   infoPanel.className = "heatmap-info";
   infoPanel.style.display = "none";
 
-  // requestAnimationFrame으로 실제 렌더링 (컨테이너 크기 필요)
   requestAnimationFrame(function() {
     var cw = container.offsetWidth || 360;
     var ch = container.offsetHeight || 400;
-    var rects = layoutTreemap(tmItems, { x: 0, y: 0, w: cw, h: ch });
+    var GAP = 3;
+    var rects = squarify(tmItems, { x: 0, y: 0, w: cw, h: ch }, GAP);
 
     rects.forEach(function(r) {
+      if (r.w <= 0 || r.h <= 0) return;
       var item = r.item.data;
       var cell = document.createElement("div");
       cell.className = "treemap-cell";
-      cell.style.left = r.x + "px";
-      cell.style.top = r.y + "px";
-      cell.style.width = r.w + "px";
-      cell.style.height = r.h + "px";
+      cell.style.left = Math.round(r.x) + "px";
+      cell.style.top = Math.round(r.y) + "px";
+      cell.style.width = Math.round(r.w) + "px";
+      cell.style.height = Math.round(r.h) + "px";
       cell.style.background = priceColor(item.avg_per_m2, minP, maxP);
+
+      // 셀 크기에 따라 폰트 조정
+      var isLarge = r.w >= 80 && r.h >= 65;
+      var isMedium = r.w >= 50 && r.h >= 40;
 
       var nameEl = document.createElement("div");
       nameEl.className = "treemap-cell-name";
+      nameEl.style.fontSize = isLarge ? "12px" : "10px";
       nameEl.textContent = item.name;
       cell.appendChild(nameEl);
 
-      // 충분한 크기일 때만 가격/거래량 표시
-      if (r.w >= 55 && r.h >= 45) {
+      if (isMedium) {
         var priceEl = document.createElement("div");
         priceEl.className = "treemap-cell-price";
+        priceEl.style.fontSize = isLarge ? "18px" : "13px";
         priceEl.textContent = Math.round(item.avg_per_m2).toLocaleString();
         cell.appendChild(priceEl);
+      }
 
+      if (isLarge) {
         var volEl = document.createElement("div");
         volEl.className = "treemap-cell-vol";
         volEl.textContent = item.txn_count + "\uAC74";
         cell.appendChild(volEl);
       }
 
-      if (r.w >= 70 && r.h >= 60 && item.recovery) {
+      if (isLarge && item.recovery) {
         var rec = item.recovery;
         var st = RECOVERY_STATUS[rec.status] || RECOVERY_STATUS.flat;
         var badge = document.createElement("span");
