@@ -897,6 +897,86 @@ function renderRecoverySection(items, title, isDong) {
   return sec;
 }
 
+/* ── 동별 전세가율 ── */
+function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
+  if (!dongStats || !dongStats.length || !jeonseDongStats || !jeonseDongStats.length) return null;
+
+  var saleMap = {};
+  dongStats.forEach(function(d) { saleMap[d.dong_name] = d.avg_per_m2; });
+
+  var rows = [];
+  jeonseDongStats.forEach(function(d) {
+    var salePrice = saleMap[d.dong_name];
+    if (!salePrice || salePrice <= 0) return;
+    var ratio = d.avg_per_m2 / salePrice * 100;
+    rows.push({
+      dong_name: d.dong_name,
+      jeonse_per_m2: d.avg_per_m2,
+      sale_per_m2: salePrice,
+      ratio: ratio,
+      txn_count: d.txn_count
+    });
+  });
+  if (!rows.length) return null;
+
+  rows.sort(function(a, b) { return b.ratio - a.ratio; });
+
+  var INITIAL_COUNT = 15;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uC804\uC138 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00F7 \uB9E4\uB9E4 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00D7 100";
+  sec.appendChild(sub);
+
+  var list = document.createElement("div");
+  list.className = "dong-stats-list";
+  var maxRatio = Math.max.apply(null, rows.map(function(r) { return r.ratio; }));
+
+  function renderItem(r) {
+    var row = document.createElement("div");
+    row.className = "dong-stat-row";
+    var nameEl = document.createElement("span");
+    nameEl.className = "dong-stat-name";
+    nameEl.textContent = r.dong_name;
+    row.appendChild(nameEl);
+    var barWrap = document.createElement("div");
+    barWrap.className = "dong-stat-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "dong-stat-bar";
+    bar.style.width = (r.ratio / maxRatio * 100) + "%";
+    bar.style.background = r.ratio >= 60 ? "var(--up)" : r.ratio >= 40 ? "var(--accent)" : "#94a3b8";
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    var valEl = document.createElement("span");
+    valEl.className = "dong-stat-val";
+    valEl.textContent = r.ratio.toFixed(1) + "% (" + r.txn_count + "\uAC74)";
+    row.appendChild(valEl);
+    list.appendChild(row);
+  }
+
+  rows.slice(0, INITIAL_COUNT).forEach(renderItem);
+  sec.appendChild(list);
+
+  if (rows.length > INITIAL_COUNT) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "sort-btn";
+    moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+    moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
+    moreBtn.addEventListener("click", function() {
+      rows.slice(INITIAL_COUNT).forEach(renderItem);
+      moreBtn.remove();
+    });
+    sec.appendChild(moreBtn);
+  }
+
+  return sec;
+}
+
 /* ── 전세가율 ── */
 function renderJeonseSection(jeonse) {
   if (!jeonse || !jeonse.avg_ratio) return null;
@@ -1095,6 +1175,12 @@ function renderSections() {
   if (data.jeonse) {
     var jeonseSec = renderJeonseSection(data.jeonse);
     if (jeonseSec) gridEl.appendChild(jeonseSec);
+  }
+
+  // 동별 전세가율
+  if (activeDistrict && data.dong_stats && data.jeonse_dong_stats) {
+    var djrSec = renderDongJeonseRatio(data.dong_stats, data.jeonse_dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC804\uC138\uAC00\uC728");
+    if (djrSec) gridEl.appendChild(djrSec);
   }
 
   // 전세가율 추이
