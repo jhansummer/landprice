@@ -1261,8 +1261,21 @@ function renderJeonseSection(jeonse) {
   sec.appendChild(sub);
 
   if (jeonse.sample_apts && jeonse.sample_apts.length) {
-    var INITIAL_COUNT = 10;
-    var samples = jeonse.sample_apts;
+    var MIN_TXN = 30;
+    var INITIAL_COUNT = 15;
+    var samples = jeonse.sample_apts.filter(function(a) {
+      return a.txn_count >= MIN_TXN;
+    });
+    // txn_count가 없는 기존 데이터는 전체 표시
+    if (!samples.length) samples = jeonse.sample_apts;
+    samples.sort(function(a, b) { return b.ratio - a.ratio; });
+
+    var filterNote = document.createElement("p");
+    filterNote.className = "section-sub";
+    filterNote.style.margin = "4px 0 8px";
+    filterNote.textContent = "\uC804\uC138 " + MIN_TXN + "\uAC74 \uC774\uC0C1 \uB2E8\uC9C0 · " + samples.length + "\uAC1C \uB2E8\uC9C0 · \uC804\uC138\uAC00\uC728 \uB192\uC740 \uC21C";
+    sec.appendChild(filterNote);
+
     var list = document.createElement("div");
     list.className = "jeonse-sample";
     function renderSample(a) {
@@ -1280,6 +1293,10 @@ function renderJeonseSection(jeonse) {
       priceEl.className = "jeonse-sample-price";
       priceEl.textContent = fmt(a.jeonse_price) + "/" + fmt(a.sale_price);
       row.appendChild(priceEl);
+      var txnEl = document.createElement("span");
+      txnEl.className = "jeonse-sample-area";
+      txnEl.textContent = (a.txn_count || "?") + "\uAC74";
+      row.appendChild(txnEl);
       var ratioEl = document.createElement("span");
       ratioEl.className = "jeonse-sample-ratio";
       ratioEl.textContent = a.ratio + "%";

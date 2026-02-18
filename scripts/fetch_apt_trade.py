@@ -788,6 +788,12 @@ def build_jeonse_summary(rent_records: List[Dict[str, object]],
         if key not in rent_latest and r["deposit_man"]:
             rent_latest[key] = r["deposit_man"]
 
+    # 전세 거래 건수 per (apt_name, area_m2)
+    rent_counts: Dict[Tuple, int] = {}
+    for r in rent_records:
+        key = (r["apt_name"], r["area_m2"])
+        rent_counts[key] = rent_counts.get(key, 0) + 1
+
     # 매칭
     ratios = []
     sample_apts = []
@@ -799,24 +805,24 @@ def build_jeonse_summary(rent_records: List[Dict[str, object]],
         if ratio > 120 or ratio < 10:
             continue  # 이상치 제외
         ratios.append(ratio)
-        if len(sample_apts) < 10:
-            sample_apts.append({
-                "apt_name": key[0],
-                "area_m2": key[1],
-                "sale_price": sale_price,
-                "jeonse_price": deposit,
-                "ratio": round(ratio, 1),
-            })
+        sample_apts.append({
+            "apt_name": key[0],
+            "area_m2": key[1],
+            "sale_price": sale_price,
+            "jeonse_price": deposit,
+            "ratio": round(ratio, 1),
+            "txn_count": rent_counts.get(key, 0),
+        })
 
     if not ratios:
         return {}
 
     avg_ratio = round(sum(ratios) / len(ratios), 1)
-    sample_apts.sort(key=lambda x: x["ratio"])
+    sample_apts.sort(key=lambda x: x["ratio"], reverse=True)
     return {
         "avg_ratio": avg_ratio,
         "count": len(ratios),
-        "sample_apts": sample_apts[:5],
+        "sample_apts": sample_apts,
     }
 
 
