@@ -457,6 +457,10 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 
 /* ── Valuation Page ── */
 .val-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:var(--shadow-md);transition:box-shadow .2s}
+.val-info-box{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--muted)}
+.val-info-box summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:13px}
+.val-info-body{margin-top:8px}
+.val-info-body p{margin:4px 0;line-height:1.5}
 .val-card:hover{box-shadow:var(--shadow-lg)}
 .val-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .val-badge{display:inline-block;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}

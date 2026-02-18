@@ -145,8 +145,20 @@
     resultsEl.innerHTML = "";
     var count = document.createElement("div");
     count.className = "result-count";
-    count.textContent = Object.keys(groups).length + "개 단지 · " + matches.length + "개 면적";
+    count.textContent = Object.keys(groups).length + "\uAC1C \uB2E8\uC9C0 \u00B7 " + matches.length + "\uAC1C \uBA74\uC801";
     resultsEl.appendChild(count);
+
+    // info box
+    var infoBox = document.createElement("details");
+    infoBox.className = "val-info-box";
+    infoBox.innerHTML = '<summary>\uD310\uC815 \uAE30\uC900 \uC548\uB0B4</summary>'
+      + '<div class="val-info-body">'
+      + '<p><strong>\uC800\uD3C9\uAC00</strong> (-5% \uC774\uD558): \uC720\uC0AC\uB2E8\uC9C0\uC640 3\uB144\uAC04 \uBE44\uC2B7\uD558\uAC8C \uC6C0\uC9C1\uC600\uC9C0\uB9CC, \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uC2FC \uB2E8\uC9C0</p>'
+      + '<p><strong>\uB9AC\uB529\uB2E8\uC9C0</strong> (+5% \uC774\uC0C1): \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uBE44\uC2FC \uB2E8\uC9C0</p>'
+      + '<p><strong>\uACC4\uC0B0\uC2DD</strong>: (\uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uACA9\uCC28) - (3\uB144 \uD3C9\uADE0\uAC00 \uACA9\uCC28)</p>'
+      + '<p style="color:var(--muted)">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C, \uBA74\uC801 30% \uC774\uB0B4, \uAC00\uACA9 \uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93 \uC774\uC0C1\uC778 \uB2E8\uC9C0</p>'
+      + '</div>';
+    resultsEl.appendChild(infoBox);
 
     Object.keys(groups).forEach(function (key) {
       var g = groups[key];
