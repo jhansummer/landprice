@@ -394,6 +394,146 @@ function renderGapAnalysis(gap) {
   return sec;
 }
 
+/* ── 구별 전세가율 (시도 전체) ── */
+function renderDistrictJeonseRatio(sidoData, title) {
+  if (!sidoData || !sidoData.districts) return null;
+  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+  var rows = [];
+  distOrder.forEach(function(name) {
+    var dist = sidoData.districts[name];
+    if (!dist || !dist.jeonse || !dist.jeonse.avg_ratio) return;
+    rows.push({ name: name, ratio: dist.jeonse.avg_ratio, count: dist.jeonse.count || 0 });
+  });
+  if (!rows.length) return null;
+  rows.sort(function(a, b) { return b.ratio - a.ratio; });
+
+  var INITIAL_COUNT = 15;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uAD6C\uBCC4 \uD3C9\uADE0 \uC804\uC138\uAC00\uC728 (\uB192\uC740 \uC21C)";
+  sec.appendChild(sub);
+
+  var list = document.createElement("div");
+  list.className = "dong-stats-list";
+  var maxR = Math.max.apply(null, rows.map(function(r) { return r.ratio; }));
+
+  function renderItem(r) {
+    var row = document.createElement("div");
+    row.className = "dong-stat-row";
+    var nameEl = document.createElement("span");
+    nameEl.className = "dong-stat-name";
+    nameEl.textContent = r.name;
+    row.appendChild(nameEl);
+    var barWrap = document.createElement("div");
+    barWrap.className = "dong-stat-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "dong-stat-bar";
+    bar.style.width = (r.ratio / maxR * 100) + "%";
+    bar.style.background = r.ratio >= 60 ? "var(--up)" : r.ratio >= 40 ? "var(--accent)" : "#94a3b8";
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    var valEl = document.createElement("span");
+    valEl.className = "dong-stat-val";
+    valEl.textContent = r.ratio.toFixed(1) + "% (" + r.count + "\uAC1C)";
+    row.appendChild(valEl);
+    list.appendChild(row);
+  }
+
+  rows.slice(0, INITIAL_COUNT).forEach(renderItem);
+  sec.appendChild(list);
+  if (rows.length > INITIAL_COUNT) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "sort-btn";
+    moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+    moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
+    moreBtn.addEventListener("click", function() {
+      rows.slice(INITIAL_COUNT).forEach(renderItem);
+      moreBtn.remove();
+    });
+    sec.appendChild(moreBtn);
+  }
+  return sec;
+}
+
+/* ── 동별 전세가율 (구 선택시) ── */
+function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
+  if (!dongStats || !dongStats.length || !jeonseDongStats || !jeonseDongStats.length) return null;
+  var saleMap = {};
+  dongStats.forEach(function(d) { saleMap[d.dong_name] = d.avg_per_m2; });
+
+  var rows = [];
+  jeonseDongStats.forEach(function(d) {
+    var sp = saleMap[d.dong_name];
+    if (!sp || sp <= 0) return;
+    rows.push({
+      dong_name: d.dong_name,
+      ratio: d.avg_per_m2 / sp * 100,
+      txn_count: d.txn_count
+    });
+  });
+  if (!rows.length) return null;
+  rows.sort(function(a, b) { return b.ratio - a.ratio; });
+
+  var INITIAL_COUNT = 15;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uC804\uC138 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00F7 \uB9E4\uB9E4 m\u00B2\uB2F9 \uD3C9\uADE0\uAC00 \u00D7 100";
+  sec.appendChild(sub);
+
+  var list = document.createElement("div");
+  list.className = "dong-stats-list";
+  var maxR = Math.max.apply(null, rows.map(function(r) { return r.ratio; }));
+
+  function renderItem(r) {
+    var row = document.createElement("div");
+    row.className = "dong-stat-row";
+    var nameEl = document.createElement("span");
+    nameEl.className = "dong-stat-name";
+    nameEl.textContent = r.dong_name;
+    row.appendChild(nameEl);
+    var barWrap = document.createElement("div");
+    barWrap.className = "dong-stat-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "dong-stat-bar";
+    bar.style.width = (r.ratio / maxR * 100) + "%";
+    bar.style.background = r.ratio >= 60 ? "var(--up)" : r.ratio >= 40 ? "var(--accent)" : "#94a3b8";
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    var valEl = document.createElement("span");
+    valEl.className = "dong-stat-val";
+    valEl.textContent = r.ratio.toFixed(1) + "% (" + r.txn_count + "\uAC74)";
+    row.appendChild(valEl);
+    list.appendChild(row);
+  }
+
+  rows.slice(0, INITIAL_COUNT).forEach(renderItem);
+  sec.appendChild(list);
+  if (rows.length > INITIAL_COUNT) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "sort-btn";
+    moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+    moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
+    moreBtn.addEventListener("click", function() {
+      rows.slice(INITIAL_COUNT).forEach(renderItem);
+      moreBtn.remove();
+    });
+    sec.appendChild(moreBtn);
+  }
+  return sec;
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -439,7 +579,19 @@ function renderSections() {
   var volSec = renderJeonseVolume(data.jeonse_volume);
   if (volSec) gridEl.appendChild(volSec);
 
-  // 6. 동별 전세 시세 (구 선택시만)
+  // 6. 구별 전세가율 (시도 전체)
+  if (!activeDistrict) {
+    var drSec = renderDistrictJeonseRatio(sidoData, activeSido + " \uAD6C\uBCC4 \uC804\uC138\uAC00\uC728");
+    if (drSec) gridEl.appendChild(drSec);
+  }
+
+  // 7. 동별 전세가율 (구 선택시)
+  if (activeDistrict && data.dong_stats && data.jeonse_dong_stats) {
+    var djrSec = renderDongJeonseRatio(data.dong_stats, data.jeonse_dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC804\uC138\uAC00\uC728");
+    if (djrSec) gridEl.appendChild(djrSec);
+  }
+
+  // 8. 동별 전세 시세 (구 선택시만)
   if (activeDistrict && data.jeonse_dong_stats) {
     var dongSec = renderJeonseDongStats(data.jeonse_dong_stats);
     if (dongSec) gridEl.appendChild(dongSec);
