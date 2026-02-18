@@ -363,7 +363,7 @@ function renderDashboard() {
       if (recDist.flat > 0) recBarHTML += '<div class="rec-bar-seg flat" style="width:' + (recDist.flat / totalRec * 100) + '%">' + recDist.flat + '</div>';
       if (recDist.falling > 0) recBarHTML += '<div class="rec-bar-seg falling" style="width:' + (recDist.falling / totalRec * 100) + '%">' + recDist.falling + '</div>';
       recBarHTML += '</div>';
-      card3.innerHTML = '<div class="dash-card-label">고점 대비 현황 (21~22년 전고점 기준)</div>'
+      card3.innerHTML = '<div class="dash-card-label">고점 대비 현황 (21~22년 전고점 기준) <span style="font-weight:400;color:var(--muted);font-size:11px">' + activeSido + ' ' + totalRec + '개 구/시 기준</span></div>'
         + recBarHTML
         + '<div class="recovery-dist-legend">'
         + '<span><span class="rec-dot recovered"></span>상승 ' + recDist.recovered + '</span>'
