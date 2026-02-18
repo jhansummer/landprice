@@ -270,7 +270,7 @@ function drawJeonseTrendChart(canvas, trendData) {
 
   var ratios = trendData.map(function(d) { return d[1]; });
   var minR = 0;
-  var maxR = 80;
+  var maxR = 100;
 
   function xPos(i) { return pad.left + (i / (trendData.length - 1)) * plotW; }
   function yPos(r) { return pad.top + (1 - (r - minR) / (maxR - minR)) * plotH; }
