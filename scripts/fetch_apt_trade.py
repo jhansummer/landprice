@@ -924,8 +924,24 @@ def build_jeonse_top3(rent_records: List[Dict[str, object]],
         elif ym in prev_set:
             groups.setdefault(key, {"recent": [], "prev": []})["prev"].append(r["deposit_man"])
 
+    def _filter_outliers(vals: List[float]) -> List[float]:
+        """그룹 내 이상치 제거: 중앙값의 30~300% 범위 밖 제거."""
+        if len(vals) < 3:
+            return vals
+        med = statistics.median(vals)
+        if med <= 0:
+            return vals
+        return [v for v in vals if 0.3 * med <= v <= 3.0 * med]
+
     results = []
     for key, g in groups.items():
+        # 전체 보증금 기준 이상치 필터
+        all_vals = g["recent"] + g["prev"]
+        if len(all_vals) >= 3:
+            med_all = statistics.median(all_vals)
+            if med_all > 0:
+                g["recent"] = [v for v in g["recent"] if 0.3 * med_all <= v <= 3.0 * med_all]
+                g["prev"] = [v for v in g["prev"] if 0.3 * med_all <= v <= 3.0 * med_all]
         if len(g["recent"]) < 2 or len(g["prev"]) < 2:
             continue
         recent_med = statistics.median(g["recent"])
