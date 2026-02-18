@@ -283,22 +283,20 @@ function renderItem(r, idx) {
   var explain = document.createElement("div");
   explain.className = "explain-block";
 
-  var reason1 = "\uC774 \uB2E8\uC9C0\uC758 \uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0 \uAC70\uB798\uAC00\uB294 " + fmtEok(r.recent_avg) + "\uC73C\uB85C, ";
-  reason1 += "\uAC19\uC740 \uC9C0\uC5ED \uC720\uC0AC \uBA74\uC801(" + (r.compare ? r.compare.length : 0) + "\uAC1C \uB2E8\uC9C0) \uD3C9\uADE0 " + fmtEok(r.compare_avg_recent) + " \uB300\uBE44 ";
-  reason1 += (ratio6 !== null ? Math.abs(ratio6).toFixed(1) + "% \uB0AE\uC2B5\uB2C8\uB2E4." : "\uBE44\uAD50 \uBD88\uAC00\uC785\uB2C8\uB2E4.");
+  var reason1 = "6개월 평균 " + fmtEok(r.recent_avg) + " · 유사 단지(" + (r.compare ? r.compare.length : 0) + "개) 평균 " + fmtEok(r.compare_avg_recent);
+  reason1 += (ratio6 !== null ? " 대비 " + Math.abs(ratio6).toFixed(1) + "% ↓" : "");
 
   var reason2 = "";
   if (ratio36 !== null && ratio6 !== null) {
     if (ratio36 > ratio6) {
-      reason2 = "3\uB144 \uC7A5\uAE30\uB85C \uBCF4\uBA74 \uACA9\uCC28\uAC00 \uB354 \uD06C\uBBC0\uB85C(" + Math.abs(ratio36).toFixed(1) + "%), \uCD5C\uADFC \uD68C\uBCF5\uC138\uC785\uB2C8\uB2E4.";
+      reason2 = "3년 격차 " + Math.abs(ratio36).toFixed(1) + "% → 최근 회복세";
     } else {
-      reason2 = "3\uB144 \uC7A5\uAE30(" + Math.abs(ratio36).toFixed(1) + "%) \uB300\uBE44 \uCD5C\uADFC \uACA9\uCC28\uAC00 \uB354 \uBC8C\uC5B4\uC9C0\uB294 \uCD94\uC138\uC785\uB2C8\uB2E4.";
+      reason2 = "3년 격차 " + Math.abs(ratio36).toFixed(1) + "% → 최근 격차 확대";
     }
   }
 
-  var reason3 = "\uBE44\uAD50 \uAE30\uC900: \uAC19\uC740 \uC2DC\uAD70\uAD6C \uB0B4 \uBA74\uC801 \u00B115%, \uAC00\uACA9 \uC218\uC900 \u00B130% \uC774\uB0B4 \uB2E8\uC9C0.";
-
-  explain.innerHTML = reason1 + "<br>" + (reason2 ? reason2 + "<br>" : "") + '<span class="source">' + reason3 + "</span>";
+  explain.innerHTML = reason1 + (reason2 ? "<br>" + reason2 : "")
+    + '<br><span class="source">같은 시군구 · 면적 ±15% · 가격 ±30% 이내 비교</span>';
   content.appendChild(explain);
 
   card.appendChild(content);
