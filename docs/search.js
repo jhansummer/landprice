@@ -369,6 +369,20 @@ function renderTabs() {
   });
 }
 
+/* 시/구 하위 구 목록 추출 (경기 수원시 → 수원시권선구, 수원시영통구 등) */
+function getSubDistricts(sidoData, district) {
+  if (!sidoData || !sidoData.items || !district) return [];
+  var subs = {};
+  sidoData.items.forEach(function (r) {
+    if (r.district === district && r.sigungu && r.sigungu !== district) {
+      subs[r.sigungu] = true;
+    }
+  });
+  return Object.keys(subs).sort();
+}
+
+var activeSubDistrict = null;
+
 function renderSubTabs() {
   subtabsEl.innerHTML = "";
   if (!globalData || !activeSido) return;
@@ -394,14 +408,49 @@ function renderSubTabs() {
 
   select.addEventListener("change", function () {
     activeDistrict = select.value || null;
+    activeSubDistrict = null;
     activeDong = null;
     activeDanji = null;
+    renderSubTabs();
     renderFilters();
     resultsEl.innerHTML = "";
     updateURL();
   });
 
   subtabsEl.appendChild(select);
+
+  /* 시 선택 시 하위 구 드롭박스 (경기 수원시→수원시권선구 등) */
+  if (activeDistrict) {
+    var subDists = getSubDistricts(sidoData, activeDistrict);
+    if (subDists.length > 1) {
+      var subSelect = document.createElement("select");
+      subSelect.className = "district-select";
+      var subAllOpt = document.createElement("option");
+      subAllOpt.value = "";
+      subAllOpt.textContent = activeDistrict + " \uC804\uCCB4";
+      if (!activeSubDistrict) subAllOpt.selected = true;
+      subSelect.appendChild(subAllOpt);
+
+      subDists.forEach(function (sub) {
+        var opt = document.createElement("option");
+        opt.value = sub;
+        /* 수원시권선구 → 권선구 로 표시 */
+        opt.textContent = sub.replace(activeDistrict, "");
+        if (sub === activeSubDistrict) opt.selected = true;
+        subSelect.appendChild(opt);
+      });
+
+      subSelect.addEventListener("change", function () {
+        activeSubDistrict = subSelect.value || null;
+        activeDong = null;
+        activeDanji = null;
+        renderFilters();
+        resultsEl.innerHTML = "";
+      });
+
+      subtabsEl.appendChild(subSelect);
+    }
+  }
 }
 
 function renderFilters() {
@@ -413,6 +462,9 @@ function renderFilters() {
   var items = sidoData.items || [];
   if (activeDistrict) {
     items = items.filter(function (r) { return r.district === activeDistrict; });
+  }
+  if (activeSubDistrict) {
+    items = items.filter(function (r) { return r.sigungu === activeSubDistrict; });
   }
 
   var dongSet = {};
@@ -539,6 +591,9 @@ function getFilteredItems() {
   var items = sidoData.items || [];
   if (activeDistrict) {
     items = items.filter(function (r) { return r.district === activeDistrict; });
+  }
+  if (activeSubDistrict) {
+    items = items.filter(function (r) { return r.sigungu === activeSubDistrict; });
   }
   if (activeDong) {
     items = items.filter(function (r) { return r.dong_name === activeDong; });
