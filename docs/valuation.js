@@ -148,17 +148,22 @@
     count.textContent = Object.keys(groups).length + "\uAC1C \uB2E8\uC9C0 \u00B7 " + matches.length + "\uAC1C \uBA74\uC801";
     resultsEl.appendChild(count);
 
-    // info box
-    var infoBox = document.createElement("details");
-    infoBox.className = "val-info-box";
-    infoBox.innerHTML = '<summary>\uD310\uC815 \uAE30\uC900 \uC548\uB0B4</summary>'
-      + '<div class="val-info-body">'
-      + '<p><strong>\uC800\uD3C9\uAC00</strong> (-5% \uC774\uD558): \uC720\uC0AC\uB2E8\uC9C0\uC640 3\uB144\uAC04 \uBE44\uC2B7\uD558\uAC8C \uC6C0\uC9C1\uC600\uC9C0\uB9CC, \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uC2FC \uB2E8\uC9C0</p>'
-      + '<p><strong>\uB9AC\uB529\uB2E8\uC9C0</strong> (+5% \uC774\uC0C1): \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uBE44\uC2FC \uB2E8\uC9C0</p>'
-      + '<p><strong>\uACC4\uC0B0\uC2DD</strong>: (\uCD5C\uADFC 6\uAC1C\uC6D4 \uD3C9\uADE0\uAC00 \uACA9\uCC28) - (3\uB144 \uD3C9\uADE0\uAC00 \uACA9\uCC28)</p>'
-      + '<p style="color:var(--muted)">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C, \uBA74\uC801 30% \uC774\uB0B4, \uAC00\uACA9 \uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93 \uC774\uC0C1\uC778 \uB2E8\uC9C0</p>'
-      + '</div>';
-    resultsEl.appendChild(infoBox);
+    // info card
+    var infoCard = document.createElement("div");
+    infoCard.className = "val-guide-card";
+    infoCard.innerHTML = '<div class="val-guide-title">\uD310\uC815 \uAE30\uC900</div>'
+      + '<div class="val-guide-grid">'
+      + '<div class="val-guide-item">'
+      + '<span class="val-badge val-badge-undervalued">\uC800\uD3C9\uAC00</span>'
+      + '<span class="val-guide-desc">\uC720\uC0AC\uB2E8\uC9C0\uC640 3\uB144\uAC04 \uBE44\uC2B7\uD588\uC9C0\uB9CC<br>\uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uC2FC \uB2E8\uC9C0</span>'
+      + '</div>'
+      + '<div class="val-guide-item">'
+      + '<span class="val-badge val-badge-leading">\uB9AC\uB529\uB2E8\uC9C0</span>'
+      + '<span class="val-guide-desc">\uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44<br>\uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uBE44\uC2FC \uB2E8\uC9C0</span>'
+      + '</div>'
+      + '</div>'
+      + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>';
+    resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
       var g = groups[key];
@@ -410,8 +415,7 @@
     var totalCount = 0;
     globalIndex.sido_order.forEach(function (s) { var d = sidoCache[s]; if (d) totalCount += (d.count || 0); });
     resultsEl.innerHTML = '<div class="val-hint">\uC804\uAD6D ' + totalCount.toLocaleString()
-      + '\uAC1C \uB2E8\uC9C0 \uBD84\uC11D \uAC00\uB2A5<br><span style="font-size:11px">\uB2E8\uC9C0\uBA85\uC744 \uAC80\uC0C9\uD558\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00/\uB9AC\uB529 \uC5EC\uBD80\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span>'
-      + '<br><span style="font-size:11px;color:var(--muted)">\uD45C\uC2DC\uB41C %\uB294 \uC720\uC0AC\uB2E8\uC9C0\uC640\uC758 \uAC00\uACA9 \uACA9\uCC28 \uBCC0\uD654\uB97C \uB098\uD0C0\uB0C5\uB2C8\uB2E4. 3\uB144 \uD3C9\uADE0 \uACA9\uCC28 \uB300\uBE44 \uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC9C4 \uC815\uB3C4\uB85C, \uC74C\uC218\uBA74 \uC0C1\uB300\uC801\uC73C\uB85C \uC800\uD3C9\uAC00, \uC591\uC218\uBA74 \uB9AC\uB529\uC785\uB2C8\uB2E4.</span></div>';
+      + '\uAC1C \uB2E8\uC9C0 \uBD84\uC11D \uAC00\uB2A5<br><span style="font-size:11px">\uB2E8\uC9C0\uBA85\uC744 \uAC80\uC0C9\uD558\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00/\uB9AC\uB529 \uC5EC\uBD80\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span></div>';
   }
 
   /* ── init ── */
