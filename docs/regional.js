@@ -972,9 +972,11 @@ function renderJeonseSection(jeonse) {
   sec.appendChild(sub);
 
   if (jeonse.sample_apts && jeonse.sample_apts.length) {
+    var INITIAL_COUNT = 10;
+    var samples = jeonse.sample_apts;
     var list = document.createElement("div");
     list.className = "jeonse-sample";
-    jeonse.sample_apts.forEach(function(a) {
+    function renderSample(a) {
       var row = document.createElement("div");
       row.className = "jeonse-sample-row";
       var nameEl = document.createElement("span");
@@ -994,8 +996,20 @@ function renderJeonseSection(jeonse) {
       ratioEl.textContent = a.ratio + "%";
       row.appendChild(ratioEl);
       list.appendChild(row);
-    });
+    }
+    samples.slice(0, INITIAL_COUNT).forEach(renderSample);
     sec.appendChild(list);
+    if (samples.length > INITIAL_COUNT) {
+      var moreBtn = document.createElement("button");
+      moreBtn.className = "sort-btn";
+      moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+      moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
+      moreBtn.addEventListener("click", function() {
+        samples.slice(INITIAL_COUNT).forEach(renderSample);
+        moreBtn.remove();
+      });
+      sec.appendChild(moreBtn);
+    }
   }
   return sec;
 }
