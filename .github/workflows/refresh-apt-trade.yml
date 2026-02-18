@@ -35,8 +35,9 @@ jobs:
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
           MONTHS_KEPT: "84"
-          REFRESH_MONTHS: "3"
+          REFRESH_MONTHS: "6"
           RENT_REFRESH_MONTHS: "6"
+          RENT_BACKFILL_BATCH: "6"
         run: |
           python scripts/fetch_apt_trade.py
       - name: Find undervalued apartments

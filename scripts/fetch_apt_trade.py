@@ -1514,9 +1514,26 @@ def main() -> int:
     print(f"Done trade: fetched={fetched}, skipped={skipped}, errors={errors}", flush=True)
 
     # 전세 데이터 fetch (RENT_MONTHS_KEPT=84 전체 범위, 리프레시는 RENT_REFRESH_MONTHS만)
+    # RENT_BACKFILL_BATCH: 매 실행마다 파일 없는 과거 월을 최대 N개월분만 백필 (API 부하 분산)
     rent_refresh_months = int(os.getenv("RENT_REFRESH_MONTHS", "6"))
+    rent_backfill_batch = int(os.getenv("RENT_BACKFILL_BATCH", "6"))
     rent_months = month_list(RENT_MONTHS_KEPT)
     rent_refresh_set = set(month_list(rent_refresh_months))
+
+    # 백필 대상 월 파악: 파일이 없고 리프레시 범위 밖인 월 (가장 최근 것부터)
+    backfill_months_needed = set()
+    for lawd_cd in lawd_list:
+        for deal_ym in rent_months:
+            if deal_ym in rent_refresh_set:
+                continue
+            out_path = BY_RENT_DIR / lawd_cd / f"{deal_ym}.json"
+            if not out_path.exists():
+                backfill_months_needed.add(deal_ym)
+    # 최근 월부터 백필 (내림차순), batch 크기만큼만
+    backfill_target = set(sorted(backfill_months_needed, reverse=True)[:rent_backfill_batch])
+    if backfill_target:
+        print(f"Rent backfill target: {sorted(backfill_target)} ({len(backfill_target)} months, {len(backfill_months_needed)} remaining)", flush=True)
+
     rent_fetched = 0
     rent_skipped = 0
     rent_errors = 0
@@ -1532,16 +1549,21 @@ def main() -> int:
             out_path = rent_dir / f"{deal_ym}.json"
             name = lawd_name(lawd_cd)
 
-            # 파일 있고 리프레시 대상 아니면 스킵
-            if out_path.exists() and deal_ym not in rent_refresh_set:
-                rent_skipped += 1
+            # 리프레시 대상: 항상 가져옴
+            # 백필 대상: backfill_target에 포함된 월만
+            # 그 외 파일 있으면 스킵
+            is_refresh = deal_ym in rent_refresh_set
+            is_backfill = deal_ym in backfill_target and not out_path.exists()
+            if not is_refresh and not is_backfill:
+                if out_path.exists():
+                    rent_skipped += 1
                 continue
 
             if rent_rate_limited:
                 rent_skipped += 1
                 continue
 
-            print(f"[rent {rent_done}/{total_rent_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
+            print(f"[rent {rent_done}/{total_rent_jobs}] {lawd_cd} ({name}) {deal_ym}{' (backfill)' if is_backfill else ''}", flush=True)
             try:
                 rent_recs = fetch_rent_month(service_key, lawd_cd, deal_ym)
                 rent_consecutive_errors = 0
@@ -1555,6 +1577,10 @@ def main() -> int:
                 continue
             if rent_recs:
                 write_json(out_path, rent_recs)
+                rent_fetched += 1
+            elif is_backfill:
+                # 빈 응답이라도 파일 생성 (재시도 방지)
+                write_json(out_path, [])
                 rent_fetched += 1
 
     print(f"Done rent: fetched={rent_fetched}, skipped={rent_skipped}, errors={rent_errors}", flush=True)
