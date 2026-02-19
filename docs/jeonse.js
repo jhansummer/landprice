@@ -95,49 +95,6 @@ function renderJeonseRatio(jeonse) {
   sub.textContent = "최신 거래 기준 · " + jeonse.count + "개 단지 평균";
   sec.appendChild(sub);
 
-  if (jeonse.sample_apts && jeonse.sample_apts.length) {
-    var INITIAL_COUNT = 10;
-    var samples = jeonse.sample_apts;
-    var list = document.createElement("div");
-    list.className = "jeonse-sample";
-    function renderSample(a) {
-      var row = document.createElement("div");
-      row.className = "jeonse-sample-row";
-      var nameEl = document.createElement("span");
-      nameEl.className = "jeonse-sample-name";
-      nameEl.textContent = a.apt_name;
-      row.appendChild(nameEl);
-      var areaEl = document.createElement("span");
-      areaEl.className = "jeonse-sample-area";
-      areaEl.textContent = a.area_m2 + "m\u00B2";
-      row.appendChild(areaEl);
-      var priceEl = document.createElement("span");
-      priceEl.className = "jeonse-sample-price";
-      priceEl.textContent = fmt(a.jeonse_price) + "/" + fmt(a.sale_price);
-      row.appendChild(priceEl);
-      var ratioEl = document.createElement("span");
-      ratioEl.className = "jeonse-sample-ratio";
-      ratioEl.textContent = a.ratio + "%";
-      row.appendChild(ratioEl);
-      list.appendChild(row);
-    }
-    samples.slice(0, INITIAL_COUNT).forEach(renderSample);
-    sec.appendChild(list);
-    if (samples.length > INITIAL_COUNT) {
-      var moreBtn = document.createElement("button");
-      moreBtn.className = "sort-btn";
-      moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
-      moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
-      moreBtn.addEventListener("click", function() {
-        var curH = list.offsetHeight;
-        samples.slice(INITIAL_COUNT).forEach(renderSample);
-        list.style.maxHeight = (curH + 80) + "px";
-        list.style.overflowY = "auto";
-        moreBtn.remove();
-      });
-      sec.appendChild(moreBtn);
-    }
-  }
   return sec;
 }
 
@@ -379,13 +336,24 @@ function renderGapAnalysis(gap) {
       list.className = "dong-stats-list";
       function renderGapItem(item) {
         var row = document.createElement("div");
-        row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
-        var nameEl = document.createElement("span");
-        nameEl.style.cssText = "font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1";
-        nameEl.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
-        row.appendChild(nameEl);
+        row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
+        var infoEl = document.createElement("div");
+        infoEl.style.cssText = "min-width:0;overflow:hidden;flex:1";
+        var nameEl = document.createElement("div");
+        nameEl.style.cssText = "font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+        nameEl.textContent = item.apt_name;
+        infoEl.appendChild(nameEl);
+        var locEl = document.createElement("div");
+        locEl.style.cssText = "font-size:11px;color:var(--muted);margin-top:1px";
+        var locParts = [];
+        if (item.sigungu) locParts.push(item.sigungu);
+        if (item.dong_name) locParts.push(item.dong_name);
+        locParts.push(item.area_m2 + "m\u00B2");
+        locEl.textContent = locParts.join(" \u00B7 ");
+        infoEl.appendChild(locEl);
+        row.appendChild(infoEl);
         var valEl = document.createElement("span");
-        valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px";
+        valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px;text-align:right";
         var gapVal = item.gap >= 10000
           ? (item.gap / 10000).toFixed(1) + "\uc5b5"
           : fmt(item.gap) + "\ub9cc";
@@ -421,11 +389,22 @@ function renderGapAnalysis(gap) {
     list.className = "dong-stats-list";
     gap.top5_low_gap.forEach(function(item) {
       var row = document.createElement("div");
-      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
-      var nameEl = document.createElement("span");
-      nameEl.style.cssText = "font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1";
-      nameEl.textContent = item.apt_name + " " + item.area_m2 + "m\u00B2";
-      row.appendChild(nameEl);
+      row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
+      var infoEl = document.createElement("div");
+      infoEl.style.cssText = "min-width:0;overflow:hidden;flex:1";
+      var nameEl = document.createElement("div");
+      nameEl.style.cssText = "font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+      nameEl.textContent = item.apt_name;
+      infoEl.appendChild(nameEl);
+      var locEl = document.createElement("div");
+      locEl.style.cssText = "font-size:11px;color:var(--muted);margin-top:1px";
+      var locParts = [];
+      if (item.sigungu) locParts.push(item.sigungu);
+      if (item.dong_name) locParts.push(item.dong_name);
+      locParts.push(item.area_m2 + "m\u00B2");
+      locEl.textContent = locParts.join(" \u00B7 ");
+      infoEl.appendChild(locEl);
+      row.appendChild(infoEl);
       var valEl = document.createElement("span");
       valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px";
       var gapVal = item.gap >= 10000

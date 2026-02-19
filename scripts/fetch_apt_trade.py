@@ -1020,6 +1020,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
                 "price": r["price_man"],
                 "deal_date": r["deal_date"],
                 "dong_name": r.get("dong_name", ""),
+                "sigungu": r.get("sigungu", ""),
             }
 
     # 최신 전세가 {(apt_name, area_m2): deposit}
@@ -1053,6 +1054,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
             "apt_name": key[0],
             "area_m2": key[1],
             "dong_name": sale["dong_name"],
+            "sigungu": sale.get("sigungu", ""),
             "sale_price": sale["price"],
             "jeonse_price": deposit,
             "gap": gap,
