@@ -1455,6 +1455,100 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
     for sido_name, sido_search in search_sidos.items():
         write_json(search_dir / f"{sido_name}.json", sido_search)
 
+    # 바닥 근처 단지 데이터
+    build_bottom_data(sido_lawds)
+
+
+def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
+    """시도별 개별 아파트 전고점 대비 회복률을 계산하여 bottom/ 디렉터리에 저장."""
+    bottom_dir = DATA_DIR / "bottom"
+    bottom_dir.mkdir(exist_ok=True)
+
+    valid_sidos = []
+    for sido, codes in sido_lawds.items():
+        records = gather_sido_records(codes)
+        if not records:
+            continue
+
+        # District grouping (build_summary와 동일)
+        dist_groups: Dict[str, List[str]] = {}
+        for lawd_cd in codes:
+            name = lawd_name(lawd_cd)
+            group = _district_group(sido, name)
+            dist_groups.setdefault(group, []).append(lawd_cd)
+
+        district_order = sorted(dist_groups.keys())
+        all_apts: List[Dict] = []
+
+        for group_name, group_codes in dist_groups.items():
+            group_set = set(group_codes)
+            dist_records = [r for r in records if r["lawd_cd"] in group_set]
+            if not dist_records:
+                continue
+
+            # 같은 단지+같은 평수별로 회복률 계산 (identity 보존)
+            by_apt_size: Dict[Tuple[str, float], Dict[str, List]] = {}
+            apt_meta: Dict[Tuple[str, float], Dict] = {}
+            for r in dist_records:
+                if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
+                    continue
+                key = (r["apt_name"], r["area_m2"])
+                ym = r["deal_ym"]
+                by_apt_size.setdefault(key, {}).setdefault(ym, []).append(
+                    r["price_man"] / r["area_m2"]
+                )
+                if key not in apt_meta:
+                    sigungu = r.get("sigungu", "")
+                    apt_id = hashlib.md5(
+                        f"{sigungu}\t{r['apt_name']}\t{r['area_m2']}".encode()
+                    ).hexdigest()[:10]
+                    apt_meta[key] = {
+                        "id": apt_id,
+                        "apt_name": r["apt_name"],
+                        "area_m2": r["area_m2"],
+                        "sigungu": sigungu,
+                        "dong_name": r.get("dong_name", ""),
+                        "district": group_name,
+                    }
+
+            for (apt_name, area_m2), ym_prices in by_apt_size.items():
+                total_trades = sum(len(v) for v in ym_prices.values())
+                if total_trades < 15:
+                    continue
+                all_yms = sorted(ym_prices.keys())
+                trend = []
+                for ym in all_yms:
+                    vals = ym_prices[ym]
+                    trend.append([ym, round(sum(vals) / len(vals), 1), len(vals)])
+                info = _recovery_from_trend(trend, min_months=4)
+                if not info:
+                    continue
+                meta = apt_meta.get((apt_name, area_m2), {})
+                entry = {**meta, **info, "trades": total_trades}
+                all_apts.append(entry)
+
+        # vs_peak 오름차순 (가장 많이 하락한 단지 먼저)
+        all_apts.sort(key=lambda x: x["vs_peak"])
+        # 반등 조짐: vs_peak < -10% AND chg3m > 0
+        turning = [a for a in all_apts if a["vs_peak"] < -10 and a["chg3m"] > 0]
+
+        sido_data = {
+            "district_order": district_order,
+            "count": len(all_apts),
+            "items": all_apts[:300],
+            "turning": turning[:50],
+        }
+        write_json(bottom_dir / f"{sido}.json", sido_data)
+        valid_sidos.append(sido)
+
+    index = {
+        "updated_at": iso_now_utc(),
+        "sido_order": [s for s in SIDO_ORDER if s in valid_sidos],
+    }
+    write_json(bottom_dir / "index.json", index)
+    total = sum(1 for s in valid_sidos for _ in [1])
+    print(f"Bottom data: {bottom_dir} ({len(valid_sidos)} sidos)", flush=True)
+
 
 def main() -> int:
     summary_only = "--summary-only" in sys.argv

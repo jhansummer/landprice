@@ -2,24 +2,23 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="naver-site-verification" content="395bc4f52e3a4764f98077727fe6466f57ed40c0" />
-  <title>아파트 전세 실거래가 · 전세가율 조회 - APT Mine</title>
-  <meta name="description" content="아파트 전세 실거래가 조회 및 전세가율 분석. 지역별 전세 시세 추이, 전세 거래량, 전세가율 현황을 한눈에 확인하세요. 국토교통부 실거래가 기반." />
-  <meta name="keywords" content="전세 실거래가, 아파트 전세, 전세가율, 전세 시세, 부동산 전세, 아파트 전세 시세" />
-  <meta property="og:title" content="아파트 전세 실거래가 · 전세가율 조회 - APT Mine" />
-  <meta property="og:description" content="아파트 전세 실거래가 조회 및 전세가율 분석. 지역별 전세 시세 추이, 전세 거래량 현황." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>저평가 백테스트 · 아파트 투자 분석 검증 - APT Mine</title>
+  <meta name="description" content="과거 저평가 판정 아파트의 실제 수익률을 추적합니다. 저평가 분석의 정확도와 시장 대비 초과수익을 검증하세요." />
+  <meta name="keywords" content="저평가 백테스트, 아파트 투자 검증, 부동산 수익률, 아파트 분석 정확도, 알파 수익" />
+  <meta property="og:title" content="저평가 백테스트 · 아파트 투자 분석 검증 - APT Mine" />
+  <meta property="og:description" content="과거 저평가 판정 아파트의 실제 수익률을 추적합니다. 저평가 분석의 정확도를 검증하세요." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://aptmine.com/jeonse.html" />
+  <meta property="og:url" content="https://aptmine.com/backtest.html" />
   <meta property="og:site_name" content="APT Mine" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="아파트 전세 실거래가 · 전세가율 조회 - APT Mine" />
-  <meta name="twitter:description" content="아파트 전세 실거래가 조회 및 전세가율 분석. 지역별 전세 시세 추이, 전세 거래량 현황." />
+  <meta name="twitter:title" content="저평가 백테스트 · 아파트 투자 분석 검증 - APT Mine" />
+  <meta name="twitter:description" content="과거 저평가 판정 아파트의 실제 수익률을 추적합니다." />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="canonical" href="https://aptmine.com/jeonse.html" />
+  <link rel="canonical" href="https://aptmine.com/backtest.html" />
   <link rel="stylesheet" href="style.css?v=7" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
@@ -42,19 +41,16 @@
       <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
       <a class="nav-link" href="valuation.html">단지분석</a>
       <a class="nav-link" href="regional.html">지역시세</a>
-      <span class="nav-link active">전세시세</span>
+      <a class="nav-link" href="jeonse.html">전세시세</a>
       <a class="nav-link" href="bottom.html">바닥찾기</a>
-      <a class="nav-link" href="backtest.html">백테스트</a>
+      <span class="nav-link active">백테스트</span>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
     </nav>
   </header>
-  <nav id="tabs" class="tabs"></nav>
-  <div id="subtabs" class="district-select-wrap"></div>
-  <div id="meta" class="meta"></div>
-  <main>
-    <div id="status" class="status"><span class="spinner"></span>데이터 로딩 중...</div>
-    <div id="grid"></div>
-  </main>
+  <div class="wrap">
+    <div id="status" class="status"><span class="spinner"></span> 데이터 로딩 중...</div>
+    <div id="content"></div>
+  </div>
   <footer class="site-footer">
     <nav class="footer-links">
       <a href="/">메인</a>
@@ -71,9 +67,10 @@
       <span style="margin:0 6px;">·</span>
       <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
     </div>
-  </footer>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
+  </footer>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
   <script src="chart-utils.js?v=4"></script>
   <script src="watchlist.js?v=2"></script>
-  <script src="jeonse.js?v=5"></script>
+  <script src="backtest.js?v=1"></script>
 </body>
 </html>

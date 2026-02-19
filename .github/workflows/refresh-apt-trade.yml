@@ -44,6 +44,10 @@ jobs:
         continue-on-error: true
         run: |
           python scripts/find_undervalued.py
+      - name: Build backtest results
+        continue-on-error: true
+        run: |
+          python scripts/build_backtest.py
       - name: Commit and push if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then

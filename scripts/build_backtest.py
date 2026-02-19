@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""
+저평가 백테스트: git 히스토리에서 undervalued.json 스냅샷을 추출하고,
+과거 저평가 판정 단지의 실제 수익률을 계산한다.
+"""
+import json
+import subprocess
+import sys
+from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "docs" / "data" / "apt_trade"
+BY_APT_DIR = DATA_DIR / "by_apt"
+OUT_PATH = DATA_DIR / "backtest.json"
+UNDERVALUED_REL = "docs/data/apt_trade/undervalued.json"
+
+
+def git_run(*args: str) -> str:
+    """Run a git command and return stdout."""
+    result = subprocess.run(
+        ["git"] + list(args),
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    if result.returncode != 0:
+        return ""
+    return result.stdout
+
+
+def get_monthly_snapshots():
+    """undervalued.json 변경 커밋에서 월별 1개씩 추출."""
+    raw = git_run("log", "--format=%H %aI", "--follow", "--diff-filter=M",
+                   "--", UNDERVALUED_REL)
+    if not raw.strip():
+        # fallback: --diff-filter 없이
+        raw = git_run("log", "--format=%H %aI", "--", UNDERVALUED_REL)
+    if not raw.strip():
+        return []
+
+    commits = []
+    for line in raw.strip().split("\n"):
+        parts = line.strip().split(" ", 1)
+        if len(parts) < 2:
+            continue
+        commit_hash = parts[0]
+        try:
+            dt = datetime.fromisoformat(parts[1].replace("Z", "+00:00"))
+            yyyymm = dt.strftime("%Y%m")
+        except (ValueError, IndexError):
+            continue
+        commits.append((yyyymm, commit_hash, dt))
+
+    # 월별 첫 커밋 선택
+    by_month = defaultdict(list)
+    for yyyymm, h, dt in commits:
+        by_month[yyyymm].append((dt, h))
+
+    monthly = []
+    for yyyymm in sorted(by_month.keys()):
+        entries = sorted(by_month[yyyymm], key=lambda x: x[0])
+        monthly.append((yyyymm, entries[0][1]))
+    return monthly
+
+
+def extract_snapshot(commit_hash: str):
+    """특정 커밋에서 undervalued.json 복원."""
+    raw = git_run("show", f"{commit_hash}:{UNDERVALUED_REL}")
+    if not raw:
+        return None
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+
+
+def get_current_price(apt_id: str):
+    """by_apt/{id}.json에서 최근 3건 평균가 반환."""
+    path = BY_APT_DIR / f"{apt_id}.json"
+    if not path.exists():
+        return None
+    try:
+        txns = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    if not txns:
+        return None
+    txns.sort(key=lambda x: x[0])
+    recent = txns[-3:] if len(txns) >= 3 else txns
+    return sum(t[1] for t in recent) / len(recent)
+
+
+def get_market_return(summary_data, sido, flag_ym, current_month):
+    """시도 trend 데이터에서 시장 수익률 계산."""
+    sido_data = summary_data.get("sidos", {}).get(sido)
+    if not sido_data:
+        return None
+    trend = sido_data.get("trend")
+    if not trend:
+        return None
+    ym_price = {t[0]: t[1] for t in trend}
+    flag_price = ym_price.get(flag_ym)
+    current_price = ym_price.get(current_month)
+    if not flag_price or not current_price or flag_price <= 0:
+        return None
+    return round((current_price - flag_price) / flag_price * 100, 2)
+
+
+def main():
+    print("=== 저평가 백테스트 빌드 ===", flush=True)
+
+    # 1. 월별 스냅샷 추출
+    snapshots = get_monthly_snapshots()
+    print(f"월별 스냅샷: {len(snapshots)}개", flush=True)
+    if not snapshots:
+        print("스냅샷 없음. 종료.")
+        return
+
+    # 2. summary.json 로드 (시장 비교용)
+    summary_path = DATA_DIR / "summary.json"
+    if not summary_path.exists():
+        print("summary.json 없음. 종료.")
+        return
+    summary_data = json.loads(summary_path.read_text(encoding="utf-8"))
+    current_month = summary_data.get("current_month", "")
+
+    # 3. 각 스냅샷에서 저평가 단지 추출 + 수익률 계산
+    all_picks = []
+    for yyyymm, commit_hash in snapshots:
+        print(f"  {yyyymm} ({commit_hash[:8]})...", end="", flush=True)
+        snapshot = extract_snapshot(commit_hash)
+        if not snapshot:
+            print(" skip (parse fail)")
+            continue
+
+        count = 0
+        for sido, sido_data in snapshot.get("sidos", {}).items():
+            # undervalued 리스트 + bands top3 수집
+            seen_ids = set()
+            candidates = []
+            for item in sido_data.get("undervalued", []):
+                if item.get("id") and item["id"] not in seen_ids:
+                    seen_ids.add(item["id"])
+                    candidates.append(item)
+            for band in sido_data.get("bands", []):
+                for item in band.get("top3", []):
+                    if item.get("id") and item["id"] not in seen_ids:
+                        seen_ids.add(item["id"])
+                        candidates.append(item)
+
+            for item in candidates:
+                apt_id = item["id"]
+                flagged_price = item.get("recent_avg") or item.get("current_price")
+                if not flagged_price or flagged_price <= 0:
+                    continue
+
+                cur_price = get_current_price(apt_id)
+                if not cur_price or cur_price <= 0:
+                    continue
+
+                return_pct = round((cur_price - flagged_price) / flagged_price * 100, 2)
+                market_ret = get_market_return(summary_data, sido, yyyymm, current_month)
+                alpha = round(return_pct - market_ret, 2) if market_ret is not None else None
+
+                all_picks.append({
+                    "flag_ym": yyyymm,
+                    "id": apt_id,
+                    "apt_name": item.get("apt_name", ""),
+                    "sigungu": item.get("sigungu", ""),
+                    "dong_name": item.get("dong_name", ""),
+                    "area_m2": item.get("area_m2"),
+                    "sido": sido,
+                    "flagged_price": round(flagged_price),
+                    "current_price": round(cur_price),
+                    "return_pct": return_pct,
+                    "market_return": market_ret,
+                    "alpha": alpha,
+                })
+                count += 1
+        print(f" {count}건")
+
+    # 4. 중복 제거: 같은 apt_id는 최초 flag만
+    seen = {}
+    for pick in all_picks:
+        key = pick["id"]
+        if key not in seen or pick["flag_ym"] < seen[key]["flag_ym"]:
+            seen[key] = pick
+    unique_picks = sorted(seen.values(), key=lambda x: x["flag_ym"])
+
+    total = len(unique_picks)
+    if total == 0:
+        print("백테스트 대상 없음.")
+        # 빈 결과라도 저장
+        output = {
+            "updated_at": summary_data.get("updated_at", ""),
+            "current_month": current_month,
+            "snapshots_count": len(snapshots),
+            "first_snapshot": snapshots[0][0],
+            "last_snapshot": snapshots[-1][0],
+            "summary": {
+                "total_picks": 0, "went_up": 0, "went_up_pct": 0,
+                "avg_return": 0, "avg_market_return": None, "avg_alpha": None,
+            },
+            "timeline": [],
+            "picks": [],
+        }
+        with OUT_PATH.open("w", encoding="utf-8") as f:
+            json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
+        return
+
+    # 5. 통계
+    went_up = sum(1 for p in unique_picks if p["return_pct"] > 0)
+    avg_return = round(sum(p["return_pct"] for p in unique_picks) / total, 2)
+    with_market = [p for p in unique_picks if p["market_return"] is not None]
+    avg_market = round(sum(p["market_return"] for p in with_market) / len(with_market), 2) if with_market else None
+    avg_alpha = round(sum(p["alpha"] for p in with_market) / len(with_market), 2) if with_market else None
+
+    # 6. 월별 타임라인
+    by_month = defaultdict(list)
+    for p in unique_picks:
+        by_month[p["flag_ym"]].append(p)
+    timeline = []
+    for ym in sorted(by_month.keys()):
+        picks = by_month[ym]
+        m_up = sum(1 for p in picks if p["return_pct"] > 0)
+        m_avg = round(sum(p["return_pct"] for p in picks) / len(picks), 2)
+        timeline.append({
+            "ym": ym,
+            "count": len(picks),
+            "went_up": m_up,
+            "went_up_pct": round(m_up / len(picks) * 100, 1),
+            "avg_return": m_avg,
+        })
+
+    # 7. 출력
+    output = {
+        "updated_at": summary_data.get("updated_at", ""),
+        "current_month": current_month,
+        "snapshots_count": len(snapshots),
+        "first_snapshot": snapshots[0][0],
+        "last_snapshot": snapshots[-1][0],
+        "summary": {
+            "total_picks": total,
+            "went_up": went_up,
+            "went_up_pct": round(went_up / total * 100, 1),
+            "avg_return": avg_return,
+            "avg_market_return": avg_market,
+            "avg_alpha": avg_alpha,
+        },
+        "timeline": timeline,
+        "picks": unique_picks,
+    }
+    with OUT_PATH.open("w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"\n결과: {OUT_PATH}")
+    print(f"  총 {total}건, 상승 {went_up}건 ({output['summary']['went_up_pct']}%)")
+    print(f"  평균 수익률: {avg_return}%, 시장 평균: {avg_market}%, 알파: {avg_alpha}%")
+
+
+if __name__ == "__main__":
+    main()
