@@ -159,7 +159,7 @@
       + '</div>'
       + '<div class="val-guide-item">'
       + '<span class="val-badge val-badge-leading">\uB9AC\uB529\uB2E8\uC9C0</span>'
-      + '<span class="val-guide-desc">\uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44<br>\uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uBE44\uC2FC \uB2E8\uC9C0</span>'
+      + '<span class="val-guide-desc">\uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44<br>\uCD5C\uADFC 6\uAC1C\uC6D4 \uACA9\uCC28\uAC00 \uBC8C\uC5B4\uC838 \uC0C1\uB300\uC801\uC73C\uB85C \uC2DC\uC7A5\uC744 \uC120\uB3C4\uD558\uB294 \uB2E8\uC9C0</span>'
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>';
