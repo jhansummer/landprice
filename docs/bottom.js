@@ -263,12 +263,18 @@ async function toggleChart(card, apt) {
       }
     });
 
-    // 단지분석 링크
-    var link = document.createElement("a");
-    link.href = "valuation.html#?q=" + encodeURIComponent(apt.apt_name);
-    link.style.cssText = "display:block;text-align:center;margin-top:8px;font-size:12px;color:var(--accent)";
-    link.textContent = "\uB2E8\uC9C0\uBD84\uC11D\uC5D0\uC11C \uC790\uC138\uD788 \uBCF4\uAE30 \u2192";
-    panel.appendChild(link);
+    // 가격 요약 정보
+    var summary = document.createElement("div");
+    summary.style.cssText = "display:flex;justify-content:space-around;margin-top:10px;padding:8px;background:var(--card-bg);border-radius:var(--radius-sm);font-size:11px;color:var(--muted)";
+    var peakPrice = apt.peak;
+    var curPrice = apt.price;
+    var troughPrice = txns.length ? Math.min.apply(null, txns.map(function(t){return t[1];})) : 0;
+    summary.innerHTML =
+      "<div style='text-align:center'><div style='font-weight:600;color:#ef4444'>\uACE0\uC810</div><div>" + peakPrice.toFixed(0) + "\uB9CC/m\u00B2</div><div style='font-size:10px'>" + apt.peak_ym.slice(0,4) + "." + apt.peak_ym.slice(4) + "</div></div>" +
+      "<div style='text-align:center'><div style='font-weight:600;color:#2563eb'>\uD604\uC7AC</div><div>" + curPrice.toFixed(0) + "\uB9CC/m\u00B2</div><div style='font-size:10px'>\uACE0\uC810\uB300\uBE44 " + apt.vs_peak + "%</div></div>" +
+      "<div style='text-align:center'><div style='font-weight:600;color:#94a3b8'>3\uAC1C\uC6D4</div><div>" + (apt.chg3m >= 0 ? "+" : "") + apt.chg3m + "%</div></div>" +
+      "<div style='text-align:center'><div style='font-weight:600;color:#94a3b8'>6\uAC1C\uC6D4</div><div>" + (apt.chg6m >= 0 ? "+" : "") + apt.chg6m + "%</div></div>";
+    panel.appendChild(summary);
   } catch (e) {
     loading.textContent = "\uCC28\uD2B8\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
   }
