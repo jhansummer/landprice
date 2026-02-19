@@ -352,45 +352,54 @@ def main():
             "avg_return": m_avg,
         })
 
-    # 9. 6개월 전 저평가 리딩 검증
+    # 9. N개월 전 저평가 리딩 검증 (6개월, 24개월)
     cur_y, cur_m = int(current_month[:4]), int(current_month[4:])
-    six_m = cur_m - 6
-    six_y = cur_y
-    if six_m <= 0:
-        six_m += 12
-        six_y -= 1
-    six_month_target = f"{six_y:04d}{six_m:02d}"
-
     available_yms = sorted(set(p["flag_ym"] for p in all_picks))
-    six_month_data = None
-    if available_yms:
-        closest_ym = min(available_yms, key=lambda ym: abs(int(ym) - int(six_month_target)))
-        if abs(int(closest_ym) - int(six_month_target)) <= 2:
-            six_picks = [p for p in all_picks if p["flag_ym"] == closest_ym]
-            seen_six = {}
-            for p in six_picks:
-                if p["id"] not in seen_six:
-                    seen_six[p["id"]] = p
-            six_unique = sorted(seen_six.values(), key=lambda x: x["return_pct"], reverse=True)
-            six_total = len(six_unique)
-            if six_total > 0:
-                six_went_up = sum(1 for p in six_unique if p["return_pct"] > 0)
-                six_avg = round(sum(p["return_pct"] for p in six_unique) / six_total, 2)
-                six_with_market = [p for p in six_unique if p["market_return"] is not None]
-                six_avg_market = round(sum(p["market_return"] for p in six_with_market) / len(six_with_market), 2) if six_with_market else None
-                six_avg_alpha = round(sum(p["alpha"] for p in six_with_market) / len(six_with_market), 2) if six_with_market else None
-                six_month_data = {
-                    "flag_ym": closest_ym,
-                    "months_elapsed": (cur_y - int(closest_ym[:4])) * 12 + (cur_m - int(closest_ym[4:])),
-                    "total": six_total,
-                    "went_up": six_went_up,
-                    "went_up_pct": round(six_went_up / six_total * 100, 1),
-                    "avg_return": six_avg,
-                    "avg_market_return": six_avg_market,
-                    "avg_alpha": six_avg_alpha,
-                    "picks": six_unique,
-                }
-                print(f"  6개월 전 ({closest_ym}): {six_total}건, 상승 {six_went_up}건 ({six_month_data['went_up_pct']}%), 평균 {six_avg}%")
+
+    def build_period_data(target_months, tolerance=2):
+        """target_months개월 전 저평가 picks의 현재 실적을 집계."""
+        t_m = cur_m - target_months
+        t_y = cur_y
+        while t_m <= 0:
+            t_m += 12
+            t_y -= 1
+        target_ym = f"{t_y:04d}{t_m:02d}"
+
+        if not available_yms:
+            return None
+        closest_ym = min(available_yms, key=lambda ym: abs(int(ym) - int(target_ym)))
+        if abs(int(closest_ym) - int(target_ym)) > tolerance:
+            return None
+        period_picks = [p for p in all_picks if p["flag_ym"] == closest_ym]
+        seen_p = {}
+        for p in period_picks:
+            if p["id"] not in seen_p:
+                seen_p[p["id"]] = p
+        p_unique = sorted(seen_p.values(), key=lambda x: x["return_pct"], reverse=True)
+        p_total = len(p_unique)
+        if p_total == 0:
+            return None
+        p_went_up = sum(1 for p in p_unique if p["return_pct"] > 0)
+        p_avg = round(sum(p["return_pct"] for p in p_unique) / p_total, 2)
+        p_with_market = [p for p in p_unique if p["market_return"] is not None]
+        p_avg_market = round(sum(p["market_return"] for p in p_with_market) / len(p_with_market), 2) if p_with_market else None
+        p_avg_alpha = round(sum(p["alpha"] for p in p_with_market) / len(p_with_market), 2) if p_with_market else None
+        result = {
+            "flag_ym": closest_ym,
+            "months_elapsed": (cur_y - int(closest_ym[:4])) * 12 + (cur_m - int(closest_ym[4:])),
+            "total": p_total,
+            "went_up": p_went_up,
+            "went_up_pct": round(p_went_up / p_total * 100, 1),
+            "avg_return": p_avg,
+            "avg_market_return": p_avg_market,
+            "avg_alpha": p_avg_alpha,
+            "picks": p_unique,
+        }
+        print(f"  {target_months}개월 전 ({closest_ym}): {p_total}건, 상승 {p_went_up}건 ({result['went_up_pct']}%), 평균 {p_avg}%")
+        return result
+
+    six_month_data = build_period_data(6)
+    two_year_data = build_period_data(24, tolerance=3)
 
     # 10. 출력 (build_backtest.py와 동일 포맷)
     output = {
@@ -408,6 +417,7 @@ def main():
             "avg_alpha": avg_alpha,
         },
         "six_month": six_month_data,
+        "two_year": two_year_data,
         "timeline": timeline,
         "picks": unique_picks,
     }

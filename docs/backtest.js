@@ -8,6 +8,7 @@ var statusEl = document.getElementById("status");
 var data = null;
 var activeSort = "return";
 var activeSixSort = "return";
+var activeTwoYearSort = "return";
 var txnCache = {};
 
 function fmt(v) { return new Intl.NumberFormat("ko-KR").format(v); }
@@ -216,6 +217,128 @@ function renderSixCard(pick, idx, flagYm) {
   });
 
   return card;
+}
+
+/* ── 2년 전 저평가 리딩 검증 ── */
+function renderTwoYear(twoYear) {
+  if (!twoYear || !twoYear.picks || !twoYear.picks.length) return null;
+
+  var sec = document.createElement("div");
+  sec.className = "section";
+
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = fmtYm(twoYear.flag_ym) + " \uC800\uD3C9\uAC00 \uB9AC\uB529 \uAC80\uC99D (2\uB144)";
+  sec.appendChild(h2);
+
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = twoYear.months_elapsed + "\uAC1C\uC6D4 \uC804 \uC800\uD3C9\uAC00\uB85C \uC120\uC815\uD55C " + twoYear.total + "\uAC1C \uB2E8\uC9C0\uC758 \uD604\uC7AC \uC2E4\uC801";
+  sec.appendChild(sub);
+
+  var dash = document.createElement("div");
+  dash.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:16px 0";
+
+  var metrics = [
+    {
+      label: "\uC801\uC911\uB960",
+      value: twoYear.went_up_pct + "%",
+      sub: twoYear.went_up + "/" + twoYear.total + "\uAC74 \uC0C1\uC2B9",
+      color: twoYear.went_up_pct >= 50 ? "var(--accent)" : "#ef4444"
+    },
+    {
+      label: "\uD3C9\uADE0 \uC218\uC775\uB960",
+      value: (twoYear.avg_return >= 0 ? "+" : "") + twoYear.avg_return + "%",
+      sub: "\uC800\uD3C9\uAC00 \uC885\uBAA9 \uD3C9\uADE0",
+      color: twoYear.avg_return >= 0 ? "#16a34a" : "#ef4444"
+    },
+    {
+      label: "\uC2DC\uC7A5 \uD3C9\uADE0",
+      value: twoYear.avg_market_return !== null ? ((twoYear.avg_market_return >= 0 ? "+" : "") + twoYear.avg_market_return + "%") : "-",
+      sub: "\uAC19\uC740 \uAE30\uAC04 \uC2DC\uB3C4 \uD3C9\uADE0",
+      color: "var(--muted)"
+    },
+    {
+      label: "\uCD08\uACFC\uC218\uC775(\uC54C\uD30C)",
+      value: twoYear.avg_alpha !== null ? ((twoYear.avg_alpha >= 0 ? "+" : "") + twoYear.avg_alpha + "%") : "-",
+      sub: "\uC2DC\uC7A5 \uB300\uBE44 \uCD08\uACFC \uC218\uC775",
+      color: twoYear.avg_alpha !== null && twoYear.avg_alpha >= 0 ? "#16a34a" : "#ef4444"
+    }
+  ];
+
+  metrics.forEach(function (m) {
+    var card = document.createElement("div");
+    card.style.cssText = "text-align:center;padding:20px 12px;background:var(--bg);border-radius:var(--radius-sm)";
+    var val = document.createElement("div");
+    val.style.cssText = "font-size:28px;font-weight:800;color:" + m.color;
+    val.textContent = m.value;
+    card.appendChild(val);
+    var lbl = document.createElement("div");
+    lbl.style.cssText = "font-size:13px;font-weight:700;margin-top:6px;color:var(--ink)";
+    lbl.textContent = m.label;
+    card.appendChild(lbl);
+    var subEl = document.createElement("div");
+    subEl.style.cssText = "font-size:11px;color:var(--muted);margin-top:2px";
+    subEl.textContent = m.sub;
+    card.appendChild(subEl);
+    dash.appendChild(card);
+  });
+  sec.appendChild(dash);
+
+  var sortWrap = document.createElement("div");
+  sortWrap.className = "sort-btns";
+  sortWrap.style.marginBottom = "12px";
+  var sorts = [
+    ["return", "\uC218\uC775\uB960\uC21C"],
+    ["alpha", "\uC54C\uD30C\uC21C"]
+  ];
+  sorts.forEach(function (pair) {
+    var btn = document.createElement("button");
+    btn.className = "sort-btn" + (activeTwoYearSort === pair[0] ? " active" : "");
+    btn.textContent = pair[1];
+    btn.addEventListener("click", function () {
+      activeTwoYearSort = pair[0];
+      renderTwoYearList();
+    });
+    sortWrap.appendChild(btn);
+  });
+  sec.appendChild(sortWrap);
+
+  var listContainer = document.createElement("div");
+  sec.appendChild(listContainer);
+
+  function renderTwoYearList() {
+    listContainer.innerHTML = "";
+    var sorted = twoYear.picks.slice();
+    if (activeTwoYearSort === "return") sorted.sort(function (a, b) { return b.return_pct - a.return_pct; });
+    else sorted.sort(function (a, b) { return (b.alpha || 0) - (a.alpha || 0); });
+
+    sortWrap.querySelectorAll(".sort-btn").forEach(function (b, i) {
+      b.className = "sort-btn" + (activeTwoYearSort === sorts[i][0] ? " active" : "");
+    });
+
+    var INITIAL = 20;
+    sorted.slice(0, INITIAL).forEach(function (p, i) {
+      listContainer.appendChild(renderSixCard(p, i, twoYear.flag_ym));
+    });
+
+    if (sorted.length > INITIAL) {
+      var moreBtn = document.createElement("button");
+      moreBtn.className = "sort-btn";
+      moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+      moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
+      moreBtn.addEventListener("click", function () {
+        sorted.slice(INITIAL).forEach(function (p, i) {
+          listContainer.appendChild(renderSixCard(p, INITIAL + i, twoYear.flag_ym));
+        });
+        moreBtn.remove();
+      });
+      listContainer.appendChild(moreBtn);
+    }
+  }
+
+  renderTwoYearList();
+  return sec;
 }
 
 /* ── 전체 기간 요약 대시보드 ── */
@@ -616,10 +739,16 @@ async function init() {
       return;
     }
 
-    // 1. 6개월 전 저평가 리딩 검증 (메인)
+    // 1. 6개월 전 저평가 리딩 검증
     if (data.six_month) {
       var sixSec = renderSixMonth(data.six_month);
       if (sixSec) contentEl.appendChild(sixSec);
+    }
+
+    // 1-2. 2년 전 저평가 리딩 검증
+    if (data.two_year) {
+      var twoSec = renderTwoYear(data.two_year);
+      if (twoSec) contentEl.appendChild(twoSec);
     }
 
     // 2. 전체 기간 요약
