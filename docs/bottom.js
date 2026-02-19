@@ -263,18 +263,106 @@ async function toggleChart(card, apt) {
       }
     });
 
-    // 가격 요약 정보
+    // 실거래 기준 고점/저점/현재 계산
+    var monthlyMap = {};
+    txns.forEach(function (t) {
+      var d = new Date(t[0]);
+      var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+      if (!monthlyMap[ym]) monthlyMap[ym] = { sum: 0, count: 0 };
+      monthlyMap[ym].sum += t[1];
+      monthlyMap[ym].count += 1;
+    });
+    var mKeys = Object.keys(monthlyMap).sort();
+    var mData = mKeys.map(function (ym) { return { ym: ym, price: monthlyMap[ym].sum / monthlyMap[ym].count }; });
+
+    var txPeakIdx = 0, hasPR = false;
+    mData.forEach(function (d, i) {
+      if (d.ym >= "202101" && d.ym <= "202212") { if (!hasPR || d.price > mData[txPeakIdx].price) { txPeakIdx = i; hasPR = true; } }
+    });
+    if (!hasPR) mData.forEach(function (d, i) { if (d.price > mData[txPeakIdx].price) txPeakIdx = i; });
+    var txPeakPrice = mData.length ? mData[txPeakIdx].price : 0;
+    var txPeakYm = mData.length ? mData[txPeakIdx].ym : "";
+
+    var txTroughIdx = txPeakIdx;
+    for (var tti = txPeakIdx + 1; tti < mData.length; tti++) {
+      if (mData[tti].price < mData[txTroughIdx].price) txTroughIdx = tti;
+    }
+    var txTroughPrice = mData.length ? mData[txTroughIdx].price : 0;
+    var txTroughYm = mData.length ? mData[txTroughIdx].ym : "";
+
+    var rcSlice = mData.slice(-3);
+    var txCurPrice = rcSlice.length ? rcSlice.reduce(function (s, d) { return s + d.price; }, 0) / rcSlice.length : 0;
+    var txVsPeak = txPeakPrice > 0 ? ((txCurPrice - txPeakPrice) / txPeakPrice * 100) : 0;
+    var txRecovery = (txTroughIdx > txPeakIdx && txPeakPrice > txTroughPrice)
+      ? ((txCurPrice - txTroughPrice) / (txPeakPrice - txTroughPrice) * 100) : 0;
+
+    function fmtEokLocal(v) {
+      if (v >= 10000) return (v / 10000).toFixed(1) + "\uC5B5";
+      return Math.round(v).toLocaleString() + "\uB9CC";
+    }
+    function fmtYmLocal(ym) { return ym ? ym.slice(0, 4) + "." + ym.slice(4) : ""; }
+
+    // 가격 비교 카드
     var summary = document.createElement("div");
-    summary.style.cssText = "display:flex;justify-content:space-around;margin-top:10px;padding:8px;background:var(--card-bg);border-radius:var(--radius-sm);font-size:11px;color:var(--muted)";
-    var peakPrice = apt.peak;
-    var curPrice = apt.price;
-    var troughPrice = txns.length ? Math.min.apply(null, txns.map(function(t){return t[1];})) : 0;
-    summary.innerHTML =
-      "<div style='text-align:center'><div style='font-weight:600;color:#ef4444'>\uACE0\uC810</div><div>" + peakPrice.toFixed(0) + "\uB9CC/m\u00B2</div><div style='font-size:10px'>" + apt.peak_ym.slice(0,4) + "." + apt.peak_ym.slice(4) + "</div></div>" +
-      "<div style='text-align:center'><div style='font-weight:600;color:#2563eb'>\uD604\uC7AC</div><div>" + curPrice.toFixed(0) + "\uB9CC/m\u00B2</div><div style='font-size:10px'>\uACE0\uC810\uB300\uBE44 " + apt.vs_peak + "%</div></div>" +
-      "<div style='text-align:center'><div style='font-weight:600;color:#94a3b8'>3\uAC1C\uC6D4</div><div>" + (apt.chg3m >= 0 ? "+" : "") + apt.chg3m + "%</div></div>" +
-      "<div style='text-align:center'><div style='font-weight:600;color:#94a3b8'>6\uAC1C\uC6D4</div><div>" + (apt.chg6m >= 0 ? "+" : "") + apt.chg6m + "%</div></div>";
+    summary.style.cssText = "display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px";
+
+    // 고점 카드
+    var peakCard = document.createElement("div");
+    peakCard.style.cssText = "text-align:center;padding:10px 6px;background:#fef2f2;border-radius:8px;border:1px solid #fecaca";
+    peakCard.innerHTML =
+      "<div style='font-size:10px;color:#dc2626;font-weight:600;margin-bottom:4px'>\uACE0\uC810</div>" +
+      "<div style='font-size:14px;font-weight:700;color:#ef4444'>" + fmtEokLocal(txPeakPrice) + "</div>" +
+      "<div style='font-size:9px;color:#94a3b8;margin-top:2px'>" + fmtYmLocal(txPeakYm) + "</div>";
+    summary.appendChild(peakCard);
+
+    // 현재 카드
+    var curCard = document.createElement("div");
+    curCard.style.cssText = "text-align:center;padding:10px 6px;background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe";
+    curCard.innerHTML =
+      "<div style='font-size:10px;color:#1d4ed8;font-weight:600;margin-bottom:4px'>\uD604\uC7AC</div>" +
+      "<div style='font-size:14px;font-weight:700;color:#2563eb'>" + fmtEokLocal(txCurPrice) + "</div>" +
+      "<div style='font-size:9px;color:" + (txVsPeak >= 0 ? "#16a34a" : "#ef4444") + ";font-weight:600;margin-top:2px'>\uACE0\uC810\uB300\uBE44 " + (txVsPeak >= 0 ? "+" : "") + txVsPeak.toFixed(1) + "%</div>";
+    summary.appendChild(curCard);
+
+    // 회복/변동 카드
+    var chgCard = document.createElement("div");
+    chgCard.style.cssText = "text-align:center;padding:10px 6px;background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0";
+    var recoveryHtml = "";
+    if (txTroughIdx > txPeakIdx && txRecovery > 0) {
+      recoveryHtml = "<div style='font-size:10px;color:#16a34a;font-weight:600;margin-bottom:4px'>\uD68C\uBCF5\uB960</div>" +
+        "<div style='font-size:14px;font-weight:700;color:#16a34a'>" + txRecovery.toFixed(0) + "%</div>" +
+        "<div style='font-size:9px;color:#94a3b8;margin-top:2px'>\uC800\uC810 " + fmtEokLocal(txTroughPrice) + "</div>";
+    } else {
+      recoveryHtml = "<div style='font-size:10px;color:#94a3b8;font-weight:600;margin-bottom:4px'>\uBCC0\uB3D9</div>" +
+        "<div style='font-size:11px;color:#64748b;margin-top:2px'>3\uAC1C\uC6D4 " + (apt.chg3m >= 0 ? "+" : "") + apt.chg3m + "%</div>" +
+        "<div style='font-size:11px;color:#64748b;margin-top:1px'>6\uAC1C\uC6D4 " + (apt.chg6m >= 0 ? "+" : "") + apt.chg6m + "%</div>";
+    }
+    chgCard.innerHTML = recoveryHtml;
+    summary.appendChild(chgCard);
     panel.appendChild(summary);
+
+    // 회복 프로그레스 바
+    if (txTroughIdx > txPeakIdx && txPeakPrice > txTroughPrice) {
+      var progWrap = document.createElement("div");
+      progWrap.style.cssText = "margin-top:8px;padding:6px 10px;background:var(--card-bg);border-radius:6px";
+      var progLabel = document.createElement("div");
+      progLabel.style.cssText = "display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-bottom:4px";
+      progLabel.innerHTML = "<span>\uC800\uC810 " + fmtEokLocal(txTroughPrice) + "</span><span>\uACE0\uC810 " + fmtEokLocal(txPeakPrice) + "</span>";
+      progWrap.appendChild(progLabel);
+      var progBar = document.createElement("div");
+      progBar.style.cssText = "height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;position:relative";
+      var progFill = document.createElement("div");
+      var clampedRecovery = Math.max(0, Math.min(txRecovery, 100));
+      var progColor = clampedRecovery >= 80 ? "#16a34a" : clampedRecovery >= 40 ? "#f59e0b" : "#ef4444";
+      progFill.style.cssText = "height:100%;border-radius:4px;background:" + progColor + ";width:" + clampedRecovery + "%;transition:width 0.5s";
+      progBar.appendChild(progFill);
+      progWrap.appendChild(progBar);
+      var progPct = document.createElement("div");
+      progPct.style.cssText = "text-align:center;font-size:10px;color:" + progColor + ";font-weight:600;margin-top:3px";
+      progPct.textContent = "\uACE0\uC810 \uB300\uBE44 " + clampedRecovery.toFixed(0) + "% \uD68C\uBCF5";
+      progWrap.appendChild(progPct);
+      panel.appendChild(progWrap);
+    }
   } catch (e) {
     loading.textContent = "\uCC28\uD2B8\uB97C \uBD88\uB7EC\uC624\uC9C0 \uBABB\uD588\uC2B5\uB2C8\uB2E4.";
   }

@@ -657,10 +657,17 @@ function drawPeakChart(canvas, txns, apt) {
   for (var ti = peakIdx + 1; ti < data.length; ti++) {
     if (data[ti].price < data[troughIdx].price) troughIdx = ti;
   }
+  var troughPrice = data[troughIdx].price;
+  var troughYm = data[troughIdx].ym;
 
   // 현재가: 최근 3개월 평균
   var recentSlice = data.slice(-3);
   var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
+
+  // 고점 대비 %, 저점 대비 회복 %
+  var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
+  var recoveryPct = (troughIdx > peakIdx && peakPrice > troughPrice)
+    ? ((currentPrice - troughPrice) / (peakPrice - troughPrice) * 100) : 0;
 
   // 캔버스 설정
   var dpr = window.devicePixelRatio || 1;
@@ -671,7 +678,7 @@ function drawPeakChart(canvas, txns, apt) {
   ctx.scale(dpr, dpr);
   var cw = rect.width;
   var ch = rect.height;
-  var pad = { top: 28, right: 12, bottom: 24, left: 48 };
+  var pad = { top: 30, right: 14, bottom: 24, left: 48 };
   var plotW = cw - pad.left - pad.right;
   var plotH = ch - pad.top - pad.bottom;
 
@@ -725,19 +732,33 @@ function drawPeakChart(canvas, txns, apt) {
     }
   });
 
+  var peakY = yPos(peakPrice);
+  var curY = yPos(currentPrice);
+  var lastIdx = data.length - 1;
+
   // 고점 수평 점선
   ctx.save();
   ctx.setLineDash([5, 3]);
-  ctx.strokeStyle = "#ef4444";
+  ctx.strokeStyle = "rgba(239, 68, 68, 0.5)";
   ctx.lineWidth = 1;
-  var peakY = yPos(peakPrice);
   ctx.beginPath();
   ctx.moveTo(pad.left, peakY);
   ctx.lineTo(pad.left + plotW, peakY);
   ctx.stroke();
   ctx.restore();
 
-  // 고점~현재 사이 영역 채우기
+  // 현재가 수평 점선
+  ctx.save();
+  ctx.setLineDash([5, 3]);
+  ctx.strokeStyle = "rgba(37, 99, 235, 0.5)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.left, curY);
+  ctx.lineTo(pad.left + plotW, curY);
+  ctx.stroke();
+  ctx.restore();
+
+  // 고점~현재 사이 영역 채우기 (line 따라가는 영역)
   ctx.beginPath();
   ctx.moveTo(xPos(peakIdx), peakY);
   for (var fi = peakIdx; fi < data.length; fi++) {
@@ -748,66 +769,147 @@ function drawPeakChart(canvas, txns, apt) {
   ctx.fillStyle = "rgba(239, 68, 68, 0.06)";
   ctx.fill();
 
-  // 월별 추이 라인
-  ctx.beginPath();
-  ctx.moveTo(xPos(0), yPos(data[0].price));
-  for (var li = 1; li < data.length; li++) {
-    ctx.lineTo(xPos(li), yPos(data[li].price));
+  // 구간별 라인 (고점 전: 회색, 고점→저점: 빨강, 저점→현재: 초록)
+  // 1) 고점 이전 (회색)
+  if (peakIdx > 0) {
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), yPos(data[0].price));
+    for (var li = 1; li <= peakIdx; li++) {
+      ctx.lineTo(xPos(li), yPos(data[li].price));
+    }
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
   }
-  ctx.strokeStyle = "#2563eb";
-  ctx.lineWidth = 2;
+
+  // 2) 고점 → 저점 (빨강)
+  if (troughIdx > peakIdx) {
+    ctx.beginPath();
+    ctx.moveTo(xPos(peakIdx), yPos(data[peakIdx].price));
+    for (var li = peakIdx + 1; li <= troughIdx; li++) {
+      ctx.lineTo(xPos(li), yPos(data[li].price));
+    }
+    ctx.strokeStyle = "#ef4444";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // 3) 저점 → 현재 (파랑/초록 - 회복 중이면 초록)
+  var afterIdx = troughIdx > peakIdx ? troughIdx : peakIdx;
+  if (afterIdx < lastIdx) {
+    ctx.beginPath();
+    ctx.moveTo(xPos(afterIdx), yPos(data[afterIdx].price));
+    for (var li = afterIdx + 1; li <= lastIdx; li++) {
+      ctx.lineTo(xPos(li), yPos(data[li].price));
+    }
+    ctx.strokeStyle = currentPrice > troughPrice ? "#16a34a" : "#ef4444";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // 고점↔현재 비교 브릿지 (오른쪽 세로 화살표)
+  var bridgeX = pad.left + plotW - 2;
+  // 세로 이중선
+  ctx.save();
+  ctx.strokeStyle = "#64748b";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(bridgeX, peakY);
+  ctx.lineTo(bridgeX, curY);
   ctx.stroke();
+  // 위 꺽쇠
+  ctx.beginPath();
+  ctx.moveTo(bridgeX - 3, peakY + 4);
+  ctx.lineTo(bridgeX, peakY);
+  ctx.lineTo(bridgeX + 3, peakY + 4);
+  ctx.stroke();
+  // 아래 꺽쇠
+  ctx.beginPath();
+  ctx.moveTo(bridgeX - 3, curY - 4);
+  ctx.lineTo(bridgeX, curY);
+  ctx.lineTo(bridgeX + 3, curY - 4);
+  ctx.stroke();
+  ctx.restore();
+  // 브릿지 가운데 갭 라벨
+  var bridgeMidY = (peakY + curY) / 2;
+  ctx.font = "bold 10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = vsPeakPct >= 0 ? "#16a34a" : "#ef4444";
+  var gapLabel = (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%";
+  ctx.fillText(gapLabel, bridgeX - 4, bridgeMidY + 3);
 
   // 고점 포인트
   ctx.fillStyle = "#ef4444";
   ctx.beginPath();
   ctx.arc(xPos(peakIdx), yPos(peakPrice), 5, 0, Math.PI * 2);
   ctx.fill();
-  ctx.font = "10px sans-serif";
-  ctx.textAlign = peakIdx < data.length / 2 ? "left" : "right";
-  var peakLabelX = peakIdx < data.length / 2 ? xPos(peakIdx) + 8 : xPos(peakIdx) - 8;
-  ctx.fillText("\uace0\uc810 " + fmtPrice(peakPrice), peakLabelX, yPos(peakPrice) - 10);
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(xPos(peakIdx), yPos(peakPrice), 5, 0, Math.PI * 2); ctx.stroke();
+  ctx.font = "bold 10px sans-serif";
+  ctx.textAlign = peakIdx < data.length * 0.6 ? "left" : "right";
+  var peakLabelX = peakIdx < data.length * 0.6 ? xPos(peakIdx) + 8 : xPos(peakIdx) - 8;
+  ctx.fillStyle = "#ef4444";
+  ctx.fillText(fmtPrice(peakPrice), peakLabelX, yPos(peakPrice) - 10);
   ctx.fillStyle = "#94a3b8";
   ctx.font = "9px sans-serif";
-  ctx.fillText(peakYm.slice(0, 4) + "." + peakYm.slice(4), peakLabelX, yPos(peakPrice) + 2);
+  ctx.fillText(peakYm.slice(0, 4) + "." + peakYm.slice(4), peakLabelX, yPos(peakPrice) + 3);
 
-  // 저점 포인트 (고점 이후)
-  if (troughIdx > peakIdx && troughIdx < data.length - 1) {
-    ctx.fillStyle = "#94a3b8";
+  // 저점 포인트 (고점 이후, 현재가 아닌 경우)
+  if (troughIdx > peakIdx && troughIdx < lastIdx) {
+    ctx.fillStyle = "#f59e0b";
     ctx.beginPath();
-    ctx.arc(xPos(troughIdx), yPos(data[troughIdx].price), 3, 0, Math.PI * 2);
+    ctx.arc(xPos(troughIdx), yPos(troughPrice), 4, 0, Math.PI * 2);
     ctx.fill();
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(xPos(troughIdx), yPos(troughPrice), 4, 0, Math.PI * 2); ctx.stroke();
     ctx.font = "9px sans-serif";
+    ctx.fillStyle = "#f59e0b";
     ctx.textAlign = "center";
-    ctx.fillText("\uc800\uc810 " + fmtPrice(data[troughIdx].price), xPos(troughIdx), yPos(data[troughIdx].price) + 10);
+    var troughLabelY = yPos(troughPrice) + 12;
+    ctx.fillText("\uc800\uc810 " + fmtPrice(troughPrice), xPos(troughIdx), troughLabelY);
+    ctx.fillStyle = "#94a3b8";
+    ctx.fillText(troughYm.slice(0, 4) + "." + troughYm.slice(4), xPos(troughIdx), troughLabelY + 11);
   }
 
   // 현재가 포인트 (마지막)
-  var lastIdx = data.length - 1;
   ctx.fillStyle = "#2563eb";
   ctx.beginPath();
-  ctx.arc(xPos(lastIdx), yPos(currentPrice), 5, 0, Math.PI * 2);
+  ctx.arc(xPos(lastIdx), curY, 6, 0, Math.PI * 2);
   ctx.fill();
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(xPos(lastIdx), curY, 6, 0, Math.PI * 2); ctx.stroke();
   ctx.font = "bold 10px sans-serif";
   ctx.textAlign = "right";
-  var curLabelY = yPos(currentPrice);
-  if (Math.abs(curLabelY - peakY) < 16) curLabelY = curLabelY + 16;
-  ctx.fillText("\ud604\uc7ac " + fmtPrice(currentPrice), xPos(lastIdx) - 8, curLabelY - 2);
+  ctx.fillStyle = "#2563eb";
+  var curLabelY2 = curY;
+  if (Math.abs(curLabelY2 - peakY) < 18) curLabelY2 = curLabelY2 + 18;
+  ctx.fillText("\ud604\uc7ac " + fmtPrice(currentPrice), xPos(lastIdx) - 10, curLabelY2 - 2);
 
-  // 상단 고점대비 % 배지
-  var vsPeak = apt.vs_peak;
+  // 상단 배지
   ctx.font = "bold 12px sans-serif";
   ctx.textAlign = "right";
-  ctx.fillStyle = vsPeak >= 0 ? "#16a34a" : "#ef4444";
-  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeak >= 0 ? "+" : "") + vsPeak + "%", pad.left + plotW, 16);
+  ctx.fillStyle = vsPeakPct >= 0 ? "#16a34a" : "#ef4444";
+  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%", pad.left + plotW, 16);
+
+  // 회복률 표시
+  if (troughIdx > peakIdx && recoveryPct > 0) {
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#16a34a";
+    ctx.fillText("\uc800\uc810\ub300\ube44 " + recoveryPct.toFixed(0) + "% \ud68c\ubcf5", pad.left + plotW - 100, 16);
+  }
 
   // 상단 왼쪽 범례
   ctx.font = "10px sans-serif";
   ctx.textAlign = "left";
   ctx.fillStyle = "#ef4444";
-  ctx.fillText("--- \uace0\uc810", pad.left, 16);
+  ctx.fillText("\u25cf \uace0\uc810", pad.left, 16);
   ctx.fillStyle = "#2563eb";
-  ctx.fillText("\u2500 \uc6d4\ud3c9\uade0", pad.left + 50, 16);
+  ctx.fillText("\u25cf \ud604\uc7ac", pad.left + 42, 16);
+  if (troughIdx > peakIdx && troughIdx < lastIdx) {
+    ctx.fillStyle = "#f59e0b";
+    ctx.fillText("\u25cf \uc800\uc810", pad.left + 82, 16);
+  }
 }
 
 /* ── 백테스트 개별 종목 차트 (저평가 판정 시점 표시) ── */

@@ -124,7 +124,9 @@ def build_series(txns: List[List], months: List[str]) -> Tuple[List[Optional[flo
     return series, valid
 
 
-def load_txns(apt_id: str) -> List[List]:
+def load_txns(apt_id: str, txn_cache: Optional[Dict[str, List]] = None) -> List[List]:
+    if txn_cache is not None:
+        return txn_cache.get(apt_id, [])
     p = BY_APT_DIR / f"{apt_id}.json"
     if not p.exists():
         return []
@@ -208,6 +210,255 @@ ADJACENT: Dict[str, List[str]] = {
     "미추홀구": ["연수구", "남동구"],
 }
 
+# Region-specific parameters: relaxed for non-Seoul/Gyeonggi regions
+RELAXED_SIDOS = {"부산", "대구", "인천", "광주", "대전", "울산", "세종"}
+
+
+def sido_params(sido: str, corr: float = 0.93, min_trades: int = 15, min_valid: int = 30) -> Dict:
+    if sido in RELAXED_SIDOS:
+        return {
+            "corr": min(corr, 0.90),
+            "min_trades": min(min_trades, 8),
+            "min_valid": min(min_valid, 18),
+            "min_cluster": 2,
+        }
+    return {
+        "corr": corr,
+        "min_trades": min_trades,
+        "min_valid": min_valid,
+        "min_cluster": 2,
+    }
+
+
+def recent_gap_score(u):
+    """Lower = more recently undervalued. (6m ratio) - (3y ratio)."""
+    r6 = u["recent_avg"] / u["compare_avg_recent"] - 1
+    if u.get("avg_36") and u.get("compare_avg_36") and u["compare_avg_36"] > 0:
+        r36 = u["avg_36"] / u["compare_avg_36"] - 1
+        return r6 - r36
+    return r6
+
+
+def find_undervalued_in_group(item_list, sp, gap, months, txn_cache=None):
+    """Run undervalued detection on a list of items (same district).
+
+    Args:
+        item_list: list of apartment items (from search JSON)
+        sp: sido params dict (corr, min_trades, min_valid, min_cluster)
+        gap: undervalued gap threshold
+        months: list of YYYYMM strings (36-month window)
+        txn_cache: optional dict mapping apt_id -> txn list; None = load from disk
+    """
+    series_map: Dict[str, Dict] = {}
+    months_set = set(months)
+
+    for item in item_list:
+        apt_id = item["id"]
+        txns = load_txns(apt_id, txn_cache)
+        if not txns:
+            continue
+        trades_window = [t for t in txns if parse_month(t[0]) in months_set]
+        if len(trades_window) < sp["min_trades"]:
+            continue
+        recent_3m_set = set(months[-3:])
+        recent_3m_trades = sum(1 for t in trades_window if parse_month(t[0]) in recent_3m_set)
+        series, valid = build_series(txns, months)
+        if valid < sp["min_valid"]:
+            continue
+        current_price = series[-1]
+        if current_price is None:
+            continue
+        key = f"{item['apt_name']}\t{item['area_m2']}"
+        series_map[key] = {
+            "id": apt_id,
+            "apt_name": item["apt_name"],
+            "sigungu": item.get("sigungu", ""),
+            "dong_name": item.get("dong_name", ""),
+            "area_m2": item.get("area_m2"),
+            "district": item.get("district", ""),
+            "series": series,
+            "current_price": current_price,
+            "recent_avg": recent_avg(series, 6),
+            "avg_36": series_avg(series),
+            "trade_count": len(trades_window),
+            "recent_3m_trades": recent_3m_trades,
+        }
+
+    keys = list(series_map.keys())
+    n = len(keys)
+    if n == 0:
+        return [], [], [], []
+
+    adj: Dict[int, List[int]] = {i: [] for i in range(n)}
+    for i in range(n):
+        si = series_map[keys[i]]["series"]
+        area_i = series_map[keys[i]].get("area_m2") or 0
+        for j in range(i + 1, n):
+            area_j = series_map[keys[j]].get("area_m2") or 0
+            if area_i > 0 and area_j > 0:
+                area_ratio = max(area_i, area_j) / min(area_i, area_j)
+                if area_ratio > 1.30:
+                    continue
+            sj = series_map[keys[j]]["series"]
+            paired: List[Tuple[float, float]] = [(a, b) for a, b in zip(si, sj) if a is not None and b is not None]
+            if len(paired) < sp["min_valid"]:
+                continue
+            ai = [p[0] for p in paired]
+            bj = [p[1] for p in paired]
+            corr = pearson_corr(ai, bj)
+            if corr is not None and corr >= sp["corr"]:
+                adj[i].append(j)
+                adj[j].append(i)
+
+    visited = [False] * n
+    clusters = []
+    undervalued = []
+    band_candidates = []
+    all_valued = []
+
+    for i in range(n):
+        if visited[i]:
+            continue
+        stack = [i]
+        comp = []
+        visited[i] = True
+        while stack:
+            cur = stack.pop()
+            comp.append(cur)
+            for nb in adj[cur]:
+                if not visited[nb]:
+                    visited[nb] = True
+                    stack.append(nb)
+
+        if len(comp) < sp["min_cluster"]:
+            continue
+
+        members = [series_map[keys[idx]] for idx in comp]
+        avg_current = sum(m["current_price"] for m in members) / len(members)
+
+        cluster = {
+            "size": len(members),
+            "avg_current_price": round(avg_current, 2),
+            "members": [
+                {
+                    "id": m["id"],
+                    "apt_name": m["apt_name"],
+                    "sigungu": m["sigungu"],
+                    "dong_name": m["dong_name"],
+                    "area_m2": m["area_m2"],
+                    "current_price": m["current_price"],
+                    "trade_count": m["trade_count"],
+                }
+                for m in members
+            ],
+        }
+        clusters.append(cluster)
+
+        for m in members:
+            same_dong_sims = []
+            other_sims = []
+            for other in members:
+                if other["id"] == m["id"]:
+                    continue
+                if other["apt_name"] == m["apt_name"] and other["sigungu"] == m["sigungu"]:
+                    continue
+                m_area = m.get("area_m2") or 0
+                o_area = other.get("area_m2") or 0
+                if m_area > 0 and o_area > 0 and max(m_area, o_area) / min(m_area, o_area) > 1.30:
+                    continue
+                corr = series_corr(m["series"], other["series"], sp["min_valid"])
+                if corr is None:
+                    continue
+                is_same_dong = (m.get("dong_name") == other.get("dong_name")
+                                and m.get("sigungu") == other.get("sigungu"))
+                min_corr = 0.85 if is_same_dong else sp["corr"]
+                if corr < min_corr:
+                    continue
+                hist_diff = mean_abs_pct_diff(m["series"], other["series"])
+                if hist_diff is None or hist_diff > 0.10:
+                    continue
+                if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
+                    continue
+                if is_same_dong:
+                    same_dong_sims.append((corr, hist_diff, other))
+                else:
+                    other_sims.append((corr, hist_diff, other))
+
+            same_dong_sims.sort(key=lambda x: (-x[0], x[1]))
+            other_sims.sort(key=lambda x: (-x[0], x[1]))
+            picked = same_dong_sims[:2]
+            if len(picked) < 2:
+                picked += other_sims[:2 - len(picked)]
+
+            if not picked:
+                continue
+
+            compares = [
+                {
+                    "id": o["id"],
+                    "apt_name": o["apt_name"],
+                    "sigungu": o["sigungu"],
+                    "dong_name": o["dong_name"],
+                    "area_m2": o["area_m2"],
+                    "current_price": o["current_price"],
+                    "recent_avg": o["recent_avg"],
+                    "avg_36": o["avg_36"],
+                    "trade_count": o["trade_count"],
+                    "corr": round(c, 3),
+                    "hist_diff_pct": round(hdiff * 100, 2),
+                }
+                for c, hdiff, o in picked
+            ]
+
+            compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
+                1, sum(1 for c in compares if c.get("recent_avg"))
+            )
+            compare_avg_36 = sum(c["avg_36"] for c in compares if c.get("avg_36")) / max(
+                1, sum(1 for c in compares if c.get("avg_36"))
+            )
+
+            if m["recent_avg"] is None or compare_avg_recent <= 0:
+                continue
+            recent_gap = m["recent_avg"] / compare_avg_recent - 1
+            hist_gap = (m["avg_36"] / compare_avg_36 - 1) if (m.get("avg_36") and compare_avg_36 > 0) else 0
+            gap_pct = round((recent_gap - hist_gap) * 100, 2)
+
+            if gap_pct < -5:
+                status = "undervalued"
+            elif gap_pct > 5:
+                status = "leading"
+            else:
+                status = "market"
+
+            entry = {
+                "id": m["id"],
+                "apt_name": m["apt_name"],
+                "sigungu": m["sigungu"],
+                "dong_name": m["dong_name"],
+                "area_m2": m["area_m2"],
+                "current_price": m["current_price"],
+                "recent_avg": m["recent_avg"],
+                "avg_36": m["avg_36"],
+                "compare_avg_recent": compare_avg_recent,
+                "compare_avg_36": compare_avg_36,
+                "cluster_avg": round(avg_current, 2),
+                "gap_pct": gap_pct,
+                "status": status,
+                "trade_count": m["trade_count"],
+                "recent_3m_trades": m["recent_3m_trades"],
+                "cluster_size": len(members),
+                "compare": compares,
+            }
+
+            all_valued.append(entry)
+
+            if recent_gap < 0:
+                if m["current_price"] <= (1.0 - gap) * avg_current:
+                    undervalued.append(entry)
+                band_candidates.append(entry)
+
+    return clusters, undervalued, band_candidates, all_valued
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -251,24 +502,6 @@ def main() -> None:
         ("50억 이상", 500000, None),
     ]
 
-    # Region-specific parameters: relaxed for non-Seoul/Gyeonggi regions
-    RELAXED_SIDOS = {"부산", "대구", "인천", "광주", "대전", "울산", "세종"}
-
-    def sido_params(sido: str):
-        if sido in RELAXED_SIDOS:
-            return {
-                "corr": min(args.corr, 0.90),
-                "min_trades": min(args.min_trades, 8),
-                "min_valid": min(args.min_valid, 18),
-                "min_cluster": 2,
-            }
-        return {
-            "corr": args.corr,
-            "min_trades": args.min_trades,
-            "min_valid": args.min_valid,
-            "min_cluster": 2,
-        }
-
     output = {
         "updated_at": summary.get("updated_at"),
         "current_month": current_month,
@@ -285,235 +518,8 @@ def main() -> None:
         "sidos": {},
     }
 
-    def recent_gap_score(u):
-        """Lower = more recently undervalued. (6m ratio) - (3y ratio)."""
-        r6 = u["recent_avg"] / u["compare_avg_recent"] - 1
-        if u.get("avg_36") and u.get("compare_avg_36") and u["compare_avg_36"] > 0:
-            r36 = u["avg_36"] / u["compare_avg_36"] - 1
-            return r6 - r36
-        return r6
-
-    def find_undervalued_in_group(item_list, sp, gap):
-        """Run undervalued detection on a list of items (same district)."""
-        series_map: Dict[str, Dict] = {}
-        months_set = set(months)
-
-        for item in item_list:
-            apt_id = item["id"]
-            txns = load_txns(apt_id)
-            if not txns:
-                continue
-            trades_window = [t for t in txns if parse_month(t[0]) in months_set]
-            if len(trades_window) < sp["min_trades"]:
-                continue
-            recent_3m_set = set(months[-3:])
-            recent_3m_trades = sum(1 for t in trades_window if parse_month(t[0]) in recent_3m_set)
-            series, valid = build_series(txns, months)
-            if valid < sp["min_valid"]:
-                continue
-            current_price = series[-1]
-            if current_price is None:
-                continue
-            key = f"{item['apt_name']}\t{item['area_m2']}"
-            series_map[key] = {
-                "id": apt_id,
-                "apt_name": item["apt_name"],
-                "sigungu": item.get("sigungu", ""),
-                "dong_name": item.get("dong_name", ""),
-                "area_m2": item.get("area_m2"),
-                "district": item.get("district", ""),
-                "series": series,
-                "current_price": current_price,
-                "recent_avg": recent_avg(series, 6),
-                "avg_36": series_avg(series),
-                "trade_count": len(trades_window),
-                "recent_3m_trades": recent_3m_trades,
-            }
-
-        keys = list(series_map.keys())
-        n = len(keys)
-        if n == 0:
-            return [], [], [], []
-
-        adj: Dict[int, List[int]] = {i: [] for i in range(n)}
-        for i in range(n):
-            si = series_map[keys[i]]["series"]
-            area_i = series_map[keys[i]].get("area_m2") or 0
-            for j in range(i + 1, n):
-                # 면적 30% 이내만 비교
-                area_j = series_map[keys[j]].get("area_m2") or 0
-                if area_i > 0 and area_j > 0:
-                    area_ratio = max(area_i, area_j) / min(area_i, area_j)
-                    if area_ratio > 1.30:
-                        continue
-                sj = series_map[keys[j]]["series"]
-                paired: List[Tuple[float, float]] = [(a, b) for a, b in zip(si, sj) if a is not None and b is not None]
-                if len(paired) < sp["min_valid"]:
-                    continue
-                ai = [p[0] for p in paired]
-                bj = [p[1] for p in paired]
-                corr = pearson_corr(ai, bj)
-                if corr is not None and corr >= sp["corr"]:
-                    adj[i].append(j)
-                    adj[j].append(i)
-
-        visited = [False] * n
-        clusters = []
-        undervalued = []
-        band_candidates = []
-        all_valued = []
-
-        for i in range(n):
-            if visited[i]:
-                continue
-            stack = [i]
-            comp = []
-            visited[i] = True
-            while stack:
-                cur = stack.pop()
-                comp.append(cur)
-                for nb in adj[cur]:
-                    if not visited[nb]:
-                        visited[nb] = True
-                        stack.append(nb)
-
-            if len(comp) < sp["min_cluster"]:
-                continue
-
-            members = [series_map[keys[idx]] for idx in comp]
-            avg_current = sum(m["current_price"] for m in members) / len(members)
-
-            cluster = {
-                "size": len(members),
-                "avg_current_price": round(avg_current, 2),
-                "members": [
-                    {
-                        "id": m["id"],
-                        "apt_name": m["apt_name"],
-                        "sigungu": m["sigungu"],
-                        "dong_name": m["dong_name"],
-                        "area_m2": m["area_m2"],
-                        "current_price": m["current_price"],
-                        "trade_count": m["trade_count"],
-                    }
-                    for m in members
-                ],
-            }
-            clusters.append(cluster)
-
-            for m in members:
-                same_dong_sims = []
-                other_sims = []
-                for other in members:
-                    if other["id"] == m["id"]:
-                        continue
-                    if other["apt_name"] == m["apt_name"] and other["sigungu"] == m["sigungu"]:
-                        continue
-                    # 면적 30% 이내만 비교
-                    m_area = m.get("area_m2") or 0
-                    o_area = other.get("area_m2") or 0
-                    if m_area > 0 and o_area > 0 and max(m_area, o_area) / min(m_area, o_area) > 1.30:
-                        continue
-                    corr = series_corr(m["series"], other["series"], sp["min_valid"])
-                    if corr is None:
-                        continue
-                    is_same_dong = (m.get("dong_name") == other.get("dong_name")
-                                    and m.get("sigungu") == other.get("sigungu"))
-                    # 같은 동: 상관계수 0.85 이상, 다른 동: 기존 기준
-                    min_corr = 0.85 if is_same_dong else sp["corr"]
-                    if corr < min_corr:
-                        continue
-                    hist_diff = mean_abs_pct_diff(m["series"], other["series"])
-                    if hist_diff is None or hist_diff > 0.10:
-                        continue
-                    if not level_similar(m["recent_avg"], other["recent_avg"], 1.30):
-                        continue
-                    if is_same_dong:
-                        same_dong_sims.append((corr, hist_diff, other))
-                    else:
-                        other_sims.append((corr, hist_diff, other))
-
-                # 같은 동 우선, 부족하면 다른 동으로 채움
-                same_dong_sims.sort(key=lambda x: (-x[0], x[1]))
-                other_sims.sort(key=lambda x: (-x[0], x[1]))
-                picked = same_dong_sims[:2]
-                if len(picked) < 2:
-                    picked += other_sims[:2 - len(picked)]
-
-                if not picked:
-                    continue
-
-                compares = [
-                    {
-                        "id": o["id"],
-                        "apt_name": o["apt_name"],
-                        "sigungu": o["sigungu"],
-                        "dong_name": o["dong_name"],
-                        "area_m2": o["area_m2"],
-                        "current_price": o["current_price"],
-                        "recent_avg": o["recent_avg"],
-                        "avg_36": o["avg_36"],
-                        "trade_count": o["trade_count"],
-                        "corr": round(c, 3),
-                        "hist_diff_pct": round(hdiff * 100, 2),
-                    }
-                    for c, hdiff, o in picked
-                ]
-
-                compare_avg_recent = sum(c["recent_avg"] for c in compares if c.get("recent_avg")) / max(
-                    1, sum(1 for c in compares if c.get("recent_avg"))
-                )
-                compare_avg_36 = sum(c["avg_36"] for c in compares if c.get("avg_36")) / max(
-                    1, sum(1 for c in compares if c.get("avg_36"))
-                )
-
-                if m["recent_avg"] is None or compare_avg_recent <= 0:
-                    continue
-                recent_gap = m["recent_avg"] / compare_avg_recent - 1
-                hist_gap = (m["avg_36"] / compare_avg_36 - 1) if (m.get("avg_36") and compare_avg_36 > 0) else 0
-                gap_pct = round((recent_gap - hist_gap) * 100, 2)
-
-                # Classify valuation status
-                if gap_pct < -5:
-                    status = "undervalued"
-                elif gap_pct > 5:
-                    status = "leading"
-                else:
-                    status = "market"
-
-                entry = {
-                    "id": m["id"],
-                    "apt_name": m["apt_name"],
-                    "sigungu": m["sigungu"],
-                    "dong_name": m["dong_name"],
-                    "area_m2": m["area_m2"],
-                    "current_price": m["current_price"],
-                    "recent_avg": m["recent_avg"],
-                    "avg_36": m["avg_36"],
-                    "compare_avg_recent": compare_avg_recent,
-                    "compare_avg_36": compare_avg_36,
-                    "cluster_avg": round(avg_current, 2),
-                    "gap_pct": gap_pct,
-                    "status": status,
-                    "trade_count": m["trade_count"],
-                    "recent_3m_trades": m["recent_3m_trades"],
-                    "cluster_size": len(members),
-                    "compare": compares,
-                }
-
-                # All entries go to valuation output
-                all_valued.append(entry)
-
-                # Existing undervalued/band logic (ratio < 1.0 only)
-                if recent_gap < 0:
-                    if m["current_price"] <= (1.0 - gap) * avg_current:
-                        undervalued.append(entry)
-                    band_candidates.append(entry)
-
-        return clusters, undervalued, band_candidates, all_valued
-
     for sido in search_sidos.keys():
-        sp = sido_params(sido)
+        sp = sido_params(sido, args.corr, args.min_trades, args.min_valid)
         items = search_sidos[sido]["items"]
 
         # 구(district)별로 그룹핑
@@ -541,7 +547,7 @@ def main() -> None:
                         group_items.append(it)
                         group_ids.add(it["id"])
 
-            clusters, undervalued, band_cands, valued = find_undervalued_in_group(group_items, sp, args.gap)
+            clusters, undervalued, band_cands, valued = find_undervalued_in_group(group_items, sp, args.gap, months)
             all_clusters.extend(clusters)
             # 중복 제거: 인접 구 확장으로 같은 아파트가 여러 그룹에서 나올 수 있음
             # 같은 아파트가 여러번 나오면 gap_pct가 더 낮은(더 저평가된) 걸 유지
