@@ -217,14 +217,14 @@ function renderCard(apt, idx) {
 
   // 클릭시 차트 토글
   card.addEventListener("click", function () {
-    toggleChart(card, apt.id);
+    toggleChart(card, apt);
   });
 
   return card;
 }
 
-/* ── 차트 토글 ── */
-async function toggleChart(card, aptId) {
+/* ── 차트 토글 (고점 대비 현재가격 비교) ── */
+async function toggleChart(card, apt) {
   var existing = card.querySelector(".bottom-chart-panel");
   if (existing) { existing.remove(); return; }
 
@@ -240,11 +240,11 @@ async function toggleChart(card, aptId) {
   card.appendChild(panel);
 
   try {
-    if (!txnCache[aptId]) {
-      var res = await fetch(byAptBase + aptId + ".json?t=" + Date.now());
-      txnCache[aptId] = res.ok ? await res.json() : [];
+    if (!txnCache[apt.id]) {
+      var res = await fetch(byAptBase + apt.id + ".json?t=" + Date.now());
+      txnCache[apt.id] = res.ok ? await res.json() : [];
     }
-    var txns = txnCache[aptId];
+    var txns = txnCache[apt.id];
     if (!txns.length) {
       loading.textContent = "\uAC70\uB798 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
       return;
@@ -253,19 +253,19 @@ async function toggleChart(card, aptId) {
     loading.remove();
     var chartDiv = document.createElement("div");
     chartDiv.className = "scatter-chart";
-    chartDiv.style.height = "180px";
+    chartDiv.style.height = "220px";
     var canvas = document.createElement("canvas");
     chartDiv.appendChild(canvas);
     panel.appendChild(chartDiv);
     requestAnimationFrame(function () {
-      if (typeof drawScatter === "function") {
-        drawScatter(canvas, txns);
+      if (typeof drawPeakChart === "function") {
+        drawPeakChart(canvas, txns, apt);
       }
     });
 
     // 단지분석 링크
     var link = document.createElement("a");
-    link.href = "valuation.html#?q=" + encodeURIComponent(card.querySelector(".rank-apt").textContent);
+    link.href = "valuation.html#?q=" + encodeURIComponent(apt.apt_name);
     link.style.cssText = "display:block;text-align:center;margin-top:8px;font-size:12px;color:var(--accent)";
     link.textContent = "\uB2E8\uC9C0\uBD84\uC11D\uC5D0\uC11C \uC790\uC138\uD788 \uBCF4\uAE30 \u2192";
     panel.appendChild(link);
@@ -292,7 +292,7 @@ function renderSections() {
   } else {
     items = (data.items || []).slice();
     title = activeSido + " \uBC14\uB2E5 \uADFC\uCC98 \uB2E8\uC9C0";
-    subtitle = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uAC00\uC7A5 \uB9CE\uC774 \uD558\uB77D\uD55C \uB2E8\uC9C0 \u00B7 \uAC70\uB798 15\uAC74 \uC774\uC0C1 \u00B7 \uAC19\uC740 \uB2E8\uC9C0 \uAC19\uC740 \uD3C9\uC218 \uAE30\uC900";
+    subtitle = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uAC00\uC7A5 \uB9CE\uC774 \uD558\uB77D\uD55C \uB2E8\uC9C0 \u00B7 3\uB144\uAC04 \uAC70\uB798 50\uAC74 \uC774\uC0C1 \u00B7 \uAC19\uC740 \uB2E8\uC9C0 \uAC19\uC740 \uD3C9\uC218 \uAE30\uC900";
   }
 
   // 구 필터

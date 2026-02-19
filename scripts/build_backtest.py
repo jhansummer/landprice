@@ -232,7 +232,51 @@ def main():
             "avg_return": m_avg,
         })
 
-    # 7. 출력
+    # 7. 6개월 전 저평가 리딩 검증
+    # 6개월 전 YYYYMM 계산
+    cur_y, cur_m = int(current_month[:4]), int(current_month[4:])
+    six_m = cur_m - 6
+    six_y = cur_y
+    if six_m <= 0:
+        six_m += 12
+        six_y -= 1
+    six_month_target = f"{six_y:04d}{six_m:02d}"
+
+    # 가장 가까운 스냅샷 월 찾기
+    available_yms = sorted(set(p["flag_ym"] for p in all_picks))
+    six_month_data = None
+    if available_yms:
+        closest_ym = min(available_yms, key=lambda ym: abs(int(ym) - int(six_month_target)))
+        # 6개월 전 ± 2개월 이내만 유효
+        if abs(int(closest_ym) - int(six_month_target)) <= 2:
+            six_picks = [p for p in all_picks if p["flag_ym"] == closest_ym]
+            # 같은 apt_id 중복 제거
+            seen_six = {}
+            for p in six_picks:
+                if p["id"] not in seen_six:
+                    seen_six[p["id"]] = p
+            six_unique = sorted(seen_six.values(), key=lambda x: x["return_pct"], reverse=True)
+            six_total = len(six_unique)
+            if six_total > 0:
+                six_went_up = sum(1 for p in six_unique if p["return_pct"] > 0)
+                six_avg = round(sum(p["return_pct"] for p in six_unique) / six_total, 2)
+                six_with_market = [p for p in six_unique if p["market_return"] is not None]
+                six_avg_market = round(sum(p["market_return"] for p in six_with_market) / len(six_with_market), 2) if six_with_market else None
+                six_avg_alpha = round(sum(p["alpha"] for p in six_with_market) / len(six_with_market), 2) if six_with_market else None
+                six_month_data = {
+                    "flag_ym": closest_ym,
+                    "months_elapsed": (cur_y - int(closest_ym[:4])) * 12 + (cur_m - int(closest_ym[4:])),
+                    "total": six_total,
+                    "went_up": six_went_up,
+                    "went_up_pct": round(six_went_up / six_total * 100, 1),
+                    "avg_return": six_avg,
+                    "avg_market_return": six_avg_market,
+                    "avg_alpha": six_avg_alpha,
+                    "picks": six_unique,
+                }
+                print(f"  6개월 전 ({closest_ym}): {six_total}건, 상승 {six_went_up}건 ({six_month_data['went_up_pct']}%), 평균 {six_avg}%")
+
+    # 8. 출력
     output = {
         "updated_at": summary_data.get("updated_at", ""),
         "current_month": current_month,
@@ -247,6 +291,7 @@ def main():
             "avg_market_return": avg_market,
             "avg_alpha": avg_alpha,
         },
+        "six_month": six_month_data,
         "timeline": timeline,
         "picks": unique_picks,
     }

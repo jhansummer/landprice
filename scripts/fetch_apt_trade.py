@@ -1464,6 +1464,10 @@ def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
     bottom_dir = DATA_DIR / "bottom"
     bottom_dir.mkdir(exist_ok=True)
 
+    from datetime import datetime as _dt
+    _now = _dt.now()
+    _three_years_ago_ym = f"{_now.year - 3:04d}{_now.month:02d}"
+
     valid_sidos = []
     for sido, codes in sido_lawds.items():
         records = gather_sido_records(codes)
@@ -1512,8 +1516,11 @@ def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
                     }
 
             for (apt_name, area_m2), ym_prices in by_apt_size.items():
-                total_trades = sum(len(v) for v in ym_prices.values())
-                if total_trades < 15:
+                total_trades = sum(
+                    len(v) for ym, v in ym_prices.items()
+                    if ym >= _three_years_ago_ym
+                )
+                if total_trades < 50:
                     continue
                 all_yms = sorted(ym_prices.keys())
                 trend = []

@@ -610,3 +610,352 @@ function drawPriceVolumeChart(canvas, trendData) {
   ctx.font = "10px sans-serif"; ctx.textAlign = "right";
   ctx.fillText(Math.round(prices[li]).toLocaleString() + "만", xPos(li) - 6, yPosP(prices[li]) - 6);
 }
+
+/* ── 고점 대비 현재가격 비교 차트 (바닥찾기용) ── */
+function drawPeakChart(canvas, txns, apt) {
+  if (!txns || !txns.length) return;
+
+  // 월별 평균 계산
+  var monthlyMap = {};
+  txns.forEach(function (t) {
+    var d = new Date(t[0]);
+    var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+    if (!monthlyMap[ym]) monthlyMap[ym] = { sum: 0, count: 0 };
+    monthlyMap[ym].sum += t[1];
+    monthlyMap[ym].count += 1;
+  });
+
+  var months = Object.keys(monthlyMap).sort();
+  if (months.length < 2) return;
+
+  var data = months.map(function (ym) {
+    var m = monthlyMap[ym];
+    return { ym: ym, price: m.sum / m.count };
+  });
+
+  // 고점 찾기 (2021~2022 구간 우선, 없으면 전체 최고)
+  var peakIdx = 0;
+  var hasPeakRange = false;
+  data.forEach(function (d, i) {
+    if (d.ym >= "202101" && d.ym <= "202212") {
+      if (!hasPeakRange || d.price > data[peakIdx].price) {
+        peakIdx = i;
+        hasPeakRange = true;
+      }
+    }
+  });
+  if (!hasPeakRange) {
+    data.forEach(function (d, i) {
+      if (d.price > data[peakIdx].price) peakIdx = i;
+    });
+  }
+  var peakPrice = data[peakIdx].price;
+  var peakYm = data[peakIdx].ym;
+
+  // 저점 찾기 (고점 이후)
+  var troughIdx = peakIdx;
+  for (var ti = peakIdx + 1; ti < data.length; ti++) {
+    if (data[ti].price < data[troughIdx].price) troughIdx = ti;
+  }
+
+  // 현재가: 최근 3개월 평균
+  var recentSlice = data.slice(-3);
+  var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
+
+  // 캔버스 설정
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 28, right: 12, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // 가격 범위
+  var prices = data.map(function (d) { return d.price; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.1;
+
+  function xPos(i) { return pad.left + (i / (data.length - 1)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  function fmtPrice(v) {
+    if (v >= 10000) return (v / 10000).toFixed(1) + "\uc5b5";
+    return Math.round(v).toLocaleString() + "\ub9cc";
+  }
+
+  // 배경
+  ctx.fillStyle = "#f8fafc";
+  ctx.fillRect(0, 0, cw, ch);
+
+  // 그리드
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 4; g++) {
+    var gy = pad.top + (plotH / 4) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+
+  // Y축 라벨
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  for (var g = 0; g <= 4; g++) {
+    var val = minP + ((maxP - minP) / 4) * (4 - g);
+    ctx.fillText(fmtPrice(val), pad.left - 4, pad.top + (plotH / 4) * g);
+  }
+
+  // X축 라벨
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  var seenYear = {};
+  data.forEach(function (d, i) {
+    var yr = d.ym.slice(0, 4);
+    if (d.ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  });
+
+  // 고점 수평 점선
+  ctx.save();
+  ctx.setLineDash([5, 3]);
+  ctx.strokeStyle = "#ef4444";
+  ctx.lineWidth = 1;
+  var peakY = yPos(peakPrice);
+  ctx.beginPath();
+  ctx.moveTo(pad.left, peakY);
+  ctx.lineTo(pad.left + plotW, peakY);
+  ctx.stroke();
+  ctx.restore();
+
+  // 고점~현재 사이 영역 채우기
+  ctx.beginPath();
+  ctx.moveTo(xPos(peakIdx), peakY);
+  for (var fi = peakIdx; fi < data.length; fi++) {
+    ctx.lineTo(xPos(fi), yPos(data[fi].price));
+  }
+  ctx.lineTo(xPos(data.length - 1), peakY);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(239, 68, 68, 0.06)";
+  ctx.fill();
+
+  // 월별 추이 라인
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(data[0].price));
+  for (var li = 1; li < data.length; li++) {
+    ctx.lineTo(xPos(li), yPos(data[li].price));
+  }
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // 고점 포인트
+  ctx.fillStyle = "#ef4444";
+  ctx.beginPath();
+  ctx.arc(xPos(peakIdx), yPos(peakPrice), 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = peakIdx < data.length / 2 ? "left" : "right";
+  var peakLabelX = peakIdx < data.length / 2 ? xPos(peakIdx) + 8 : xPos(peakIdx) - 8;
+  ctx.fillText("\uace0\uc810 " + fmtPrice(peakPrice), peakLabelX, yPos(peakPrice) - 10);
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "9px sans-serif";
+  ctx.fillText(peakYm.slice(0, 4) + "." + peakYm.slice(4), peakLabelX, yPos(peakPrice) + 2);
+
+  // 저점 포인트 (고점 이후)
+  if (troughIdx > peakIdx && troughIdx < data.length - 1) {
+    ctx.fillStyle = "#94a3b8";
+    ctx.beginPath();
+    ctx.arc(xPos(troughIdx), yPos(data[troughIdx].price), 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.font = "9px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("\uc800\uc810 " + fmtPrice(data[troughIdx].price), xPos(troughIdx), yPos(data[troughIdx].price) + 10);
+  }
+
+  // 현재가 포인트 (마지막)
+  var lastIdx = data.length - 1;
+  ctx.fillStyle = "#2563eb";
+  ctx.beginPath();
+  ctx.arc(xPos(lastIdx), yPos(currentPrice), 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = "bold 10px sans-serif";
+  ctx.textAlign = "right";
+  var curLabelY = yPos(currentPrice);
+  if (Math.abs(curLabelY - peakY) < 16) curLabelY = curLabelY + 16;
+  ctx.fillText("\ud604\uc7ac " + fmtPrice(currentPrice), xPos(lastIdx) - 8, curLabelY - 2);
+
+  // 상단 고점대비 % 배지
+  var vsPeak = apt.vs_peak;
+  ctx.font = "bold 12px sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = vsPeak >= 0 ? "#16a34a" : "#ef4444";
+  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeak >= 0 ? "+" : "") + vsPeak + "%", pad.left + plotW, 16);
+
+  // 상단 왼쪽 범례
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#ef4444";
+  ctx.fillText("--- \uace0\uc810", pad.left, 16);
+  ctx.fillStyle = "#2563eb";
+  ctx.fillText("\u2500 \uc6d4\ud3c9\uade0", pad.left + 50, 16);
+}
+
+/* ── 백테스트 개별 종목 차트 (저평가 판정 시점 표시) ── */
+function drawBacktestPickChart(canvas, txns, pick) {
+  if (!txns || !txns.length) return;
+
+  // 월별 평균 계산
+  var monthlyMap = {};
+  txns.forEach(function (t) {
+    var d = new Date(t[0]);
+    var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+    if (!monthlyMap[ym]) monthlyMap[ym] = { sum: 0, count: 0 };
+    monthlyMap[ym].sum += t[1];
+    monthlyMap[ym].count += 1;
+  });
+
+  var months = Object.keys(monthlyMap).sort();
+  if (months.length < 2) { drawScatter(canvas, txns); return; }
+
+  var data = months.map(function (ym) {
+    var m = monthlyMap[ym];
+    return { ym: ym, price: m.sum / m.count };
+  });
+
+  // 판정 시점 인덱스 찾기
+  var flagIdx = -1;
+  for (var fi = 0; fi < data.length; fi++) {
+    if (data[fi].ym >= pick.flag_ym) { flagIdx = fi; break; }
+  }
+
+  // 캔버스 설정
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var prices = data.map(function (d) { return d.price; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.1;
+
+  function xPos(i) { return pad.left + (i / (data.length - 1)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  function fmtPrice(v) {
+    if (v >= 10000) return (v / 10000).toFixed(1) + "\uc5b5";
+    return Math.round(v).toLocaleString() + "\ub9cc";
+  }
+
+  // 그리드
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 3; g++) {
+    var gy = pad.top + (plotH / 3) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+
+  // Y축
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  for (var g = 0; g <= 3; g++) {
+    var val = minP + ((maxP - minP) / 3) * (3 - g);
+    ctx.fillText(fmtPrice(val), pad.left - 4, pad.top + (plotH / 3) * g);
+  }
+
+  // X축
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  var seenYear = {};
+  data.forEach(function (d, i) {
+    var yr = d.ym.slice(0, 4);
+    if (d.ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  });
+
+  // 판정 시점 수직선
+  if (flagIdx >= 0) {
+    ctx.save();
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(xPos(flagIdx), pad.top);
+    ctx.lineTo(xPos(flagIdx), pad.top + plotH);
+    ctx.stroke();
+    ctx.restore();
+
+    // 판정 이후 영역 하이라이트
+    ctx.fillStyle = "rgba(22, 163, 106, 0.04)";
+    ctx.fillRect(xPos(flagIdx), pad.top, xPos(data.length - 1) - xPos(flagIdx), plotH);
+  }
+
+  // 판정 전 라인 (회색)
+  if (flagIdx > 0) {
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), yPos(data[0].price));
+    for (var bi = 1; bi <= flagIdx && bi < data.length; bi++) {
+      ctx.lineTo(xPos(bi), yPos(data[bi].price));
+    }
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  // 판정 후 라인 (초록)
+  var startIdx = Math.max(flagIdx, 0);
+  if (startIdx < data.length - 1) {
+    ctx.beginPath();
+    ctx.moveTo(xPos(startIdx), yPos(data[startIdx].price));
+    for (var ai = startIdx + 1; ai < data.length; ai++) {
+      ctx.lineTo(xPos(ai), yPos(data[ai].price));
+    }
+    ctx.strokeStyle = pick.return_pct >= 0 ? "#16a34a" : "#ef4444";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // 판정 시점 포인트
+  if (flagIdx >= 0) {
+    ctx.fillStyle = "#f59e0b";
+    ctx.beginPath();
+    ctx.arc(xPos(flagIdx), yPos(data[flagIdx].price), 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.font = "9px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("\uc800\ud3c9\uac00 \ud310\uc815", xPos(flagIdx), pad.top - 1);
+  }
+
+  // 현재 포인트
+  var lastIdx = data.length - 1;
+  ctx.fillStyle = pick.return_pct >= 0 ? "#16a34a" : "#ef4444";
+  ctx.beginPath();
+  ctx.arc(xPos(lastIdx), yPos(data[lastIdx].price), 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = "bold 10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillText(fmtPrice(data[lastIdx].price), xPos(lastIdx) - 8, yPos(data[lastIdx].price) - 8);
+}
