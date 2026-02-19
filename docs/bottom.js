@@ -230,7 +230,7 @@ async function toggleChart(card, apt) {
 
   var panel = document.createElement("div");
   panel.className = "bottom-chart-panel";
-  panel.style.cssText = "margin-top:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm)";
+  panel.style.cssText = "grid-column:1/-1;margin-top:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm)";
   panel.addEventListener("click", function (e) { e.stopPropagation(); });
 
   var loading = document.createElement("div");
