@@ -34,7 +34,29 @@
     "inLanguage": "ko"
   }
   </script>
-  <link rel="stylesheet" href="style.css?v=7" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://aptmine.com/#website",
+        "name": "APT Mine",
+        "url": "https://aptmine.com",
+        "description": "국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스",
+        "inLanguage": "ko"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://aptmine.com/#organization",
+        "name": "APT Mine",
+        "url": "https://aptmine.com",
+        "logo": "https://aptmine.com/og-image.png"
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="style.css?v=8" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
@@ -52,13 +74,8 @@
     </div>
     <nav class="nav-bar">
       <span class="nav-link active">메인</span>
-      <a class="nav-link" href="search.html">비교검색</a>
-      <a class="nav-link" href="undervalued.html">저평가 TOP3</a>
-      <a class="nav-link" href="valuation.html">단지분석</a>
-      <a class="nav-link" href="regional.html">지역시세</a>
-      <a class="nav-link" href="jeonse.html">전세시세</a>
-      <a class="nav-link" href="bottom.html">바닥찾기</a>
-      <a class="nav-link" href="backtest.html">백테스트</a>
+      <a class="nav-link" href="regional.html">시세</a>
+      <a class="nav-link" href="undervalued.html">분석</a>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
     </nav>
   </header>
@@ -74,13 +91,17 @@
   <footer class="site-footer">
     <nav class="footer-links">
       <a href="/">메인</a>
-      <a href="/search.html">비교검색</a>
-      <a href="/undervalued.html">저평가 TOP3</a>
-      <a href="/valuation.html">단지분석</a>
+      <span class="footer-sep">|</span>
       <a href="/regional.html">지역시세</a>
       <a href="/jeonse.html">전세시세</a>
+      <a href="/search.html">비교검색</a>
+      <span class="footer-sep">|</span>
+      <a href="/undervalued.html">저평가 TOP3</a>
+      <a href="/valuation.html">단지분석</a>
       <a href="/bottom.html">바닥찾기</a>
       <a href="/backtest.html">백테스트</a>
+      <span class="footer-sep">|</span>
+      <a href="/watchlist.html">관심목록</a>
     </nav>
     <div class="footer-info">
       <a href="/privacy.html">개인정보처리방침</a>
@@ -92,5 +113,6 @@
   <script src="chart-utils.js?v=5"></script>
   <script src="watchlist.js?v=2"></script>
   <script src="app.js?v=35"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

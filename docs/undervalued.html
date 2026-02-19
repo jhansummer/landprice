@@ -17,10 +17,21 @@
   <meta name="twitter:title" content="저평가 아파트 추천 TOP3 · 아파트 투자 분석 - APT Mine" />
   <meta name="twitter:description" content="저평가 아파트 추천 TOP3. 인근 유사단지 대비 저평가된 아파트를 실거래가 데이터로 분석합니다." />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
+  <meta name="twitter:image" content="https://aptmine.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="canonical" href="https://aptmine.com/undervalued.html" />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "메인", "item": "https://aptmine.com/" },
+      { "@type": "ListItem", "position": 2, "name": "저평가 TOP3", "item": "https://aptmine.com/undervalued.html" }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="style.css?v=8" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
@@ -38,31 +49,36 @@
     </div>
     <nav class="nav-bar">
       <a class="nav-link" href="index.html">메인</a>
-      <a class="nav-link" href="search.html">비교검색</a>
-      <span class="nav-link active">저평가 TOP3</span>
-      <a class="nav-link" href="valuation.html">단지분석</a>
-      <a class="nav-link" href="regional.html">지역시세</a>
-      <a class="nav-link" href="jeonse.html">전세시세</a>
-      <a class="nav-link" href="bottom.html">바닥찾기</a>
-      <a class="nav-link" href="backtest.html">백테스트</a>
+      <a class="nav-link" href="regional.html">시세</a>
+      <span class="nav-link active">분석</span>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
+    </nav>
+    <nav class="nav-sub">
+      <a class="nav-sub-link active" href="undervalued.html">저평가 TOP3</a>
+      <a class="nav-sub-link" href="valuation.html">단지분석</a>
+      <a class="nav-sub-link" href="bottom.html">바닥찾기</a>
+      <a class="nav-sub-link" href="backtest.html">백테스트</a>
     </nav>
   </header>
   <nav id="tabs" class="tabs"></nav>
-  <div class="wrap">
+  <main class="wrap">
     <h1 class="page-title">저평가 아파트 TOP3 추천</h1>
     <div id="content"></div>
-  </div>
+  </main>
   <footer class="site-footer">
     <nav class="footer-links">
       <a href="/">메인</a>
-      <a href="/search.html">비교검색</a>
-      <a href="/undervalued.html">저평가 TOP3</a>
-      <a href="/valuation.html">단지분석</a>
+      <span class="footer-sep">|</span>
       <a href="/regional.html">지역시세</a>
       <a href="/jeonse.html">전세시세</a>
+      <a href="/search.html">비교검색</a>
+      <span class="footer-sep">|</span>
+      <a href="/undervalued.html">저평가 TOP3</a>
+      <a href="/valuation.html">단지분석</a>
       <a href="/bottom.html">바닥찾기</a>
       <a href="/backtest.html">백테스트</a>
+      <span class="footer-sep">|</span>
+      <a href="/watchlist.html">관심목록</a>
     </nav>
     <div class="footer-info">
       <a href="/privacy.html">개인정보처리방침</a>
@@ -72,6 +88,7 @@
   </footer>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
   <script src="chart-utils.js?v=5"></script>
   <script src="watchlist.js?v=2"></script>
-  <script src="undervalued.js?v=9"></script>
+  <script src="undervalued.js?v=8"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>
