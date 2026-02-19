@@ -1081,7 +1081,7 @@ def build_gap_analysis(rent_records: List[Dict[str, object]],
             gap_ranges.append({
                 "label": gr["label"],
                 "count": len(range_items),
-                "items": range_items[:10],
+                "items": range_items,
             })
 
     # 월별 평균 갭 추이

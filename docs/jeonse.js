@@ -129,8 +129,10 @@ function renderJeonseRatio(jeonse) {
       moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
+        var curH = list.offsetHeight;
         samples.slice(INITIAL_COUNT).forEach(renderSample);
-        list.style.cssText = "max-height:400px;overflow-y:auto";
+        list.style.maxHeight = (curH + 80) + "px";
+        list.style.overflowY = "auto";
         moreBtn.remove();
       });
       sec.appendChild(moreBtn);
@@ -399,8 +401,10 @@ function renderGapAnalysis(gap) {
         moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
         moreBtn.textContent = "\ub354\ubcf4\uae30 (" + range.items.length + "\uac1c \uc804\uccb4)";
         moreBtn.addEventListener("click", function() {
+          var curH = list.offsetHeight;
           range.items.slice(INITIAL_COUNT).forEach(renderGapItem);
-          list.style.cssText = "max-height:300px;overflow-y:auto";
+          list.style.maxHeight = (curH + 80) + "px";
+          list.style.overflowY = "auto";
           moreBtn.remove();
         });
         sec.appendChild(moreBtn);
@@ -496,8 +500,10 @@ function renderDistrictJeonseRatio(sidoData, title) {
     moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
+      var curH = list.offsetHeight;
       rows.slice(INITIAL_COUNT).forEach(renderItem);
-      list.style.cssText = "max-height:400px;overflow-y:auto";
+      list.style.maxHeight = (curH + 80) + "px";
+      list.style.overflowY = "auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -570,8 +576,10 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
     moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
+      var curH = list.offsetHeight;
       rows.slice(INITIAL_COUNT).forEach(renderItem);
-      list.style.cssText = "max-height:400px;overflow-y:auto";
+      list.style.maxHeight = (curH + 80) + "px";
+      list.style.overflowY = "auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);

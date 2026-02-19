@@ -811,8 +811,10 @@ function renderDongStats(dongStats, title, dongRecovery) {
       moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
+        var curH = table.offsetHeight;
         sorted.slice(INITIAL_COUNT).forEach(renderItem);
-        table.style.cssText = "max-height:400px;overflow-y:auto";
+        table.style.maxHeight = (curH + 80) + "px";
+        table.style.overflowY = "auto";
         moreBtn.remove();
       });
       listContainer.appendChild(moreBtn);
@@ -1019,8 +1021,10 @@ function renderAllDongStats(sidoData, title) {
       moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + sorted.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
+        var curH = table.offsetHeight;
         sorted.slice(INITIAL_COUNT).forEach(renderItem);
-        table.style.cssText = "max-height:400px;overflow-y:auto";
+        table.style.maxHeight = (curH + 80) + "px";
+        table.style.overflowY = "auto";
         moreBtn.remove();
       });
       listContainer.appendChild(moreBtn);
@@ -1154,8 +1158,10 @@ function renderRecoverySection(items, title, isDong) {
     moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + items.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function () {
+      var curH = list.offsetHeight;
       items.slice(showCount).forEach(renderItem);
-      list.style.cssText = "max-height:400px;overflow-y:auto";
+      list.style.maxHeight = (curH + 80) + "px";
+      list.style.overflowY = "auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -1235,8 +1241,10 @@ function renderDongJeonseRatio(dongStats, jeonseDongStats, title) {
     moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
     moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
     moreBtn.addEventListener("click", function() {
+      var curH = list.offsetHeight;
       rows.slice(INITIAL_COUNT).forEach(renderItem);
-      list.style.cssText = "max-height:400px;overflow-y:auto";
+      list.style.maxHeight = (curH + 80) + "px";
+      list.style.overflowY = "auto";
       moreBtn.remove();
     });
     sec.appendChild(moreBtn);
@@ -1316,8 +1324,10 @@ function renderJeonseSection(jeonse) {
       moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
       moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + samples.length + "\uAC1C \uC804\uCCB4)";
       moreBtn.addEventListener("click", function() {
+        var curH = list.offsetHeight;
         samples.slice(INITIAL_COUNT).forEach(renderSample);
-        list.style.cssText = "max-height:400px;overflow-y:auto";
+        list.style.maxHeight = (curH + 80) + "px";
+        list.style.overflowY = "auto";
         moreBtn.remove();
       });
       sec.appendChild(moreBtn);
