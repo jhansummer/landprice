@@ -30,7 +30,7 @@ BIZ_HUBS = {
 }
 
 # 수도권 시도 (업무지구 거리 표시 대상)
-METRO_SIDOS = {"서울특별시", "경기도", "인천광역시"}
+METRO_SIDOS = {"서울", "서울특별시", "경기", "경기도", "인천", "인천광역시"}
 
 # Rate limit: Kakao API allows 10 req/sec
 API_DELAY = 0.12
@@ -88,24 +88,6 @@ def geocode_kakao(query: str) -> Optional[Tuple[float, float]]:
     return None
 
 
-def geocode_kakao_apt(query: str) -> Optional[Tuple[float, float]]:
-    """Geocode with AP4 (apartment) category filter."""
-    if not KAKAO_REST_API_KEY:
-        return None
-    url = "https://dapi.kakao.com/v2/local/search/keyword.json"
-    headers = {"Authorization": f"KakaoAK {KAKAO_REST_API_KEY}"}
-    params = {"query": query, "category_group_code": "AP4", "size": 1}
-    try:
-        resp = requests.get(url, headers=headers, params=params, timeout=10)
-        resp.raise_for_status()
-        docs = resp.json().get("documents", [])
-        if docs:
-            return float(docs[0]["y"]), float(docs[0]["x"])
-    except Exception as e:
-        print(f"  Geocode AP4 error for '{query}': {e}", flush=True)
-    return None
-
-
 def geocode_apartment(apt: Dict, cache: Dict) -> Optional[Tuple[float, float]]:
     """Try to geocode an apartment, using cache first, then Kakao API."""
     sigungu = apt.get("sigungu", "")
@@ -118,20 +100,15 @@ def geocode_apartment(apt: Dict, cache: Dict) -> Optional[Tuple[float, float]]:
         c = cache[cache_key]
         return c["lat"], c["lng"]
 
-    # Try apartment category search first
+    # Try keyword search with apt name
     query = f"{sigungu} {dong} {apt_name}"
-    result = geocode_kakao_apt(query)
+    result = geocode_kakao(query)
     time.sleep(API_DELAY)
 
-    # Fallback: address search
+    # Fallback: address search with jibun
     if not result and jibun:
         fallback_query = f"{sigungu} {dong} {jibun}"
         result = geocode_kakao(fallback_query)
-        time.sleep(API_DELAY)
-
-    # Fallback: keyword search without category
-    if not result:
-        result = geocode_kakao(query)
         time.sleep(API_DELAY)
 
     if result:
