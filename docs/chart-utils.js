@@ -940,6 +940,12 @@ function drawPeakChart(canvas, txns, apt) {
 function drawNewHighChart(canvas, txns) {
   if (!txns || !txns.length) return;
 
+  function fmtPrice(v) {
+    if (v >= 10000) return (v / 10000).toFixed(v % 10000 === 0 ? 0 : 1) + "억";
+    if (v >= 1000) return (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + "천";
+    return Math.round(v) + "";
+  }
+
   // 월별 평균
   var monthlyMap = {};
   txns.forEach(function (t) {
