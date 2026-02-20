@@ -536,28 +536,26 @@ def main() -> int:
             if redev_s is not None:
                 geo["redev_score"] = redev_s
 
-            # 6. 입지점수: 교통20% + 학군65% + 인프라5% + 정비구역10%
-            subway_s = max(5, round(100 - nearest["dist"] * 1000 / 30))
-            transport_s = subway_s
+            # 6. 입지점수: 교통30% + 학군60% + 인프라5% + 정비구역5%
+            #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=지하철선형
+            subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
                 def _bds(d): return max(0, min(100, round(100 - (d - 3) * 100 / 47)))
-                biz_best = max(
-                    _bds(geo["biz_gangnam"]),
-                    _bds(geo.get("biz_gwanghwamun", 99)),
-                    _bds(geo.get("biz_yeouido", 99)),
-                )
-                transport_s = subway_s * 0.5 + biz_best * 0.5
-            w_sum = transport_s * 4
-            w_total = 4
+                gangnam_s = _bds(geo["biz_gangnam"])
+                transport_s = gangnam_s * 0.7 + subway_s_exp * 0.3
+            else:
+                transport_s = max(5, round(100 - nearest["dist"] * 1000 / 30))
+            w_sum = transport_s * 6
+            w_total = 6
             if school_score is not None:
-                w_sum += school_score * 13
-                w_total += 13
+                w_sum += school_score * 12
+                w_total += 12
             if geo.get("infra_score") is not None:
                 w_sum += geo["infra_score"]
                 w_total += 1
             if redev_s is not None:
-                w_sum += redev_s * 2
-                w_total += 2
+                w_sum += redev_s
+                w_total += 1
             geo["loc_score"] = round(w_sum / w_total)
 
             geo_result[apt_id] = geo
