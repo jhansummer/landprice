@@ -2,6 +2,8 @@
 var bottomIndexPath = "data/apt_trade/bottom/index.json";
 var bottomBase = "data/apt_trade/bottom/";
 var byAptBase = "data/apt_trade/by_apt/";
+var valuationGeoPath = "data/apt_trade/valuation_geo.json";
+var locationScoresPath = "data/apt_trade/location_scores.json";
 
 var tabsEl = document.getElementById("tabs");
 var contentEl = document.getElementById("content");
@@ -15,6 +17,9 @@ var activeView = "bottom";
 var activeSort = "vs_peak";
 var subwayFilter = false;
 var txnCache = {};
+var valuationGeo = null;
+var locationScores = null;
+var transportMinMax = null;
 
 var RECOVERY_STATUS = {
   recovered: { label: "상승", color: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
@@ -36,16 +41,51 @@ function escapeHTML(s) {
   return d.innerHTML;
 }
 
-/* ── 출퇴근 접근성 점수 ── */
-function calcCommuteScore(apt) {
-  if (!apt.geo || apt.geo.subway_dist == null) return 0;
-  var subwayScore = Math.max(0, 100 - apt.geo.subway_dist * 50);
-  if (apt.geo.biz_gangnam == null) return subwayScore;
-  var gangnam = Math.max(0, 100 - apt.geo.biz_gangnam * 4);
-  var gwanghwamun = Math.max(0, 100 - apt.geo.biz_gwanghwamun * 4);
-  var yeouido = Math.max(0, 100 - apt.geo.biz_yeouido * 4);
-  var bizScore = gangnam * 0.5 + gwanghwamun * 0.25 + yeouido * 0.25;
-  return subwayScore * 0.3 + bizScore * 0.7;
+/* ── APTmine 입지점수 (교통60%+학군20%+인프라20%) ── */
+function calcAPTmineScore(apt) {
+  var geo = apt.geo;
+  var vgeo = valuationGeo && valuationGeo[apt.id];
+  if ((!geo || geo.subway_dist == null) && !vgeo) return 0;
+
+  // 역세권 점수
+  var subwayDist = (geo && geo.subway_dist != null) ? geo.subway_dist : (vgeo && vgeo.subway_dist != null ? vgeo.subway_dist : null);
+  var subwayScore = subwayDist != null ? Math.max(5, Math.round(100 - subwayDist * 1000 / 30)) : null;
+
+  // 업무지구 점수 (서울 구별 데이터 또는 geo 거리 기반)
+  var sigungu = apt.sigungu || "";
+  var guData = null;
+  if (locationScores) {
+    var sidos = Object.keys(locationScores);
+    for (var i = 0; i < sidos.length; i++) {
+      if (locationScores[sidos[i]][sigungu]) { guData = locationScores[sidos[i]][sigungu]; break; }
+    }
+  }
+
+  var transportScore;
+  if (guData) {
+    var t = guData.transport;
+    var bizRaw = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+    var bizScore = bizRaw;
+    if (transportMinMax && transportMinMax.max > transportMinMax.min) {
+      bizScore = ((bizRaw - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
+    }
+    transportScore = subwayScore != null ? subwayScore * 0.5 + bizScore * 0.5 : bizScore;
+  } else if (subwayScore != null) {
+    transportScore = subwayScore;
+  } else {
+    return 0;
+  }
+
+  // 학군 + 인프라 (valuation_geo에서)
+  var schoolScore = (vgeo && vgeo.academy_score != null) ? vgeo.academy_score : null;
+  var infraScore = (vgeo && vgeo.infra_score != null) ? vgeo.infra_score : null;
+
+  // 종합: 교통*3 가중평균
+  var wSum = transportScore * 3;
+  var wTotal = 3;
+  if (schoolScore != null) { wSum += schoolScore; wTotal += 1; }
+  if (infraScore != null) { wSum += infraScore; wTotal += 1; }
+  return Math.round(wSum / wTotal);
 }
 
 /* ── 시도 탭 ── */
@@ -142,7 +182,7 @@ function renderSortBar() {
     ["trades", "\uAC70\uB798\uB7C9\uC21C"],
     ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"],
     ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"],
-    ["commute", "\uCD9C\uD1F4\uADFC\uC21C"]
+    ["aptmine", "APTmine\uC810\uC218\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -210,14 +250,14 @@ function renderCard(apt, idx) {
       bizSpan.textContent = "\uAC15\uB0A8 " + apt.geo.biz_gangnam + "km \u00B7 \uAD11\uD654\uBB38 " + apt.geo.biz_gwanghwamun + "km \u00B7 \uC5EC\uC758\uB3C4 " + apt.geo.biz_yeouido + "km";
       geoDiv.appendChild(bizSpan);
     }
-    var cs = calcCommuteScore(apt);
-    if (cs > 0) {
-      var csBadge = document.createElement("span");
-      var csColor = cs >= 70 ? "#2563eb" : cs >= 40 ? "#f59e0b" : "#94a3b8";
-      var csBg = cs >= 70 ? "#dbeafe" : cs >= 40 ? "#fef3c7" : "#f1f5f9";
-      csBadge.style.cssText = "font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:" + csColor + ";background:" + csBg;
-      csBadge.textContent = "\uCD9C\uD1F4\uADFC " + Math.round(cs);
-      geoDiv.appendChild(csBadge);
+    var aptScore = calcAPTmineScore(apt);
+    if (aptScore > 0) {
+      var asBadge = document.createElement("span");
+      var asColor = aptScore >= 70 ? "#2563eb" : aptScore >= 40 ? "#f59e0b" : "#94a3b8";
+      var asBg = aptScore >= 70 ? "#dbeafe" : aptScore >= 40 ? "#fef3c7" : "#f1f5f9";
+      asBadge.style.cssText = "font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:" + asColor + ";background:" + asBg;
+      asBadge.textContent = "APTmine " + aptScore;
+      geoDiv.appendChild(asBadge);
     }
     info.appendChild(geoDiv);
   }
@@ -466,8 +506,8 @@ function renderSections() {
     var db = (b.geo && b.geo.subway_dist != null) ? b.geo.subway_dist : 9999;
     return da - db;
   });
-  else if (activeSort === "commute") items.sort(function (a, b) {
-    return calcCommuteScore(b) - calcCommuteScore(a);
+  else if (activeSort === "aptmine") items.sort(function (a, b) {
+    return calcAPTmineScore(b) - calcAPTmineScore(a);
   });
 
   var sec = document.createElement("div");
@@ -546,6 +586,21 @@ async function loadAndRender() {
 }
 
 /* ── 초기화 ── */
+function buildTransportMinMax() {
+  if (!locationScores) return;
+  var mn = Infinity, mx = -Infinity;
+  Object.keys(locationScores).forEach(function (sido) {
+    var gus = locationScores[sido];
+    Object.keys(gus).forEach(function (gu) {
+      var t = gus[gu].transport;
+      var score = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+      if (score < mn) mn = score;
+      if (score > mx) mx = score;
+    });
+  });
+  transportMinMax = { min: mn, max: mx };
+}
+
 async function init() {
   try {
     var res = await fetch(bottomIndexPath + "?t=" + Date.now());
@@ -556,6 +611,14 @@ async function init() {
       statusEl.textContent = "\uB370\uC774\uD130\uAC00 \uC544\uC9C1 \uC5C6\uC2B5\uB2C8\uB2E4.";
       return;
     }
+    // Load location data in parallel (non-blocking)
+    Promise.all([
+      fetch(valuationGeoPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { valuationGeo = d; }).catch(function () {}),
+      fetch(locationScoresPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { locationScores = d; }).catch(function () {})
+    ]).then(function () {
+      buildTransportMinMax();
+      if (activeSido && sidoCache[activeSido]) renderSections();
+    });
     var hash = decodeURIComponent(location.hash.replace("#", ""));
     activeSido = sidoOrder.indexOf(hash) >= 0 ? hash : sidoOrder[0];
     renderTabs(sidoOrder);
