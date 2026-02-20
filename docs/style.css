@@ -225,7 +225,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .nav-sub{padding:0 16px;gap:1px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .nav-sub::-webkit-scrollbar{display:none}
   .nav-sub-link{padding:8px 12px 7px;font-size:11px}
-  .mode-tabs{padding:10px 16px 0}
+  .mode-tabs{padding:12px 16px 0;max-width:320px}
   .tabs{padding:0 16px}
   .tab-btn{padding:10px 12px;font-size:12px}
   .region-label{font-size:10px}
@@ -370,8 +370,8 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .nav-link{padding:6px 12px;font-size:12px}
   .nav-sub{padding:0 12px;gap:0}
   .nav-sub-link{padding:7px 10px 6px;font-size:10px}
-  .mode-tabs{padding:8px 12px 0;max-width:240px}
-  .mode-tab{font-size:12px;padding:7px 0}
+  .mode-tabs{padding:10px 12px 0;max-width:280px}
+  .mode-tab{font-size:13px;padding:9px 0}
   .tabs{padding:0 12px}
   .tab-btn{padding:8px 10px;font-size:11px;min-height:44px}
   .region-label{font-size:9px;padding:8px 8px 8px 0}
@@ -472,10 +472,10 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .explain-block .source{color:var(--muted);font-size:11px}
 
 /* ── Mode Toggle (매매/전세) ── */
-.mode-tabs{display:flex;justify-content:center;gap:4px;padding:12px 24px 0;max-width:280px;margin:0 auto}
-.mode-tab{flex:1;padding:8px 0;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;text-align:center;transition:all .15s}
-.mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.mode-tab:hover:not(.active){color:var(--ink);border-color:var(--ink-light)}
+.mode-tabs{display:flex;justify-content:center;gap:6px;padding:14px 24px 0;max-width:360px;margin:0 auto}
+.mode-tab{flex:1;padding:10px 0;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);font-family:var(--font-body);font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center;transition:all .18s;letter-spacing:.02em}
+.mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 8px rgba(37,99,235,.25)}
+.mode-tab:hover:not(.active){color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
 
 /* ── Next Action Section ── */
 .next-action{border-style:dashed;border-color:var(--accent-light);background:var(--accent-soft)}
