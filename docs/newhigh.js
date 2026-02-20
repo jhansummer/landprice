@@ -1,0 +1,334 @@
+/* APT Mine - 신고가 아파트 검색 */
+var summaryPath = "data/apt_trade/summary.json";
+
+var tabsEl = document.getElementById("tabs");
+var subtabsEl = document.getElementById("subtabs");
+var dongtabsEl = document.getElementById("dongtabs");
+var statusEl = document.getElementById("status");
+var resultsEl = document.getElementById("results");
+
+var globalData = null;
+var activeSido = null;
+var activeDistrict = null;
+var activeDong = null;
+var PAGE_SIZE = 20;
+var visibleCount = PAGE_SIZE;
+
+var RECOVERY_STATUS = {
+  recovered: { label: "상승", bgColor: "#dbeafe", textColor: "#1e40af" },
+  rising:    { label: "회복", bgColor: "#dcfce7", textColor: "#166534" },
+  flat:      { label: "횡보", bgColor: "#f1f5f9", textColor: "#64748b" },
+  falling:   { label: "하락", bgColor: "#fef2f2", textColor: "#dc2626" }
+};
+
+function fmt(v) {
+  return new Intl.NumberFormat("ko-KR").format(v);
+}
+
+/* ── 시도 탭 ── */
+function renderTabs(sidoOrder) {
+  tabsEl.innerHTML = "";
+  tabsEl.setAttribute("role", "tablist");
+  var label = document.createElement("span");
+  label.className = "region-label";
+  label.textContent = "지역";
+  tabsEl.appendChild(label);
+  sidoOrder.forEach(function (sido) {
+    var btn = document.createElement("button");
+    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
+    btn.textContent = sido;
+    btn.addEventListener("click", function () {
+      activeSido = sido;
+      activeDistrict = null;
+      activeDong = null;
+      visibleCount = PAGE_SIZE;
+      renderTabs(sidoOrder);
+      renderSubTabs();
+      renderDongTabs();
+      renderResults();
+      updateHash();
+    });
+    tabsEl.appendChild(btn);
+  });
+}
+
+/* ── 구/군 드롭다운 ── */
+function renderSubTabs() {
+  subtabsEl.innerHTML = "";
+  if (!globalData || !activeSido) return;
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
+
+  var select = document.createElement("select");
+  select.className = "district-select";
+
+  var allOpt = document.createElement("option");
+  allOpt.value = "";
+  allOpt.textContent = activeSido + " 전체";
+  if (activeDistrict === null) allOpt.selected = true;
+  select.appendChild(allOpt);
+
+  sidoData.district_order.forEach(function (dist) {
+    var opt = document.createElement("option");
+    opt.value = dist;
+    opt.textContent = dist;
+    if (dist === activeDistrict) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", function () {
+    activeDistrict = select.value || null;
+    activeDong = null;
+    visibleCount = PAGE_SIZE;
+    renderDongTabs();
+    renderResults();
+    updateHash();
+  });
+
+  subtabsEl.appendChild(select);
+}
+
+/* ── 동 드롭다운 ── */
+function renderDongTabs() {
+  dongtabsEl.innerHTML = "";
+  if (!globalData || !activeSido || !activeDistrict) return;
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return;
+  var distData = sidoData.districts[activeDistrict];
+  if (!distData || !distData.dong_order || !distData.dong_order.length) return;
+
+  var select = document.createElement("select");
+  select.className = "dong-select";
+
+  var allOpt = document.createElement("option");
+  allOpt.value = "";
+  allOpt.textContent = "전체 동";
+  if (activeDong === null) allOpt.selected = true;
+  select.appendChild(allOpt);
+
+  distData.dong_order.forEach(function (dong) {
+    var opt = document.createElement("option");
+    opt.value = dong;
+    opt.textContent = dong;
+    if (dong === activeDong) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", function () {
+    activeDong = select.value || null;
+    visibleCount = PAGE_SIZE;
+    renderResults();
+    updateHash();
+  });
+
+  dongtabsEl.appendChild(select);
+}
+
+/* ── 신고가 아파트 수집 ── */
+function collectNewHighApts() {
+  if (!globalData || !activeSido) return [];
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) return [];
+
+  var items = [];
+  var districts = activeDistrict ? [activeDistrict] : (sidoData.district_order || []);
+
+  districts.forEach(function (distName) {
+    var dist = sidoData.districts[distName];
+    if (!dist || !dist.dong_recovery || !dist.dong_recovery.items) return;
+
+    dist.dong_recovery.items.forEach(function (dongItem) {
+      if (!dongItem.apt_details) return;
+      if (activeDong && dongItem.name !== activeDong) return;
+
+      dongItem.apt_details.forEach(function (apt) {
+        if (apt.vs_peak > 0) {
+          items.push({
+            apt_name: apt.apt_name,
+            district: distName,
+            dong: dongItem.name,
+            area_m2: apt.area_m2,
+            price: apt.price,
+            peak: apt.peak,
+            vs_peak: apt.vs_peak,
+            chg6m: apt.chg6m,
+            status: apt.status
+          });
+        }
+      });
+    });
+  });
+
+  items.sort(function (a, b) { return b.vs_peak - a.vs_peak; });
+  return items;
+}
+
+/* ── 카드 렌더링 ── */
+function renderCard(apt) {
+  var card = document.createElement("div");
+  card.className = "section newhigh-card";
+  card.style.cssText = "padding:16px 20px;margin-bottom:10px";
+
+  var st = RECOVERY_STATUS[apt.status] || RECOVERY_STATUS.recovered;
+
+  // 상단: 단지명 + 뱃지
+  var header = document.createElement("div");
+  header.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px";
+
+  var nameEl = document.createElement("div");
+  nameEl.style.cssText = "font-size:15px;font-weight:700;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+  nameEl.textContent = apt.apt_name;
+  header.appendChild(nameEl);
+
+  var badge = document.createElement("span");
+  badge.className = "recovery-badge " + apt.status;
+  badge.textContent = st.label;
+  header.appendChild(badge);
+
+  card.appendChild(header);
+
+  // 위치 + 면적
+  var locEl = document.createElement("div");
+  locEl.style.cssText = "font-size:12px;color:var(--muted);margin-bottom:10px";
+  locEl.textContent = apt.district + " " + apt.dong + " · " + apt.area_m2.toFixed(0) + "m²";
+  card.appendChild(locEl);
+
+  // 가격 정보 그리드
+  var grid = document.createElement("div");
+  grid.style.cssText = "display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px";
+
+  // 현재가
+  var priceBox = document.createElement("div");
+  priceBox.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">현재가</div>'
+    + '<div style="font-size:15px;font-weight:800;color:var(--up)">' + fmt(Math.round(apt.price)) + '<span style="font-size:11px;font-weight:600">만</span></div>';
+  grid.appendChild(priceBox);
+
+  // 고점가
+  var peakBox = document.createElement("div");
+  peakBox.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">고점가</div>'
+    + '<div style="font-size:15px;font-weight:800;color:var(--ink)">' + fmt(Math.round(apt.peak)) + '<span style="font-size:11px;font-weight:600">만</span></div>';
+  grid.appendChild(peakBox);
+
+  // 고점 대비
+  var vsPeakBox = document.createElement("div");
+  vsPeakBox.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">고점 대비</div>'
+    + '<div style="font-size:15px;font-weight:800;color:var(--up)">+' + apt.vs_peak.toFixed(1) + '%</div>';
+  grid.appendChild(vsPeakBox);
+
+  card.appendChild(grid);
+
+  // 6개월 변화
+  if (apt.chg6m !== undefined && apt.chg6m !== null) {
+    var chgEl = document.createElement("div");
+    chgEl.style.cssText = "margin-top:8px;font-size:11px;color:var(--muted)";
+    var chgColor = apt.chg6m >= 0 ? "var(--up)" : "var(--down)";
+    var chgSign = apt.chg6m >= 0 ? "+" : "";
+    chgEl.innerHTML = '6개월 변화 <span style="font-weight:700;color:' + chgColor + '">' + chgSign + apt.chg6m.toFixed(1) + '%</span>';
+    card.appendChild(chgEl);
+  }
+
+  return card;
+}
+
+/* ── 결과 표시 ── */
+function renderResults() {
+  resultsEl.innerHTML = "";
+
+  var items = collectNewHighApts();
+
+  if (items.length === 0) {
+    statusEl.innerHTML = "";
+    var msg = document.createElement("div");
+    msg.style.cssText = "text-align:center;color:var(--muted);font-size:14px;margin:40px 0";
+    msg.textContent = "선택한 지역에 신고가 단지가 없습니다.";
+    resultsEl.appendChild(msg);
+    return;
+  }
+
+  // 요약
+  var summary = document.createElement("div");
+  summary.style.cssText = "font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:500";
+  var locationText = activeSido;
+  if (activeDistrict) locationText += " " + activeDistrict;
+  if (activeDong) locationText += " " + activeDong;
+  summary.textContent = locationText + " 신고가 단지 " + fmt(items.length) + "개";
+  resultsEl.appendChild(summary);
+
+  // 카드 렌더
+  var shown = Math.min(visibleCount, items.length);
+  for (var i = 0; i < shown; i++) {
+    resultsEl.appendChild(renderCard(items[i]));
+  }
+
+  // 더보기 버튼
+  if (shown < items.length) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "search-btn";
+    moreBtn.style.cssText = "display:block;margin:16px auto;padding:12px 40px";
+    moreBtn.textContent = "더보기 (" + (items.length - shown) + "개 남음)";
+    moreBtn.addEventListener("click", function () {
+      visibleCount += PAGE_SIZE;
+      renderResults();
+    });
+    resultsEl.appendChild(moreBtn);
+  }
+
+  statusEl.innerHTML = "";
+}
+
+/* ── URL hash 관리 ── */
+function updateHash() {
+  var parts = [activeSido];
+  if (activeDistrict) parts.push(activeDistrict);
+  if (activeDong) parts.push(activeDong);
+  history.replaceState(null, "", "#" + parts.join("/"));
+}
+
+function parseHash() {
+  var hash = decodeURIComponent(location.hash.replace("#", ""));
+  return hash.split("/");
+}
+
+/* ── 초기화 ── */
+async function init() {
+  try {
+    var response = await fetch(summaryPath + "?t=" + Date.now());
+    if (!response.ok) {
+      statusEl.textContent = "데이터를 불러오지 못했습니다.";
+      return;
+    }
+    globalData = await response.json();
+
+    var sidoOrder = globalData.sido_order || [];
+    var parts = parseHash();
+    var hashSido = parts[0] || "";
+    var hashDist = parts[1] || "";
+    var hashDong = parts[2] || "";
+
+    activeSido = sidoOrder.indexOf(hashSido) >= 0 ? hashSido : sidoOrder[0] || null;
+
+    if (hashDist && activeSido && globalData.sidos[activeSido]) {
+      var dOrder = globalData.sidos[activeSido].district_order || [];
+      if (dOrder.indexOf(hashDist) >= 0) {
+        activeDistrict = hashDist;
+        if (hashDong && globalData.sidos[activeSido].districts[hashDist]) {
+          var dongOrder = globalData.sidos[activeSido].districts[hashDist].dong_order || [];
+          if (dongOrder.indexOf(hashDong) >= 0) activeDong = hashDong;
+        }
+      }
+    }
+
+    renderTabs(sidoOrder);
+    renderSubTabs();
+    renderDongTabs();
+    renderResults();
+
+    statusEl.innerHTML = "";
+  } catch (e) {
+    statusEl.textContent = "네트워크 오류가 발생했습니다. 새로고침해주세요.";
+  }
+}
+
+init();
