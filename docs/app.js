@@ -120,21 +120,11 @@ function renderRankedItem(r, idx) {
   var ctaGroup = document.createElement("div");
   ctaGroup.className = "cta-group";
 
-  var detailBtn = document.createElement("button");
-  detailBtn.className = "detail-btn";
-  detailBtn.textContent = "\uC0C1\uC138";
-  detailBtn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    showDetail(r);
-    APTWatchlist.track("view_detail", { apt_name: r.apt_name, page: "main" });
-  });
-  ctaGroup.appendChild(detailBtn);
-
   if (r.id) {
     var aptLink = document.createElement("a");
     aptLink.className = "apt-detail-link";
     aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido || "");
-    aptLink.textContent = "\uC0C1\uC138\uD398\uC774\uC9C0";
+    aptLink.textContent = "\uC0C1\uC138";
     aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
     ctaGroup.appendChild(aptLink);
 

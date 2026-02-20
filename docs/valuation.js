@@ -391,10 +391,6 @@
     if (scores.school != null) {
       barItems.push({ label: "\uD559\uAD70", score: scores.school });
     }
-    // 자연환경 (한강/대형공원)
-    if (geoLoc && geoLoc.nature_score != null) {
-      barItems.push({ label: "\uC790\uC5F0\uD658\uACBD", score: geoLoc.nature_score });
-    }
     // 생활인프라
     if (scores.infra != null) {
       barItems.push({ label: "\uC0DD\uD65C\uC778\uD504\uB77C", score: scores.infra });
@@ -908,7 +904,6 @@
         var labels = [
           ["\uAD50\uD1B5", item.loc_transport],
           ["\uD559\uAD70", item.loc_school],
-          ["\uC790\uC5F0", locGeo ? locGeo.nature_score : null],
           ["\uC778\uD504\uB77C", item.loc_infra]
         ];
         labels.forEach(function (l) {
