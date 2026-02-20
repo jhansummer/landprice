@@ -57,6 +57,10 @@ jobs:
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
         run: |
           python scripts/enrich_valuation_geo.py
+      - name: Build location value ranking
+        continue-on-error: true
+        run: |
+          python scripts/build_location_value.py
       - name: Build backtest results
         timeout-minutes: 90
         continue-on-error: true
