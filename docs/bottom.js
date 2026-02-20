@@ -115,7 +115,8 @@ function renderSortBar() {
     ["vs_peak", "\uACE0\uC810\uB300\uBE44\uC21C"],
     ["chg3m", "3\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
     ["chg6m", "6\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
-    ["trades", "\uAC70\uB798\uB7C9\uC21C"]
+    ["trades", "\uAC70\uB798\uB7C9\uC21C"],
+    ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -399,6 +400,7 @@ function renderSections() {
   else if (activeSort === "chg3m") items.sort(function (a, b) { return b.chg3m - a.chg3m; });
   else if (activeSort === "chg6m") items.sort(function (a, b) { return b.chg6m - a.chg6m; });
   else if (activeSort === "trades") items.sort(function (a, b) { return b.trades - a.trades; });
+  else if (activeSort === "total_price") items.sort(function (a, b) { return (a.price * a.area_m2) - (b.price * b.area_m2); });
 
   var sec = document.createElement("div");
   sec.className = "section";
