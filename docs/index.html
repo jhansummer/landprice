@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://aptmine.com" />
   <meta property="og:site_name" content="APT Mine" />
   <meta property="og:locale" content="ko_KR" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="아파트 실거래가 조회 · 매매 시세 분석 - APT Mine" />
   <meta name="twitter:description" content="아파트 실거래가 조회 및 매매 시세 분석. 부동산 실거래가 기반 시세 추이, 상승률 랭킹, 저평가 분석." />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
@@ -44,7 +44,12 @@
         "name": "APT Mine",
         "url": "https://aptmine.com",
         "description": "국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스",
-        "inLanguage": "ko"
+        "inLanguage": "ko",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://aptmine.com/search.html#?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
       },
       {
         "@type": "Organization",
@@ -54,6 +59,47 @@
         "logo": "https://aptmine.com/og-image.png"
       }
     ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": ["메인", "지역시세", "전세시세", "비교검색", "저평가 TOP3", "단지분석", "바닥찾기", "백테스트"],
+    "url": [
+      "https://aptmine.com/",
+      "https://aptmine.com/regional.html",
+      "https://aptmine.com/jeonse.html",
+      "https://aptmine.com/search.html",
+      "https://aptmine.com/undervalued.html",
+      "https://aptmine.com/valuation.html",
+      "https://aptmine.com/bottom.html",
+      "https://aptmine.com/backtest.html"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "대한민국 아파트 실거래가 데이터",
+    "description": "국토교통부 실거래가 공공데이터 API 기반 전국 아파트 매매·전세 실거래가 데이터. 매일 4회 자동 갱신.",
+    "url": "https://aptmine.com/",
+    "license": "https://www.kogl.or.kr/info/license.do#702",
+    "creator": {
+      "@type": "Organization",
+      "name": "국토교통부"
+    },
+    "temporalCoverage": "2019/..",
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "대한민국"
+    },
+    "distribution": {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://aptmine.com/data/apt_trade/"
+    }
   }
   </script>
   <link rel="stylesheet" href="style.css?v=9" />
