@@ -14,7 +14,6 @@ DATA_PAGES = {
     "https://aptmine.com/regional.html",
     "https://aptmine.com/undervalued.html",
     "https://aptmine.com/valuation.html",
-    "https://aptmine.com/jeonse.html",
     "https://aptmine.com/bottom.html",
     "https://aptmine.com/backtest.html",
 }
