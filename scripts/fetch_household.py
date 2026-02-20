@@ -1,0 +1,335 @@
+#!/usr/bin/env python3
+"""Fetch apartment household counts (세대수) from K-apt API.
+
+Uses 공동주택 단지 목록제공 서비스 + 공동주택 기본 정보제공 서비스 (data.go.kr).
+Requires MOLIT_SERVICE_KEY environment variable.
+
+Output: scripts/household_cache.json  {apt_name_key: {households, dong_count, builder, ...}}
+"""
+import json
+import os
+import sys
+import time
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import requests
+from lxml import etree
+
+SCRIPTS_DIR = Path(__file__).resolve().parent
+CACHE_FILE = SCRIPTS_DIR / "household_cache.json"
+VALUATION_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "valuation"
+
+SERVICE_KEY = os.getenv("MOLIT_SERVICE_KEY", "")
+
+# K-apt API endpoints
+APT_LIST_URL = "https://apis.data.go.kr/1611000/AptListService2/getSigunguAptList"
+APT_INFO_URL = "https://apis.data.go.kr/1613000/AptBasisInfoService2/getAphusBassInfo"
+
+API_DELAY = 0.15  # seconds between calls
+
+# LAWD codes for our target 시군구
+# Will be collected from valuation data
+
+
+def load_cache() -> Dict:
+    if CACHE_FILE.exists():
+        with open(CACHE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def save_cache(cache: Dict) -> None:
+    with open(CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, indent=1)
+
+
+def get_target_apartments() -> List[Dict]:
+    """Get list of apartments we need household data for."""
+    index_path = VALUATION_DIR / "index.json"
+    if not index_path.exists():
+        return []
+
+    with open(index_path, "r", encoding="utf-8") as f:
+        index = json.load(f)
+
+    apts = []
+    for sido in index.get("sido_order", []):
+        fpath = VALUATION_DIR / f"{sido}.json"
+        if not fpath.exists():
+            continue
+        with open(fpath, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for item in data.get("items", []):
+            apts.append({
+                "id": item["id"],
+                "apt_name": item["apt_name"],
+                "sigungu": item.get("sigungu", ""),
+                "dong_name": item.get("dong_name", ""),
+            })
+    return apts
+
+
+def get_sigungu_codes() -> Dict[str, str]:
+    """Map sigungu names to LAWD codes from our data."""
+    # Read from the lawd codes used in fetch_apt_trade.py
+    lawd_file = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "lawd_codes.json"
+    if lawd_file.exists():
+        with open(lawd_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def fetch_apt_list(sigungu_code: str) -> List[Dict]:
+    """Fetch apartment list for a sigungu from K-apt API."""
+    all_items = []
+    page = 1
+    while True:
+        params = {
+            "serviceKey": SERVICE_KEY,
+            "sigunguCode": sigungu_code,
+            "numOfRows": "1000",
+            "pageNo": str(page),
+        }
+        try:
+            resp = requests.get(APT_LIST_URL, params=params, timeout=30)
+            if resp.status_code != 200:
+                print(f"  List API error: {resp.status_code}", flush=True)
+                break
+
+            root = etree.fromstring(resp.content)
+            result_code = root.findtext(".//resultCode")
+            if result_code != "00":
+                msg = root.findtext(".//resultMsg")
+                print(f"  List API result: {result_code} {msg}", flush=True)
+                break
+
+            items = root.findall(".//item")
+            for item in items:
+                all_items.append({
+                    "kaptCode": item.findtext("kaptCode") or "",
+                    "kaptName": item.findtext("kaptName") or "",
+                    "bjdCode": item.findtext("bjdCode") or "",
+                })
+
+            total = int(root.findtext(".//totalCount") or "0")
+            if len(all_items) >= total:
+                break
+            page += 1
+            time.sleep(API_DELAY)
+
+        except Exception as e:
+            print(f"  List API exception: {e}", flush=True)
+            break
+
+    return all_items
+
+
+def fetch_apt_info(kapt_code: str) -> Optional[Dict]:
+    """Fetch apartment basic info including household count."""
+    params = {
+        "serviceKey": SERVICE_KEY,
+        "kaptCode": kapt_code,
+    }
+    try:
+        resp = requests.get(APT_INFO_URL, params=params, timeout=30)
+        if resp.status_code != 200:
+            return None
+
+        root = etree.fromstring(resp.content)
+        result_code = root.findtext(".//resultCode")
+        if result_code != "00":
+            return None
+
+        item = root.find(".//item")
+        if item is None:
+            return None
+
+        return {
+            "kaptCode": kapt_code,
+            "kaptName": item.findtext("kaptName") or "",
+            "households": int(item.findtext("kaptdaCnt") or "0"),
+            "dong_count": int(item.findtext("kaptDongCnt") or "0"),
+            "builder": item.findtext("kaptBcompany") or "",
+            "use_date": item.findtext("kaptUsedate") or "",
+            "address": item.findtext("doroJuso") or item.findtext("kaptAddr") or "",
+        }
+    except Exception as e:
+        return None
+
+
+def normalize_name(name: str) -> str:
+    """Normalize apartment name for matching."""
+    import re
+    name = re.sub(r"\(.*?\)", "", name).strip()
+    name = re.sub(r"\s+", "", name)
+    name = name.replace("아파트", "")
+    return name.lower()
+
+
+def main() -> int:
+    if not SERVICE_KEY:
+        print("Error: MOLIT_SERVICE_KEY not set", flush=True)
+        return 1
+
+    cache = load_cache()
+    cache_before = len(cache)
+    print(f"Household cache: {cache_before} entries", flush=True)
+
+    # Get target apartments
+    targets = get_target_apartments()
+    print(f"Target apartments: {len(targets)}", flush=True)
+
+    # Check which ones are missing from cache
+    missing = []
+    for apt in targets:
+        cache_key = f"{apt['sigungu']}|{apt['apt_name']}"
+        if cache_key not in cache:
+            missing.append(apt)
+
+    if not missing:
+        print("All apartments already cached. Done.", flush=True)
+        return 0
+
+    print(f"Missing from cache: {len(missing)}", flush=True)
+
+    # Collect unique sigungu names
+    sigungu_set = set(apt["sigungu"] for apt in missing)
+    print(f"Unique sigungu to fetch: {len(sigungu_set)}", flush=True)
+
+    # For each sigungu, fetch the apartment list
+    kapt_by_name = {}  # normalized_name -> kapt_code
+    fetched_sigungu = set()
+
+    for sigungu in sorted(sigungu_set):
+        # We need the LAWD code. Try extracting from our data or use keyword search
+        # For now, fetch the list for each sigungu
+        # The sigungu names need to be mapped to codes
+        # Skip this step if we can't get the code
+        pass
+
+    # Alternative approach: use the kaptName search
+    # Fetch all complexes nationwide and match by name
+    print("Fetching nationwide apartment list...", flush=True)
+
+    # Try getting all apartments page by page
+    all_kapt = []
+    page = 1
+    while True:
+        params = {
+            "serviceKey": SERVICE_KEY,
+            "numOfRows": "1000",
+            "pageNo": str(page),
+        }
+        try:
+            resp = requests.get(
+                "https://apis.data.go.kr/1611000/AptListService2/getTotalAptList",
+                params=params, timeout=30,
+            )
+            if resp.status_code != 200:
+                print(f"  Error status: {resp.status_code} on page {page}", flush=True)
+                break
+
+            root = etree.fromstring(resp.content)
+            result_code = root.findtext(".//resultCode")
+            if result_code != "00":
+                msg = root.findtext(".//resultMsg")
+                print(f"  API result: {result_code} {msg}", flush=True)
+                break
+
+            items = root.findall(".//item")
+            if not items:
+                break
+
+            for item in items:
+                kapt_code = item.findtext("kaptCode") or ""
+                kapt_name = item.findtext("kaptName") or ""
+                as1 = item.findtext("as1") or ""  # 시도
+                as2 = item.findtext("as2") or ""  # 시군구
+                as3 = item.findtext("as3") or ""  # 읍면
+                as4 = item.findtext("as4") or ""  # 동리
+                all_kapt.append({
+                    "code": kapt_code,
+                    "name": kapt_name,
+                    "sido": as1,
+                    "sigungu": as2,
+                    "dong": as4,
+                })
+
+            total = int(root.findtext(".//totalCount") or "0")
+            if len(all_kapt) >= total:
+                break
+
+            if page % 10 == 0:
+                print(f"  Page {page}: {len(all_kapt)}/{total} complexes", flush=True)
+            page += 1
+            time.sleep(API_DELAY)
+
+        except Exception as e:
+            print(f"  Exception on page {page}: {e}", flush=True)
+            break
+
+    print(f"Fetched {len(all_kapt)} complexes nationwide", flush=True)
+
+    if not all_kapt:
+        print("Failed to fetch apartment list. API may not be registered.", flush=True)
+        print("Please register at: https://www.data.go.kr/data/15057332/openapi.do", flush=True)
+        return 1
+
+    # Build name index for matching
+    name_index = {}
+    for k in all_kapt:
+        norm = normalize_name(k["name"])
+        key = f"{k['sigungu']}|{norm}"
+        if key not in name_index:
+            name_index[key] = k
+
+    # Match and fetch details
+    matched = 0
+    fetched = 0
+    for apt in missing:
+        norm = normalize_name(apt["apt_name"])
+        # Try matching with sigungu
+        sigungu_short = apt["sigungu"].replace("시 ", "").replace("군 ", "").replace("구 ", "")
+        key = f"{sigungu_short}|{norm}"
+
+        kapt = name_index.get(key)
+        if not kapt:
+            # Try fuzzy: just name match
+            for k_key, k_val in name_index.items():
+                if norm in normalize_name(k_val["name"]) or normalize_name(k_val["name"]) in norm:
+                    if sigungu_short in k_key:
+                        kapt = k_val
+                        break
+
+        if not kapt:
+            continue
+
+        matched += 1
+
+        # Fetch detail info
+        info = fetch_apt_info(kapt["code"])
+        time.sleep(API_DELAY)
+
+        if info and info["households"] > 0:
+            cache_key = f"{apt['sigungu']}|{apt['apt_name']}"
+            cache[cache_key] = {
+                "households": info["households"],
+                "dong_count": info["dong_count"],
+                "builder": info["builder"],
+            }
+            fetched += 1
+
+            if fetched % 50 == 0:
+                print(f"  Fetched {fetched} household counts...", flush=True)
+                save_cache(cache)
+
+    save_cache(cache)
+    new_entries = len(cache) - cache_before
+    print(f"Matched: {matched}, Fetched: {fetched}, New cache entries: {new_entries}", flush=True)
+    print(f"Total cache: {len(cache)} entries", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

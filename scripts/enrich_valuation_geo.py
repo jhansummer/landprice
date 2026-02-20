@@ -28,6 +28,7 @@ ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
 SCHOOLS_FILE = SCRIPTS_DIR / "schools.json"
 REDEV_FILE = SCRIPTS_DIR / "redevelopment_zones.json"
+HOUSEHOLD_FILE = SCRIPTS_DIR / "household_cache.json"
 
 APT_META_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "apt_meta.json"
 
@@ -519,6 +520,18 @@ def get_age_score(build_year: int) -> Optional[int]:
     return round(100 * (40 - age) / 37)
 
 
+def get_household_score(households: int) -> int:
+    """세대수 점수 (0-100). 대단지일수록 높음. 300세대=50, 1500세대+=100."""
+    if households <= 0:
+        return 0
+    if households >= 1500:
+        return 100
+    if households <= 100:
+        return round(households * 30 / 100)  # 0~30
+    # 100~1500: 30~100
+    return round(30 + (households - 100) * 70 / 1400)
+
+
 def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
     """정비구역 근접도 점수 (0-100). 1km 이내 100, 3km 이상 0."""
     if not zones:
@@ -565,6 +578,12 @@ def main() -> int:
         with open(APT_META_FILE, "r", encoding="utf-8") as f:
             apt_meta = json.load(f)
         print(f"Loaded {len(apt_meta)} apt meta entries", flush=True)
+
+    household_data: Dict[str, Dict] = {}
+    if HOUSEHOLD_FILE.exists():
+        with open(HOUSEHOLD_FILE, "r", encoding="utf-8") as f:
+            household_data = json.load(f)
+        print(f"Loaded {len(household_data)} household entries", flush=True)
 
     cache = load_cache()
     cache_size_before = len(cache)
@@ -642,13 +661,18 @@ def main() -> int:
             nature_s = get_nature_score(lat, lng)
             geo["nature_score"] = nature_s
 
-            # 7. 브랜드/연식 점수 (단지품질)
+            # 7. 브랜드/연식/세대수 점수 (단지품질)
             brand_s = get_brand_score(apt.get("apt_name", ""))
             geo["brand_score"] = brand_s
             build_year = apt_meta.get(apt_id, 0)
             age_s = get_age_score(build_year)
             if age_s is not None:
                 geo["age_score"] = age_s
+            hh_key = f"{apt.get('sigungu', '')}|{apt.get('apt_name', '')}"
+            hh_data = household_data.get(hh_key)
+            if hh_data and hh_data.get("households"):
+                geo["households"] = hh_data["households"]
+                geo["household_score"] = get_household_score(hh_data["households"])
 
             # 8. 입지점수: 교통25% + 학군55% + 인프라5% + 정비구역5% + 자연환경10%
             #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
