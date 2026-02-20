@@ -3,6 +3,7 @@
   var INDEX_PATH = "data/apt_trade/valuation/index.json";
   var BY_APT_BASE = "data/apt_trade/by_apt/";
   var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
+  var VALUATION_GEO_PATH = "data/apt_trade/valuation_geo.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -20,6 +21,7 @@
   var txnCache = {};
   var locationScores = null;
   var transportMinMax = null;
+  var valuationGeo = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -81,6 +83,12 @@
       .then(function (data) { locationScores = data; })
       .catch(function () { locationScores = null; });
   }
+  function loadValuationGeo() {
+    return fetch(VALUATION_GEO_PATH + "?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) { valuationGeo = data; })
+      .catch(function () { valuationGeo = null; });
+  }
   function buildTransportMinMax() {
     if (!locationScores) return;
     var min = Infinity, max = -Infinity;
@@ -97,46 +105,152 @@
   }
 
   /**
-   * 종합 가치평가 점수 계산 (교통 + 학군)
-   * @returns {{ transport, school, total, transportDetail, hasData }} | null
+   * 역세권 점수 산출: max(5, 100 - dist_m / 30)
+   * @param {number} distKm - 최근접 역 거리 (km)
+   * @returns {number} 0~100
+   */
+  function calcSubwayScore(distKm) {
+    var distM = distKm * 1000;
+    return Math.max(5, Math.round(100 - distM / 30));
+  }
+
+  /**
+   * 종합 가치평가 점수 계산
+   * 서울: 교통 = 역세권(50%)+업무지구(50%), 종합 = (교통+학군+인프라)/3
+   * 타지역: 교통 = 역세권(100%), 종합 = (교통+인프라)/2
    */
   function calcValueScore(item) {
-    if (!locationScores) return null;
+    var geo = valuationGeo && valuationGeo[item.id];
     var sigungu = item.sigungu;
     var dongName = item.dong_name;
 
-    // Find sido for this sigungu
+    // Find sido for this sigungu (from locationScores)
     var guData = null;
-    var sidos = Object.keys(locationScores);
-    for (var i = 0; i < sidos.length; i++) {
-      if (locationScores[sidos[i]][sigungu]) {
-        guData = locationScores[sidos[i]][sigungu];
-        break;
+    var sidoName = null;
+    if (locationScores) {
+      var sidos = Object.keys(locationScores);
+      for (var i = 0; i < sidos.length; i++) {
+        if (locationScores[sidos[i]][sigungu]) {
+          guData = locationScores[sidos[i]][sigungu];
+          sidoName = sidos[i];
+          break;
+        }
       }
     }
-    if (!guData) return null;
 
-    // 교통접근성: 강남 50% + 광화문 25% + 여의도 25% → 0~100 정규화
-    var t = guData.transport;
-    var transportRaw = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
-    var transportScore = transportRaw;
-    if (transportMinMax && transportMinMax.max > transportMinMax.min) {
-      transportScore = ((transportRaw - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
+    var isSeoul = sidoName === "서울";
+
+    // 역세권 점수
+    var subwayScore = null;
+    var subwayName = null;
+    var subwayLine = null;
+    var subwayDist = null;
+    var walkMin = null;
+    if (geo && geo.subway_dist != null) {
+      subwayScore = calcSubwayScore(geo.subway_dist);
+      subwayName = geo.subway;
+      subwayLine = geo.subway_line;
+      subwayDist = geo.subway_dist;
+      walkMin = geo.subway_walk_min || null;
     }
 
-    // 학군: 동 보정 or 구 기본
-    var schoolScore = guData.school_base;
-    if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
-      schoolScore = guData.school_dong[dongName];
+    // 생활인프라 점수
+    var infraScore = (geo && geo.infra_score != null) ? geo.infra_score : null;
+
+    // 출퇴근시간
+    var commute = (geo && geo.commute) ? geo.commute : null;
+
+    if (isSeoul && guData) {
+      // 서울: 교통 = 역세권(50%) + 업무지구(50%)
+      var t = guData.transport;
+      var bizRaw = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+      var bizScore = bizRaw;
+      if (transportMinMax && transportMinMax.max > transportMinMax.min) {
+        bizScore = ((bizRaw - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
+      }
+
+      var transportScore;
+      if (subwayScore != null) {
+        transportScore = subwayScore * 0.5 + bizScore * 0.5;
+      } else {
+        transportScore = bizScore;
+      }
+
+      // 학군
+      var schoolScore = guData.school_base;
+      if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
+        schoolScore = guData.school_dong[dongName];
+      }
+
+      // 종합: (교통+학군+인프라)/3, 인프라 없으면 (교통+학군)/2
+      var total;
+      if (infraScore != null) {
+        total = (transportScore + schoolScore + infraScore) / 3;
+      } else {
+        total = (transportScore + schoolScore) / 2;
+      }
+
+      return {
+        transport: Math.round(transportScore),
+        school: Math.round(schoolScore),
+        infra: infraScore,
+        total: Math.round(total),
+        isSeoul: true,
+        subwayName: subwayName,
+        subwayLine: subwayLine,
+        subwayDist: subwayDist,
+        walkMin: walkMin,
+        commute: commute
+      };
     }
 
-    var total = (transportScore + schoolScore) / 2;
+    // 타 지역: 역세권 + 인프라
+    if (subwayScore != null) {
+      var total2;
+      if (infraScore != null) {
+        total2 = (subwayScore + infraScore) / 2;
+      } else {
+        total2 = subwayScore;
+      }
+      return {
+        transport: subwayScore,
+        school: null,
+        infra: infraScore,
+        total: Math.round(total2),
+        isSeoul: false,
+        subwayName: subwayName,
+        subwayLine: subwayLine,
+        subwayDist: subwayDist,
+        walkMin: walkMin,
+        commute: commute
+      };
+    }
 
-    return {
-      transport: Math.round(transportScore),
-      school: Math.round(schoolScore),
-      total: Math.round(total)
-    };
+    // 서울인데 geo 없지만 guData 있으면 기존 방식 fallback
+    if (guData) {
+      var t2 = guData.transport;
+      var bizRaw2 = t2.gangnam * 0.5 + t2.gwanghwamun * 0.25 + t2.yeouido * 0.25;
+      var bizScore2 = bizRaw2;
+      if (transportMinMax && transportMinMax.max > transportMinMax.min) {
+        bizScore2 = ((bizRaw2 - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
+      }
+      var schoolScore2 = guData.school_base;
+      if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
+        schoolScore2 = guData.school_dong[dongName];
+      }
+      var total3 = (bizScore2 + schoolScore2) / 2;
+      return {
+        transport: Math.round(bizScore2),
+        school: Math.round(schoolScore2),
+        infra: null,
+        total: Math.round(total3),
+        isSeoul: true,
+        subwayName: null, subwayLine: null, subwayDist: null,
+        walkMin: null, commute: null
+      };
+    }
+
+    return null;
   }
 
   /* ── value score UI ── */
@@ -160,14 +274,57 @@
     header.appendChild(totalEl);
     section.appendChild(header);
 
+    // Subway info line with walking time
+    if (scores.subwayName) {
+      var subwayInfo = document.createElement("div");
+      subwayInfo.className = "vs-subway-info";
+      var walkText = "";
+      if (scores.walkMin) {
+        walkText = "\uB3C4\uBCF4 " + scores.walkMin + "\uBD84";
+      } else {
+        var distText = scores.subwayDist < 1
+          ? Math.round(scores.subwayDist * 1000) + "m"
+          : scores.subwayDist.toFixed(1) + "km";
+        walkText = distText;
+      }
+      subwayInfo.innerHTML = '<span class="vs-subway-icon">\uD83D\uDE87</span>'
+        + '<span class="vs-subway-name">' + escapeHTML(scores.subwayName) + '</span>'
+        + '<span class="vs-subway-line">' + escapeHTML(scores.subwayLine || "") + '</span>'
+        + '<span class="vs-subway-dist">' + walkText + '</span>';
+      section.appendChild(subwayInfo);
+    }
+
+    // Commute times (수도권)
+    if (scores.commute) {
+      var commuteEl = document.createElement("div");
+      commuteEl.className = "vs-commute";
+      var parts = [];
+      if (scores.commute.gangnam) parts.push("\uAC15\uB0A8 " + scores.commute.gangnam + "\uBD84");
+      if (scores.commute.gwanghwamun) parts.push("\uAD11\uD654\uBB38 " + scores.commute.gwanghwamun + "\uBD84");
+      if (scores.commute.yeouido) parts.push("\uC5EC\uC758\uB3C4 " + scores.commute.yeouido + "\uBD84");
+      if (parts.length) {
+        commuteEl.innerHTML = '<span class="vs-commute-icon">\uD83D\uDE97</span>'
+          + '<span class="vs-commute-label">\uCD9C\uD1F4\uADFC</span>'
+          + '<span class="vs-commute-times">' + parts.join(" \u00B7 ") + '</span>';
+        section.appendChild(commuteEl);
+      }
+    }
+
     // Bar gauges
     var barsCol = document.createElement("div");
     barsCol.className = "vs-bars-col";
-    var items = [
-      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", score: scores.transport },
-      { label: "\uD559\uAD70", score: scores.school }
+    var barItems = [
+      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", score: scores.transport }
     ];
-    items.forEach(function (it) {
+    // 학군은 서울에서만 표시
+    if (scores.isSeoul && scores.school != null) {
+      barItems.push({ label: "\uD559\uAD70", score: scores.school });
+    }
+    // 생활인프라
+    if (scores.infra != null) {
+      barItems.push({ label: "\uC0DD\uD65C\uC778\uD504\uB77C", score: scores.infra });
+    }
+    barItems.forEach(function (it) {
       var row = document.createElement("div");
       row.className = "vs-bar-row";
       var lbl = document.createElement("span");
@@ -288,7 +445,7 @@
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>'
-      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC885\uD569 \uAC00\uCE58\uD3C9\uAC00\uB294 \uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uAC70\uC8FC\uAC00\uCE58\u00B7\uC7AC\uAC74\uCD95\uC744 \uBC18\uC601\uD569\uB2C8\uB2E4 (\uC11C\uC6B8 \uD55C\uC815).</div>';
+      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4 (\uD559\uAD70\uC740 \uC11C\uC6B8 \uD55C\uC815).</div>';
     resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
@@ -544,7 +701,8 @@
 
         return Promise.all([
           loadAllSidos(),
-          loadLocationScores()
+          loadLocationScores(),
+          loadValuationGeo()
         ]).then(function () {
           statusEl.innerHTML = "";
           buildTransportMinMax();
