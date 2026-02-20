@@ -70,9 +70,13 @@ function renderRankedItem(r, idx) {
 
   var info = document.createElement("div");
   info.className = "rank-info";
-  var aptEl = document.createElement("div");
+  var aptEl = document.createElement("a");
   aptEl.className = "rank-apt";
   aptEl.textContent = r.apt_name;
+  aptEl.href = "https://map.kakao.com/?q=" + encodeURIComponent(r.sigungu + " " + r.dong_name + " " + r.apt_name);
+  aptEl.target = "_blank";
+  aptEl.rel = "noopener";
+  aptEl.addEventListener("click", function (e) { e.stopPropagation(); });
   info.appendChild(aptEl);
   var detail = document.createElement("div");
   detail.className = "rank-detail";

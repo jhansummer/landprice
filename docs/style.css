@@ -104,7 +104,8 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
 .rank-num.n3{color:var(--bronze)}
 .rank-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .rank-info{min-width:0}
-.rank-apt{font-size:15px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-apt{font-size:15px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
+a.rank-apt:hover{text-decoration:underline}
 .rank-detail{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.6}
 .rank-change{text-align:right;white-space:nowrap;flex-shrink:0}
 .rank-pct{font-size:17px;font-weight:800}
@@ -531,6 +532,11 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .vs-total{display:flex;align-items:baseline;gap:1px}
 .vs-total-num{font-size:22px;font-weight:800;color:var(--accent)}
 .vs-total-label{font-size:11px;color:var(--muted)}
+.vs-subway-info{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:12px;color:var(--ink)}
+.vs-subway-icon{font-size:14px}
+.vs-subway-name{font-weight:600}
+.vs-subway-line{color:var(--muted);font-size:11px}
+.vs-subway-dist{margin-left:auto;color:var(--muted);font-size:11px}
 .vs-bars-col{width:100%}
 .vs-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .vs-bar-label{font-size:11px;color:var(--muted);width:60px;flex-shrink:0;text-align:right}
