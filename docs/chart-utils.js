@@ -936,6 +936,131 @@ function drawPeakChart(canvas, txns, apt) {
   }
 }
 
+/* ── 신고가검색용 간단 추이 차트 (직전거래 대비 상승폭) ── */
+function drawNewHighChart(canvas, txns) {
+  if (!txns || !txns.length) return;
+
+  // 월별 평균
+  var monthlyMap = {};
+  txns.forEach(function (t) {
+    var d = new Date(t[0]);
+    var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+    if (!monthlyMap[ym]) monthlyMap[ym] = { sum: 0, count: 0 };
+    monthlyMap[ym].sum += t[1];
+    monthlyMap[ym].count += 1;
+  });
+  var months = Object.keys(monthlyMap).sort();
+  if (months.length < 2) return;
+  var data = months.map(function (ym) {
+    var m = monthlyMap[ym];
+    return { ym: ym, price: m.sum / m.count };
+  });
+
+  // 직전 대비 상승
+  var lastPrice = data[data.length - 1].price;
+  var prevPrice = data[data.length - 2].price;
+  var chgPct = prevPrice > 0 ? ((lastPrice - prevPrice) / prevPrice * 100) : 0;
+
+  // 캔버스 설정
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 28, right: 14, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  var prices = data.map(function (d) { return d.price; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.05;
+
+  function xPos(i) { return pad.left + (i / (data.length - 1)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+
+  // 배경
+  ctx.fillStyle = "#f8fafc";
+  ctx.fillRect(pad.left, pad.top, plotW, plotH);
+
+  // Y축 그리드
+  var nTicks = 4;
+  ctx.font = "9px sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#94a3b8";
+  for (var yi = 0; yi <= nTicks; yi++) {
+    var pVal = minP + (maxP - minP) * (yi / nTicks);
+    var yy = yPos(pVal);
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(pad.left, yy); ctx.lineTo(pad.left + plotW, yy); ctx.stroke();
+    ctx.fillText(fmtPrice(pVal), pad.left - 4, yy + 3);
+  }
+
+  // X축 라벨
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#94a3b8";
+  var xStep = Math.max(1, Math.floor(data.length / 5));
+  for (var xi = 0; xi < data.length; xi += xStep) {
+    var ym = data[xi].ym;
+    ctx.fillText(ym.slice(2, 4) + "." + ym.slice(4), xPos(xi), pad.top + plotH + 14);
+  }
+
+  // 라인
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
+  ctx.lineJoin = "round";
+  ctx.beginPath();
+  data.forEach(function (d, i) {
+    var x = xPos(i), y = yPos(d.price);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // 그라데이션 영역
+  var grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
+  grad.addColorStop(0, "rgba(37,99,235,0.12)");
+  grad.addColorStop(1, "rgba(37,99,235,0)");
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  data.forEach(function (d, i) {
+    var x = xPos(i), y = yPos(d.price);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.lineTo(xPos(data.length - 1), pad.top + plotH);
+  ctx.lineTo(xPos(0), pad.top + plotH);
+  ctx.closePath();
+  ctx.fill();
+
+  // 마지막 포인트
+  var lastIdx = data.length - 1;
+  var lastY = yPos(lastPrice);
+  ctx.fillStyle = "#2563eb";
+  ctx.beginPath();
+  ctx.arc(xPos(lastIdx), lastY, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(xPos(lastIdx), lastY, 5, 0, Math.PI * 2); ctx.stroke();
+
+  // 현재가 라벨
+  ctx.font = "bold 10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#2563eb";
+  ctx.fillText(fmtPrice(lastPrice), xPos(lastIdx) - 8, lastY - 8);
+
+  // 상단 배지: 직전거래 대비
+  ctx.font = "bold 11px sans-serif";
+  ctx.textAlign = "right";
+  var chgSign = chgPct >= 0 ? "+" : "";
+  ctx.fillStyle = chgPct >= 0 ? "#16a34a" : "#ef4444";
+  ctx.fillText("\uc9c1\uc804\uac70\ub798 \ub300\ube44 " + chgSign + chgPct.toFixed(1) + "%", pad.left + plotW, 14);
+}
+
 /* ── 백테스트 개별 종목 차트 (저평가 판정 시점 표시) ── */
 function drawBacktestPickChart(canvas, txns, pick) {
   if (!txns || !txns.length) return;

@@ -726,6 +726,7 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
 
     for dong, dong_records in by_dong.items():
         by_apt_size: Dict[Tuple[str, float], Dict[str, List]] = {}
+        apt_last_date: Dict[Tuple[str, float], str] = {}
         for r in dong_records:
             if not r.get("area_m2") or r["area_m2"] <= 0 or not r.get("price_man"):
                 continue
@@ -734,6 +735,9 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
             by_apt_size.setdefault(key, {}).setdefault(ym, []).append(
                 r["price_man"] / r["area_m2"]
             )
+            dd = r.get("deal_date", "")
+            if dd > apt_last_date.get(key, ""):
+                apt_last_date[key] = dd
 
         apt_details = []
         for (apt_name, area_m2), ym_prices in by_apt_size.items():
@@ -746,6 +750,7 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
             if rec_info:
                 rec_info["apt_name"] = apt_name
                 rec_info["area_m2"] = area_m2
+                rec_info["last_deal_date"] = apt_last_date.get((apt_name, area_m2), "")
                 apt_details.append(rec_info)
 
         apt_details.sort(key=lambda x: -x["vs_peak"])
@@ -766,6 +771,7 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
                         "status": d["status"],
                         "price": d["price"],
                         "peak": d["peak"],
+                        "last_deal_date": d.get("last_deal_date", ""),
                     }
                     for d in apt_details[:10]
                 ]

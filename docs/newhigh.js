@@ -142,7 +142,8 @@ function collectNewHighApts() {
             peak: apt.all_time_peak,
             vs_peak: apt.vs_all_time_peak,
             chg6m: apt.chg6m,
-            status: apt.status
+            status: apt.status,
+            last_deal_date: apt.last_deal_date || ""
           });
         }
       });
@@ -188,7 +189,9 @@ function renderCard(apt) {
   // 위치 + 면적 (m² + 평)
   var locEl = document.createElement("div");
   locEl.style.cssText = "font-size:12px;color:var(--muted);margin-bottom:10px";
-  locEl.textContent = apt.district + " " + apt.dong + " · " + apt.area_m2.toFixed(0) + "m²(" + pyeong + "평)";
+  var locText = apt.district + " " + apt.dong + " · " + apt.area_m2.toFixed(0) + "m\u00B2(" + pyeong + "\ud3c9)";
+  if (apt.last_deal_date) locText += " · \uc2e0\uace0\uac00 " + apt.last_deal_date.replace(/-/g, ".");
+  locEl.textContent = locText;
   card.appendChild(locEl);
 
   // 가격 정보 그리드
@@ -240,7 +243,7 @@ function renderCard(apt) {
         .then(function (res) { return res.ok ? res.json() : null; })
         .then(function (txns) {
           if (txns && txns.length) {
-            drawPeakChart(cvs, txns, {});
+            drawNewHighChart(cvs, txns);
           }
         })
         .catch(function () {});

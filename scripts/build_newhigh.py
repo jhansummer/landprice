@@ -15,7 +15,7 @@ OUTPUT_PATH = os.path.join(
     os.path.dirname(__file__), "..", "docs", "data", "apt_trade", "newhigh_summary.json"
 )
 
-APT_FIELDS = ("id", "apt_name", "area_m2", "price", "all_time_peak", "vs_all_time_peak", "chg6m", "status")
+APT_FIELDS = ("id", "apt_name", "area_m2", "price", "all_time_peak", "vs_all_time_peak", "chg6m", "status", "last_deal_date")
 
 
 def build():
