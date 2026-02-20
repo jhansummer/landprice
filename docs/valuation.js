@@ -22,6 +22,7 @@
   var locationScores = null;
   var aptMeta = null;
   var pricePerM2Cache = null;
+  var transportMinMax = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -90,6 +91,21 @@
       .catch(function () { aptMeta = null; });
   }
 
+  function buildTransportMinMax() {
+    if (!locationScores) return;
+    var min = Infinity, max = -Infinity;
+    Object.keys(locationScores).forEach(function (sido) {
+      var gus = locationScores[sido];
+      Object.keys(gus).forEach(function (gu) {
+        var t = gus[gu].transport;
+        var score = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+        if (score < min) min = score;
+        if (score > max) max = score;
+      });
+    });
+    transportMinMax = { min: min, max: max };
+  }
+
   function buildPricePerM2Percentiles() {
     var allItems = getAllItems();
     var vals = [];
@@ -134,9 +150,13 @@
     }
     if (!guData) return null;
 
-    // 교통접근성: 강남 50% + 광화문 25% + 여의도 25%
+    // 교통접근성: 강남 50% + 광화문 25% + 여의도 25% → 0~100 정규화
     var t = guData.transport;
-    var transportScore = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+    var transportRaw = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+    var transportScore = transportRaw;
+    if (transportMinMax && transportMinMax.max > transportMinMax.min) {
+      transportScore = ((transportRaw - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
+    }
 
     // 학군: 동 보정 or 구 기본
     var schoolScore = guData.school_base;
@@ -643,6 +663,7 @@
           loadAptMeta()
         ]).then(function () {
           statusEl.innerHTML = "";
+          buildTransportMinMax();
           buildPricePerM2Percentiles();
           createAutocomplete();
           var defaultQuery = parsed.query || "\uC815\uB4E0\uB9C8\uC744";
