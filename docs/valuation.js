@@ -3,7 +3,6 @@
   var INDEX_PATH = "data/apt_trade/valuation/index.json";
   var BY_APT_BASE = "data/apt_trade/by_apt/";
   var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
-  var APT_META_PATH = "data/apt_trade/apt_meta.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -20,8 +19,6 @@
   var acTimeout = null;
   var txnCache = {};
   var locationScores = null;
-  var aptMeta = null;
-  var pricePerM2Cache = null;
   var transportMinMax = null;
 
   /* ── helpers ── */
@@ -84,13 +81,6 @@
       .then(function (data) { locationScores = data; })
       .catch(function () { locationScores = null; });
   }
-  function loadAptMeta() {
-    return fetch(APT_META_PATH + "?t=" + Date.now())
-      .then(function (r) { return r.json(); })
-      .then(function (data) { aptMeta = data; })
-      .catch(function () { aptMeta = null; });
-  }
-
   function buildTransportMinMax() {
     if (!locationScores) return;
     var min = Infinity, max = -Infinity;
@@ -106,31 +96,9 @@
     transportMinMax = { min: min, max: max };
   }
 
-  function buildPricePerM2Percentiles() {
-    var allItems = getAllItems();
-    var vals = [];
-    allItems.forEach(function (item) {
-      if (item.current_price && item.area_m2) {
-        vals.push(item.current_price / item.area_m2);
-      }
-    });
-    vals.sort(function (a, b) { return a - b; });
-    pricePerM2Cache = vals;
-  }
-
-  function getPercentile(value) {
-    if (!pricePerM2Cache || !pricePerM2Cache.length) return 50;
-    var idx = 0;
-    for (var i = 0; i < pricePerM2Cache.length; i++) {
-      if (pricePerM2Cache[i] <= value) idx = i;
-      else break;
-    }
-    return Math.round((idx / (pricePerM2Cache.length - 1)) * 100);
-  }
-
   /**
-   * 종합 가치평가 점수 계산
-   * @returns {{ transport, school, livability, rebuild, total, transportDetail, buildYear, hasData }} | null
+   * 종합 가치평가 점수 계산 (교통 + 학군)
+   * @returns {{ transport, school, total, transportDetail, hasData }} | null
    */
   function calcValueScore(item) {
     if (!locationScores) return null;
@@ -138,12 +106,10 @@
     var dongName = item.dong_name;
 
     // Find sido for this sigungu
-    var sido = null;
     var guData = null;
     var sidos = Object.keys(locationScores);
     for (var i = 0; i < sidos.length; i++) {
       if (locationScores[sidos[i]][sigungu]) {
-        sido = sidos[i];
         guData = locationScores[sidos[i]][sigungu];
         break;
       }
@@ -164,44 +130,13 @@
       schoolScore = guData.school_dong[dongName];
     }
 
-    // 건물연한/재건축
-    var buildYear = aptMeta ? aptMeta[item.id] : null;
-    var rebuildScore = 0;
-    var currentYear = new Date().getFullYear();
-    if (buildYear) {
-      var age = currentYear - buildYear;
-      if (age >= 30) rebuildScore = 90;
-      else if (age >= 20) rebuildScore = 60;
-      else if (age >= 10) rebuildScore = 30;
-      else rebuildScore = 10;
-    }
-
-    // 거주가치: 단가 백분위(70%) + 건물연한 보정(30%)
-    var livabilityScore = 50;
-    if (item.current_price && item.area_m2) {
-      var ppm2 = item.current_price / item.area_m2;
-      var pctile = getPercentile(ppm2);
-      var ageBonus = 0;
-      if (buildYear) {
-        var age2 = currentYear - buildYear;
-        if (age2 <= 5) ageBonus = 15;
-        else if (age2 <= 10) ageBonus = 10;
-        else if (age2 <= 20) ageBonus = 0;
-        else ageBonus = -10;
-      }
-      livabilityScore = Math.max(0, Math.min(100, pctile * 0.7 + 50 * 0.3 + ageBonus));
-    }
-
-    var total = (transportScore + schoolScore + livabilityScore + rebuildScore) / 4;
+    var total = (transportScore + schoolScore) / 2;
 
     return {
       transport: Math.round(transportScore),
       school: Math.round(schoolScore),
-      livability: Math.round(livabilityScore),
-      rebuild: Math.round(rebuildScore),
       total: Math.round(total),
       transportDetail: { gangnam: t.gangnam, gwanghwamun: t.gwanghwamun, yeouido: t.yeouido },
-      buildYear: buildYear,
       hasData: true
     };
   }
@@ -214,37 +149,25 @@
     var section = document.createElement("div");
     section.className = "vs-section";
 
-    // Title
-    var title = document.createElement("div");
+    // Title + total
+    var header = document.createElement("div");
+    header.className = "vs-header";
+    var title = document.createElement("span");
     title.className = "vs-title";
-    title.textContent = "\uC885\uD569 \uAC00\uCE58\uD3C9\uAC00";
-    section.appendChild(title);
-
-    var body = document.createElement("div");
-    body.className = "vs-body";
-
-    // Left: radar chart
-    var chartCol = document.createElement("div");
-    chartCol.className = "vs-chart-col";
-    var canvas = document.createElement("canvas");
-    canvas.style.width = "140px";
-    canvas.style.height = "140px";
-    chartCol.appendChild(canvas);
-    // Total score
-    var totalEl = document.createElement("div");
+    title.textContent = "\uC785\uC9C0\uBD84\uC11D";
+    header.appendChild(title);
+    var totalEl = document.createElement("span");
     totalEl.className = "vs-total";
     totalEl.innerHTML = '<span class="vs-total-num">' + scores.total + '</span><span class="vs-total-label">\uC810</span>';
-    chartCol.appendChild(totalEl);
-    body.appendChild(chartCol);
+    header.appendChild(totalEl);
+    section.appendChild(header);
 
-    // Right: bar gauges
+    // Bar gauges
     var barsCol = document.createElement("div");
     barsCol.className = "vs-bars-col";
     var items = [
-      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", key: "transport", score: scores.transport },
-      { label: "\uD559\uAD70", key: "school", score: scores.school },
-      { label: "\uAC70\uC8FC\uAC00\uCE58", key: "livability", score: scores.livability },
-      { label: "\uC7AC\uAC74\uCD95\uAC00\uB2A5\uC131", key: "rebuild", score: scores.rebuild }
+      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", score: scores.transport },
+      { label: "\uD559\uAD70", score: scores.school }
     ];
     items.forEach(function (it) {
       var row = document.createElement("div");
@@ -290,23 +213,7 @@
     barsCol.appendChild(detailBtn);
     barsCol.appendChild(detailDiv);
 
-    // Build year info
-    if (scores.buildYear) {
-      var byInfo = document.createElement("div");
-      byInfo.className = "vs-build-year";
-      byInfo.textContent = "\uC900\uACF5 " + scores.buildYear + "\uB144 (" + (new Date().getFullYear() - scores.buildYear) + "\uB144\uCC28)";
-      barsCol.appendChild(byInfo);
-    }
-
-    body.appendChild(barsCol);
-    section.appendChild(body);
-
-    // Draw radar after DOM insertion
-    setTimeout(function () {
-      if (typeof drawRadarChart === "function") {
-        drawRadarChart(canvas, scores);
-      }
-    }, 0);
+    section.appendChild(barsCol);
 
     return section;
   }
@@ -659,12 +566,10 @@
 
         return Promise.all([
           loadAllSidos(),
-          loadLocationScores(),
-          loadAptMeta()
+          loadLocationScores()
         ]).then(function () {
           statusEl.innerHTML = "";
           buildTransportMinMax();
-          buildPricePerM2Percentiles();
           createAutocomplete();
           var defaultQuery = parsed.query || "\uC815\uB4E0\uB9C8\uC744";
           searchInput.value = defaultQuery;
