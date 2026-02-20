@@ -13,6 +13,7 @@ var activeSido = null;
 var activeDistrict = null;
 var activeView = "bottom";
 var activeSort = "vs_peak";
+var subwayFilter = false;
 var txnCache = {};
 
 var RECOVERY_STATUS = {
@@ -103,6 +104,17 @@ function renderControls() {
   });
   wrap.appendChild(viewWrap);
 
+  // 역세권 필터 토글
+  var swBtn = document.createElement("button");
+  swBtn.className = "sort-btn" + (subwayFilter ? " active" : "");
+  swBtn.textContent = "\uD83D\uDE87 \uC5ED\uC138\uAD8C 1km";
+  swBtn.style.marginLeft = "4px";
+  swBtn.addEventListener("click", function () {
+    subwayFilter = !subwayFilter;
+    renderSections();
+  });
+  wrap.appendChild(swBtn);
+
   return wrap;
 }
 
@@ -116,7 +128,8 @@ function renderSortBar() {
     ["chg3m", "3\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
     ["chg6m", "6\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
     ["trades", "\uAC70\uB798\uB7C9\uC21C"],
-    ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"]
+    ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"],
+    ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -167,6 +180,26 @@ function renderCard(apt, idx) {
   badge.textContent = st.label;
   detail.appendChild(badge);
   info.appendChild(detail);
+
+  // 역세권 + 업무지구 정보
+  if (apt.geo && apt.geo.subway_dist != null) {
+    var geoDiv = document.createElement("div");
+    geoDiv.style.cssText = "font-size:11px;margin-top:3px;display:flex;flex-wrap:wrap;gap:6px;align-items:center";
+    var dist = apt.geo.subway_dist;
+    var distColor = dist <= 1 ? "#2563eb" : dist <= 2 ? "var(--ink-light, #334155)" : "#94a3b8";
+    var subwaySpan = document.createElement("span");
+    subwaySpan.style.cssText = "color:" + distColor + ";font-weight:" + (dist <= 1 ? "600" : "400");
+    subwaySpan.textContent = "\uD83D\uDE87 " + apt.geo.subway + "\uC5ED " + (dist < 1 ? Math.round(dist * 1000) + "m" : dist.toFixed(1) + "km") + " \u00B7 " + apt.geo.subway_line;
+    geoDiv.appendChild(subwaySpan);
+    if (apt.geo.biz_gangnam != null) {
+      var bizSpan = document.createElement("span");
+      bizSpan.style.cssText = "color:#94a3b8;font-size:10px";
+      bizSpan.textContent = "\uAC15\uB0A8 " + apt.geo.biz_gangnam + "km \u00B7 \uAD11\uD654\uBB38 " + apt.geo.biz_gwanghwamun + "km \u00B7 \uC5EC\uC758\uB3C4 " + apt.geo.biz_yeouido + "km";
+      geoDiv.appendChild(bizSpan);
+    }
+    info.appendChild(geoDiv);
+  }
+
   top.appendChild(info);
 
   // 오른쪽: 지표
@@ -395,12 +428,22 @@ function renderSections() {
     items = items.filter(function (a) { return a.district === activeDistrict; });
   }
 
+  // 역세권 필터
+  if (subwayFilter) {
+    items = items.filter(function (a) { return a.geo && a.geo.subway_dist != null && a.geo.subway_dist <= 1.0; });
+  }
+
   // 정렬
   if (activeSort === "vs_peak") items.sort(function (a, b) { return a.vs_peak - b.vs_peak; });
   else if (activeSort === "chg3m") items.sort(function (a, b) { return b.chg3m - a.chg3m; });
   else if (activeSort === "chg6m") items.sort(function (a, b) { return b.chg6m - a.chg6m; });
   else if (activeSort === "trades") items.sort(function (a, b) { return b.trades - a.trades; });
-  else if (activeSort === "total_price") items.sort(function (a, b) { return (a.price * a.area_m2) - (b.price * b.area_m2); });
+  else if (activeSort === "total_price") items.sort(function (a, b) { return (b.price * b.area_m2) - (a.price * a.area_m2); });
+  else if (activeSort === "subway_dist") items.sort(function (a, b) {
+    var da = (a.geo && a.geo.subway_dist != null) ? a.geo.subway_dist : 9999;
+    var db = (b.geo && b.geo.subway_dist != null) ? b.geo.subway_dist : 9999;
+    return da - db;
+  });
 
   var sec = document.createElement("div");
   sec.className = "section";
