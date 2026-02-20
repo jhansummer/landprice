@@ -176,6 +176,14 @@ def geocode_apartment(apt: Dict, cache: Dict) -> Optional[Tuple[float, float]]:
     result = geocode_kakao(query)
     time.sleep(API_DELAY)
 
+    if not result:
+        # Fallback: 괄호+내용 제거 후 재시도 (e.g. "신동아(22)" → "신동아")
+        import re
+        clean_name = re.sub(r"\(.*?\)", "", apt_name).strip()
+        if clean_name and clean_name != apt_name:
+            result = geocode_kakao(f"{sigungu} {dong} {clean_name}")
+            time.sleep(API_DELAY)
+
     if result:
         cache[cache_key] = {"lat": result[0], "lng": result[1]}
         return result
