@@ -1296,11 +1296,7 @@ def build_search_items(records: List[Dict[str, object]]) -> List[Dict[str, objec
 
 
 def _district_group(sido: str, sigungu_name: str) -> str:
-    """서울은 구 그대로, 경기는 시 단위로 묶기, 나머지는 그대로."""
-    if sido == "경기":
-        m = re.match(r'^(.+시).+[구군]$', sigungu_name)
-        if m:
-            return m.group(1)
+    """시군구 그대로 사용 (경기 성남시분당구 등 구 단위 유지)."""
     return sigungu_name
 
 
