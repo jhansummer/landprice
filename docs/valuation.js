@@ -298,6 +298,9 @@
   function renderValueSection(entry) {
     var scores = calcValueScore(entry);
     if (!scores) return null;
+    // Use backend-computed loc_score if available
+    var geoLoc = valuationGeo && valuationGeo[entry.id];
+    if (geoLoc && geoLoc.loc_score != null) scores.total = geoLoc.loc_score;
 
     var section = document.createElement("div");
     section.className = "vs-section";
