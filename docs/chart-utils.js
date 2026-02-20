@@ -1062,6 +1062,205 @@ function drawBacktestPickChart(canvas, txns, pick) {
   ctx.fillText(fmtPrice(data[lastIdx].price), xPos(lastIdx) - 8, yPos(data[lastIdx].price) - 8);
 }
 
+/* ── 백테스트 비교단지 포함 차트 ── */
+function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
+  if (!mainTxns || !mainTxns.length) return;
+
+  // 월별 평균 계산 헬퍼
+  function toMonthly(txns) {
+    var map = {};
+    txns.forEach(function (t) {
+      var d = new Date(t[0]);
+      var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+      if (!map[ym]) map[ym] = { sum: 0, count: 0 };
+      map[ym].sum += t[1];
+      map[ym].count += 1;
+    });
+    var months = Object.keys(map).sort();
+    return months.map(function (ym) { return { ym: ym, price: map[ym].sum / map[ym].count }; });
+  }
+
+  var mainData = toMonthly(mainTxns);
+  if (mainData.length < 2) { drawBacktestPickChart(canvas, mainTxns, pick); return; }
+
+  var compareDatas = compareTxnList.map(function (c) {
+    return { name: c.name, data: toMonthly(c.txns) };
+  });
+
+  // 전체 YM 범위 결정
+  var allYms = {};
+  mainData.forEach(function (d) { allYms[d.ym] = true; });
+  compareDatas.forEach(function (c) { c.data.forEach(function (d) { allYms[d.ym] = true; }); });
+  var sortedYms = Object.keys(allYms).sort();
+
+  // 판정 시점 인덱스
+  var flagIdx = -1;
+  for (var fi = 0; fi < sortedYms.length; fi++) {
+    if (sortedYms[fi] >= pick.flag_ym) { flagIdx = fi; break; }
+  }
+
+  // 가격 범위 (모든 시리즈 고려)
+  var allPrices = mainData.map(function (d) { return d.price; });
+  compareDatas.forEach(function (c) {
+    c.data.forEach(function (d) { allPrices.push(d.price); });
+  });
+  var minP = Math.min.apply(null, allPrices);
+  var maxP = Math.max.apply(null, allPrices);
+  var pRange = maxP - minP || 1;
+  minP -= pRange * 0.05;
+  maxP += pRange * 0.1;
+
+  // 캔버스 설정
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 10, right: 12, bottom: 24, left: 48 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  function xPos(ymIdx) { return pad.left + (ymIdx / (sortedYms.length - 1)) * plotW; }
+  function yPos(p) { return pad.top + (1 - (p - minP) / (maxP - minP)) * plotH; }
+  function fmtPrice(v) {
+    if (v >= 10000) return (v / 10000).toFixed(1) + "\uc5b5";
+    return Math.round(v).toLocaleString() + "\ub9cc";
+  }
+
+  // 그리드
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 0.5;
+  for (var g = 0; g <= 3; g++) {
+    var gy = pad.top + (plotH / 3) * g;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+
+  // Y축 라벨
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "middle";
+  for (var g = 0; g <= 3; g++) {
+    var val = minP + ((maxP - minP) / 3) * (3 - g);
+    ctx.fillText(fmtPrice(val), pad.left - 4, pad.top + (plotH / 3) * g);
+  }
+
+  // X축 라벨
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  var seenYear = {};
+  sortedYms.forEach(function (ym, i) {
+    var yr = ym.slice(0, 4);
+    if (ym.slice(4) === "01" && !seenYear[yr]) {
+      seenYear[yr] = true;
+      ctx.fillText(yr, xPos(i), pad.top + plotH + 6);
+    }
+  });
+
+  // 판정 시점 수직선
+  if (flagIdx >= 0) {
+    ctx.save();
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(xPos(flagIdx), pad.top);
+    ctx.lineTo(xPos(flagIdx), pad.top + plotH);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.fillStyle = "rgba(22, 163, 106, 0.04)";
+    ctx.fillRect(xPos(flagIdx), pad.top, xPos(sortedYms.length - 1) - xPos(flagIdx), plotH);
+  }
+
+  // YM→인덱스 맵
+  var ymIdx = {};
+  sortedYms.forEach(function (ym, i) { ymIdx[ym] = i; });
+
+  // 비교단지 라인 (먼저 그려서 뒤에 깔림)
+  var compColors = ["#94a3b8", "#f59e0b"];
+  compareDatas.forEach(function (comp, ci) {
+    if (comp.data.length < 2) return;
+    ctx.beginPath();
+    ctx.strokeStyle = compColors[ci % compColors.length];
+    ctx.lineWidth = 1.2;
+    ctx.globalAlpha = 0.5;
+    var first = true;
+    comp.data.forEach(function (d) {
+      var xi = ymIdx[d.ym];
+      if (xi === undefined) return;
+      if (first) { ctx.moveTo(xPos(xi), yPos(d.price)); first = false; }
+      else { ctx.lineTo(xPos(xi), yPos(d.price)); }
+    });
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  });
+
+  // 메인 단지 라인 (판정 전 = 회색, 판정 후 = 파란색)
+  var mainYmMap = {};
+  mainData.forEach(function (d) { mainYmMap[d.ym] = d.price; });
+
+  // 판정 전 구간
+  if (flagIdx > 0) {
+    ctx.beginPath();
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 1.5;
+    var first = true;
+    for (var i = 0; i < sortedYms.length; i++) {
+      var ym = sortedYms[i];
+      if (mainYmMap[ym] === undefined) continue;
+      if (first) { ctx.moveTo(xPos(i), yPos(mainYmMap[ym])); first = false; }
+      else { ctx.lineTo(xPos(i), yPos(mainYmMap[ym])); }
+      if (i >= flagIdx) break;
+    }
+    ctx.stroke();
+  }
+
+  // 판정 후 구간
+  var startIdx = Math.max(flagIdx, 0);
+  ctx.beginPath();
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
+  var first = true;
+  for (var i = startIdx; i < sortedYms.length; i++) {
+    var ym = sortedYms[i];
+    if (mainYmMap[ym] === undefined) continue;
+    if (first) { ctx.moveTo(xPos(i), yPos(mainYmMap[ym])); first = false; }
+    else { ctx.lineTo(xPos(i), yPos(mainYmMap[ym])); }
+  }
+  ctx.stroke();
+
+  // 판정 시점 포인트
+  if (flagIdx >= 0) {
+    var flagYm = sortedYms[flagIdx];
+    if (mainYmMap[flagYm] !== undefined) {
+      ctx.fillStyle = "#f59e0b";
+      ctx.beginPath();
+      ctx.arc(xPos(flagIdx), yPos(mainYmMap[flagYm]), 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = "9px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("\uc800\ud3c9\uac00 \ud310\uc815", xPos(flagIdx), pad.top - 1);
+    }
+  }
+
+  // 현재(마지막) 포인트
+  var lastMain = mainData[mainData.length - 1];
+  var lastMainIdx = ymIdx[lastMain.ym];
+  if (lastMainIdx !== undefined) {
+    ctx.fillStyle = "#2563eb";
+    ctx.beginPath();
+    ctx.arc(xPos(lastMainIdx), yPos(lastMain.price), 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.font = "bold 10px sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(fmtPrice(lastMain.price), xPos(lastMainIdx) - 8, yPos(lastMain.price) - 8);
+  }
+}
+
 /**
  * 4축 레이더 차트 (교통/학군/거주가치/재건축)
  * @param {HTMLCanvasElement} canvas
