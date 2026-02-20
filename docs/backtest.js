@@ -673,6 +673,16 @@ function renderPickCard(pick, idx) {
 }
 
 /* ── 차트 토글 ── */
+function loadTxn(id) {
+  if (txnCache[id]) return Promise.resolve(txnCache[id]);
+  return fetch(byAptBase + id + ".json?t=" + Date.now()).then(function (res) {
+    return res.ok ? res.json() : [];
+  }).then(function (data) {
+    txnCache[id] = data;
+    return data;
+  });
+}
+
 async function toggleChart(card, pick) {
   var existing = card.querySelector(".backtest-chart-panel");
   if (existing) { existing.remove(); return; }
@@ -689,30 +699,69 @@ async function toggleChart(card, pick) {
   card.appendChild(panel);
 
   try {
-    if (!txnCache[pick.id]) {
-      var res = await fetch(byAptBase + pick.id + ".json?t=" + Date.now());
-      txnCache[pick.id] = res.ok ? await res.json() : [];
-    }
-    var txns = txnCache[pick.id];
-    if (!txns.length) {
+    // 비교단지 ID 수집
+    var compareIds = pick.compare_ids || [];
+    var compareNames = pick.compare_names || [];
+    var allIds = [pick.id].concat(compareIds);
+
+    // 모든 거래데이터 병렬 fetch
+    var allTxns = await Promise.all(allIds.map(function (id) { return loadTxn(id); }));
+
+    var mainTxns = allTxns[0];
+    if (!mainTxns.length) {
       loading.textContent = "\uAC70\uB798 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.";
       return;
     }
-    txns.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
+    mainTxns.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
     loading.remove();
+
     var chartDiv = document.createElement("div");
     chartDiv.className = "scatter-chart";
-    chartDiv.style.height = "180px";
+    chartDiv.style.height = compareIds.length > 0 ? "220px" : "180px";
     var canvas = document.createElement("canvas");
     chartDiv.appendChild(canvas);
     panel.appendChild(chartDiv);
-    requestAnimationFrame(function () {
-      if (typeof drawBacktestPickChart === "function") {
-        drawBacktestPickChart(canvas, txns, pick);
-      } else if (typeof drawScatter === "function") {
-        drawScatter(canvas, txns);
+
+    if (compareIds.length > 0 && typeof drawBacktestCompareChart === "function") {
+      // 비교단지가 있으면 멀티 시리즈 차트
+      var compareTxnList = [];
+      for (var ci = 1; ci < allTxns.length; ci++) {
+        var ct = allTxns[ci].slice();
+        ct.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
+        compareTxnList.push({
+          name: compareNames[ci - 1] || ("비교" + ci),
+          txns: ct
+        });
       }
-    });
+      requestAnimationFrame(function () {
+        drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick);
+      });
+    } else {
+      // 기존 단일 시리즈 차트
+      requestAnimationFrame(function () {
+        if (typeof drawBacktestPickChart === "function") {
+          drawBacktestPickChart(canvas, mainTxns, pick);
+        } else if (typeof drawScatter === "function") {
+          drawScatter(canvas, mainTxns);
+        }
+      });
+    }
+
+    // 범례 (비교단지가 있을 때)
+    if (compareIds.length > 0) {
+      var legend = document.createElement("div");
+      legend.style.cssText = "display:flex;flex-wrap:wrap;gap:12px;justify-content:center;font-size:11px;margin-top:6px";
+      var mainLeg = document.createElement("span");
+      mainLeg.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2563eb;margin-right:3px;vertical-align:middle"></span>' + pick.apt_name;
+      legend.appendChild(mainLeg);
+      var compColors = ["#94a3b8", "#f59e0b"];
+      compareNames.forEach(function (name, i) {
+        var leg = document.createElement("span");
+        leg.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:' + compColors[i % compColors.length] + ';margin-right:3px;vertical-align:middle"></span>' + name;
+        legend.appendChild(leg);
+      });
+      panel.appendChild(legend);
+    }
 
     var flagInfo = document.createElement("div");
     flagInfo.style.cssText = "text-align:center;font-size:11px;color:var(--muted);margin-top:4px";

@@ -234,15 +234,25 @@
       };
     }
 
-    // 타 지역: 교통60%+학군20%+인프라20%
+    // 타 지역: 교통60%+학군20%+인프라20% (업무지구 거리 반영)
     if (subwayScore != null) {
-      var wSum2 = subwayScore * 3;
+      var transportScore2 = subwayScore;
+      if (geo && geo.biz_gangnam != null) {
+        function bizDistScore(d) { return Math.max(0, Math.min(100, Math.round(100 - (d - 3) * 100 / 47))); }
+        var bizBest = Math.max(
+          bizDistScore(geo.biz_gangnam),
+          bizDistScore(geo.biz_gwanghwamun || 99),
+          bizDistScore(geo.biz_yeouido || 99)
+        );
+        transportScore2 = subwayScore * 0.5 + bizBest * 0.5;
+      }
+      var wSum2 = transportScore2 * 3;
       var wTotal2 = 3;
       if (schoolScore != null) { wSum2 += schoolScore * 1; wTotal2 += 1; }
       if (infraScore != null) { wSum2 += infraScore * 1; wTotal2 += 1; }
       var total2 = wSum2 / wTotal2;
       return {
-        transport: subwayScore,
+        transport: Math.round(transportScore2),
         school: schoolScore != null ? Math.round(schoolScore) : null,
         infra: infraScore,
         commuteScore: calcCommuteScore(item),

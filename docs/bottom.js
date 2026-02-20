@@ -71,7 +71,19 @@ function calcAPTmineScore(apt) {
     }
     transportScore = subwayScore != null ? subwayScore * 0.5 + bizScore * 0.5 : bizScore;
   } else if (subwayScore != null) {
-    transportScore = subwayScore;
+    // 비서울: geo 업무지구 거리가 있으면 반영
+    var geoSrc = geo || vgeo;
+    if (geoSrc && geoSrc.biz_gangnam != null) {
+      function bizDistScore(d) { return Math.max(0, Math.min(100, Math.round(100 - (d - 3) * 100 / 47))); }
+      var bizBest = Math.max(
+        bizDistScore(geoSrc.biz_gangnam),
+        bizDistScore(geoSrc.biz_gwanghwamun || 99),
+        bizDistScore(geoSrc.biz_yeouido || 99)
+      );
+      transportScore = subwayScore * 0.5 + bizBest * 0.5;
+    } else {
+      transportScore = subwayScore;
+    }
   } else {
     return 0;
   }

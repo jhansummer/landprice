@@ -85,7 +85,7 @@ def get_flagged_price(apt_id: str, sim_month: str, txn_cache: Dict[str, List]) -
 
 
 def get_market_return(summary_data: Dict, sido: str, flag_ym: str, current_month: str) -> Optional[float]:
-    """시도 trend 데이터에서 시장 수익률 계산."""
+    """시도 trend 데이터에서 시장 수익률 계산 (3개월 이동평균 스무딩)."""
     sido_data = summary_data.get("sidos", {}).get(sido)
     if not sido_data:
         return None
@@ -93,11 +93,26 @@ def get_market_return(summary_data: Dict, sido: str, flag_ym: str, current_month
     if not trend:
         return None
     ym_price = {t[0]: t[1] for t in trend}
-    flag_price = ym_price.get(flag_ym)
-    current_price = ym_price.get(current_month)
-    if not flag_price or not current_price or flag_price <= 0:
+    sorted_yms = sorted(ym_price.keys())
+
+    def avg_around(target_ym, n=3):
+        """target_ym 포함 직전 n개월 평균 (스무딩)."""
+        if target_ym not in ym_price:
+            # target_ym이 없으면 가장 가까운 이전 월 찾기
+            candidates = [ym for ym in sorted_yms if ym <= target_ym]
+            if not candidates:
+                return None
+            target_ym = candidates[-1]
+        idx = sorted_yms.index(target_ym)
+        window = sorted_yms[max(0, idx - n + 1):idx + 1]
+        vals = [ym_price[ym] for ym in window]
+        return sum(vals) / len(vals) if vals else None
+
+    flag_avg = avg_around(flag_ym)
+    cur_avg = avg_around(current_month)
+    if not flag_avg or not cur_avg or flag_avg <= 0:
         return None
-    return round((current_price - flag_price) / flag_price * 100, 2)
+    return round((cur_avg - flag_avg) / flag_avg * 100, 2)
 
 
 def run_simulation_month(
@@ -198,6 +213,8 @@ def run_simulation_month(
                 "area_m2": item.get("area_m2"),
                 "sido": sido,
                 "recent_avg": item.get("recent_avg"),
+                "compare_ids": [c["id"] for c in item.get("compare", [])],
+                "compare_names": [c["apt_name"] for c in item.get("compare", [])],
             })
 
     return all_picks
@@ -294,6 +311,8 @@ def main():
                 "return_pct": return_pct,
                 "market_return": market_ret,
                 "alpha": alpha,
+                "compare_ids": pick.get("compare_ids", []),
+                "compare_names": pick.get("compare_names", []),
             })
 
     total_elapsed = time.time() - total_start

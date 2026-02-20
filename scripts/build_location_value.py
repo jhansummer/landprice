@@ -22,6 +22,11 @@ def calc_subway_score(dist_km):
     return max(5, round(100 - dist_m / 30))
 
 
+def calc_biz_dist_score(dist_km):
+    """업무지구 거리 → 점수. 가까울수록 높음. 3km=100, 50km=0."""
+    return max(0, min(100, round(100 - (dist_km - 3) * 100 / 47)))
+
+
 def build_transport_minmax(loc_scores):
     mn, mx = float("inf"), float("-inf")
     for gus in loc_scores.values():
@@ -86,8 +91,23 @@ def calc_location_score(item, geo, gu_lookup, transport_min, transport_max):
             "total": round(total),
         }
 
+    # 비서울 수도권: geo에서 업무지구 거리가 있으면 반영
+    biz_score_from_geo = None
+    if geo and geo.get("biz_gangnam") is not None:
+        # 3대 업무지구 중 가장 가까운 곳 기준 가점 (max)
+        scores = [
+            calc_biz_dist_score(geo["biz_gangnam"]),
+            calc_biz_dist_score(geo.get("biz_gwanghwamun", 99)),
+            calc_biz_dist_score(geo.get("biz_yeouido", 99)),
+        ]
+        biz_score_from_geo = max(scores)
+
     if subway_score is not None:
-        w_sum = subway_score * 3
+        transport_score = subway_score
+        if biz_score_from_geo is not None:
+            # 역세권 50% + 업무지구 접근성 50%
+            transport_score = subway_score * 0.5 + biz_score_from_geo * 0.5
+        w_sum = transport_score * 3
         w_total = 3
         if school_score is not None:
             w_sum += school_score
@@ -97,7 +117,7 @@ def calc_location_score(item, geo, gu_lookup, transport_min, transport_max):
             w_total += 1
         total = w_sum / w_total
         return {
-            "transport": subway_score,
+            "transport": round(transport_score),
             "school": round(school_score) if school_score is not None else None,
             "infra": infra_score,
             "total": round(total),
