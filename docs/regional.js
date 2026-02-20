@@ -83,6 +83,22 @@ function renderSubTabs() {
   subtabsEl.appendChild(select);
 }
 
+/* ── Breadcrumb JSON-LD 동적 업데이트 ── */
+function updateBreadcrumb() {
+  var el = document.querySelector('script[type="application/ld+json"]');
+  if (!el) return;
+  var items = [
+    { "@type": "ListItem", "position": 1, "name": "\uBA54\uC778", "item": "https://aptmine.com/" }
+  ];
+  if (activeMode === "jeonse") {
+    items.push({ "@type": "ListItem", "position": 2, "name": "\uC2DC\uC138", "item": "https://aptmine.com/regional.html" });
+    items.push({ "@type": "ListItem", "position": 3, "name": "\uC804\uC138\uC2DC\uC138", "item": "https://aptmine.com/regional.html#\uC804\uC138" });
+  } else {
+    items.push({ "@type": "ListItem", "position": 2, "name": "\uC9C0\uC5ED\uC2DC\uC138", "item": "https://aptmine.com/regional.html" });
+  }
+  el.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items });
+}
+
 /* ── 매매/전세 모드 토글 ── */
 function renderModeToggle() {
   if (!modetabsEl) return;
@@ -95,6 +111,7 @@ function renderModeToggle() {
       if (activeMode === pair[0]) return;
       activeMode = pair[0];
       renderModeToggle();
+      updateBreadcrumb();
       renderSections();
       var hashParts = [activeSido];
       if (activeDistrict) hashParts.push(activeDistrict);
@@ -1845,6 +1862,7 @@ async function init() {
     renderTabs(sidoOrder);
     renderSubTabs();
     renderModeToggle();
+    updateBreadcrumb();
     renderSections();
 
     statusEl.innerHTML = "";
