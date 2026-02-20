@@ -1,0 +1,129 @@
+{
+  "서울": {
+    "강남구": {
+      "transport": { "gangnam": 95, "gwanghwamun": 55, "yeouido": 50 },
+      "school_base": 88,
+      "school_dong": { "대치동": 98, "도곡동": 85, "개포동": 82 }
+    },
+    "서초구": {
+      "transport": { "gangnam": 90, "gwanghwamun": 60, "yeouido": 55 },
+      "school_base": 82,
+      "school_dong": { "반포동": 88, "서초동": 80, "방배동": 70 }
+    },
+    "송파구": {
+      "transport": { "gangnam": 75, "gwanghwamun": 50, "yeouido": 45 },
+      "school_base": 72,
+      "school_dong": { "잠실동": 78 }
+    },
+    "강동구": {
+      "transport": { "gangnam": 60, "gwanghwamun": 40, "yeouido": 35 },
+      "school_base": 48,
+      "school_dong": {}
+    },
+    "용산구": {
+      "transport": { "gangnam": 65, "gwanghwamun": 80, "yeouido": 70 },
+      "school_base": 55,
+      "school_dong": {}
+    },
+    "중구": {
+      "transport": { "gangnam": 55, "gwanghwamun": 90, "yeouido": 65 },
+      "school_base": 50,
+      "school_dong": {}
+    },
+    "종로구": {
+      "transport": { "gangnam": 45, "gwanghwamun": 95, "yeouido": 65 },
+      "school_base": 50,
+      "school_dong": {}
+    },
+    "마포구": {
+      "transport": { "gangnam": 45, "gwanghwamun": 75, "yeouido": 80 },
+      "school_base": 58,
+      "school_dong": {}
+    },
+    "영등포구": {
+      "transport": { "gangnam": 50, "gwanghwamun": 60, "yeouido": 95 },
+      "school_base": 48,
+      "school_dong": {}
+    },
+    "동작구": {
+      "transport": { "gangnam": 70, "gwanghwamun": 55, "yeouido": 65 },
+      "school_base": 60,
+      "school_dong": {}
+    },
+    "관악구": {
+      "transport": { "gangnam": 60, "gwanghwamun": 45, "yeouido": 55 },
+      "school_base": 45,
+      "school_dong": {}
+    },
+    "양천구": {
+      "transport": { "gangnam": 45, "gwanghwamun": 50, "yeouido": 70 },
+      "school_base": 80,
+      "school_dong": { "목동": 95 }
+    },
+    "구로구": {
+      "transport": { "gangnam": 45, "gwanghwamun": 45, "yeouido": 65 },
+      "school_base": 42,
+      "school_dong": {}
+    },
+    "금천구": {
+      "transport": { "gangnam": 50, "gwanghwamun": 40, "yeouido": 55 },
+      "school_base": 38,
+      "school_dong": {}
+    },
+    "성동구": {
+      "transport": { "gangnam": 60, "gwanghwamun": 70, "yeouido": 55 },
+      "school_base": 62,
+      "school_dong": {}
+    },
+    "광진구": {
+      "transport": { "gangnam": 55, "gwanghwamun": 55, "yeouido": 45 },
+      "school_base": 65,
+      "school_dong": {}
+    },
+    "동대문구": {
+      "transport": { "gangnam": 45, "gwanghwamun": 65, "yeouido": 45 },
+      "school_base": 45,
+      "school_dong": {}
+    },
+    "성북구": {
+      "transport": { "gangnam": 35, "gwanghwamun": 65, "yeouido": 40 },
+      "school_base": 42,
+      "school_dong": {}
+    },
+    "강북구": {
+      "transport": { "gangnam": 30, "gwanghwamun": 55, "yeouido": 35 },
+      "school_base": 35,
+      "school_dong": {}
+    },
+    "도봉구": {
+      "transport": { "gangnam": 25, "gwanghwamun": 45, "yeouido": 30 },
+      "school_base": 35,
+      "school_dong": {}
+    },
+    "노원구": {
+      "transport": { "gangnam": 25, "gwanghwamun": 45, "yeouido": 30 },
+      "school_base": 70,
+      "school_dong": { "중계동": 88, "상계동": 72 }
+    },
+    "서대문구": {
+      "transport": { "gangnam": 35, "gwanghwamun": 75, "yeouido": 60 },
+      "school_base": 48,
+      "school_dong": {}
+    },
+    "은평구": {
+      "transport": { "gangnam": 30, "gwanghwamun": 60, "yeouido": 50 },
+      "school_base": 40,
+      "school_dong": {}
+    },
+    "중랑구": {
+      "transport": { "gangnam": 35, "gwanghwamun": 50, "yeouido": 35 },
+      "school_base": 35,
+      "school_dong": {}
+    },
+    "강서구": {
+      "transport": { "gangnam": 35, "gwanghwamun": 45, "yeouido": 60 },
+      "school_base": 38,
+      "school_dong": {}
+    }
+  }
+}
