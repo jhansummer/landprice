@@ -41,8 +41,8 @@ function escapeHTML(s) {
   return d.innerHTML;
 }
 
-/* ── APTmine 입지점수 (교통60%+학군20%+인프라20%) ── */
-function calcAPTmineScore(apt) {
+/* ── 입지점수 (교통60%+학군20%+인프라20%) ── */
+function calcLocationScore(apt) {
   var geo = apt.geo;
   var vgeo = valuationGeo && valuationGeo[apt.id];
   if ((!geo || geo.subway_dist == null) && !vgeo) return 0;
@@ -194,7 +194,7 @@ function renderSortBar() {
     ["trades", "\uAC70\uB798\uB7C9\uC21C"],
     ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"],
     ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"],
-    ["aptmine", "APTmine\uC810\uC218\uC21C"]
+    ["locscore", "\uC785\uC9C0\uC810\uC218\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -262,13 +262,13 @@ function renderCard(apt, idx) {
       bizSpan.textContent = "\uAC15\uB0A8 " + apt.geo.biz_gangnam + "km \u00B7 \uAD11\uD654\uBB38 " + apt.geo.biz_gwanghwamun + "km \u00B7 \uC5EC\uC758\uB3C4 " + apt.geo.biz_yeouido + "km";
       geoDiv.appendChild(bizSpan);
     }
-    var aptScore = calcAPTmineScore(apt);
+    var aptScore = calcLocationScore(apt);
     if (aptScore > 0) {
       var asBadge = document.createElement("span");
       var asColor = aptScore >= 70 ? "#2563eb" : aptScore >= 40 ? "#f59e0b" : "#94a3b8";
       var asBg = aptScore >= 70 ? "#dbeafe" : aptScore >= 40 ? "#fef3c7" : "#f1f5f9";
       asBadge.style.cssText = "font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:" + asColor + ";background:" + asBg;
-      asBadge.textContent = "APTmine " + aptScore;
+      asBadge.textContent = "\uC785\uC9C0 " + aptScore;
       geoDiv.appendChild(asBadge);
     }
     info.appendChild(geoDiv);
@@ -518,8 +518,8 @@ function renderSections() {
     var db = (b.geo && b.geo.subway_dist != null) ? b.geo.subway_dist : 9999;
     return da - db;
   });
-  else if (activeSort === "aptmine") items.sort(function (a, b) {
-    return calcAPTmineScore(b) - calcAPTmineScore(a);
+  else if (activeSort === "locscore") items.sort(function (a, b) {
+    return calcLocationScore(b) - calcLocationScore(a);
   });
 
   var sec = document.createElement("div");
