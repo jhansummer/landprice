@@ -764,11 +764,11 @@
     mainTabWrap.style.cssText = "display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border,#e5e7eb)";
 
     var tabLoc = document.createElement("button");
-    tabLoc.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
+    tabLoc.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
     tabLoc.textContent = "\uC785\uC9C0 \uC800\uD3C9\uAC00";
 
     var tabPrice = document.createElement("button");
-    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
+    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
     tabPrice.textContent = "\uC2DC\uC138 \uC800\uD3C9\uAC00";
 
     var contentArea = document.createElement("div");
@@ -786,12 +786,12 @@
     tabLoc.addEventListener("click", function () { activateTab("location"); });
     tabPrice.addEventListener("click", function () { activateTab("price"); });
 
-    mainTabWrap.appendChild(tabLoc);
     mainTabWrap.appendChild(tabPrice);
+    mainTabWrap.appendChild(tabLoc);
     resultsEl.appendChild(mainTabWrap);
     resultsEl.appendChild(contentArea);
 
-    activateTab("location");
+    activateTab("price");
   }
 
   /* ── 입지 저평가 content ── */
