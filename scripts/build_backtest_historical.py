@@ -95,7 +95,7 @@ def get_market_return(summary_data: Dict, sido: str, flag_ym: str, current_month
     ym_price = {t[0]: t[1] for t in trend}
     sorted_yms = sorted(ym_price.keys())
 
-    def avg_around(target_ym, n=3):
+    def avg_around(target_ym, n=6):
         """target_ym 포함 직전 n개월 평균 (스무딩)."""
         if target_ym not in ym_price:
             # target_ym이 없으면 가장 가까운 이전 월 찾기
