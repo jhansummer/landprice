@@ -6,10 +6,12 @@ const statusEl = document.getElementById("status");
 const metaEl = document.getElementById("meta");
 const tabsEl = document.getElementById("tabs");
 const subtabsEl = document.getElementById("subtabs");
+const modetabsEl = document.getElementById("modetabs");
 
 let globalData = null;
 let activeSido = null;
 let activeDistrict = null;
+let activeMode = "sale";
 
 function fmt(v) {
   return new Intl.NumberFormat("ko-KR").format(v);
@@ -35,7 +37,9 @@ function renderTabs(sidoOrder) {
       renderTabs(sidoOrder);
       renderSubTabs();
       renderSections();
-      history.replaceState(null, "", "#" + sido);
+      var hashParts = [sido];
+      if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+      history.replaceState(null, "", "#" + hashParts.join("/"));
       APTWatchlist.track("tab_switch", { sido: sido, page: "regional" });
     });
     tabsEl.appendChild(btn);
@@ -69,11 +73,37 @@ function renderSubTabs() {
   select.addEventListener("change", function () {
     activeDistrict = select.value || null;
     renderSections();
-    history.replaceState(null, "", "#" + activeSido + (activeDistrict ? "/" + activeDistrict : ""));
+    var hashParts = [activeSido];
+    if (activeDistrict) hashParts.push(activeDistrict);
+    if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+    history.replaceState(null, "", "#" + hashParts.join("/"));
     APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "regional" });
   });
 
   subtabsEl.appendChild(select);
+}
+
+/* ── 매매/전세 모드 토글 ── */
+function renderModeToggle() {
+  if (!modetabsEl) return;
+  modetabsEl.innerHTML = "";
+  [["sale", "\uB9E4\uB9E4"], ["jeonse", "\uC804\uC138"]].forEach(function(pair) {
+    var btn = document.createElement("button");
+    btn.className = "mode-tab" + (pair[0] === activeMode ? " active" : "");
+    btn.textContent = pair[1];
+    btn.addEventListener("click", function() {
+      if (activeMode === pair[0]) return;
+      activeMode = pair[0];
+      renderModeToggle();
+      renderSections();
+      var hashParts = [activeSido];
+      if (activeDistrict) hashParts.push(activeDistrict);
+      if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+      history.replaceState(null, "", "#" + hashParts.join("/"));
+      APTWatchlist.track("mode_switch", { mode: activeMode, sido: activeSido });
+    });
+    modetabsEl.appendChild(btn);
+  });
 }
 
 /* ── 차트: 시세 추이 + 거래량 ── */
@@ -1360,6 +1390,292 @@ function renderJeonseTrendSection(jeonseTrend, title) {
   return sec;
 }
 
+/* ── 전세 거래량 추이 ── */
+function renderJeonseVolumeSection(volumeData) {
+  if (!volumeData || volumeData.length < 2) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = "\uC804\uC138 \uAC70\uB798\uB7C9 \uCD94\uC774";
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uCD5C\uADFC 7\uB144 \u00B7 \uC6D4\uBCC4 \uC804\uC138 \uAC70\uB798 \uAC74\uC218";
+  sec.appendChild(sub);
+  var chartDiv = document.createElement("div");
+  chartDiv.className = "scatter-chart";
+  chartDiv.style.height = "200px";
+  var canvas = document.createElement("canvas");
+  chartDiv.appendChild(canvas);
+  sec.appendChild(chartDiv);
+  requestAnimationFrame(function() { drawJeonseVolumeChart(canvas, volumeData); });
+  return sec;
+}
+
+/* ── 갭투자 분석 ── */
+function renderGapAnalysis(gap) {
+  if (!gap || !gap.avg_gap) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = "\uAC2D\uD22C\uC790 \uBD84\uC11D";
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uCD5C\uC2E0 \uAC70\uB798 \uAE30\uC900 \u00B7 \uB9E4\uB9E4\uAC00 - \uC804\uC138\uAC00 \uCC28\uC774 (\uAC2D) \u00B7 " + gap.count + "\uAC1C \uB2E8\uC9C0";
+  sec.appendChild(sub);
+  var bigNum = document.createElement("div");
+  bigNum.className = "jeonse-ratio-big";
+  bigNum.style.color = "#f97316";
+  bigNum.textContent = gap.avg_gap >= 10000
+    ? (gap.avg_gap / 10000).toFixed(1) + "\uC5B5"
+    : fmt(gap.avg_gap) + "\uB9CC";
+  sec.appendChild(bigNum);
+  var avgLabel = document.createElement("p");
+  avgLabel.className = "section-sub";
+  avgLabel.textContent = "\uD3C9\uADE0 \uAC2D (\uB9E4\uB9E4\uAC00 - \uC804\uC138\uAC00)";
+  sec.appendChild(avgLabel);
+  if (gap.gap_trend && gap.gap_trend.length >= 2) {
+    var chartTitle = document.createElement("h3");
+    chartTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
+    chartTitle.textContent = "\uC6D4\uBCC4 \uD3C9\uADE0 \uAC2D \uCD94\uC774";
+    sec.appendChild(chartTitle);
+    var chartDiv = document.createElement("div");
+    chartDiv.className = "scatter-chart";
+    chartDiv.style.height = "200px";
+    var canvas = document.createElement("canvas");
+    chartDiv.appendChild(canvas);
+    sec.appendChild(chartDiv);
+    requestAnimationFrame(function() { drawGapTrendChart(canvas, gap.gap_trend); });
+  }
+  if (gap.gap_ranges && gap.gap_ranges.length) {
+    gap.gap_ranges.forEach(function(range) {
+      var rangeTitle = document.createElement("h3");
+      rangeTitle.style.cssText = "font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ink)";
+      rangeTitle.textContent = range.label + " (" + range.count + "\uAC1C)";
+      sec.appendChild(rangeTitle);
+      var INITIAL_COUNT = 5;
+      var list = document.createElement("div");
+      list.className = "dong-stats-list";
+      function renderGapItem(item) {
+        var row = document.createElement("div");
+        row.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:12px;min-width:0";
+        var infoEl = document.createElement("div");
+        infoEl.style.cssText = "min-width:0;overflow:hidden;flex:1";
+        var nameEl = document.createElement("div");
+        nameEl.style.cssText = "font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+        nameEl.textContent = item.apt_name;
+        infoEl.appendChild(nameEl);
+        var locEl = document.createElement("div");
+        locEl.style.cssText = "font-size:11px;color:var(--muted);margin-top:1px";
+        var locParts = [];
+        if (item.sigungu) locParts.push(item.sigungu);
+        if (item.dong_name) locParts.push(item.dong_name);
+        locParts.push(item.area_m2 + "m\u00B2");
+        locEl.textContent = locParts.join(" \u00B7 ");
+        infoEl.appendChild(locEl);
+        row.appendChild(infoEl);
+        var valEl = document.createElement("span");
+        valEl.style.cssText = "flex-shrink:0;white-space:nowrap;color:var(--muted);font-size:11px;text-align:right";
+        var gapVal = item.gap >= 10000
+          ? (item.gap / 10000).toFixed(1) + "\uC5B5"
+          : fmt(item.gap) + "\uB9CC";
+        valEl.textContent = "\uAC2D " + gapVal + " (" + item.ratio + "%)";
+        row.appendChild(valEl);
+        list.appendChild(row);
+      }
+      range.items.slice(0, INITIAL_COUNT).forEach(renderGapItem);
+      sec.appendChild(list);
+      if (range.items.length > INITIAL_COUNT) {
+        var moreBtn = document.createElement("button");
+        moreBtn.className = "sort-btn";
+        moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+        moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + range.items.length + "\uAC1C \uC804\uCCB4)";
+        moreBtn.addEventListener("click", function() {
+          var curH = list.offsetHeight;
+          range.items.slice(INITIAL_COUNT).forEach(renderGapItem);
+          list.style.maxHeight = (curH + 80) + "px";
+          list.style.overflowY = "auto";
+          moreBtn.remove();
+        });
+        sec.appendChild(moreBtn);
+      }
+    });
+  }
+  return sec;
+}
+
+/* ── 구별 전세가율 (시도 전체) ── */
+function renderDistrictJeonseRatio(sidoData, title) {
+  if (!sidoData || !sidoData.districts) return null;
+  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+  var rows = [];
+  distOrder.forEach(function(name) {
+    var dist = sidoData.districts[name];
+    if (!dist || !dist.jeonse || !dist.jeonse.avg_ratio) return;
+    rows.push({ name: name, ratio: dist.jeonse.avg_ratio, count: dist.jeonse.count || 0 });
+  });
+  if (!rows.length) return null;
+  rows.sort(function(a, b) { return b.ratio - a.ratio; });
+  var INITIAL_COUNT = 15;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = title;
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "\uCD5C\uC2E0 \uAC70\uB798 \uAE30\uC900 \u00B7 \uAD6C\uBCC4 \uD3C9\uADE0 \uC804\uC138\uAC00\uC728 (\uB192\uC740 \uC21C)";
+  sec.appendChild(sub);
+  var list = document.createElement("div");
+  list.className = "dong-stats-list";
+  var maxR = Math.max.apply(null, rows.map(function(r) { return r.ratio; }));
+  function renderItem(r) {
+    var row = document.createElement("div");
+    row.className = "dong-stat-row";
+    var nameEl = document.createElement("span");
+    nameEl.className = "dong-stat-name";
+    nameEl.textContent = r.name;
+    row.appendChild(nameEl);
+    var barWrap = document.createElement("div");
+    barWrap.className = "dong-stat-bar-wrap";
+    var bar = document.createElement("div");
+    bar.className = "dong-stat-bar";
+    bar.style.width = (r.ratio / maxR * 100) + "%";
+    bar.style.background = r.ratio >= 60 ? "var(--up)" : r.ratio >= 40 ? "var(--accent)" : "#94a3b8";
+    barWrap.appendChild(bar);
+    row.appendChild(barWrap);
+    var valEl = document.createElement("span");
+    valEl.className = "dong-stat-val";
+    valEl.textContent = r.ratio.toFixed(1) + "% (" + r.count + "\uAC1C)";
+    row.appendChild(valEl);
+    list.appendChild(row);
+  }
+  rows.slice(0, INITIAL_COUNT).forEach(renderItem);
+  sec.appendChild(list);
+  if (rows.length > INITIAL_COUNT) {
+    var moreBtn = document.createElement("button");
+    moreBtn.className = "sort-btn";
+    moreBtn.style.cssText = "display:block;margin:12px auto 0;padding:8px 24px";
+    moreBtn.textContent = "\uB354\uBCF4\uAE30 (" + rows.length + "\uAC1C \uC804\uCCB4)";
+    moreBtn.addEventListener("click", function() {
+      var curH = list.offsetHeight;
+      rows.slice(INITIAL_COUNT).forEach(renderItem);
+      list.style.maxHeight = (curH + 80) + "px";
+      list.style.overflowY = "auto";
+      moreBtn.remove();
+    });
+    sec.appendChild(moreBtn);
+  }
+  return sec;
+}
+
+/* ── 동별 전세 시세 히트맵 ── */
+function renderJeonseDongStatsSection(dongStats) {
+  if (!dongStats || dongStats.length < 2) return null;
+  var sec = document.createElement("div");
+  sec.className = "section";
+  var h2 = document.createElement("h2");
+  h2.className = "section-title";
+  h2.textContent = "\uB3D9\uBCC4 \uC804\uC138 \uC2DC\uC138";
+  sec.appendChild(h2);
+  var sub = document.createElement("p");
+  sub.className = "section-sub";
+  sub.textContent = "m\u00B2\uB2F9 \uD3C9\uADE0 \uC804\uC138\uAC00 (\uCD5C\uADFC 6\uAC1C\uC6D4)";
+  sec.appendChild(sub);
+  var prices = dongStats.map(function(d) { return d.avg_per_m2; });
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var pRange = maxP - minP || 1;
+  var grid = document.createElement("div");
+  grid.className = "heatmap-grid";
+  grid.style.display = "grid";
+  grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(90px, 1fr))";
+  grid.style.gap = "6px";
+  grid.style.marginTop = "12px";
+  dongStats.forEach(function(d) {
+    var cell = document.createElement("div");
+    cell.className = "heatmap-cell";
+    var ratio = (d.avg_per_m2 - minP) / pRange;
+    var hue = Math.round(200 - ratio * 160);
+    var sat = 60 + ratio * 30;
+    cell.style.background = "hsl(" + hue + "," + sat + "%,92%)";
+    cell.style.borderLeft = "3px solid hsl(" + hue + "," + sat + "%,55%)";
+    cell.style.padding = "8px 10px";
+    cell.style.borderRadius = "8px";
+    cell.style.cursor = "default";
+    var name = document.createElement("div");
+    name.style.fontWeight = "700";
+    name.style.fontSize = "13px";
+    name.style.color = "var(--ink)";
+    name.textContent = d.dong_name;
+    cell.appendChild(name);
+    var val = document.createElement("div");
+    val.style.fontSize = "12px";
+    val.style.color = "var(--muted)";
+    val.style.marginTop = "2px";
+    val.textContent = Math.round(d.avg_per_m2).toLocaleString() + "\uB9CC/m\u00B2 \u00B7 " + d.txn_count + "\uAC74";
+    cell.appendChild(val);
+    grid.appendChild(cell);
+  });
+  sec.appendChild(grid);
+  return sec;
+}
+
+/* ── 전세 모드 렌더 ── */
+function renderJeonseSections(sidoData, data, regionName) {
+  if (!data.jeonse && !data.jeonse_trend && !data.jeonse_volume) {
+    var noData = document.createElement("div");
+    noData.className = "section";
+    var p = document.createElement("p");
+    p.className = "no-data";
+    p.style.textAlign = "center";
+    p.style.padding = "40px 0";
+    p.textContent = "\uC804\uC138 \uB370\uC774\uD130\uAC00 \uC544\uC9C1 \uC218\uC9D1\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4.";
+    noData.appendChild(p);
+    gridEl.appendChild(noData);
+    return;
+  }
+  var jeonseSec = renderJeonseSection(data.jeonse);
+  if (jeonseSec) gridEl.appendChild(jeonseSec);
+  if (data.jeonse_trend && data.jeonse_trend.length > 1) {
+    var jtSec = renderJeonseTrendSection(data.jeonse_trend, regionName + " \uC804\uC138\uAC00\uC728 \uCD94\uC774");
+    if (jtSec) gridEl.appendChild(jtSec);
+  }
+  var gapSec = renderGapAnalysis(data.gap_analysis);
+  if (gapSec) gridEl.appendChild(gapSec);
+  var volSec = renderJeonseVolumeSection(data.jeonse_volume);
+  if (volSec) gridEl.appendChild(volSec);
+  if (!activeDistrict) {
+    var drSec = renderDistrictJeonseRatio(sidoData, activeSido + " \uAD6C\uBCC4 \uC804\uC138\uAC00\uC728");
+    if (drSec) gridEl.appendChild(drSec);
+  }
+  if (activeDistrict && data.dong_stats && data.jeonse_dong_stats) {
+    var djrSec = renderDongJeonseRatio(data.dong_stats, data.jeonse_dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC804\uC138\uAC00\uC728");
+    if (djrSec) gridEl.appendChild(djrSec);
+  }
+  if (activeDistrict && data.jeonse_dong_stats) {
+    var dongSec = renderJeonseDongStatsSection(data.jeonse_dong_stats);
+    if (dongSec) gridEl.appendChild(dongSec);
+  }
+  var distParam = activeDistrict ? "/" + activeDistrict : "";
+  var nextAction = document.createElement("div");
+  nextAction.className = "section next-action";
+  nextAction.innerHTML = '<h2 class="section-title">\uB354 \uC54C\uC544\uBCF4\uAE30</h2>'
+    + '<div class="popular-list">'
+    + '<a class="popular-item" href="index.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional_jeonse\',target:\'main\'})">'
+    + '<span class="popular-name">\uC624\uB298\uC758 TOP3</span>'
+    + '<span class="popular-meta">\uC0C1\uC2B9 \u00B7 \uAC70\uB798 \u00B7 \uD68C\uBCF5 \uB7AD\uD0B9</span></a>'
+    + '<a class="popular-item" href="undervalued.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional_jeonse\',target:\'undervalued\'})">'
+    + '<span class="popular-name">\uC800\uD3C9\uAC00 TOP3</span>'
+    + '<span class="popular-meta">\uC778\uADFC \uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00 \uBD84\uC11D</span></a>'
+    + '</div>';
+  gridEl.appendChild(nextAction);
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -1374,6 +1690,11 @@ function renderSections() {
   }
 
   var regionName = activeDistrict || activeSido;
+
+  if (activeMode === "jeonse") {
+    renderJeonseSections(sidoData, data, regionName);
+    return;
+  }
 
   // 히트맵 그리드 (지도 대체)
   if (activeDistrict && data.dong_stats && data.dong_stats.length > 1) {
@@ -1467,24 +1788,6 @@ function renderSections() {
     if (dRecSec) gridEl.appendChild(dRecSec);
   }
 
-  // 전세가율
-  if (data.jeonse) {
-    var jeonseSec = renderJeonseSection(data.jeonse);
-    if (jeonseSec) gridEl.appendChild(jeonseSec);
-  }
-
-  // 동별 전세가율
-  if (activeDistrict && data.dong_stats && data.jeonse_dong_stats) {
-    var djrSec = renderDongJeonseRatio(data.dong_stats, data.jeonse_dong_stats, activeDistrict + " \uB3D9\uBCC4 \uC804\uC138\uAC00\uC728");
-    if (djrSec) gridEl.appendChild(djrSec);
-  }
-
-  // 전세가율 추이
-  if (data.jeonse_trend && data.jeonse_trend.length > 1) {
-    var jtSec = renderJeonseTrendSection(data.jeonse_trend, regionName + " 전세가율 추이");
-    if (jtSec) gridEl.appendChild(jtSec);
-  }
-
   // 데이터 없을 때
   if (!gridEl.children.length) {
     var empty = document.createElement("p");
@@ -1507,9 +1810,9 @@ function renderSections() {
     + '<a class="popular-item" href="undervalued.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'undervalued\'})">'
     + '<span class="popular-name">\uC800\uD3C9\uAC00 TOP3</span>'
     + '<span class="popular-meta">\uC778\uADFC \uB2E8\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00 \uBD84\uC11D</span></a>'
-    + '<a class="popular-item" href="jeonse.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'jeonse\'})">'
-    + '<span class="popular-name">\uC804\uC138 \uC2DC\uC138</span>'
-    + '<span class="popular-meta">\uC804\uC138\uAC00\uC728 \u00B7 \uAC2D\uD22C\uC790 \uBD84\uC11D</span></a>'
+    + '<a class="popular-item" href="search.html" onclick="APTWatchlist.track(\'next_action_click\',{source:\'regional\',target:\'search\'})">'
+    + '<span class="popular-name">\uB2E8\uC9C0 \uAC80\uC0C9</span>'
+    + '<span class="popular-meta">\uAD00\uC2EC \uB2E8\uC9C0 \uC2E4\uAC70\uB798\uAC00 \uC870\uD68C</span></a>'
     + '</div>';
   gridEl.appendChild(nextAction);
 }
@@ -1527,6 +1830,10 @@ async function init() {
     var sidoOrder = globalData.sido_order || [];
     var hash = decodeURIComponent(location.hash.replace("#", ""));
     var parts = hash.split("/");
+    if (parts[parts.length - 1] === "\uC804\uC138") {
+      activeMode = "jeonse";
+      parts.pop();
+    }
     var hashSido = parts[0] || "";
     var hashDist = parts[1] || "";
     activeSido = sidoOrder.indexOf(hashSido) >= 0 ? hashSido : sidoOrder[0] || null;
@@ -1537,6 +1844,7 @@ async function init() {
 
     renderTabs(sidoOrder);
     renderSubTabs();
+    renderModeToggle();
     renderSections();
 
     statusEl.innerHTML = "";

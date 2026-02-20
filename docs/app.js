@@ -346,7 +346,7 @@ function renderDashboard() {
       cardJ.className = "dash-card";
       cardJ.style.cursor = "pointer";
       cardJ.addEventListener("click", function() {
-        location.href = "jeonse.html#" + activeSido;
+        location.href = "regional.html#" + activeSido + "/\uC804\uC138";
       });
       cardJ.innerHTML = '<div class="dash-card-label">평균 전세가율</div>'
         + '<div class="dash-card-value">' + sidoData.jeonse.avg_ratio.toFixed(1) + '<span class="dash-card-unit">%</span></div>'
@@ -475,7 +475,7 @@ function renderSections() {
     + '<a class="popular-item" href="regional.html#' + activeSido + distParam + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'regional\'})">'
     + '<span class="popular-name">\uC9C0\uC5ED \uC2DC\uC138</span>'
     + '<span class="popular-meta">\uD788\uD2B8\uB9F5 \u00B7 \uCD94\uC774 \u00B7 \uB3D9\uBCC4 \uBE44\uAD50</span></a>'
-    + '<a class="popular-item" href="jeonse.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'jeonse\'})">'
+    + '<a class="popular-item" href="regional.html#' + activeSido + '/\uC804\uC138" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'jeonse\'})">'
     + '<span class="popular-name">\uC804\uC138 \uC2DC\uC138</span>'
     + '<span class="popular-meta">\uC804\uC138\uAC00\uC728 \u00B7 \uAC2D\uD22C\uC790 \uBD84\uC11D</span></a>'
     + '<a class="popular-item" href="search.html#' + activeSido + '" onclick="APTWatchlist.track(\'next_action_click\',{source:\'main\',target:\'search\'})">'
