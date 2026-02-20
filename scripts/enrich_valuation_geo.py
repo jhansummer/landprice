@@ -536,7 +536,7 @@ def main() -> int:
             if redev_s is not None:
                 geo["redev_score"] = redev_s
 
-            # 6. 입지점수: 교통50% + 학군15% + 인프라15% + 정비구역20%
+            # 6. 입지점수: 교통20% + 학군65% + 인프라5% + 정비구역10%
             subway_s = max(5, round(100 - nearest["dist"] * 1000 / 30))
             transport_s = subway_s
             if geo.get("biz_gangnam") is not None:
@@ -547,14 +547,14 @@ def main() -> int:
                     _bds(geo.get("biz_yeouido", 99)),
                 )
                 transport_s = subway_s * 0.5 + biz_best * 0.5
-            w_sum = transport_s * 5
-            w_total = 5
+            w_sum = transport_s * 4
+            w_total = 4
             if school_score is not None:
-                w_sum += school_score * 1.5
-                w_total += 1.5
+                w_sum += school_score * 13
+                w_total += 13
             if geo.get("infra_score") is not None:
-                w_sum += geo["infra_score"] * 1.5
-                w_total += 1.5
+                w_sum += geo["infra_score"]
+                w_total += 1
             if redev_s is not None:
                 w_sum += redev_s * 2
                 w_total += 2
