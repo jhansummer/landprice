@@ -65,6 +65,11 @@ INFRA_WEIGHTS = {
 }
 INFRA_RADIUS = 1000  # meters
 
+# 학군 점수: 학원(AC5) 수 기반
+ACADEMY_CODE = "AC5"
+ACADEMY_RADIUS = 1000  # meters
+ACADEMY_MAX = 300  # 300개 이상이면 만점 (P75 수준, 대치동급 500+)
+
 
 # ── Haversine ──
 
@@ -337,6 +342,31 @@ def calc_infra_score(infra: Dict[str, int]) -> int:
     return round(score)
 
 
+# ── Feature 4: School score from academy (AC5) count ──
+
+def get_academy_score(
+    lat: float, lng: float, ecache: Dict, ck: str,
+) -> int:
+    """Get school score (0–100) based on nearby academy count. Cached."""
+    # Use cached count if available (recalculate score with current ACADEMY_MAX)
+    cached_count = ecache.get(ck, {}).get("academy_count")
+    if cached_count is not None:
+        score = min(round(cached_count / ACADEMY_MAX * 100), 100)
+        ecache[ck]["academy_score"] = score
+        return score
+
+    count = _search_category_count(lat, lng, ACADEMY_CODE)
+    time.sleep(API_DELAY)
+
+    score = min(round(count / ACADEMY_MAX * 100), 100)
+
+    if ck not in ecache:
+        ecache[ck] = {}
+    ecache[ck]["academy_count"] = count
+    ecache[ck]["academy_score"] = score
+    return score
+
+
 # ── Main ──
 
 def main() -> int:
@@ -420,6 +450,9 @@ def main() -> int:
             infra = get_facilities(lat, lng, ecache, ck)
             geo["infra"] = infra
             geo["infra_score"] = calc_infra_score(infra)
+
+            # 4. Academy-based school score
+            geo["academy_score"] = get_academy_score(lat, lng, ecache, ck)
 
             geo_result[apt_id] = geo
             enriched += 1

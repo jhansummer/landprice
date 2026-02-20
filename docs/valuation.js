@@ -176,6 +176,17 @@
     // 출퇴근시간
     var commute = (geo && geo.commute) ? geo.commute : null;
 
+    // 학군 점수: geo의 academy_score 우선, 없으면 서울 하드코딩 fallback
+    var schoolScore = null;
+    if (geo && geo.academy_score != null) {
+      schoolScore = geo.academy_score;
+    } else if (isSeoul && guData) {
+      schoolScore = guData.school_base;
+      if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
+        schoolScore = guData.school_dong[dongName];
+      }
+    }
+
     if (isSeoul && guData) {
       // 서울: 교통 = 역세권(50%) + 업무지구(50%)
       var t = guData.transport;
@@ -192,23 +203,16 @@
         transportScore = bizScore;
       }
 
-      // 학군
-      var schoolScore = guData.school_base;
-      if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
-        schoolScore = guData.school_dong[dongName];
-      }
-
-      // 종합: (교통+학군+인프라)/3, 인프라 없으면 (교통+학군)/2
+      // 종합: (교통+학군+인프라)/3
       var total;
-      if (infraScore != null) {
-        total = (transportScore + schoolScore + infraScore) / 3;
-      } else {
-        total = (transportScore + schoolScore) / 2;
-      }
+      var parts = [transportScore];
+      if (schoolScore != null) parts.push(schoolScore);
+      if (infraScore != null) parts.push(infraScore);
+      total = parts.reduce(function (a, b) { return a + b; }, 0) / parts.length;
 
       return {
         transport: Math.round(transportScore),
-        school: Math.round(schoolScore),
+        school: schoolScore != null ? Math.round(schoolScore) : null,
         infra: infraScore,
         commuteScore: calcCommuteScore(item),
         total: Math.round(total),
@@ -221,17 +225,15 @@
       };
     }
 
-    // 타 지역: 역세권 + 인프라
+    // 타 지역: 역세권 + 학군(있으면) + 인프라
     if (subwayScore != null) {
-      var total2;
-      if (infraScore != null) {
-        total2 = (subwayScore + infraScore) / 2;
-      } else {
-        total2 = subwayScore;
-      }
+      var parts2 = [subwayScore];
+      if (schoolScore != null) parts2.push(schoolScore);
+      if (infraScore != null) parts2.push(infraScore);
+      var total2 = parts2.reduce(function (a, b) { return a + b; }, 0) / parts2.length;
       return {
         transport: subwayScore,
-        school: null,
+        school: schoolScore != null ? Math.round(schoolScore) : null,
         infra: infraScore,
         commuteScore: calcCommuteScore(item),
         total: Math.round(total2),
@@ -293,6 +295,26 @@
     header.appendChild(totalEl);
     section.appendChild(header);
 
+    // 점수 기준 안내 (접을 수 있는 토글)
+    var guideBtn = document.createElement("button");
+    guideBtn.className = "sort-btn";
+    guideBtn.style.cssText = "font-size:10px;padding:2px 8px;margin-bottom:8px;color:var(--muted)";
+    guideBtn.textContent = "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30";
+    var guideDiv = document.createElement("div");
+    guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.6";
+    guideDiv.innerHTML =
+      "<b>\uAD50\uD1B5\uC811\uADFC\uC131</b>: " + (scores.isSeoul ? "\uC5ED\uC138\uAD8C(50%) + \uC5C5\uBB34\uC9C0\uAD6C(50%)" : "\uC5ED\uC138\uAD8C \uAC70\uB9AC \uAE30\uBC18") + ". \uC5ED\uC138\uAD8C = max(5, 100 - \uAC70\uB9AC(m)/30)<br>" +
+      "<b>\uD559\uAD70</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uC6D0 \uC218 \uAE30\uBC18 (300\uAC1C \uC774\uC0C1 \uB9CC\uC810)<br>" +
+      "<b>\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131</b>: \uC5ED\uC138\uAD8C(30%) + \uC5C5\uBB34\uC9C0\uAD6C \uAC70\uB9AC(70%). \uAC15\uB0A8 50% \u00B7 \uAD11\uD654\uBB38 25% \u00B7 \uC5EC\uC758\uB3C4 25%<br>" +
+      "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50(30\uC810) \u00B7 \uBCD1\uC6D0(25\uC810) \u00B7 \uC740\uD589(20\uC810) \u00B7 \uD3B8\uC758\uC810(15\uC810) \u00B7 \uB9C8\uD2B8(10\uC810)<br>" +
+      "<b>\uC885\uD569</b>: (\uAD50\uD1B5+\uD559\uAD70+\uC778\uD504\uB77C) \uD3C9\uADE0";
+    guideBtn.addEventListener("click", function () {
+      guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
+      guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30" : "\u2139 \uC810\uC218 \uAE30\uC900 \uC811\uAE30";
+    });
+    section.appendChild(guideBtn);
+    section.appendChild(guideDiv);
+
     // Subway info line with walking time
     if (scores.subwayName) {
       var subwayInfo = document.createElement("div");
@@ -342,8 +364,8 @@
     var barItems = [
       { label: "\uAD50\uD1B5\uC811\uADFC\uC131", score: scores.transport }
     ];
-    // 학군은 서울에서만 표시
-    if (scores.isSeoul && scores.school != null) {
+    // 학군 (academy_score가 있으면 전 지역 표시)
+    if (scores.school != null) {
       barItems.push({ label: "\uD559\uAD70", score: scores.school });
     }
     // 출퇴근접근성
@@ -475,7 +497,7 @@
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>'
-      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4 (\uD559\uAD70\uC740 \uC11C\uC6B8 \uD55C\uC815).</div>';
+      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70(\uD559\uC6D0\uC218)\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4.</div>';
     resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
