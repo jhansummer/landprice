@@ -271,11 +271,19 @@ function renderCard(apt, idx) {
       APTWatchlist.remove(apt.id);
       wlBtn.textContent = "\u2606 \uAD00\uC2EC";
     } else {
-      APTWatchlist.add({ id: apt.id, apt_name: apt.apt_name, sigungu: apt.sigungu, dong_name: apt.dong_name, area_m2: apt.area_m2 });
+      APTWatchlist.add({ id: apt.id, apt_name: apt.apt_name, sigungu: apt.sigungu, dong_name: apt.dong_name, area_m2: apt.area_m2, sido: activeSido });
       wlBtn.textContent = "\u2605 \uAD00\uC2EC";
     }
   });
   metrics.appendChild(wlBtn);
+
+  var aptLink = document.createElement("a");
+  aptLink.className = "apt-detail-link";
+  aptLink.href = "apt.html?id=" + encodeURIComponent(apt.id) + "&s=" + encodeURIComponent(activeSido || "");
+  aptLink.textContent = "상세";
+  aptLink.style.marginTop = "4px";
+  aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
+  metrics.appendChild(aptLink);
   top.appendChild(metrics);
   body.appendChild(top);
 
@@ -369,8 +377,7 @@ async function toggleChart(card, apt) {
     var txTroughPrice = mData.length ? mData[txTroughIdx].price : 0;
     var txTroughYm = mData.length ? mData[txTroughIdx].ym : "";
 
-    var rcSlice = mData.slice(-3);
-    var txCurPrice = rcSlice.length ? rcSlice.reduce(function (s, d) { return s + d.price; }, 0) / rcSlice.length : 0;
+    var txCurPrice = mData.length ? mData[mData.length - 1].price : 0;
     var txVsPeak = txPeakPrice > 0 ? ((txCurPrice - txPeakPrice) / txPeakPrice * 100) : 0;
     var txRecovery = (txTroughIdx > txPeakIdx && txPeakPrice > txTroughPrice)
       ? ((txCurPrice - txTroughPrice) / (txPeakPrice - txTroughPrice) * 100) : 0;
