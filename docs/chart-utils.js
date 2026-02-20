@@ -677,7 +677,7 @@ function drawPeakChart(canvas, txns, apt) {
   ctx.scale(dpr, dpr);
   var cw = rect.width;
   var ch = rect.height;
-  var pad = { top: 30, right: 14, bottom: 24, left: 48 };
+  var pad = { top: 44, right: 14, bottom: 24, left: 48 };
   var plotW = cw - pad.left - pad.right;
   var plotH = ch - pad.top - pad.bottom;
 
@@ -837,6 +837,34 @@ function drawPeakChart(canvas, txns, apt) {
   var gapLabel = (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%";
   ctx.fillText(gapLabel, bridgeX - 4, bridgeMidY + 3);
 
+  // 라벨 위치 계산 (겹침 방지)
+  var peakLabelY = yPos(peakPrice) - 10;
+  var peakDateY = yPos(peakPrice) + 3;
+  var hasTrough = troughIdx > peakIdx && troughIdx < lastIdx;
+  var troughLabelY = hasTrough ? yPos(troughPrice) + 14 : 0;
+  var troughDateY = hasTrough ? troughLabelY + 11 : 0;
+  var curLabelY2 = curY - 2;
+
+  // 고점 라벨이 차트 상단을 넘으면 아래로
+  if (peakLabelY < pad.top + 4) {
+    peakLabelY = yPos(peakPrice) + 16;
+    peakDateY = peakLabelY + 12;
+  }
+  // 현재가 라벨이 고점 라벨과 겹치면 아래로
+  if (Math.abs(curLabelY2 - peakLabelY) < 16) curLabelY2 = peakLabelY + 18;
+  // 현재가 라벨이 차트 하단을 넘으면 위로
+  if (curLabelY2 > pad.top + plotH - 4) curLabelY2 = curY - 16;
+  // 저점 라벨이 현재가 라벨과 겹으면 더 아래로
+  if (hasTrough && Math.abs(troughLabelY - curLabelY2) < 16 && Math.abs(xPos(troughIdx) - xPos(lastIdx)) < 60) {
+    troughLabelY = Math.max(troughLabelY, curLabelY2 + 16);
+    troughDateY = troughLabelY + 11;
+  }
+  // 저점 라벨이 차트 하단을 넘으면 위로
+  if (hasTrough && troughDateY > pad.top + plotH - 2) {
+    troughLabelY = yPos(troughPrice) - 12;
+    troughDateY = troughLabelY - 11;
+  }
+
   // 고점 포인트
   ctx.fillStyle = "#ef4444";
   ctx.beginPath();
@@ -848,13 +876,13 @@ function drawPeakChart(canvas, txns, apt) {
   ctx.textAlign = peakIdx < data.length * 0.6 ? "left" : "right";
   var peakLabelX = peakIdx < data.length * 0.6 ? xPos(peakIdx) + 8 : xPos(peakIdx) - 8;
   ctx.fillStyle = "#ef4444";
-  ctx.fillText(fmtPrice(peakPrice), peakLabelX, yPos(peakPrice) - 10);
+  ctx.fillText(fmtPrice(peakPrice), peakLabelX, peakLabelY);
   ctx.fillStyle = "#94a3b8";
   ctx.font = "9px sans-serif";
-  ctx.fillText(peakYm.slice(0, 4) + "." + peakYm.slice(4), peakLabelX, yPos(peakPrice) + 3);
+  ctx.fillText(peakYm.slice(0, 4) + "." + peakYm.slice(4), peakLabelX, peakDateY);
 
   // 저점 포인트 (고점 이후, 현재가 아닌 경우)
-  if (troughIdx > peakIdx && troughIdx < lastIdx) {
+  if (hasTrough) {
     ctx.fillStyle = "#f59e0b";
     ctx.beginPath();
     ctx.arc(xPos(troughIdx), yPos(troughPrice), 4, 0, Math.PI * 2);
@@ -864,10 +892,9 @@ function drawPeakChart(canvas, txns, apt) {
     ctx.font = "9px sans-serif";
     ctx.fillStyle = "#f59e0b";
     ctx.textAlign = "center";
-    var troughLabelY = yPos(troughPrice) + 12;
     ctx.fillText("\uc800\uc810 " + fmtPrice(troughPrice), xPos(troughIdx), troughLabelY);
     ctx.fillStyle = "#94a3b8";
-    ctx.fillText(troughYm.slice(0, 4) + "." + troughYm.slice(4), xPos(troughIdx), troughLabelY + 11);
+    ctx.fillText(troughYm.slice(0, 4) + "." + troughYm.slice(4), xPos(troughIdx), troughDateY);
   }
 
   // 현재가 포인트 (마지막)
@@ -880,34 +907,31 @@ function drawPeakChart(canvas, txns, apt) {
   ctx.font = "bold 10px sans-serif";
   ctx.textAlign = "right";
   ctx.fillStyle = "#2563eb";
-  var curLabelY2 = curY;
-  if (Math.abs(curLabelY2 - peakY) < 18) curLabelY2 = curLabelY2 + 18;
-  ctx.fillText("\ud604\uc7ac " + fmtPrice(currentPrice), xPos(lastIdx) - 10, curLabelY2 - 2);
+  ctx.fillText("\ud604\uc7ac " + fmtPrice(currentPrice), xPos(lastIdx) - 10, curLabelY2);
 
-  // 상단 배지
+  // 상단 Row 1: 범례(좌) + 고점대비(우)
+  var row1Y = 14, row2Y = 28;
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#ef4444";
+  ctx.fillText("\u25cf \uace0\uc810", pad.left, row1Y);
+  ctx.fillStyle = "#2563eb";
+  ctx.fillText("\u25cf \ud604\uc7ac", pad.left + 42, row1Y);
+  if (troughIdx > peakIdx && troughIdx < lastIdx) {
+    ctx.fillStyle = "#f59e0b";
+    ctx.fillText("\u25cf \uc800\uc810", pad.left + 82, row1Y);
+  }
   ctx.font = "bold 12px sans-serif";
   ctx.textAlign = "right";
   ctx.fillStyle = vsPeakPct >= 0 ? "#16a34a" : "#ef4444";
-  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%", pad.left + plotW, 16);
+  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%", pad.left + plotW, row1Y);
 
-  // 회복률 표시
+  // 상단 Row 2: 저점대비 회복률(우)
   if (troughIdx > peakIdx && recoveryPct > 0) {
     ctx.font = "10px sans-serif";
     ctx.textAlign = "right";
     ctx.fillStyle = "#16a34a";
-    ctx.fillText("\uc800\uc810\ub300\ube44 " + recoveryPct.toFixed(0) + "% \ud68c\ubcf5", pad.left + plotW - 100, 16);
-  }
-
-  // 상단 왼쪽 범례
-  ctx.font = "10px sans-serif";
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#ef4444";
-  ctx.fillText("\u25cf \uace0\uc810", pad.left, 16);
-  ctx.fillStyle = "#2563eb";
-  ctx.fillText("\u25cf \ud604\uc7ac", pad.left + 42, 16);
-  if (troughIdx > peakIdx && troughIdx < lastIdx) {
-    ctx.fillStyle = "#f59e0b";
-    ctx.fillText("\u25cf \uc800\uc810", pad.left + 82, 16);
+    ctx.fillText("\uc800\uc810\ub300\ube44 " + recoveryPct.toFixed(0) + "% \ud68c\ubcf5", pad.left + plotW, row2Y);
   }
 }
 
