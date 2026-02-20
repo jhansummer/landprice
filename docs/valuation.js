@@ -4,6 +4,7 @@
   var BY_APT_BASE = "data/apt_trade/by_apt/";
   var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
   var VALUATION_GEO_PATH = "data/apt_trade/valuation_geo.json";
+  var LOCATION_VALUE_PATH = "data/apt_trade/location_value.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -22,6 +23,7 @@
   var locationScores = null;
   var transportMinMax = null;
   var valuationGeo = null;
+  var locationValue = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -89,6 +91,12 @@
       .then(function (data) { valuationGeo = data; })
       .catch(function () { valuationGeo = null; });
   }
+  function loadLocationValue() {
+    return fetch(LOCATION_VALUE_PATH + "?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) { locationValue = data; })
+      .catch(function () { locationValue = null; });
+  }
   function buildTransportMinMax() {
     if (!locationScores) return;
     var min = Infinity, max = -Infinity;
@@ -132,8 +140,8 @@
 
   /**
    * 종합 가치평가 점수 계산
-   * 서울: 교통 = 역세권(50%)+업무지구(50%), 종합 = (교통+학군+인프라)/3
-   * 타지역: 교통 = 역세권(100%), 종합 = (교통+인프라)/2
+   * 서울: 교통 = 역세권(50%)+업무지구(50%), 종합 = 교통60%+학군20%+인프라20%
+   * 타지역: 교통 = 역세권(100%), 종합 = 교통60%+학군20%+인프라20%
    */
   function calcValueScore(item) {
     var geo = valuationGeo && valuationGeo[item.id];
@@ -203,12 +211,13 @@
         transportScore = bizScore;
       }
 
-      // 종합: (교통+학군+인프라)/3
+      // 종합: 교통60%+학군20%+인프라20%
       var total;
-      var parts = [transportScore];
-      if (schoolScore != null) parts.push(schoolScore);
-      if (infraScore != null) parts.push(infraScore);
-      total = parts.reduce(function (a, b) { return a + b; }, 0) / parts.length;
+      var wSum = transportScore * 3;
+      var wTotal = 3;
+      if (schoolScore != null) { wSum += schoolScore * 1; wTotal += 1; }
+      if (infraScore != null) { wSum += infraScore * 1; wTotal += 1; }
+      total = wSum / wTotal;
 
       return {
         transport: Math.round(transportScore),
@@ -225,12 +234,13 @@
       };
     }
 
-    // 타 지역: 역세권 + 학군(있으면) + 인프라
+    // 타 지역: 교통60%+학군20%+인프라20%
     if (subwayScore != null) {
-      var parts2 = [subwayScore];
-      if (schoolScore != null) parts2.push(schoolScore);
-      if (infraScore != null) parts2.push(infraScore);
-      var total2 = parts2.reduce(function (a, b) { return a + b; }, 0) / parts2.length;
+      var wSum2 = subwayScore * 3;
+      var wTotal2 = 3;
+      if (schoolScore != null) { wSum2 += schoolScore * 1; wTotal2 += 1; }
+      if (infraScore != null) { wSum2 += infraScore * 1; wTotal2 += 1; }
+      var total2 = wSum2 / wTotal2;
       return {
         transport: subwayScore,
         school: schoolScore != null ? Math.round(schoolScore) : null,
@@ -258,7 +268,7 @@
       if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
         schoolScore2 = guData.school_dong[dongName];
       }
-      var total3 = (bizScore2 + schoolScore2) / 2;
+      var total3 = (bizScore2 * 3 + schoolScore2) / 4;
       return {
         transport: Math.round(bizScore2),
         school: Math.round(schoolScore2),
@@ -307,7 +317,7 @@
       "<b>\uD559\uAD70</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uC6D0 \uC218 \uAE30\uBC18 (300\uAC1C \uC774\uC0C1 \uB9CC\uC810)<br>" +
       "<b>\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131</b>: \uC5ED\uC138\uAD8C(30%) + \uC5C5\uBB34\uC9C0\uAD6C \uAC70\uB9AC(70%). \uAC15\uB0A8 50% \u00B7 \uAD11\uD654\uBB38 25% \u00B7 \uC5EC\uC758\uB3C4 25%<br>" +
       "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50(30\uC810) \u00B7 \uBCD1\uC6D0(25\uC810) \u00B7 \uC740\uD589(20\uC810) \u00B7 \uD3B8\uC758\uC810(15\uC810) \u00B7 \uB9C8\uD2B8(10\uC810)<br>" +
-      "<b>\uC885\uD569</b>: (\uAD50\uD1B5+\uD559\uAD70+\uC778\uD504\uB77C) \uD3C9\uADE0";
+      "<b>\uC885\uD569</b>: \uAD50\uD1B5 60% + \uD559\uAD70 20% + \uC778\uD504\uB77C 20% (\uAD50\uD1B5 \uAC00\uC911)";
     guideBtn.addEventListener("click", function () {
       guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
       guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30" : "\u2139 \uC810\uC218 \uAE30\uC900 \uC811\uAE30";
@@ -367,10 +377,6 @@
     // 학군 (academy_score가 있으면 전 지역 표시)
     if (scores.school != null) {
       barItems.push({ label: "\uD559\uAD70", score: scores.school });
-    }
-    // 출퇴근접근성
-    if (scores.commuteScore != null) {
-      barItems.push({ label: "\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131", score: scores.commuteScore });
     }
     // 생활인프라
     if (scores.infra != null) {
@@ -754,15 +760,18 @@
         return Promise.all([
           loadAllSidos(),
           loadLocationScores(),
-          loadValuationGeo()
+          loadValuationGeo(),
+          loadLocationValue()
         ]).then(function () {
           statusEl.innerHTML = "";
           buildTransportMinMax();
           createAutocomplete();
-          var defaultQuery = parsed.query || "\uC815\uB4E0\uB9C8\uC744";
-          searchInput.value = defaultQuery;
-          doSearch(defaultQuery);
-          if (!parsed.query) updateURL();
+          if (parsed.query) {
+            searchInput.value = parsed.query;
+            doSearch(parsed.query);
+          } else {
+            showLocationValueRanking();
+          }
         });
       })
       .catch(function () {
