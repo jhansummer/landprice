@@ -131,12 +131,12 @@
 
   /* ── 페이지 렌더링 ── */
   function render(apt, txns, geo) {
-    // 가격 계산 (월평균 기반 — 차트와 동일)
     var latest = txns.length ? txns[txns.length - 1] : null;
+    var latestPrice = latest ? latest[1] : 0;
     var stats = txns.length ? calcPeakStats(txns) : null;
-    var currentPrice = stats ? stats.currentPrice : 0;
     var peakPrice = stats ? stats.peakPrice : 0;
-    var vsPeak = stats ? stats.vsPeakPct : 0;
+    // 고점대비: 최근 실거래가 기준
+    var vsPeak = peakPrice > 0 && latestPrice ? ((latestPrice - peakPrice) / peakPrice * 100) : 0;
 
     // ── 헤더 ──
     var header = document.createElement("div");
@@ -218,7 +218,7 @@
       grid.className = "apt-price-grid";
 
       var peakYmStr = stats.peakYm.slice(0, 4) + "." + stats.peakYm.slice(4);
-      grid.appendChild(createPriceCell("현재가", fmtEok(currentPrice), latest ? latest[0] : ""));
+      grid.appendChild(createPriceCell("최근 실거래", fmtEok(latestPrice), latest ? latest[0] : ""));
       grid.appendChild(createPriceCell("고점가", fmtEok(peakPrice), peakYmStr));
       var vpColor = vsPeak >= 0 ? "var(--up)" : "var(--down)";
       var vpCell = createPriceCell("고점대비", (vsPeak >= 0 ? "+" : "") + vsPeak.toFixed(1) + "%", "");
@@ -247,7 +247,7 @@
       contentEl.appendChild(chartSec);
 
       requestAnimationFrame(function () {
-        drawPeakChart(canvas, txns, apt);
+        drawScatter(canvas, txns);
         dlBtn.disabled = false;
         dlBtn.addEventListener("click", function () {
           APTShare.downloadChart(canvas, apt.name + "-" + apt.area + "m2.png");
