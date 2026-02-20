@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
-"""Generate schools.json from NEIS + Kakao + 학교알리미 APIs.
+"""Generate schools.json from NEIS + Kakao + asil.kr.
 
 Offline script — run once per semester to update school performance data.
 
 Pipeline:
 1. NEIS API → 전국 초/중학교 목록 (이름, 코드, 주소, 교육청코드)
 2. Kakao API → 주소 → 좌표 (지오코딩)
-3. 학교알리미 API → 학업성취도 / 졸업생진로
+3. asil.kr 스크래핑 → 중학교 학업성취도 (보통학력이상%)
+   초등학교는 인근 중학교 성적의 거리역수 가중평균
 4. Output: scripts/schools.json
 """
 
 import json
+import math
 import os
+import re
 import sys
 import time
 from pathlib import Path
 from typing import Dict, List, Optional
 
 import requests
+from bs4 import BeautifulSoup
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 OUTPUT_FILE = SCRIPTS_DIR / "schools.json"
@@ -25,7 +29,6 @@ GEOCODE_CACHE_FILE = SCRIPTS_DIR / "school_geocode_cache.json"
 PERF_CACHE_FILE = SCRIPTS_DIR / "school_perf_cache.json"
 
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")
-SCHOOLINFO_API_KEY = os.getenv("SCHOOLINFO_API_KEY", "")
 NEIS_API_KEY = os.getenv("NEIS_API_KEY", "")
 
 API_DELAY = 0.12  # Kakao rate limit ~10 req/sec
@@ -49,9 +52,22 @@ SCHOOL_TYPES = {
 }
 
 NEIS_BASE = "https://open.neis.go.kr/hub/schoolInfo"
-SCHOOLINFO_BASE = "https://www.schoolinfo.go.kr/openApi.do"
 
 DEFAULT_PERF = 50
+
+# asil.kr 지역코드 → ATPT 매핑
+ASIL_AREA_TO_ATPT = {
+    "11": "B10",  # 서울
+    "41": "J10",  # 경기
+    "26": "C10",  # 부산
+    "27": "D10",  # 대구
+    "28": "E10",  # 인천
+    "29": "F10",  # 광주
+    "30": "G10",  # 대전
+    "31": "H10",  # 울산
+    "36": "I10",  # 세종
+}
+ASIL_URL = "https://asil.kr/asil/sub/school_list.jsp"
 
 
 # ── Caches ──
@@ -198,176 +214,160 @@ def geocode_schools(schools: List[Dict], cache: Dict) -> int:
     return new_count
 
 
-# ── Step 3: 학교알리미 API — 성적 데이터 ──
+# ── Haversine (for elementary school proximity matching) ──
 
-def fetch_achievement(atpt: str, school_code: str) -> Optional[float]:
-    """Fetch 학업성취도 '보통학력이상' 비율 (국/수/영 평균).
+def haversine(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+    """Distance in km between two coordinates."""
+    R = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlng = math.radians(lng2 - lng1)
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(math.radians(lat1))
+        * math.cos(math.radians(lat2))
+        * math.sin(dlng / 2) ** 2
+    )
+    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-    Returns 0~100 or None if data unavailable.
+
+# ── Step 3: asil.kr 스크래핑 — 중학교 학업성취도 ──
+
+def scrape_asil_area(area_code: str) -> List[Dict]:
+    """Scrape middle school achievement data from asil.kr for one area.
+
+    Returns list of {name, perf} dicts.
     """
-    if not SCHOOLINFO_API_KEY:
-        return None
-    params = {
-        "apiKey": SCHOOLINFO_API_KEY,
-        "svcType": "api",
-        "svcCode": "SCHOOL",
-        "contentType": "json",
-        "gubun": "achievement",
-        "thisPage": 1,
-        "perPage": 100,
-        "searchCondition": "ATPT_OFCDC_SC_CODE",
-        "searchKeyword": atpt,
-        "searchCondition2": "SD_SCHUL_CODE",
-        "searchKeyword2": school_code,
-    }
+    params = {"area": area_code, "type1": "3", "order": "1", "orderby": "desc"}
     try:
-        resp = requests.get(SCHOOLINFO_BASE, params=params, timeout=15)
+        resp = requests.get(ASIL_URL, params=params, timeout=30)
+        resp.encoding = "utf-8"
         resp.raise_for_status()
-        data = resp.json()
-    except Exception:
-        return None
+    except Exception as e:
+        print(f"    asil.kr error (area={area_code}): {e}", flush=True)
+        return []
 
-    rows = data.get("list", []) or data.get("data", []) or []
-    if not rows:
-        # Try alternative response structure
-        content = data.get("content", [])
-        if content:
-            rows = content
+    soup = BeautifulSoup(resp.text, "lxml")
+    tbody = soup.find("tbody")
+    if not tbody:
+        return []
 
-    if not rows:
-        return None
+    results = []
+    for row in tbody.find_all("tr"):
+        tds = row.find_all("td")
+        if len(tds) < 8:
+            continue
+        a_tag = tds[2].find("a")
+        if not a_tag:
+            continue
+        name = a_tag.get_text(strip=True)
+        avg_text = tds[4].get_text(strip=True).replace("%", "")
+        try:
+            perf = float(avg_text)
+        except (ValueError, TypeError):
+            continue
+        results.append({"name": name, "perf": perf})
 
-    # Find most recent year's data
-    # Look for 보통학력이상 비율 across 국어/수학/영어
-    subject_scores = []
-    for row in rows:
-        above_normal = None
-        # Various field name patterns from 학교알리미
-        for key in ("ABOVE_NORMAL_RATE", "aboveNormalRate", "above_normal",
-                     "ABOVE_AVG_RT", "보통학력이상비율"):
-            if key in row and row[key] is not None:
-                try:
-                    above_normal = float(row[key])
-                    break
-                except (ValueError, TypeError):
-                    continue
-        if above_normal is not None:
-            subject_scores.append(above_normal)
-
-    if subject_scores:
-        return round(sum(subject_scores) / len(subject_scores), 1)
-    return None
+    return results
 
 
-def fetch_career_path(atpt: str, school_code: str) -> Optional[float]:
-    """Fetch 졸업생진로: 특목고/자사고 진학률 (중학교 only).
+def scrape_all_achievement() -> Dict[str, Dict[str, float]]:
+    """Scrape all areas from asil.kr.
 
-    Returns 0~100 score or None.
+    Returns {atpt: {school_name: perf}} mapping.
     """
-    if not SCHOOLINFO_API_KEY:
-        return None
-    params = {
-        "apiKey": SCHOOLINFO_API_KEY,
-        "svcType": "api",
-        "svcCode": "SCHOOL",
-        "contentType": "json",
-        "gubun": "career",
-        "thisPage": 1,
-        "perPage": 100,
-        "searchCondition": "ATPT_OFCDC_SC_CODE",
-        "searchKeyword": atpt,
-        "searchCondition2": "SD_SCHUL_CODE",
-        "searchKeyword2": school_code,
-    }
-    try:
-        resp = requests.get(SCHOOLINFO_BASE, params=params, timeout=15)
-        resp.raise_for_status()
-        data = resp.json()
-    except Exception:
-        return None
-
-    rows = data.get("list", []) or data.get("data", []) or data.get("content", []) or []
-    if not rows:
-        return None
-
-    total_grads = 0
-    special_high = 0
-    for row in rows:
-        # 졸업생 수
-        for key in ("GRADT_CNT", "gradtCnt", "졸업자수", "total"):
-            if key in row and row[key] is not None:
-                try:
-                    total_grads += int(row[key])
-                    break
-                except (ValueError, TypeError):
-                    continue
-        # 특목고/자사고 진학자 수
-        for key in ("SPCL_PURPOSE_HS_CNT", "spclPurposeHsCnt", "특목고진학자수",
-                     "AUTON_PRIV_HS_CNT", "autonPrivHsCnt", "자사고진학자수"):
-            if key in row and row[key] is not None:
-                try:
-                    special_high += int(row[key])
-                    break
-                except (ValueError, TypeError):
-                    continue
-
-    if total_grads > 0:
-        rate = special_high / total_grads * 100
-        # Scale: min(100, rate × 3) — 33%+ maps to 100
-        return round(min(100, rate * 3), 1)
-    return None
-
-
-def fetch_school_perf(school: Dict, perf_cache: Dict) -> Dict:
-    """Get performance data for a school. Returns {perf, perf_src}."""
-    code = school["code"]
-
-    if code in perf_cache:
-        return perf_cache[code]
-
-    atpt = school["atpt"]
-    result = {"perf": DEFAULT_PERF, "perf_src": "default"}
-
-    # Priority 1: 학업성취도
-    achievement = fetch_achievement(atpt, code)
-    time.sleep(API_DELAY)
-    if achievement is not None:
-        result = {"perf": achievement, "perf_src": "achievement"}
-        perf_cache[code] = result
-        return result
-
-    # Priority 2: 졸업생진로 (middle school only)
-    if school["type"] == "middle":
-        career = fetch_career_path(atpt, code)
-        time.sleep(API_DELAY)
-        if career is not None:
-            result = {"perf": career, "perf_src": "career"}
-            perf_cache[code] = result
-            return result
-
-    # Priority 3: default
-    perf_cache[code] = result
+    result = {}
+    for area, atpt in ASIL_AREA_TO_ATPT.items():
+        print(f"    Scraping asil.kr area={area} ({atpt})...", flush=True)
+        schools = scrape_asil_area(area)
+        name_map = {}
+        for s in schools:
+            name_map[s["name"]] = s["perf"]
+        result[atpt] = name_map
+        print(f"      → {len(schools)} middle schools", flush=True)
+        time.sleep(1)
     return result
 
 
 def enrich_perf(schools: List[Dict], perf_cache: Dict) -> int:
-    """Enrich schools with performance data. Returns count of new lookups."""
-    new_count = 0
-    for i, school in enumerate(schools):
-        code = school["code"]
-        if code in perf_cache:
-            perf = perf_cache[code]
+    """Enrich schools with performance data.
+
+    Middle schools: match by (atpt, name) to asil.kr achievement data.
+    Elementary schools: distance-inverse weighted average of nearby middle schools.
+    """
+    # Scrape asil.kr
+    achievement = scrape_all_achievement()
+
+    # First pass: middle schools
+    matched = 0
+    for school in schools:
+        if school["type"] != "middle":
+            continue
+        atpt_data = achievement.get(school["atpt"], {})
+        name = school["name"].strip()
+        if name in atpt_data:
+            school["perf"] = atpt_data[name]
+            school["perf_src"] = "achievement"
+            matched += 1
         else:
-            perf = fetch_school_perf(school, perf_cache)
-            new_count += 1
+            school["perf"] = DEFAULT_PERF
+            school["perf_src"] = "default"
 
-        school["perf"] = perf["perf"]
-        school["perf_src"] = perf["perf_src"]
+    print(f"    Middle schools matched: {matched}", flush=True)
 
-        if (i + 1) % 500 == 0:
-            print(f"    Performance: {i + 1}/{len(schools)} (+{new_count} new)", flush=True)
+    # Second pass: elementary schools → nearby middle school average
+    middle_with_perf = [
+        s for s in schools
+        if s["type"] == "middle" and "lat" in s and s.get("perf_src") == "achievement"
+    ]
 
-    return new_count
+    elem_matched = 0
+    for school in schools:
+        if school["type"] != "elementary":
+            continue
+        if "lat" not in school:
+            school["perf"] = DEFAULT_PERF
+            school["perf_src"] = "default"
+            continue
+
+        # Find nearest middle schools with achievement data (within 3km)
+        nearby = []
+        for ms in middle_with_perf:
+            d = haversine(school["lat"], school["lng"], ms["lat"], ms["lng"])
+            if d <= 3.0:
+                nearby.append((d, ms["perf"]))
+
+        if nearby:
+            nearby.sort()
+            top = nearby[:5]
+            w_sum = 0.0
+            s_sum = 0.0
+            for d, perf in top:
+                w = 1.0 / max(d, 0.1)
+                s_sum += perf * w
+                w_sum += w
+            school["perf"] = round(s_sum / w_sum, 1)
+            school["perf_src"] = "nearby_middle"
+            elem_matched += 1
+        else:
+            # Fallback: regional average
+            atpt_data = achievement.get(school["atpt"], {})
+            if atpt_data:
+                school["perf"] = round(sum(atpt_data.values()) / len(atpt_data), 1)
+                school["perf_src"] = "region_avg"
+            else:
+                school["perf"] = DEFAULT_PERF
+                school["perf_src"] = "default"
+
+    print(f"    Elementary from nearby middle: {elem_matched}", flush=True)
+
+    # Save to perf_cache for reference
+    for school in schools:
+        perf_cache[school["code"]] = {
+            "perf": school.get("perf", DEFAULT_PERF),
+            "perf_src": school.get("perf_src", "default"),
+        }
+
+    return matched + elem_matched
 
 
 # ── Step 4: Output ──
@@ -416,8 +416,8 @@ def main() -> int:
     geocoded = sum(1 for s in schools if "lat" in s)
     print(f"  Schools with coordinates: {geocoded}/{len(schools)}", flush=True)
 
-    # Step 3: Performance data
-    print("\n[3/4] Fetching performance data from 학교알리미...", flush=True)
+    # Step 3: Performance data (asil.kr scraping)
+    print("\n[3/4] Scraping achievement data from asil.kr...", flush=True)
     perf_cache = load_json_cache(PERF_CACHE_FILE)
     print(f"  Performance cache: {len(perf_cache)} entries", flush=True)
     new_perf = enrich_perf(schools, perf_cache)
