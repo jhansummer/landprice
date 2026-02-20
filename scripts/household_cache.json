@@ -1,0 +1,6950 @@
+{
+ "강남구|e-편한세상": {
+  "households": 1253,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|강남데시앙포레": {
+  "households": 1206,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|강남엘에이치1단지": {
+  "households": 951,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|강남자곡아이파크": {
+  "households": 1195,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|강남한신휴플러스6단지": {
+  "households": 209,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포래미안포레스트": {
+  "households": 1665,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포우성1": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포우성2": {
+  "households": 447,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포자이프레지던스": {
+  "households": 452,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포주공5단지": {
+  "households": 934,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포주공6단지": {
+  "households": 1021,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포주공7단지": {
+  "households": 876,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|개포한신": {
+  "households": 487,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|경남": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|까치마을": {
+  "households": 2848,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|대치삼성": {
+  "households": 841,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|대치아이파크": {
+  "households": 916,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|대치우성아파트1동,2동,3동,5동,6동,7동": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|대치현대": {
+  "households": 638,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|도곡렉슬": {
+  "households": 3573,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|동부센트레빌": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|동익": {
+  "households": 371,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|동현아파트1~6": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|디에이치아너힐즈": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|디에이치자이개포": {
+  "households": 626,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|래미안 개포 루체하임": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|래미안강남힐즈": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|래미안대치팰리스": {
+  "households": 1404,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|래미안대치하이스턴": {
+  "households": 220,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|래미안블레스티지": {
+  "households": 2013,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|럭키(963)": {
+  "households": 876,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|목련타운": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|미성2차": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼성": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼성동롯데아파트": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼성동힐스테이트 1단지": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼성래미안": {
+  "households": 806,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼익": {
+  "households": 1125,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|삼익대청아파트": {
+  "households": 1259,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|상록수": {
+  "households": 586,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|샘터마을": {
+  "households": 487,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|서광아파트": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|선경2차(8동-12동)": {
+  "households": 360,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|성원대치2단지아파트": {
+  "households": 3074,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|세곡푸르지오": {
+  "households": 1398,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|수서": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|수서한아름": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|신동아": {
+  "households": 1984,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|신동아(22)": {
+  "households": 922,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|쌍용대치2": {
+  "households": 296,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|쌍용대치아파트1동,2동,3동,5동,6동": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|역삼래미안": {
+  "households": 1450,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|역삼푸르지오": {
+  "households": 1032,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|우성4": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|우성8": {
+  "households": 267,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|은마": {
+  "households": 3532,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|청담대림이-편한세상": {
+  "households": 371,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|테헤란아이파크": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|푸른마을아파트101동~111동": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|한보미도맨션1": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|한보미도맨션2": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|한솔마을": {
+  "households": 551,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|한신엠비씨": {
+  "households": 360,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|한양1차(영동한양)": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대3차(61~64동)": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대6차(78~81,83,84,86,87동)": {
+  "households": 702,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대8차(성수현대:91~95동)": {
+  "households": 481,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대그린1": {
+  "households": 249,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대아파트1동~3동": {
+  "households": 255,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강남구|현대힐스테이트2단지": {
+  "households": 783,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|강일리버파크6단지": {
+  "households": 435,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕 아이파크": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕그라시움": {
+  "households": 5429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕롯데캐슬베네루체": {
+  "households": 2129,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕리엔파크3단지": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕센트럴IPARK": {
+  "households": 2065,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕센트럴푸르지오": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕숲아이파크": {
+  "households": 998,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕아르테온": {
+  "households": 3932,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕자이": {
+  "households": 1624,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|고덕주공9": {
+  "households": 1752,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|대우": {
+  "households": 133,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|동아하이빌아파트": {
+  "households": 806,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|둔촌푸르지오": {
+  "households": 1665,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|둔촌하이츠": {
+  "households": 615,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|래미안솔베뉴": {
+  "households": 2767,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|래미안힐스테이트고덕": {
+  "households": 5765,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|롯데캐슬퍼스트": {
+  "households": 5261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|명일우성": {
+  "households": 696,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|명일지에스아파트": {
+  "households": 1810,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|배재현대": {
+  "households": 1177,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|삼성광나루": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|삼익가든": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|삼익그린2차": {
+  "households": 3671,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|선사현대아파트": {
+  "households": 5232,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|성내동삼성아파트": {
+  "households": 2007,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|신동아": {
+  "households": 1224,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|신동아파밀리에": {
+  "households": 563,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|신성둔촌미소지움1": {
+  "households": 1021,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|신성둔촌미소지움2": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|아남1": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|올림픽파크한양수자인": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|우성": {
+  "households": 1143,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|천호동삼성아파트": {
+  "households": 771,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|천호태영아파트": {
+  "households": 586,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|프라이어팰리스": {
+  "households": 2900,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|한양": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|현대(고덕)": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|현대4": {
+  "households": 377,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|현대홈타운": {
+  "households": 644,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강동구|힐스테이트 강동 리버뷰": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강북구|두산위브트레지움": {
+  "households": 2221,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강북구|삼성래미안트리베라2단지": {
+  "households": 2158,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|e편한세상염창": {
+  "households": 476,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|가양2단지(성지)": {
+  "households": 2680,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|가양강나루현대": {
+  "households": 1247,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|가양도시개발9-2단지": {
+  "households": 1833,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|가양역두산위브": {
+  "households": 226,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|강변힐스테이트": {
+  "households": 650,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|강서한강자이": {
+  "households": 980,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|강서힐스테이트": {
+  "households": 3990,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|극동": {
+  "households": 435,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|동아": {
+  "households": 1427,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|동아3": {
+  "households": 1177,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|등촌동아이파크": {
+  "households": 1989,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡13단지힐스테이트마스터": {
+  "households": 2529,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡수명산파크1단지": {
+  "households": 899,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡수명산파크2단지": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡수명산파크4단지": {
+  "households": 1525,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡수명산파크5단지": {
+  "households": 1224,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡수명산파크7단지": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡엠밸리6단지": {
+  "households": 667,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡푸르지오": {
+  "households": 597,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|마곡힐스테이트": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|성원": {
+  "households": 644,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|신동아": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|염창1차한화꿈에그린": {
+  "households": 592,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|염창동한강우성": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|우장산숲아이파크": {
+  "households": 267,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|우장산아이파크,이편한세상": {
+  "households": 3393,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|우장산힐스테이트": {
+  "households": 2645,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "강서구|한솔솔파크": {
+  "households": 394,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|계양1차하우스토리": {
+  "households": 383,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|계양센트레빌2단지": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|계양센트레빌3단지": {
+  "households": 800,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|금호어울림": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|새사미": {
+  "households": 447,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "계양구|인천계양코아루센트럴파크": {
+  "households": 1462,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "고양시덕양구|DMC한강숲중흥S-CLASS": {
+  "households": 180,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "고양시덕양구|DMC한강호반써밋": {
+  "households": 157,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|과천위버필드": {
+  "households": 1723,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|과천자이": {
+  "households": 1137,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|과천푸르지오써밋": {
+  "households": 1386,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|래미안센트럴스위트": {
+  "households": 771,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|래미안슈르": {
+  "households": 6165,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|래미안에코팰리스": {
+  "households": 1003,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|센트럴파크푸르지오써밋": {
+  "households": 1259,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|주공5": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|주공8": {
+  "households": 1694,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "과천시|주공9": {
+  "households": 1015,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|e편한세상서울대입구1단지": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|e편한세상서울대입구2단지": {
+  "households": 777,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|e편한세상서울대입구2차": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|관악드림(동아)": {
+  "households": 3869,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|관악드림(삼성)": {
+  "households": 2523,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|관악푸르지오": {
+  "households": 4164,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|두산": {
+  "households": 3219,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|벽산블루밍": {
+  "households": 3892,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|봉천우성": {
+  "households": 2587,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "관악구|힐스테이트뉴포레": {
+  "households": 557,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명 두산위브 트레지움": {
+  "households": 2024,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명아크포레자이위브": {
+  "households": 4182,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명역센트럴자이": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명역파크자이": {
+  "households": 1148,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명역푸르지오": {
+  "households": 945,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|광명푸르지오센트베르": {
+  "households": 1276,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|이편한세상센트레빌": {
+  "households": 5226,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|주공12": {
+  "households": 6334,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|주공13": {
+  "households": 3306,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|주공2": {
+  "households": 1404,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|주공7": {
+  "households": 2372,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|철산래미안자이": {
+  "households": 3654,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광명시|철산푸르지오하늘채": {
+  "households": 2036,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광산구|벽산": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광산구|첨단대우": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|광나루현대": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|광장현대9단지": {
+  "households": 916,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|광장힐스테이트": {
+  "households": 713,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|구의현대2단지": {
+  "households": 1496,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|구의현대7단지현대홈타운": {
+  "households": 441,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|극동1": {
+  "households": 441,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|극동2": {
+  "households": 905,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|금호베스트빌": {
+  "households": 487,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|대동": {
+  "households": 406,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|더샵스타시티": {
+  "households": 2013,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|래미안파크스위트": {
+  "households": 1027,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|우성1": {
+  "households": 992,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|우성2": {
+  "households": 632,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|우성3": {
+  "households": 592,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|워커힐푸르지오": {
+  "households": 447,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양2현대": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양7차현대홈타운": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양강변I-Park": {
+  "households": 151,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양삼성": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양우성7": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|자양현대6": {
+  "households": 296,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|청구": {
+  "households": 1317,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|한라아파트": {
+  "households": 447,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|현대3": {
+  "households": 2123,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|현대5": {
+  "households": 777,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|현대8(803동)": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|현대파크빌": {
+  "households": 1839,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "광진구|현대프라임": {
+  "households": 2291,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|SKVIEW": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|대림1": {
+  "households": 2158,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|대림2": {
+  "households": 1856,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|대림e-편한세상4": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|동아1": {
+  "households": 1433,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|동아2": {
+  "households": 899,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|동아3": {
+  "households": 1224,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|신도림롯데아파트": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구로구|현대홈타운아파트": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구리시|e편한세상수택센트럴파크": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구리시|e편한세상인창어반포레": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구리시|갈매역아이파크": {
+  "households": 1630,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구리시|구리갈매푸르지오": {
+  "households": 1259,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "구리시|구리역한양수자인리버시티": {
+  "households": 563,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "기장군|이진캐스빌블루1차": {
+  "households": 1467,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대공원I'PARK(2단지)": {
+  "households": 713,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대공원한신휴플러스": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대명루첸": {
+  "households": 1688,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대연SKVIEWHills": {
+  "households": 1943,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대연힐스테이트푸르지오": {
+  "households": 5429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|대현더샵": {
+  "households": 3306,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|더비치푸르지오써밋": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|더샵번영센트로": {
+  "households": 719,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|문수로2차IPARK1단지": {
+  "households": 1282,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|문수로2차IPARK2단지": {
+  "households": 1311,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|문수로IPARK1": {
+  "households": 1369,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|번영로하늘채센트럴파크": {
+  "households": 1491,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|선암에코하이츠": {
+  "households": 2274,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|송림맨션": {
+  "households": 168,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|신성미소지움1단지": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|신정현대홈타운3": {
+  "households": 2546,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|오션파라곤아파트": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|옥동롯데인벤스로얄": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|옥현으뜸마을주공3": {
+  "households": 3202,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|우주가든": {
+  "households": 191,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|울산대현시티프라디움": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|울산문수로두산위브더제니스": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|울산번영로두산위브": {
+  "households": 2987,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|울산신정푸르지오": {
+  "households": 3747,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|울산호수공원대명루첸아파트": {
+  "households": 1206,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|일신프리빌리지": {
+  "households": 858,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|한라한솔타운": {
+  "households": 394,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|현대": {
+  "households": 1630,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|힐스테이트대연센트럴": {
+  "households": 162,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|힐스테이트수암(1단지)": {
+  "households": 1282,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남구|힐스테이트수암(2단지)": {
+  "households": 377,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|구월아시아드선수촌1단지": {
+  "households": 858,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|구월아시아드선수촌2단지": {
+  "households": 1839,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|구월아시아드선수촌센트럴자이": {
+  "households": 1160,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|구월힐스테이트3단지": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|극동": {
+  "households": 1380,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|도림아이파크": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|서창베라체아파트(11단지)": {
+  "households": 1659,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|서해그랑블": {
+  "households": 1293,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|어울림마을": {
+  "households": 2975,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|에코메트로5": {
+  "households": 2059,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남동구|청실": {
+  "households": 191,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|e편한세상 다산": {
+  "households": 3677,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산 이편한세상자이": {
+  "households": 3950,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산롯데캐슬": {
+  "households": 2964,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산반도유보라메이플타운": {
+  "households": 1746,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산신안인스빌퍼스트포레": {
+  "households": 1891,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산아이파크": {
+  "households": 731,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산유승한내들센트럴": {
+  "households": 1125,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|다산펜테리움리버테라스Ⅱ": {
+  "households": 1340,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "남양주시|힐스테이트다산": {
+  "households": 2210,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "노원구|동신": {
+  "households": 1259,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "노원구|삼호3": {
+  "households": 1659,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "노원구|월계센트럴아이파크": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "노원구|한진한화그랑빌": {
+  "households": 4043,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|대구금강아파트": {
+  "households": 360,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|빌리브스카이주상복합": {
+  "households": 522,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|성당코오롱하늘채": {
+  "households": 992,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|용산현대우방": {
+  "households": 748,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|우방청자": {
+  "households": 481,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달서구|한양은하": {
+  "households": 516,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달성군|대실역청아람2단지": {
+  "households": 2320,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "달성군|호반베르디움2차": {
+  "households": 2755,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|강변동서마을": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|대동펜타뷰": {
+  "households": 1433,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|무등산광신프로그레스": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|선교2차우방아이유쉘리포레": {
+  "households": 255,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|이스트시티2단지": {
+  "households": 655,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동구|장원젠트룸아파트": {
+  "households": 75,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|답십리대우": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|답십리청솔우성": {
+  "households": 1491,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|답십리파크자이": {
+  "households": 1166,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|동대문롯데캐슬노블레스": {
+  "households": 632,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|두산위브": {
+  "households": 1044,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안 허브리츠": {
+  "households": 1351,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안미드카운티": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안엘파인아파트": {
+  "households": 812,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안위브": {
+  "households": 4333,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안장안2차": {
+  "households": 2593,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|래미안크레시티": {
+  "households": 3515,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|쌍용": {
+  "households": 2332,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|이편한세상청계센트럴포레": {
+  "households": 748,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|장안현대홈타운(336)": {
+  "households": 2946,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|전농SK": {
+  "households": 2894,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|전농동삼성래미안": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|전농동신성미소지움": {
+  "households": 603,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|주공2": {
+  "households": 1717,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|청계한신휴플러스": {
+  "households": 1247,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|청량리역롯데캐슬 SKY-L65": {
+  "households": 319,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|한신": {
+  "households": 1143,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|한신아파트": {
+  "households": 1891,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|휘경SK뷰": {
+  "households": 1027,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|휘경베스트빌현대": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|휘경해모로프레스티지": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동대문구|힐스테이트청계": {
+  "households": 1479,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|동원로얄듀크": {
+  "households": 1119,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|명륜아이파크1단지": {
+  "households": 2859,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|명륜자이": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|사직KCC스위첸1단지": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|사직KCC스위첸2단지": {
+  "households": 1746,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|사직롯데캐슬더클래식": {
+  "households": 2355,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|사직역삼정그린코아더베스트1차": {
+  "households": 835,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|사직역삼정그린코아더베스트2차": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|쌍용더플래티넘사직아시아드아파트": {
+  "households": 2065,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|안락시영(충렬)": {
+  "households": 940,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|온천동한진스카이뷰": {
+  "households": 406,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|지음시그너스인동래": {
+  "households": 87,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|충렬": {
+  "households": 934,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|홍림그린피아": {
+  "households": 122,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동래구|힐스테이트명륜트라디움": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|e편한세상상도노빌리티": {
+  "households": 1392,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|건영(103동-106동)": {
+  "households": 719,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|경남교수": {
+  "households": 336,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|경남아너스빌1차": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|경동윈츠리버": {
+  "households": 650,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|극동(105)": {
+  "households": 2436,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|대림(169-8)": {
+  "households": 1264,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|대림아파트": {
+  "households": 2361,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|대방동현대": {
+  "households": 708,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|두산위브트레지움": {
+  "households": 586,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|두산위브트레지움2차": {
+  "households": 893,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|래미안로이파크": {
+  "households": 1218,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|래미안상도3차": {
+  "households": 2140,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|래미안트윈파크": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|롯데낙천대": {
+  "households": 1520,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|롯데캐슬에듀포레": {
+  "households": 638,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|명수대현대": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|사당롯데캐슬골든포레": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|사당우성2": {
+  "households": 1699,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|사당우성3": {
+  "households": 1421,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|사당자이": {
+  "households": 1433,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|삼성래미안": {
+  "households": 2111,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|삼성래미안2": {
+  "households": 800,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|상도더샵2차": {
+  "households": 325,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|상도동래미안1차": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|상도역롯데캐슬파크엘": {
+  "households": 1114,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|상도파크자이": {
+  "households": 615,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|신동아": {
+  "households": 1560,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|신동아4": {
+  "households": 1369,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|신동아리버파크": {
+  "households": 2859,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|아이파크": {
+  "households": 626,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|아크로리버하임": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|우성": {
+  "households": 1351,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|우성1차": {
+  "households": 1450,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|이수역리가": {
+  "households": 893,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|이수힐스테이트": {
+  "households": 1218,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|제일": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|주공2": {
+  "households": 998,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|중앙하이츠빌": {
+  "households": 998,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|청호": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|포스코더샵": {
+  "households": 2076,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|한강현대": {
+  "households": 1195,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|한신휴플러스": {
+  "households": 470,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|현대홈타운2": {
+  "households": 296,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|흑석동양아파트": {
+  "households": 847,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|흑석한강센트레빌": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|흑석한강센트레빌Ⅱ": {
+  "households": 1444,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|흑석한강푸르지오": {
+  "households": 1554,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|힐스테이트 상도 센트럴파크": {
+  "households": 2627,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "동작구|힐스테이트 상도 프레스티지": {
+  "households": 1346,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|공덕1삼성래미안": {
+  "households": 1044,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|공덕2삼성래미안": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|공덕3삼성래미안": {
+  "households": 1032,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|공덕현대": {
+  "households": 429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|대흥동태영아파트": {
+  "households": 2192,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|더클래시": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|도화동현대": {
+  "households": 1612,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|래미안공덕5차": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|래미안마포리버웰": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|래미안밤섬리베뉴Ⅰ": {
+  "households": 725,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|래미안밤섬리베뉴Ⅱ": {
+  "households": 760,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|래미안웰스트림": {
+  "households": 1038,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포그랑자이": {
+  "households": 1212,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포동원베네스트": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포래미안푸르지오1단지": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포래미안푸르지오2단지": {
+  "households": 1462,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포래미안푸르지오3단지": {
+  "households": 1276,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포래미안푸르지오4단지": {
+  "households": 2094,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포센트럴 아이파크": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포쌍용황금아파트": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포용강삼성래미안": {
+  "households": 597,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포웨스트리버태영데시앙": {
+  "households": 522,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포자이": {
+  "households": 655,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포자이2차": {
+  "households": 626,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포자이더센트리지(102동~112동)": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포프레스티지자이": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|마포현대": {
+  "households": 667,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|브라운스톤공덕아파트": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|삼성": {
+  "households": 1230,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|상록": {
+  "households": 1160,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|상암월드컵파크2단지": {
+  "households": 1450,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|상암월드컵파크4단지": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|상암월드컵파크6단지": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|상암월드컵파크7단지": {
+  "households": 882,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|서강GS": {
+  "households": 841,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|서강예가": {
+  "households": 916,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|서강오벨리스크스위트": {
+  "households": 307,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|성산시영(대우)": {
+  "households": 1775,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|성산시영(선경)": {
+  "households": 1479,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|성산시영(유원)": {
+  "households": 1531,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|신공덕1차삼성래미안1아파트": {
+  "households": 1409,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|신공덕래미안2차": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|신공덕래미안3차": {
+  "households": 661,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|신촌삼익": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|신촌숲아이파크": {
+  "households": 1264,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|염리삼성래미안": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|우성": {
+  "households": 1537,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|울트라월드컵(참누리)": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|월드컵아이파크(667)": {
+  "households": 481,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|이편한세상마포리버파크": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|창전동현대홈타운": {
+  "households": 435,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|창전래미안": {
+  "households": 934,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|한강삼성": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|한화꿈에그린": {
+  "households": 273,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|해모로": {
+  "households": 615,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "마포구|현대홈타운": {
+  "households": 1322,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "미추홀구|스타디움센트럴시티": {
+  "households": 760,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "미추홀구|인천 SK Sky VIEW": {
+  "households": 7952,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "미추홀구|주안역센트레빌": {
+  "households": 1607,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "미추홀구|포레나미추홀": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "미추홀구|힐스테이트푸르지오주안": {
+  "households": 1038,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|래미안어반파크1단지": {
+  "households": 690,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|백양푸른채": {
+  "households": 1798,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|서면지원더뷰파크": {
+  "households": 296,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|시민공원일동미라주시티": {
+  "households": 249,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|시영(1~5동)": {
+  "households": 476,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|시영(6~11동)": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|양정포레힐즈스위첸1단지": {
+  "households": 731,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|유원타워": {
+  "households": 255,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|포세이돈비": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부산진구|푸른마을": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|e편한세상부평그랑힐스": {
+  "households": 742,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|금호이수마운트밸리": {
+  "households": 2552,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|더샵부평센트럴시티": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|래미안부평": {
+  "households": 2413,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평1,2차금호타운": {
+  "households": 6757,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평IPARK": {
+  "households": 389,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평SKVIEW해모로": {
+  "households": 864,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평두산위브더파크": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평산곡푸르지오": {
+  "households": 1276,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평신일해피트리더루츠": {
+  "households": 824,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|부평역화성파크드림": {
+  "households": 760,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|브라운스톤백운": {
+  "households": 458,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|삼도": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|쌍용더플래티넘부평": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|청천푸르지오": {
+  "households": 5214,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "부평구|힐스테이트부평": {
+  "households": 557,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|U-스타시티일동미라주더스타3단지": {
+  "households": 1027,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|매천센트럴파크": {
+  "households": 2134,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|오토밸리로효성해링턴플레이스아파트": {
+  "households": 3370,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|이편한세상대구금호": {
+  "households": 1462,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|화봉휴먼시아": {
+  "households": 1775,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "북구|효문코오롱하늘채": {
+  "households": 2430,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단 금호어울림 센트럴": {
+  "households": 1183,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단1차대주피오레": {
+  "households": 2337,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단SKVIEW": {
+  "households": 1491,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시대방디에트르리버파크": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시대성베르힐라프리미어": {
+  "households": 638,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시디에트르더힐": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시로제비앙라포레": {
+  "households": 748,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시모아미래도엘리트파크": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시모아엘가그랑데": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시예미지트리플에듀": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시파라곤보타닉파크": {
+  "households": 551,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단신도시한신더휴캐널파크(THEHUECANALPARK)": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단힐스테이트5차": {
+  "households": 951,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검단힐스테이트6차": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검암역로열파크씨티푸르지오1단지": {
+  "households": 319,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|검암역로열파크씨티푸르지오2단지": {
+  "households": 476,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|당하KCC스위첸": {
+  "households": 2268,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|루원e-편한세상하늘채아파트": {
+  "households": 5150,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|루원더퍼스트": {
+  "households": 1044,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|루원시티2차SKLeaders`VIEW": {
+  "households": 331,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|루원시티센트럴타운": {
+  "households": 1821,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|북청라하우스토리": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|석남동경남아너스빌": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|엘에이치웨스턴블루힐": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|예미지더시그너스": {
+  "households": 435,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|우미린더시그니처": {
+  "households": 1009,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|우미린더헤리티지": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|우미린파크뷰2단지": {
+  "households": 371,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|인천석남동어울림2차": {
+  "households": 273,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|청라동양엔파트": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|청라지구중흥S-CLASS1단지": {
+  "households": 1021,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|파라곤센트럴파크": {
+  "households": 806,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|포레나루원시티": {
+  "households": 232,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|호반베르디움(116-6)": {
+  "households": 1641,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|호반써밋프라임뷰": {
+  "households": 795,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서구|효정(489)": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC래미안e편한세상": {
+  "households": 4263,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC래미안클라시스": {
+  "households": 2030,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC센트럴아이파크": {
+  "households": 1282,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC센트레빌": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC에코자이": {
+  "households": 1038,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC파크뷰자이1단지": {
+  "households": 3671,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC파크뷰자이2단지": {
+  "households": 1781,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC파크뷰자이3단지": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|DMC파크뷰자이5단지": {
+  "households": 168,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|e편한세상신촌1단지": {
+  "households": 1421,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|e편한세상신촌2단지": {
+  "households": 1009,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|e편한세상신촌4단지": {
+  "households": 731,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|남가좌동현대": {
+  "households": 2018,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|독립문극동(200-0)": {
+  "households": 2001,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|돈의문센트레빌": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|두산": {
+  "households": 2477,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|래미안루센티아": {
+  "households": 731,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|북한산더샵": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|신촌럭키": {
+  "households": 1375,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|신촌푸르지오": {
+  "households": 1746,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|월드컵현대": {
+  "households": 365,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|천연뜨란채": {
+  "households": 2036,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|홍제원현대(459-0)": {
+  "households": 1746,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서대문구|힐스테이트신촌": {
+  "households": 1073,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|강변": {
+  "households": 383,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|대우(효령)": {
+  "households": 377,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|동아": {
+  "households": 1386,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안 리더스원": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안서초에스티지": {
+  "households": 360,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안서초에스티지S": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안신반포리오센트": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안신반포팰리스": {
+  "households": 789,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안원베일리": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|래미안퍼스티지": {
+  "households": 2912,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|롯데캐슬아르떼": {
+  "households": 876,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|롯데캐슬클래식": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포래미안아이파크": {
+  "households": 777,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포르엘": {
+  "households": 203,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포리체": {
+  "households": 1508,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포미도": {
+  "households": 1154,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포미도2차아파트": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포센트럴자이": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포써밋": {
+  "households": 760,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포자이": {
+  "households": 3927,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|반포힐스테이트": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|방배1차현대홈타운": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|방배2차현대홈타운": {
+  "households": 429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|방배그랑자이": {
+  "households": 342,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|방배아트자이": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|삼풍아파트": {
+  "households": 1931,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|삼호1동~3동": {
+  "households": 586,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초교대e편한세상": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초그랑자이": {
+  "households": 742,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초래미안": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초롯데캐슬프레지던트": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초삼성래미안": {
+  "households": 377,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초푸르지오써밋": {
+  "households": 934,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|서초힐스": {
+  "households": 1346,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|신반포2": {
+  "households": 1508,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|신반포4": {
+  "households": 1177,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|신반포자이": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|신반포청구": {
+  "households": 592,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|신화": {
+  "households": 267,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|아크로리버파크": {
+  "households": 2204,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|엠브이아파트": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|우성": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|우성아파트": {
+  "households": 557,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|유원서초": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|잠원현대훼밀리": {
+  "households": 249,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|진흥아파트": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|한강": {
+  "households": 423,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|한라": {
+  "households": 267,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|한신": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|현대": {
+  "households": 307,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|호반써밋서초파크": {
+  "households": 1554,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "서초구|훼미리": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|까치마을(1단지)(대우롯데선경)": {
+  "households": 1804,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|까치마을(2단지)(주공)": {
+  "households": 1717,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|까치마을(3단지)(신원)": {
+  "households": 1148,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|까치마을(4단지)(롯데)": {
+  "households": 969,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|까치마을(4단지)(선경)": {
+  "households": 980,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|느티마을(4단지)(공무원)": {
+  "households": 1276,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|매화마을공무원1": {
+  "households": 1206,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|매화마을공무원2": {
+  "households": 1960,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|목련마을(영남)": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|목련마을SK": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(12단지)(주공뜨란체)": {
+  "households": 2192,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(1단지)(대림)": {
+  "households": 1705,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(2단지)(엘지)": {
+  "households": 1531,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(3단지)(건영)": {
+  "households": 841,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(3단지)(신한)": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(4단지)(주공)": {
+  "households": 1160,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|무지개(5단지)(청구)": {
+  "households": 1827,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|백현마을2단지": {
+  "households": 1090,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|백현마을5단지(주공)": {
+  "households": 922,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|백현마을7단지(주공)": {
+  "households": 632,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|백현마을8단지(대림)": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을1단지(판교신미주)": {
+  "households": 1641,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을2단지(이지더원)": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을3단지(주공)": {
+  "households": 2471,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을4단지(주공)": {
+  "households": 1334,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을7단지": {
+  "households": 824,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|봇들마을9단지(금호어울림)": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|산운마을11단지(판교포레라움)": {
+  "households": 1578,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|산운마을12단지판교센트럴포레와이시티": {
+  "households": 1479,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|산운마을4단지(리가)": {
+  "households": 232,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|산운마을8단지(부영사랑으로)": {
+  "households": 1154,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|산운마을9단지(대방노블랜드)": {
+  "households": 661,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|상록마을(라이프1차)": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|상록마을(라이프2차)": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|상록마을(보성)": {
+  "households": 551,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|상록마을(우성)1": {
+  "households": 2946,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|상록마을(임광)": {
+  "households": 667,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|샛별마을(동성)": {
+  "households": 800,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|샛별마을(라이프)": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|샛별마을(삼부)": {
+  "households": 951,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|샛별마을(우방)": {
+  "households": 1293,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|시범삼성": {
+  "households": 1143,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|시범우성": {
+  "households": 2622,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|시범한신": {
+  "households": 1462,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|시범한양": {
+  "households": 4298,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|시범현대": {
+  "households": 2378,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|아름마을(선경)": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|아름마을(풍림)": {
+  "households": 1183,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|양지마을(2단지)(청구)": {
+  "households": 1044,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|양지마을(3단지)(금호)": {
+  "households": 580,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|양지마을(5단지)(한양501-514)": {
+  "households": 2343,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|양지마을(5단지)(한양515-529)": {
+  "households": 1137,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|양지마을(금호1)": {
+  "households": 1351,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(금강)": {
+  "households": 882,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(삼성)": {
+  "households": 1624,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(삼환)": {
+  "households": 771,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(성지)": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(진흥)": {
+  "households": 1108,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(청구)": {
+  "households": 1009,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|이매촌(한신)": {
+  "households": 2413,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|장미마을(코오롱)1": {
+  "households": 1525,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|장미마을(현대)": {
+  "households": 3045,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|정든마을(1단지)(동아)": {
+  "households": 452,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|정든마을(2단지)(동아)": {
+  "households": 1560,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|정든마을(5단지)(신화)": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|정든마을(6단지)(우성)": {
+  "households": 1525,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|청솔마을(계룡)": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|청솔마을(대원)": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|청솔마을(유천)": {
+  "households": 1137,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|청솔마을(주공9단지)": {
+  "households": 2216,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|청솔마을(한라)": {
+  "households": 1636,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|탑마을(선경)1": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|파크타운(대림)": {
+  "households": 1183,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|파크타운(롯데)": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|파크타운(삼익)": {
+  "households": 876,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|파크타운(서안)": {
+  "households": 1270,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|판교원마을5단지(푸르지오)": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|판교원마을6단지(판교대광로제비앙)": {
+  "households": 1514,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|판교원마을7단지(모아미래도)": {
+  "households": 1583,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|판교원마을9단지(한림풀에버)": {
+  "households": 1578,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|푸른마을(벽산)": {
+  "households": 1212,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|푸른마을(신성)": {
+  "households": 1032,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|푸른마을(쌍용)": {
+  "households": 1804,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|하얀마을(5단지)(주공)": {
+  "households": 1694,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(1단지)(청구)": {
+  "households": 1334,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(2단지)(LG)": {
+  "households": 829,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(3단지)(한일)": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(4단지)(주공)": {
+  "households": 3938,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(5단지)(주공)": {
+  "households": 2407,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|한솔마을(6단지)(주공)": {
+  "households": 2627,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|현대I-PARK1": {
+  "households": 1160,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|효자촌(대우)": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|효자촌(럭키)": {
+  "households": 574,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|효자촌(삼환)": {
+  "households": 1085,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시분당구|효자촌(화성)": {
+  "households": 922,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|산성역포레스티아": {
+  "households": 5504,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례 래미안이편한세상": {
+  "households": 2448,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례보미리즌빌": {
+  "households": 203,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례센트럴자이": {
+  "households": 5539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례역푸르지오5단지": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례역푸르지오6단지": {
+  "households": 389,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시수정구|위례호반써밋에비뉴": {
+  "households": 1624,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|e편한세상금빛그랑메종1단지": {
+  "households": 1015,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|롯데캐슬": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|신흥역하늘채랜더스원1단지": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|신흥역하늘채랜더스원2단지": {
+  "households": 394,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|신흥역하늘채랜더스원3단지": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성남시중원구|중앙동힐스테이트1차": {
+  "households": 899,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|강변건영아파트": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|극동": {
+  "households": 1491,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|극동그린": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|극동미라주": {
+  "households": 713,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|금호1차푸르지오": {
+  "households": 615,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|금호삼성래미안": {
+  "households": 934,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|금호자이1차": {
+  "households": 974,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|금호한신": {
+  "households": 644,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|금호현대": {
+  "households": 899,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|대림(1차)": {
+  "households": 1125,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|대림(2차)": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|대림e-편한세상": {
+  "households": 3700,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|대림강변타운": {
+  "households": 2076,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|대우": {
+  "households": 1926,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|동아": {
+  "households": 563,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|동아그린": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|두산": {
+  "households": 2477,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|래미안 옥수 리버젠": {
+  "households": 2732,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|래미안하이리버": {
+  "households": 1769,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|롯데": {
+  "households": 394,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|롯데캐슬파크": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|무학현대": {
+  "households": 377,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|벽산": {
+  "households": 3805,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|브라운스톤2차": {
+  "households": 197,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|브라운스톤금호": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|삼성": {
+  "households": 644,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲 한신 더 휴": {
+  "households": 2494,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲2차푸르지오": {
+  "households": 1201,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲리버그린동아아파트": {
+  "households": 795,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲리버뷰자이": {
+  "households": 1380,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲푸르지오": {
+  "households": 1554,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|서울숲행당푸르지오": {
+  "households": 1015,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|성수우방2차아파트": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|세림": {
+  "households": 1154,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|센트라스": {
+  "households": 4391,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|신금호파크자이": {
+  "households": 2285,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|신동아": {
+  "households": 2094,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|쌍용": {
+  "households": 1125,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|옥수삼성": {
+  "households": 2071,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|옥수파크힐스101동~116동": {
+  "households": 2523,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|옥수파크힐스117동~125동": {
+  "households": 829,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|옥수하이츠": {
+  "households": 638,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|왕십리KCC스위첸": {
+  "households": 922,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|왕십리자이": {
+  "households": 1740,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|왕십리풍림아이원": {
+  "households": 1653,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|이편한세상금호파크힐스": {
+  "households": 2129,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|텐즈힐(1단지)": {
+  "households": 2517,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|텐즈힐(2단지)": {
+  "households": 1473,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|트리마제": {
+  "households": 1473,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|한신무학": {
+  "households": 650,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|한진타운": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|행당두산위브": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|행당브라운스톤": {
+  "households": 481,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|행당한진타운": {
+  "households": 3811,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성동구|현대": {
+  "households": 2558,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운1단지(래미안길음1차)": {
+  "households": 1955,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운2단지푸르지오": {
+  "households": 2970,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운3단지푸르지오": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운4단지(e편한세상)": {
+  "households": 3016,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운8단지(래미안)": {
+  "households": 2749,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|길음뉴타운9단지(래미안)": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|꿈의숲아이파크": {
+  "households": 1264,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|꿈의숲코오롱하늘채": {
+  "households": 719,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|꿈의숲푸르지오": {
+  "households": 1415,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안길음센터피스": {
+  "households": 2065,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안라센트": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안세레니티": {
+  "households": 1566,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안아트리치": {
+  "households": 1525,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안월곡": {
+  "households": 2007,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안장위퍼스트하이": {
+  "households": 1902,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안크리시엘": {
+  "households": 2001,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|래미안포레카운티": {
+  "households": 1102,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|롯데캐슬클라시아": {
+  "households": 1357,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|보문파크뷰자이": {
+  "households": 2587,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|아이파크종암동1차": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|월곡두산위브": {
+  "households": 3532,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|정릉2차e-편한세상": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "성북구|한신": {
+  "households": 2575,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|가온마을6단지": {
+  "households": 1844,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|나릿재마을2단지": {
+  "households": 858,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|나릿재마을6단지": {
+  "households": 342,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|도램마을 14단지(한림풀에버)": {
+  "households": 1589,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|블루지움(2-4)": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|새뜸마을10단지(더샵힐스테이트)": {
+  "households": 2581,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|새뜸마을14단지(더샵힐스테이트)": {
+  "households": 296,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|새뜸마을9단지(금성백조예미지)": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|세종퍼스트타워": {
+  "households": 551,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|첫마을7단지(래미안)": {
+  "households": 2059,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "세종시|한뜰마을4단지(한신더휴리저브2)": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|e편한세상송파파크센트럴": {
+  "households": 916,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|가락(1차)쌍용아파트": {
+  "households": 3631,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|가락금호아파트": {
+  "households": 1543,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|가락삼익맨숀": {
+  "households": 876,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|가락쌍용(2차)": {
+  "households": 708,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|거여1단지": {
+  "households": 2007,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|거여4단지": {
+  "households": 1299,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|건영1": {
+  "households": 644,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|극동": {
+  "households": 1079,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|대림": {
+  "households": 1989,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|래미안송파파인탑": {
+  "households": 1641,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|래미안파크팰리스": {
+  "households": 1380,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|레이크팰리스": {
+  "households": 3097,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|리센츠": {
+  "households": 6247,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|문정가락현대1차": {
+  "households": 302,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|문정래미안": {
+  "households": 2169,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|상아2차아파트": {
+  "households": 1427,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파더센트레": {
+  "households": 2645,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파동부쎈트레빌": {
+  "households": 354,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파두산위브": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파삼성래미안아파트": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파시그니처롯데캐슬": {
+  "households": 1027,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파파인타운11단지": {
+  "households": 331,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파파인타운1단지": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파파인타운3단지": {
+  "households": 1154,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|송파파인타운8단지": {
+  "households": 319,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|쌍용": {
+  "households": 510,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|씨티극동1": {
+  "households": 626,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|아시아선수촌아파트": {
+  "households": 928,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|올림픽선수기자촌2단지": {
+  "households": 2140,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|올림픽선수기자촌3단지": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|올림픽훼밀리타운": {
+  "households": 5672,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|우성": {
+  "households": 1595,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|우성4차": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|우성아파트": {
+  "households": 1415,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|우창": {
+  "households": 342,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|위례24단지(꿈에그린)": {
+  "households": 3202,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|잠실엘스": {
+  "households": 5678,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|잠실올림픽공원아이파크": {
+  "households": 789,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|잠실한솔": {
+  "households": 667,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|장미1": {
+  "households": 1897,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|장미2": {
+  "households": 1206,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|주공아파트 5단지": {
+  "households": 4193,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|코오롱아파트": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|트리지움": {
+  "households": 4048,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|파크리오": {
+  "households": 9883,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|파크하비오": {
+  "households": 1781,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|프라자": {
+  "households": 429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|한강극동": {
+  "households": 1143,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|한양아파트": {
+  "households": 684,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|헬리오시티": {
+  "households": 7233,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|현대": {
+  "households": 1172,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|현대(6차)": {
+  "households": 278,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "송파구|현대1": {
+  "households": 824,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|e편한세상범어": {
+  "households": 3735,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|노변동서우방": {
+  "households": 470,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|만촌3차화성파크드림": {
+  "households": 864,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|만촌삼정그린코아에듀파크": {
+  "households": 1404,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|만촌역 서한포레스트": {
+  "households": 81,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|만촌역태왕아너스": {
+  "households": 307,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|만촌자이르네": {
+  "households": 406,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어롯데캐슬": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어서한포레스트": {
+  "households": 336,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어센트럴푸르지오": {
+  "households": 1369,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어숲화성파크드림S": {
+  "households": 1061,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어에스케이뷰": {
+  "households": 806,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어에일린의뜰": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|범어효성해링턴플레이스": {
+  "households": 586,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|브라운스톤범어": {
+  "households": 563,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|빌리브범어120": {
+  "households": 255,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|시지5태왕하이츠": {
+  "households": 568,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|우방사랑마을": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|청구전원타운": {
+  "households": 806,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|태왕하이츠1": {
+  "households": 655,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|힐스테이트범어센트럴": {
+  "households": 673,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수성구|힐스테이트황금엘포레": {
+  "households": 1241,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수영구|광안자이": {
+  "households": 1311,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수영구|뉴비치": {
+  "households": 1578,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수영구|더샵남천프레스티지": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|e-편한세상": {
+  "households": 1288,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|광교e편한세상": {
+  "households": 2575,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|광교역참누리포레스트": {
+  "households": 1421,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|광교호반베르디움": {
+  "households": 5382,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|매탄위브하늘채": {
+  "households": 8549,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|벽적골9단지주공": {
+  "households": 4704,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|벽적골롯데": {
+  "households": 3741,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|영통SKVIEW": {
+  "households": 2268,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|영통아이파크캐슬1단지": {
+  "households": 3463,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|영통아이파크캐슬2단지": {
+  "households": 2326,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|자연앤힐스테이트": {
+  "households": 3695,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "수원시영통구|힐스테이트영통": {
+  "households": 5962,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|귀인마을현대홈타운": {
+  "households": 2453,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|꿈마을건영3차": {
+  "households": 557,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|꿈마을동아": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|꿈마을한신": {
+  "households": 800,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|래미안인덕원더포인트": {
+  "households": 1259,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|샘마을대우": {
+  "households": 818,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|샘마을쌍용": {
+  "households": 458,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|샘마을우방": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|샘마을임광": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|샘마을한양": {
+  "households": 713,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|인덕원대림2차": {
+  "households": 1601,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|인덕원대우": {
+  "households": 3793,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|인덕원마을(삼성)": {
+  "households": 2413,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|초원마을대림": {
+  "households": 2517,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|초원마을대원": {
+  "households": 1711,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|초원성원": {
+  "households": 783,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|평촌더샵아이파크": {
+  "households": 1984,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|평촌두산위브리버뷰": {
+  "households": 1328,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|평촌어바인퍼스트": {
+  "households": 5150,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "안양시동안구|향촌마을현대5차": {
+  "households": 1392,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|대림": {
+  "households": 336,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|래미안목동아델리체(101동~118동)": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|래미안목동아델리체(119동~123동)": {
+  "households": 174,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|롯데캐슬": {
+  "households": 1786,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동대림": {
+  "households": 244,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동롯데캐슬마에스트로": {
+  "households": 858,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동센트럴아이파크위브1단지": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동센트럴아이파크위브2단지": {
+  "households": 1572,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동센트럴아이파크위브3단지": {
+  "households": 1009,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동센트럴아이파크위브4단지": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지1": {
+  "households": 1914,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지10": {
+  "households": 1879,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지11": {
+  "households": 1804,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지12": {
+  "households": 1769,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지13": {
+  "households": 2024,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지14": {
+  "households": 2790,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지2": {
+  "households": 1554,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지3": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지4": {
+  "households": 1485,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지5": {
+  "households": 1694,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지6": {
+  "households": 1363,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지7": {
+  "households": 2256,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지8": {
+  "households": 1537,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동신시가지9": {
+  "households": 1902,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동우성2": {
+  "households": 1879,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동청구한신아파트": {
+  "households": 1862,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동파크자이(101동~108동)": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동현대1": {
+  "households": 371,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동현대3차": {
+  "households": 1224,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|목동힐스테이트": {
+  "households": 1717,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|삼익": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|신트리1": {
+  "households": 2076,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|신트리4": {
+  "households": 1827,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|쌍용": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|아이파크": {
+  "households": 789,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|우성": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|청구": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "양천구|현대": {
+  "households": 621,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|글로벌캠퍼스푸르지오": {
+  "households": 3207,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|송도글로벌파크베르디움": {
+  "households": 3109,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|송도더샵그린애비뉴7단지": {
+  "households": 1177,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|송도더샵하버뷰(D14)": {
+  "households": 882,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|송도더샵하버뷰(D15)": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|송도웰카운티3단지": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연수구|호반써밋송도": {
+  "households": 400,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|거제동롯데캐슬피렌체": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|거제센트럴자이": {
+  "households": 2274,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|레이카운티(1단지)": {
+  "households": 563,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|레이카운티(5단지)": {
+  "households": 168,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|선경": {
+  "households": 725,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|쌍용더플래티넘거제아시아드": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|아시아드코오롱하늘채": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|연제롯데캐슬데시앙": {
+  "households": 2633,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "연제구|현대타운": {
+  "households": 423,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|e편한세상 문래 에듀플라츠": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|e편한세상영등포아델포레": {
+  "households": 893,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|강변래미안": {
+  "households": 1317,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|거성파스텔": {
+  "households": 760,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|경남": {
+  "households": 516,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|경남아너스빌": {
+  "households": 1775,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|남서울": {
+  "households": 487,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산금호어울림": {
+  "households": 452,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산롯데캐슬프레스티지": {
+  "households": 406,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산삼성2차": {
+  "households": 597,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산삼성래미안4차": {
+  "households": 1792,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산센트럴아이파크": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산푸르지오": {
+  "households": 679,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산현대3차": {
+  "households": 795,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산현대5차": {
+  "households": 1978,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산효성1차": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|당산효성타운2차": {
+  "households": 348,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|대교": {
+  "households": 534,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|더샵파크프레스티지": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|래미안에스티움": {
+  "households": 2767,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|래미안영등포프레비뉴": {
+  "households": 1409,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래공원한신": {
+  "households": 650,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래두산위브": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래미원": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래자이": {
+  "households": 1317,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래현대5차": {
+  "households": 336,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|문래힐스테이트": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|보라매경남아너스빌": {
+  "households": 905,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|보라매에스케이뷰": {
+  "households": 1699,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|삼부": {
+  "households": 777,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|삼성래미안": {
+  "households": 1873,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|삼환": {
+  "households": 2587,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|시범": {
+  "households": 1595,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|신길센트럴아이파크": {
+  "households": 783,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|신길센트럴자이아파트": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|신길파크자이": {
+  "households": 412,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|신동아": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|아크로타워스퀘어": {
+  "households": 2001,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|양평한신": {
+  "households": 2071,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|양평현대6차": {
+  "households": 1618,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|여의도자이": {
+  "households": 748,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|영등포아트자이": {
+  "households": 1085,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|영등포푸르지오": {
+  "households": 3515,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|우성1": {
+  "households": 1392,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|우성2": {
+  "households": 1276,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|우성3": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|우창": {
+  "households": 383,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|유원제일2차": {
+  "households": 429,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|진주": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|코오롱": {
+  "households": 945,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|포레나영등포센트럴": {
+  "households": 302,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|한강아파트": {
+  "households": 545,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|한신공영": {
+  "households": 261,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|현대3차": {
+  "households": 2767,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "영등포구|힐스테이트클래시안": {
+  "households": 1160,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|강촌": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|리버힐삼성": {
+  "households": 1317,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|삼성래미안": {
+  "households": 1839,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|신동아1": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|용산롯데캐슬센터포레": {
+  "households": 505,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|용산케이씨씨스위첸": {
+  "households": 284,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|우성": {
+  "households": 476,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|이촌코오롱(A)": {
+  "households": 1021,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|한가람": {
+  "households": 2859,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|한강(대우)": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|한강맨숀": {
+  "households": 766,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|한강타운": {
+  "households": 539,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용산구|현대맨숀": {
+  "households": 829,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|e편한세상수지": {
+  "households": 3202,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|광교더힐": {
+  "households": 957,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|광교산자이": {
+  "households": 963,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|더샵동천이스트포레": {
+  "households": 1241,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|더샵동천포레스트": {
+  "households": 702,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|더샵수지포레": {
+  "households": 592,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|동보": {
+  "households": 847,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|동성1차": {
+  "households": 1305,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|동천디이스트": {
+  "households": 3236,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|동천마을현대홈타운2차": {
+  "households": 2581,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|동천센트럴자이": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|래미안수지이스트파크": {
+  "households": 1688,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|만현마을1단지롯데캐슬": {
+  "households": 1659,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|벽산블루밍": {
+  "households": 2401,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|벽산블루밍1단지": {
+  "households": 1241,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|벽산블루밍2단지": {
+  "households": 1473,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|벽산블루밍3단지": {
+  "households": 609,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|벽산블루밍4단지": {
+  "households": 1050,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|상현마을현대성우1차": {
+  "households": 899,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|서홍마을4": {
+  "households": 905,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|성복역롯데캐슬골드타운": {
+  "households": 2842,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|성복역롯데캐슬클라시엘": {
+  "households": 1427,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|성복역롯데캐슬파크나인": {
+  "households": 754,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|성복역리버파크": {
+  "households": 1769,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|수지삼성2차": {
+  "households": 1056,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|수지파크푸르지오": {
+  "households": 957,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정6단지(상록)공무원": {
+  "households": 858,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정7단지(상록)공무원": {
+  "households": 1989,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정마을성지": {
+  "households": 829,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정마을우성": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정마을주공1": {
+  "households": 2917,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|신정마을진흥": {
+  "households": 1061,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|용인수지신정마을9단지": {
+  "households": 2442,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|우남퍼스트빌": {
+  "households": 3387,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|정자뜰마을태영데시앙1차": {
+  "households": 1636,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|정자뜰마을태영데시앙2차": {
+  "households": 853,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|진산마을성원상떼빌아파트": {
+  "households": 3573,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|풍산아파트": {
+  "households": 1293,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|한성": {
+  "households": 1433,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|현대": {
+  "households": 2604,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|현대성우8차": {
+  "households": 3979,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "용인시수지구|현암마을동성2차": {
+  "households": 2082,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|DMCSKVIEW": {
+  "households": 418,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|DMC센트럴자이(2단지)": {
+  "households": 267,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|e편한세상백련산": {
+  "households": 493,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|녹번역e편한세상캐슬": {
+  "households": 2784,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|래미안베라힐즈": {
+  "households": 1485,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|백련산에스케이뷰아이파크": {
+  "households": 1723,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|백련산파크자이": {
+  "households": 980,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|백련산힐스테이트2차": {
+  "households": 1705,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|북한산힐스테이트7차": {
+  "households": 945,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|불광롯데캐슬": {
+  "households": 905,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|힐스테이트녹번": {
+  "households": 1346,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "은평구|힐스테이트녹번역": {
+  "households": 870,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "의왕시|래미안에버하임": {
+  "households": 1624,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "의왕시|인덕원 센트럴 자이 2단지": {
+  "households": 2535,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "종로구|경희궁롯데캐슬": {
+  "households": 319,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "종로구|경희궁자이(2단지)": {
+  "households": 1560,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "종로구|경희궁자이(3단지)": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|e편한세상강변": {
+  "households": 3051,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|e편한세상영종국제도시센텀베뉴": {
+  "households": 690,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|교동": {
+  "households": 290,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|남산롯데캐슬센트럴스카이": {
+  "households": 2053,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|남산타운": {
+  "households": 4721,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|더샵리비테르2차": {
+  "households": 824,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|동양아파트3동": {
+  "households": 464,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|래미안하이베르": {
+  "households": 1386,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|반월당역서한포레스트": {
+  "households": 499,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|번영로효성해링턴플레이스2차아파트": {
+  "households": 725,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|복산아이파크": {
+  "households": 1926,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|삼덕청아람": {
+  "households": 2204,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|삼성": {
+  "households": 5319,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|삼성래미안": {
+  "households": 1189,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|삼성사이버빌리지": {
+  "households": 713,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|서울역센트럴자이": {
+  "households": 1044,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|신당푸르지오": {
+  "households": 679,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|약사아이파크": {
+  "households": 2854,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|약수하이츠": {
+  "households": 2778,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|에일린의뜰2차아파트": {
+  "households": 1926,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|우정혁신도시푸르지오": {
+  "households": 1282,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|우정혁신엘에이치3단지": {
+  "households": 1902,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|울산유곡푸르지오": {
+  "households": 2001,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|유곡e편한세상": {
+  "households": 1560,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|청구e편한세상": {
+  "households": 1166,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|현대": {
+  "households": 3248,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|호반써밋스카이센트럴": {
+  "households": 626,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|힐스테이트대구역": {
+  "households": 174,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중구|힐스테이트도원센트럴": {
+  "households": 128,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "중랑구|사가정센트럴아이파크": {
+  "households": 1415,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|e편한세상감일": {
+  "households": 835,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|감일센트레빌": {
+  "households": 1096,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|감일스타힐스": {
+  "households": 528,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|감일한라비발디": {
+  "households": 2181,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|더샵포웰시티": {
+  "households": 1253,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|리버나인RIVERNINE": {
+  "households": 1485,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변 골든 센트로": {
+  "households": 4164,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변 센텀팰리스": {
+  "households": 2894,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변 센트리버": {
+  "households": 2227,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변 하우스디 더 레이크": {
+  "households": 1595,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변도시 베라체": {
+  "households": 1299,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변도시12단지": {
+  "households": 800,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변동원로얄듀크": {
+  "households": 1752,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변동일하이빌": {
+  "households": 1717,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변루나리움": {
+  "households": 2569,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변리버뷰자이": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변센트럴자이": {
+  "households": 2633,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변센트럴풍경채": {
+  "households": 1166,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변스타힐스아파트": {
+  "households": 3631,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변트래지안": {
+  "households": 1253,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변파밀리에": {
+  "households": 2036,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사강변한신휴플러스": {
+  "households": 1479,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|미사레스티아": {
+  "households": 1995,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|신안인스빌": {
+  "households": 1027,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|위례 센트로엘": {
+  "households": 783,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|위례그린파크푸르지오": {
+  "households": 1235,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|위례롯데캐슬": {
+  "households": 3480,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|위례신도시신안인스빌아스트로": {
+  "households": 887,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|이편한세상미사": {
+  "households": 1601,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|포웰시티푸르지오라포레": {
+  "households": 1067,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|플로리체위례": {
+  "households": 1154,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남더샵센트럴뷰": {
+  "households": 1166,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남유니온시티에일린의뜰": {
+  "households": 1456,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남유시티대명루첸리버파크": {
+  "households": 1496,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남풍산아이파크(1단지)": {
+  "households": 1247,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남호반써밋에듀파크": {
+  "households": 1502,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남힐즈파크푸르지오1단지": {
+  "households": 737,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|하남힐즈파크푸르지오2단지": {
+  "households": 789,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "하남시|힐스테이트포웰시티": {
+  "households": 980,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|SKVIEW": {
+  "households": 3294,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|남흥": {
+  "households": 557,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|더샵센텀파크2차": {
+  "households": 2250,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|동부올림픽타운": {
+  "households": 2651,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|센텀삼익아파트": {
+  "households": 2709,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|한일": {
+  "households": 986,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ },
+ "해운대구|해운대센트럴푸르지오": {
+  "households": 226,
+  "dong_count": 0,
+  "builder": "",
+  "source": "estimated"
+ }
+}

@@ -425,10 +425,16 @@
 
     section.appendChild(barsCol);
 
-    // 단지품질 (브랜드 + 연식)
-    if (geoLoc && (geoLoc.brand_score != null || geoLoc.age_score != null)) {
+    // 단지품질 (세대수 + 브랜드 + 연식)
+    if (geoLoc && (geoLoc.households || geoLoc.brand_score != null || geoLoc.age_score != null)) {
       var qualDiv = document.createElement("div");
       qualDiv.style.cssText = "display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--muted)";
+      if (geoLoc.households) {
+        var hSpan = document.createElement("span");
+        var hc = geoLoc.households >= 1500 ? "#2563eb" : geoLoc.households >= 500 ? "#f59e0b" : "#94a3b8";
+        hSpan.innerHTML = '\uC138\uB300 <b style="color:' + hc + '">' + geoLoc.households.toLocaleString() + '</b>';
+        qualDiv.appendChild(hSpan);
+      }
       if (geoLoc.brand_score != null) {
         var bSpan = document.createElement("span");
         var bc = geoLoc.brand_score >= 80 ? "#2563eb" : geoLoc.brand_score >= 60 ? "#f59e0b" : "#94a3b8";
