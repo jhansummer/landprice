@@ -176,13 +176,6 @@ function renderCard(apt) {
   nameEl.style.cssText = "font-size:15px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
   nameEl.textContent = apt.apt_name;
   nameWrap.appendChild(nameEl);
-  if (apt.id) {
-    var detailLink = document.createElement("a");
-    detailLink.href = "apt.html?id=" + apt.id + "&s=" + encodeURIComponent(activeSido);
-    detailLink.style.cssText = "font-size:11px;color:var(--primary);white-space:nowrap;text-decoration:none;flex-shrink:0";
-    detailLink.textContent = "상세";
-    nameWrap.appendChild(detailLink);
-  }
   header.appendChild(nameWrap);
 
   var badge = document.createElement("span");
@@ -252,6 +245,19 @@ function renderCard(apt) {
         })
         .catch(function () {});
     })(canvas, apt.id);
+  }
+
+  // 단지상세 링크
+  if (apt.id) {
+    var ctaWrap = document.createElement("div");
+    ctaWrap.style.cssText = "margin-top:10px;display:flex;gap:8px";
+    var aptLink = document.createElement("a");
+    aptLink.className = "apt-detail-link";
+    aptLink.href = "apt.html?id=" + encodeURIComponent(apt.id) + "&s=" + encodeURIComponent(activeSido || "");
+    aptLink.textContent = "단지상세";
+    aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
+    ctaWrap.appendChild(aptLink);
+    card.appendChild(ctaWrap);
   }
 
   return card;

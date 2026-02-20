@@ -219,7 +219,7 @@ function renderItem(r, idx) {
     var aptLink = document.createElement("a");
     aptLink.className = "apt-detail-link";
     aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido || "");
-    aptLink.textContent = "상세페이지";
+    aptLink.textContent = "단지상세";
     aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
     ctaGroup.appendChild(aptLink);
   }

@@ -693,7 +693,7 @@
       var aptLink = document.createElement("a");
       aptLink.className = "apt-detail-link";
       aptLink.href = "apt.html?id=" + encodeURIComponent(entry.id) + "&s=" + encodeURIComponent(entry._sido || "서울");
-      aptLink.textContent = "상세 보기";
+      aptLink.textContent = "단지상세";
       cta.appendChild(aptLink);
     }
     card.appendChild(cta);
@@ -923,7 +923,7 @@
         var locLink = document.createElement("a");
         locLink.className = "apt-detail-link";
         locLink.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
-        locLink.textContent = "상세 보기";
+        locLink.textContent = "단지상세";
         locLink.addEventListener("click", function (e) { e.stopPropagation(); });
         locCta.appendChild(locLink);
         card.appendChild(locCta);
@@ -1040,7 +1040,7 @@
         var puvLink = document.createElement("a");
         puvLink.className = "apt-detail-link";
         puvLink.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
-        puvLink.textContent = "상세 보기";
+        puvLink.textContent = "단지상세";
         puvLink.addEventListener("click", function (e) { e.stopPropagation(); });
         puvCta.appendChild(puvLink);
         card.appendChild(puvCta);
