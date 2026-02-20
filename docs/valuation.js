@@ -326,10 +326,11 @@
     var guideDiv = document.createElement("div");
     guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.6";
     guideDiv.innerHTML =
-      "<b>\uAD50\uD1B5\uC811\uADFC\uC131</b>: " + (scores.isSeoul ? "\uC5ED\uC138\uAD8C(50%) + \uC5C5\uBB34\uC9C0\uAD6C(50%)" : "\uC5ED\uC138\uAD8C \uAC70\uB9AC \uAE30\uBC18") + ". \uC5ED\uC138\uAD8C = max(5, 100 - \uAC70\uB9AC(m)/30)<br>" +
+      "<b>\uAD50\uD1B5</b>: " + (scores.isSeoul ? "\uAC15\uB0A8\uAC70\uB9AC(70%) + \uC9C0\uD558\uCCA0(30%)" : "\uB3C4\uC2EC\uAC70\uB9AC(70%) + \uC9C0\uD558\uCCA0(30%)") + "<br>" +
       "<b>\uD559\uAD70</b>: \uBC18\uACBD 1.5km \uB0B4 \uCD08\uC911\uD559\uAD50 \uD559\uC5C5\uC131\uCDE8\uB3C4 \uAE30\uBC18 (\uAC70\uB9AC\uC5ED\uC218 \uAC00\uC911\uD3C9\uADE0)<br>" +
-      "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50(30\uC810) \u00B7 \uBCD1\uC6D0(25\uC810) \u00B7 \uC740\uD589(20\uC810) \u00B7 \uD3B8\uC758\uC810(15\uC810) \u00B7 \uB9C8\uD2B8(10\uC810)<br>" +
-      "<b>\uC885\uD569</b>: \uAD50\uD1B5 60% + \uD559\uAD70 20% + \uC778\uD504\uB77C 20% (\uAD50\uD1B5 \uAC00\uC911)";
+      "<b>\uC790\uC5F0\uD658\uACBD</b>: \uD55C\uAC15/\uB300\uD615\uACF5\uC6D0 \uADFC\uC811\uB3C4 (exp \uAC10\uC18C)<br>" +
+      "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50 \u00B7 \uBCD1\uC6D0 \u00B7 \uC740\uD589 \u00B7 \uD3B8\uC758\uC810 \u00B7 \uB9C8\uD2B8<br>" +
+      "<b>\uC885\uD569</b>: \uAD50\uD1B5 25% + \uD559\uAD70 55% + \uC790\uC5F0\uD658\uACBD 10% + \uC778\uD504\uB77C 5% + \uC815\uBE44\uAD6C\uC5ED 5%";
     guideBtn.addEventListener("click", function () {
       guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
       guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30" : "\u2139 \uC810\uC218 \uAE30\uC900 \uC811\uAE30";
@@ -390,6 +391,10 @@
     if (scores.school != null) {
       barItems.push({ label: "\uD559\uAD70", score: scores.school });
     }
+    // 자연환경 (한강/대형공원)
+    if (geoLoc && geoLoc.nature_score != null) {
+      barItems.push({ label: "\uC790\uC5F0\uD658\uACBD", score: geoLoc.nature_score });
+    }
     // 생활인프라
     if (scores.infra != null) {
       barItems.push({ label: "\uC0DD\uD65C\uC778\uD504\uB77C", score: scores.infra });
@@ -419,6 +424,25 @@
     });
 
     section.appendChild(barsCol);
+
+    // 단지품질 (브랜드 + 연식)
+    if (geoLoc && (geoLoc.brand_score != null || geoLoc.age_score != null)) {
+      var qualDiv = document.createElement("div");
+      qualDiv.style.cssText = "display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--muted)";
+      if (geoLoc.brand_score != null) {
+        var bSpan = document.createElement("span");
+        var bc = geoLoc.brand_score >= 80 ? "#2563eb" : geoLoc.brand_score >= 60 ? "#f59e0b" : "#94a3b8";
+        bSpan.innerHTML = '\uBE0C\uB79C\uB4DC <b style="color:' + bc + '">' + geoLoc.brand_score + '</b>';
+        qualDiv.appendChild(bSpan);
+      }
+      if (geoLoc.age_score != null) {
+        var aSpan = document.createElement("span");
+        var ac = geoLoc.age_score >= 70 ? "#2563eb" : geoLoc.age_score >= 40 ? "#f59e0b" : "#94a3b8";
+        aSpan.innerHTML = '\uC5F0\uC2DD ' + (2026 - (geoLoc.age_score > 0 ? Math.round(40 - geoLoc.age_score * 37 / 100) : 40)) + '\uB144 <b style="color:' + ac + '">' + geoLoc.age_score + '</b>';
+        qualDiv.appendChild(aSpan);
+      }
+      section.appendChild(qualDiv);
+    }
 
     return section;
   }
@@ -515,7 +539,7 @@
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>'
-      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70(\uD559\uC5C5\uC131\uCDE8\uB3C4)\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4.</div>';
+      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC790\uC5F0\uD658\uACBD\u00B7\uC778\uD504\uB77C\u00B7\uC815\uBE44\uAD6C\uC5ED\uC744 \uBC18\uC601\uD569\uB2C8\uB2E4.</div>';
     resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
@@ -654,7 +678,8 @@
             dong_name: entry.dong_name,
             area_m2: entry.area_m2,
             latest_price: entry.current_price,
-            chg_pct: entry.gap_pct
+            chg_pct: entry.gap_pct,
+            sido: entry._sido || ""
           });
           wlBtn.textContent = "\uAD00\uC2EC \uC81C\uAC70";
         }
@@ -873,9 +898,11 @@
         // Score bars (compact)
         var bars = document.createElement("div");
         bars.style.cssText = "display:flex;gap:8px;margin:6px 0 2px;font-size:10px;color:var(--muted)";
+        var locGeo = valuationGeo && valuationGeo[item.id];
         var labels = [
           ["\uAD50\uD1B5", item.loc_transport],
           ["\uD559\uAD70", item.loc_school],
+          ["\uC790\uC5F0", locGeo ? locGeo.nature_score : null],
           ["\uC778\uD504\uB77C", item.loc_infra]
         ];
         labels.forEach(function (l) {
@@ -889,6 +916,16 @@
         pctSpan.innerHTML = '\uAC00\uACA9\uC21C\uC704 <b style="color:#ef4444">\uD558\uC704 ' + item.price_pct + '%</b>';
         bars.appendChild(pctSpan);
         card.appendChild(bars);
+
+        var locCta = document.createElement("div");
+        locCta.style.cssText = "margin-top:6px;text-align:right";
+        var locLink = document.createElement("a");
+        locLink.className = "apt-detail-link";
+        locLink.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
+        locLink.textContent = "상세 보기";
+        locLink.addEventListener("click", function (e) { e.stopPropagation(); });
+        locCta.appendChild(locLink);
+        card.appendChild(locCta);
 
         card.addEventListener("click", function () {
           searchInput.value = item.apt_name;
@@ -996,6 +1033,16 @@
           + item.area_m2 + "m\u00B2 \u00B7 " + fmtEok(item.current_price)
           + " \u00B7 \uBE44\uAD50\uB2E8\uC9C0 " + (item.compare ? item.compare.length : 0) + "\uAC1C";
         card.appendChild(info);
+
+        var puvCta = document.createElement("div");
+        puvCta.style.cssText = "margin-top:6px;text-align:right";
+        var puvLink = document.createElement("a");
+        puvLink.className = "apt-detail-link";
+        puvLink.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
+        puvLink.textContent = "상세 보기";
+        puvLink.addEventListener("click", function (e) { e.stopPropagation(); });
+        puvCta.appendChild(puvLink);
+        card.appendChild(puvCta);
 
         card.addEventListener("click", function () {
           searchInput.value = item.apt_name;

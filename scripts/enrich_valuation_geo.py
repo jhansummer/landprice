@@ -29,7 +29,47 @@ STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
 SCHOOLS_FILE = SCRIPTS_DIR / "schools.json"
 REDEV_FILE = SCRIPTS_DIR / "redevelopment_zones.json"
 
+APT_META_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "apt_meta.json"
+
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")
+
+# 한강 좌표 (강변을 따라 주요 포인트)
+HANGANG_POINTS = [
+    (37.5470, 126.8950),  # 마곡/가양
+    (37.5430, 126.9260),  # 여의도
+    (37.5180, 126.9520),  # 노량진/동작
+    (37.5100, 126.9900),  # 반포
+    (37.5200, 127.0150),  # 압구정/신사
+    (37.5200, 127.0450),  # 성수/뚝섬
+    (37.5280, 127.0700),  # 자양/광진
+    (37.5350, 127.1050),  # 잠실/천호
+    (37.5500, 127.1300),  # 강동/미사
+]
+
+# 대형공원/자연환경 좌표
+LARGE_PARKS = [
+    {"name": "올림픽공원", "lat": 37.5208, "lng": 127.1212},
+    {"name": "서울숲", "lat": 37.5445, "lng": 127.0374},
+    {"name": "여의도공원", "lat": 37.5262, "lng": 126.9226},
+    {"name": "남산", "lat": 37.5512, "lng": 126.9882},
+    {"name": "월드컵공원", "lat": 37.5680, "lng": 126.8850},
+    {"name": "보라매공원", "lat": 37.4939, "lng": 126.9198},
+    {"name": "용산공원", "lat": 37.5270, "lng": 126.9700},
+    {"name": "북서울꿈의숲", "lat": 37.6200, "lng": 127.0400},
+    {"name": "일산호수공원", "lat": 37.6690, "lng": 126.7720},
+    {"name": "광교호수공원", "lat": 37.2830, "lng": 127.0460},
+    {"name": "해운대해수욕장", "lat": 35.1590, "lng": 129.1600},
+    {"name": "수성못", "lat": 35.8280, "lng": 128.6180},
+    {"name": "중앙공원(세종)", "lat": 36.5010, "lng": 127.0050},
+]
+
+# 프리미엄 브랜드 점수
+BRAND_SCORES = {
+    "디에이치": 95, "DH": 95, "아크로": 92, "래미안": 90,
+    "자이": 88, "더샵": 83, "롯데캐슬": 82, "아이파크": 80,
+    "힐스테이트": 80, "푸르지오": 78, "엘크루": 75, "포레나": 74,
+    "e편한세상": 72, "호반써밋": 68, "하늘채": 65, "꿈에그린": 62,
+}
 
 BIZ_HUBS = {
     "gangnam": {"name": "강남역", "lat": 37.497175, "lng": 127.027926},
@@ -448,6 +488,37 @@ def load_redev_zones() -> List[Dict]:
         return json.load(f)
 
 
+def get_nature_score(lat: float, lng: float) -> int:
+    """자연환경 점수 (0-100). 한강/대형공원 근접도 중 높은 값."""
+    # 한강 점수: 지수감소 (3km 반감기)
+    han_dist = min(haversine(lat, lng, p[0], p[1]) for p in HANGANG_POINTS)
+    han_s = round(100 * math.exp(-han_dist / 3))
+    # 대형공원 점수: 5km 이내 선형
+    park_dist = min(haversine(lat, lng, p["lat"], p["lng"]) for p in LARGE_PARKS)
+    park_s = max(0, min(100, round(100 - park_dist * 100 / 5)))
+    return max(han_s, park_s)
+
+
+def get_brand_score(apt_name: str) -> int:
+    """브랜드 점수 (0-100). 프리미엄 브랜드일수록 높음."""
+    for brand, score in BRAND_SCORES.items():
+        if brand in apt_name:
+            return score
+    return 50  # 비브랜드/일반
+
+
+def get_age_score(build_year: int) -> Optional[int]:
+    """연식 점수 (0-100). 신축일수록 높음. 3년 이하 100, 40년 이상 0."""
+    if build_year <= 0:
+        return None
+    age = 2026 - build_year
+    if age <= 3:
+        return 100
+    if age >= 40:
+        return 0
+    return round(100 * (40 - age) / 37)
+
+
 def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
     """정비구역 근접도 점수 (0-100). 1km 이내 100, 3km 이상 0."""
     if not zones:
@@ -488,6 +559,12 @@ def main() -> int:
 
     redev_zones = load_redev_zones()
     print(f"Loaded {len(redev_zones)} redevelopment zones", flush=True)
+
+    apt_meta: Dict[str, int] = {}
+    if APT_META_FILE.exists():
+        with open(APT_META_FILE, "r", encoding="utf-8") as f:
+            apt_meta = json.load(f)
+        print(f"Loaded {len(apt_meta)} apt meta entries", flush=True)
 
     cache = load_cache()
     cache_size_before = len(cache)
@@ -561,7 +638,19 @@ def main() -> int:
             if redev_s is not None:
                 geo["redev_score"] = redev_s
 
-            # 6. 입지점수: 교통30% + 학군60% + 인프라5% + 정비구역5%
+            # 6. 자연환경 점수 (한강/대형공원)
+            nature_s = get_nature_score(lat, lng)
+            geo["nature_score"] = nature_s
+
+            # 7. 브랜드/연식 점수 (단지품질)
+            brand_s = get_brand_score(apt.get("apt_name", ""))
+            geo["brand_score"] = brand_s
+            build_year = apt_meta.get(apt_id, 0)
+            age_s = get_age_score(build_year)
+            if age_s is not None:
+                geo["age_score"] = age_s
+
+            # 8. 입지점수: 교통25% + 학군55% + 인프라5% + 정비구역5% + 자연환경10%
             #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
             subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
@@ -578,17 +667,20 @@ def main() -> int:
                     transport_s = center_s * 0.7 + subway_s_exp * 0.3
                 else:
                     transport_s = subway_s_exp
-            w_sum = transport_s * 6
-            w_total = 6
+            # 가중합: T*5 + S*11 + I*1 + R*1 + N*2 = 20 (25/55/5/5/10%)
+            w_sum = transport_s * 5
+            w_total = 5
             if school_score is not None:
-                w_sum += school_score * 12
-                w_total += 12
+                w_sum += school_score * 11
+                w_total += 11
             if geo.get("infra_score") is not None:
                 w_sum += geo["infra_score"]
                 w_total += 1
             if redev_s is not None:
                 w_sum += redev_s
                 w_total += 1
+            w_sum += nature_s * 2
+            w_total += 2
             geo["loc_score"] = round(w_sum / w_total)
 
             geo_result[apt_id] = geo
