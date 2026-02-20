@@ -17,6 +17,8 @@
   <meta name="twitter:title" content="신고가 아파트 검색 · 역대 최고가 돌파 단지 - APT Mine" />
   <meta name="twitter:description" content="신고가 아파트 검색. 역대 최고가를 돌파한 아파트 단지를 시·구·동 단위로 조회합니다." />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:image" content="https://aptmine.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
@@ -32,8 +34,10 @@
     ]
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="stylesheet" href="style.css?v=10" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -48,13 +52,13 @@
       <div class="logo-h1"><a href="/" class="logo">APT Mine</a></div>
       <span class="tagline">실거래가 기반 아파트 시세 분석</span>
     </div>
-    <nav class="nav-bar">
+    <nav class="nav-bar" aria-label="메인 내비게이션">
       <a class="nav-link" href="index.html">메인</a>
       <span class="nav-link active">시세</span>
       <a class="nav-link" href="undervalued.html">분석</a>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
     </nav>
-    <nav class="nav-sub">
+    <nav class="nav-sub" aria-label="서브 메뉴">
       <a class="nav-sub-link" href="regional.html">지역시세</a>
       <a class="nav-sub-link" href="search.html">비교검색</a>
       <a class="nav-sub-link active" href="newhigh.html">신고가검색</a>
@@ -63,13 +67,27 @@
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
   <div id="dongtabs" class="district-select-wrap" style="padding-top:8px"></div>
+  <div id="filters" class="filter-bar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 16px;margin:0 0 4px">
+    <label style="font-size:12px;color:var(--muted)">면적(m²)
+      <input id="f-area-min" type="number" placeholder="min" style="width:60px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      ~
+      <input id="f-area-max" type="number" placeholder="max" style="width:60px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+    </label>
+    <label style="font-size:12px;color:var(--muted)">매매가(억)
+      <input id="f-price-min" type="number" step="0.1" placeholder="min" style="width:60px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      ~
+      <input id="f-price-max" type="number" step="0.1" placeholder="max" style="width:60px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+    </label>
+    <button id="f-search" class="search-btn" style="padding:5px 14px;font-size:12px">검색</button>
+  </div>
   <main>
     <h1 class="page-title">신고가 아파트 검색</h1>
+    <p class="page-desc">역대 최고가를 돌파한 아파트 단지를 시·구·동 단위로 조회합니다. 국토교통부 실거래가 기반.</p>
     <div id="status" class="status"><span class="spinner"></span>데이터 로딩 중...</div>
     <div id="results"></div>
   </main>
   <footer class="site-footer">
-    <nav class="footer-links">
+    <nav class="footer-links" aria-label="사이트맵">
       <a href="/">메인</a>
       <span class="footer-sep">|</span>
       <a href="/regional.html">지역시세</a>
@@ -91,8 +109,9 @@
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
   <script src="watchlist.js?v=2"></script>
+  <script src="chart-utils.js?v=6"></script>
   <script src="common.js?v=1"></script>
-  <script src="newhigh.js?v=2"></script>
+  <script src="newhigh.js?v=3"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

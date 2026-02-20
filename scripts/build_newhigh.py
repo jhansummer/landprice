@@ -4,6 +4,7 @@ summary.json(22MB)에서 신고가 아파트(vs_peak > 0) 데이터만 추출하
 newhigh_summary.json으로 출력한다.
 """
 
+import hashlib
 import json
 import os
 
@@ -14,7 +15,7 @@ OUTPUT_PATH = os.path.join(
     os.path.dirname(__file__), "..", "docs", "data", "apt_trade", "newhigh_summary.json"
 )
 
-APT_FIELDS = ("apt_name", "area_m2", "price", "peak", "vs_peak", "chg6m", "status")
+APT_FIELDS = ("id", "apt_name", "area_m2", "price", "peak", "vs_peak", "chg6m", "status")
 
 
 def build():
@@ -46,7 +47,12 @@ def build():
                 newhigh_apts = []
                 for apt in apts:
                     if apt.get("vs_peak", 0) > 0:
-                        newhigh_apts.append({k: apt[k] for k in APT_FIELDS if k in apt})
+                        apt_id = hashlib.md5(
+                            f"{dist_name}\t{apt['apt_name']}\t{apt['area_m2']}".encode()
+                        ).hexdigest()[:10]
+                        entry = {"id": apt_id}
+                        entry.update({k: apt[k] for k in APT_FIELDS if k in apt and k != "id"})
+                        newhigh_apts.append(entry)
 
                 if newhigh_apts:
                     dong_items.append({"name": item["name"], "apt_details": newhigh_apts})

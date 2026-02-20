@@ -17,6 +17,24 @@ var visibleCount = PAGE_SIZE;
 var RECOVERY_STATUS = APTCommon.RECOVERY_STATUS;
 var fmt = APTCommon.fmt;
 
+/* ── 필터 요소 ── */
+var fAreaMin = document.getElementById("f-area-min");
+var fAreaMax = document.getElementById("f-area-max");
+var fPriceMin = document.getElementById("f-price-min");
+var fPriceMax = document.getElementById("f-price-max");
+var fSearchBtn = document.getElementById("f-search");
+
+fSearchBtn.addEventListener("click", function () {
+  visibleCount = PAGE_SIZE;
+  renderResults();
+});
+
+/* ── 억원 포맷 ── */
+function fmtEok(val) {
+  if (val >= 1) return val.toFixed(1) + "억";
+  return (val * 10000).toFixed(0) + "만";
+}
+
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
   APTCommon.renderTabs(tabsEl, sidoOrder, activeSido, function (sido) {
@@ -83,11 +101,16 @@ function renderDongTabs() {
   dongtabsEl.appendChild(select);
 }
 
-/* ── 신고가 아파트 수집 ── */
+/* ── 신고가 아파트 수집 (필터 적용) ── */
 function collectNewHighApts() {
   if (!globalData || !activeSido) return [];
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return [];
+
+  var areaMin = parseFloat(fAreaMin.value) || 0;
+  var areaMax = parseFloat(fAreaMax.value) || Infinity;
+  var priceMinEok = parseFloat(fPriceMin.value) || 0;
+  var priceMaxEok = parseFloat(fPriceMax.value) || Infinity;
 
   var items = [];
   var districts = activeDistrict ? [activeDistrict] : (sidoData.district_order || []);
@@ -102,7 +125,15 @@ function collectNewHighApts() {
 
       dongItem.apt_details.forEach(function (apt) {
         if (apt.vs_peak > 0) {
+          // 면적 필터
+          if (apt.area_m2 < areaMin || apt.area_m2 > areaMax) return;
+
+          // 총 매매가 (억원) 필터
+          var totalPriceEok = (apt.price * apt.area_m2) / 10000;
+          if (totalPriceEok < priceMinEok || totalPriceEok > priceMaxEok) return;
+
           items.push({
+            id: apt.id,
             apt_name: apt.apt_name,
             district: distName,
             dong: dongItem.name,
@@ -130,6 +161,11 @@ function renderCard(apt) {
 
   var st = RECOVERY_STATUS[apt.status] || RECOVERY_STATUS.recovered;
 
+  // 총 매매가·고점가 (억원)
+  var totalPrice = (apt.price * apt.area_m2) / 10000;
+  var totalPeak = (apt.peak * apt.area_m2) / 10000;
+  var pyeong = (apt.area_m2 / 3.306).toFixed(0);
+
   // 상단: 단지명 + 뱃지
   var header = document.createElement("div");
   header.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px";
@@ -146,26 +182,26 @@ function renderCard(apt) {
 
   card.appendChild(header);
 
-  // 위치 + 면적
+  // 위치 + 면적 (m² + 평)
   var locEl = document.createElement("div");
   locEl.style.cssText = "font-size:12px;color:var(--muted);margin-bottom:10px";
-  locEl.textContent = apt.district + " " + apt.dong + " · " + apt.area_m2.toFixed(0) + "m²";
+  locEl.textContent = apt.district + " " + apt.dong + " · " + apt.area_m2.toFixed(0) + "m²(" + pyeong + "평)";
   card.appendChild(locEl);
 
   // 가격 정보 그리드
   var grid = document.createElement("div");
   grid.style.cssText = "display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px";
 
-  // 현재가
+  // 현재가 (억원)
   var priceBox = document.createElement("div");
   priceBox.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">현재가</div>'
-    + '<div style="font-size:15px;font-weight:800;color:var(--up)">' + fmt(Math.round(apt.price)) + '<span style="font-size:11px;font-weight:600">만</span></div>';
+    + '<div style="font-size:15px;font-weight:800;color:var(--up)">' + fmtEok(totalPrice) + '</div>';
   grid.appendChild(priceBox);
 
-  // 고점가
+  // 고점가 (억원)
   var peakBox = document.createElement("div");
   peakBox.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:2px">고점가</div>'
-    + '<div style="font-size:15px;font-weight:800;color:var(--ink)">' + fmt(Math.round(apt.peak)) + '<span style="font-size:11px;font-weight:600">만</span></div>';
+    + '<div style="font-size:15px;font-weight:800;color:var(--ink)">' + fmtEok(totalPeak) + '</div>';
   grid.appendChild(peakBox);
 
   // 고점 대비
@@ -184,6 +220,28 @@ function renderCard(apt) {
     var chgSign = apt.chg6m >= 0 ? "+" : "";
     chgEl.innerHTML = '6개월 변화 <span style="font-weight:700;color:' + chgColor + '">' + chgSign + apt.chg6m.toFixed(1) + '%</span>';
     card.appendChild(chgEl);
+  }
+
+  // 차트 영역
+  if (apt.id) {
+    var chartWrap = document.createElement("div");
+    chartWrap.style.cssText = "margin-top:12px";
+    var canvas = document.createElement("canvas");
+    canvas.style.cssText = "width:100%;height:180px";
+    chartWrap.appendChild(canvas);
+    card.appendChild(chartWrap);
+
+    // 비동기로 by_apt 데이터 로드 후 차트 그리기
+    (function (cvs, aptId) {
+      fetch("data/apt_trade/by_apt/" + aptId + ".json?t=" + Date.now())
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (txns) {
+          if (txns && txns.length) {
+            drawPeakChart(cvs, txns, {});
+          }
+        })
+        .catch(function () {});
+    })(canvas, apt.id);
   }
 
   return card;
