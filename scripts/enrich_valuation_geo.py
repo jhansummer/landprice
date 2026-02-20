@@ -27,6 +27,7 @@ CACHE_FILE = SCRIPTS_DIR / "geocode_cache.json"
 ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
 SCHOOLS_FILE = SCRIPTS_DIR / "schools.json"
+REDEV_FILE = SCRIPTS_DIR / "redevelopment_zones.json"
 
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")
 
@@ -404,6 +405,29 @@ def get_school_score(
     return score
 
 
+# ── Redevelopment zone proximity ──
+
+def load_redev_zones() -> List[Dict]:
+    """Load redevelopment zone data with coordinates."""
+    if not REDEV_FILE.exists():
+        return []
+    with open(REDEV_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
+    """정비구역 근접도 점수 (0-100). 1km 이내 100, 3km 이상 0."""
+    if not zones:
+        return None
+    min_dist = min(haversine(lat, lng, z["lat"], z["lng"]) for z in zones)
+    if min_dist <= 0.5:
+        return 100
+    if min_dist >= 3.0:
+        return 0
+    # 0.5~3.0km: 선형 감소 100→0
+    return round(100 * (3.0 - min_dist) / 2.5)
+
+
 # ── Main ──
 
 def main() -> int:
@@ -428,6 +452,9 @@ def main() -> int:
 
     schools = load_schools()
     print(f"Loaded {len(schools)} schools", flush=True)
+
+    redev_zones = load_redev_zones()
+    print(f"Loaded {len(redev_zones)} redevelopment zones", flush=True)
 
     cache = load_cache()
     cache_size_before = len(cache)
@@ -496,7 +523,12 @@ def main() -> int:
             if school_score is not None:
                 geo["academy_score"] = school_score  # 하위호환: 필드명 유지
 
-            # 5. 입지점수: 교통60% + 학군20% + 인프라20%
+            # 5. 정비구역 근접도
+            redev_s = get_redev_score(lat, lng, redev_zones)
+            if redev_s is not None:
+                geo["redev_score"] = redev_s
+
+            # 6. 입지점수: 교통50% + 학군15% + 인프라15% + 정비구역20%
             subway_s = max(5, round(100 - nearest["dist"] * 1000 / 30))
             transport_s = subway_s
             if geo.get("biz_gangnam") is not None:
@@ -507,14 +539,17 @@ def main() -> int:
                     _bds(geo.get("biz_yeouido", 99)),
                 )
                 transport_s = subway_s * 0.5 + biz_best * 0.5
-            w_sum = transport_s * 3
-            w_total = 3
+            w_sum = transport_s * 5
+            w_total = 5
             if school_score is not None:
-                w_sum += school_score
-                w_total += 1
+                w_sum += school_score * 1.5
+                w_total += 1.5
             if geo.get("infra_score") is not None:
-                w_sum += geo["infra_score"]
-                w_total += 1
+                w_sum += geo["infra_score"] * 1.5
+                w_total += 1.5
+            if redev_s is not None:
+                w_sum += redev_s * 2
+                w_total += 2
             geo["loc_score"] = round(w_sum / w_total)
 
             geo_result[apt_id] = geo
