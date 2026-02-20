@@ -131,6 +131,13 @@ function renderRankedItem(r, idx) {
   ctaGroup.appendChild(detailBtn);
 
   if (r.id) {
+    var aptLink = document.createElement("a");
+    aptLink.className = "apt-detail-link";
+    aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido || "");
+    aptLink.textContent = "\uC0C1\uC138\uD398\uC774\uC9C0";
+    aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
+    ctaGroup.appendChild(aptLink);
+
     var cmpBtn = document.createElement("button");
     cmpBtn.className = "detail-btn";
     cmpBtn.textContent = APTWatchlist.hasCompare(r.id) ? "\uCD94\uAC00\uB428" : "\uBE44\uAD50\uCD94\uAC00";

@@ -124,7 +124,7 @@ function collectNewHighApts() {
       if (activeDong && dongItem.name !== activeDong) return;
 
       dongItem.apt_details.forEach(function (apt) {
-        if (apt.vs_peak > 0) {
+        if (apt.vs_all_time_peak > 0) {
           // 면적 필터
           if (apt.area_m2 < areaMin || apt.area_m2 > areaMax) return;
 
@@ -139,8 +139,8 @@ function collectNewHighApts() {
             dong: dongItem.name,
             area_m2: apt.area_m2,
             price: apt.price,
-            peak: apt.peak,
-            vs_peak: apt.vs_peak,
+            peak: apt.all_time_peak,
+            vs_peak: apt.vs_all_time_peak,
             chg6m: apt.chg6m,
             status: apt.status
           });
@@ -149,7 +149,7 @@ function collectNewHighApts() {
     });
   });
 
-  items.sort(function (a, b) { return b.vs_peak - a.vs_peak; });
+  items.sort(function (a, b) { return b.vs_peak - a.vs_peak || b.price - a.price; });
   return items;
 }
 
@@ -170,10 +170,20 @@ function renderCard(apt) {
   var header = document.createElement("div");
   header.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px";
 
+  var nameWrap = document.createElement("div");
+  nameWrap.style.cssText = "display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden";
   var nameEl = document.createElement("div");
-  nameEl.style.cssText = "font-size:15px;font-weight:700;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+  nameEl.style.cssText = "font-size:15px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
   nameEl.textContent = apt.apt_name;
-  header.appendChild(nameEl);
+  nameWrap.appendChild(nameEl);
+  if (apt.id) {
+    var detailLink = document.createElement("a");
+    detailLink.href = "apt.html?id=" + apt.id + "&s=" + encodeURIComponent(activeSido);
+    detailLink.style.cssText = "font-size:11px;color:var(--primary);white-space:nowrap;text-decoration:none;flex-shrink:0";
+    detailLink.textContent = "상세";
+    nameWrap.appendChild(detailLink);
+  }
+  header.appendChild(nameWrap);
 
   var badge = document.createElement("span");
   badge.className = "recovery-badge " + apt.status;

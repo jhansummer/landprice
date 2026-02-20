@@ -1139,8 +1139,9 @@ function renderRecoverySection(items, title, isDong) {
           var avp = (a.vs_peak >= 0 ? "+" : "") + a.vs_peak + "%";
           var aRow = document.createElement("div");
           aRow.className = "apt-detail-row";
+          var linkHtml = a.id ? ' <a href="apt.html?id=' + encodeURIComponent(a.id) + '&s=' + encodeURIComponent(activeSido || '') + '" style="font-size:10px;color:var(--primary,#2563eb);text-decoration:none;" onclick="event.stopPropagation();">\uC0C1\uC138</a>' : '';
           aRow.innerHTML = '<span class="apt-detail-name">' + a.apt_name
-            + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span></span>'
+            + ' <span style="color:var(--muted);font-weight:400;">' + a.area_m2 + 'm\u00B2</span>' + linkHtml + '</span>'
             + '<span class="apt-detail-val">'
             + '<span style="color:' + ast.textColor + ';font-weight:700;">' + avp + '</span>'
             + ' <span class="recovery-badge ' + a.status + '" style="font-size:9px;padding:1px 6px;">' + ast.label + '</span>'

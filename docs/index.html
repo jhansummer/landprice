@@ -10,23 +10,25 @@
   <meta property="og:title" content="아파트 실거래가 조회 · 매매 시세 분석 - APT Mine" />
   <meta property="og:description" content="아파트 실거래가 조회 및 매매 시세 분석. 부동산 실거래가 기반 시세 추이, 상승률 랭킹, 저평가 분석." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://aptmine.com" />
+  <meta property="og:url" content="https://aptmine.com/" />
   <meta property="og:site_name" content="APT Mine" />
   <meta property="og:locale" content="ko_KR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="아파트 실거래가 조회 · 매매 시세 분석 - APT Mine" />
   <meta name="twitter:description" content="아파트 실거래가 조회 및 매매 시세 분석. 부동산 실거래가 기반 시세 추이, 상승률 랭킹, 저평가 분석." />
   <meta property="og:image" content="https://aptmine.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:image" content="https://aptmine.com/og-image.png" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="canonical" href="https://aptmine.com" />
+  <link rel="canonical" href="https://aptmine.com/" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "APT Mine",
-    "url": "https://aptmine.com",
+    "url": "https://aptmine.com/",
     "description": "국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스. 매일 업데이트.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
@@ -42,7 +44,7 @@
         "@type": "WebSite",
         "@id": "https://aptmine.com/#website",
         "name": "APT Mine",
-        "url": "https://aptmine.com",
+        "url": "https://aptmine.com/",
         "description": "국토교통부 실거래가 기반 아파트 시세 조회 및 저평가 아파트 분석 서비스",
         "inLanguage": "ko",
         "potentialAction": {
@@ -55,7 +57,7 @@
         "@type": "Organization",
         "@id": "https://aptmine.com/#organization",
         "name": "APT Mine",
-        "url": "https://aptmine.com",
+        "url": "https://aptmine.com/",
         "logo": "https://aptmine.com/og-image.png"
       }
     ]
@@ -65,15 +67,17 @@
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": ["메인", "지역시세", "비교검색", "저평가 TOP3", "단지분석", "바닥찾기", "백테스트"],
+    "name": ["메인", "지역시세", "비교검색", "신고가검색", "저평가 TOP3", "단지분석", "바닥찾기", "백테스트", "관심목록"],
     "url": [
       "https://aptmine.com/",
       "https://aptmine.com/regional.html",
       "https://aptmine.com/search.html",
+      "https://aptmine.com/newhigh.html",
       "https://aptmine.com/undervalued.html",
       "https://aptmine.com/valuation.html",
       "https://aptmine.com/bottom.html",
-      "https://aptmine.com/backtest.html"
+      "https://aptmine.com/backtest.html",
+      "https://aptmine.com/watchlist.html"
     ]
   }
   </script>
@@ -101,8 +105,10 @@
     }
   }
   </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="stylesheet" href="style.css?v=10" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -117,7 +123,7 @@
       <div class="logo-h1"><a href="/" class="logo">APT Mine</a></div>
       <span class="tagline">실거래가 기반 아파트 시세 분석</span>
     </div>
-    <nav class="nav-bar">
+    <nav class="nav-bar" aria-label="메인 내비게이션">
       <span class="nav-link active">메인</span>
       <a class="nav-link" href="regional.html">시세</a>
       <a class="nav-link" href="undervalued.html">분석</a>
@@ -130,15 +136,17 @@
   <div id="dashboard" class="dashboard"></div>
   <main>
     <h1 class="page-title">아파트 실거래가 조회 · 매매 시세 분석</h1>
+    <p class="page-desc">전국 아파트 매매·전세 실거래가를 분석하여 상승률 랭킹, 거래량 순위, 회복률을 매일 업데이트합니다. 국토교통부 실거래가 공공데이터 기반.</p>
     <div id="status" class="status"><span class="spinner"></span>데이터 로딩 중...</div>
     <div id="grid"></div>
   </main>
   <footer class="site-footer">
-    <nav class="footer-links">
+    <nav class="footer-links" aria-label="사이트맵">
       <a href="/">메인</a>
       <span class="footer-sep">|</span>
       <a href="/regional.html">지역시세</a>
       <a href="/search.html">비교검색</a>
+      <a href="/newhigh.html">신고가검색</a>
       <span class="footer-sep">|</span>
       <a href="/undervalued.html">저평가 TOP3</a>
       <a href="/valuation.html">단지분석</a>
@@ -154,7 +162,7 @@
     </div>
   </footer>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
-  <script src="chart-utils.js?v=5"></script>
+  <script src="chart-utils.js?v=6"></script>
   <script src="watchlist.js?v=2"></script>
   <script src="common.js?v=1"></script>
   <script src="app.js?v=35"></script>

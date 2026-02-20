@@ -39,6 +39,7 @@ body{font-family:var(--font-body);color:var(--ink);background:var(--bg);-webkit-
 .logo{font-size:24px;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-0.5px}
 .logo-h1{margin:0;font-size:inherit;font-weight:inherit;display:inline}
 .page-title{font-size:18px;font-weight:700;color:var(--ink);margin:0 0 12px;padding:0 24px;max-width:1200px;margin-left:auto;margin-right:auto}
+.page-desc{font-size:13px;color:var(--muted);text-align:center;margin:0 24px 16px;line-height:1.6;max-width:1200px;margin-left:auto;margin-right:auto}
 .tagline{font-size:13px;color:rgba(255,255,255,0.4);font-weight:500}
 
 /* ── Navigation ── */

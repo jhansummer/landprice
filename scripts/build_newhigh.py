@@ -1,6 +1,6 @@
 """신고가 전용 경량 JSON 생성.
 
-summary.json(22MB)에서 신고가 아파트(vs_peak > 0) 데이터만 추출하여
+summary.json에서 역대 최고가를 돌파한 아파트(vs_all_time_peak > 0)만 추출하여
 newhigh_summary.json으로 출력한다.
 """
 
@@ -15,7 +15,7 @@ OUTPUT_PATH = os.path.join(
     os.path.dirname(__file__), "..", "docs", "data", "apt_trade", "newhigh_summary.json"
 )
 
-APT_FIELDS = ("id", "apt_name", "area_m2", "price", "peak", "vs_peak", "chg6m", "status")
+APT_FIELDS = ("id", "apt_name", "area_m2", "price", "all_time_peak", "vs_all_time_peak", "chg6m", "status")
 
 
 def build():
@@ -46,7 +46,7 @@ def build():
                 apts = item.get("apt_details", [])
                 newhigh_apts = []
                 for apt in apts:
-                    if apt.get("vs_peak", 0) > 0:
+                    if apt.get("vs_all_time_peak", 0) > 0:
                         apt_id = hashlib.md5(
                             f"{dist_name}\t{apt['apt_name']}\t{apt['area_m2']}".encode()
                         ).hexdigest()[:10]

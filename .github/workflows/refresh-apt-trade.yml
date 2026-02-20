@@ -61,6 +61,7 @@ jobs:
         continue-on-error: true
         env:
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          ODSAY_API_KEY: ${{ secrets.ODSAY_API_KEY }}
         run: |
           python scripts/enrich_valuation_geo.py
       - name: Build location value ranking

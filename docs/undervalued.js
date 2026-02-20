@@ -216,6 +216,15 @@ function renderItem(r, idx) {
   ctaGroup.appendChild(detailBtn);
 
   if (r.id) {
+    var aptLink = document.createElement("a");
+    aptLink.className = "apt-detail-link";
+    aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido || "");
+    aptLink.textContent = "상세페이지";
+    aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
+    ctaGroup.appendChild(aptLink);
+  }
+
+  if (r.id) {
     var cmpBtn = document.createElement("button");
     cmpBtn.className = "detail-btn";
     cmpBtn.textContent = APTWatchlist.hasCompare(r.id) ? "\uCD94\uAC00\uB428" : "\uBE44\uAD50\uCD94\uAC00";
@@ -240,7 +249,7 @@ function renderItem(r, idx) {
         APTWatchlist.remove(r.id);
         watchBtn.textContent = "\uAD00\uC2EC"; watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
       } else {
-        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.recent_avg });
+        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.recent_avg, sido: activeSido });
         watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C"; watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
       }
       APTWatchlist.track("add_to_watchlist", { apt_name: r.apt_name, page: "undervalued" });

@@ -3,7 +3,7 @@
 
 Features:
 1. Subway proximity (haversine) + estimated walking distance/time
-2. Business district commute time (Kakao Navi API, 수도권 only)
+2. Business district commute time (ODsay 대중교통 API, 수도권 only)
 3. Nearby facilities score (Kakao Category Search API)
 
 Reads valuation/{시도}.json, geocodes apartments via Kakao Local API,
@@ -33,6 +33,8 @@ HOUSEHOLD_FILE = SCRIPTS_DIR / "household_cache.json"
 APT_META_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "apt_meta.json"
 
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")
+ODSAY_API_KEY = os.getenv("ODSAY_API_KEY", "")
+ODSAY_API_URL = "https://api.odsay.com/v1/api/searchPubTransPathT"
 
 # 한강 좌표 (강변을 따라 주요 포인트)
 HANGANG_POINTS = [
@@ -112,9 +114,6 @@ API_DELAY = 0.12
 # Walking estimate constants
 WALK_SPEED_M_PER_MIN = 67  # ~4km/h
 HAVERSINE_WALK_FACTOR = 1.3  # urban road distance ≈ 1.3× haversine
-
-# Kakao Navi API
-NAVI_API_URL = "https://apis-navi.kakaomobility.com/v1/directions"
 
 # Kakao Category Search — facility types for infra scoring
 CATEGORY_CODES = {
@@ -296,39 +295,41 @@ def compute_biz_distances(lat: float, lng: float) -> Dict[str, float]:
     return result
 
 
-# ── Feature 2: Commute time via Kakao Navi API ──
+# ── Feature 2: Commute time via ODsay 대중교통 API ──
 
-def _call_navi_api(
+def _call_odsay_api(
     origin_lat: float, origin_lng: float,
     dest_lat: float, dest_lng: float,
-) -> Optional[Tuple[int, int]]:
-    """Call Kakao Navi API. Returns (distance_m, duration_sec) or None."""
-    if not KAKAO_REST_API_KEY:
+) -> Optional[int]:
+    """ODsay 대중교통 API 호출. 최소 totalTime(분) 반환, 실패 시 None."""
+    if not ODSAY_API_KEY:
         return None
-    headers = {"Authorization": f"KakaoAK {KAKAO_REST_API_KEY}"}
     params = {
-        "origin": f"{origin_lng},{origin_lat}",
-        "destination": f"{dest_lng},{dest_lat}",
-        "priority": "RECOMMEND",
+        "SX": str(origin_lng),
+        "SY": str(origin_lat),
+        "EX": str(dest_lng),
+        "EY": str(dest_lat),
+        "apiKey": ODSAY_API_KEY,
+        "SearchPathType": 0,  # 지하철+버스 전체
     }
     try:
-        resp = requests.get(NAVI_API_URL, headers=headers, params=params, timeout=10)
+        resp = requests.get(ODSAY_API_URL, params=params, timeout=10)
         resp.raise_for_status()
-        routes = resp.json().get("routes", [])
-        if routes and routes[0].get("result_code") == 0:
-            s = routes[0]["summary"]
-            return s["distance"], s["duration"]
+        data = resp.json()
+        paths = data.get("result", {}).get("path", [])
+        if paths:
+            return min(p["info"]["totalTime"] for p in paths)
     except Exception:
         pass  # fail silently, use fallback
     return None
 
 
-navi_available: Optional[bool] = None  # lazy probe
+transit_available: Optional[bool] = None  # lazy probe
 
 
-def _probe_navi() -> bool:
-    """Test if Navi API works with current key (single call)."""
-    result = _call_navi_api(
+def _probe_transit() -> bool:
+    """Test if ODsay API works with current key (single call)."""
+    result = _call_odsay_api(
         BIZ_HUBS["gangnam"]["lat"], BIZ_HUBS["gangnam"]["lng"],
         BIZ_HUBS["gwanghwamun"]["lat"], BIZ_HUBS["gwanghwamun"]["lng"],
     )
@@ -338,42 +339,42 @@ def _probe_navi() -> bool:
 def get_commute_times(
     lat: float, lng: float, ecache: Dict, ck: str,
 ) -> Dict[str, int]:
-    """Get commute minutes to business hubs.
+    """Get commute minutes to business hubs via public transit.
 
-    Uses Kakao Navi API if available, otherwise estimates from haversine.
-    Returns e.g. {"gangnam": 12, "gwanghwamun": 35, "yeouido": 30}.
+    Uses ODsay 대중교통 API if available, otherwise estimates from haversine.
+    Returns e.g. {"gangnam": 45, "gwanghwamun": 55, "yeouido": 50}.
     """
-    global navi_available
+    global transit_available
 
-    cached = ecache.get(ck, {}).get("commute")
+    cached = ecache.get(ck, {}).get("commute_transit")
     if cached:
         return cached
 
-    # Lazy probe Navi API availability
-    if navi_available is None:
-        navi_available = _probe_navi()
-        if navi_available:
-            print("  Kakao Navi API available — using driving directions", flush=True)
+    # Lazy probe ODsay API availability
+    if transit_available is None:
+        transit_available = _probe_transit()
+        if transit_available:
+            print("  ODsay transit API available — using public transit", flush=True)
         else:
-            print("  Kakao Navi API unavailable — using distance estimates", flush=True)
+            print("  ODsay transit API unavailable — using distance estimates", flush=True)
         time.sleep(API_DELAY)
 
     commute = {}
     for key, hub in BIZ_HUBS.items():
-        if navi_available:
-            result = _call_navi_api(lat, lng, hub["lat"], hub["lng"])
+        if transit_available:
+            result = _call_odsay_api(lat, lng, hub["lat"], hub["lng"])
             time.sleep(API_DELAY)
             if result:
-                commute[key] = max(1, round(result[1] / 60))
+                commute[key] = max(1, result)
                 continue
-        # Fallback: estimate from haversine (~25km/h average driving in Seoul)
+        # Fallback: estimate from haversine (~20km/h average transit in Seoul)
         dist_km = haversine(lat, lng, hub["lat"], hub["lng"])
-        commute[key] = max(1, round(dist_km / 25 * 60))
+        commute[key] = max(1, round(dist_km / 20 * 60))
 
     # Update enrichment cache
     if ck not in ecache:
         ecache[ck] = {}
-    ecache[ck]["commute"] = commute
+    ecache[ck]["commute_transit"] = commute
     return commute
 
 

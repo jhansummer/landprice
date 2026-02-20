@@ -552,6 +552,14 @@ def _recovery_from_trend(trend: List[List], min_months: int = 12) -> Dict:
     if peak_val <= 0:
         return {}
 
+    # all_time_peak: 최근 3개월 이전까지의 역대 최고가 (신고가 판정용)
+    atp_val, atp_ym = 0, ""
+    historical_yms = all_yms[:-3] if len(all_yms) > 3 else all_yms[:-1]
+    for ym in historical_yms:
+        if ym_price[ym] > atp_val:
+            atp_val = ym_price[ym]
+            atp_ym = ym
+
     # trough: peak 이후 최저가
     trough_val, trough_ym = peak_val, peak_ym
     for ym in all_yms:
@@ -587,10 +595,16 @@ def _recovery_from_trend(trend: List[List], min_months: int = 12) -> Dict:
     else:
         status = "flat"
 
+    # vs_all_time_peak: 역대 최고가 대비
+    vs_atp = round((current - atp_val) / atp_val * 100, 1) if atp_val > 0 else vs_peak
+
     return {
         "price": round(current, 1),
         "peak": round(peak_val, 1),
         "peak_ym": peak_ym,
+        "all_time_peak": round(atp_val, 1),
+        "all_time_peak_ym": atp_ym,
+        "vs_all_time_peak": vs_atp,
         "trough": round(trough_val, 1),
         "trough_ym": trough_ym,
         "vs_peak": vs_peak,
@@ -703,6 +717,13 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
             items.append(info)
 
     # 개별 단지 회복률을 이름 포함해서 다시 계산
+    # sigungu 추출 (apt_details의 id 생성용)
+    _sigungu = ""
+    for r in records:
+        if r.get("sigungu"):
+            _sigungu = r["sigungu"]
+            break
+
     for dong, dong_records in by_dong.items():
         by_apt_size: Dict[Tuple[str, float], Dict[str, List]] = {}
         for r in dong_records:
@@ -733,9 +754,14 @@ def build_dong_recovery(records: List[Dict[str, object]], current_month: str) ->
             if item["name"] == dong:
                 item["apt_details"] = [
                     {
+                        "id": hashlib.md5(
+                            f"{_sigungu}\t{d['apt_name']}\t{d['area_m2']}".encode()
+                        ).hexdigest()[:10],
                         "apt_name": d["apt_name"],
                         "area_m2": d["area_m2"],
                         "vs_peak": d["vs_peak"],
+                        "all_time_peak": d.get("all_time_peak", d["peak"]),
+                        "vs_all_time_peak": d.get("vs_all_time_peak", d["vs_peak"]),
                         "chg6m": d["chg6m"],
                         "status": d["status"],
                         "price": d["price"],
