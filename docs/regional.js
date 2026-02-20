@@ -13,65 +13,30 @@ let activeSido = null;
 let activeDistrict = null;
 let activeMode = "sale";
 
-function fmt(v) {
-  return new Intl.NumberFormat("ko-KR").format(v);
-}
+var fmt = APTCommon.fmt;
 
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
-  tabsEl.innerHTML = "";
-  tabsEl.setAttribute("role", "tablist");
-  var label = document.createElement("span");
-  label.className = "region-label";
-  label.textContent = "지역";
-  tabsEl.appendChild(label);
-  sidoOrder.forEach(function (sido) {
-    var btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.setAttribute("role", "tab");
-    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
-    btn.textContent = sido;
-    btn.addEventListener("click", function () {
-      activeSido = sido;
-      activeDistrict = null;
-      renderTabs(sidoOrder);
-      renderSubTabs();
-      renderSections();
-      var hashParts = [sido];
-      if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
-      history.replaceState(null, "", "#" + hashParts.join("/"));
-      APTWatchlist.track("tab_switch", { sido: sido, page: "regional" });
-    });
-    tabsEl.appendChild(btn);
+  APTCommon.renderTabs(tabsEl, sidoOrder, activeSido, function (sido) {
+    activeSido = sido;
+    activeDistrict = null;
+    renderTabs(sidoOrder);
+    renderSubTabs();
+    renderSections();
+    var hashParts = [sido];
+    if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+    history.replaceState(null, "", "#" + hashParts.join("/"));
+    APTWatchlist.track("tab_switch", { sido: sido, page: "regional" });
   });
 }
 
 /* ── 구/군 선택 ── */
 function renderSubTabs() {
-  subtabsEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
+  if (!globalData || !activeSido) { subtabsEl.innerHTML = ""; return; }
   var sidoData = globalData.sidos[activeSido];
-  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
-
-  var select = document.createElement("select");
-  select.className = "district-select";
-
-  var allOpt = document.createElement("option");
-  allOpt.value = "";
-  allOpt.textContent = activeSido + " 전체";
-  if (activeDistrict === null) allOpt.selected = true;
-  select.appendChild(allOpt);
-
-  sidoData.district_order.forEach(function (dist) {
-    var opt = document.createElement("option");
-    opt.value = dist;
-    opt.textContent = dist;
-    if (dist === activeDistrict) opt.selected = true;
-    select.appendChild(opt);
-  });
-
-  select.addEventListener("change", function () {
-    activeDistrict = select.value || null;
+  if (!sidoData) { subtabsEl.innerHTML = ""; return; }
+  APTCommon.renderSubTabs(subtabsEl, sidoData.district_order, activeSido, activeDistrict, function (district) {
+    activeDistrict = district;
     renderSections();
     var hashParts = [activeSido];
     if (activeDistrict) hashParts.push(activeDistrict);
@@ -79,8 +44,6 @@ function renderSubTabs() {
     history.replaceState(null, "", "#" + hashParts.join("/"));
     APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "regional" });
   });
-
-  subtabsEl.appendChild(select);
 }
 
 /* ── Breadcrumb JSON-LD 동적 업데이트 ── */
@@ -267,12 +230,7 @@ function priceColor(price, minP, maxP) {
 }
 
 /* ── 시세 회복 상태 ── */
-var RECOVERY_STATUS = {
-  recovered: { label: "상승", color: "#2563eb", barColor: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
-  rising:    { label: "회복", color: "#16a34a", barColor: "#16a34a", bgColor: "#dcfce7", textColor: "#166534" },
-  flat:      { label: "횡보", color: "#94a3b8", barColor: "#94a3b8", bgColor: "#f1f5f9", textColor: "#64748b" },
-  falling:   { label: "하락", color: "#ef4444", barColor: "#ef4444", bgColor: "#fef2f2", textColor: "#dc2626" }
-};
+var RECOVERY_STATUS = APTCommon.RECOVERY_STATUS;
 
 /* ── 히트맵 그리드: 구 통계 빌드 ── */
 function buildDistrictStats(sidoData) {

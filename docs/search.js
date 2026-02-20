@@ -79,11 +79,7 @@ function showAutocomplete(query) {
   acDropdown.style.display = "block";
 }
 
-function escapeHTML(s) {
-  var d = document.createElement("div");
-  d.textContent = s;
-  return d.innerHTML;
-}
+var escapeHTML = APTCommon.escapeHTML;
 
 /* ── URL 상태 유지 ── */
 function updateURL() {
@@ -106,9 +102,7 @@ function parseURL() {
   return { sido: parts[0] || null, district: parts[1] || null, query: query };
 }
 
-function fmt(v) {
-  return new Intl.NumberFormat("ko-KR").format(v);
-}
+var fmt = APTCommon.fmt;
 
 async function loadSido(sido) {
   if (sidoCache[sido]) return sidoCache[sido];
@@ -240,6 +234,13 @@ function renderGroup(group) {
       });
       ctaWrap.appendChild(watchBtn);
 
+      var aptLink = document.createElement("a");
+      aptLink.className = "apt-detail-link";
+      aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido);
+      aptLink.textContent = "상세";
+      aptLink.addEventListener("click", function(e) { e.stopPropagation(); });
+      ctaWrap.appendChild(aptLink);
+
       changeEl.appendChild(ctaWrap);
     }
 
@@ -337,35 +338,21 @@ function showDetail(r) {
 /* renderCompareBar, addToCompare, showCompareModal은 watchlist.js에서 공통 처리 */
 
 function renderTabs() {
-  tabsEl.innerHTML = "";
-  if (!globalData) return;
-  tabsEl.setAttribute("role", "tablist");
-  var label = document.createElement("span");
-  label.className = "region-label";
-  label.textContent = "\uC9C0\uC5ED";
-  tabsEl.appendChild(label);
-  globalData.sido_order.forEach(function (sido) {
-    var btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.setAttribute("role", "tab");
-    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
-    btn.textContent = sido;
-    btn.addEventListener("click", function () {
-      activeSido = sido;
-      activeDistrict = null;
-      activeDong = null;
-      activeDanji = null;
-      activeArea = null;
-      renderTabs();
-      loadSido(sido).then(function () {
-        renderSubTabs();
-        renderFilters();
-        resultsEl.innerHTML = "";
-        updateURL();
-      });
-      APTWatchlist.track("tab_switch", { sido: sido, page: "search" });
+  if (!globalData) { tabsEl.innerHTML = ""; return; }
+  APTCommon.renderTabs(tabsEl, globalData.sido_order, activeSido, function (sido) {
+    activeSido = sido;
+    activeDistrict = null;
+    activeDong = null;
+    activeDanji = null;
+    activeArea = null;
+    renderTabs();
+    loadSido(sido).then(function () {
+      renderSubTabs();
+      renderFilters();
+      resultsEl.innerHTML = "";
+      updateURL();
     });
-    tabsEl.appendChild(btn);
+    APTWatchlist.track("tab_switch", { sido: sido, page: "search" });
   });
 }
 

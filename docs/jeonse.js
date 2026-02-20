@@ -11,67 +11,30 @@ var globalData = null;
 var activeSido = null;
 var activeDistrict = null;
 
-function fmt(v) {
-  return new Intl.NumberFormat("ko-KR").format(v);
-}
+var fmt = APTCommon.fmt;
 
 /* ── 탭 ── */
 function renderTabs(sidoOrder) {
-  tabsEl.innerHTML = "";
-  tabsEl.setAttribute("role", "tablist");
-  var label = document.createElement("span");
-  label.className = "region-label";
-  label.textContent = "지역";
-  tabsEl.appendChild(label);
-  sidoOrder.forEach(function(sido) {
-    var btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.setAttribute("role", "tab");
-    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
-    btn.textContent = sido;
-    btn.addEventListener("click", function() {
-      activeSido = sido;
-      activeDistrict = null;
-      renderTabs(sidoOrder);
-      renderSubTabs();
-      renderSections();
-      history.replaceState(null, "", "#" + sido);
-      APTWatchlist.track("tab_switch", { sido: sido, page: "jeonse" });
-    });
-    tabsEl.appendChild(btn);
+  APTCommon.renderTabs(tabsEl, sidoOrder, activeSido, function(sido) {
+    activeSido = sido;
+    activeDistrict = null;
+    renderTabs(sidoOrder);
+    renderSubTabs();
+    renderSections();
+    history.replaceState(null, "", "#" + sido);
+    APTWatchlist.track("tab_switch", { sido: sido, page: "jeonse" });
   });
 }
 
 function renderSubTabs() {
-  subtabsEl.innerHTML = "";
-  if (!globalData || !activeSido) return;
+  if (!globalData || !activeSido) { subtabsEl.innerHTML = ""; return; }
   var sidoData = globalData.sidos[activeSido];
-  if (!sidoData || !sidoData.district_order || !sidoData.district_order.length) return;
-
-  var select = document.createElement("select");
-  select.className = "district-select";
-
-  var allOpt = document.createElement("option");
-  allOpt.value = "";
-  allOpt.textContent = activeSido + " \uC804\uCCB4";
-  if (activeDistrict === null) allOpt.selected = true;
-  select.appendChild(allOpt);
-
-  sidoData.district_order.forEach(function(dist) {
-    var opt = document.createElement("option");
-    opt.value = dist;
-    opt.textContent = dist;
-    if (dist === activeDistrict) opt.selected = true;
-    select.appendChild(opt);
-  });
-
-  select.addEventListener("change", function() {
-    activeDistrict = select.value || null;
+  if (!sidoData) { subtabsEl.innerHTML = ""; return; }
+  APTCommon.renderSubTabs(subtabsEl, sidoData.district_order, activeSido, activeDistrict, function(district) {
+    activeDistrict = district;
     renderSections();
     APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "jeonse" });
   });
-
-  subtabsEl.appendChild(select);
 }
 
 /* ── 전세가율 현황 카드 ── */

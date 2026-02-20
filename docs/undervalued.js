@@ -9,9 +9,7 @@ let activeSido = null;
 const txnCache = {};
 const chartColors = ["#2563eb", "#ef4444", "#16a34a", "#f59e0b"];
 
-function fmt(v) {
-  return new Intl.NumberFormat("ko-KR").format(v);
-}
+var fmt = APTCommon.fmt;
 
 function fmtEok(v) {
   return (v / 10000).toFixed(2) + "\uC5B5";
@@ -134,26 +132,12 @@ function drawMultiSeries(canvas, seriesList) {
 }
 
 function renderTabs(sidoOrder) {
-  tabsEl.innerHTML = "";
-  tabsEl.setAttribute("role", "tablist");
-  var label = document.createElement("span");
-  label.className = "region-label";
-  label.textContent = "지역";
-  tabsEl.appendChild(label);
-  sidoOrder.forEach(function (sido) {
-    const btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.setAttribute("role", "tab");
-    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
-    btn.textContent = sido;
-    btn.addEventListener("click", function () {
-      activeSido = sido;
-      renderTabs(sidoOrder);
-      renderSections();
-      history.replaceState(null, "", "#" + sido);
-      APTWatchlist.track("tab_switch", { sido: sido, page: "undervalued" });
-    });
-    tabsEl.appendChild(btn);
+  APTCommon.renderTabs(tabsEl, sidoOrder, activeSido, function (sido) {
+    activeSido = sido;
+    renderTabs(sidoOrder);
+    renderSections();
+    history.replaceState(null, "", "#" + sido);
+    APTWatchlist.track("tab_switch", { sido: sido, page: "undervalued" });
   });
 }
 

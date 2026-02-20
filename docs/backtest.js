@@ -11,12 +11,8 @@ var activeSixSort = "return";
 var activeTwoYearSort = "return";
 var txnCache = {};
 
-function fmt(v) { return new Intl.NumberFormat("ko-KR").format(v); }
-
-function fmtEok(v) {
-  if (v >= 10000) return (v / 10000).toFixed(1) + "\uC5B5";
-  return fmt(Math.round(v)) + "\uB9CC";
-}
+var fmt = APTCommon.fmt;
+var fmtEok = APTCommon.fmtEok;
 
 function fmtYm(ym) {
   return ym.slice(0, 4) + "." + ym.slice(4);

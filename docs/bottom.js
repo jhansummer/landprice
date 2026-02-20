@@ -21,25 +21,10 @@ var valuationGeo = null;
 var locationScores = null;
 var transportMinMax = null;
 
-var RECOVERY_STATUS = {
-  recovered: { label: "상승", color: "#2563eb", bgColor: "#dbeafe", textColor: "#1e40af" },
-  rising:    { label: "회복", color: "#16a34a", bgColor: "#dcfce7", textColor: "#166534" },
-  flat:      { label: "횡보", color: "#94a3b8", bgColor: "#f1f5f9", textColor: "#64748b" },
-  falling:   { label: "하락", color: "#ef4444", bgColor: "#fef2f2", textColor: "#dc2626" }
-};
-
-function fmt(v) { return new Intl.NumberFormat("ko-KR").format(v); }
-
-function fmtEok(v) {
-  if (v >= 10000) return (v / 10000).toFixed(1) + "\uC5B5";
-  return fmt(Math.round(v)) + "\uB9CC";
-}
-
-function escapeHTML(s) {
-  var d = document.createElement("div");
-  d.appendChild(document.createTextNode(s));
-  return d.innerHTML;
-}
+var RECOVERY_STATUS = APTCommon.RECOVERY_STATUS;
+var fmt = APTCommon.fmt;
+var fmtEok = APTCommon.fmtEok;
+var escapeHTML = APTCommon.escapeHTML;
 
 /* ── 입지점수 (교통60%+학군20%+인프라20%) ── */
 function calcLocationScore(apt) {
@@ -102,27 +87,13 @@ function calcLocationScore(apt) {
 
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
-  tabsEl.innerHTML = "";
-  tabsEl.setAttribute("role", "tablist");
-  var label = document.createElement("span");
-  label.className = "region-label";
-  label.textContent = "\uC9C0\uC5ED";
-  tabsEl.appendChild(label);
-  sidoOrder.forEach(function (sido) {
-    var btn = document.createElement("button");
-    btn.className = "tab-btn" + (sido === activeSido ? " active" : "");
-    btn.setAttribute("role", "tab");
-    btn.setAttribute("aria-selected", sido === activeSido ? "true" : "false");
-    btn.textContent = sido;
-    btn.addEventListener("click", function () {
-      activeSido = sido;
-      activeDistrict = null;
-      renderTabs(sidoOrder);
-      loadAndRender();
-      history.replaceState(null, "", "#" + sido);
-      APTWatchlist.track("tab_switch", { sido: sido, page: "bottom" });
-    });
-    tabsEl.appendChild(btn);
+  APTCommon.renderTabs(tabsEl, sidoOrder, activeSido, function (sido) {
+    activeSido = sido;
+    activeDistrict = null;
+    renderTabs(sidoOrder);
+    loadAndRender();
+    history.replaceState(null, "", "#" + sido);
+    APTWatchlist.track("tab_switch", { sido: sido, page: "bottom" });
   });
 }
 

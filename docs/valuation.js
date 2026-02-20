@@ -29,7 +29,7 @@
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
   function fmtEok(v) { return (v / 10000).toFixed(1) + "\uC5B5"; }
   function fmtPerM2(price, area) { return (price / area / 1000).toFixed(1) + "\uCC9C\uB9CC/m\u00B2"; }
-  function escapeHTML(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+  var escapeHTML = APTCommon.escapeHTML;
 
   /* ── URL state ── */
   function updateURL() {
@@ -64,7 +64,7 @@
     globalIndex.sido_order.forEach(function (sido) {
       var data = sidoCache[sido];
       if (data && data.items) {
-        data.items.forEach(function (item) { all.push(item); });
+        data.items.forEach(function (item) { item._sido = sido; all.push(item); });
       }
     });
     return all;
@@ -328,7 +328,6 @@
     guideDiv.innerHTML =
       "<b>\uAD50\uD1B5\uC811\uADFC\uC131</b>: " + (scores.isSeoul ? "\uC5ED\uC138\uAD8C(50%) + \uC5C5\uBB34\uC9C0\uAD6C(50%)" : "\uC5ED\uC138\uAD8C \uAC70\uB9AC \uAE30\uBC18") + ". \uC5ED\uC138\uAD8C = max(5, 100 - \uAC70\uB9AC(m)/30)<br>" +
       "<b>\uD559\uAD70</b>: \uBC18\uACBD 1.5km \uB0B4 \uCD08\uC911\uD559\uAD50 \uD559\uC5C5\uC131\uCDE8\uB3C4 \uAE30\uBC18 (\uAC70\uB9AC\uC5ED\uC218 \uAC00\uC911\uD3C9\uADE0)<br>" +
-      "<b>\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131</b>: \uC5ED\uC138\uAD8C(30%) + \uC5C5\uBB34\uC9C0\uAD6C \uAC70\uB9AC(70%). \uAC15\uB0A8 50% \u00B7 \uAD11\uD654\uBB38 25% \u00B7 \uC5EC\uC758\uB3C4 25%<br>" +
       "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50(30\uC810) \u00B7 \uBCD1\uC6D0(25\uC810) \u00B7 \uC740\uD589(20\uC810) \u00B7 \uD3B8\uC758\uC810(15\uC810) \u00B7 \uB9C8\uD2B8(10\uC810)<br>" +
       "<b>\uC885\uD569</b>: \uAD50\uD1B5 60% + \uD559\uAD70 20% + \uC778\uD504\uB77C 20% (\uAD50\uD1B5 \uAC00\uC911)";
     guideBtn.addEventListener("click", function () {
@@ -662,6 +661,13 @@
         APTWatchlist.track("watchlist_toggle", { apt_name: entry.apt_name, source: "valuation" });
       });
       cta.appendChild(wlBtn);
+    }
+    if (entry.id) {
+      var aptLink = document.createElement("a");
+      aptLink.className = "apt-detail-link";
+      aptLink.href = "apt.html?id=" + encodeURIComponent(entry.id) + "&s=" + encodeURIComponent(entry._sido || "서울");
+      aptLink.textContent = "상세 보기";
+      cta.appendChild(aptLink);
     }
     card.appendChild(cta);
 

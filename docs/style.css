@@ -550,3 +550,32 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .vs-bar-mid{background:#f59e0b}
 .vs-bar-low{background:#94a3b8}
 .vs-bar-val{font-size:12px;font-weight:700;color:var(--ink);width:24px;text-align:right}
+
+/* ── 단지 상세 페이지 ── */
+.apt-header{margin:20px 0 12px}
+.apt-title{font-size:22px;font-weight:800;color:var(--ink);margin:0}
+.apt-sub{font-size:13px;color:var(--muted);margin-top:4px}
+.apt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.share-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--paper);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.share-btn:hover{border-color:var(--accent);color:var(--accent)}
+.share-btn.active{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.share-btn:disabled{opacity:.4;cursor:default}
+.apt-price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.apt-price-cell{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.apt-price-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.apt-price-value{font-size:18px;font-weight:800;color:var(--ink)}
+.apt-price-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.apt-txn-table{width:100%;border-collapse:collapse;font-size:13px}
+.apt-txn-table th{text-align:left;font-weight:600;color:var(--muted);padding:8px 6px;border-bottom:2px solid var(--line);font-size:12px}
+.apt-txn-table td{padding:8px 6px;border-bottom:1px solid var(--line);color:var(--ink);font-variant-numeric:tabular-nums}
+.apt-txn-table tr:hover{background:var(--accent-soft)}
+.apt-detail-link{display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--accent);text-decoration:none;padding:2px 8px;border:1px solid var(--accent);border-radius:6px;white-space:nowrap;transition:all .15s}
+.apt-detail-link:hover{background:var(--accent);color:#fff}
+.share-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1e293b;color:#fff;padding:10px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none}
+.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:600px){
+  .apt-price-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+  .apt-price-value{font-size:15px}
+  .apt-actions{gap:6px}
+  .share-btn{padding:5px 10px;font-size:11px}
+}
