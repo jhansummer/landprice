@@ -73,7 +73,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions"
             git config user.email "github-actions@users.noreply.github.com"
-            git add docs/data/apt_trade docs/sitemap.xml scripts/geocode_cache.json scripts/enrichment_cache.json
+            git add docs/data/apt_trade docs/sitemap.xml scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json
             git commit -m "chore: refresh apt trade data"
             git pull --rebase origin main
             git push

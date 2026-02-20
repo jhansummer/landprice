@@ -26,6 +26,7 @@ OUTPUT_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "valuation_ge
 CACHE_FILE = SCRIPTS_DIR / "geocode_cache.json"
 ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
+SCHOOLS_FILE = SCRIPTS_DIR / "schools.json"
 
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "")
 
@@ -65,10 +66,11 @@ INFRA_WEIGHTS = {
 }
 INFRA_RADIUS = 1000  # meters
 
-# 학군 점수: 학원(AC5) 수 기반
-ACADEMY_CODE = "AC5"
-ACADEMY_RADIUS = 1000  # meters
-ACADEMY_MAX = 300  # 300개 이상이면 만점 (P75 수준, 대치동급 500+)
+# 학군 점수: 학교 성적 기반
+SCHOOL_RADIUS_KM = 1.5       # 기본 반경 (km)
+SCHOOL_RADIUS_MAX_KM = 3.0   # 확대 반경 (학교 없을 때)
+SCHOOL_TYPE_WEIGHT = {"elementary": 1.0, "middle": 1.2}
+SCHOOL_MIN_DIST_KM = 0.1     # 최소 거리 (가중치 발산 방지)
 
 
 # ── Haversine ──
@@ -127,6 +129,16 @@ def load_stations() -> List[Dict]:
         print(f"Warning: {STATIONS_FILE} not found.", flush=True)
         return []
     with open(STATIONS_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+# ── Schools ──
+
+def load_schools() -> List[Dict]:
+    if not SCHOOLS_FILE.exists():
+        print(f"Warning: {SCHOOLS_FILE} not found.", flush=True)
+        return []
+    with open(SCHOOLS_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -342,28 +354,53 @@ def calc_infra_score(infra: Dict[str, int]) -> int:
     return round(score)
 
 
-# ── Feature 4: School score from academy (AC5) count ──
+# ── Feature 4: School score from school performance data ──
 
-def get_academy_score(
-    lat: float, lng: float, ecache: Dict, ck: str,
-) -> int:
-    """Get school score (0–100) based on nearby academy count. Cached."""
-    # Use cached count if available (recalculate score with current ACADEMY_MAX)
-    cached_count = ecache.get(ck, {}).get("academy_count")
-    if cached_count is not None:
-        score = min(round(cached_count / ACADEMY_MAX * 100), 100)
-        ecache[ck]["academy_score"] = score
-        return score
+def get_school_score(
+    lat: float, lng: float, schools: List[Dict], ecache: Dict, ck: str,
+) -> Optional[int]:
+    """Get school score (0–100) based on nearby school performance. Cached.
 
-    count = _search_category_count(lat, lng, ACADEMY_CODE)
-    time.sleep(API_DELAY)
+    Uses distance-inverse weighted average of school perf scores within radius.
+    Elementary: weight 1.0, Middle: weight 1.2.
+    Returns None if no schools found within extended radius.
+    """
+    cached = ecache.get(ck, {}).get("school_score")
+    if cached is not None:
+        return cached
 
-    score = min(round(count / ACADEMY_MAX * 100), 100)
+    # Search within primary radius
+    nearby = []
+    for s in schools:
+        d = haversine(lat, lng, s["lat"], s["lng"])
+        if d <= SCHOOL_RADIUS_KM:
+            nearby.append((s, d))
+
+    # Expand to max radius if no schools found
+    if not nearby:
+        for s in schools:
+            d = haversine(lat, lng, s["lat"], s["lng"])
+            if d <= SCHOOL_RADIUS_MAX_KM:
+                nearby.append((s, d))
+
+    if not nearby:
+        return None
+
+    # Distance-inverse weighted average
+    w_sum = 0.0
+    score_sum = 0.0
+    for s, d in nearby:
+        dist = max(d, SCHOOL_MIN_DIST_KM)
+        type_w = SCHOOL_TYPE_WEIGHT.get(s.get("type", "elementary"), 1.0)
+        w = (1.0 / dist) * type_w
+        score_sum += s.get("perf", 50) * w
+        w_sum += w
+
+    score = round(score_sum / w_sum) if w_sum > 0 else None
 
     if ck not in ecache:
         ecache[ck] = {}
-    ecache[ck]["academy_count"] = count
-    ecache[ck]["academy_score"] = score
+    ecache[ck]["school_score"] = score
     return score
 
 
@@ -388,6 +425,9 @@ def main() -> int:
 
     stations = load_stations()
     print(f"Loaded {len(stations)} subway stations", flush=True)
+
+    schools = load_schools()
+    print(f"Loaded {len(schools)} schools", flush=True)
 
     cache = load_cache()
     cache_size_before = len(cache)
@@ -451,8 +491,10 @@ def main() -> int:
             geo["infra"] = infra
             geo["infra_score"] = calc_infra_score(infra)
 
-            # 4. Academy-based school score
-            geo["academy_score"] = get_academy_score(lat, lng, ecache, ck)
+            # 4. School performance-based score
+            school_score = get_school_score(lat, lng, schools, ecache, ck)
+            if school_score is not None:
+                geo["academy_score"] = school_score  # 하위호환: 필드명 유지
 
             geo_result[apt_id] = geo
             enriched += 1
