@@ -43,7 +43,7 @@
     "영등포구": {
       "transport": { "gangnam": 50, "gwanghwamun": 60, "yeouido": 95 },
       "school_base": 48,
-      "school_dong": {}
+      "school_dong": { "여의도동": 75 }
     },
     "동작구": {
       "transport": { "gangnam": 70, "gwanghwamun": 55, "yeouido": 65 },
