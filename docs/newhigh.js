@@ -1,5 +1,5 @@
 /* APT Mine - 신고가 아파트 검색 */
-var summaryPath = "data/apt_trade/summary.json";
+var summaryPath = "data/apt_trade/newhigh_summary.json";
 
 var tabsEl = document.getElementById("tabs");
 var subtabsEl = document.getElementById("subtabs");

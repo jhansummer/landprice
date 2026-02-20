@@ -61,6 +61,10 @@ jobs:
         continue-on-error: true
         run: |
           python scripts/build_location_value.py
+      - name: Build newhigh summary
+        continue-on-error: true
+        run: |
+          python scripts/build_newhigh.py
       - name: Build backtest results
         timeout-minutes: 90
         continue-on-error: true
