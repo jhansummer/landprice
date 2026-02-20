@@ -369,7 +369,7 @@ def _compare_groups(groups: Dict[str, List[Dict[str, object]]], filter_month: st
 
 def section1_top3(records: List[Dict[str, object]], current_month: str,
                    new_records: List[Dict[str, object]] = None) -> Dict[str, object]:
-    """오늘의 실거래 TOP 3. new_records가 있으면 신규 거래 기준, 없으면 전체 최신 거래 기준."""
+    """오늘의 실거래 TOP 3. new_records가 있으면 신규 거래 기준, 없으면 현재월 거래 기준."""
     # 전체 거래를 그룹핑 (직전 최고가 비교용)
     all_groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
@@ -425,8 +425,8 @@ def section1_top3(records: List[Dict[str, object]], current_month: str,
             })
         compared.sort(key=lambda x: -x["pct"])
     else:
-        # 폴백: 전체 최신 거래 기준
-        compared = _compare_groups(all_groups)
+        # 폴백: 현재월 거래 기준 (new_records 없을 때도 최신 데이터 반영)
+        compared = _compare_groups(all_groups, filter_month=current_month)
 
     return {
         "title": "오늘의 실거래 TOP 3",
@@ -434,8 +434,9 @@ def section1_top3(records: List[Dict[str, object]], current_month: str,
     }
 
 
-def section2_top3(records: List[Dict[str, object]], current_month: str, min_trades: int = 20) -> Dict[str, object]:
-    """거래량 min_trades건 이상 단지 중 상승률 TOP 3."""
+def section2_top3(records: List[Dict[str, object]], current_month: str,
+                   new_records: List[Dict[str, object]] = None, min_trades: int = 20) -> Dict[str, object]:
+    """거래량 min_trades건 이상 단지 중 상승률 TOP 3. new_records 또는 현재월 기준."""
     groups: Dict[str, List[Dict[str, object]]] = {}
     for r in records:
         key = f"{r['apt_name']}\t{r['area_m2']}"
@@ -444,7 +445,20 @@ def section2_top3(records: List[Dict[str, object]], current_month: str, min_trad
     # Filter: 20건 이상
     filtered = {k: v for k, v in groups.items() if len(v) >= min_trades}
 
-    compared = _compare_groups(filtered)
+    if new_records:
+        # 신규 거래가 속한 단지만 필터링 (20건 이상인 것 중)
+        new_keys = set()
+        for r in new_records:
+            key = f"{r['apt_name']}\t{r['area_m2']}"
+            new_keys.add(key)
+        new_filtered = {k: v for k, v in filtered.items() if k in new_keys}
+        if new_filtered:
+            compared = _compare_groups(new_filtered)
+        else:
+            compared = _compare_groups(filtered, filter_month=current_month)
+    else:
+        # 현재월 거래 기준
+        compared = _compare_groups(filtered, filter_month=current_month)
 
     # Add total_trades to each entry
     for entry in compared:
@@ -1341,7 +1355,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             dist_rent = [r for r in rent_records if r["lawd_cd"] in group_set]
             dist_data = {
                 "section1": section1_top3(dist_records, current_month, dist_new or None),
-                "section2": section2_top3(dist_records, current_month),
+                "section2": section2_top3(dist_records, current_month, dist_new or None),
                 "section3": section3_3m_top3(dist_records, current_month),
                 "section4": section4_3m_min_trades(dist_records, current_month),
                 "dong_order": dong_names,
@@ -1390,7 +1404,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
 
         sido_data = {
             "section1": section1_top3(records, current_month, sido_new or None),
-            "section2": section2_top3(records, current_month),
+            "section2": section2_top3(records, current_month, sido_new or None),
             "section3": section3_3m_top3(records, current_month),
             "section4": section4_3m_min_trades(records, current_month),
             "district_order": district_order,
