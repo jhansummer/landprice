@@ -40,6 +40,31 @@ BIZ_HUBS = {
 # 수도권 시도 (업무지구 거리 + 출퇴근시간 표시 대상)
 METRO_SIDOS = {"서울", "경기", "인천"}
 
+# 비수도권 도심 좌표 (교통점수 산출용)
+CITY_CENTERS = {
+    "부산": [
+        {"name": "동래온천", "lat": 35.2050, "lng": 129.0780},
+        {"name": "센텀시티", "lat": 35.1695, "lng": 129.1310},
+    ],
+    "대구": [
+        {"name": "동성로", "lat": 35.8690, "lng": 128.5950},
+        {"name": "범어역", "lat": 35.8577, "lng": 128.6250},
+    ],
+    "울산": [
+        {"name": "울산시청", "lat": 35.5396, "lng": 129.3114},
+        {"name": "삼산동", "lat": 35.5405, "lng": 129.3376},
+    ],
+    "세종": [
+        {"name": "세종시청", "lat": 36.4800, "lng": 127.2610},
+    ],
+    "광주": [
+        {"name": "충장로", "lat": 35.1487, "lng": 126.9171},
+    ],
+    "대전": [
+        {"name": "둔산동", "lat": 36.3515, "lng": 127.3779},
+    ],
+}
+
 # Rate limit: Kakao API ~10 req/sec
 API_DELAY = 0.12
 
@@ -537,14 +562,22 @@ def main() -> int:
                 geo["redev_score"] = redev_s
 
             # 6. 입지점수: 교통30% + 학군60% + 인프라5% + 정비구역5%
-            #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=지하철선형
+            #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
             subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
                 def _bds(d): return max(0, min(100, round(100 - (d - 3) * 100 / 47)))
                 gangnam_s = _bds(geo["biz_gangnam"])
                 transport_s = gangnam_s * 0.7 + subway_s_exp * 0.3
             else:
-                transport_s = max(5, round(100 - nearest["dist"] * 1000 / 30))
+                # 비수도권: 도심거리 기반 (도심70% + 지하철30%)
+                sido_short = sido.replace("광역시", "").replace("특별자치시", "").replace("특별시", "")
+                centers = CITY_CENTERS.get(sido_short)
+                if centers:
+                    center_dist = min(haversine(lat, lng, c["lat"], c["lng"]) for c in centers)
+                    center_s = max(0, min(100, round(100 - (center_dist - 1) * 100 / 24)))
+                    transport_s = center_s * 0.7 + subway_s_exp * 0.3
+                else:
+                    transport_s = subway_s_exp
             w_sum = transport_s * 6
             w_total = 6
             if school_score is not None:
