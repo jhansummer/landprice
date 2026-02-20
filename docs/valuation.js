@@ -115,6 +115,22 @@
   }
 
   /**
+   * 출퇴근 접근성 점수 (bottom.js와 동일 공식)
+   * 역세권(30%) + 업무지구(70%), biz 없으면 역세권만
+   */
+  function calcCommuteScore(item) {
+    var geo = valuationGeo && valuationGeo[item.id];
+    if (!geo || geo.subway_dist == null) return null;
+    var subwayScore = Math.max(0, 100 - geo.subway_dist * 50);
+    if (geo.biz_gangnam == null) return Math.round(subwayScore);
+    var gangnam = Math.max(0, 100 - geo.biz_gangnam * 4);
+    var gwanghwamun = Math.max(0, 100 - geo.biz_gwanghwamun * 4);
+    var yeouido = Math.max(0, 100 - geo.biz_yeouido * 4);
+    var bizScore = gangnam * 0.5 + gwanghwamun * 0.25 + yeouido * 0.25;
+    return Math.round(subwayScore * 0.3 + bizScore * 0.7);
+  }
+
+  /**
    * 종합 가치평가 점수 계산
    * 서울: 교통 = 역세권(50%)+업무지구(50%), 종합 = (교통+학군+인프라)/3
    * 타지역: 교통 = 역세권(100%), 종합 = (교통+인프라)/2
@@ -194,6 +210,7 @@
         transport: Math.round(transportScore),
         school: Math.round(schoolScore),
         infra: infraScore,
+        commuteScore: calcCommuteScore(item),
         total: Math.round(total),
         isSeoul: true,
         subwayName: subwayName,
@@ -216,6 +233,7 @@
         transport: subwayScore,
         school: null,
         infra: infraScore,
+        commuteScore: calcCommuteScore(item),
         total: Math.round(total2),
         isSeoul: false,
         subwayName: subwayName,
@@ -243,6 +261,7 @@
         transport: Math.round(bizScore2),
         school: Math.round(schoolScore2),
         infra: null,
+        commuteScore: null,
         total: Math.round(total3),
         isSeoul: true,
         subwayName: null, subwayLine: null, subwayDist: null,
@@ -294,7 +313,7 @@
       section.appendChild(subwayInfo);
     }
 
-    // Commute times (수도권)
+    // Commute times (수도권) + 출퇴근 점수 뱃지
     if (scores.commute) {
       var commuteEl = document.createElement("div");
       commuteEl.className = "vs-commute";
@@ -303,9 +322,16 @@
       if (scores.commute.gwanghwamun) parts.push("\uAD11\uD654\uBB38 " + scores.commute.gwanghwamun + "\uBD84");
       if (scores.commute.yeouido) parts.push("\uC5EC\uC758\uB3C4 " + scores.commute.yeouido + "\uBD84");
       if (parts.length) {
+        var badgeHtml = "";
+        if (scores.commuteScore != null) {
+          var csColor = scores.commuteScore >= 70 ? "#2563eb" : scores.commuteScore >= 40 ? "#f59e0b" : "#94a3b8";
+          var csBg = scores.commuteScore >= 70 ? "#dbeafe" : scores.commuteScore >= 40 ? "#fef3c7" : "#f1f5f9";
+          badgeHtml = '<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:' + csColor + ';background:' + csBg + ';margin-left:6px">\uCD9C\uD1F4\uADFC ' + scores.commuteScore + '</span>';
+        }
         commuteEl.innerHTML = '<span class="vs-commute-icon">\uD83D\uDE97</span>'
           + '<span class="vs-commute-label">\uCD9C\uD1F4\uADFC</span>'
-          + '<span class="vs-commute-times">' + parts.join(" \u00B7 ") + '</span>';
+          + '<span class="vs-commute-times">' + parts.join(" \u00B7 ") + '</span>'
+          + badgeHtml;
         section.appendChild(commuteEl);
       }
     }
@@ -319,6 +345,10 @@
     // 학군은 서울에서만 표시
     if (scores.isSeoul && scores.school != null) {
       barItems.push({ label: "\uD559\uAD70", score: scores.school });
+    }
+    // 출퇴근접근성
+    if (scores.commuteScore != null) {
+      barItems.push({ label: "\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131", score: scores.commuteScore });
     }
     // 생활인프라
     if (scores.infra != null) {
