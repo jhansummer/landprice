@@ -58,9 +58,10 @@ jobs:
         run: |
           python scripts/enrich_valuation_geo.py
       - name: Build backtest results
+        timeout-minutes: 90
         continue-on-error: true
         run: |
-          python scripts/build_backtest.py
+          python scripts/build_backtest_historical.py --lookback 24
       - name: Update sitemap lastmod
         run: python scripts/update_sitemap.py
       - name: Commit and push if changed
