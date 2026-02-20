@@ -324,7 +324,7 @@
     guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.6";
     guideDiv.innerHTML =
       "<b>\uAD50\uD1B5\uC811\uADFC\uC131</b>: " + (scores.isSeoul ? "\uC5ED\uC138\uAD8C(50%) + \uC5C5\uBB34\uC9C0\uAD6C(50%)" : "\uC5ED\uC138\uAD8C \uAC70\uB9AC \uAE30\uBC18") + ". \uC5ED\uC138\uAD8C = max(5, 100 - \uAC70\uB9AC(m)/30)<br>" +
-      "<b>\uD559\uAD70</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uC6D0 \uC218 \uAE30\uBC18 (300\uAC1C \uC774\uC0C1 \uB9CC\uC810)<br>" +
+      "<b>\uD559\uAD70</b>: \uBC18\uACBD 1.5km \uB0B4 \uCD08\uC911\uD559\uAD50 \uD559\uC5C5\uC131\uCDE8\uB3C4 \uAE30\uBC18 (\uAC70\uB9AC\uC5ED\uC218 \uAC00\uC911\uD3C9\uADE0)<br>" +
       "<b>\uCD9C\uD1F4\uADFC\uC811\uADFC\uC131</b>: \uC5ED\uC138\uAD8C(30%) + \uC5C5\uBB34\uC9C0\uAD6C \uAC70\uB9AC(70%). \uAC15\uB0A8 50% \u00B7 \uAD11\uD654\uBB38 25% \u00B7 \uC5EC\uC758\uB3C4 25%<br>" +
       "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50(30\uC810) \u00B7 \uBCD1\uC6D0(25\uC810) \u00B7 \uC740\uD589(20\uC810) \u00B7 \uD3B8\uC758\uC810(15\uC810) \u00B7 \uB9C8\uD2B8(10\uC810)<br>" +
       "<b>\uC885\uD569</b>: \uAD50\uD1B5 60% + \uD559\uAD70 20% + \uC778\uD504\uB77C 20% (\uAD50\uD1B5 \uAC00\uC911)";
@@ -513,7 +513,7 @@
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>'
-      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70(\uD559\uC6D0\uC218)\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4.</div>';
+      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC785\uC9C0\uBD84\uC11D\uC740 \uC5ED\uC138\uAD8C\u00B7\uAD50\uD1B5\u00B7\uD559\uAD70(\uD559\uC5C5\uC131\uCDE8\uB3C4)\u00B7\uC0DD\uD65C\uC778\uD504\uB77C\uB97C \uBC18\uC601\uD569\uB2C8\uB2E4.</div>';
     resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
@@ -748,7 +748,7 @@
     return wrap;
   }
 
-  /* ── location value ranking ── */
+  /* ── location value ranking (with tabs) ── */
   function showLocationValueRanking() {
     if (!locationValue || !locationValue.sidos) { showHint(); return; }
     resultsEl.innerHTML = "";
@@ -756,20 +756,57 @@
     var totalCount = 0;
     globalIndex.sido_order.forEach(function (s) { var d = sidoCache[s]; if (d) totalCount += (d.count || 0); });
 
+    // ── Main tabs: 입지 저평가 / 시세 저평가 ──
+    var mainTabWrap = document.createElement("div");
+    mainTabWrap.style.cssText = "display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border,#e5e7eb)";
+
+    var tabLoc = document.createElement("button");
+    tabLoc.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
+    tabLoc.textContent = "\uC785\uC9C0 \uC800\uD3C9\uAC00";
+
+    var tabPrice = document.createElement("button");
+    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
+    tabPrice.textContent = "\uC2DC\uC138 \uC800\uD3C9\uAC00";
+
+    var contentArea = document.createElement("div");
+
+    function activateTab(which) {
+      var isLoc = which === "location";
+      tabLoc.style.borderBottomColor = isLoc ? "#2563eb" : "transparent";
+      tabLoc.style.color = isLoc ? "#2563eb" : "var(--muted)";
+      tabPrice.style.borderBottomColor = isLoc ? "transparent" : "#2563eb";
+      tabPrice.style.color = isLoc ? "var(--muted)" : "#2563eb";
+      if (isLoc) renderLocationRankingContent(contentArea, totalCount);
+      else renderPriceUndervaluedContent(contentArea, totalCount);
+    }
+
+    tabLoc.addEventListener("click", function () { activateTab("location"); });
+    tabPrice.addEventListener("click", function () { activateTab("price"); });
+
+    mainTabWrap.appendChild(tabLoc);
+    mainTabWrap.appendChild(tabPrice);
+    resultsEl.appendChild(mainTabWrap);
+    resultsEl.appendChild(contentArea);
+
+    activateTab("location");
+  }
+
+  /* ── 입지 저평가 content ── */
+  function renderLocationRankingContent(container, totalCount) {
+    container.innerHTML = "";
+
     var intro = document.createElement("div");
     intro.className = "val-hint";
     intro.innerHTML = '<b>\uC785\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00 \uC544\uD30C\uD2B8</b><br>'
-      + '<span style="font-size:11px">\uC785\uC9C0\uC810\uC218(\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC778\uD504\uB77C)\uB294 \uB192\uC740\uB370 \uAC19\uC740 \uC2DC\uB3C4 \uB0B4 \uAC00\uACA9\uC740 \uC0C1\uB300\uC801\uC73C\uB85C \uB0AE\uC740 \uB2E8\uC9C0</span>';
-    resultsEl.appendChild(intro);
+      + '<span style="font-size:11px">\uC785\uC9C0\uC810\uC218(\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC778\uD504\uB77C)\uB294 \uB192\uC740\uB370 \uAC19\uC740 \uC2DC\uB3C4 \uB0B4 \uAC00\uACA9\uC740 \uC0C1\uB300\uC801\uC73C\uB85C \uB0AE\uC740 \uB2E8\uC9C0</span><br>'
+      + '<span style="font-size:11px;color:var(--muted)">\uCE74\uB4DC\uB97C \uB204\uB974\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC2DC\uC138 \uBE44\uAD50\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4</span>';
+    container.appendChild(intro);
 
     var sidoTabs = document.createElement("div");
     sidoTabs.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0";
     var contentDiv = document.createElement("div");
 
-    var activeSido = null;
-
     function renderSido(sido) {
-      activeSido = sido;
       contentDiv.innerHTML = "";
       sidoTabs.querySelectorAll("button").forEach(function (b) {
         b.classList.toggle("active", b.dataset.sido === sido);
@@ -866,17 +903,125 @@
       sidoTabs.appendChild(btn);
     });
 
-    resultsEl.appendChild(sidoTabs);
-    resultsEl.appendChild(contentDiv);
+    container.appendChild(sidoTabs);
+    container.appendChild(contentDiv);
 
-    // Show first sido with data
     if (sidos.length) renderSido(sidos[0]);
 
-    // Search hint at bottom
     var hint = document.createElement("div");
     hint.style.cssText = "text-align:center;margin-top:16px;font-size:12px;color:var(--muted)";
     hint.textContent = "\uC804\uAD6D " + totalCount.toLocaleString() + "\uAC1C \uB2E8\uC9C0 \uAC80\uC0C9 \uAC00\uB2A5 \u2014 \uC704 \uAC80\uC0C9\uCC3D\uC5D0 \uB2E8\uC9C0\uBA85\uC744 \uC785\uB825\uD558\uC138\uC694";
-    resultsEl.appendChild(hint);
+    container.appendChild(hint);
+  }
+
+  /* ── 시세 저평가 content ── */
+  function renderPriceUndervaluedContent(container, totalCount) {
+    container.innerHTML = "";
+
+    var intro = document.createElement("div");
+    intro.className = "val-hint";
+    intro.innerHTML = '<b>\uC2DC\uC138 \uC800\uD3C9\uAC00 \uC544\uD30C\uD2B8</b><br>'
+      + '<span style="font-size:11px">\uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uCD5C\uADFC \uC2DC\uC138\uAC00 \uAC00\uC7A5 \uB9CE\uC774 \uBC8C\uC5B4\uC9C4 \uB2E8\uC9C0 (\uAC00\uACA9 \uAE30\uC900)</span><br>'
+      + '<span style="font-size:11px;color:var(--muted)">\uCE74\uB4DC\uB97C \uB204\uB974\uBA74 \uBE44\uAD50\uB2E8\uC9C0 \uC2DC\uC138 \uC0C1\uC138\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4</span>';
+    container.appendChild(intro);
+
+    // Collect undervalued items grouped by sido
+    var sidoGroups = {};
+    globalIndex.sido_order.forEach(function (sido) {
+      var data = sidoCache[sido];
+      if (!data || !data.items) return;
+      var undervalued = data.items.filter(function (item) { return item.status === "undervalued"; });
+      undervalued.sort(function (a, b) { return a.gap_pct - b.gap_pct; });
+      if (undervalued.length) {
+        sidoGroups[sido] = undervalued.slice(0, 20);
+      }
+    });
+
+    var sidoTabs = document.createElement("div");
+    sidoTabs.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0";
+    var contentDiv = document.createElement("div");
+
+    function renderSido(sido) {
+      contentDiv.innerHTML = "";
+      sidoTabs.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.sido === sido);
+      });
+
+      var items = sidoGroups[sido] || [];
+      if (!items.length) {
+        contentDiv.innerHTML = '<div class="val-empty">\uD574\uB2F9 \uC2DC\uB3C4\uC5D0 \uC2DC\uC138 \uC800\uD3C9\uAC00 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+        return;
+      }
+
+      items.forEach(function (item, idx) {
+        var card = document.createElement("div");
+        card.className = "val-card";
+        card.style.cursor = "pointer";
+
+        var header = document.createElement("div");
+        header.className = "val-header";
+        var rank = document.createElement("span");
+        rank.style.cssText = "font-size:12px;font-weight:700;color:var(--muted);margin-right:6px";
+        rank.textContent = "#" + (idx + 1);
+        header.appendChild(rank);
+
+        var badge = document.createElement("span");
+        badge.className = "val-badge val-badge-undervalued";
+        badge.textContent = "\uC800\uD3C9\uAC00";
+        header.appendChild(badge);
+
+        var gap = document.createElement("span");
+        gap.className = "val-gap negative";
+        gap.textContent = item.gap_pct.toFixed(1) + "%";
+        header.appendChild(gap);
+        card.appendChild(header);
+
+        var name = document.createElement("div");
+        name.className = "val-name";
+        name.textContent = item.apt_name;
+        card.appendChild(name);
+
+        var info = document.createElement("div");
+        info.className = "val-info";
+        info.textContent = item.sigungu + " " + item.dong_name + " \u00B7 "
+          + item.area_m2 + "m\u00B2 \u00B7 " + fmtEok(item.current_price)
+          + " \u00B7 \uBE44\uAD50\uB2E8\uC9C0 " + (item.compare ? item.compare.length : 0) + "\uAC1C";
+        card.appendChild(info);
+
+        card.addEventListener("click", function () {
+          searchInput.value = item.apt_name;
+          doSearch(item.apt_name);
+          updateURL();
+        });
+
+        contentDiv.appendChild(card);
+      });
+    }
+
+    var sidos = Object.keys(sidoGroups);
+    sidos.forEach(function (sido) {
+      var items = sidoGroups[sido] || [];
+      var btn = document.createElement("button");
+      btn.className = "sort-btn";
+      btn.dataset.sido = sido;
+      btn.textContent = sido + " (" + items.length + ")";
+      btn.addEventListener("click", function () { renderSido(sido); });
+      sidoTabs.appendChild(btn);
+    });
+
+    container.appendChild(sidoTabs);
+    container.appendChild(contentDiv);
+
+    if (sidos.length) renderSido(sidos[0]);
+
+    if (!sidos.length) {
+      contentDiv.innerHTML = '<div class="val-empty">\uC2DC\uC138 \uC800\uD3C9\uAC00 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+    }
+
+    var hint = document.createElement("div");
+    hint.style.cssText = "text-align:center;margin-top:16px;font-size:12px;color:var(--muted)";
+    hint.textContent = "\uC804\uAD6D " + totalCount.toLocaleString() + "\uAC1C \uB2E8\uC9C0 \uAC80\uC0C9 \uAC00\uB2A5 \u2014 \uC704 \uAC80\uC0C9\uCC3D\uC5D0 \uB2E8\uC9C0\uBA85\uC744 \uC785\uB825\uD558\uC138\uC694";
+    container.appendChild(hint);
   }
 
   /* ── hint ── */
