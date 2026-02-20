@@ -416,12 +416,10 @@
         return loadAllSidos().then(function () {
           statusEl.innerHTML = "";
           createAutocomplete();
-          if (parsed.query) {
-            searchInput.value = parsed.query;
-            doSearch(parsed.query);
-          } else {
-            showHint();
-          }
+          var defaultQuery = parsed.query || "\uC815\uB4E0\uB9C8\uC744";
+          searchInput.value = defaultQuery;
+          doSearch(defaultQuery);
+          if (!parsed.query) updateURL();
         });
       })
       .catch(function () {
