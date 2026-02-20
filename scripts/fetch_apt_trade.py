@@ -1512,6 +1512,7 @@ def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
                         "area_m2": r["area_m2"],
                         "sigungu": sigungu,
                         "dong_name": r.get("dong_name", ""),
+                        "jibun": r.get("jibun", ""),
                         "district": group_name,
                     }
 

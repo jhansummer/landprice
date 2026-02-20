@@ -1061,3 +1061,100 @@ function drawBacktestPickChart(canvas, txns, pick) {
   ctx.textAlign = "right";
   ctx.fillText(fmtPrice(data[lastIdx].price), xPos(lastIdx) - 8, yPos(data[lastIdx].price) - 8);
 }
+
+/**
+ * 4축 레이더 차트 (교통/학군/거주가치/재건축)
+ * @param {HTMLCanvasElement} canvas
+ * @param {{ transport: number, school: number, livability: number, rebuild: number }} scores - 각 0~100
+ */
+function drawRadarChart(canvas, scores) {
+  var labels = ["교통", "학군", "거주가치", "재건축"];
+  var keys = ["transport", "school", "livability", "rebuild"];
+  var values = keys.map(function (k) { return scores[k] || 0; });
+
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  var w = rect.width * dpr;
+  var h = rect.height * dpr;
+  canvas.width = w;
+  canvas.height = h;
+
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+
+  var cw = rect.width;
+  var ch = rect.height;
+  var cx = cw / 2;
+  var cy = ch / 2;
+  var maxR = Math.min(cw, ch) / 2 - 24;
+  var n = 4;
+  var angleStep = (Math.PI * 2) / n;
+  var startAngle = -Math.PI / 2; // top
+
+  function angleFor(i) { return startAngle + angleStep * i; }
+  function pointAt(i, r) {
+    var a = angleFor(i);
+    return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+  }
+
+  // Background grid rings (20, 40, 60, 80, 100)
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 0.7;
+  for (var ring = 1; ring <= 5; ring++) {
+    var r = (maxR / 5) * ring;
+    ctx.beginPath();
+    for (var i = 0; i < n; i++) {
+      var p = pointAt(i, r);
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Axis lines
+  ctx.strokeStyle = "#cbd5e1";
+  ctx.lineWidth = 0.7;
+  for (var i = 0; i < n; i++) {
+    var p = pointAt(i, maxR);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.fillStyle = "rgba(37, 99, 235, 0.15)";
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (var i = 0; i < n; i++) {
+    var r = (values[i] / 100) * maxR;
+    var p = pointAt(i, r);
+    if (i === 0) ctx.moveTo(p.x, p.y);
+    else ctx.lineTo(p.x, p.y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Data points
+  ctx.fillStyle = "#2563eb";
+  for (var i = 0; i < n; i++) {
+    var r = (values[i] / 100) * maxR;
+    var p = pointAt(i, r);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Labels
+  ctx.fillStyle = "#334155";
+  ctx.font = "11px -apple-system, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  for (var i = 0; i < n; i++) {
+    var lp = pointAt(i, maxR + 16);
+    ctx.fillText(labels[i], lp.x, lp.y);
+  }
+}

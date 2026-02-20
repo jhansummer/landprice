@@ -2,6 +2,8 @@
 (function () {
   var INDEX_PATH = "data/apt_trade/valuation/index.json";
   var BY_APT_BASE = "data/apt_trade/by_apt/";
+  var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
+  var APT_META_PATH = "data/apt_trade/apt_meta.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -17,6 +19,9 @@
   var acDropdown = null;
   var acTimeout = null;
   var txnCache = {};
+  var locationScores = null;
+  var aptMeta = null;
+  var pricePerM2Cache = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -69,6 +74,221 @@
       txnCache[aptId] = data;
       return data;
     }).catch(function () { return []; });
+  }
+
+  /* ── value scoring data ── */
+  function loadLocationScores() {
+    return fetch(LOCATION_SCORES_PATH + "?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) { locationScores = data; })
+      .catch(function () { locationScores = null; });
+  }
+  function loadAptMeta() {
+    return fetch(APT_META_PATH + "?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) { aptMeta = data; })
+      .catch(function () { aptMeta = null; });
+  }
+
+  function buildPricePerM2Percentiles() {
+    var allItems = getAllItems();
+    var vals = [];
+    allItems.forEach(function (item) {
+      if (item.current_price && item.area_m2) {
+        vals.push(item.current_price / item.area_m2);
+      }
+    });
+    vals.sort(function (a, b) { return a - b; });
+    pricePerM2Cache = vals;
+  }
+
+  function getPercentile(value) {
+    if (!pricePerM2Cache || !pricePerM2Cache.length) return 50;
+    var idx = 0;
+    for (var i = 0; i < pricePerM2Cache.length; i++) {
+      if (pricePerM2Cache[i] <= value) idx = i;
+      else break;
+    }
+    return Math.round((idx / (pricePerM2Cache.length - 1)) * 100);
+  }
+
+  /**
+   * 종합 가치평가 점수 계산
+   * @returns {{ transport, school, livability, rebuild, total, transportDetail, buildYear, hasData }} | null
+   */
+  function calcValueScore(item) {
+    if (!locationScores) return null;
+    var sigungu = item.sigungu;
+    var dongName = item.dong_name;
+
+    // Find sido for this sigungu
+    var sido = null;
+    var guData = null;
+    var sidos = Object.keys(locationScores);
+    for (var i = 0; i < sidos.length; i++) {
+      if (locationScores[sidos[i]][sigungu]) {
+        sido = sidos[i];
+        guData = locationScores[sidos[i]][sigungu];
+        break;
+      }
+    }
+    if (!guData) return null;
+
+    // 교통접근성: 강남 50% + 광화문 25% + 여의도 25%
+    var t = guData.transport;
+    var transportScore = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
+
+    // 학군: 동 보정 or 구 기본
+    var schoolScore = guData.school_base;
+    if (guData.school_dong && guData.school_dong[dongName] !== undefined) {
+      schoolScore = guData.school_dong[dongName];
+    }
+
+    // 건물연한/재건축
+    var buildYear = aptMeta ? aptMeta[item.id] : null;
+    var rebuildScore = 0;
+    var currentYear = new Date().getFullYear();
+    if (buildYear) {
+      var age = currentYear - buildYear;
+      if (age >= 30) rebuildScore = 90;
+      else if (age >= 20) rebuildScore = 60;
+      else if (age >= 10) rebuildScore = 30;
+      else rebuildScore = 10;
+    }
+
+    // 거주가치: 단가 백분위(70%) + 건물연한 보정(30%)
+    var livabilityScore = 50;
+    if (item.current_price && item.area_m2) {
+      var ppm2 = item.current_price / item.area_m2;
+      var pctile = getPercentile(ppm2);
+      var ageBonus = 0;
+      if (buildYear) {
+        var age2 = currentYear - buildYear;
+        if (age2 <= 5) ageBonus = 15;
+        else if (age2 <= 10) ageBonus = 10;
+        else if (age2 <= 20) ageBonus = 0;
+        else ageBonus = -10;
+      }
+      livabilityScore = Math.max(0, Math.min(100, pctile * 0.7 + 50 * 0.3 + ageBonus));
+    }
+
+    var total = (transportScore + schoolScore + livabilityScore + rebuildScore) / 4;
+
+    return {
+      transport: Math.round(transportScore),
+      school: Math.round(schoolScore),
+      livability: Math.round(livabilityScore),
+      rebuild: Math.round(rebuildScore),
+      total: Math.round(total),
+      transportDetail: { gangnam: t.gangnam, gwanghwamun: t.gwanghwamun, yeouido: t.yeouido },
+      buildYear: buildYear,
+      hasData: true
+    };
+  }
+
+  /* ── value score UI ── */
+  function renderValueSection(entry) {
+    var scores = calcValueScore(entry);
+    if (!scores) return null;
+
+    var section = document.createElement("div");
+    section.className = "vs-section";
+
+    // Title
+    var title = document.createElement("div");
+    title.className = "vs-title";
+    title.textContent = "\uC885\uD569 \uAC00\uCE58\uD3C9\uAC00";
+    section.appendChild(title);
+
+    var body = document.createElement("div");
+    body.className = "vs-body";
+
+    // Left: radar chart
+    var chartCol = document.createElement("div");
+    chartCol.className = "vs-chart-col";
+    var canvas = document.createElement("canvas");
+    canvas.style.width = "140px";
+    canvas.style.height = "140px";
+    chartCol.appendChild(canvas);
+    // Total score
+    var totalEl = document.createElement("div");
+    totalEl.className = "vs-total";
+    totalEl.innerHTML = '<span class="vs-total-num">' + scores.total + '</span><span class="vs-total-label">\uC810</span>';
+    chartCol.appendChild(totalEl);
+    body.appendChild(chartCol);
+
+    // Right: bar gauges
+    var barsCol = document.createElement("div");
+    barsCol.className = "vs-bars-col";
+    var items = [
+      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", key: "transport", score: scores.transport },
+      { label: "\uD559\uAD70", key: "school", score: scores.school },
+      { label: "\uAC70\uC8FC\uAC00\uCE58", key: "livability", score: scores.livability },
+      { label: "\uC7AC\uAC74\uCD95\uAC00\uB2A5\uC131", key: "rebuild", score: scores.rebuild }
+    ];
+    items.forEach(function (it) {
+      var row = document.createElement("div");
+      row.className = "vs-bar-row";
+      var lbl = document.createElement("span");
+      lbl.className = "vs-bar-label";
+      lbl.textContent = it.label;
+      row.appendChild(lbl);
+      var track = document.createElement("div");
+      track.className = "vs-bar-track";
+      var fill = document.createElement("div");
+      fill.className = "vs-bar-fill";
+      fill.style.width = it.score + "%";
+      if (it.score >= 70) fill.classList.add("vs-bar-high");
+      else if (it.score >= 40) fill.classList.add("vs-bar-mid");
+      else fill.classList.add("vs-bar-low");
+      track.appendChild(fill);
+      row.appendChild(track);
+      var val = document.createElement("span");
+      val.className = "vs-bar-val";
+      val.textContent = it.score;
+      row.appendChild(val);
+      barsCol.appendChild(row);
+    });
+
+    // Transport detail (collapsible)
+    var detailBtn = document.createElement("button");
+    detailBtn.className = "vs-detail-btn";
+    detailBtn.textContent = "\uAD50\uD1B5 \uC138\uBD80";
+    var detailDiv = document.createElement("div");
+    detailDiv.className = "vs-detail";
+    detailDiv.style.display = "none";
+    var td = scores.transportDetail;
+    detailDiv.innerHTML = '<span>\uAC15\uB0A8 ' + td.gangnam + '</span>'
+      + '<span>\uAD11\uD654\uBB38 ' + td.gwanghwamun + '</span>'
+      + '<span>\uC5EC\uC758\uB3C4 ' + td.yeouido + '</span>'
+      + '<span class="vs-detail-note">\uAC00\uC911: \uAC15\uB0A8 50% / \uAD11\uD654\uBB38 25% / \uC5EC\uC758\uB3C4 25%</span>';
+    detailBtn.addEventListener("click", function () {
+      var visible = detailDiv.style.display !== "none";
+      detailDiv.style.display = visible ? "none" : "flex";
+      detailBtn.textContent = visible ? "\uAD50\uD1B5 \uC138\uBD80" : "\uAD50\uD1B5 \uC138\uBD80 \uC811\uAE30";
+    });
+    barsCol.appendChild(detailBtn);
+    barsCol.appendChild(detailDiv);
+
+    // Build year info
+    if (scores.buildYear) {
+      var byInfo = document.createElement("div");
+      byInfo.className = "vs-build-year";
+      byInfo.textContent = "\uC900\uACF5 " + scores.buildYear + "\uB144 (" + (new Date().getFullYear() - scores.buildYear) + "\uB144\uCC28)";
+      barsCol.appendChild(byInfo);
+    }
+
+    body.appendChild(barsCol);
+    section.appendChild(body);
+
+    // Draw radar after DOM insertion
+    setTimeout(function () {
+      if (typeof drawRadarChart === "function") {
+        drawRadarChart(canvas, scores);
+      }
+    }, 0);
+
+    return section;
   }
 
   /* ── tabs (removed — search is now cross-region) ── */
@@ -163,7 +383,7 @@
       + '</div>'
       + '</div>'
       + '<div class="val-guide-footer">\uBE44\uAD50 \uB300\uC0C1: \uAC19\uC740 \uAD6C+\uC778\uC811 \uAD6C \u00B7 \uBA74\uC801 30% \uC774\uB0B4 \u00B7 \uAC00\uACA9\uD750\uB984 \uC0C1\uAD00\uACC4\uC218 0.93\uC774\uC0C1</div>'
-      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC2E4\uAC70\uB798\uAC00\uB9CC\uC744 \uAE30\uC900\uC73C\uB85C \uD310\uB2E8\uD558\uC600\uC73C\uBA70 \uAD50\uD1B5, \uC7AC\uAC74\uCD95 \uB4F1 \uD638\uC7AC\uB294 \uBBF8\uBC18\uC601\uB41C \uACB0\uACFC\uB85C \uAC10\uC548\uD558\uC5EC \uCC38\uACE0\uD558\uC5EC\uC8FC\uC138\uC694.</div>';
+      + '<div class="val-guide-footer" style="margin-top:4px;font-size:11px;color:var(--muted)">\u203B \uC800\uD3C9\uAC00/\uB9AC\uB529\uC740 \uC2E4\uAC70\uB798\uAC00 \uAE30\uC900, \uC885\uD569 \uAC00\uCE58\uD3C9\uAC00\uB294 \uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uAC70\uC8FC\uAC00\uCE58\u00B7\uC7AC\uAC74\uCD95\uC744 \uBC18\uC601\uD569\uB2C8\uB2E4 (\uC11C\uC6B8 \uD55C\uC815).</div>';
     resultsEl.appendChild(infoCard);
 
     Object.keys(groups).forEach(function (key) {
@@ -240,6 +460,10 @@
     if (entry.compare && entry.compare.length) {
       card.appendChild(createCompareTable(entry));
     }
+
+    // Value score section
+    var valueSec = renderValueSection(entry);
+    if (valueSec) card.appendChild(valueSec);
 
     // CTA buttons
     var cta = document.createElement("div");
@@ -413,8 +637,13 @@
 
         var parsed = parseURL();
 
-        return loadAllSidos().then(function () {
+        return Promise.all([
+          loadAllSidos(),
+          loadLocationScores(),
+          loadAptMeta()
+        ]).then(function () {
           statusEl.innerHTML = "";
+          buildPricePerM2Percentiles();
           createAutocomplete();
           var defaultQuery = parsed.query || "\uC815\uB4E0\uB9C8\uC744";
           searchInput.value = defaultQuery;

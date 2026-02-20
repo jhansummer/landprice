@@ -524,3 +524,28 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .val-area-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .val-empty{text-align:center;padding:48px 16px;color:var(--muted);font-size:14px}
 .val-hint{text-align:center;font-size:13px;color:var(--muted);padding:24px 16px}
+/* ── value score section ── */
+.vs-section{margin-top:16px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+.vs-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.vs-body{display:flex;gap:16px;align-items:flex-start}
+.vs-chart-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.vs-chart-col canvas{display:block}
+.vs-total{text-align:center;margin-top:4px}
+.vs-total-num{font-size:28px;font-weight:800;color:var(--accent)}
+.vs-total-label{font-size:12px;color:var(--muted);margin-left:2px}
+.vs-bars-col{flex:1;min-width:0}
+.vs-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vs-bar-label{font-size:11px;color:var(--muted);width:72px;flex-shrink:0;text-align:right}
+.vs-bar-track{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.vs-bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.vs-bar-high{background:#2563eb}
+.vs-bar-mid{background:#f59e0b}
+.vs-bar-low{background:#94a3b8}
+.vs-bar-val{font-size:12px;font-weight:700;color:var(--ink);width:24px;text-align:right}
+.vs-detail-btn{background:none;border:none;color:var(--accent);font-size:11px;cursor:pointer;padding:2px 0;margin-top:4px;font-family:var(--font-body)}
+.vs-detail-btn:hover{text-decoration:underline}
+.vs-detail{flex-wrap:wrap;gap:8px;font-size:11px;color:var(--muted);margin-top:4px;padding:6px 8px;background:var(--accent-soft);border-radius:6px}
+.vs-detail span{margin-right:8px}
+.vs-detail-note{display:block;width:100%;font-size:10px;color:var(--muted);margin-top:4px}
+.vs-build-year{font-size:11px;color:var(--muted);margin-top:6px}
+@media(max-width:640px){.vs-body{flex-direction:column;align-items:center}.vs-bars-col{width:100%}}
