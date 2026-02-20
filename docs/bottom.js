@@ -36,6 +36,18 @@ function escapeHTML(s) {
   return d.innerHTML;
 }
 
+/* ── 출퇴근 접근성 점수 ── */
+function calcCommuteScore(apt) {
+  if (!apt.geo || apt.geo.subway_dist == null) return 0;
+  var subwayScore = Math.max(0, 100 - apt.geo.subway_dist * 50);
+  if (apt.geo.biz_gangnam == null) return subwayScore;
+  var gangnam = Math.max(0, 100 - apt.geo.biz_gangnam * 4);
+  var gwanghwamun = Math.max(0, 100 - apt.geo.biz_gwanghwamun * 4);
+  var yeouido = Math.max(0, 100 - apt.geo.biz_yeouido * 4);
+  var bizScore = gangnam * 0.5 + gwanghwamun * 0.25 + yeouido * 0.25;
+  return subwayScore * 0.3 + bizScore * 0.7;
+}
+
 /* ── 시도 탭 ── */
 function renderTabs(sidoOrder) {
   tabsEl.innerHTML = "";
@@ -129,7 +141,8 @@ function renderSortBar() {
     ["chg6m", "6\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
     ["trades", "\uAC70\uB798\uB7C9\uC21C"],
     ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"],
-    ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"]
+    ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"],
+    ["commute", "\uCD9C\uD1F4\uADFC\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -196,6 +209,15 @@ function renderCard(apt, idx) {
       bizSpan.style.cssText = "color:#94a3b8;font-size:10px";
       bizSpan.textContent = "\uAC15\uB0A8 " + apt.geo.biz_gangnam + "km \u00B7 \uAD11\uD654\uBB38 " + apt.geo.biz_gwanghwamun + "km \u00B7 \uC5EC\uC758\uB3C4 " + apt.geo.biz_yeouido + "km";
       geoDiv.appendChild(bizSpan);
+    }
+    var cs = calcCommuteScore(apt);
+    if (cs > 0) {
+      var csBadge = document.createElement("span");
+      var csColor = cs >= 70 ? "#2563eb" : cs >= 40 ? "#f59e0b" : "#94a3b8";
+      var csBg = cs >= 70 ? "#dbeafe" : cs >= 40 ? "#fef3c7" : "#f1f5f9";
+      csBadge.style.cssText = "font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:" + csColor + ";background:" + csBg;
+      csBadge.textContent = "\uCD9C\uD1F4\uADFC " + Math.round(cs);
+      geoDiv.appendChild(csBadge);
     }
     info.appendChild(geoDiv);
   }
@@ -443,6 +465,9 @@ function renderSections() {
     var da = (a.geo && a.geo.subway_dist != null) ? a.geo.subway_dist : 9999;
     var db = (b.geo && b.geo.subway_dist != null) ? b.geo.subway_dist : 9999;
     return da - db;
+  });
+  else if (activeSort === "commute") items.sort(function (a, b) {
+    return calcCommuteScore(b) - calcCommuteScore(a);
   });
 
   var sec = document.createElement("div");
