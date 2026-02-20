@@ -135,9 +135,7 @@
     return {
       transport: Math.round(transportScore),
       school: Math.round(schoolScore),
-      total: Math.round(total),
-      transportDetail: { gangnam: t.gangnam, gwanghwamun: t.gwanghwamun, yeouido: t.yeouido },
-      hasData: true
+      total: Math.round(total)
     };
   }
 
@@ -192,26 +190,6 @@
       row.appendChild(val);
       barsCol.appendChild(row);
     });
-
-    // Transport detail (collapsible)
-    var detailBtn = document.createElement("button");
-    detailBtn.className = "vs-detail-btn";
-    detailBtn.textContent = "\uAD50\uD1B5 \uC138\uBD80";
-    var detailDiv = document.createElement("div");
-    detailDiv.className = "vs-detail";
-    detailDiv.style.display = "none";
-    var td = scores.transportDetail;
-    detailDiv.innerHTML = '<span>\uAC15\uB0A8 ' + td.gangnam + '</span>'
-      + '<span>\uAD11\uD654\uBB38 ' + td.gwanghwamun + '</span>'
-      + '<span>\uC5EC\uC758\uB3C4 ' + td.yeouido + '</span>'
-      + '<span class="vs-detail-note">\uAC00\uC911: \uAC15\uB0A8 50% / \uAD11\uD654\uBB38 25% / \uC5EC\uC758\uB3C4 25%</span>';
-    detailBtn.addEventListener("click", function () {
-      var visible = detailDiv.style.display !== "none";
-      detailDiv.style.display = visible ? "none" : "flex";
-      detailBtn.textContent = visible ? "\uAD50\uD1B5 \uC138\uBD80" : "\uAD50\uD1B5 \uC138\uBD80 \uC811\uAE30";
-    });
-    barsCol.appendChild(detailBtn);
-    barsCol.appendChild(detailDiv);
 
     section.appendChild(barsCol);
 

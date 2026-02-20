@@ -540,8 +540,3 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .vs-bar-mid{background:#f59e0b}
 .vs-bar-low{background:#94a3b8}
 .vs-bar-val{font-size:12px;font-weight:700;color:var(--ink);width:24px;text-align:right}
-.vs-detail-btn{background:none;border:none;color:var(--accent);font-size:11px;cursor:pointer;padding:2px 0;margin-top:2px;font-family:var(--font-body)}
-.vs-detail-btn:hover{text-decoration:underline}
-.vs-detail{flex-wrap:wrap;gap:8px;font-size:11px;color:var(--muted);margin-top:4px;padding:6px 8px;background:var(--paper);border-radius:6px}
-.vs-detail span{margin-right:8px}
-.vs-detail-note{display:block;width:100%;font-size:10px;color:var(--muted);margin-top:4px}
