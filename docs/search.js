@@ -710,11 +710,11 @@ async function init() {
     renderFilters();
     createAutocomplete();
 
-    // URL에서 검색어 복원
-    if (urlState.query) {
-      searchInput.value = urlState.query;
-      doSearch(urlState.query);
-    }
+    // URL에서 검색어 복원 또는 기본 검색
+    var defaultQuery = urlState.query || "\ub798\ubbf8\uc548";
+    searchInput.value = defaultQuery;
+    doSearch(defaultQuery);
+    if (!urlState.query) updateURL();
 
     statusEl.innerHTML = "";
   } catch (e) {
