@@ -89,13 +89,54 @@
     if (el) el.setAttribute("content", content);
   }
 
+  /* ── 월별 평균 기반 고점/현재가 계산 (drawPeakChart와 동일 로직) ── */
+  function calcPeakStats(txns) {
+    var monthlyMap = {};
+    txns.forEach(function (t) {
+      var d = new Date(t[0]);
+      var ym = String(d.getFullYear()) + String(d.getMonth() + 1).padStart(2, "0");
+      if (!monthlyMap[ym]) monthlyMap[ym] = { sum: 0, count: 0 };
+      monthlyMap[ym].sum += t[1];
+      monthlyMap[ym].count += 1;
+    });
+    var months = Object.keys(monthlyMap).sort();
+    if (months.length < 1) return null;
+    var data = months.map(function (ym) {
+      var m = monthlyMap[ym];
+      return { ym: ym, price: m.sum / m.count };
+    });
+    // 고점: 2021~2022 월평균 우선, 없으면 전체 최고
+    var peakIdx = 0;
+    var hasPeakRange = false;
+    data.forEach(function (d, i) {
+      if (d.ym >= "202101" && d.ym <= "202212") {
+        if (!hasPeakRange || d.price > data[peakIdx].price) {
+          peakIdx = i; hasPeakRange = true;
+        }
+      }
+    });
+    if (!hasPeakRange) {
+      data.forEach(function (d, i) {
+        if (d.price > data[peakIdx].price) peakIdx = i;
+      });
+    }
+    var peakPrice = data[peakIdx].price;
+    var peakYm = data[peakIdx].ym;
+    // 현재가: 최근 3개월 평균 (Python _recovery_from_trend와 동일)
+    var recentSlice = data.slice(-3);
+    var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
+    var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
+    return { currentPrice: currentPrice, peakPrice: peakPrice, peakYm: peakYm, vsPeakPct: vsPeakPct };
+  }
+
   /* ── 페이지 렌더링 ── */
   function render(apt, txns, geo) {
-    // 가격 계산
-    var prices = txns.map(function (t) { return t[1]; });
+    // 가격 계산 (월평균 기반 — 차트와 동일)
     var latest = txns.length ? txns[txns.length - 1] : null;
-    var maxPrice = prices.length ? Math.max.apply(null, prices) : 0;
-    var vsPeak = maxPrice > 0 && latest ? ((latest[1] - maxPrice) / maxPrice * 100) : 0;
+    var stats = txns.length ? calcPeakStats(txns) : null;
+    var currentPrice = stats ? stats.currentPrice : 0;
+    var peakPrice = stats ? stats.peakPrice : 0;
+    var vsPeak = stats ? stats.vsPeakPct : 0;
 
     // ── 헤더 ──
     var header = document.createElement("div");
@@ -131,7 +172,7 @@
         APTWatchlist.add({
           id: apt.id, apt_name: apt.name, sigungu: apt.sigungu,
           dong_name: apt.dong, area_m2: apt.area, sido: apt.sido,
-          latest_price: latest ? latest[1] : 0
+          latest_price: currentPrice || (latest ? latest[1] : 0)
         });
         wlBtn.textContent = "★ 관심해제";
         wlBtn.classList.add("active");
@@ -149,7 +190,7 @@
         sigungu: apt.sigungu,
         dong: apt.dong,
         area: apt.area,
-        price: latest ? fmtEok(latest[1]) : "",
+        price: currentPrice ? fmtEok(currentPrice) : "",
         url: location.href
       });
     });
@@ -172,12 +213,13 @@
     contentEl.appendChild(actions);
 
     // ── 가격 3칸 ──
-    if (latest) {
+    if (stats) {
       var grid = document.createElement("div");
       grid.className = "apt-price-grid";
 
-      grid.appendChild(createPriceCell("현재가", fmtEok(latest[1]), latest[0]));
-      grid.appendChild(createPriceCell("최고가", fmtEok(maxPrice), ""));
+      var peakYmStr = stats.peakYm.slice(0, 4) + "." + stats.peakYm.slice(4);
+      grid.appendChild(createPriceCell("현재가", fmtEok(currentPrice), latest ? latest[0] : ""));
+      grid.appendChild(createPriceCell("고점가", fmtEok(peakPrice), peakYmStr));
       var vpColor = vsPeak >= 0 ? "var(--up)" : "var(--down)";
       var vpCell = createPriceCell("고점대비", (vsPeak >= 0 ? "+" : "") + vsPeak.toFixed(1) + "%", "");
       vpCell.querySelector(".apt-price-value").style.color = vpColor;

@@ -660,8 +660,9 @@ function drawPeakChart(canvas, txns, apt) {
   var troughPrice = data[troughIdx].price;
   var troughYm = data[troughIdx].ym;
 
-  // 현재가: 마지막 월 평균 (3개월 평균은 거래 공백 시 왜곡됨)
-  var currentPrice = data[data.length - 1].price;
+  // 현재가: 최근 3개월 평균 (Python _recovery_from_trend와 동일)
+  var recentSlice = data.slice(-3);
+  var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
 
   // 고점 대비 %, 저점 대비 회복 %
   var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
