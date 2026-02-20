@@ -1,8 +1,8 @@
 /* APT Mine — 개별 단지 상세 페이지 */
 (function () {
-  var LOOKUP_BASE = "data/apt_trade/apt_lookup/";
-  var BY_APT_BASE = "data/apt_trade/by_apt/";
-  var GEO_PATH = "data/apt_trade/valuation_geo.json";
+  var LOOKUP_BASE = "/data/apt_trade/apt_lookup/";
+  var BY_APT_BASE = "/data/apt_trade/by_apt/";
+  var GEO_PATH = "/data/apt_trade/valuation_geo.json";
 
   var contentEl = document.getElementById("apt-content");
   var statusEl = document.getElementById("status");
@@ -12,6 +12,7 @@
 
   /* ── URL 파라미터 파싱 ── */
   function getParams() {
+    if (window.APT_PARAMS) return window.APT_PARAMS;
     var sp = new URLSearchParams(location.search);
     return { id: sp.get("id"), sido: sp.get("s") };
   }

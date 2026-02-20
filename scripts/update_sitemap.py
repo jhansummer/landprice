@@ -5,7 +5,9 @@ import re
 from datetime import date
 from pathlib import Path
 
-SITEMAP = Path(__file__).resolve().parent.parent / "docs" / "sitemap.xml"
+SITEMAP_PAGES = Path(__file__).resolve().parent.parent / "docs" / "sitemap-pages.xml"
+# Fallback: if sitemap-pages.xml doesn't exist yet, use sitemap.xml
+SITEMAP = SITEMAP_PAGES if SITEMAP_PAGES.exists() else Path(__file__).resolve().parent.parent / "docs" / "sitemap.xml"
 
 # Pages whose lastmod should track data refresh
 DATA_PAGES = {
@@ -26,7 +28,8 @@ URL_BLOCK = re.compile(
 
 def main():
     today = date.today().isoformat()
-    xml = SITEMAP.read_text(encoding="utf-8")
+    target = SITEMAP_PAGES if SITEMAP_PAGES.exists() else SITEMAP
+    xml = target.read_text(encoding="utf-8")
 
     def replace_lastmod(m):
         loc = m.group(2).strip()
@@ -35,8 +38,8 @@ def main():
         return m.group(0)
 
     updated = URL_BLOCK.sub(replace_lastmod, xml)
-    SITEMAP.write_text(updated, encoding="utf-8")
-    print(f"sitemap.xml lastmod updated to {today}")
+    target.write_text(updated, encoding="utf-8")
+    print(f"{target.name} lastmod updated to {today}")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,16 @@
 User-agent: *
 Allow: /
+Allow: /apt/
 Disallow: /data/
 
 User-agent: Yeti
 Allow: /
+Allow: /apt/
 Disallow: /data/
 
 User-agent: Googlebot
 Allow: /
+Allow: /apt/
 Disallow: /data/
 
 Sitemap: https://aptmine.com/sitemap.xml

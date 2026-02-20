@@ -70,6 +70,13 @@ jobs:
         continue-on-error: true
         run: |
           python scripts/build_backtest_historical.py --lookback 24
+      - name: Build apt lookup index
+        continue-on-error: true
+        run: |
+          python scripts/build_apt_lookup.py
+      - name: Generate apt SEO pages
+        continue-on-error: true
+        run: python scripts/generate_apt_pages.py
       - name: Update sitemap lastmod
         run: python scripts/update_sitemap.py
       - name: Commit and push if changed
@@ -77,7 +84,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions"
             git config user.email "github-actions@users.noreply.github.com"
-            git add docs/data/apt_trade docs/sitemap.xml scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json
+            git add docs/data/apt_trade docs/apt docs/sitemap.xml docs/sitemap-pages.xml docs/sitemap-apt-*.xml scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json
             git commit -m "chore: refresh apt trade data"
             git pull --rebase origin main
             git push
