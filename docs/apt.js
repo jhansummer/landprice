@@ -122,9 +122,8 @@
     }
     var peakPrice = data[peakIdx].price;
     var peakYm = data[peakIdx].ym;
-    // 현재가: 최근 3개월 평균 (Python _recovery_from_trend와 동일)
-    var recentSlice = data.slice(-3);
-    var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
+    // 현재가: 마지막 1개월 평균
+    var currentPrice = data[data.length - 1].price;
     var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
     return { currentPrice: currentPrice, peakPrice: peakPrice, peakYm: peakYm, vsPeakPct: vsPeakPct };
   }
@@ -289,6 +288,17 @@
     return cell;
   }
 
+  /* ── 입지 점수 계산 ── */
+  function calcGeoScores(geo) {
+    var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
+    return {
+      transport: transport,
+      school: geo.academy_score || 0,
+      livability: geo.livability_score || geo.infra_score || 0,
+      rebuild: geo.redev_score || 0
+    };
+  }
+
   /* ── 입지 정보 렌더 ── */
   function renderGeo(geo) {
     var sec = document.createElement("div");
@@ -298,6 +308,29 @@
     title.style.cssText = "font-size:14px;font-weight:700;margin-bottom:12px;color:var(--ink)";
     title.textContent = "입지 정보";
     sec.appendChild(title);
+
+    // 레이더 차트
+    var scores = calcGeoScores(geo);
+    if (scores.transport || scores.school || scores.livability || scores.rebuild) {
+      var radarWrap = document.createElement("div");
+      radarWrap.style.cssText = "display:flex;justify-content:center;margin-bottom:12px";
+      var radarCanvas = document.createElement("canvas");
+      radarCanvas.style.cssText = "width:200px;height:200px";
+      radarWrap.appendChild(radarCanvas);
+      sec.appendChild(radarWrap);
+      requestAnimationFrame(function () {
+        drawRadarChart(radarCanvas, scores);
+      });
+
+      // 종합 점수
+      if (geo.loc_score != null) {
+        var totalDiv = document.createElement("div");
+        totalDiv.style.cssText = "text-align:center;margin-bottom:12px";
+        var totalColor = geo.loc_score >= 70 ? "#2563eb" : geo.loc_score >= 40 ? "#f59e0b" : "#94a3b8";
+        totalDiv.innerHTML = '<span style="font-size:13px;font-weight:700;color:' + totalColor + '">종합 ' + geo.loc_score + '점</span>';
+        sec.appendChild(totalDiv);
+      }
+    }
 
     var rows = [];
 
@@ -335,29 +368,7 @@
       if (items.length) rows.push("🏪 " + items.join(" · "));
     }
 
-    // 점수 배지
-    if (geo.loc_score != null) {
-      var scoreDiv = document.createElement("div");
-      scoreDiv.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
-      var scores = [
-        { label: "종합", val: geo.loc_score },
-        { label: "교통", val: geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : null },
-        { label: "학군", val: geo.academy_score },
-        { label: "인프라", val: geo.infra_score }
-      ];
-      scores.forEach(function (s) {
-        if (s.val == null) return;
-        var badge = document.createElement("span");
-        var color = s.val >= 70 ? "#2563eb" : s.val >= 40 ? "#f59e0b" : "#94a3b8";
-        var bg = s.val >= 70 ? "#dbeafe" : s.val >= 40 ? "#fef3c7" : "#f1f5f9";
-        badge.style.cssText = "font-size:12px;font-weight:600;padding:2px 8px;border-radius:8px;color:" + color + ";background:" + bg;
-        badge.textContent = s.label + " " + s.val;
-        scoreDiv.appendChild(badge);
-      });
-      sec.appendChild(scoreDiv);
-    }
-
-    if (!rows.length && !geo.loc_score) return;
+    if (!rows.length && !scores.transport && !scores.school) return;
 
     rows.forEach(function (text) {
       var row = document.createElement("div");

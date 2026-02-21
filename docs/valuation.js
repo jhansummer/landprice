@@ -904,6 +904,7 @@
         var labels = [
           ["\uAD50\uD1B5", item.loc_transport],
           ["\uD559\uAD70", item.loc_school],
+          ["\uC2E4\uAC70\uC8FC", item.loc_livability],
           ["\uC778\uD504\uB77C", item.loc_infra]
         ];
         labels.forEach(function (l) {

@@ -630,13 +630,23 @@ def main() -> int:
                 geo["households"] = hh_data["households"]
                 geo["household_score"] = get_household_score(hh_data["households"])
 
-            # 7. 입지점수: 교통28% + 학군61% + 인프라5.5% + 정비구역5.5%
-            #    교통: 수도권=강남거리70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
+            # 7. 실거주가치 점수 (브랜드 + 연식 + 세대수 평균)
+            livability_parts = [brand_s]
+            if age_s is not None:
+                livability_parts.append(age_s)
+            if geo.get("household_score") is not None:
+                livability_parts.append(geo["household_score"])
+            livability_s = round(sum(livability_parts) / len(livability_parts))
+            geo["livability_score"] = livability_s
+
+            # 8. 입지점수: 교통25% + 학군50% + 인프라5% + 정비구역5% + 실거주가치15%
+            #    교통: 수도권=업무지구(강남/광화문/여의도 중 최근접)70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
             subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
                 def _bds(d): return max(0, min(100, round(100 - (d - 3) * 100 / 47)))
-                gangnam_s = _bds(geo["biz_gangnam"])
-                transport_s = gangnam_s * 0.7 + subway_s_exp * 0.3
+                biz_dist = min(geo.get("biz_gangnam", 999), geo.get("biz_gwanghwamun", 999), geo.get("biz_yeouido", 999))
+                biz_s = _bds(biz_dist)
+                transport_s = biz_s * 0.7 + subway_s_exp * 0.3
             else:
                 # 비수도권: 도심거리 기반 (도심70% + 지하철30%)
                 sido_short = sido.replace("광역시", "").replace("특별자치시", "").replace("특별시", "")
@@ -647,18 +657,20 @@ def main() -> int:
                     transport_s = center_s * 0.7 + subway_s_exp * 0.3
                 else:
                     transport_s = subway_s_exp
-            # 가중합: T*5 + S*11 + I*1 + R*1 = 18
+            # 가중합: T*5 + S*10 + I*1 + R*1 + L*3 = 20
             w_sum = transport_s * 5
             w_total = 5
             if school_score is not None:
-                w_sum += school_score * 11
-                w_total += 11
+                w_sum += school_score * 10
+                w_total += 10
             if geo.get("infra_score") is not None:
                 w_sum += geo["infra_score"]
                 w_total += 1
             if redev_s is not None:
                 w_sum += redev_s
                 w_total += 1
+            w_sum += livability_s * 3
+            w_total += 3
             geo["loc_score"] = round(w_sum / w_total)
 
             geo_result[apt_id] = geo

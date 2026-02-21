@@ -93,6 +93,7 @@ def main():
                         "loc_score": a["loc_score"],
                         "loc_transport": None,  # display-only, not used in ranking
                         "loc_school": geo.get("academy_score"),
+                        "loc_livability": geo.get("livability_score"),
                         "loc_infra": geo.get("infra_score"),
                         "price_pct": round(pct, 1),
                         "location_gap": location_gap,

@@ -660,9 +660,8 @@ function drawPeakChart(canvas, txns, apt) {
   var troughPrice = data[troughIdx].price;
   var troughYm = data[troughIdx].ym;
 
-  // 현재가: 최근 3개월 평균 (Python _recovery_from_trend와 동일)
-  var recentSlice = data.slice(-3);
-  var currentPrice = recentSlice.reduce(function (s, d) { return s + d.price; }, 0) / recentSlice.length;
+  // 현재가: 마지막 1개월 평균
+  var currentPrice = data[data.length - 1].price;
 
   // 고점 대비 %, 저점 대비 회복 %
   var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
@@ -1422,7 +1421,7 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
  * @param {{ transport: number, school: number, livability: number, rebuild: number }} scores - 각 0~100
  */
 function drawRadarChart(canvas, scores) {
-  var labels = ["교통", "학군", "거주가치", "재건축"];
+  var labels = ["교통", "학군", "실거주", "재건축"];
   var keys = ["transport", "school", "livability", "rebuild"];
   var values = keys.map(function (k) { return scores[k] || 0; });
 

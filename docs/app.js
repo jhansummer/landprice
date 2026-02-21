@@ -1,4 +1,5 @@
 const summaryPath = "data/apt_trade/summary.json";
+const GEO_PATH = "data/apt_trade/valuation_geo.json";
 
 const gridEl = document.getElementById("grid");
 const statusEl = document.getElementById("status");
@@ -11,6 +12,7 @@ let globalData = null;
 let activeSido = null;
 let activeDistrict = null;
 let activeDong = null;
+var geoCache = null;
 
 var fmt = APTCommon.fmt;
 
@@ -501,15 +503,27 @@ function showDetail(r) {
     return { id: c.id, name: c.apt_name, price: c.current_price, region: c.sigungu + " " + c.dong_name };
   }));
 
-  Promise.all(targets.map(function (t) {
-    return fetch("data/apt_trade/by_apt/" + t.id + ".json")
-      .then(function (res) {
-        if (!res.ok) throw new Error("not found");
-        return res.json();
-      })
-      .then(function (history) { return { name: t.name, history: history, price: t.price, region: t.region }; });
-  }))
-    .then(function (seriesList) {
+  // geo 데이터 로드 (캐시)
+  var geoPromise = geoCache
+    ? Promise.resolve(geoCache)
+    : fetch(GEO_PATH + "?t=" + Date.now()).then(function (res) {
+        return res.ok ? res.json() : null;
+      }).then(function (d) { geoCache = d; return d; }).catch(function () { return null; });
+
+  Promise.all([
+    geoPromise,
+    Promise.all(targets.map(function (t) {
+      return fetch("data/apt_trade/by_apt/" + t.id + ".json")
+        .then(function (res) {
+          if (!res.ok) throw new Error("not found");
+          return res.json();
+        })
+        .then(function (history) { return { name: t.name, history: history, price: t.price, region: t.region }; });
+    }))
+  ])
+    .then(function (results) {
+      var geoAll = results[0];
+      var seriesList = results[1];
       body.innerHTML = "";
 
       // 차트
@@ -552,6 +566,37 @@ function showDetail(r) {
           legend.appendChild(wrap);
         });
         body.appendChild(legend);
+      }
+
+      // 입지점수 레이더 차트
+      if (geoAll && r.id && geoAll[r.id]) {
+        var geo = geoAll[r.id];
+        var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
+        var radarScores = {
+          transport: transport,
+          school: geo.academy_score || 0,
+          livability: geo.livability_score || geo.infra_score || 0,
+          rebuild: geo.redev_score || 0
+        };
+        if (radarScores.transport || radarScores.school || radarScores.livability || radarScores.rebuild) {
+          var radarSec = document.createElement("div");
+          radarSec.style.cssText = "margin:12px 0;text-align:center";
+          var radarTitle = document.createElement("div");
+          radarTitle.style.cssText = "font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px";
+          radarTitle.textContent = "입지점수";
+          if (geo.loc_score != null) {
+            var totalColor = geo.loc_score >= 70 ? "#2563eb" : geo.loc_score >= 40 ? "#f59e0b" : "#94a3b8";
+            radarTitle.innerHTML += ' <span style="color:' + totalColor + '">종합 ' + geo.loc_score + '</span>';
+          }
+          radarSec.appendChild(radarTitle);
+          var radarCanvas = document.createElement("canvas");
+          radarCanvas.style.cssText = "width:180px;height:180px;margin:0 auto;display:block";
+          radarSec.appendChild(radarCanvas);
+          body.appendChild(radarSec);
+          requestAnimationFrame(function () {
+            drawRadarChart(radarCanvas, radarScores);
+          });
+        }
       }
 
       // 거래 테이블
