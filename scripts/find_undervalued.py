@@ -278,7 +278,7 @@ def find_undervalued_in_group(item_list, sp, gap, months, txn_cache=None):
             "district": item.get("district", ""),
             "series": series,
             "current_price": current_price,
-            "recent_avg": recent_avg(series, 6),
+            "recent_avg": recent_avg(series, 3),
             "avg_36": series_avg(series),
             "trade_count": len(trades_window),
             "recent_3m_trades": recent_3m_trades,
