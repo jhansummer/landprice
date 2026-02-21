@@ -155,8 +155,56 @@ def create_child_page(parent_id, title, blocks):
 # ══════════════════════════════════════════════
 # 월요일: 저평가 TOP 3 (전국)
 # ══════════════════════════════════════════════
+def _fmt_uv_block(sido_label, top3, geo):
+    """저평가 TOP3 한 블록(시도별) 생성 — 비교단지·3년/3개월·벌어짐 포함"""
+    lines = []
+    lines.append(f"📍 {sido_label} 저평가 아파트 TOP 3")
+    lines.append(f"{TODAY.strftime('%Y-%m-%d')} 기준 · 국토부 실거래가 분석")
+    lines.append("")
+    lines.append("비교단지 대비 최근 3개월이 3년 평균보다 더 벌어진 단지")
+    lines.append("= 시장에서 상대적으로 못 올라온 아파트")
+    lines.append("")
+
+    for i, a in enumerate(top3, 1):
+        pyeong = int(round(a["area_m2"] / 3.306))
+        price_eok = a["current_price"] / 10000
+        recent_eok = a["recent_avg"] / 10000
+
+        # geo 정보
+        g = geo.get(a["id"], {})
+        station = g.get("subway", "?")
+        sline = g.get("subway_line", "")
+        walk = g.get("subway_walk_min", "?")
+        gangnam = g.get("commute", {}).get("gangnam", "?")
+
+        # 비교단지 정보
+        compares = a.get("compare", [])
+        comp_names = ", ".join(c["apt_name"] for c in compares)
+        comp_recent = sum(c.get("recent_avg", 0) for c in compares) / max(1, len(compares)) if compares else 0
+        comp_36 = sum(c.get("avg_36", 0) for c in compares) / max(1, len(compares)) if compares else 0
+
+        avg36_eok = (a.get("avg_36", 0) or 0) / 10000
+        comp36_eok = comp_36 / 10000
+        diff36 = ((a.get("avg_36", 0) / comp_36) - 1) * 100 if comp_36 else 0
+        comp_recent_eok = comp_recent / 10000
+        diff_recent = ((a["recent_avg"] / comp_recent) - 1) * 100 if comp_recent else 0
+        gap_widening = diff_recent - diff36
+
+        lines.append(f"{i}. {a['apt_name']} ({a['sigungu']} {a.get('dong_name', '')}, {pyeong}평)")
+        lines.append(f"  현재 {price_eok:.1f}억 · {station}({sline}) 도보{walk}분 · 강남{gangnam}분")
+        lines.append(f"  비교단지: {comp_names}")
+        lines.append(f"  3년 {avg36_eok:.1f}억 vs {comp36_eok:.1f}억 (차이 {diff36:+.1f}%)")
+        lines.append(f"  3개월 {recent_eok:.1f}억 vs {comp_recent_eok:.1f}억 (차이 {diff_recent:+.1f}%) → 벌어짐 {gap_widening:+.1f}%p")
+        lines.append("")
+
+    lines.append("aptmine.com")
+    return lines
+
+
 def generate_monday():
     data = load_json("undervalued.json")
+    geo = load_json("valuation_geo.json")
+
     all_uv = []
     for sido in SIDOS:
         items = data["sidos"].get(sido, {}).get("undervalued", [])
@@ -165,28 +213,12 @@ def generate_monday():
             all_uv.append(item)
 
     all_uv.sort(key=lambda x: x.get("gap_pct", 0))
-    top5 = all_uv[:3]
+    top3 = all_uv[:3]
 
-    lines = []
-    lines.append("📉 이번 주 저평가 아파트 TOP 3 (전국)")
-    lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
-    lines.append("")
-    lines.append("비교단지 대비 최근 시세가 저평가된 단지")
-    lines.append("국토부 실거래가 기준이라 실제 매물가와 다를 수 있음")
-    lines.append("")
-
-    for i, a in enumerate(top5):
-        lines.append(
-            f'{i + 1}. {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})'
-        )
-        lines.append(f'   현재 {fmt_price(a["current_price"])} | 괴리율 {a["gap_pct"]:+.1f}%')
-
-    lines.append("")
-    lines.append("괴리율 = 비교단지 대비 가격 차이 → 음수 클수록 저평가")
-    lines.append("aptmine.com")
+    lines = _fmt_uv_block("전국", top3, geo)
 
     title = "저평가 TOP 3 (전국)"
-    return title, lines, top5
+    return title, lines, top3
 
 
 # ══════════════════════════════════════════════
