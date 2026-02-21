@@ -85,11 +85,11 @@ HTML_TEMPLATE = """\
 <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>\
 </div></footer>\
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>\
-<script src="/chart-utils.js?v=6"></script>\
+<script src="/chart-utils.js?v=7"></script>\
 <script src="/watchlist.js?v=2"></script>\
 <script src="/common.js?v=1"></script>\
 <script src="/share.js?v=1"></script>\
-<script src="/apt.js?v=2"></script>\
+<script src="/apt.js?v=3"></script>\
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{{"token":"qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}}'></script>\
 </body></html>"""
 
