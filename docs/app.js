@@ -316,6 +316,27 @@ function renderAnalysisCard(item, idx, type) {
   metrics.innerHTML = '<span>' + vsPeak + '</span><span class="metric-sep">|</span><span>' + chg3m + '</span>';
   card.appendChild(metrics);
 
+  // 바닥찾기 차트 (by_apt 데이터 로드 → drawPeakChart)
+  if (item.id) {
+    var chartWrap = document.createElement("div");
+    chartWrap.style.cssText = "margin-top:8px";
+    var canvas = document.createElement("canvas");
+    canvas.className = "compare-chart";
+    chartWrap.appendChild(canvas);
+    card.appendChild(chartWrap);
+
+    fetch("data/apt_trade/by_apt/" + item.id + ".json")
+      .then(function(res) { return res.ok ? res.json() : []; })
+      .then(function(txns) {
+        if (txns.length > 1) {
+          requestAnimationFrame(function() {
+            drawPeakChart(canvas, txns, item);
+          });
+        }
+      })
+      .catch(function() {});
+  }
+
   return card;
 }
 
