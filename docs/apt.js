@@ -234,12 +234,20 @@
     // ── 세대수 + 전세가율 ──
     var hasHouseholds = geo && geo.households;
     var jeonseRatio = null;
-    if (summaryAll && summaryAll.sidos) {
+    var jeonseLabel = "";
+    // 단지별 전세가율 우선 (valuation_geo.json)
+    if (geo && geo.jeonse_ratio != null) {
+      jeonseRatio = geo.jeonse_ratio;
+      jeonseLabel = "이 단지";
+    }
+    // fallback: 구 평균
+    if (jeonseRatio == null && summaryAll && summaryAll.sidos) {
       var sidoData = summaryAll.sidos[apt.sido];
       if (sidoData && sidoData.districts && sidoData.districts[apt.sigungu]) {
         var distData = sidoData.districts[apt.sigungu];
         if (distData.jeonse && distData.jeonse.avg_ratio != null) {
           jeonseRatio = distData.jeonse.avg_ratio;
+          jeonseLabel = apt.sigungu + " 평균";
         }
       }
     }
@@ -256,7 +264,7 @@
       }
       if (jeonseRatio != null) {
         var jColor = jeonseRatio >= 60 ? "#ef4444" : jeonseRatio >= 40 ? "#f59e0b" : "#16a34a";
-        var jCell = createPriceCell("전세가율", jeonseRatio.toFixed(1) + "%", apt.sigungu + " 평균");
+        var jCell = createPriceCell("전세가율", jeonseRatio.toFixed(1) + "%", jeonseLabel);
         jCell.querySelector(".apt-price-value").style.color = jColor;
         extraGrid.appendChild(jCell);
       }

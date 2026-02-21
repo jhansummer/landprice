@@ -266,14 +266,23 @@ function renderCard(apt, idx) {
     info.appendChild(geoDiv);
   }
 
-  // 전세가율 뱃지
-  var jRatio = getDistrictJeonseRatio(activeSido, apt.sigungu || apt.district);
+  // 전세가율 뱃지 (단지별 우선, fallback 구 평균)
+  var jRatio = null;
+  var jLabel = "";
+  var vgeo = valuationGeo && valuationGeo[apt.id];
+  if (vgeo && vgeo.jeonse_ratio != null) {
+    jRatio = vgeo.jeonse_ratio;
+    jLabel = "\uC804\uC138 " + jRatio.toFixed(0) + "%";
+  } else {
+    jRatio = getDistrictJeonseRatio(activeSido, apt.sigungu || apt.district);
+    if (jRatio != null) jLabel = "\uC804\uC138 " + jRatio.toFixed(0) + "% (" + (apt.sigungu || apt.district) + " \uD3C9\uADE0)";
+  }
   if (jRatio != null) {
     var jBadge = document.createElement("div");
     var jColor = jRatio >= 60 ? "#ef4444" : jRatio >= 40 ? "#f59e0b" : "#16a34a";
     var jBg = jRatio >= 60 ? "#fef2f2" : jRatio >= 40 ? "#fef3c7" : "#f0fdf4";
     jBadge.style.cssText = "font-size:10px;margin-top:3px;display:inline-block;padding:1px 8px;border-radius:8px;font-weight:600;color:" + jColor + ";background:" + jBg;
-    jBadge.textContent = "\uC804\uC138 " + jRatio.toFixed(0) + "% (" + (apt.sigungu || apt.district) + " \uD3C9\uADE0)";
+    jBadge.textContent = jLabel;
     info.appendChild(jBadge);
   }
 
@@ -532,8 +541,10 @@ function renderSections() {
     return calcLocationScore(b) - calcLocationScore(a);
   });
   else if (activeSort === "jeonse_ratio") items.sort(function (a, b) {
-    var ra = getDistrictJeonseRatio(activeSido, a.sigungu || a.district) || 0;
-    var rb = getDistrictJeonseRatio(activeSido, b.sigungu || b.district) || 0;
+    var va = valuationGeo && valuationGeo[a.id];
+    var vb = valuationGeo && valuationGeo[b.id];
+    var ra = (va && va.jeonse_ratio != null) ? va.jeonse_ratio : (getDistrictJeonseRatio(activeSido, a.sigungu || a.district) || 0);
+    var rb = (vb && vb.jeonse_ratio != null) ? vb.jeonse_ratio : (getDistrictJeonseRatio(activeSido, b.sigungu || b.district) || 0);
     return rb - ra;
   });
 

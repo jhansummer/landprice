@@ -816,6 +816,39 @@ def build_dong_stats(records: List[Dict[str, object]], current_month: str) -> Li
     return stats
 
 
+def build_apt_jeonse_ratios(rent_records: List[Dict[str, object]],
+                             sale_records: List[Dict[str, object]]) -> Dict[str, float]:
+    """단지별 전세가율 계산. apt_id → ratio (%) 매핑 반환."""
+    # 매매 최신가 {(sigungu, apt_name, area_m2): price_man}
+    sale_latest: Dict[Tuple, int] = {}
+    sale_sorted = sorted(sale_records, key=lambda x: x["deal_date"], reverse=True)
+    for r in sale_sorted:
+        key = (r.get("sigungu", ""), r["apt_name"], r["area_m2"])
+        if key not in sale_latest and r.get("price_man"):
+            sale_latest[key] = r["price_man"]
+
+    # 전세 최신가 {(sigungu, apt_name, area_m2): deposit_man}
+    rent_latest: Dict[Tuple, int] = {}
+    rent_sorted = sorted(rent_records, key=lambda x: x["deal_date"], reverse=True)
+    for r in rent_sorted:
+        key = (r.get("sigungu", ""), r["apt_name"], r["area_m2"])
+        if key not in rent_latest and r.get("deposit_man"):
+            rent_latest[key] = r["deposit_man"]
+
+    result: Dict[str, float] = {}
+    for key, deposit in rent_latest.items():
+        sale_price = sale_latest.get(key)
+        if not sale_price or sale_price <= 0:
+            continue
+        ratio = (deposit / sale_price) * 100
+        if ratio > 120 or ratio < 10:
+            continue
+        sigungu, apt_name, area_m2 = key
+        apt_id = hashlib.md5(f"{sigungu}\t{apt_name}\t{area_m2}".encode()).hexdigest()[:10]
+        result[apt_id] = round(ratio, 1)
+    return result
+
+
 def build_jeonse_summary(rent_records: List[Dict[str, object]],
                           sale_records: List[Dict[str, object]]) -> Dict[str, object]:
     """전세가율 계산. 최신 전세 vs 최신 매매가 비교."""
@@ -1357,6 +1390,7 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
 
     sidos: Dict[str, Dict] = {}
     search_sidos: Dict[str, Dict] = {}
+    all_apt_jeonse_ratios: Dict[str, float] = {}  # apt_id → ratio
     for sido, codes in sido_lawds.items():
         records = gather_sido_records(codes)
         rent_records = gather_rent_records(codes)
@@ -1392,6 +1426,9 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                 "dong_stats": build_dong_stats(dist_records, current_month),
             }
             if dist_rent:
+                # 단지별 전세가율 수집
+                apt_ratios = build_apt_jeonse_ratios(dist_rent, dist_records)
+                all_apt_jeonse_ratios.update(apt_ratios)
                 jeonse = build_jeonse_summary(dist_rent, dist_records)
                 if jeonse:
                     dist_data["jeonse"] = jeonse
@@ -1486,6 +1523,23 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
         "sidos": sidos,
     }
     write_json(SUMMARY_PATH, summary)
+
+    # 단지별 전세가율 → valuation_geo.json 병합
+    if all_apt_jeonse_ratios:
+        geo_path = DATA_DIR / "valuation_geo.json"
+        geo_data: Dict = {}
+        if geo_path.exists():
+            with geo_path.open("r", encoding="utf-8") as fp:
+                geo_data = json.load(fp)
+        merged = 0
+        for apt_id, ratio in all_apt_jeonse_ratios.items():
+            if apt_id in geo_data:
+                geo_data[apt_id]["jeonse_ratio"] = ratio
+                merged += 1
+            # valuation_geo에 없는 단지는 skip (enrich 대상이 아님)
+        if merged:
+            write_json(geo_path, geo_data)
+            print(f"  jeonse_ratio: {merged}/{len(all_apt_jeonse_ratios)} apts merged into valuation_geo.json", flush=True)
 
     # 시도별 분할 검색 인덱스
     search_dir = DATA_DIR / "search"
