@@ -803,10 +803,9 @@ function showDetail(r) {
         var radarScores = {
           transport: transport,
           school: geo.academy_score || 0,
-          livability: geo.livability_score || geo.infra_score || 0,
-          rebuild: geo.redev_score || 0
+          livability: geo.livability_score || geo.infra_score || 0
         };
-        if (radarScores.transport || radarScores.school || radarScores.livability || radarScores.rebuild) {
+        if (radarScores.transport || radarScores.school || radarScores.livability) {
           var radarSec = document.createElement("div");
           radarSec.style.cssText = "margin:12px 0;text-align:center";
           var radarTitle = document.createElement("div");

@@ -1420,13 +1420,13 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
 }
 
 /**
- * 6축 레이더 차트 (교통/학군/인프라/환금성/실거주/재건축)
+ * 5축 레이더 차트 (교통/학군/인프라/환금성/실거주)
  * @param {HTMLCanvasElement} canvas
  * @param {Object} scores - 각 0~100
  */
 function drawRadarChart(canvas, scores) {
-  var labels = ["교통", "학군", "인프라", "환금성", "실거주", "재건축"];
-  var keys = ["transport", "school", "infra", "liquidity", "livability", "rebuild"];
+  var labels = ["교통", "학군", "인프라", "환금성", "실거주"];
+  var keys = ["transport", "school", "infra", "liquidity", "livability"];
   var values = keys.map(function (k) { return scores[k] || 0; });
 
   var dpr = window.devicePixelRatio || 1;
@@ -1444,7 +1444,7 @@ function drawRadarChart(canvas, scores) {
   var cx = cw / 2;
   var cy = ch / 2;
   var maxR = Math.min(cw, ch) / 2 - 24;
-  var n = 6;
+  var n = 5;
   var angleStep = (Math.PI * 2) / n;
   var startAngle = -Math.PI / 2; // top
 

@@ -28,7 +28,6 @@ CACHE_FILE = SCRIPTS_DIR / "geocode_cache.json"
 ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
 SCHOOLS_FILE = SCRIPTS_DIR / "schools.json"
-REDEV_FILE = SCRIPTS_DIR / "redevelopment_zones.json"
 HOUSEHOLD_FILE = SCRIPTS_DIR / "household_cache.json"
 
 APT_META_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "apt_meta.json"
@@ -529,16 +528,6 @@ def get_school_score(
     return score
 
 
-# ── Redevelopment zone proximity ──
-
-def load_redev_zones() -> List[Dict]:
-    """Load redevelopment zone data with coordinates."""
-    if not REDEV_FILE.exists():
-        return []
-    with open(REDEV_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
 def get_brand_score(apt_name: str) -> int:
     """브랜드 점수 (0-100). 프리미엄 브랜드일수록 높음."""
     for brand, score in BRAND_SCORES.items():
@@ -580,15 +569,6 @@ def get_liquidity_score(trade_count: int) -> int:
     return round(min(100, trade_count * 100 / 60))
 
 
-def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
-    """정비구역 해당 여부 점수 (0 or 100). 정비구역 중심 0.3km 이내면 해당 단지로 판단."""
-    if not zones:
-        return None
-    min_dist = min(haversine(lat, lng, z["lat"], z["lng"]) for z in zones)
-    if min_dist <= 0.3:
-        return 100
-    return 0
-
 
 # ── Main ──
 
@@ -614,9 +594,6 @@ def main() -> int:
 
     schools = load_schools()
     print(f"Loaded {len(schools)} schools", flush=True)
-
-    redev_zones = load_redev_zones()
-    print(f"Loaded {len(redev_zones)} redevelopment zones", flush=True)
 
     apt_meta: Dict[str, int] = {}
     if APT_META_FILE.exists():
@@ -707,12 +684,7 @@ def main() -> int:
             if school_score is not None:
                 geo["academy_score"] = school_score  # 하위호환: 필드명 유지
 
-            # 5. 정비구역 근접도
-            redev_s = get_redev_score(lat, lng, redev_zones)
-            if redev_s is not None:
-                geo["redev_score"] = redev_s
-
-            # 6. 브랜드/연식/세대수 점수 (단지품질)
+            # 5. 브랜드/연식/세대수 점수 (단지품질)
             brand_s = get_brand_score(apt.get("apt_name", ""))
             geo["brand_score"] = brand_s
             build_year = apt_meta.get(apt_id, 0)
@@ -743,7 +715,7 @@ def main() -> int:
             livability_s = round(sum(livability_parts) / len(livability_parts))
             geo["livability_score"] = livability_s
 
-            # 9. 입지점수: 교통25% + 학군45% + 인프라5% + 정비구역5% + 실거주가치12% + 환금성8%
+            # 9. 입지점수: 교통26% + 학군47% + 인프라5% + 실거주가치11% + 환금성11%
             #    교통: 수도권=업무지구(강남/광화문/여의도 중 최근접)70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
             subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
@@ -761,7 +733,7 @@ def main() -> int:
                     transport_s = center_s * 0.7 + subway_s_exp * 0.3
                 else:
                     transport_s = subway_s_exp
-            # 가중합: T*5 + S*9 + I*1 + R*1 + L*2 + Q*2 = 20
+            # 가중합: T*5 + S*9 + I*1 + L*2 + Q*2 = 19
             w_sum = transport_s * 5
             w_total = 5
             if school_score is not None:
@@ -769,9 +741,6 @@ def main() -> int:
                 w_total += 9
             if geo.get("infra_score") is not None:
                 w_sum += geo["infra_score"]
-                w_total += 1
-            if redev_s is not None:
-                w_sum += redev_s
                 w_total += 1
             w_sum += livability_s * 2
             w_total += 2

@@ -296,8 +296,7 @@
       school: geo.academy_score || 0,
       infra: geo.infra_score || 0,
       liquidity: geo.liquidity_score || 0,
-      livability: geo.livability_score || 0,
-      rebuild: geo.redev_score || 0
+      livability: geo.livability_score || 0
     };
   }
 
@@ -313,7 +312,7 @@
 
     // 레이더 차트
     var scores = calcGeoScores(geo);
-    if (scores.transport || scores.school || scores.livability || scores.rebuild) {
+    if (scores.transport || scores.school || scores.livability) {
       var radarWrap = document.createElement("div");
       radarWrap.style.cssText = "display:flex;justify-content:center;margin-bottom:12px";
       var radarCanvas = document.createElement("canvas");
