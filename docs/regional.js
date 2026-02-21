@@ -38,10 +38,6 @@ function renderSubTabs() {
   if (!sidoData) { subtabsEl.innerHTML = ""; return; }
   APTCommon.renderSubTabs(subtabsEl, sidoData.district_order, activeSido, activeDistrict, function (district) {
     activeDistrict = district;
-    if (activeDistrict && activeMode === "positioning") {
-      activeMode = "sale";
-      renderModeToggle();
-    }
     renderSections();
     var hashParts = [activeSido];
     if (activeDistrict) hashParts.push(activeDistrict);
@@ -1703,14 +1699,72 @@ function computePositioningData(sido) {
   return result;
 }
 
+/* ── 매매x전세: 동별 데이터 계산 (x=전세가율 편차, y=6개월 매매 변동률) ── */
+function computeDongPositioningData(distData) {
+  if (!distData) return [];
+  var dongStats = distData.dong_stats;
+  var jeonseDongStats = distData.jeonse_dong_stats;
+  var dongRecovery = distData.dong_recovery;
+  if (!dongStats || !dongStats.length) return [];
+
+  // 전세 평단가 맵
+  var jeonseMap = {};
+  if (jeonseDongStats) {
+    jeonseDongStats.forEach(function (d) { jeonseMap[d.dong_name] = d.avg_per_m2; });
+  }
+  // 회복 데이터 맵
+  var recMap = {};
+  if (dongRecovery && dongRecovery.items) {
+    dongRecovery.items.forEach(function (d) { recMap[d.name] = d; });
+  }
+
+  // 구 평균 전세가율 계산
+  var ratioSum = 0, ratioCount = 0;
+  dongStats.forEach(function (d) {
+    if (jeonseMap[d.dong_name] && d.avg_per_m2 > 0) {
+      ratioSum += jeonseMap[d.dong_name] / d.avg_per_m2 * 100;
+      ratioCount++;
+    }
+  });
+  var avgRatio = ratioCount > 0 ? ratioSum / ratioCount : 50;
+
+  var result = [];
+  dongStats.forEach(function (d) {
+    var jPrice = jeonseMap[d.dong_name];
+    var rec = recMap[d.dong_name];
+    if (!jPrice || d.avg_per_m2 <= 0) return;
+
+    var ratio = jPrice / d.avg_per_m2 * 100;
+    var ratioDev = ratio - avgRatio;
+    var chg = rec ? (rec.chg6m || 0) : 0;
+
+    result.push({
+      name: d.dong_name,
+      x: Math.round(ratioDev * 10) / 10,
+      y: Math.round(chg * 10) / 10,
+      volume: d.txn_count
+    });
+  });
+  return result;
+}
+
 /* ── 매매x전세 탭 렌더 ── */
 function renderPositioningSections(sidoData) {
-  var posData = computePositioningData(activeSido);
+  var isDong = !!activeDistrict;
+  var posData, regionName;
+  if (isDong && sidoData.districts && sidoData.districts[activeDistrict]) {
+    posData = computeDongPositioningData(sidoData.districts[activeDistrict]);
+    regionName = activeDistrict;
+  } else {
+    posData = computePositioningData(activeSido);
+    regionName = activeSido;
+  }
+
   if (!posData.length) {
     var empty = document.createElement("p");
     empty.className = "no-data";
     empty.style.cssText = "text-align:center;padding:40px 0";
-    empty.textContent = activeSido + "의 매매x전세 데이터가 아직 없습니다.";
+    empty.textContent = regionName + "의 매매x전세 데이터가 아직 없습니다.";
     gridEl.appendChild(empty);
     return;
   }
@@ -1719,7 +1773,13 @@ function renderPositioningSections(sidoData) {
   posSec.className = "section";
   var posTitle = document.createElement("h2");
   posTitle.className = "section-title";
-  posTitle.textContent = activeSido + " 매매x전세";
+  posTitle.textContent = regionName + " 매매x전세";
+  if (isDong) {
+    var posHint = document.createElement("div");
+    posHint.style.cssText = "font-size:11px;color:var(--muted);margin-top:2px";
+    posHint.textContent = "X: 전세가율 편차 (구 평균 대비)  Y: 6개월 매매 변동률";
+    posTitle.appendChild(posHint);
+  }
   posSec.appendChild(posTitle);
 
   // 4분면 비중 요약
@@ -1769,8 +1829,8 @@ function renderPositioningSections(sidoData) {
     }
   });
 
-  // 구별 비교 차트
-  if (sidoData.districts) {
+  // 구별 비교 차트 (시도 전체일 때만)
+  if (!isDong && sidoData.districts) {
     var compareSec = renderCompareSection(sidoData);
     if (compareSec) gridEl.appendChild(compareSec);
   }
