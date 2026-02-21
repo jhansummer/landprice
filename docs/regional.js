@@ -1829,11 +1829,43 @@ function renderPositioningSections(sidoData) {
     }
   });
 
-  // 구별 비교 차트 (시도 전체일 때만)
-  if (!isDong && sidoData.districts) {
-    var compareSec = renderCompareSection(sidoData);
-    if (compareSec) gridEl.appendChild(compareSec);
-  }
+  // 매매·전세 변동률 표
+  var tableSec = document.createElement("div");
+  tableSec.className = "section";
+  var tableTitle = document.createElement("h2");
+  tableTitle.className = "section-title";
+  tableTitle.textContent = regionName + (isDong ? " 동별" : " 구별") + " 매매·전세 변동";
+  tableSec.appendChild(tableTitle);
+
+  var tableWrap = document.createElement("div");
+  tableWrap.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch";
+  var table = document.createElement("table");
+  table.className = "val-compare-table";
+  table.style.cssText = "font-size:12px;width:100%";
+  var thead = document.createElement("thead");
+  thead.innerHTML = "<tr><th>" + (isDong ? "동" : "구/군") + "</th>"
+    + "<th>" + (isDong ? "전세가율 편차" : "전세가율 변동") + "</th>"
+    + "<th>" + (isDong ? "6개월 변동" : "매매 변동률") + "</th>"
+    + "<th>거래량</th><th>국면</th></tr>";
+  table.appendChild(thead);
+
+  var sorted = posData.slice().sort(function (a, b) { return b.y - a.y; });
+  var tbody = document.createElement("tbody");
+  sorted.forEach(function (d) {
+    var phase = d.x >= 0 && d.y >= 0 ? "상승기" : d.x < 0 && d.y >= 0 ? "회복초기" : d.x < 0 && d.y < 0 ? "침체기" : "전세강세";
+    var phaseColor = d.x >= 0 && d.y >= 0 ? "#ef4444" : d.x < 0 && d.y >= 0 ? "#16a34a" : d.x < 0 && d.y < 0 ? "#3b82f6" : "#f59e0b";
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + d.name + "</td>"
+      + '<td style="color:' + (d.x >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.x >= 0 ? "+" : "") + d.x.toFixed(1) + "%p</td>"
+      + '<td style="color:' + (d.y >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.y >= 0 ? "+" : "") + d.y.toFixed(1) + "%</td>"
+      + "<td>" + (d.volume || 0).toLocaleString() + "건</td>"
+      + '<td style="color:' + phaseColor + ';font-weight:600">' + phase + "</td>";
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  tableWrap.appendChild(table);
+  tableSec.appendChild(tableWrap);
+  gridEl.appendChild(tableSec);
 }
 
 /* ── 메인 렌더 ── */
