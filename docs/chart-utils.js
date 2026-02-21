@@ -1643,48 +1643,70 @@ function drawPositioningChart(canvas, data) {
   // 버블 크기 계산
   var maxVol = 1;
   data.forEach(function (d) { if (d.volume > maxVol) maxVol = d.volume; });
-  var minR = 5, maxBubbleR = 18;
+  var minR = 3, maxBubbleR = 10;
+
+  // 버블 데이터에 좌표·반지름 미리 계산 + 큰 버블부터 그리기 (뒤로)
+  var bubbleColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
+  var bubbles = data.map(function (d, idx) {
+    return {
+      d: d, idx: idx,
+      bx: xPos(d.x), by: yPos(d.y),
+      r: minR + Math.sqrt(d.volume / maxVol) * (maxBubbleR - minR)
+    };
+  });
+  bubbles.sort(function (a, b) { return b.r - a.r; });
 
   // 버블 렌더링
-  var bubbleColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
-  var labelPositions = [];
-  data.forEach(function (d, idx) {
-    var bx = xPos(d.x);
-    var by = yPos(d.y);
-    var r = minR + Math.sqrt(d.volume / maxVol) * (maxBubbleR - minR);
-
-    // 버블
-    ctx.globalAlpha = 0.55;
-    ctx.fillStyle = bubbleColors[idx % bubbleColors.length];
+  bubbles.forEach(function (b) {
+    ctx.globalAlpha = 0.45;
+    ctx.fillStyle = bubbleColors[b.idx % bubbleColors.length];
     ctx.beginPath();
-    ctx.arc(bx, by, r, 0, Math.PI * 2);
+    ctx.arc(b.bx, b.by, b.r, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = bubbleColors[idx % bubbleColors.length];
-    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = bubbleColors[b.idx % bubbleColors.length];
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.arc(bx, by, r, 0, Math.PI * 2);
+    ctx.arc(b.bx, b.by, b.r, 0, Math.PI * 2);
     ctx.stroke();
+  });
 
-    // 라벨 (충돌 방지)
-    var labelText = d.name;
+  // 라벨 렌더링 (버블 위에 별도 패스로 그려서 가려지지 않게)
+  var labelPositions = [];
+  bubbles.forEach(function (b) {
+    var labelText = b.d.name;
     ctx.font = "10px -apple-system, sans-serif";
     var tw = ctx.measureText(labelText).width;
-    var ly = by - r - 6;
-    if (ly < pad.top + 18) ly = by + r + 12;
-    var lx = bx;
-    var overlap = false;
-    for (var j = 0; j < labelPositions.length; j++) {
-      if (Math.abs(lx - labelPositions[j].x) < tw * 0.7 && Math.abs(ly - labelPositions[j].y) < 11) {
-        overlap = true; break;
+    var ly = b.by - b.r - 5;
+    if (ly < pad.top + 18) ly = b.by + b.r + 12;
+    var lx = b.bx;
+
+    // 충돌 방지: 위→아래→좌→우 순으로 시도
+    var placed = false;
+    var candidates = [
+      { x: lx, y: b.by - b.r - 5 },
+      { x: lx, y: b.by + b.r + 12 },
+      { x: lx - b.r - tw / 2 - 2, y: b.by },
+      { x: lx + b.r + tw / 2 + 2, y: b.by }
+    ];
+    for (var c = 0; c < candidates.length; c++) {
+      var cx2 = candidates[c].x, cy2 = candidates[c].y;
+      if (cy2 < pad.top + 10 || cy2 > pad.top + plotH - 4) continue;
+      if (cx2 - tw / 2 < pad.left || cx2 + tw / 2 > pad.left + plotW) continue;
+      var hit = false;
+      for (var j = 0; j < labelPositions.length; j++) {
+        if (Math.abs(cx2 - labelPositions[j].x) < (tw + labelPositions[j].tw) * 0.45 && Math.abs(cy2 - labelPositions[j].y) < 11) {
+          hit = true; break;
+        }
       }
+      if (!hit) { lx = cx2; ly = cy2; placed = true; break; }
     }
-    if (overlap) ly = by + r + 12;
+    if (!placed) { lx = candidates[0].x; ly = candidates[0].y; }
 
     ctx.fillStyle = "#334155";
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
     ctx.fillText(labelText, lx, ly);
-    labelPositions.push({ x: lx, y: ly });
+    labelPositions.push({ x: lx, y: ly, tw: tw });
   });
 }
