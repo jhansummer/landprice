@@ -55,6 +55,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://aptmine.com/watchlist.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://aptmine.com/privacy.html</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>

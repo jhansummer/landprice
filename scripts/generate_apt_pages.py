@@ -39,12 +39,13 @@ HTML_TEMPLATE = """\
 <meta property="og:type" content="website"><meta property="og:site_name" content="APT Mine">\
 <meta property="og:locale" content="ko_KR">\
 <meta property="og:image" content="https://aptmine.com/og-image.png">\
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">\
 <meta name="twitter:card" content="summary_large_image">\
 <meta name="twitter:title" content="{og_title_esc}">\
 <meta name="twitter:description" content="{desc_esc}">\
 <meta name="twitter:image" content="https://aptmine.com/og-image.png">\
 <link rel="icon" href="/favicon.ico"><link rel="icon" type="image/png" href="/favicon.png">\
-<link rel="stylesheet" href="/style.css?v=11">\
+<link rel="stylesheet" href="/style.css?v=13">\
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">\
 <script type="application/ld+json">{jsonld}</script>\
 <script>window.APT_PARAMS={{id:"{apt_id}",sido:"{sido}"}};</script>\
@@ -85,7 +86,7 @@ HTML_TEMPLATE = """\
 <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>\
 </div></footer>\
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>\
-<script src="/chart-utils.js?v=7"></script>\
+<script src="/chart-utils.js?v=10"></script>\
 <script src="/watchlist.js?v=2"></script>\
 <script src="/common.js?v=1"></script>\
 <script src="/share.js?v=1"></script>\
