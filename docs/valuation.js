@@ -4,6 +4,7 @@
   var BY_APT_BASE = "data/apt_trade/by_apt/";
   var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
   var VALUATION_GEO_PATH = "data/apt_trade/valuation_geo.json";
+  var SUMMARY_PATH = "data/apt_trade/summary.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -22,6 +23,7 @@
   var locationScores = null;
   var transportMinMax = null;
   var valuationGeo = null;
+  var summaryAll = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -88,6 +90,12 @@
       .then(function (r) { return r.json(); })
       .then(function (data) { valuationGeo = data; })
       .catch(function () { valuationGeo = null; });
+  }
+  function loadSummary() {
+    return fetch(SUMMARY_PATH + "?t=" + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) { summaryAll = data; })
+      .catch(function () { summaryAll = null; });
   }
   function buildTransportMinMax() {
     if (!locationScores) return;
@@ -776,7 +784,7 @@
     return wrap;
   }
 
-  /* ── 초기 화면 (탭: 시세 저평가 / 입지점수 랭킹) ── */
+  /* ── 초기 화면 (탭: 시세 저평가 / 입지점수 랭킹 / 시장 포지셔닝) ── */
   function showLocationValueRanking() {
     if (!globalIndex) { showHint(); return; }
     resultsEl.innerHTML = "";
@@ -788,31 +796,44 @@
     var mainTabWrap = document.createElement("div");
     mainTabWrap.style.cssText = "display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border,#e5e7eb)";
 
+    var tabStyle = "flex:1;padding:10px 0;font-size:13px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
+
     var tabPrice = document.createElement("button");
-    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
+    tabPrice.style.cssText = tabStyle;
     tabPrice.textContent = "\uC2DC\uC138 \uC800\uD3C9\uAC00";
 
     var tabLocRank = document.createElement("button");
-    tabLocRank.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
+    tabLocRank.style.cssText = tabStyle;
     tabLocRank.textContent = "\uC785\uC9C0\uC810\uC218 \uB7AD\uD0B9";
 
+    var tabPositioning = document.createElement("button");
+    tabPositioning.style.cssText = tabStyle;
+    tabPositioning.textContent = "\uC2DC\uC7A5 \uD3EC\uC9C0\uC154\uB2DD";
+
     var contentArea = document.createElement("div");
+    var tabs = [tabPrice, tabLocRank, tabPositioning];
 
     function activateTab(which) {
-      var isLoc = which === "locrank";
-      tabPrice.style.borderBottomColor = isLoc ? "transparent" : "#2563eb";
-      tabPrice.style.color = isLoc ? "var(--muted)" : "#2563eb";
-      tabLocRank.style.borderBottomColor = isLoc ? "#2563eb" : "transparent";
-      tabLocRank.style.color = isLoc ? "#2563eb" : "var(--muted)";
-      if (isLoc) renderLocScoreRanking(contentArea, totalCount);
+      tabs.forEach(function (t) {
+        t.style.borderBottomColor = "transparent";
+        t.style.color = "var(--muted)";
+      });
+      var activeTab = which === "locrank" ? tabLocRank : which === "positioning" ? tabPositioning : tabPrice;
+      activeTab.style.borderBottomColor = "#2563eb";
+      activeTab.style.color = "#2563eb";
+
+      if (which === "locrank") renderLocScoreRanking(contentArea, totalCount);
+      else if (which === "positioning") renderPositioningContent(contentArea);
       else renderPriceUndervaluedContent(contentArea, totalCount);
     }
 
     tabPrice.addEventListener("click", function () { activateTab("price"); });
     tabLocRank.addEventListener("click", function () { activateTab("locrank"); });
+    tabPositioning.addEventListener("click", function () { activateTab("positioning"); });
 
     mainTabWrap.appendChild(tabPrice);
     mainTabWrap.appendChild(tabLocRank);
+    mainTabWrap.appendChild(tabPositioning);
     resultsEl.appendChild(mainTabWrap);
     resultsEl.appendChild(contentArea);
 
@@ -1094,6 +1115,143 @@
     container.appendChild(hint);
   }
 
+  /* ── 시장 포지셔닝: 데이터 계산 ── */
+  function computePositioningData(sido) {
+    if (!summaryAll || !summaryAll.sidos || !summaryAll.sidos[sido]) return [];
+    var districts = summaryAll.sidos[sido].districts;
+    if (!districts) return [];
+
+    var result = [];
+    Object.keys(districts).forEach(function (guName) {
+      var dist = districts[guName];
+      // 매매가 변동률 (최근 6개월 vs 이전 6개월)
+      var trend = dist.trend;
+      if (!trend || trend.length < 6) return;
+      var recent6 = trend.slice(-6);
+      var prev6 = trend.slice(-12, -6);
+      if (!prev6.length) prev6 = trend.slice(0, Math.min(6, trend.length));
+
+      var recentAvg = 0, prevAvg = 0;
+      recent6.forEach(function (t) { recentAvg += t[1]; });
+      recentAvg /= recent6.length;
+      prev6.forEach(function (t) { prevAvg += t[1]; });
+      prevAvg /= prev6.length;
+      var priceChgPct = prevAvg > 0 ? ((recentAvg - prevAvg) / prevAvg * 100) : 0;
+
+      // 전세가율 변동 (%p): 최근 vs 6개월 전
+      var jTrend = dist.jeonse_trend;
+      var jeonseChg = 0;
+      if (jTrend && jTrend.length >= 6) {
+        var jRecent = jTrend[jTrend.length - 1][1];
+        var jPrev = jTrend[jTrend.length - 6][1];
+        jeonseChg = jRecent - jPrev;
+      }
+
+      // 최근 3개월 거래량
+      var vol = 0;
+      var recent3 = trend.slice(-3);
+      recent3.forEach(function (t) { vol += (t[2] || 0); });
+
+      result.push({
+        name: guName,
+        x: Math.round(priceChgPct * 10) / 10,
+        y: Math.round(jeonseChg * 10) / 10,
+        volume: vol
+      });
+    });
+    return result;
+  }
+
+  /* ── 시장 포지셔닝: 렌더 ── */
+  function renderPositioningContent(container) {
+    container.innerHTML = "";
+
+    if (!summaryAll || !summaryAll.sidos) {
+      container.innerHTML = '<div class="val-empty">\uC694\uC57D \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+      return;
+    }
+
+    var intro = document.createElement("div");
+    intro.className = "val-hint";
+    intro.innerHTML = '<b>\uC2DC\uC7A5 \uD3EC\uC9C0\uC154\uB2DD \uCC28\uD2B8</b><br>'
+      + '<span style="font-size:11px">\uAD6C/\uAD70\uBCC4 \uB9E4\uB9E4\uAC00 \uBCC0\uB3D9\uB960(X) \u00D7 \uC804\uC138\uAC00\uC728 \uBCC0\uB3D9(Y) \u00D7 \uAC70\uB798\uB7C9(\uBC84\uBE14 \uD06C\uAE30)   4\uBD84\uBA74 \uBD84\uC11D</span>';
+    container.appendChild(intro);
+
+    // 시도 탭
+    var sidoTabs = document.createElement("div");
+    sidoTabs.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0";
+    var chartContainer = document.createElement("div");
+
+    var sidoOrder = summaryAll.sido_order || Object.keys(summaryAll.sidos);
+
+    function renderSido(sido) {
+      chartContainer.innerHTML = "";
+      sidoTabs.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.sido === sido);
+      });
+
+      var posData = computePositioningData(sido);
+      if (!posData.length) {
+        chartContainer.innerHTML = '<div class="val-empty">\uD574\uB2F9 \uC2DC\uB3C4\uC5D0 \uCDA9\uBD84\uD55C \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+        return;
+      }
+
+      var chartWrap = document.createElement("div");
+      chartWrap.style.cssText = "position:relative;height:380px;margin:8px 0";
+      var canvas = document.createElement("canvas");
+      canvas.style.cssText = "width:100%;height:100%";
+      chartWrap.appendChild(canvas);
+      chartContainer.appendChild(chartWrap);
+
+      requestAnimationFrame(function () {
+        if (typeof drawPositioningChart === "function") {
+          drawPositioningChart(canvas, posData);
+        }
+      });
+
+      // 표 데이터
+      var tableWrap = document.createElement("div");
+      tableWrap.style.cssText = "overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch";
+      var table = document.createElement("table");
+      table.className = "val-compare-table";
+      table.style.fontSize = "11px";
+      var thead = document.createElement("thead");
+      thead.innerHTML = "<tr><th>\uAD6C/\uAD70</th><th>\uB9E4\uB9E4 \uBCC0\uB3D9</th><th>\uC804\uC138 \uBCC0\uB3D9</th><th>\uAC70\uB798\uB7C9</th><th>\uC2DC\uC7A5\uAD6D\uBA74</th></tr>";
+      table.appendChild(thead);
+      var tbody = document.createElement("tbody");
+      posData.sort(function (a, b) { return b.x - a.x; });
+      posData.forEach(function (d) {
+        var phase = d.x >= 0 && d.y >= 0 ? "\uC0C1\uC2B9\uAE30" : d.x < 0 && d.y >= 0 ? "\uC804\uC138\uAC15\uC138" : d.x < 0 && d.y < 0 ? "\uCE68\uCCB4\uAE30" : "\uD68C\uBCF5\uCD08\uAE30";
+        var phaseColor = d.x >= 0 && d.y >= 0 ? "#ef4444" : d.x < 0 && d.y >= 0 ? "#f59e0b" : d.x < 0 && d.y < 0 ? "#3b82f6" : "#16a34a";
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + escapeHTML(d.name) + "</td>"
+          + '<td style="color:' + (d.x >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.x >= 0 ? "+" : "") + d.x.toFixed(1) + "%</td>"
+          + '<td style="color:' + (d.y >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.y >= 0 ? "+" : "") + d.y.toFixed(1) + "%p</td>"
+          + "<td>" + d.volume.toLocaleString() + "\uAC74</td>"
+          + '<td style="color:' + phaseColor + ';font-weight:600">' + phase + "</td>";
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+      chartContainer.appendChild(tableWrap);
+    }
+
+    sidoOrder.forEach(function (sido) {
+      if (!summaryAll.sidos[sido]) return;
+      var btn = document.createElement("button");
+      btn.className = "sort-btn";
+      btn.dataset.sido = sido;
+      btn.textContent = sido;
+      btn.addEventListener("click", function () { renderSido(sido); });
+      sidoTabs.appendChild(btn);
+    });
+
+    container.appendChild(sidoTabs);
+    container.appendChild(chartContainer);
+
+    if (sidoOrder.length) renderSido(sidoOrder[0]);
+  }
+
   /* ── hint ── */
   function showHint() {
     var totalCount = 0;
@@ -1116,7 +1274,8 @@
         return Promise.all([
           loadAllSidos(),
           loadLocationScores(),
-          loadValuationGeo()
+          loadValuationGeo(),
+          loadSummary()
         ]).then(function () {
           statusEl.innerHTML = "";
           buildTransportMinMax();

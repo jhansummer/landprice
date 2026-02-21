@@ -13,6 +13,8 @@ var bottomBase = "data/apt_trade/bottom/";
 var byAptBase = "data/apt_trade/by_apt/";
 var valuationGeoPath = "data/apt_trade/valuation_geo.json";
 var locationScoresPath = "data/apt_trade/location_scores.json";
+var summaryPath = "data/apt_trade/summary.json";
+var summaryData = null;
 
 var tabsEl = document.getElementById("tabs");
 var contentEl = document.getElementById("content");
@@ -174,7 +176,8 @@ function renderSortBar() {
     ["trades", "\uAC70\uB798\uB7C9\uC21C"],
     ["total_price", "\uB9E4\uB9E4\uAC00\uACA9\uC21C"],
     ["subway_dist", "\uC5ED\uC138\uAD8C\uC21C"],
-    ["locscore", "\uC785\uC9C0\uC810\uC218\uC21C"]
+    ["locscore", "\uC785\uC9C0\uC810\uC218\uC21C"],
+    ["jeonse_ratio", "\uC804\uC138\uAC00\uC728\uC21C"]
   ];
   sorts.forEach(function (pair) {
     var btn = document.createElement("button");
@@ -187,6 +190,15 @@ function renderSortBar() {
     wrap.appendChild(btn);
   });
   return wrap;
+}
+
+/* ── 전세가율 헬퍼 ── */
+function getDistrictJeonseRatio(sido, sigungu) {
+  if (!summaryData || !summaryData.sidos) return null;
+  var sidoData = summaryData.sidos[sido];
+  if (!sidoData || !sidoData.districts || !sidoData.districts[sigungu]) return null;
+  var dist = sidoData.districts[sigungu];
+  return (dist.jeonse && dist.jeonse.avg_ratio != null) ? dist.jeonse.avg_ratio : null;
 }
 
 /* ── 아파트 카드 ── */
@@ -252,6 +264,17 @@ function renderCard(apt, idx) {
       geoDiv.appendChild(asBadge);
     }
     info.appendChild(geoDiv);
+  }
+
+  // 전세가율 뱃지
+  var jRatio = getDistrictJeonseRatio(activeSido, apt.sigungu || apt.district);
+  if (jRatio != null) {
+    var jBadge = document.createElement("div");
+    var jColor = jRatio >= 60 ? "#ef4444" : jRatio >= 40 ? "#f59e0b" : "#16a34a";
+    var jBg = jRatio >= 60 ? "#fef2f2" : jRatio >= 40 ? "#fef3c7" : "#f0fdf4";
+    jBadge.style.cssText = "font-size:10px;margin-top:3px;display:inline-block;padding:1px 8px;border-radius:8px;font-weight:600;color:" + jColor + ";background:" + jBg;
+    jBadge.textContent = "\uC804\uC138 " + jRatio.toFixed(0) + "% (" + (apt.sigungu || apt.district) + " \uD3C9\uADE0)";
+    info.appendChild(jBadge);
   }
 
   top.appendChild(info);
@@ -508,6 +531,11 @@ function renderSections() {
   else if (activeSort === "locscore") items.sort(function (a, b) {
     return calcLocationScore(b) - calcLocationScore(a);
   });
+  else if (activeSort === "jeonse_ratio") items.sort(function (a, b) {
+    var ra = getDistrictJeonseRatio(activeSido, a.sigungu || a.district) || 0;
+    var rb = getDistrictJeonseRatio(activeSido, b.sigungu || b.district) || 0;
+    return rb - ra;
+  });
 
   var sec = document.createElement("div");
   sec.className = "section";
@@ -613,7 +641,8 @@ async function init() {
     // Load location data in parallel (non-blocking)
     Promise.all([
       fetch(valuationGeoPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { valuationGeo = d; }).catch(function () {}),
-      fetch(locationScoresPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { locationScores = d; }).catch(function () {})
+      fetch(locationScoresPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { locationScores = d; }).catch(function () {}),
+      fetch(summaryPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { summaryData = d; }).catch(function () {})
     ]).then(function () {
       buildTransportMinMax();
       if (activeSido && sidoCache[activeSido]) renderSections();

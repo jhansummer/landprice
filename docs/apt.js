@@ -3,6 +3,7 @@
   var LOOKUP_BASE = "/data/apt_trade/apt_lookup/";
   var BY_APT_BASE = "/data/apt_trade/by_apt/";
   var GEO_PATH = "/data/apt_trade/valuation_geo.json";
+  var SUMMARY_PATH = "/data/apt_trade/summary.json";
 
   var contentEl = document.getElementById("apt-content");
   var statusEl = document.getElementById("status");
@@ -27,16 +28,19 @@
 
     try {
       // 병렬 로드
-      var [lookupRes, txnRes, geoRes] = await Promise.all([
+      var [lookupRes, txnRes, geoRes, summaryRes] = await Promise.all([
         fetch(LOOKUP_BASE + encodeURIComponent(params.sido) + ".json?t=" + Date.now()),
         fetch(BY_APT_BASE + params.id + ".json?t=" + Date.now()),
-        fetch(GEO_PATH + "?t=" + Date.now())
+        fetch(GEO_PATH + "?t=" + Date.now()),
+        fetch(SUMMARY_PATH + "?t=" + Date.now())
       ]);
 
       var lookup = lookupRes.ok ? await lookupRes.json() : {};
       var txns = txnRes.ok ? await txnRes.json() : [];
       var geoAll = null;
       try { geoAll = geoRes.ok ? await geoRes.json() : null; } catch (e) { geoAll = null; }
+      var summaryAll = null;
+      try { summaryAll = summaryRes.ok ? await summaryRes.json() : null; } catch (e) { summaryAll = null; }
 
       var aptInfo = lookup[params.id];
       if (!aptInfo) {
@@ -72,7 +76,7 @@
 
       // 페이지 렌더
       statusEl.remove();
-      render(apt, txns, geo);
+      render(apt, txns, geo, summaryAll);
 
       APTWatchlist.track("apt_detail_view", { apt_name: apt.name, sigungu: apt.sigungu, area_m2: apt.area });
     } catch (e) {
@@ -129,7 +133,7 @@
   }
 
   /* ── 페이지 렌더링 ── */
-  function render(apt, txns, geo) {
+  function render(apt, txns, geo, summaryAll) {
     var latest = txns.length ? txns[txns.length - 1] : null;
     var latestPrice = latest ? latest[1] : 0;
     var stats = txns.length ? calcPeakStats(txns) : null;
@@ -225,6 +229,38 @@
       grid.appendChild(vpCell);
 
       contentEl.appendChild(grid);
+    }
+
+    // ── 세대수 + 전세가율 ──
+    var hasHouseholds = geo && geo.households;
+    var jeonseRatio = null;
+    if (summaryAll && summaryAll.sidos) {
+      var sidoData = summaryAll.sidos[apt.sido];
+      if (sidoData && sidoData.districts && sidoData.districts[apt.sigungu]) {
+        var distData = sidoData.districts[apt.sigungu];
+        if (distData.jeonse && distData.jeonse.avg_ratio != null) {
+          jeonseRatio = distData.jeonse.avg_ratio;
+        }
+      }
+    }
+    if (hasHouseholds || jeonseRatio != null) {
+      var extraGrid = document.createElement("div");
+      extraGrid.className = "apt-price-grid";
+      extraGrid.style.gridTemplateColumns = "1fr 1fr";
+      if (hasHouseholds) {
+        var hVal = geo.households;
+        var hColor = hVal >= 1500 ? "#2563eb" : hVal >= 500 ? "#f59e0b" : "#94a3b8";
+        var hCell = createPriceCell("세대수", hVal.toLocaleString() + "세대", "");
+        hCell.querySelector(".apt-price-value").style.color = hColor;
+        extraGrid.appendChild(hCell);
+      }
+      if (jeonseRatio != null) {
+        var jColor = jeonseRatio >= 60 ? "#ef4444" : jeonseRatio >= 40 ? "#f59e0b" : "#16a34a";
+        var jCell = createPriceCell("전세가율", jeonseRatio.toFixed(1) + "%", apt.sigungu + " 평균");
+        jCell.querySelector(".apt-price-value").style.color = jColor;
+        extraGrid.appendChild(jCell);
+      }
+      contentEl.appendChild(extraGrid);
     }
 
     // ── 차트 ──

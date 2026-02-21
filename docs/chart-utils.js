@@ -1515,3 +1515,176 @@ function drawRadarChart(canvas, scores) {
     ctx.fillText(labels[i], lp.x, lp.y);
   }
 }
+
+/**
+ * 시장 포지셔닝 버블차트 (매매전세 사분면)
+ * @param {HTMLCanvasElement} canvas
+ * @param {Array} data - [{ name, x (매매변동률%), y (전세가율변동%p), volume (거래량) }]
+ */
+function drawPositioningChart(canvas, data) {
+  if (!data || !data.length) return;
+
+  var dpr = window.devicePixelRatio || 1;
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  var ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  var cw = rect.width;
+  var ch = rect.height;
+  var pad = { top: 32, right: 20, bottom: 36, left: 50 };
+  var plotW = cw - pad.left - pad.right;
+  var plotH = ch - pad.top - pad.bottom;
+
+  // 데이터 범위 계산 (0,0이 중심에 오도록 대칭)
+  var maxAbsX = 1, maxAbsY = 1;
+  data.forEach(function (d) {
+    if (Math.abs(d.x) > maxAbsX) maxAbsX = Math.abs(d.x);
+    if (Math.abs(d.y) > maxAbsY) maxAbsY = Math.abs(d.y);
+  });
+  maxAbsX = Math.ceil(maxAbsX * 1.2);
+  maxAbsY = Math.ceil(maxAbsY * 1.2);
+  if (maxAbsX < 3) maxAbsX = 3;
+  if (maxAbsY < 3) maxAbsY = 3;
+
+  var cx = pad.left + plotW / 2;
+  var cy = pad.top + plotH / 2;
+
+  function xPos(v) { return pad.left + ((v + maxAbsX) / (2 * maxAbsX)) * plotW; }
+  function yPos(v) { return pad.top + ((maxAbsY - v) / (2 * maxAbsY)) * plotH; }
+
+  // 4분면 그라데이션 배경
+  var quadrants = [
+    { x0: cx, y0: pad.top, x1: pad.left + plotW, y1: cy, color: "rgba(239,68,68,0.06)" },       // 우상: 상승기
+    { x0: pad.left, y0: pad.top, x1: cx, y1: cy, color: "rgba(245,158,11,0.06)" },               // 좌상: 전세강세
+    { x0: pad.left, y0: cy, x1: cx, y1: pad.top + plotH, color: "rgba(59,130,246,0.06)" },       // 좌하: 침체기
+    { x0: cx, y0: cy, x1: pad.left + plotW, y1: pad.top + plotH, color: "rgba(22,163,74,0.06)" } // 우하: 회복초기
+  ];
+  quadrants.forEach(function (q) {
+    ctx.fillStyle = q.color;
+    ctx.fillRect(q.x0, q.y0, q.x1 - q.x0, q.y1 - q.y0);
+  });
+
+  // 4분면 라벨
+  ctx.font = "10px -apple-system, sans-serif";
+  ctx.globalAlpha = 0.5;
+  ctx.fillStyle = "#ef4444"; ctx.textAlign = "center";
+  ctx.fillText("\uc0c1\uc2b9\uae30", cx + plotW / 4, pad.top + 14);
+  ctx.fillStyle = "#f59e0b";
+  ctx.fillText("\uc804\uc138\uac15\uc138", cx - plotW / 4, pad.top + 14);
+  ctx.fillStyle = "#3b82f6";
+  ctx.fillText("\uce68\uccb4\uae30", cx - plotW / 4, pad.top + plotH - 6);
+  ctx.fillStyle = "#16a34a";
+  ctx.fillText("\ud68c\ubcf5\ucd08\uae30", cx + plotW / 4, pad.top + plotH - 6);
+  ctx.globalAlpha = 1;
+
+  // 그리드
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 0.5;
+  var xTicks = 5, yTicks = 5;
+  for (var i = 0; i <= xTicks; i++) {
+    var gx = pad.left + (plotW / xTicks) * i;
+    ctx.beginPath(); ctx.moveTo(gx, pad.top); ctx.lineTo(gx, pad.top + plotH); ctx.stroke();
+  }
+  for (var i = 0; i <= yTicks; i++) {
+    var gy = pad.top + (plotH / yTicks) * i;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + plotW, gy); ctx.stroke();
+  }
+
+  // 축선 (0,0 중심, 굵게)
+  ctx.strokeStyle = "#94a3b8";
+  ctx.lineWidth = 1.2;
+  // X축 (수평)
+  ctx.beginPath(); ctx.moveTo(pad.left, cy); ctx.lineTo(pad.left + plotW, cy); ctx.stroke();
+  // Y축 (수직)
+  ctx.beginPath(); ctx.moveTo(cx, pad.top); ctx.lineTo(cx, pad.top + plotH); ctx.stroke();
+
+  // X축 화살표
+  ctx.beginPath();
+  ctx.moveTo(pad.left + plotW - 6, cy - 4);
+  ctx.lineTo(pad.left + plotW, cy);
+  ctx.lineTo(pad.left + plotW - 6, cy + 4);
+  ctx.stroke();
+  // Y축 화살표
+  ctx.beginPath();
+  ctx.moveTo(cx - 4, pad.top + 6);
+  ctx.lineTo(cx, pad.top);
+  ctx.lineTo(cx + 4, pad.top + 6);
+  ctx.stroke();
+
+  // 축 라벨
+  ctx.fillStyle = "#64748b";
+  ctx.font = "10px sans-serif";
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (var i = 0; i <= yTicks; i++) {
+    var val = maxAbsY - (2 * maxAbsY / yTicks) * i;
+    if (Math.abs(val) < 0.01) continue;
+    ctx.fillText(val.toFixed(0) + "%p", pad.left - 4, pad.top + (plotH / yTicks) * i);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (var i = 0; i <= xTicks; i++) {
+    var val = -maxAbsX + (2 * maxAbsX / xTicks) * i;
+    if (Math.abs(val) < 0.01) continue;
+    ctx.fillText(val.toFixed(0) + "%", pad.left + (plotW / xTicks) * i, pad.top + plotH + 4);
+  }
+
+  // 축 제목
+  ctx.font = "11px -apple-system, sans-serif";
+  ctx.fillStyle = "#334155";
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.fillText("\ub9e4\ub9e4\uac00 \ubcc0\ub3d9\ub960 (6\uac1c\uc6d4)", cw / 2, ch - 10);
+  ctx.save();
+  ctx.translate(12, ch / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText("\uc804\uc138\uac00\uc728 \ubcc0\ub3d9 (%p)", 0, 0);
+  ctx.restore();
+
+  // 버블 크기 계산
+  var maxVol = 1;
+  data.forEach(function (d) { if (d.volume > maxVol) maxVol = d.volume; });
+  var minR = 8, maxBubbleR = 28;
+
+  // 버블 렌더링
+  var bubbleColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];
+  var labelPositions = [];
+  data.forEach(function (d, idx) {
+    var bx = xPos(d.x);
+    var by = yPos(d.y);
+    var r = minR + Math.sqrt(d.volume / maxVol) * (maxBubbleR - minR);
+
+    // 버블
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = bubbleColors[idx % bubbleColors.length];
+    ctx.beginPath();
+    ctx.arc(bx, by, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = bubbleColors[idx % bubbleColors.length];
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(bx, by, r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 라벨 (충돌 방지)
+    var labelText = d.name;
+    ctx.font = "10px -apple-system, sans-serif";
+    var tw = ctx.measureText(labelText).width;
+    var ly = by - r - 6;
+    if (ly < pad.top + 18) ly = by + r + 12;
+    var lx = bx;
+    var overlap = false;
+    for (var j = 0; j < labelPositions.length; j++) {
+      if (Math.abs(lx - labelPositions[j].x) < tw * 0.7 && Math.abs(ly - labelPositions[j].y) < 11) {
+        overlap = true; break;
+      }
+    }
+    if (overlap) ly = by + r + 12;
+
+    ctx.fillStyle = "#334155";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+    ctx.fillText(labelText, lx, ly);
+    labelPositions.push({ x: lx, y: ly });
+  });
+}
