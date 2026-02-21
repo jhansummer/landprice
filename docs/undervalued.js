@@ -175,14 +175,15 @@ function renderItem(r, idx) {
     ? ((r.avg_36 / r.compare_avg_36 - 1) * 100)
     : null;
 
-  // 최근 6개월 행
+  // 카드 가격: recent_avg = 백엔드에서 산출한 6개월 평균 총매매가(만원)
+  // 차트 범례: by_apt 개별 거래에서 산출한 3개월 평균 총매매가(만원)
   const pct = document.createElement("div");
   pct.className = "rank-pct";
   pct.innerHTML = "\uCD5C\uADFC6\uAC1C\uC6D4 " + fmtEok(r.recent_avg)
     + (ratio6 !== null ? " <span class=\"pct-value\">" + ratio6.toFixed(1) + "%</span>" : "");
   change.appendChild(pct);
 
-  // 비교평균 행
+  // compare_avg_recent = 비교 단지들의 6개월 평균 총매매가(만원)
   const diff = document.createElement("div");
   diff.className = "rank-diff";
   diff.textContent = "\uBE44\uAD50\uD3C9\uADE0 " + fmtEok(r.compare_avg_recent);
@@ -348,15 +349,33 @@ async function toggleCompare(card, r) {
 
   const txnsList = await Promise.all(ids.map(loadTxns));
 
+  // by_apt 가격: 총 매매가(만원). 차트에 개별 거래를 plot하고
+  // 범례에는 최근 3개월 평균가를 표시하여 카드(6개월 평균)와의 괴리를 줄임
   const seriesList = ids.map(function (id, i) {
     const txns = txnsList[i] || [];
     const points = txns.map(function (t) {
       return { t: new Date(t[0]).getTime(), price: t[1] };
     });
     const meta = (i === 0) ? r : (r.compare || [])[i - 1];
-    const last = txns[txns.length - 1];
-    const lastDate = last ? last[0] : "";
-    const lastPrice = last ? last[1] : null;
+
+    // 최근 3개월 평균가 계산 (총 매매가 만원 기준)
+    var now = Date.now();
+    var threeMonthsAgo = now - 90 * 24 * 60 * 60 * 1000;
+    var recentTxns = txns.filter(function (t) {
+      return new Date(t[0]).getTime() >= threeMonthsAgo;
+    });
+    var avg3m = null;
+    if (recentTxns.length > 0) {
+      var sum = 0;
+      recentTxns.forEach(function (t) { sum += t[1]; });
+      avg3m = sum / recentTxns.length;
+    }
+    // 3개월 내 거래 없으면 마지막 거래가로 대체
+    var last = txns[txns.length - 1];
+    var displayPrice = avg3m !== null ? avg3m : (last ? last[1] : null);
+    var displayLabel = avg3m !== null ? "3개월평균" : "최근거래";
+    var lastDate = last ? last[0] : "";
+
     return {
       id: id,
       name: meta ? meta.apt_name : id,
@@ -366,7 +385,8 @@ async function toggleCompare(card, r) {
       color: chartColors[i % chartColors.length],
       points: points,
       last_date: lastDate,
-      last_price: lastPrice
+      last_price: displayPrice,
+      price_label: displayLabel
     };
   });
 
@@ -390,7 +410,8 @@ async function toggleCompare(card, r) {
     const dateText = s.last_date ? s.last_date : "";
     const locText = (s.sigungu || s.dong_name) ? (" · " + s.sigungu + " " + s.dong_name) : "";
     const areaText = s.area_m2 ? " " + s.area_m2 + "m²" : "";
-    label.textContent = s.name + areaText + locText + " · 최근거래 " + dateText + " · " + priceText;
+    // price_label: "3개월평균" 또는 "최근거래" (3개월 내 거래 없을 때)
+    label.textContent = s.name + areaText + locText + " · " + (s.price_label || "최근거래") + " " + dateText + " · " + priceText;
     item.appendChild(label);
 
     legend.appendChild(item);

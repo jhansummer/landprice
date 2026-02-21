@@ -936,16 +936,17 @@ function drawPeakChart(canvas, txns, apt) {
 }
 
 /* ── 신고가검색용 간단 추이 차트 (직전거래 대비 상승폭) ── */
+/* txns: by_apt/{id}.json — 각 항목 [날짜, 총매매가(만원)] */
 function drawNewHighChart(canvas, txns) {
   if (!txns || !txns.length) return;
 
   function fmtPrice(v) {
     if (v >= 10000) return (v / 10000).toFixed(v % 10000 === 0 ? 0 : 1) + "억";
-    if (v >= 1000) return (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + "천";
-    return Math.round(v) + "";
+    if (v >= 1000) return (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + "천만";
+    return Math.round(v) + "만";
   }
 
-  // 월별 평균
+  // 월별 평균 (by_apt 가격은 이미 총 매매가(만원))
   var monthlyMap = {};
   txns.forEach(function (t) {
     var d = new Date(t[0]);
@@ -1416,13 +1417,13 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
 }
 
 /**
- * 4축 레이더 차트 (교통/학군/거주가치/재건축)
+ * 6축 레이더 차트 (교통/학군/인프라/환금성/실거주/재건축)
  * @param {HTMLCanvasElement} canvas
- * @param {{ transport: number, school: number, livability: number, rebuild: number }} scores - 각 0~100
+ * @param {Object} scores - 각 0~100
  */
 function drawRadarChart(canvas, scores) {
-  var labels = ["교통", "학군", "실거주", "재건축"];
-  var keys = ["transport", "school", "livability", "rebuild"];
+  var labels = ["교통", "학군", "인프라", "환금성", "실거주", "재건축"];
+  var keys = ["transport", "school", "infra", "liquidity", "livability", "rebuild"];
   var values = keys.map(function (k) { return scores[k] || 0; });
 
   var dpr = window.devicePixelRatio || 1;
@@ -1440,7 +1441,7 @@ function drawRadarChart(canvas, scores) {
   var cx = cw / 2;
   var cy = ch / 2;
   var maxR = Math.min(cw, ch) / 2 - 24;
-  var n = 4;
+  var n = 6;
   var angleStep = (Math.PI * 2) / n;
   var startAngle = -Math.PI / 2; // top
 

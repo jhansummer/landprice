@@ -238,6 +238,7 @@ function renderCard(apt) {
     card.appendChild(chartWrap);
 
     // 비동기로 by_apt 데이터 로드 후 차트 그리기
+    // by_apt 가격은 총 매매가(만원) — 면적 변환 불필요
     (function (cvs, aptId) {
       fetch("data/apt_trade/by_apt/" + aptId + ".json?t=" + Date.now())
         .then(function (res) { return res.ok ? res.json() : null; })
