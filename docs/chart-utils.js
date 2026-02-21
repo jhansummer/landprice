@@ -664,7 +664,10 @@ function drawPeakChart(canvas, txns, apt) {
   var currentPrice = data[data.length - 1].price;
 
   // 고점 대비 %, 저점 대비 회복 %
+  // 차트 자체 계산값 (총매매가 기준) vs 카드 값 (m²당 단가 기준)
+  // → 카드와 일관성을 위해 apt.vs_peak 이 있으면 그 값을 표시에 사용
   var vsPeakPct = peakPrice > 0 ? ((currentPrice - peakPrice) / peakPrice * 100) : 0;
+  var displayVsPeak = (apt && apt.vs_peak != null) ? apt.vs_peak : vsPeakPct;
   var recoveryPct = (troughIdx > peakIdx && peakPrice > troughPrice)
     ? ((currentPrice - troughPrice) / (peakPrice - troughPrice) * 100) : 0;
 
@@ -833,8 +836,8 @@ function drawPeakChart(canvas, txns, apt) {
   var bridgeMidY = (peakY + curY) / 2;
   ctx.font = "bold 10px sans-serif";
   ctx.textAlign = "right";
-  ctx.fillStyle = vsPeakPct >= 0 ? "#16a34a" : "#ef4444";
-  var gapLabel = (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%";
+  ctx.fillStyle = displayVsPeak >= 0 ? "#16a34a" : "#ef4444";
+  var gapLabel = (displayVsPeak >= 0 ? "+" : "") + Number(displayVsPeak).toFixed(1) + "%";
   ctx.fillText(gapLabel, bridgeX - 4, bridgeMidY + 3);
 
   // 라벨 위치 계산 (겹침 방지)
@@ -923,8 +926,8 @@ function drawPeakChart(canvas, txns, apt) {
   }
   ctx.font = "bold 12px sans-serif";
   ctx.textAlign = "right";
-  ctx.fillStyle = vsPeakPct >= 0 ? "#16a34a" : "#ef4444";
-  ctx.fillText("\uace0\uc810\ub300\ube44 " + (vsPeakPct >= 0 ? "+" : "") + vsPeakPct.toFixed(1) + "%", pad.left + plotW, row1Y);
+  ctx.fillStyle = displayVsPeak >= 0 ? "#16a34a" : "#ef4444";
+  ctx.fillText("\uace0\uc810\ub300\ube44 " + (displayVsPeak >= 0 ? "+" : "") + Number(displayVsPeak).toFixed(1) + "%", pad.left + plotW, row1Y);
 
   // 상단 Row 2: 저점대비 회복률(우)
   if (troughIdx > peakIdx && recoveryPct > 0) {

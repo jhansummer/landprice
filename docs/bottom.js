@@ -1,4 +1,13 @@
-/* APT Mine - 바닥 근처 단지 찾기 */
+/* APT Mine - 바닥 근처 단지 찾기
+ *
+ * 가격 단위 정리:
+ *   - bottom/{sido}.json  → apt.price, apt.peak 등은 m²당 단가 (만원/m²)
+ *   - by_apt/{id}.json    → 각 거래 [날짜, 총매매가(만원)]
+ *
+ * 카드(renderCard)에는 m²당 단가를 표시하고,
+ * 차트(drawPeakChart)는 by_apt의 총매매가를 월별 평균하여 표시.
+ * → 카드와 차트의 가격 단위가 다르나, 각각 의미 있는 값을 표시.
+ */
 var bottomIndexPath = "data/apt_trade/bottom/index.json";
 var bottomBase = "data/apt_trade/bottom/";
 var byAptBase = "data/apt_trade/by_apt/";
@@ -407,7 +416,7 @@ async function toggleChart(card, apt) {
     curCard.innerHTML =
       "<div style='font-size:10px;color:#1d4ed8;font-weight:600;margin-bottom:4px'>\uD604\uC7AC</div>" +
       "<div style='font-size:14px;font-weight:700;color:#2563eb'>" + fmtEokLocal(txCurPrice) + "</div>" +
-      "<div style='font-size:9px;color:" + (txVsPeak >= 0 ? "#16a34a" : "#ef4444") + ";font-weight:600;margin-top:2px'>\uACE0\uC810\uB300\uBE44 " + (txVsPeak >= 0 ? "+" : "") + txVsPeak.toFixed(1) + "%</div>";
+      "<div style='font-size:9px;color:" + (apt.vs_peak >= 0 ? "#16a34a" : "#ef4444") + ";font-weight:600;margin-top:2px'>\uACE0\uC810\uB300\uBE44 " + (apt.vs_peak >= 0 ? "+" : "") + Number(apt.vs_peak).toFixed(1) + "%</div>";
     summary.appendChild(curCard);
 
     // 회복/변동 카드
