@@ -128,8 +128,11 @@ function collectNewHighApts() {
           // 면적 필터
           if (apt.area_m2 < areaMin || apt.area_m2 > areaMax) return;
 
+          // latest_price: 최신 월 평균 단가, 없으면 3개월 평균(price) 사용
+          var curPrice = apt.latest_price || apt.price;
+
           // 총 매매가 (억원) 필터
-          var totalPriceEok = (apt.price * apt.area_m2) / 10000;
+          var totalPriceEok = (curPrice * apt.area_m2) / 10000;
           if (totalPriceEok < priceMinEok || totalPriceEok > priceMaxEok) return;
 
           items.push({
@@ -138,9 +141,9 @@ function collectNewHighApts() {
             district: distName,
             dong: dongItem.name,
             area_m2: apt.area_m2,
-            price: apt.price,
+            price: curPrice,
             peak: apt.all_time_peak,
-            vs_peak: apt.vs_all_time_peak,
+            vs_peak: apt.latest_vs_atp != null ? apt.latest_vs_atp : apt.vs_all_time_peak,
             chg6m: apt.chg6m,
             status: apt.status,
             last_deal_date: apt.last_deal_date || ""
