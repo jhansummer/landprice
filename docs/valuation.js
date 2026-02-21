@@ -776,7 +776,7 @@
     return wrap;
   }
 
-  /* ── location value ranking (시세 저평가 only) ── */
+  /* ── 초기 화면 (탭: 시세 저평가 / 입지점수 랭킹) ── */
   function showLocationValueRanking() {
     if (!globalIndex) { showHint(); return; }
     resultsEl.innerHTML = "";
@@ -784,9 +784,194 @@
     var totalCount = 0;
     globalIndex.sido_order.forEach(function (s) { var d = sidoCache[s]; if (d) totalCount += (d.count || 0); });
 
+    // 탭 UI
+    var mainTabWrap = document.createElement("div");
+    mainTabWrap.style.cssText = "display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border,#e5e7eb)";
+
+    var tabPrice = document.createElement("button");
+    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
+    tabPrice.textContent = "\uC2DC\uC138 \uC800\uD3C9\uAC00";
+
+    var tabLocRank = document.createElement("button");
+    tabLocRank.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
+    tabLocRank.textContent = "\uC785\uC9C0\uC810\uC218 \uB7AD\uD0B9";
+
     var contentArea = document.createElement("div");
+
+    function activateTab(which) {
+      var isLoc = which === "locrank";
+      tabPrice.style.borderBottomColor = isLoc ? "transparent" : "#2563eb";
+      tabPrice.style.color = isLoc ? "var(--muted)" : "#2563eb";
+      tabLocRank.style.borderBottomColor = isLoc ? "#2563eb" : "transparent";
+      tabLocRank.style.color = isLoc ? "#2563eb" : "var(--muted)";
+      if (isLoc) renderLocScoreRanking(contentArea, totalCount);
+      else renderPriceUndervaluedContent(contentArea, totalCount);
+    }
+
+    tabPrice.addEventListener("click", function () { activateTab("price"); });
+    tabLocRank.addEventListener("click", function () { activateTab("locrank"); });
+
+    mainTabWrap.appendChild(tabPrice);
+    mainTabWrap.appendChild(tabLocRank);
+    resultsEl.appendChild(mainTabWrap);
     resultsEl.appendChild(contentArea);
-    renderPriceUndervaluedContent(contentArea, totalCount);
+
+    activateTab("price");
+  }
+
+  /* ── 입지점수 랭킹 content ── */
+  function renderLocScoreRanking(container, totalCount) {
+    container.innerHTML = "";
+
+    if (!valuationGeo) {
+      container.innerHTML = '<div class="val-empty">\uC785\uC9C0\uC810\uC218 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+      return;
+    }
+
+    var intro = document.createElement("div");
+    intro.className = "val-hint";
+    intro.innerHTML = '<b>\uB2E8\uC9C0\uBCC4 \uC785\uC9C0\uC810\uC218 \uB7AD\uD0B9</b><br>'
+      + '<span style="font-size:11px">\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC778\uD504\uB77C\u00B7\uC815\uBE44\uAD6C\uC5ED \uC885\uD569\uC810\uC218 \uAE30\uC900 \uC0C1\uC704 20\uAC1C \uB2E8\uC9C0</span>';
+    container.appendChild(intro);
+
+    // 시도별로 입지점수 상위 20개 수집
+    var sidoGroups = {};
+    globalIndex.sido_order.forEach(function (sido) {
+      var data = sidoCache[sido];
+      if (!data || !data.items) return;
+      var scored = [];
+      data.items.forEach(function (item) {
+        var geo = valuationGeo[item.id];
+        if (!geo || geo.loc_score == null) return;
+        scored.push({
+          id: item.id,
+          apt_name: item.apt_name,
+          sigungu: item.sigungu,
+          dong_name: item.dong_name,
+          area_m2: item.area_m2,
+          current_price: item.current_price,
+          loc_score: geo.loc_score,
+          academy_score: geo.academy_score,
+          infra_score: geo.infra_score,
+          liquidity_score: geo.liquidity_score,
+          subway_dist: geo.subway_dist,
+          subway: geo.subway,
+          subway_line: geo.subway_line
+        });
+      });
+      scored.sort(function (a, b) { return b.loc_score - a.loc_score; });
+      if (scored.length) sidoGroups[sido] = scored.slice(0, 20);
+    });
+
+    var sidoTabs = document.createElement("div");
+    sidoTabs.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0";
+    var contentDiv = document.createElement("div");
+
+    function renderSido(sido) {
+      contentDiv.innerHTML = "";
+      sidoTabs.querySelectorAll("button").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.sido === sido);
+      });
+
+      var items = sidoGroups[sido] || [];
+      if (!items.length) {
+        contentDiv.innerHTML = '<div class="val-empty">\uD574\uB2F9 \uC2DC\uB3C4\uC5D0 \uC785\uC9C0\uC810\uC218 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+        return;
+      }
+
+      items.forEach(function (item, idx) {
+        var card = document.createElement("div");
+        card.className = "val-card";
+        card.style.cursor = "pointer";
+
+        var header = document.createElement("div");
+        header.className = "val-header";
+        var rank = document.createElement("span");
+        rank.style.cssText = "font-size:12px;font-weight:700;color:var(--muted);margin-right:6px";
+        rank.textContent = "#" + (idx + 1);
+        header.appendChild(rank);
+
+        var scoreBadge = document.createElement("span");
+        var sc = item.loc_score;
+        var badgeColor = sc >= 70 ? "#dbeafe;color:#2563eb" : sc >= 40 ? "#fef3c7;color:#d97706" : "#f1f5f9;color:#64748b";
+        scoreBadge.style.cssText = "font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;background:" + badgeColor;
+        scoreBadge.textContent = "\uC785\uC9C0 " + sc + "\uC810";
+        header.appendChild(scoreBadge);
+        card.appendChild(header);
+
+        var name = document.createElement("div");
+        name.className = "val-name";
+        name.textContent = item.apt_name;
+        card.appendChild(name);
+
+        var info = document.createElement("div");
+        info.className = "val-info";
+        info.textContent = item.sigungu + " " + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2 \u00B7 " + fmtEok(item.current_price);
+        card.appendChild(info);
+
+        // 세부 점수 바
+        var bars = document.createElement("div");
+        bars.style.cssText = "display:flex;gap:8px;margin:6px 0 2px;font-size:10px;color:var(--muted)";
+        var labels = [
+          ["\uD559\uAD70", item.academy_score],
+          ["\uC778\uD504\uB77C", item.infra_score],
+          ["\uD658\uAE08\uC131", item.liquidity_score]
+        ];
+        labels.forEach(function (l) {
+          if (l[1] == null) return;
+          var s = document.createElement("span");
+          var c = l[1] >= 70 ? "#2563eb" : l[1] >= 40 ? "#f59e0b" : "#94a3b8";
+          s.innerHTML = l[0] + ' <b style="color:' + c + '">' + l[1] + '</b>';
+          bars.appendChild(s);
+        });
+        if (item.subway) {
+          var subwaySpan = document.createElement("span");
+          subwaySpan.innerHTML = '\uC5ED ' + APTCommon.escapeHTML(item.subway) + ' <b>' + (item.subway_dist < 1 ? (item.subway_dist * 1000).toFixed(0) + 'm' : item.subway_dist.toFixed(1) + 'km') + '</b>';
+          bars.appendChild(subwaySpan);
+        }
+        card.appendChild(bars);
+
+        var cta = document.createElement("div");
+        cta.style.cssText = "margin-top:6px;text-align:right";
+        var link = document.createElement("a");
+        link.className = "apt-detail-link";
+        link.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
+        link.textContent = "\uB2E8\uC9C0\uC0C1\uC138";
+        link.addEventListener("click", function (e) { e.stopPropagation(); });
+        cta.appendChild(link);
+        card.appendChild(cta);
+
+        card.addEventListener("click", function () {
+          searchInput.value = item.apt_name;
+          doSearch(item.apt_name);
+          updateURL();
+        });
+
+        contentDiv.appendChild(card);
+      });
+    }
+
+    var sidos = Object.keys(sidoGroups);
+    sidos.forEach(function (sido) {
+      var items = sidoGroups[sido] || [];
+      if (!items.length) return;
+      var btn = document.createElement("button");
+      btn.className = "sort-btn";
+      btn.dataset.sido = sido;
+      btn.textContent = sido + " (" + items.length + ")";
+      btn.addEventListener("click", function () { renderSido(sido); });
+      sidoTabs.appendChild(btn);
+    });
+
+    container.appendChild(sidoTabs);
+    container.appendChild(contentDiv);
+
+    if (sidos.length) renderSido(sidos[0]);
+
+    var hint = document.createElement("div");
+    hint.style.cssText = "text-align:center;margin-top:16px;font-size:12px;color:var(--muted)";
+    hint.textContent = "\uC804\uAD6D " + totalCount.toLocaleString() + "\uAC1C \uB2E8\uC9C0 \uAC80\uC0C9 \uAC00\uB2A5 \u2014 \uC704 \uAC80\uC0C9\uCC3D\uC5D0 \uB2E8\uC9C0\uBA85\uC744 \uC785\uB825\uD558\uC138\uC694";
+    container.appendChild(hint);
   }
 
   /* ── 시세 저평가 content ── */

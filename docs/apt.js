@@ -294,7 +294,9 @@
     return {
       transport: transport,
       school: geo.academy_score || 0,
-      livability: geo.livability_score || geo.infra_score || 0,
+      infra: geo.infra_score || 0,
+      liquidity: geo.liquidity_score || 0,
+      livability: geo.livability_score || 0,
       rebuild: geo.redev_score || 0
     };
   }
@@ -365,6 +367,7 @@
       if (inf.school) items.push("학교" + inf.school);
       if (inf.hospital) items.push("병원" + inf.hospital);
       if (inf.bank) items.push("은행" + inf.bank);
+      if (inf.academy) items.push("학원" + inf.academy);
       if (items.length) rows.push("🏪 " + items.join(" · "));
     }
 

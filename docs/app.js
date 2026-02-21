@@ -253,15 +253,19 @@ function renderSubTabs() {
 // renderFilters removed - nav is now hardcoded in HTML
 
 /* ── 저평가 / 바닥찾기 데이터 캐시 ── */
-var locationValueCache = null;
+var undervaluedCache = null;
 var bottomCache = {};
 
-function fetchLocationValue() {
-  if (locationValueCache) return Promise.resolve(locationValueCache);
-  return fetch("data/apt_trade/location_value.json?t=" + Date.now())
+function fetchUndervalued() {
+  if (undervaluedCache) return Promise.resolve(undervaluedCache);
+  return fetch("data/apt_trade/undervalued.json?t=" + Date.now())
     .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(d) { locationValueCache = d; return d; })
+    .then(function(d) { undervaluedCache = d; return d; })
     .catch(function() { return null; });
+}
+
+function fmtEok(v) {
+  return (v / 10000).toFixed(2) + "\uC5B5";
 }
 
 function fetchBottom(sido) {
@@ -290,19 +294,12 @@ function renderAnalysisCard(item, idx, type) {
   }
   head.appendChild(name);
 
-  if (type === "undervalued") {
-    var badge = document.createElement("span");
-    badge.className = "analysis-badge badge-loc";
-    badge.textContent = "\uC785\uC9C0 " + (item.loc_score || 0) + "\uC810";
-    head.appendChild(badge);
-  } else {
-    var statusMap = { rising: "\uBC18\uB4F1", flat: "\uD69F\uBCF4", falling: "\uD558\uB77D" };
-    var statusClass = item.status || "flat";
-    var badge = document.createElement("span");
-    badge.className = "analysis-badge badge-" + statusClass;
-    badge.textContent = statusMap[statusClass] || statusClass;
-    head.appendChild(badge);
-  }
+  var statusMap = { rising: "\uBC18\uB4F1", flat: "\uD69F\uBCF4", falling: "\uD558\uB77D" };
+  var statusClass = item.status || "flat";
+  var badge = document.createElement("span");
+  badge.className = "analysis-badge badge-" + statusClass;
+  badge.textContent = statusMap[statusClass] || statusClass;
+  head.appendChild(badge);
   card.appendChild(head);
 
   var detail = document.createElement("div");
@@ -314,18 +311,142 @@ function renderAnalysisCard(item, idx, type) {
 
   var metrics = document.createElement("div");
   metrics.className = "analysis-card-metrics";
-  if (type === "undervalued") {
-    var pricePct = item.price_pct != null ? "\uAC00\uACA9\uC21C\uC704 \uD558\uC704 " + item.price_pct.toFixed(1) + "%" : "";
-    var locGap = item.location_gap != null ? "\uC785\uC9C0\uAC2D +" + item.location_gap.toFixed(1) : "";
-    metrics.innerHTML = '<span>' + pricePct + '</span><span class="metric-sep">|</span><span>' + locGap + '</span>';
-  } else {
-    var vsPeak = item.vs_peak != null ? "\uACE0\uC810\uB300\uBE44 " + item.vs_peak.toFixed(0) + "%" : "";
-    var chg3m = item.chg3m != null ? "3\uAC1C\uC6D4 " + (item.chg3m >= 0 ? "+" : "") + item.chg3m.toFixed(1) + "%" : "";
-    metrics.innerHTML = '<span>' + vsPeak + '</span><span class="metric-sep">|</span><span>' + chg3m + '</span>';
-  }
+  var vsPeak = item.vs_peak != null ? "\uACE0\uC810\uB300\uBE44 " + item.vs_peak.toFixed(0) + "%" : "";
+  var chg3m = item.chg3m != null ? "3\uAC1C\uC6D4 " + (item.chg3m >= 0 ? "+" : "") + item.chg3m.toFixed(1) + "%" : "";
+  metrics.innerHTML = '<span>' + vsPeak + '</span><span class="metric-sep">|</span><span>' + chg3m + '</span>';
   card.appendChild(metrics);
 
   return card;
+}
+
+function renderUndervaluedCard(r, idx) {
+  var card = document.createElement("div");
+  card.className = "analysis-card";
+  card.style.cursor = "pointer";
+
+  var head = document.createElement("div");
+  head.className = "analysis-card-head";
+  var rank = document.createElement("span");
+  rank.className = "analysis-card-rank" + (idx < 3 ? " n" + (idx + 1) : "");
+  rank.textContent = "#" + (idx + 1);
+  head.appendChild(rank);
+  var name = document.createElement("a");
+  name.className = "analysis-card-name";
+  name.textContent = r.apt_name;
+  if (r.id) {
+    name.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido || "");
+  }
+  name.addEventListener("click", function(e) { e.stopPropagation(); });
+  head.appendChild(name);
+  card.appendChild(head);
+
+  var detail = document.createElement("div");
+  detail.className = "analysis-card-detail";
+  detail.textContent = r.sigungu + " " + r.dong_name + " \u00B7 " + r.area_m2 + "m\u00B2";
+  card.appendChild(detail);
+
+  var metrics = document.createElement("div");
+  metrics.className = "analysis-card-metrics";
+  var ratio6 = (r.recent_avg && r.compare_avg_recent)
+    ? ((r.recent_avg / r.compare_avg_recent - 1) * 100)
+    : null;
+  var metricsHtml = "\uCD5C\uADFC6\uAC1C\uC6D4 " + fmtEok(r.recent_avg) + " \u00B7 \uBE44\uAD50\uD3C9\uADE0 " + fmtEok(r.compare_avg_recent);
+  if (ratio6 !== null) {
+    metricsHtml += ' <span class="pct-value">' + ratio6.toFixed(1) + '%</span>';
+  }
+  metrics.innerHTML = metricsHtml;
+  card.appendChild(metrics);
+
+  if (r.compare && r.compare.length) {
+    var compMeta = document.createElement("div");
+    compMeta.className = "analysis-card-detail";
+    compMeta.style.cssText = "font-size:11px;color:#9a9590;margin-top:2px";
+    var names = r.compare.map(function(c) { return c.apt_name; });
+    compMeta.textContent = "\uBE44\uAD50: " + names.join(" \u00B7 ");
+    card.appendChild(compMeta);
+  }
+
+  card.addEventListener("click", function() {
+    toggleCompareMain(card, r);
+  });
+  return card;
+}
+
+function toggleCompareMain(card, r) {
+  var existing = card.querySelector(".compare-panel");
+  if (existing) { existing.remove(); return; }
+
+  var panel = document.createElement("div");
+  panel.className = "compare-panel";
+  panel.addEventListener("click", function(e) { e.stopPropagation(); });
+
+  var header = document.createElement("div");
+  header.className = "compare-header";
+  var title = document.createElement("div");
+  title.className = "compare-title";
+  title.textContent = "\uB2E8\uC9C0\uBCC4 \uC2DC\uC138 \uBE44\uAD50";
+  header.appendChild(title);
+  var closeBtn = document.createElement("button");
+  closeBtn.className = "compare-close";
+  closeBtn.textContent = "\uB2EB\uAE30";
+  closeBtn.addEventListener("click", function(e) { e.stopPropagation(); panel.remove(); });
+  header.appendChild(closeBtn);
+  panel.appendChild(header);
+
+  var canvas = document.createElement("canvas");
+  canvas.className = "compare-chart";
+  panel.appendChild(canvas);
+
+  var legend = document.createElement("div");
+  legend.className = "compare-legend";
+  panel.appendChild(legend);
+
+  var loading = document.createElement("div");
+  loading.className = "rank-detail";
+  loading.textContent = "\uB85C\uB529 \uC911...";
+  panel.appendChild(loading);
+
+  card.appendChild(panel);
+
+  var ids = [r.id].concat((r.compare || []).map(function(c) { return c.id; }));
+  var colors = ["#2563eb", "#ef4444", "#16a34a", "#f59e0b"];
+
+  Promise.all(ids.map(function(id) {
+    return fetch("data/apt_trade/by_apt/" + id + ".json")
+      .then(function(res) { return res.ok ? res.json() : []; })
+      .catch(function() { return []; });
+  })).then(function(txnsList) {
+    loading.remove();
+    var seriesList = ids.map(function(id, i) {
+      var meta = (i === 0) ? r : (r.compare || [])[i - 1];
+      var txns = (txnsList[i] || []).slice().sort(function(a, b) {
+        return new Date(a[0]).getTime() - new Date(b[0]).getTime();
+      });
+      var last = txns[txns.length - 1];
+      return {
+        name: meta ? meta.apt_name : id,
+        history: txns,
+        price: last ? last[1] : null,
+        region: meta ? (meta.sigungu + " " + meta.dong_name) : ""
+      };
+    });
+    requestAnimationFrame(function() {
+      drawMultiScatter(canvas, seriesList);
+    });
+    seriesList.forEach(function(s, idx) {
+      var item = document.createElement("div");
+      item.className = "legend-item";
+      var dot = document.createElement("span");
+      dot.className = "legend-color";
+      dot.style.background = colors[idx % colors.length];
+      item.appendChild(dot);
+      var label = document.createElement("span");
+      var priceText = s.price ? fmtEok(s.price) : "-";
+      label.textContent = s.name + " \u00B7 " + s.region + " \u00B7 \uCD5C\uADFC " + priceText;
+      item.appendChild(label);
+      legend.appendChild(item);
+    });
+  });
 }
 
 /* ── 대시보드 (저평가 + 바닥찾기) ── */
@@ -368,19 +489,19 @@ function renderDashboard() {
   dashEl.appendChild(grid);
 
   // 데이터 로드
-  fetchLocationValue().then(function(data) {
+  fetchUndervalued().then(function(data) {
     uvBody.innerHTML = "";
     if (!data || !data.sidos || !data.sidos[activeSido]) {
       uvBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
       return;
     }
-    var items = data.sidos[activeSido].slice(0, 3);
+    var items = (data.sidos[activeSido].undervalued || []).slice(0, 3);
     if (!items.length) {
       uvBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
       return;
     }
     items.forEach(function(item, i) {
-      uvBody.appendChild(renderAnalysisCard(item, i, "undervalued"));
+      uvBody.appendChild(renderUndervaluedCard(item, i));
     });
   });
 

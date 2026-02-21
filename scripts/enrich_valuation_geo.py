@@ -92,13 +92,15 @@ CATEGORY_CODES = {
     "SC4": "school",    # 학교
     "HP8": "hospital",  # 병원
     "BK9": "bank",      # 은행
+    "AC5": "academy",   # 학원
 }
 INFRA_WEIGHTS = {
     "mart":     {"max": 2,  "weight": 10},
-    "conv":     {"max": 10, "weight": 15},
-    "school":   {"max": 5,  "weight": 30},
-    "hospital": {"max": 5,  "weight": 25},
-    "bank":     {"max": 3,  "weight": 20},
+    "conv":     {"max": 10, "weight": 10},
+    "school":   {"max": 5,  "weight": 20},
+    "hospital": {"max": 5,  "weight": 15},
+    "bank":     {"max": 3,  "weight": 15},
+    "academy":  {"max": 30, "weight": 30},
 }
 INFRA_RADIUS = 1000  # meters
 
@@ -281,6 +283,8 @@ def _call_odsay_api(
         "EY": str(dest_lat),
         "apiKey": ODSAY_API_KEY,
         "SearchPathType": 0,  # 지하철+버스 전체
+        "SearchDate": "20260223",  # 평일 월요일 기준
+        "SearchTime": "0800",      # 출근시간 오전 8시 고정
     }
     try:
         resp = requests.get(ODSAY_API_URL, params=params, timeout=10)
@@ -492,6 +496,15 @@ def get_household_score(households: int) -> int:
     return round(30 + (households - 100) * 70 / 1400)
 
 
+def get_liquidity_score(trade_count: int) -> int:
+    """환금성 점수 (0-100). 3년간 거래건수 기반. 30건=50, 60건+=100."""
+    if trade_count <= 0:
+        return 0
+    if trade_count >= 60:
+        return 100
+    return round(min(100, trade_count * 100 / 60))
+
+
 def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
     """정비구역 근접도 점수 (0-100). 1km 이내 100, 3km 이상 0."""
     if not zones:
@@ -630,7 +643,12 @@ def main() -> int:
                 geo["households"] = hh_data["households"]
                 geo["household_score"] = get_household_score(hh_data["households"])
 
-            # 7. 실거주가치 점수 (브랜드 + 연식 + 세대수 평균)
+            # 7. 환금성 점수 (3년 거래건수 기반)
+            trade_count = apt.get("trade_count", 0)
+            liquidity_s = get_liquidity_score(trade_count)
+            geo["liquidity_score"] = liquidity_s
+
+            # 8. 실거주가치 점수 (브랜드 + 연식 + 세대수 평균)
             livability_parts = [brand_s]
             if age_s is not None:
                 livability_parts.append(age_s)
@@ -639,7 +657,7 @@ def main() -> int:
             livability_s = round(sum(livability_parts) / len(livability_parts))
             geo["livability_score"] = livability_s
 
-            # 8. 입지점수: 교통25% + 학군50% + 인프라5% + 정비구역5% + 실거주가치15%
+            # 9. 입지점수: 교통25% + 학군45% + 인프라5% + 정비구역5% + 실거주가치12% + 환금성8%
             #    교통: 수도권=업무지구(강남/광화문/여의도 중 최근접)70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
             subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
             if geo.get("biz_gangnam") is not None:
@@ -657,20 +675,22 @@ def main() -> int:
                     transport_s = center_s * 0.7 + subway_s_exp * 0.3
                 else:
                     transport_s = subway_s_exp
-            # 가중합: T*5 + S*10 + I*1 + R*1 + L*3 = 20
+            # 가중합: T*5 + S*9 + I*1 + R*1 + L*2 + Q*2 = 20
             w_sum = transport_s * 5
             w_total = 5
             if school_score is not None:
-                w_sum += school_score * 10
-                w_total += 10
+                w_sum += school_score * 9
+                w_total += 9
             if geo.get("infra_score") is not None:
                 w_sum += geo["infra_score"]
                 w_total += 1
             if redev_s is not None:
                 w_sum += redev_s
                 w_total += 1
-            w_sum += livability_s * 3
-            w_total += 3
+            w_sum += livability_s * 2
+            w_total += 2
+            w_sum += liquidity_s * 2
+            w_total += 2
             geo["loc_score"] = round(w_sum / w_total)
 
             geo_result[apt_id] = geo
