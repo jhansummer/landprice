@@ -5,11 +5,13 @@ DOW 환경변수(0=월~6=일)로 요일 오버라이드 가능.
 --dry-run 플래그로 노션 업데이트 없이 콘솔 출력만 확인.
 --volume 플래그로 거래량 TOP5 콘텐츠 생성.
 """
-import json, os, re, sys
+import json, os, re, sys, time
 from collections import defaultdict
 from datetime import datetime
 
 import requests
+
+BY_APT_DIR = os.path.join("docs", "data", "apt_trade", "by_apt")
 
 # ── .env 로드 (로컬 실행용, CI에서는 secrets로 주입) ──
 def _load_dotenv():
@@ -155,7 +157,151 @@ def create_child_page(parent_id, title, blocks):
 # ══════════════════════════════════════════════
 # 월요일: 저평가 TOP 3 (전국)
 # ══════════════════════════════════════════════
-def _fmt_uv_block(sido_label, top3, geo):
+def _get_latest_deal(apt_id):
+    """by_apt/{id}.json에서 최근 실거래 가격(만원 총액)과 날짜 반환."""
+    path = os.path.join(BY_APT_DIR, f"{apt_id}.json")
+    if not os.path.exists(path):
+        return None, None
+    try:
+        with open(path) as f:
+            txns = json.load(f)
+    except Exception:
+        return None, None
+    if not txns:
+        return None, None
+    txns.sort(key=lambda x: x[0])
+    return txns[-1][1], txns[-1][0]  # price(만원), date(YYYY-MM-DD)
+
+
+def _parse_naver_price(s):
+    """네이버 부동산 가격 문자열 파싱: '8억 5,000' → 85000(만원)"""
+    if not s:
+        return None
+    s = s.replace(",", "").strip()
+    eok, man = 0, 0
+    if "억" in s:
+        parts = s.split("억")
+        try:
+            eok = int(parts[0].strip()) * 10000
+        except ValueError:
+            return None
+        rest = parts[1].strip() if len(parts) > 1 else ""
+        if rest:
+            try:
+                man = int(rest)
+            except ValueError:
+                pass
+    else:
+        try:
+            man = int(s)
+        except ValueError:
+            return None
+    total = eok + man
+    return total if total > 0 else None
+
+
+def _fetch_naver_listings(apt_name, sigungu, dong_name, area_m2):
+    """네이버 부동산 매물 호가 조회 (Selenium). 실패 시 None."""
+    try:
+        from selenium import webdriver
+        from selenium.webdriver.chrome.service import Service
+        from selenium.webdriver.chrome.options import Options
+        from webdriver_manager.chrome import ChromeDriverManager
+    except ImportError:
+        return None
+
+    keyword = f"{sigungu} {dong_name} {apt_name}"
+    try:
+        opts = Options()
+        opts.add_argument("--headless=new")
+        opts.add_argument("--no-sandbox")
+        opts.add_argument("--disable-dev-shm-usage")
+        opts.add_argument("--window-size=1920,1080")
+
+        service = Service(ChromeDriverManager(print_first_line=False).install())
+        driver = webdriver.Chrome(service=service, options=opts)
+    except Exception:
+        return None
+
+    try:
+        # 메인 방문 → 쿠키 획득
+        driver.get("https://fin.land.naver.com/")
+        time.sleep(3)
+
+        # 검색 API
+        result = driver.execute_script(f"""
+            try {{
+                const resp = await fetch(
+                    '/front-api/v1/search/complexes?keyword={keyword}&pageNo=1&pageSize=5'
+                );
+                return await resp.json();
+            }} catch(e) {{ return null; }}
+        """)
+        if not result:
+            return None
+
+        # 단지 목록에서 매칭
+        complexes = result.get("result", {}).get("list", [])
+        if not complexes:
+            complexes = result.get("complexList", result.get("list", []))
+        if not complexes:
+            return None
+
+        complex_no = complexes[0].get("complexNo", complexes[0].get("id"))
+        if not complex_no:
+            return None
+
+        time.sleep(2)
+
+        # 매물 조회
+        art_result = driver.execute_script(f"""
+            try {{
+                const resp = await fetch(
+                    '/front-api/v1/complex/article?complexNo={complex_no}&tradTpCd=A1&areaSizeNo=&page=1&sortType=prc'
+                );
+                return await resp.json();
+            }} catch(e) {{ return null; }}
+        """)
+        if not art_result:
+            return None
+
+        articles = art_result.get("result", {}).get("list", [])
+        if not articles:
+            articles = art_result.get("articleList", [])
+        if not articles:
+            return None
+
+        # 면적 필터 (±10%)
+        prices = []
+        for art in articles:
+            art_area = float(art.get("spc2", art.get("area2", 0)) or 0)
+            if art_area > 0 and abs(art_area - area_m2) / area_m2 > 0.10:
+                continue
+            p = _parse_naver_price(art.get("dealOrWarrantPrc", art.get("prc", "")))
+            if p:
+                prices.append(p)
+
+        # 면적 필터 결과 없으면 전체
+        if not prices:
+            for art in articles[:10]:
+                p = _parse_naver_price(art.get("dealOrWarrantPrc", art.get("prc", "")))
+                if p:
+                    prices.append(p)
+
+        if not prices:
+            return None
+        return {"min": min(prices), "max": max(prices), "count": len(prices)}
+
+    except Exception:
+        return None
+    finally:
+        try:
+            driver.quit()
+        except Exception:
+            pass
+
+
+def _fmt_uv_block(sido_label, top3, geo, fetch_listings=False):
     """저평가 TOP3 한 블록(시도별) 생성 — 비교단지·3년/3개월·벌어짐 포함"""
     lines = []
     lines.append(f"📍 {sido_label} 저평가 아파트 TOP 3")
@@ -167,8 +313,16 @@ def _fmt_uv_block(sido_label, top3, geo):
 
     for i, a in enumerate(top3, 1):
         pyeong = int(round(a["area_m2"] / 3.306))
-        price_eok = a["current_price"] / 10000
         recent_eok = a["recent_avg"] / 10000
+
+        # 최근 실거래 정보
+        deal_price, deal_date = _get_latest_deal(a["id"])
+        if deal_price:
+            deal_eok = deal_price / 10000
+            deal_date_fmt = deal_date.replace("-", ".")
+            deal_str = f"최근실거래가 {deal_eok:.1f}억원({deal_date_fmt})"
+        else:
+            deal_str = f"최근실거래가 {recent_eok:.1f}억원"
 
         # geo 정보
         g = geo.get(a["id"], {})
@@ -176,6 +330,20 @@ def _fmt_uv_block(sido_label, top3, geo):
         sline = g.get("subway_line", "")
         walk = g.get("subway_walk_min", "?")
         gangnam = g.get("commute", {}).get("gangnam", "?")
+
+        # 호가 조회 (옵션)
+        listing_str = ""
+        if fetch_listings:
+            listing = _fetch_naver_listings(
+                a["apt_name"], a.get("sigungu", ""), a.get("dong_name", ""), a["area_m2"]
+            )
+            if listing:
+                l_min = listing["min"] / 10000
+                l_max = listing["max"] / 10000
+                if l_min == l_max:
+                    listing_str = f" · 매물 {l_min:.1f}억({listing['count']}건)"
+                else:
+                    listing_str = f" · 매물 {l_min:.1f}~{l_max:.1f}억({listing['count']}건)"
 
         # 비교단지 정보
         compares = a.get("compare", [])
@@ -191,7 +359,8 @@ def _fmt_uv_block(sido_label, top3, geo):
         gap_widening = diff_recent - diff36
 
         lines.append(f"{i}. {a['apt_name']} ({a['sigungu']} {a.get('dong_name', '')}, {pyeong}평)")
-        lines.append(f"  현재 {price_eok:.1f}억 · {station}({sline}) 도보{walk}분 · 강남{gangnam}분")
+        lines.append(f"  {deal_str}{listing_str}")
+        lines.append(f"  {station}({sline}) 도보{walk}분 · 강남{gangnam}분")
         lines.append(f"  비교단지: {comp_names}")
         lines.append(f"  3년 {avg36_eok:.1f}억 vs {comp36_eok:.1f}억 (차이 {diff36:+.1f}%)")
         lines.append(f"  3개월 {recent_eok:.1f}억 vs {comp_recent_eok:.1f}억 (차이 {diff_recent:+.1f}%) → 벌어짐 {gap_widening:+.1f}%p")
