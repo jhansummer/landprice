@@ -34,8 +34,8 @@
     "서울": {
       "clusters": [
         {
-          "size": 237,
-          "avg_current_price": 151732.94,
+          "size": 238,
+          "avg_current_price": 151515.57,
           "members": [
             {
               "id": "be7aa0990e",
@@ -1874,6 +1874,15 @@
               "trade_count": 55
             },
             {
+              "id": "6daf308429",
+              "apt_name": "코오롱",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.94,
+              "current_price": 100000.0,
+              "trade_count": 45
+            },
+            {
               "id": "194b838d88",
               "apt_name": "현대3차",
               "sigungu": "영등포구",
@@ -2278,8 +2287,8 @@
           ]
         },
         {
-          "size": 403,
-          "avg_current_price": 168049.87,
+          "size": 404,
+          "avg_current_price": 167881.43,
           "members": [
             {
               "id": "b6f90edb51",
@@ -5414,6 +5423,15 @@
               "trade_count": 18
             },
             {
+              "id": "6daf308429",
+              "apt_name": "코오롱",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.94,
+              "current_price": 100000.0,
+              "trade_count": 45
+            },
+            {
               "id": "dadb489cd0",
               "apt_name": "우성",
               "sigungu": "동작구",
@@ -6016,8 +6034,8 @@
           ]
         },
         {
-          "size": 133,
-          "avg_current_price": 126884.76,
+          "size": 134,
+          "avg_current_price": 127113.23,
           "members": [
             {
               "id": "ea51d995d6",
@@ -6738,6 +6756,15 @@
               "area_m2": 84.972,
               "current_price": 226000.0,
               "trade_count": 47
+            },
+            {
+              "id": "ef6a8c97de",
+              "apt_name": "삼성",
+              "sigungu": "중구",
+              "dong_name": "신당동",
+              "area_m2": 84.96,
+              "current_price": 157500.0,
+              "trade_count": 50
             },
             {
               "id": "1a6814945e",
@@ -53062,12 +53089,12 @@
           "avg_36": 80073.4375,
           "compare_avg_recent": 112741.66666666667,
           "compare_avg_36": 82623.53174603175,
-          "cluster_avg": 168049.87,
+          "cluster_avg": 167881.43,
           "gap_pct": -18.11,
           "status": "undervalued",
           "trade_count": 22,
           "recent_3m_trades": 3,
-          "cluster_size": 403,
+          "cluster_size": 404,
           "compare": [
             {
               "id": "2c04334374",
@@ -53108,12 +53135,12 @@
           "avg_36": 84154.16666666666,
           "compare_avg_recent": 113988.8888888889,
           "compare_avg_36": 85997.0238095238,
-          "cluster_avg": 168049.87,
+          "cluster_avg": 167881.43,
           "gap_pct": -15.29,
           "status": "undervalued",
           "trade_count": 30,
           "recent_3m_trades": 1,
-          "cluster_size": 403,
+          "cluster_size": 404,
           "compare": [
             {
               "id": "2c04334374",
@@ -53209,12 +53236,12 @@
               "avg_36": 70438.57142857143,
               "compare_avg_recent": 92653.33333333334,
               "compare_avg_36": 77164.08718487396,
-              "cluster_avg": 126884.76,
+              "cluster_avg": 127113.23,
               "gap_pct": -7.24,
               "status": "undervalued",
               "trade_count": 27,
               "recent_3m_trades": 2,
-              "cluster_size": 133,
+              "cluster_size": 134,
               "compare": [
                 {
                   "id": "b86f93cc57",
@@ -53255,12 +53282,12 @@
               "avg_36": 73795.83333333333,
               "compare_avg_recent": 91383.33333333333,
               "compare_avg_36": 80739.81481481482,
-              "cluster_avg": 126884.76,
+              "cluster_avg": 127113.23,
               "gap_pct": -5.91,
               "status": "undervalued",
               "trade_count": 22,
               "recent_3m_trades": 3,
-              "cluster_size": 133,
+              "cluster_size": 134,
               "compare": [
                 {
                   "id": "488f81da19",
@@ -53288,12 +53315,12 @@
               "avg_36": 70158.55764991182,
               "compare_avg_recent": 85663.33333333333,
               "compare_avg_36": 75087.21088435373,
-              "cluster_avg": 126884.76,
+              "cluster_avg": 127113.23,
               "gap_pct": -4.24,
               "status": "market",
               "trade_count": 113,
               "recent_3m_trades": 2,
-              "cluster_size": 133,
+              "cluster_size": 134,
               "compare": [
                 {
                   "id": "bd1b0be9d6",
@@ -53326,12 +53353,12 @@
               "avg_36": 80073.4375,
               "compare_avg_recent": 112741.66666666667,
               "compare_avg_36": 82623.53174603175,
-              "cluster_avg": 168049.87,
+              "cluster_avg": 167881.43,
               "gap_pct": -18.11,
               "status": "undervalued",
               "trade_count": 22,
               "recent_3m_trades": 3,
-              "cluster_size": 403,
+              "cluster_size": 404,
               "compare": [
                 {
                   "id": "2c04334374",
@@ -53372,12 +53399,12 @@
               "avg_36": 84154.16666666666,
               "compare_avg_recent": 113988.8888888889,
               "compare_avg_36": 85997.0238095238,
-              "cluster_avg": 168049.87,
+              "cluster_avg": 167881.43,
               "gap_pct": -15.29,
               "status": "undervalued",
               "trade_count": 30,
               "recent_3m_trades": 1,
-              "cluster_size": 403,
+              "cluster_size": 404,
               "compare": [
                 {
                   "id": "2c04334374",
@@ -53456,12 +53483,12 @@
               "avg_36": 113003.72023809522,
               "compare_avg_recent": 144666.66666666666,
               "compare_avg_36": 114176.9675925926,
-              "cluster_avg": 168049.87,
+              "cluster_avg": 167881.43,
               "gap_pct": -8.59,
               "status": "undervalued",
               "trade_count": 47,
               "recent_3m_trades": 1,
-              "cluster_size": 403,
+              "cluster_size": 404,
               "compare": [
                 {
                   "id": "6fa7eb8595",
@@ -53619,12 +53646,12 @@
               "avg_36": 161518.18181818182,
               "compare_avg_recent": 226000.0,
               "compare_avg_36": 177490.50925925924,
-              "cluster_avg": 126884.76,
+              "cluster_avg": 127113.23,
               "gap_pct": -11.13,
               "status": "undervalued",
               "trade_count": 18,
               "recent_3m_trades": 1,
-              "cluster_size": 133,
+              "cluster_size": 134,
               "compare": [
                 {
                   "id": "dc33b96e94",
@@ -53652,12 +53679,12 @@
               "avg_36": 151474.04761904763,
               "compare_avg_recent": 220250.0,
               "compare_avg_36": 161658.33333333334,
-              "cluster_avg": 151732.94,
+              "cluster_avg": 151515.57,
               "gap_pct": -10.95,
               "status": "undervalued",
               "trade_count": 23,
               "recent_3m_trades": 2,
-              "cluster_size": 237,
+              "cluster_size": 238,
               "compare": [
                 {
                   "id": "06e81b5b64",
@@ -53756,12 +53783,12 @@
               "avg_36": 172047.0588235294,
               "compare_avg_recent": 230541.66666666666,
               "compare_avg_36": 173503.58796296298,
-              "cluster_avg": 151732.94,
+              "cluster_avg": 151515.57,
               "gap_pct": -10.44,
               "status": "undervalued",
               "trade_count": 28,
               "recent_3m_trades": 1,
-              "cluster_size": 237,
+              "cluster_size": 238,
               "compare": [
                 {
                   "id": "ba5fd0e634",
