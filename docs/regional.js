@@ -72,7 +72,7 @@ function updateBreadcrumb() {
 function renderModeToggle() {
   if (!modetabsEl) return;
   modetabsEl.innerHTML = "";
-  [["positioning", "\uC2DC\uC7A5 \uD3EC\uC9C0\uC154\uB2DD"], ["sale", "\uB9E4\uB9E4"], ["jeonse", "\uC804\uC138"]].forEach(function(pair) {
+  [["positioning", "\uB9E4\uB9E4x\uC804\uC138"], ["sale", "\uB9E4\uB9E4"], ["jeonse", "\uC804\uC138"]].forEach(function(pair) {
     var btn = document.createElement("button");
     btn.className = "mode-tab" + (pair[0] === activeMode ? " active" : "");
     btn.textContent = pair[1];
@@ -1659,7 +1659,7 @@ function renderJeonseSections(sidoData, data, regionName) {
   gridEl.appendChild(nextAction);
 }
 
-/* ── 시장 포지셔닝: 데이터 계산 (x=전세가율 변동, y=매매 변동률) ── */
+/* ── 매매x전세: 데이터 계산 (x=전세가율 변동, y=매매 변동률) ── */
 function computePositioningData(sido) {
   if (!globalData || !globalData.sidos || !globalData.sidos[sido]) return [];
   var districts = globalData.sidos[sido].districts;
@@ -1703,14 +1703,14 @@ function computePositioningData(sido) {
   return result;
 }
 
-/* ── 시장 포지셔닝 탭 렌더 ── */
+/* ── 매매x전세 탭 렌더 ── */
 function renderPositioningSections(sidoData) {
   var posData = computePositioningData(activeSido);
   if (!posData.length) {
     var empty = document.createElement("p");
     empty.className = "no-data";
     empty.style.cssText = "text-align:center;padding:40px 0";
-    empty.textContent = activeSido + "의 포지셔닝 데이터가 아직 없습니다.";
+    empty.textContent = activeSido + "의 매매x전세 데이터가 아직 없습니다.";
     gridEl.appendChild(empty);
     return;
   }
@@ -1719,7 +1719,7 @@ function renderPositioningSections(sidoData) {
   posSec.className = "section";
   var posTitle = document.createElement("h2");
   posTitle.className = "section-title";
-  posTitle.textContent = activeSido + " 시장 포지셔닝";
+  posTitle.textContent = activeSido + " 매매x전세";
   posSec.appendChild(posTitle);
 
   // 4분면 비중 요약
