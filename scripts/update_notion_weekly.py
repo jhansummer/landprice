@@ -3,8 +3,10 @@
 
 DOW 환경변수(0=월~6=일)로 요일 오버라이드 가능.
 --dry-run 플래그로 노션 업데이트 없이 콘솔 출력만 확인.
+--volume 플래그로 거래량 TOP5 콘텐츠 생성.
 """
-import json, os, sys
+import json, os, re, sys
+from collections import defaultdict
 from datetime import datetime
 
 import requests
@@ -129,6 +131,25 @@ def append_blocks(page_id, block_list):
             print(f"Error: {r.status_code} {r.text[:300]}")
             return False
     return True
+
+
+def create_child_page(parent_id, title, blocks):
+    """부모 페이지 안에 하위 페이지(파일) 생성"""
+    payload = {
+        "parent": {"page_id": parent_id},
+        "properties": {
+            "title": [{"text": {"content": title}}]
+        },
+        "children": blocks[:100],
+    }
+    r = requests.post(f"{BASE}/pages", headers=HEADERS, json=payload)
+    if r.status_code != 200:
+        print(f"Error creating page: {r.status_code} {r.text[:300]}")
+        return None
+    new_page_id = r.json()["id"]
+    if len(blocks) > 100:
+        append_blocks(new_page_id, blocks[100:])
+    return new_page_id
 
 
 # ══════════════════════════════════════════════
@@ -494,6 +515,113 @@ def generate_sunday():
     return title, lines, None
 
 
+# ══════════════════════════════════════════════
+# 거래량 TOP 5 (서울+경기 합산, --volume)
+# ══════════════════════════════════════════════
+def _load_lawd_codes():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, script_dir)
+    from lawd_codes import LAWD_CODES
+    rev = {}
+    seoul_set = set()
+    for sido, districts in LAWD_CODES.items():
+        for code, sigungu in districts.items():
+            rev[code] = (sido, sigungu)
+            if sido == "서울":
+                seoul_set.add(sigungu)
+    return rev, seoul_set
+
+
+def _short_sigungu(name):
+    """용인시기흥구 → 용인 기흥구"""
+    m = re.match(r"(.+?)시(.+)", name)
+    if m and ("구" in m.group(2) or "군" in m.group(2)):
+        return f"{m.group(1)} {m.group(2)}"
+    return name
+
+
+def generate_volume_ranking():
+    """서울+경기 거래량 TOP5 — YTD vs 전년 동기 & 연간"""
+    rev, seoul_set = _load_lawd_codes()
+    idx = load_json("index.json")
+
+    year = TODAY.year
+    ytd_months = {f"{year}{m:02d}" for m in range(1, TODAY.month + 1)}
+    prev_same = {f"{year - 1}{m:02d}" for m in range(1, TODAY.month + 1)}
+    prev_full = {f"{year - 1}{m:02d}" for m in range(1, 13)}
+
+    ytd_cnt = defaultdict(int)
+    ps_cnt = defaultdict(int)
+    pf_cnt = defaultdict(int)
+
+    for e in idx["files"]:
+        code = str(e["lawd_cd"])
+        if code not in rev:
+            continue
+        sido, sigungu = rev[code]
+        if sido not in ("서울", "경기"):
+            continue
+        ym = e["deal_ym"]
+        if ym in ytd_months:
+            ytd_cnt[sigungu] += e["count"]
+        if ym in prev_same:
+            ps_cnt[sigungu] += e["count"]
+        if ym in prev_full:
+            pf_cnt[sigungu] += e["count"]
+
+    ranked = sorted(ytd_cnt.items(), key=lambda x: -x[1])
+    top5 = ranked[:5]
+
+    # 서울 최다 & 전체 순위
+    seoul_top = [(n, c) for n, c in ranked if n in seoul_set]
+    seoul_rank = next(
+        (i + 1 for i, (n, _) in enumerate(ranked) if n in seoul_set), None
+    )
+
+    ml = f"1~{TODAY.month}월"
+    lines = []
+    lines.append(f"🏠 {year}년 서울+경기 거래량 TOP 5")
+    lines.append(f"({ml} 누적, {TODAY.strftime('%m/%d')} 기준)")
+    lines.append("")
+
+    for i, (name, cnt) in enumerate(top5, 1):
+        sn = _short_sigungu(name)
+        ps = ps_cnt.get(name, 0)
+        pf = pf_cnt.get(name, 0)
+
+        yoy = ""
+        if ps > 0:
+            pct = (cnt / ps - 1) * 100
+            yoy = f"전년동기 {ps:,d}건({pct:+.0f}%)"
+        annual = f"{year - 1}년 연간 {pf:,d}건" if pf > 0 else ""
+        sub = " | ".join(s for s in [yoy, annual] if s)
+
+        lines.append(f"{i}. {sn} {cnt:,d}건")
+        if sub:
+            lines.append(f"   └ {sub}")
+
+    # 서울 TOP3 별도 표시 (TOP5에 없으면)
+    seoul_in_top5 = any(n in seoul_set for n, _ in top5)
+    if not seoul_in_top5 and seoul_top:
+        lines.append("")
+        s3 = " > ".join(
+            f"{_short_sigungu(n)}({c:,d})" for n, c in seoul_top[:3]
+        )
+        lines.append(f"서울 최다: {s3}")
+        if seoul_rank:
+            lines.append(
+                f"(서울 1위 {_short_sigungu(seoul_top[0][0])}는 전체 {seoul_rank}위)"
+            )
+
+    lines.append("")
+    if TODAY.month <= 2:
+        lines.append(f"{TODAY.month}월은 신고접수 중, 추가 반영 예정")
+    lines.append("📊 aptmine.com")
+
+    title = "서울+경기 거래량 TOP 5"
+    return title, lines, top5
+
+
 # ── 요일 → 생성 함수 매핑 ──
 GENERATORS = {
     0: generate_monday,
@@ -518,19 +646,27 @@ DAY_NAMES = {
 
 # ── 메인 ──
 def main():
+    volume_mode = "--volume" in sys.argv
+
     # DOW 환경변수로 요일 오버라이드 (0=월 ~ 6=일)
     dow_env = os.environ.get("DOW")
     if dow_env is not None:
         dow = int(dow_env)
     else:
-        dow = TODAY.weekday()  # 0=월 ~ 6=일
+        dow = TODAY.weekday()
 
-    print(f"요일: {DAY_NAMES[dow]} (DOW={dow})")
+    if volume_mode:
+        print("모드: 거래량 TOP 5")
+    else:
+        print(f"요일: {DAY_NAMES[dow]} (DOW={dow})")
     print(f"Dry-run: {DRY_RUN}")
     print()
 
-    gen_fn = GENERATORS[dow]
-    title, lines, top_items = gen_fn()
+    if volume_mode:
+        title, lines, top_items = generate_volume_ranking()
+    else:
+        gen_fn = GENERATORS[dow]
+        title, lines, top_items = gen_fn()
 
     print(f"주제: {title}")
     print(f"생성 라인: {len(lines)}줄")
@@ -556,23 +692,21 @@ def main():
         print("NOTION_API_KEY가 설정되지 않았습니다. 노션 업데이트를 건너뜁니다.")
         return
 
-    # 날짜별 누적: 삭제 없이 하단에 추가
-    date_str = TODAY.strftime('%Y-%m-%d')
-    blocks = []
-    blocks.append({"type": "divider", "divider": {}})
-    blocks.append(
-        {"type": "heading_2", "heading_2": {"rich_text": [rich(f"{date_str} {DAY_NAMES[dow]} | {title}")]}}
-    )
+    # 하위 페이지(파일) 방식: 부모 페이지 안에 새 페이지 생성
+    date_str = TODAY.strftime("%Y-%m-%d")
+    day_label = f" {DAY_NAMES[dow]} |" if not volume_mode else ""
+    page_title = f"{date_str}{day_label} {title}"
 
-    # Threads 파트 → 코드 블록
+    blocks = []
     for part in thread_parts:
         blocks.append(
             {"type": "code", "code": {"rich_text": [rich(part)], "language": "plain text"}}
         )
 
-    print(f"노션에 {len(blocks)}개 블록 전송 중...")
-    if append_blocks(PAGE_ID, blocks):
-        print("✓ 노션 업데이트 완료!")
+    print(f"노션에 하위 페이지 생성 중... ({page_title})")
+    new_id = create_child_page(PAGE_ID, page_title, blocks)
+    if new_id:
+        print(f"✓ 노션 하위 페이지 생성 완료! (id: {new_id})")
     else:
         print("✗ 노션 업데이트 실패")
 
