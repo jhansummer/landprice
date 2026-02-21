@@ -4,7 +4,6 @@
   var BY_APT_BASE = "data/apt_trade/by_apt/";
   var LOCATION_SCORES_PATH = "data/apt_trade/location_scores.json";
   var VALUATION_GEO_PATH = "data/apt_trade/valuation_geo.json";
-  var LOCATION_VALUE_PATH = "data/apt_trade/location_value.json";
   var CHART_COLORS = ["#2563eb", "#ef4444", "#f59e0b"];
   var STATUS_LABELS = {
     undervalued: "저평가",
@@ -23,7 +22,6 @@
   var locationScores = null;
   var transportMinMax = null;
   var valuationGeo = null;
-  var locationValue = null;
 
   /* ── helpers ── */
   function fmt(v) { return new Intl.NumberFormat("ko-KR").format(Math.round(v)); }
@@ -90,12 +88,6 @@
       .then(function (r) { return r.json(); })
       .then(function (data) { valuationGeo = data; })
       .catch(function () { valuationGeo = null; });
-  }
-  function loadLocationValue() {
-    return fetch(LOCATION_VALUE_PATH + "?t=" + Date.now())
-      .then(function (r) { return r.json(); })
-      .then(function (data) { locationValue = data; })
-      .catch(function () { locationValue = null; });
   }
   function buildTransportMinMax() {
     if (!locationScores) return;
@@ -784,182 +776,17 @@
     return wrap;
   }
 
-  /* ── location value ranking (with tabs) ── */
+  /* ── location value ranking (시세 저평가 only) ── */
   function showLocationValueRanking() {
-    if (!locationValue || !locationValue.sidos) { showHint(); return; }
+    if (!globalIndex) { showHint(); return; }
     resultsEl.innerHTML = "";
 
     var totalCount = 0;
     globalIndex.sido_order.forEach(function (s) { var d = sidoCache[s]; if (d) totalCount += (d.count || 0); });
 
-    // ── Main tabs: 입지 저평가 / 시세 저평가 ──
-    var mainTabWrap = document.createElement("div");
-    mainTabWrap.style.cssText = "display:flex;gap:0;margin-bottom:12px;border-bottom:2px solid var(--border,#e5e7eb)";
-
-    var tabLoc = document.createElement("button");
-    tabLoc.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid transparent;color:var(--muted)";
-    tabLoc.textContent = "\uC785\uC9C0 \uC800\uD3C9\uAC00";
-
-    var tabPrice = document.createElement("button");
-    tabPrice.style.cssText = "flex:1;padding:10px 0;font-size:14px;font-weight:600;border:none;background:none;cursor:pointer;margin-bottom:-2px;border-bottom:2px solid #2563eb;color:#2563eb";
-    tabPrice.textContent = "\uC2DC\uC138 \uC800\uD3C9\uAC00";
-
     var contentArea = document.createElement("div");
-
-    function activateTab(which) {
-      var isLoc = which === "location";
-      tabLoc.style.borderBottomColor = isLoc ? "#2563eb" : "transparent";
-      tabLoc.style.color = isLoc ? "#2563eb" : "var(--muted)";
-      tabPrice.style.borderBottomColor = isLoc ? "transparent" : "#2563eb";
-      tabPrice.style.color = isLoc ? "var(--muted)" : "#2563eb";
-      if (isLoc) renderLocationRankingContent(contentArea, totalCount);
-      else renderPriceUndervaluedContent(contentArea, totalCount);
-    }
-
-    tabLoc.addEventListener("click", function () { activateTab("location"); });
-    tabPrice.addEventListener("click", function () { activateTab("price"); });
-
-    mainTabWrap.appendChild(tabPrice);
-    mainTabWrap.appendChild(tabLoc);
-    resultsEl.appendChild(mainTabWrap);
     resultsEl.appendChild(contentArea);
-
-    activateTab("price");
-  }
-
-  /* ── 입지 저평가 content ── */
-  function renderLocationRankingContent(container, totalCount) {
-    container.innerHTML = "";
-
-    var intro = document.createElement("div");
-    intro.className = "val-hint";
-    intro.innerHTML = '<b>\uC785\uC9C0 \uB300\uBE44 \uC800\uD3C9\uAC00 \uC544\uD30C\uD2B8</b><br>'
-      + '<span style="font-size:11px">\uC785\uC9C0\uC810\uC218(\uAD50\uD1B5\u00B7\uD559\uAD70\u00B7\uC778\uD504\uB77C)\uB294 \uB192\uC740\uB370 \uAC19\uC740 \uC2DC\uB3C4 \uB0B4 \uAC00\uACA9\uC740 \uC0C1\uB300\uC801\uC73C\uB85C \uB0AE\uC740 \uB2E8\uC9C0</span><br>'
-      + '<span style="font-size:11px;color:var(--muted)">\uCE74\uB4DC\uB97C \uB204\uB974\uBA74 \uC720\uC0AC\uB2E8\uC9C0 \uB300\uBE44 \uC2DC\uC138 \uBE44\uAD50\uB97C \uD655\uC778\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4</span>';
-    container.appendChild(intro);
-
-    var sidoTabs = document.createElement("div");
-    sidoTabs.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0";
-    var contentDiv = document.createElement("div");
-
-    function renderSido(sido) {
-      contentDiv.innerHTML = "";
-      sidoTabs.querySelectorAll("button").forEach(function (b) {
-        b.classList.toggle("active", b.dataset.sido === sido);
-      });
-
-      var items = locationValue.sidos[sido] || [];
-      if (!items.length) {
-        contentDiv.innerHTML = '<div class="val-empty">\uD574\uB2F9 \uC2DC\uB3C4\uC5D0 \uC785\uC9C0 \uC800\uD3C9\uAC00 \uB370\uC774\uD130\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
-        return;
-      }
-
-      items.forEach(function (item, idx) {
-        var card = document.createElement("div");
-        card.className = "val-card";
-        card.style.cursor = "pointer";
-
-        var header = document.createElement("div");
-        header.className = "val-header";
-        var rank = document.createElement("span");
-        rank.style.cssText = "font-size:12px;font-weight:700;color:var(--muted);margin-right:6px";
-        rank.textContent = "#" + (idx + 1);
-        header.appendChild(rank);
-
-        var locBadge = document.createElement("span");
-        locBadge.style.cssText = "font-size:10px;font-weight:600;padding:2px 6px;border-radius:8px;background:#dbeafe;color:#2563eb;margin-right:4px";
-        locBadge.textContent = "\uC785\uC9C0 " + item.loc_score + "\uC810";
-        header.appendChild(locBadge);
-
-        if (item.status && item.status !== "market") {
-          var badge = document.createElement("span");
-          badge.className = "val-badge val-badge-" + item.status;
-          badge.textContent = STATUS_LABELS[item.status] || item.status;
-          header.appendChild(badge);
-        }
-
-        if (item.gap_pct != null) {
-          var gap = document.createElement("span");
-          gap.className = "val-gap " + (item.gap_pct < 0 ? "negative" : item.gap_pct > 0 ? "positive" : "");
-          gap.textContent = (item.gap_pct > 0 ? "+" : "") + item.gap_pct.toFixed(1) + "%";
-          header.appendChild(gap);
-        }
-        card.appendChild(header);
-
-        var name = document.createElement("div");
-        name.className = "val-name";
-        name.textContent = item.apt_name;
-        card.appendChild(name);
-
-        var info = document.createElement("div");
-        info.className = "val-info";
-        var priceEok = (item.price * item.area_m2 / 10000).toFixed(1);
-        info.textContent = item.sigungu + " " + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2 \u00B7 " + priceEok + "\uC5B5";
-        card.appendChild(info);
-
-        // Score bars (compact)
-        var bars = document.createElement("div");
-        bars.style.cssText = "display:flex;gap:8px;margin:6px 0 2px;font-size:10px;color:var(--muted)";
-        var locGeo = valuationGeo && valuationGeo[item.id];
-        var labels = [
-          ["\uAD50\uD1B5", item.loc_transport],
-          ["\uD559\uAD70", item.loc_school],
-          ["\uC2E4\uAC70\uC8FC", item.loc_livability],
-          ["\uC778\uD504\uB77C", item.loc_infra]
-        ];
-        labels.forEach(function (l) {
-          if (l[1] == null) return;
-          var s = document.createElement("span");
-          var c = l[1] >= 70 ? "#2563eb" : l[1] >= 40 ? "#f59e0b" : "#94a3b8";
-          s.innerHTML = l[0] + ' <b style="color:' + c + '">' + l[1] + '</b>';
-          bars.appendChild(s);
-        });
-        var pctSpan = document.createElement("span");
-        pctSpan.innerHTML = '\uAC00\uACA9\uC21C\uC704 <b style="color:#ef4444">\uD558\uC704 ' + item.price_pct + '%</b>';
-        bars.appendChild(pctSpan);
-        card.appendChild(bars);
-
-        var locCta = document.createElement("div");
-        locCta.style.cssText = "margin-top:6px;text-align:right";
-        var locLink = document.createElement("a");
-        locLink.className = "apt-detail-link";
-        locLink.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(sido);
-        locLink.textContent = "단지상세";
-        locLink.addEventListener("click", function (e) { e.stopPropagation(); });
-        locCta.appendChild(locLink);
-        card.appendChild(locCta);
-
-        card.addEventListener("click", function () {
-          searchInput.value = item.apt_name;
-          doSearch(item.apt_name);
-          updateURL();
-        });
-
-        contentDiv.appendChild(card);
-      });
-    }
-
-    var sidos = Object.keys(locationValue.sidos);
-    sidos.forEach(function (sido) {
-      var items = locationValue.sidos[sido] || [];
-      if (!items.length) return;
-      var btn = document.createElement("button");
-      btn.className = "sort-btn";
-      btn.dataset.sido = sido;
-      btn.textContent = sido + " (" + items.length + ")";
-      btn.addEventListener("click", function () { renderSido(sido); });
-      sidoTabs.appendChild(btn);
-    });
-
-    container.appendChild(sidoTabs);
-    container.appendChild(contentDiv);
-
-    if (sidos.length) renderSido(sidos[0]);
-
-    var hint = document.createElement("div");
-    hint.style.cssText = "text-align:center;margin-top:16px;font-size:12px;color:var(--muted)";
-    hint.textContent = "\uC804\uAD6D " + totalCount.toLocaleString() + "\uAC1C \uB2E8\uC9C0 \uAC80\uC0C9 \uAC00\uB2A5 \u2014 \uC704 \uAC80\uC0C9\uCC3D\uC5D0 \uB2E8\uC9C0\uBA85\uC744 \uC785\uB825\uD558\uC138\uC694";
-    container.appendChild(hint);
+    renderPriceUndervaluedContent(contentArea, totalCount);
   }
 
   /* ── 시세 저평가 content ── */
@@ -1104,8 +931,7 @@
         return Promise.all([
           loadAllSidos(),
           loadLocationScores(),
-          loadValuationGeo(),
-          loadLocationValue()
+          loadValuationGeo()
         ]).then(function () {
           statusEl.innerHTML = "";
           buildTransportMinMax();

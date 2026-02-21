@@ -698,7 +698,7 @@ async function init() {
     createAutocomplete();
 
     // URL에서 검색어 복원 또는 기본 검색
-    var defaultQuery = urlState.query || "\ub798\ubbf8\uc548";
+    var defaultQuery = urlState.query || "래미안원베일리";
     searchInput.value = defaultQuery;
     doSearch(defaultQuery);
     if (!urlState.query) updateURL();
