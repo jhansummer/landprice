@@ -86,6 +86,11 @@ jobs:
         run: python scripts/generate_apt_pages.py
       - name: Update sitemap lastmod
         run: python scripts/update_sitemap.py
+      - name: Update Notion weekly threads
+        continue-on-error: true
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        run: python scripts/update_notion_weekly.py
       - name: Commit and push if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
