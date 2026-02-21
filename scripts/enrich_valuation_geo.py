@@ -506,16 +506,13 @@ def get_liquidity_score(trade_count: int) -> int:
 
 
 def get_redev_score(lat: float, lng: float, zones: List[Dict]) -> Optional[int]:
-    """정비구역 근접도 점수 (0-100). 1km 이내 100, 3km 이상 0."""
+    """정비구역 해당 여부 점수 (0 or 100). 정비구역 중심 0.3km 이내면 해당 단지로 판단."""
     if not zones:
         return None
     min_dist = min(haversine(lat, lng, z["lat"], z["lng"]) for z in zones)
-    if min_dist <= 0.5:
+    if min_dist <= 0.3:
         return 100
-    if min_dist >= 3.0:
-        return 0
-    # 0.5~3.0km: 선형 감소 100→0
-    return round(100 * (3.0 - min_dist) / 2.5)
+    return 0
 
 
 # ── Main ──

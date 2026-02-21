@@ -132,7 +132,7 @@ def append_blocks(page_id, block_list):
 
 
 # ══════════════════════════════════════════════
-# 월요일: 저평가 TOP 5 (전국)
+# 월요일: 저평가 TOP 3 (전국)
 # ══════════════════════════════════════════════
 def generate_monday():
     data = load_json("undervalued.json")
@@ -144,10 +144,10 @@ def generate_monday():
             all_uv.append(item)
 
     all_uv.sort(key=lambda x: x.get("gap_pct", 0))
-    top5 = all_uv[:5]
+    top5 = all_uv[:3]
 
     lines = []
-    lines.append("📉 이번 주 저평가 아파트 TOP 5 (전국)")
+    lines.append("📉 이번 주 저평가 아파트 TOP 3 (전국)")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
     lines.append("비교단지 대비 최근 시세가 저평가된 단지")
@@ -164,7 +164,7 @@ def generate_monday():
     lines.append("괴리율 = 비교단지 대비 가격 차이 → 음수 클수록 저평가")
     lines.append("aptmine.com")
 
-    title = "저평가 TOP 5 (전국)"
+    title = "저평가 TOP 3 (전국)"
     return title, lines, top5
 
 
@@ -195,12 +195,12 @@ def generate_tuesday():
                 item["commute_gangnam"] = geo[item["id"]]["commute"]["gangnam"]
                 candidates.append(item)
 
-    # 가격 낮은 순 TOP 5
+    # 가격 낮은 순 TOP 3
     candidates.sort(key=lambda x: x.get("current_price", float("inf")))
-    top5 = candidates[:5]
+    top5 = candidates[:3]
 
     lines = []
-    lines.append("🏢 강남 30분 출퇴근 가성비 아파트 TOP 5")
+    lines.append("🏢 강남 30분 출퇴근 가성비 아파트 TOP 3")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
     lines.append("대중교통 기준 강남까지 30분 이내")
@@ -253,10 +253,10 @@ def generate_wednesday():
             candidates.append(item)
 
     candidates.sort(key=lambda x: x.get("gap_pct", 0))
-    top5 = candidates[:5]
+    top5 = candidates[:3]
 
     lines = []
-    lines.append("🎓 학군 좋은 저평가 아파트 TOP 5")
+    lines.append("🎓 학군 좋은 저평가 아파트 TOP 3")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
     lines.append("학원가 점수 70점↑ & 저평가 단지 교집합")
@@ -302,10 +302,10 @@ def generate_thursday():
 
     # vs_all_time_peak 큰 순 (= 역대 최고가 대비 가장 많이 오른)
     all_items.sort(key=lambda x: x.get("vs_all_time_peak", 0), reverse=True)
-    top5 = all_items[:5]
+    top5 = all_items[:3]
 
     lines = []
-    lines.append("🚀 신고가 갱신 아파트 TOP 5")
+    lines.append("🚀 신고가 갱신 아파트 TOP 3")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
     lines.append("역대 최고가를 넘어선 단지들")
@@ -349,10 +349,10 @@ def generate_friday():
             all_turning.append(item)
 
     all_turning.sort(key=lambda x: x["bounce_pct"], reverse=True)
-    top5 = all_turning[:5]
+    top5 = all_turning[:3]
 
     lines = []
-    lines.append("📈 바닥 반등 아파트 TOP 5")
+    lines.append("📈 바닥 반등 아파트 TOP 3")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
     lines.append("저점 찍고 반등 중인 단지들")
@@ -380,10 +380,21 @@ def generate_friday():
 
 
 # ══════════════════════════════════════════════
-# 토요일: 입지 좋은데 싼 아파트
+# 토요일: 인프라 대비 가성비 좋은 아파트 단지
 # ══════════════════════════════════════════════
+def _infra_label(score):
+    if score >= 90:
+        return "최상"
+    if score >= 70:
+        return "우수"
+    if score >= 50:
+        return "양호"
+    return "보통"
+
+
 def generate_saturday():
     data = load_json("location_value.json")
+    geo = load_json("valuation_geo.json")
 
     all_items = []
     for sido in SIDOS:
@@ -393,28 +404,42 @@ def generate_saturday():
             all_items.append(item)
 
     all_items.sort(key=lambda x: x.get("location_gap", 0), reverse=True)
-    top5 = all_items[:5]
+    top5 = all_items[:3]
 
     lines = []
-    lines.append("📍 입지 좋은데 싼 아파트 TOP 5")
+    lines.append("🏘️ 인프라 대비 가성비 좋은 아파트 단지 TOP 3")
     lines.append(f"({TODAY.strftime('%Y.%m.%d')} 기준)")
     lines.append("")
-    lines.append("입지 점수 대비 가격이 낮은 단지")
+    lines.append("주변 인프라는 좋은데 가격은 아직 저렴한 단지")
     lines.append("")
 
     for i, a in enumerate(top5):
         lines.append(
             f'{i + 1}. {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})'
         )
-        lines.append(
-            f'   {fmt_price(a["price"])} | 입지 {a.get("loc_score", "?")}점 | 입지갭 {a["location_gap"]:.1f}'
-        )
+        lines.append(f'   {fmt_price(a["price"])}')
+        g = geo.get(a["id"])
+        if g:
+            subway = g.get("subway", "?")
+            sline = g.get("subway_line", "")
+            walk = g.get("subway_walk_min", "?")
+            gangnam = g.get("commute", {}).get("gangnam", "?")
+            inf = g.get("infra", {})
+            hh = g.get("households", 0)
+            inf_score = g.get("infra_score", 0)
+            academy = inf.get("academy", 0)
+            school = inf.get("school", 0)
+            lines.append(f'   {subway}({sline}) 도보{walk}분, 강남{gangnam}분')
+            lines.append(
+                f'   학원{academy}개·학교{school}개, '
+                f'생활인프라 {_infra_label(inf_score)}, '
+                f'{hh:,}세대'
+            )
 
     lines.append("")
-    lines.append("입지갭 = 입지점수 - 가격순위 → 클수록 가성비 좋음")
     lines.append("aptmine.com")
 
-    title = "입지 좋은데 싼 아파트"
+    title = "인프라 대비 가성비 좋은 단지"
     return title, lines, top5
 
 
@@ -531,28 +556,15 @@ def main():
         print("NOTION_API_KEY가 설정되지 않았습니다. 노션 업데이트를 건너뜁니다.")
         return
 
-    # 기존 블록 삭제
-    print("기존 블록 삭제 중...")
-    for b in get_children(PAGE_ID):
-        delete_block(b["id"])
-
-    # 새 블록 작성
+    # 날짜별 누적: 삭제 없이 하단에 추가
+    date_str = TODAY.strftime('%Y-%m-%d')
     blocks = []
-    blocks.append(
-        {"type": "heading_1", "heading_1": {"rich_text": [rich(f"{DAY_NAMES[dow]} | {title}")]}}
-    )
-    blocks.append(
-        {
-            "type": "paragraph",
-            "paragraph": {"rich_text": [rich(f"업데이트: {TODAY.strftime('%Y-%m-%d %H:%M')}")]}
-        }
-    )
     blocks.append({"type": "divider", "divider": {}})
+    blocks.append(
+        {"type": "heading_2", "heading_2": {"rich_text": [rich(f"{date_str} {DAY_NAMES[dow]} | {title}")]}}
+    )
 
     # Threads 파트 → 코드 블록
-    blocks.append(
-        {"type": "heading_2", "heading_2": {"rich_text": [rich("Threads 게시용")]}}
-    )
     for part in thread_parts:
         blocks.append(
             {"type": "code", "code": {"rich_text": [rich(part)], "language": "plain text"}}
