@@ -202,12 +202,23 @@ def geocode_kakao(query: str) -> Optional[Tuple[float, float, str]]:
     return None
 
 
+def _normalize_region(s: str) -> str:
+    """시군구 비교용 정규화. 공백·특별자치·광역 등 제거.
+    '안산시단원구' == '안산시 단원구', '세종시' == '세종특별자치시'."""
+    s = s.replace(" ", "")
+    s = s.replace("특별자치", "")
+    s = s.replace("특별", "")
+    s = s.replace("광역", "")
+    return s
+
+
 def _verify_sigungu(result: Tuple[float, float, str], sigungu: str, query: str) -> bool:
     """지오코딩 결과 주소가 기대 시군구를 포함하는지 검증."""
     if not sigungu:
         return True
     addr = result[2]
-    if sigungu in addr:
+    # 공백 제거 후 비교 (안산시단원구 vs 안산시 단원구 대응)
+    if _normalize_region(sigungu) in _normalize_region(addr):
         return True
     print(f"  Geocode mismatch: '{query}' → '{addr}' (expected {sigungu})", flush=True)
     return False
@@ -274,7 +285,7 @@ def validate_geocode_cache(cache: Dict) -> int:
             docs = resp.json().get("documents", [])
             if docs:
                 region = docs[0].get("address_name", "")
-                if expected_sigungu not in region:
+                if _normalize_region(expected_sigungu) not in _normalize_region(region):
                     print(f"  Cache mismatch: '{key}' → ({lat},{lng}) → '{region}'", flush=True)
                     bad_keys.append(key)
         except Exception as e:
