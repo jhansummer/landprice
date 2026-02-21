@@ -13,6 +13,7 @@ then writes a single valuation_geo.json mapping apt_id → geo info.
 import json
 import math
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -182,7 +183,8 @@ def load_schools() -> List[Dict]:
 
 # ── Geocoding ──
 
-def geocode_kakao(query: str) -> Optional[Tuple[float, float]]:
+def geocode_kakao(query: str) -> Optional[Tuple[float, float, str]]:
+    """Kakao 키워드 검색으로 좌표+주소를 반환. (lat, lng, address_name) or None."""
     if not KAKAO_REST_API_KEY:
         return None
     url = "https://dapi.kakao.com/v2/local/search/keyword.json"
@@ -193,10 +195,22 @@ def geocode_kakao(query: str) -> Optional[Tuple[float, float]]:
         resp.raise_for_status()
         docs = resp.json().get("documents", [])
         if docs:
-            return float(docs[0]["y"]), float(docs[0]["x"])
+            addr = docs[0].get("address_name", "") or docs[0].get("road_address_name", "")
+            return float(docs[0]["y"]), float(docs[0]["x"]), addr
     except Exception as e:
         print(f"  Geocode error for '{query}': {e}", flush=True)
     return None
+
+
+def _verify_sigungu(result: Tuple[float, float, str], sigungu: str, query: str) -> bool:
+    """지오코딩 결과 주소가 기대 시군구를 포함하는지 검증."""
+    if not sigungu:
+        return True
+    addr = result[2]
+    if sigungu in addr:
+        return True
+    print(f"  Geocode mismatch: '{query}' → '{addr}' (expected {sigungu})", flush=True)
+    return False
 
 
 def geocode_apartment(apt: Dict, cache: Dict) -> Optional[Tuple[float, float]]:
@@ -209,22 +223,72 @@ def geocode_apartment(apt: Dict, cache: Dict) -> Optional[Tuple[float, float]]:
         c = cache[cache_key]
         return c["lat"], c["lng"]
 
+    # 1차: 전체 쿼리
     query = f"{sigungu} {dong} {apt_name}"
     result = geocode_kakao(query)
     time.sleep(API_DELAY)
 
+    # 주소 검증: 시군구 불일치 시 거부
+    if result and not _verify_sigungu(result, sigungu, query):
+        result = None
+
     if not result:
-        # Fallback: 괄호+내용 제거 후 재시도 (e.g. "신동아(22)" → "신동아")
-        import re
+        # 2차: 괄호+내용 제거 후 재시도 (e.g. "신동아(22)" → "신동아")
         clean_name = re.sub(r"\(.*?\)", "", apt_name).strip()
         if clean_name and clean_name != apt_name:
-            result = geocode_kakao(f"{sigungu} {dong} {clean_name}")
+            fallback_q = f"{sigungu} {dong} {clean_name}"
+            result = geocode_kakao(fallback_q)
             time.sleep(API_DELAY)
+            if result and not _verify_sigungu(result, sigungu, fallback_q):
+                result = None
 
     if result:
         cache[cache_key] = {"lat": result[0], "lng": result[1]}
-        return result
+        return result[0], result[1]
     return None
+
+
+def validate_geocode_cache(cache: Dict) -> int:
+    """기존 캐시 항목을 Kakao 역지오코딩으로 검증. 불일치 항목 제거 후 제거 수 반환."""
+    if not KAKAO_REST_API_KEY:
+        print("KAKAO_REST_API_KEY not set. Cannot validate cache.", flush=True)
+        return 0
+
+    url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json"
+    headers = {"Authorization": f"KakaoAK {KAKAO_REST_API_KEY}"}
+    bad_keys = []
+    checked = 0
+
+    for key, coords in list(cache.items()):
+        # 캐시 키에서 시군구 추출 (첫 토큰: "강남구", "수원시" 등)
+        parts = key.split()
+        if not parts:
+            continue
+        expected_sigungu = parts[0]
+
+        lat, lng = coords["lat"], coords["lng"]
+        try:
+            resp = requests.get(url, headers=headers,
+                                params={"x": lng, "y": lat}, timeout=10)
+            resp.raise_for_status()
+            docs = resp.json().get("documents", [])
+            if docs:
+                region = docs[0].get("address_name", "")
+                if expected_sigungu not in region:
+                    print(f"  Cache mismatch: '{key}' → ({lat},{lng}) → '{region}'", flush=True)
+                    bad_keys.append(key)
+        except Exception as e:
+            print(f"  Validate error for '{key}': {e}", flush=True)
+
+        checked += 1
+        if checked % 100 == 0:
+            print(f"  Validated {checked}/{len(cache)} entries...", flush=True)
+        time.sleep(API_DELAY)
+
+    for key in bad_keys:
+        del cache[key]
+    print(f"Cache validation: {checked} checked, {len(bad_keys)} removed", flush=True)
+    return len(bad_keys)
 
 
 # ── Subway proximity ──
@@ -559,6 +623,16 @@ def main() -> int:
     cache_size_before = len(cache)
     print(f"Geocode cache: {cache_size_before} entries", flush=True)
 
+    # --validate-cache: 기존 캐시 역지오코딩 검증
+    if "--validate-cache" in sys.argv:
+        removed = validate_geocode_cache(cache)
+        if removed:
+            save_cache(cache)
+            print(f"Removed {removed} mismatched cache entries. Re-run to re-geocode.", flush=True)
+        else:
+            print("All cache entries valid.", flush=True)
+        return 0
+
     ecache = load_enrichment_cache()
     ecache_size_before = len(ecache)
     print(f"Enrichment cache: {ecache_size_before} entries", flush=True)
@@ -634,8 +708,12 @@ def main() -> int:
             age_s = get_age_score(build_year)
             if age_s is not None:
                 geo["age_score"] = age_s
-            hh_key = f"{apt.get('sigungu', '')}|{apt.get('apt_name', '')}"
+            hh_key = f"{apt.get('sigungu', '')}|{apt.get('dong_name', '')}|{apt.get('apt_name', '')}"
             hh_data = household_data.get(hh_key)
+            if not hh_data:
+                # fallback: 기존 캐시 호환 (동 없는 키)
+                hh_key_old = f"{apt.get('sigungu', '')}|{apt.get('apt_name', '')}"
+                hh_data = household_data.get(hh_key_old)
             if hh_data and hh_data.get("households"):
                 geo["households"] = hh_data["households"]
                 geo["household_score"] = get_household_score(hh_data["households"])
