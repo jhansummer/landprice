@@ -1519,7 +1519,7 @@ function drawRadarChart(canvas, scores) {
 /**
  * 시장 포지셔닝 버블차트 (매매전세 사분면)
  * @param {HTMLCanvasElement} canvas
- * @param {Array} data - [{ name, x (매매변동률%), y (전세가율변동%p), volume (거래량) }]
+ * @param {Array} data - [{ name, x (전세가율변동%p), y (매매변동률%), volume (거래량) }]
  */
 function drawPositioningChart(canvas, data) {
   if (!data || !data.length) return;
@@ -1556,9 +1556,9 @@ function drawPositioningChart(canvas, data) {
   // 4분면 그라데이션 배경
   var quadrants = [
     { x0: cx, y0: pad.top, x1: pad.left + plotW, y1: cy, color: "rgba(239,68,68,0.06)" },       // 우상: 상승기
-    { x0: pad.left, y0: pad.top, x1: cx, y1: cy, color: "rgba(245,158,11,0.06)" },               // 좌상: 전세강세
+    { x0: pad.left, y0: pad.top, x1: cx, y1: cy, color: "rgba(22,163,74,0.06)" },               // 좌상: 회복초기
     { x0: pad.left, y0: cy, x1: cx, y1: pad.top + plotH, color: "rgba(59,130,246,0.06)" },       // 좌하: 침체기
-    { x0: cx, y0: cy, x1: pad.left + plotW, y1: pad.top + plotH, color: "rgba(22,163,74,0.06)" } // 우하: 회복초기
+    { x0: cx, y0: cy, x1: pad.left + plotW, y1: pad.top + plotH, color: "rgba(245,158,11,0.06)" } // 우하: 전세강세
   ];
   quadrants.forEach(function (q) {
     ctx.fillStyle = q.color;
@@ -1570,12 +1570,12 @@ function drawPositioningChart(canvas, data) {
   ctx.globalAlpha = 0.5;
   ctx.fillStyle = "#ef4444"; ctx.textAlign = "center";
   ctx.fillText("\uc0c1\uc2b9\uae30", cx + plotW / 4, pad.top + 14);
-  ctx.fillStyle = "#f59e0b";
-  ctx.fillText("\uc804\uc138\uac15\uc138", cx - plotW / 4, pad.top + 14);
+  ctx.fillStyle = "#16a34a";
+  ctx.fillText("\ud68c\ubcf5\ucd08\uae30", cx - plotW / 4, pad.top + 14);
   ctx.fillStyle = "#3b82f6";
   ctx.fillText("\uce68\uccb4\uae30", cx - plotW / 4, pad.top + plotH - 6);
-  ctx.fillStyle = "#16a34a";
-  ctx.fillText("\ud68c\ubcf5\ucd08\uae30", cx + plotW / 4, pad.top + plotH - 6);
+  ctx.fillStyle = "#f59e0b";
+  ctx.fillText("\uc804\uc138\uac15\uc138", cx + plotW / 4, pad.top + plotH - 6);
   ctx.globalAlpha = 1;
 
   // 그리드
@@ -1619,31 +1619,31 @@ function drawPositioningChart(canvas, data) {
   for (var i = 0; i <= yTicks; i++) {
     var val = maxAbsY - (2 * maxAbsY / yTicks) * i;
     if (Math.abs(val) < 0.01) continue;
-    ctx.fillText(val.toFixed(0) + "%p", pad.left - 4, pad.top + (plotH / yTicks) * i);
+    ctx.fillText(val.toFixed(0) + "%", pad.left - 4, pad.top + (plotH / yTicks) * i);
   }
   ctx.textAlign = "center"; ctx.textBaseline = "top";
   for (var i = 0; i <= xTicks; i++) {
     var val = -maxAbsX + (2 * maxAbsX / xTicks) * i;
     if (Math.abs(val) < 0.01) continue;
-    ctx.fillText(val.toFixed(0) + "%", pad.left + (plotW / xTicks) * i, pad.top + plotH + 4);
+    ctx.fillText(val.toFixed(0) + "%p", pad.left + (plotW / xTicks) * i, pad.top + plotH + 4);
   }
 
   // 축 제목
   ctx.font = "11px -apple-system, sans-serif";
   ctx.fillStyle = "#334155";
   ctx.textAlign = "center"; ctx.textBaseline = "top";
-  ctx.fillText("\ub9e4\ub9e4\uac00 \ubcc0\ub3d9\ub960 (6\uac1c\uc6d4)", cw / 2, ch - 10);
+  ctx.fillText("\uc804\uc138\uac00\uc728 \ubcc0\ub3d9 (6\uac1c\uc6d4)", cw / 2, ch - 10);
   ctx.save();
   ctx.translate(12, ch / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText("\uc804\uc138\uac00\uc728 \ubcc0\ub3d9 (%p)", 0, 0);
+  ctx.fillText("\ub9e4\ub9e4\uac00 \ubcc0\ub3d9\ub960 (%)", 0, 0);
   ctx.restore();
 
   // 버블 크기 계산
   var maxVol = 1;
   data.forEach(function (d) { if (d.volume > maxVol) maxVol = d.volume; });
-  var minR = 8, maxBubbleR = 28;
+  var minR = 5, maxBubbleR = 18;
 
   // 버블 렌더링
   var bubbleColors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316"];

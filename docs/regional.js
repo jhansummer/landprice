@@ -11,7 +11,7 @@ const modetabsEl = document.getElementById("modetabs");
 let globalData = null;
 let activeSido = null;
 let activeDistrict = null;
-let activeMode = "sale";
+let activeMode = "positioning";
 
 var fmt = APTCommon.fmt;
 
@@ -25,6 +25,7 @@ function renderTabs(sidoOrder) {
     renderSections();
     var hashParts = [sido];
     if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+    else if (activeMode === "sale") hashParts.push("\uB9E4\uB9E4");
     history.replaceState(null, "", "#" + hashParts.join("/"));
     APTWatchlist.track("tab_switch", { sido: sido, page: "regional" });
   });
@@ -37,10 +38,15 @@ function renderSubTabs() {
   if (!sidoData) { subtabsEl.innerHTML = ""; return; }
   APTCommon.renderSubTabs(subtabsEl, sidoData.district_order, activeSido, activeDistrict, function (district) {
     activeDistrict = district;
+    if (activeDistrict && activeMode === "positioning") {
+      activeMode = "sale";
+      renderModeToggle();
+    }
     renderSections();
     var hashParts = [activeSido];
     if (activeDistrict) hashParts.push(activeDistrict);
     if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+    else if (activeMode === "sale") hashParts.push("\uB9E4\uB9E4");
     history.replaceState(null, "", "#" + hashParts.join("/"));
     APTWatchlist.track("district_select", { sido: activeSido, district: activeDistrict || "all", page: "regional" });
   });
@@ -66,7 +72,7 @@ function updateBreadcrumb() {
 function renderModeToggle() {
   if (!modetabsEl) return;
   modetabsEl.innerHTML = "";
-  [["sale", "\uB9E4\uB9E4"], ["jeonse", "\uC804\uC138"]].forEach(function(pair) {
+  [["positioning", "\uC2DC\uC7A5 \uD3EC\uC9C0\uC154\uB2DD"], ["sale", "\uB9E4\uB9E4"], ["jeonse", "\uC804\uC138"]].forEach(function(pair) {
     var btn = document.createElement("button");
     btn.className = "mode-tab" + (pair[0] === activeMode ? " active" : "");
     btn.textContent = pair[1];
@@ -79,6 +85,7 @@ function renderModeToggle() {
       var hashParts = [activeSido];
       if (activeDistrict) hashParts.push(activeDistrict);
       if (activeMode === "jeonse") hashParts.push("\uC804\uC138");
+      else if (activeMode === "sale") hashParts.push("\uB9E4\uB9E4");
       history.replaceState(null, "", "#" + hashParts.join("/"));
       APTWatchlist.track("mode_switch", { mode: activeMode, sido: activeSido });
     });
@@ -1652,6 +1659,123 @@ function renderJeonseSections(sidoData, data, regionName) {
   gridEl.appendChild(nextAction);
 }
 
+/* ── 시장 포지셔닝: 데이터 계산 (x=전세가율 변동, y=매매 변동률) ── */
+function computePositioningData(sido) {
+  if (!globalData || !globalData.sidos || !globalData.sidos[sido]) return [];
+  var districts = globalData.sidos[sido].districts;
+  if (!districts) return [];
+
+  var result = [];
+  Object.keys(districts).forEach(function (guName) {
+    var dist = districts[guName];
+    var trend = dist.trend;
+    if (!trend || trend.length < 6) return;
+    var recent6 = trend.slice(-6);
+    var prev6 = trend.slice(-12, -6);
+    if (!prev6.length) prev6 = trend.slice(0, Math.min(6, trend.length));
+
+    var recentAvg = 0, prevAvg = 0;
+    recent6.forEach(function (t) { recentAvg += t[1]; });
+    recentAvg /= recent6.length;
+    prev6.forEach(function (t) { prevAvg += t[1]; });
+    prevAvg /= prev6.length;
+    var priceChgPct = prevAvg > 0 ? ((recentAvg - prevAvg) / prevAvg * 100) : 0;
+
+    var jTrend = dist.jeonse_trend;
+    var jeonseChg = 0;
+    if (jTrend && jTrend.length >= 6) {
+      var jRecent = jTrend[jTrend.length - 1][1];
+      var jPrev = jTrend[jTrend.length - 6][1];
+      jeonseChg = jRecent - jPrev;
+    }
+
+    var vol = 0;
+    var recent3 = trend.slice(-3);
+    recent3.forEach(function (t) { vol += (t[2] || 0); });
+
+    result.push({
+      name: guName,
+      x: Math.round(jeonseChg * 10) / 10,
+      y: Math.round(priceChgPct * 10) / 10,
+      volume: vol
+    });
+  });
+  return result;
+}
+
+/* ── 시장 포지셔닝 탭 렌더 ── */
+function renderPositioningSections(sidoData) {
+  var posData = computePositioningData(activeSido);
+  if (!posData.length) {
+    var empty = document.createElement("p");
+    empty.className = "no-data";
+    empty.style.cssText = "text-align:center;padding:40px 0";
+    empty.textContent = activeSido + "의 포지셔닝 데이터가 아직 없습니다.";
+    gridEl.appendChild(empty);
+    return;
+  }
+
+  var posSec = document.createElement("div");
+  posSec.className = "section";
+  var posTitle = document.createElement("h2");
+  posTitle.className = "section-title";
+  posTitle.textContent = activeSido + " 시장 포지셔닝";
+  posSec.appendChild(posTitle);
+
+  // 4분면 비중 요약
+  var qCounts = { rise: 0, recover: 0, stag: 0, jeonse: 0 };
+  posData.forEach(function (d) {
+    if (d.x >= 0 && d.y >= 0) qCounts.rise++;
+    else if (d.x < 0 && d.y >= 0) qCounts.recover++;
+    else if (d.x < 0 && d.y < 0) qCounts.stag++;
+    else qCounts.jeonse++;
+  });
+  var total = posData.length;
+  var qBar = document.createElement("div");
+  qBar.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px";
+  [
+    { label: "상승기", count: qCounts.rise, color: "#ef4444", bg: "rgba(239,68,68,0.08)" },
+    { label: "회복초기", count: qCounts.recover, color: "#16a34a", bg: "rgba(22,163,74,0.08)" },
+    { label: "침체기", count: qCounts.stag, color: "#3b82f6", bg: "rgba(59,130,246,0.08)" },
+    { label: "전세강세", count: qCounts.jeonse, color: "#f59e0b", bg: "rgba(245,158,11,0.08)" }
+  ].forEach(function (q) {
+    var chip = document.createElement("div");
+    chip.style.cssText = "display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:12px;background:" + q.bg;
+    var dot = document.createElement("span");
+    dot.style.cssText = "width:8px;height:8px;border-radius:50%;background:" + q.color;
+    chip.appendChild(dot);
+    var txt = document.createElement("span");
+    txt.style.cssText = "font-weight:600;color:" + q.color;
+    txt.textContent = q.label;
+    chip.appendChild(txt);
+    var num = document.createElement("span");
+    num.style.cssText = "color:var(--ink-light,#475569);font-weight:500";
+    num.textContent = q.count + "개 (" + (total ? Math.round(q.count / total * 100) : 0) + "%)";
+    chip.appendChild(num);
+    qBar.appendChild(chip);
+  });
+  posSec.appendChild(qBar);
+
+  var posWrap = document.createElement("div");
+  posWrap.style.cssText = "position:relative;height:380px;margin:8px 0";
+  var posCanvas = document.createElement("canvas");
+  posCanvas.style.cssText = "width:100%;height:100%";
+  posWrap.appendChild(posCanvas);
+  posSec.appendChild(posWrap);
+  gridEl.appendChild(posSec);
+  requestAnimationFrame(function () {
+    if (typeof drawPositioningChart === "function") {
+      drawPositioningChart(posCanvas, posData);
+    }
+  });
+
+  // 구별 비교 차트
+  if (sidoData.districts) {
+    var compareSec = renderCompareSection(sidoData);
+    if (compareSec) gridEl.appendChild(compareSec);
+  }
+}
+
 /* ── 메인 렌더 ── */
 function renderSections() {
   gridEl.innerHTML = "";
@@ -1666,6 +1790,11 @@ function renderSections() {
   }
 
   var regionName = activeDistrict || activeSido;
+
+  if (activeMode === "positioning") {
+    renderPositioningSections(sidoData);
+    return;
+  }
 
   if (activeMode === "jeonse") {
     renderJeonseSections(sidoData, data, regionName);
@@ -1806,8 +1935,12 @@ async function init() {
     var sidoOrder = globalData.sido_order || [];
     var hash = decodeURIComponent(location.hash.replace("#", ""));
     var parts = hash.split("/");
-    if (parts[parts.length - 1] === "\uC804\uC138") {
+    var lastPart = parts[parts.length - 1];
+    if (lastPart === "\uC804\uC138") {
       activeMode = "jeonse";
+      parts.pop();
+    } else if (lastPart === "\uB9E4\uB9E4") {
+      activeMode = "sale";
       parts.pop();
     }
     var hashSido = parts[0] || "";
