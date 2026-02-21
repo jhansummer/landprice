@@ -252,154 +252,204 @@ function renderSubTabs() {
 
 // renderFilters removed - nav is now hardcoded in HTML
 
-/* ── 대시보드 ── */
+/* ── 저평가 / 바닥찾기 데이터 캐시 ── */
+var locationValueCache = null;
+var bottomCache = {};
+
+function fetchLocationValue() {
+  if (locationValueCache) return Promise.resolve(locationValueCache);
+  return fetch("data/apt_trade/location_value.json?t=" + Date.now())
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) { locationValueCache = d; return d; })
+    .catch(function() { return null; });
+}
+
+function fetchBottom(sido) {
+  if (bottomCache[sido]) return Promise.resolve(bottomCache[sido]);
+  return fetch("data/apt_trade/bottom/" + encodeURIComponent(sido) + ".json?t=" + Date.now())
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(d) { bottomCache[sido] = d; return d; })
+    .catch(function() { return null; });
+}
+
+function renderAnalysisCard(item, idx, type) {
+  var card = document.createElement("div");
+  card.className = "analysis-card";
+
+  var head = document.createElement("div");
+  head.className = "analysis-card-head";
+  var rank = document.createElement("span");
+  rank.className = "analysis-card-rank" + (idx < 3 ? " n" + (idx + 1) : "");
+  rank.textContent = "#" + (idx + 1);
+  head.appendChild(rank);
+  var name = document.createElement("a");
+  name.className = "analysis-card-name";
+  name.textContent = item.apt_name;
+  if (item.id) {
+    name.href = "apt.html?id=" + encodeURIComponent(item.id) + "&s=" + encodeURIComponent(activeSido || "");
+  }
+  head.appendChild(name);
+
+  if (type === "undervalued") {
+    var badge = document.createElement("span");
+    badge.className = "analysis-badge badge-loc";
+    badge.textContent = "\uC785\uC9C0 " + (item.loc_score || 0) + "\uC810";
+    head.appendChild(badge);
+  } else {
+    var statusMap = { rising: "\uBC18\uB4F1", flat: "\uD69F\uBCF4", falling: "\uD558\uB77D" };
+    var statusClass = item.status || "flat";
+    var badge = document.createElement("span");
+    badge.className = "analysis-badge badge-" + statusClass;
+    badge.textContent = statusMap[statusClass] || statusClass;
+    head.appendChild(badge);
+  }
+  card.appendChild(head);
+
+  var detail = document.createElement("div");
+  detail.className = "analysis-card-detail";
+  var priceVal = item.price || 0;
+  var priceText = priceVal >= 10000 ? (priceVal / 10000).toFixed(1) + "\uC5B5" : Math.round(priceVal).toLocaleString() + "\uB9CC";
+  detail.textContent = item.sigungu + " " + item.dong_name + " \u00B7 " + item.area_m2 + "m\u00B2 \u00B7 " + priceText;
+  card.appendChild(detail);
+
+  var metrics = document.createElement("div");
+  metrics.className = "analysis-card-metrics";
+  if (type === "undervalued") {
+    var pricePct = item.price_pct != null ? "\uAC00\uACA9\uC21C\uC704 \uD558\uC704 " + item.price_pct.toFixed(1) + "%" : "";
+    var locGap = item.location_gap != null ? "\uC785\uC9C0\uAC2D +" + item.location_gap.toFixed(1) : "";
+    metrics.innerHTML = '<span>' + pricePct + '</span><span class="metric-sep">|</span><span>' + locGap + '</span>';
+  } else {
+    var vsPeak = item.vs_peak != null ? "\uACE0\uC810\uB300\uBE44 " + item.vs_peak.toFixed(0) + "%" : "";
+    var chg3m = item.chg3m != null ? "3\uAC1C\uC6D4 " + (item.chg3m >= 0 ? "+" : "") + item.chg3m.toFixed(1) + "%" : "";
+    metrics.innerHTML = '<span>' + vsPeak + '</span><span class="metric-sep">|</span><span>' + chg3m + '</span>';
+  }
+  card.appendChild(metrics);
+
+  return card;
+}
+
+/* ── 대시보드 (저평가 + 바닥찾기) ── */
 function renderDashboard() {
   var dashEl = document.getElementById("dashboard");
-  if (!dashEl || !globalData || !activeSido) return;
+  if (!dashEl || !activeSido) return;
   dashEl.innerHTML = "";
 
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData) return;
+  var grid = document.createElement("div");
+  grid.className = "analysis-grid";
 
-  var trend = sidoData.trend;
-  if (trend && trend.length >= 2) {
-    var latest = trend[trend.length - 1];
-    var prev = trend[trend.length - 2];
-    var avgPrice = latest[1];
-    var momChange = ((avgPrice / prev[1]) - 1) * 100;
-    var txnCount = latest[2] || 0;
+  // 저평가 섹션
+  var uvSec = document.createElement("div");
+  uvSec.className = "analysis-section";
+  var uvTitle = document.createElement("a");
+  uvTitle.className = "analysis-title";
+  uvTitle.href = "undervalued.html#" + activeSido;
+  uvTitle.innerHTML = '\uC800\uD3C9\uAC00 TOP3 <span class="analysis-arrow">\u203A</span>';
+  uvSec.appendChild(uvTitle);
+  var uvBody = document.createElement("div");
+  uvBody.className = "analysis-body";
+  uvBody.innerHTML = '<span class="spinner"></span>';
+  uvSec.appendChild(uvBody);
+  grid.appendChild(uvSec);
 
-    var recDist = { recovered: 0, rising: 0, flat: 0, falling: 0 };
-    if (sidoData.recovery && sidoData.recovery.items) {
-      sidoData.recovery.items.forEach(function(item) {
-        if (recDist[item.status] !== undefined) recDist[item.status]++;
-      });
+  // 바닥찾기 섹션
+  var btSec = document.createElement("div");
+  btSec.className = "analysis-section";
+  var btTitle = document.createElement("a");
+  btTitle.className = "analysis-title";
+  btTitle.href = "bottom.html#" + activeSido;
+  btTitle.innerHTML = '\uBC14\uB2E5\uCC3E\uAE30 TOP3 <span class="analysis-arrow">\u203A</span>';
+  btSec.appendChild(btTitle);
+  var btBody = document.createElement("div");
+  btBody.className = "analysis-body";
+  btBody.innerHTML = '<span class="spinner"></span>';
+  btSec.appendChild(btBody);
+  grid.appendChild(btSec);
+
+  dashEl.appendChild(grid);
+
+  // 데이터 로드
+  fetchLocationValue().then(function(data) {
+    uvBody.innerHTML = "";
+    if (!data || !data.sidos || !data.sidos[activeSido]) {
+      uvBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
+      return;
     }
-    var totalRec = recDist.recovered + recDist.rising + recDist.flat + recDist.falling;
-
-    // 시장 요약 문장
-    var summaryText = activeSido + " 아파트 거래 단가(m\u00B2당)는 전월 대비 "
-      + (momChange >= 0 ? "+" : "") + momChange.toFixed(1) + "%";
-    if (totalRec > 0) {
-      summaryText += ", " + totalRec + "개 구 중 " + recDist.recovered + "개 구 고점 대비 상승";
+    var items = data.sidos[activeSido].slice(0, 3);
+    if (!items.length) {
+      uvBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
+      return;
     }
-    var summary = document.createElement("p");
-    summary.className = "market-summary";
-    summary.textContent = summaryText;
-    dashEl.appendChild(summary);
-
-    // 지표 카드
-    var cards = document.createElement("div");
-    cards.className = "dashboard-cards";
-
-    var card1 = document.createElement("div");
-    card1.className = "dash-card";
-    card1.innerHTML = '<div class="dash-card-label">거래 단가 (m\u00B2당)</div>'
-      + '<div class="dash-card-value">' + Math.round(avgPrice).toLocaleString() + '<span class="dash-card-unit">만원</span></div>'
-      + '<div class="dash-card-change ' + (momChange >= 0 ? 'up' : 'down') + '">'
-      + (momChange >= 0 ? '\u25B2' : '\u25BC') + ' ' + Math.abs(momChange).toFixed(1) + '% 전월대비</div>';
-    cards.appendChild(card1);
-
-    var card2 = document.createElement("div");
-    card2.className = "dash-card";
-    card2.innerHTML = '<div class="dash-card-label">이번 달 거래건수</div>'
-      + '<div class="dash-card-value">' + txnCount.toLocaleString() + '<span class="dash-card-unit">건</span></div>';
-    cards.appendChild(card2);
-
-    // 전세가율 카드
-    if (sidoData.jeonse && sidoData.jeonse.avg_ratio) {
-      var cardJ = document.createElement("div");
-      cardJ.className = "dash-card";
-      cardJ.style.cursor = "pointer";
-      cardJ.addEventListener("click", function() {
-        location.href = "regional.html#" + activeSido + "/\uC804\uC138";
-      });
-      cardJ.innerHTML = '<div class="dash-card-label">평균 전세가율</div>'
-        + '<div class="dash-card-value">' + sidoData.jeonse.avg_ratio.toFixed(1) + '<span class="dash-card-unit">%</span></div>'
-        + '<div class="dash-card-change" style="color:var(--muted)">' + sidoData.jeonse.count + '개 단지 기준</div>';
-      cards.appendChild(cardJ);
-    }
-
-    if (totalRec > 0) {
-      var card3 = document.createElement("div");
-      card3.className = "dash-card dash-card-wide";
-      var recBarHTML = '<div class="recovery-dist-bar">';
-      if (recDist.recovered > 0) recBarHTML += '<div class="rec-bar-seg recovered" style="width:' + (recDist.recovered / totalRec * 100) + '%">' + recDist.recovered + '</div>';
-      if (recDist.rising > 0) recBarHTML += '<div class="rec-bar-seg rising" style="width:' + (recDist.rising / totalRec * 100) + '%">' + recDist.rising + '</div>';
-      if (recDist.flat > 0) recBarHTML += '<div class="rec-bar-seg flat" style="width:' + (recDist.flat / totalRec * 100) + '%">' + recDist.flat + '</div>';
-      if (recDist.falling > 0) recBarHTML += '<div class="rec-bar-seg falling" style="width:' + (recDist.falling / totalRec * 100) + '%">' + recDist.falling + '</div>';
-      recBarHTML += '</div>';
-      card3.innerHTML = '<div class="dash-card-label">고점 대비 현황 (21~22년 전고점 기준) <span style="font-weight:400;color:var(--muted);font-size:11px">' + activeSido + ' ' + totalRec + '개 구/시 기준</span></div>'
-        + recBarHTML
-        + '<div class="recovery-dist-legend">'
-        + '<span><span class="rec-dot recovered"></span>상승 ' + recDist.recovered + '</span>'
-        + '<span><span class="rec-dot rising"></span>회복 ' + recDist.rising + '</span>'
-        + '<span><span class="rec-dot flat"></span>횡보 ' + recDist.flat + '</span>'
-        + '<span><span class="rec-dot falling"></span>하락 ' + recDist.falling + '</span>'
-        + '</div>';
-      cards.appendChild(card3);
-    }
-
-    dashEl.appendChild(cards);
-  }
-
-  // 시세 + 거래량 추이 차트
-  if (trend && trend.length > 2) {
-    var trendSec = document.createElement("div");
-    trendSec.className = "popular-districts";
-    var trendTitle = document.createElement("h3");
-    trendTitle.className = "popular-title";
-    trendTitle.textContent = "거래 단가 + 거래량 추이 (최근 7년)";
-    trendSec.appendChild(trendTitle);
-    var chartDiv = document.createElement("div");
-    chartDiv.className = "scatter-chart";
-    chartDiv.style.height = "180px";
-    var chartCanvas = document.createElement("canvas");
-    chartDiv.appendChild(chartCanvas);
-    trendSec.appendChild(chartDiv);
-    dashEl.appendChild(trendSec);
-    requestAnimationFrame(function() { drawPriceVolumeChart(chartCanvas, trend); });
-  }
-
-  // 인기 지역 (거래량 상위 5)
-  if (sidoData.districts) {
-    var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
-    var distStats = [];
-    distOrder.forEach(function(distName) {
-      var dist = sidoData.districts[distName];
-      if (!dist || !dist.dong_stats) return;
-      var totalCount = 0, totalPrice = 0;
-      dist.dong_stats.forEach(function(d) {
-        totalCount += d.txn_count;
-        totalPrice += d.avg_per_m2 * d.txn_count;
-      });
-      if (totalCount === 0) return;
-      distStats.push({ name: distName, avg_per_m2: Math.round(totalPrice / totalCount), txn_count: totalCount });
+    items.forEach(function(item, i) {
+      uvBody.appendChild(renderAnalysisCard(item, i, "undervalued"));
     });
-    distStats.sort(function(a, b) { return b.txn_count - a.txn_count; });
-    var top5 = distStats.slice(0, 5);
+  });
 
-    if (top5.length) {
-      var popularSec = document.createElement("div");
-      popularSec.className = "popular-districts";
-      var ptitle = document.createElement("h3");
-      ptitle.className = "popular-title";
-      ptitle.textContent = "\uC778\uAE30 \uC9C0\uC5ED";
-      popularSec.appendChild(ptitle);
-      var plist = document.createElement("div");
-      plist.className = "popular-list";
-      top5.forEach(function(d) {
-        var item = document.createElement("a");
-        item.className = "popular-item";
-        item.href = "regional.html#" + activeSido + "/" + d.name;
-        item.innerHTML = '<span class="popular-name">' + d.name + '</span>'
-          + '<span class="popular-meta">' + d.txn_count + '\uAC74 \u00B7 m\u00B2\uB2F9 ' + d.avg_per_m2.toLocaleString() + '\uB9CC</span>';
-        plist.appendChild(item);
-      });
-      popularSec.appendChild(plist);
-      dashEl.appendChild(popularSec);
+  fetchBottom(activeSido).then(function(data) {
+    btBody.innerHTML = "";
+    if (!data || !data.items) {
+      btBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
+      return;
     }
-  }
+    // 반등 신호 상위 3개: rising 우선, chg3m 높은 순
+    var sorted = data.items.slice().sort(function(a, b) {
+      var sa = a.status === "rising" ? 0 : 1;
+      var sb = b.status === "rising" ? 0 : 1;
+      if (sa !== sb) return sa - sb;
+      return (b.chg3m || 0) - (a.chg3m || 0);
+    });
+    var top3 = sorted.slice(0, 3);
+    if (!top3.length) {
+      btBody.innerHTML = '<p class="no-data">\uB370\uC774\uD130 \uC5C6\uC74C</p>';
+      return;
+    }
+    top3.forEach(function(item, i) {
+      btBody.appendChild(renderAnalysisCard(item, i, "bottom"));
+    });
+  });
+}
+
+/* ── 인기 지역 렌더링 ── */
+function renderPopularDistricts() {
+  if (!globalData || !activeSido) return null;
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData || !sidoData.districts) return null;
+
+  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
+  var distStats = [];
+  distOrder.forEach(function(distName) {
+    var dist = sidoData.districts[distName];
+    if (!dist || !dist.dong_stats) return;
+    var totalCount = 0, totalPrice = 0;
+    dist.dong_stats.forEach(function(d) {
+      totalCount += d.txn_count;
+      totalPrice += d.avg_per_m2 * d.txn_count;
+    });
+    if (totalCount === 0) return;
+    distStats.push({ name: distName, avg_per_m2: Math.round(totalPrice / totalCount), txn_count: totalCount });
+  });
+  distStats.sort(function(a, b) { return b.txn_count - a.txn_count; });
+  var top5 = distStats.slice(0, 5);
+
+  if (!top5.length) return null;
+
+  var popularSec = document.createElement("div");
+  popularSec.className = "section";
+  var ptitle = document.createElement("h2");
+  ptitle.className = "section-title";
+  ptitle.textContent = "\uC778\uAE30 \uC9C0\uC5ED";
+  popularSec.appendChild(ptitle);
+  var plist = document.createElement("div");
+  plist.className = "popular-list";
+  top5.forEach(function(d) {
+    var item = document.createElement("a");
+    item.className = "popular-item";
+    item.href = "regional.html#" + activeSido + "/" + d.name;
+    item.innerHTML = '<span class="popular-name">' + d.name + '</span>'
+      + '<span class="popular-meta">' + d.txn_count + '\uAC74 \u00B7 m\u00B2\uB2F9 ' + d.avg_per_m2.toLocaleString() + '\uB9CC</span>';
+    plist.appendChild(item);
+  });
+  popularSec.appendChild(plist);
+  return popularSec;
 }
 
 function renderSections() {
@@ -422,12 +472,10 @@ function renderSections() {
   if (data.section1) {
     gridEl.appendChild(renderSection(data.section1));
   }
-  if (data.section4) {
-    gridEl.appendChild(renderSection(data.section4));
-  }
-  if (data.section3) {
-    gridEl.appendChild(renderSection(data.section3));
-  }
+
+  // 인기 지역 (CTA 바로 위)
+  var popular = renderPopularDistricts();
+  if (popular) gridEl.appendChild(popular);
 
   // "다음 행동" 섹션
   var distParam = activeDistrict ? "/" + activeDistrict : "";
