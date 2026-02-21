@@ -9,6 +9,19 @@ from datetime import datetime
 
 import requests
 
+# ── .env 로드 (로컬 실행용, CI에서는 secrets로 주입) ──
+def _load_dotenv():
+    env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip())
+
+_load_dotenv()
+
 # ── 설정 ──
 DRY_RUN = "--dry-run" in sys.argv
 NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")

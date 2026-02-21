@@ -357,18 +357,56 @@ function renderUndervaluedCard(r, idx) {
   metrics.innerHTML = metricsHtml;
   card.appendChild(metrics);
 
-  if (r.compare && r.compare.length) {
-    var compMeta = document.createElement("div");
-    compMeta.className = "analysis-card-detail";
-    compMeta.style.cssText = "font-size:11px;color:#9a9590;margin-top:2px";
-    var names = r.compare.map(function(c) { return c.apt_name; });
-    compMeta.textContent = "\uBE44\uAD50: " + names.join(" \u00B7 ");
-    card.appendChild(compMeta);
-  }
+  // 비교 차트 영역
+  var chartWrap = document.createElement("div");
+  chartWrap.style.cssText = "margin-top:8px";
+  var canvas = document.createElement("canvas");
+  canvas.className = "compare-chart";
+  chartWrap.appendChild(canvas);
+  var legend = document.createElement("div");
+  legend.className = "compare-legend";
+  chartWrap.appendChild(legend);
+  card.appendChild(chartWrap);
 
-  card.addEventListener("click", function() {
-    toggleCompareMain(card, r);
+  // 비교 차트 데이터 로드 및 렌더
+  var ids = [r.id].concat((r.compare || []).map(function(c) { return c.id; }));
+  var colors = ["#2563eb", "#ef4444", "#16a34a", "#f59e0b"];
+  Promise.all(ids.map(function(id) {
+    return fetch("data/apt_trade/by_apt/" + id + ".json")
+      .then(function(res) { return res.ok ? res.json() : []; })
+      .catch(function() { return []; });
+  })).then(function(txnsList) {
+    var seriesList = ids.map(function(id, i) {
+      var meta = (i === 0) ? r : (r.compare || [])[i - 1];
+      var txns = (txnsList[i] || []).slice().sort(function(a, b) {
+        return new Date(a[0]).getTime() - new Date(b[0]).getTime();
+      });
+      var last = txns[txns.length - 1];
+      return {
+        name: meta ? meta.apt_name : id,
+        history: txns,
+        price: last ? last[1] : null,
+        region: meta ? (meta.sigungu + " " + meta.dong_name) : ""
+      };
+    });
+    requestAnimationFrame(function() {
+      drawMultiScatter(canvas, seriesList);
+    });
+    seriesList.forEach(function(s, si) {
+      var item = document.createElement("div");
+      item.className = "legend-item";
+      var dot = document.createElement("span");
+      dot.className = "legend-color";
+      dot.style.background = colors[si % colors.length];
+      item.appendChild(dot);
+      var label = document.createElement("span");
+      var priceText = s.price ? fmtEok(s.price) : "-";
+      label.textContent = s.name + " \u00B7 " + s.region + " \u00B7 \uCD5C\uADFC " + priceText;
+      item.appendChild(label);
+      legend.appendChild(item);
+    });
   });
+
   return card;
 }
 
