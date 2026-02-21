@@ -183,7 +183,7 @@ def main() -> int:
     # Check which ones are missing from cache
     missing = []
     for apt in targets:
-        cache_key = f"{apt['sigungu']}|{apt['apt_name']}"
+        cache_key = f"{apt['sigungu']}|{apt['dong_name']}|{apt['apt_name']}"
         if cache_key not in cache:
             missing.append(apt)
 
@@ -312,7 +312,7 @@ def main() -> int:
         time.sleep(API_DELAY)
 
         if info and info["households"] > 0:
-            cache_key = f"{apt['sigungu']}|{apt['apt_name']}"
+            cache_key = f"{apt['sigungu']}|{apt['dong_name']}|{apt['apt_name']}"
             cache[cache_key] = {
                 "households": info["households"],
                 "dong_count": info["dong_count"],

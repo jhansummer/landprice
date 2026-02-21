@@ -35,6 +35,7 @@ jobs:
           REFRESH_MONTHS: "6"
           RENT_REFRESH_MONTHS: "6"
           RENT_BACKFILL_BATCH: "6"
+          FETCH_WORKERS: "4"
         run: |
           python scripts/fetch_apt_trade.py
       - name: Enrich bottom with geo data
@@ -96,7 +97,7 @@ jobs:
           if [[ -n "$(git status --porcelain)" ]]; then
             git config user.name "github-actions"
             git config user.email "github-actions@users.noreply.github.com"
-            git add docs/data/apt_trade docs/apt docs/sitemap.xml docs/sitemap-pages.xml docs/sitemap-apt-*.xml scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json scripts/household_cache.json
+            git add docs/data/apt_trade docs/apt docs/sitemap.xml docs/sitemap-pages.xml docs/sitemap-apt-*.xml scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json scripts/household_cache.json scripts/backtest_cache.json scripts/backtest_hist_cache.json
             git commit -m "chore: refresh apt trade data"
             git pull --rebase origin main
             git push

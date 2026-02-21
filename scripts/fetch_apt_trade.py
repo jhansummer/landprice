@@ -6,6 +6,7 @@ import re
 import statistics
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
@@ -1650,20 +1651,15 @@ def main() -> int:
     print(f"Old keys collected: {len(old_keys):,}", flush=True)
 
     index_files = []
-    total_jobs = len(lawd_list) * len(months)
-    done = 0
     fetched = 0
     skipped = 0
     errors = 0
-    consecutive_errors = 0
-    rate_limited = False
+
+    # 1) 기존 파일(리프레시 불필요)은 바로 index에 추가
+    fetch_jobs = []  # (lawd_cd, deal_ym) API 호출 대상
     for lawd_cd in lawd_list:
         for deal_ym in months:
-            done += 1
             out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
-            name = lawd_name(lawd_cd)
-
-            # Skip: file exists and not in refresh window
             if out_path.exists() and deal_ym not in refresh_set:
                 with out_path.open("r", encoding="utf-8") as fp:
                     existing = json.load(fp)
@@ -1674,55 +1670,56 @@ def main() -> int:
                     "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
                 })
                 skipped += 1
-                continue
+            else:
+                fetch_jobs.append((lawd_cd, deal_ym))
 
-            # If rate-limited, skip remaining API calls but keep existing data
-            if rate_limited:
-                if out_path.exists():
-                    with out_path.open("r", encoding="utf-8") as fp:
-                        existing = json.load(fp)
-                    index_files.append({
-                        "lawd_cd": lawd_cd,
-                        "deal_ym": deal_ym,
+    # 2) 병렬 fetch (워커 수 제한으로 API rate limit 대응)
+    max_workers = int(os.getenv("FETCH_WORKERS", "4"))
+    print(f"Fetching {len(fetch_jobs)} jobs with {max_workers} workers...", flush=True)
+
+    def _fetch_one(lawd_cd: str, deal_ym: str):
+        name = lawd_name(lawd_cd)
+        out_path = BY_LAWD_DIR / lawd_cd / f"{deal_ym}.json"
+        try:
+            records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
+        except Exception as e:
+            print(f"  ERROR {lawd_cd} ({name}) {deal_ym}: {e}", flush=True)
+            # 기존 파일 유지
+            if out_path.exists():
+                with out_path.open("r", encoding="utf-8") as fp:
+                    existing = json.load(fp)
+                return {"lawd_cd": lawd_cd, "deal_ym": deal_ym,
                         "count": len(existing),
                         "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
-                    })
-                skipped += 1
-                continue
-
-            print(f"[{done}/{total_jobs}] {lawd_cd} ({name}) {deal_ym}", flush=True)
-            try:
-                records = fetch_month(service_key, lawd_cd, deal_ym, operation_path)
-                consecutive_errors = 0
-            except Exception as e:
-                print(f"  ERROR: {e} - skipping", flush=True)
-                errors += 1
-                consecutive_errors += 1
-                if consecutive_errors >= 3:
-                    print("  3 consecutive errors - stopping API calls, keeping existing data", flush=True)
-                    rate_limited = True
-                # Keep existing file if available
-                if out_path.exists():
-                    with out_path.open("r", encoding="utf-8") as fp:
-                        existing = json.load(fp)
-                    index_files.append({
-                        "lawd_cd": lawd_cd,
-                        "deal_ym": deal_ym,
-                        "count": len(existing),
-                        "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
-                    })
-                continue
-            if not records:
-                print(f"  {lawd_cd}/{deal_ym}: empty response, skipping save", flush=True)
-                continue
-            write_json(out_path, records)
-            index_files.append({
-                "lawd_cd": lawd_cd,
-                "deal_ym": deal_ym,
+                        "status": "error"}
+            return {"status": "error"}
+        if not records:
+            print(f"  {lawd_cd}/{deal_ym}: empty response", flush=True)
+            return {"status": "empty"}
+        write_json(out_path, records)
+        return {"lawd_cd": lawd_cd, "deal_ym": deal_ym,
                 "count": len(records),
                 "path": f"data/apt_trade/by_lawd/{lawd_cd}/{deal_ym}.json",
-            })
-            fetched += 1
+                "status": "ok"}
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(_fetch_one, lc, ym): (lc, ym) for lc, ym in fetch_jobs}
+        for i, future in enumerate(as_completed(futures), 1):
+            lc, ym = futures[future]
+            if i % 50 == 0 or i == len(futures):
+                print(f"  [{i}/{len(futures)}] completed", flush=True)
+            result = future.result()
+            if result.get("path"):
+                index_files.append({
+                    "lawd_cd": result["lawd_cd"],
+                    "deal_ym": result["deal_ym"],
+                    "count": result["count"],
+                    "path": result["path"],
+                })
+            if result["status"] == "ok":
+                fetched += 1
+            elif result["status"] == "error":
+                errors += 1
 
     print(f"Done trade: fetched={fetched}, skipped={skipped}, errors={errors}", flush=True)
 
@@ -1750,51 +1747,51 @@ def main() -> int:
     rent_fetched = 0
     rent_skipped = 0
     rent_errors = 0
-    rent_consecutive_errors = 0
-    rent_rate_limited = False
-    total_rent_jobs = len(lawd_list) * len(rent_months)
-    rent_done = 0
+
+    # 전세 fetch 대상 수집
+    rent_fetch_jobs = []
     for lawd_cd in lawd_list:
         for deal_ym in rent_months:
-            rent_done += 1
             rent_dir = BY_RENT_DIR / lawd_cd
             rent_dir.mkdir(parents=True, exist_ok=True)
             out_path = rent_dir / f"{deal_ym}.json"
-            name = lawd_name(lawd_cd)
 
-            # 리프레시 대상: 항상 가져옴
-            # 백필 대상: backfill_target에 포함된 월만
-            # 그 외 파일 있으면 스킵
             is_refresh = deal_ym in rent_refresh_set
             is_backfill = deal_ym in backfill_target and not out_path.exists()
             if not is_refresh and not is_backfill:
                 if out_path.exists():
                     rent_skipped += 1
                 continue
+            rent_fetch_jobs.append((lawd_cd, deal_ym, is_backfill))
 
-            if rent_rate_limited:
-                rent_skipped += 1
-                continue
+    print(f"Fetching {len(rent_fetch_jobs)} rent jobs with {max_workers} workers...", flush=True)
 
-            print(f"[rent {rent_done}/{total_rent_jobs}] {lawd_cd} ({name}) {deal_ym}{' (backfill)' if is_backfill else ''}", flush=True)
-            try:
-                rent_recs = fetch_rent_month(service_key, lawd_cd, deal_ym)
-                rent_consecutive_errors = 0
-            except Exception as e:
-                print(f"  RENT ERROR: {e} - skipping", flush=True)
+    def _fetch_rent_one(lawd_cd: str, deal_ym: str, is_backfill: bool):
+        out_path = BY_RENT_DIR / lawd_cd / f"{deal_ym}.json"
+        try:
+            rent_recs = fetch_rent_month(service_key, lawd_cd, deal_ym)
+        except Exception as e:
+            print(f"  RENT ERROR {lawd_cd} {deal_ym}: {e}", flush=True)
+            return "error"
+        if rent_recs:
+            write_json(out_path, rent_recs)
+            return "ok"
+        elif is_backfill:
+            write_json(out_path, [])
+            return "ok"
+        return "empty"
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(_fetch_rent_one, lc, ym, bf): (lc, ym)
+                   for lc, ym, bf in rent_fetch_jobs}
+        for i, future in enumerate(as_completed(futures), 1):
+            if i % 50 == 0 or i == len(futures):
+                print(f"  [rent {i}/{len(futures)}] completed", flush=True)
+            status = future.result()
+            if status == "ok":
+                rent_fetched += 1
+            elif status == "error":
                 rent_errors += 1
-                rent_consecutive_errors += 1
-                if rent_consecutive_errors >= 3:
-                    print("  3 consecutive rent errors - stopping rent fetch", flush=True)
-                    rent_rate_limited = True
-                continue
-            if rent_recs:
-                write_json(out_path, rent_recs)
-                rent_fetched += 1
-            elif is_backfill:
-                # 빈 응답이라도 파일 생성 (재시도 방지)
-                write_json(out_path, [])
-                rent_fetched += 1
 
     print(f"Done rent: fetched={rent_fetched}, skipped={rent_skipped}, errors={rent_errors}", flush=True)
 

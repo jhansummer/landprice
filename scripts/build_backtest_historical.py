@@ -15,12 +15,14 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS_DIR = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "docs" / "data" / "apt_trade"
 BY_APT_DIR = DATA_DIR / "by_apt"
 SUMMARY_PATH = DATA_DIR / "summary.json"
 SEARCH_INDEX_PATH = DATA_DIR / "search_index.json"
 SEARCH_DIR = DATA_DIR / "search"
 OUT_PATH = DATA_DIR / "backtest.json"
+HIST_CACHE_FILE = SCRIPTS_DIR / "backtest_hist_cache.json"
 
 # Import core functions from find_undervalued
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -263,21 +265,48 @@ def main():
     print(f"시뮬레이션 기간: {sim_months[0]} ~ {sim_months[-1]} ({len(sim_months)}개월)")
     print(f"현재 월: {current_month}")
 
-    # 4. 각 월 시뮬레이션 실행
+    # 4. 시뮬레이션 캐시 로드 (과거 월의 저평가 판정 결과 재사용)
+    hist_cache = {}
+    if HIST_CACHE_FILE.exists():
+        try:
+            hist_cache = json.loads(HIST_CACHE_FILE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+
     all_picks = []
     total_start = time.time()
+    cache_hits = 0
 
     for idx, sim_month in enumerate(sim_months):
         t0 = time.time()
         print(f"  [{idx+1}/{len(sim_months)}] {sim_month}...", end="", flush=True)
 
-        month_picks = run_simulation_month(
-            sim_month, search_sidos, txn_cache,
-            args.gap, args.corr, args.min_trades, args.min_valid,
-        )
-
-        elapsed = time.time() - t0
-        print(f" {len(month_picks)}건 ({elapsed:.1f}초)")
+        # 마지막 월은 항상 재계산, 나머지는 캐시 활용
+        cache_key = f"{sim_month}_{args.gap}_{args.corr}_{args.min_trades}"
+        if sim_month != sim_months[-1] and cache_key in hist_cache:
+            month_picks = hist_cache[cache_key]
+            cache_hits += 1
+            elapsed = time.time() - t0
+            print(f" {len(month_picks)}건 (캐시, {elapsed:.1f}초)")
+        else:
+            month_picks = run_simulation_month(
+                sim_month, search_sidos, txn_cache,
+                args.gap, args.corr, args.min_trades, args.min_valid,
+            )
+            # 캐시에 저장 (수익률 제외, 판정 결과만)
+            cache_picks = []
+            for p in month_picks:
+                cache_picks.append({
+                    "id": p["id"], "apt_name": p["apt_name"],
+                    "sigungu": p["sigungu"], "dong_name": p["dong_name"],
+                    "area_m2": p["area_m2"], "sido": p["sido"],
+                    "recent_avg": p.get("recent_avg"),
+                    "compare_ids": p.get("compare_ids", []),
+                    "compare_names": p.get("compare_names", []),
+                })
+            hist_cache[cache_key] = cache_picks
+            elapsed = time.time() - t0
+            print(f" {len(month_picks)}건 ({elapsed:.1f}초)")
 
         # 5. 각 선정 단지의 실제 수익률 계산
         for pick in month_picks:
@@ -316,7 +345,14 @@ def main():
             })
 
     total_elapsed = time.time() - total_start
-    print(f"\n시뮬레이션 완료: {total_elapsed:.1f}초")
+    print(f"\n시뮬레이션 완료: {total_elapsed:.1f}초 (캐시 히트: {cache_hits}/{len(sim_months)})")
+
+    # 캐시 저장
+    try:
+        with HIST_CACHE_FILE.open("w", encoding="utf-8") as f:
+            json.dump(hist_cache, f, ensure_ascii=False, separators=(",", ":"))
+    except OSError:
+        pass
 
     # 6. 중복 제거 (같은 apt_id는 최초 선정 시점만 유지)
     seen = {}

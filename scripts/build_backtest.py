@@ -11,10 +11,12 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS_DIR = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "docs" / "data" / "apt_trade"
 BY_APT_DIR = DATA_DIR / "by_apt"
 OUT_PATH = DATA_DIR / "backtest.json"
 UNDERVALUED_REL = "docs/data/apt_trade/undervalued.json"
+BACKTEST_CACHE_FILE = SCRIPTS_DIR / "backtest_cache.json"
 
 
 def git_run(*args: str) -> str:
@@ -106,6 +108,52 @@ def get_market_return(summary_data, sido, flag_ym, current_month):
     return round((current_price - flag_price) / flag_price * 100, 2)
 
 
+def load_backtest_cache():
+    """스냅샷별 후보 캐시 로드. {commit_hash: [{apt_id, flag_ym, sido, flagged_price, ...}]}"""
+    if BACKTEST_CACHE_FILE.exists():
+        try:
+            return json.loads(BACKTEST_CACHE_FILE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+    return {}
+
+
+def save_backtest_cache(cache):
+    with BACKTEST_CACHE_FILE.open("w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def extract_candidates_from_snapshot(snapshot):
+    """스냅샷에서 저평가 후보 리스트 추출 (현재가 계산 제외)."""
+    candidates = []
+    for sido, sido_data in snapshot.get("sidos", {}).items():
+        seen_ids = set()
+        items = []
+        for item in sido_data.get("undervalued", []):
+            if item.get("id") and item["id"] not in seen_ids:
+                seen_ids.add(item["id"])
+                items.append(item)
+        for band in sido_data.get("bands", []):
+            for item in band.get("top3", []):
+                if item.get("id") and item["id"] not in seen_ids:
+                    seen_ids.add(item["id"])
+                    items.append(item)
+        for item in items:
+            flagged_price = item.get("recent_avg") or item.get("current_price")
+            if not flagged_price or flagged_price <= 0:
+                continue
+            candidates.append({
+                "id": item["id"],
+                "apt_name": item.get("apt_name", ""),
+                "sigungu": item.get("sigungu", ""),
+                "dong_name": item.get("dong_name", ""),
+                "area_m2": item.get("area_m2"),
+                "sido": sido,
+                "flagged_price": round(flagged_price),
+            })
+    return candidates
+
+
 def main():
     print("=== 저평가 백테스트 빌드 ===", flush=True)
 
@@ -124,60 +172,59 @@ def main():
     summary_data = json.loads(summary_path.read_text(encoding="utf-8"))
     current_month = summary_data.get("current_month", "")
 
-    # 3. 각 스냅샷에서 저평가 단지 추출 + 수익률 계산
+    # 3. 캐시 로드 — 스냅샷별 후보 추출 결과 캐싱 (git show 호출 절약)
+    bt_cache = load_backtest_cache()
+    cache_hits = 0
+
+    # 4. 각 스냅샷에서 후보 추출 (캐시 활용) + 현재가로 수익률 계산
     all_picks = []
     for yyyymm, commit_hash in snapshots:
         print(f"  {yyyymm} ({commit_hash[:8]})...", end="", flush=True)
-        snapshot = extract_snapshot(commit_hash)
-        if not snapshot:
-            print(" skip (parse fail)")
-            continue
+
+        # 캐시에 후보가 있으면 git show 스킵
+        if commit_hash in bt_cache:
+            candidates = bt_cache[commit_hash]
+            cache_hits += 1
+        else:
+            snapshot = extract_snapshot(commit_hash)
+            if not snapshot:
+                print(" skip (parse fail)")
+                continue
+            candidates = extract_candidates_from_snapshot(snapshot)
+            bt_cache[commit_hash] = candidates
 
         count = 0
-        for sido, sido_data in snapshot.get("sidos", {}).items():
-            # undervalued 리스트 + bands top3 수집
-            seen_ids = set()
-            candidates = []
-            for item in sido_data.get("undervalued", []):
-                if item.get("id") and item["id"] not in seen_ids:
-                    seen_ids.add(item["id"])
-                    candidates.append(item)
-            for band in sido_data.get("bands", []):
-                for item in band.get("top3", []):
-                    if item.get("id") and item["id"] not in seen_ids:
-                        seen_ids.add(item["id"])
-                        candidates.append(item)
+        for cand in candidates:
+            apt_id = cand["id"]
+            flagged_price = cand["flagged_price"]
 
-            for item in candidates:
-                apt_id = item["id"]
-                flagged_price = item.get("recent_avg") or item.get("current_price")
-                if not flagged_price or flagged_price <= 0:
-                    continue
+            cur_price = get_current_price(apt_id)
+            if not cur_price or cur_price <= 0:
+                continue
 
-                cur_price = get_current_price(apt_id)
-                if not cur_price or cur_price <= 0:
-                    continue
+            return_pct = round((cur_price - flagged_price) / flagged_price * 100, 2)
+            market_ret = get_market_return(summary_data, cand["sido"], yyyymm, current_month)
+            alpha = round(return_pct - market_ret, 2) if market_ret is not None else None
 
-                return_pct = round((cur_price - flagged_price) / flagged_price * 100, 2)
-                market_ret = get_market_return(summary_data, sido, yyyymm, current_month)
-                alpha = round(return_pct - market_ret, 2) if market_ret is not None else None
-
-                all_picks.append({
-                    "flag_ym": yyyymm,
-                    "id": apt_id,
-                    "apt_name": item.get("apt_name", ""),
-                    "sigungu": item.get("sigungu", ""),
-                    "dong_name": item.get("dong_name", ""),
-                    "area_m2": item.get("area_m2"),
-                    "sido": sido,
-                    "flagged_price": round(flagged_price),
-                    "current_price": round(cur_price),
-                    "return_pct": return_pct,
-                    "market_return": market_ret,
-                    "alpha": alpha,
-                })
-                count += 1
+            all_picks.append({
+                "flag_ym": yyyymm,
+                "id": apt_id,
+                "apt_name": cand["apt_name"],
+                "sigungu": cand["sigungu"],
+                "dong_name": cand["dong_name"],
+                "area_m2": cand["area_m2"],
+                "sido": cand["sido"],
+                "flagged_price": flagged_price,
+                "current_price": round(cur_price),
+                "return_pct": return_pct,
+                "market_return": market_ret,
+                "alpha": alpha,
+            })
+            count += 1
         print(f" {count}건")
+
+    print(f"캐시 히트: {cache_hits}/{len(snapshots)}", flush=True)
+    save_backtest_cache(bt_cache)
 
     # 4. 중복 제거: 같은 apt_id는 최초 flag만
     seen = {}
