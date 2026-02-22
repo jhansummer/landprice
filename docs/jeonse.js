@@ -631,8 +631,13 @@ async function init() {
     renderSections();
 
     statusEl.innerHTML = "";
-    var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
-    metaEl.textContent = "업데이트: " + dateOnly;
+    var dateOnly = "";
+    if (globalData.updated_at) {
+      var d = new Date(globalData.updated_at);
+      var kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+      dateOnly = kst.getUTCFullYear() + "-" + String(kst.getUTCMonth() + 1).padStart(2, "0") + "-" + String(kst.getUTCDate()).padStart(2, "0");
+    }
+    metaEl.textContent = dateOnly + " \uAE30\uC900";
   } catch (e) {
     statusEl.textContent = "네트워크 오류가 발생했습니다. 새로고침해주세요.";
   }
