@@ -25,7 +25,7 @@ var sidoCache = {};
 var activeSido = null;
 var activeDistrict = null;
 var activeView = "bottom";
-var activeSort = "vs_peak";
+var activeSort = "rebound";
 var subwayFilter = false;
 var txnCache = {};
 var valuationGeo = null;
@@ -170,6 +170,7 @@ function renderSortBar() {
   wrap.className = "sort-btns";
   wrap.style.marginBottom = "12px";
   var sorts = [
+    ["rebound", "\uBC18\uB4F1\uC21C"],
     ["vs_peak", "\uACE0\uC810\uB300\uBE44\uC21C"],
     ["chg3m", "3\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
     ["chg6m", "6\uAC1C\uC6D4\uBCC0\uB3D9\uC21C"],
@@ -513,7 +514,7 @@ function renderSections() {
   } else {
     items = (data.items || []).slice();
     title = activeSido + " \uBC14\uB2E5 \uADFC\uCC98 \uB2E8\uC9C0";
-    subtitle = "2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uAC00\uC7A5 \uB9CE\uC774 \uD558\uB77D\uD55C \uB2E8\uC9C0 \u00B7 3\uB144\uAC04 \uAC70\uB798 50\uAC74 \uC774\uC0C1 \u00B7 \uAC19\uC740 \uB2E8\uC9C0 \uAC19\uC740 \uD3C9\uC218 \uAE30\uC900";
+    subtitle = "\uC800\uC810 \uCC0D\uACE0 \uC0C1\uC2B9 \uC911\uC778 \uB2E8\uC9C0 \u00B7 2021~2022 \uC804\uACE0\uC810 \uB300\uBE44 \uD558\uB77D \uD6C4 \uBC18\uB4F1 \uC870\uC9D0 \u00B7 3\uB144\uAC04 \uAC70\uB798 50\uAC74 \uC774\uC0C1";
   }
 
   // 구 필터
@@ -527,7 +528,13 @@ function renderSections() {
   }
 
   // 정렬
-  if (activeSort === "vs_peak") items.sort(function (a, b) { return a.vs_peak - b.vs_peak; });
+  if (activeSort === "rebound") items.sort(function (a, b) {
+    var sa = a.status === "rising" ? 0 : 1;
+    var sb = b.status === "rising" ? 0 : 1;
+    if (sa !== sb) return sa - sb;
+    return (b.chg3m || 0) - (a.chg3m || 0);
+  });
+  else if (activeSort === "vs_peak") items.sort(function (a, b) { return a.vs_peak - b.vs_peak; });
   else if (activeSort === "chg3m") items.sort(function (a, b) { return b.chg3m - a.chg3m; });
   else if (activeSort === "chg6m") items.sort(function (a, b) { return b.chg6m - a.chg6m; });
   else if (activeSort === "trades") items.sort(function (a, b) { return b.trades - a.trades; });

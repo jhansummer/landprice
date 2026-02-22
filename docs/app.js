@@ -537,6 +537,10 @@ function renderDashboard() {
   btTitle.href = "bottom.html#" + activeSido;
   btTitle.innerHTML = '\uBC14\uB2E5\uCC3E\uAE30 TOP3 <span class="analysis-arrow">\u203A</span>';
   btSec.appendChild(btTitle);
+  var btSub = document.createElement("div");
+  btSub.style.cssText = "font-size:11px;color:var(--muted);margin:-4px 0 8px";
+  btSub.textContent = "\uC800\uC810 \uCC0D\uACE0 \uC0C1\uC2B9 \uC911\uC778 \uB2E8\uC9C0";
+  btSec.appendChild(btSub);
   var btBody = document.createElement("div");
   btBody.className = "analysis-body";
   btBody.innerHTML = '<span class="spinner"></span>';
