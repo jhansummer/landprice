@@ -464,7 +464,7 @@
     sec.style.padding = "16px";
     var title = document.createElement("div");
     title.style.cssText = "font-size:14px;font-weight:700;margin-bottom:10px;color:var(--ink)";
-    title.textContent = "\uD83D\uDCCA " + (apt.sigungu || apt.sido) + " \uBD84\uC11D \uB354\uBCF4\uAE30";
+    title.textContent = "\uD83D\uDCCA APT Mine \uBD84\uC11D";
     sec.appendChild(title);
     var hash = encodeURIComponent(apt.sido);
     var links = document.createElement("div");

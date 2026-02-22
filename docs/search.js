@@ -601,7 +601,7 @@ function renderInsightCard() {
   card.className = "insight-card";
   var title = document.createElement("span");
   title.className = "insight-card-title";
-  title.textContent = "\uD83D\uDCCA " + label + " \uBD84\uC11D";
+  title.textContent = "\uD83D\uDCCA APT Mine \uBD84\uC11D";
   card.appendChild(title);
   var links = document.createElement("div");
   links.className = "insight-card-links";
