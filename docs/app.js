@@ -899,18 +899,21 @@ function initHeroSearch(sidoOrder) {
     Promise.all(promises).then(function (results) {
       var matches = [];
       var seen = {};
-      for (var si = 0; si < results.length && matches.length < 10; si++) {
+      for (var si = 0; si < results.length; si++) {
         var r = results[si];
         if (!r.data || !r.data.items) continue;
-        for (var i = 0; i < r.data.items.length && matches.length < 10; i++) {
+        var sidoCount = 0;
+        for (var i = 0; i < r.data.items.length; i++) {
           var item = r.data.items[i];
           if (item.apt_name.toLowerCase().indexOf(q) < 0) continue;
           var key = item.apt_name + "\t" + (item.district || item.sigungu) + "\t" + item.dong_name;
           if (seen[key]) continue;
           seen[key] = true;
           matches.push({ apt_name: item.apt_name, district: item.district || item.sigungu, dong_name: item.dong_name, sido: r.sido });
+          if (++sidoCount >= 10) break;
         }
       }
+      matches = matches.slice(0, 10);
 
       heroLastMatch = matches.length ? matches[0].sido : null;
 
