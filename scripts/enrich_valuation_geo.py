@@ -22,8 +22,10 @@ from typing import Dict, List, Optional, Tuple
 import requests
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
-VALUATION_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "valuation"
-OUTPUT_FILE = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "valuation_geo.json"
+DATA_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade"
+VALUATION_DIR = DATA_DIR / "valuation"
+OUTPUT_FILE = DATA_DIR / "valuation_geo.json"
+SEARCH_DIR = DATA_DIR / "search"
 CACHE_FILE = SCRIPTS_DIR / "geocode_cache.json"
 ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
@@ -762,6 +764,43 @@ def main() -> int:
     save_enrichment_cache(ecache)
     new_enrich = len(ecache) - ecache_size_before
     print(f"Enrichment cache: {len(ecache)} entries (+{new_enrich} new)", flush=True)
+
+    # Propagate geo to other areas of same physical complex
+    propagated = 0
+    complex_geo: Dict[str, str] = {}  # complex_key -> apt_id with geo
+    complex_missing: Dict[str, List[str]] = {}  # complex_key -> [apt_ids without geo]
+
+    for sido in sido_order:
+        search_file = SEARCH_DIR / f"{sido}.json"
+        if not search_file.exists():
+            continue
+        with open(search_file, "r", encoding="utf-8") as f:
+            search_data = json.load(f)
+        for item in search_data.get("items", []):
+            aid = item.get("id", "")
+            if not aid:
+                continue
+            ckey = f"{item.get('apt_name', '')}|{item.get('sigungu', '')}|{item.get('dong_name', '')}"
+            if aid in geo_result:
+                if ckey not in complex_geo:
+                    complex_geo[ckey] = aid
+            else:
+                complex_missing.setdefault(ckey, []).append(aid)
+
+    # Copy geo data from existing area to missing areas
+    SKIP_FIELDS = {"jeonse_ratio"}
+    for ckey, missing_ids in complex_missing.items():
+        source_id = complex_geo.get(ckey)
+        if not source_id:
+            continue
+        source = geo_result[source_id]
+        for mid in missing_ids:
+            copied = {k: v for k, v in source.items() if k not in SKIP_FIELDS}
+            geo_result[mid] = copied
+            propagated += 1
+
+    if propagated:
+        print(f"  Propagated geo to {propagated} additional areas (same complex)", flush=True)
 
     # Write output
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
