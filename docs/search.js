@@ -43,17 +43,25 @@ function showAutocomplete(query) {
     return;
   }
 
-  var items = getFilteredItems();
   var q = query.toLowerCase();
   var seen = {};
   var results = [];
-  for (var i = 0; i < items.length && results.length < 10; i++) {
-    var r = items[i];
-    if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
-    var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
-    if (seen[key]) continue;
-    seen[key] = true;
-    results.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name });
+
+  /* 캐시된 전체 시도에서 검색 (추가 fetch 없음) */
+  var sidoKeys = Object.keys(sidoCache);
+  for (var si = 0; si < sidoKeys.length && results.length < 10; si++) {
+    var sido = sidoKeys[si];
+    var data = sidoCache[sido];
+    if (!data || !data.items) continue;
+    var items = data.items;
+    for (var i = 0; i < items.length && results.length < 10; i++) {
+      var r = items[i];
+      if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
+      var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
+      if (seen[key]) continue;
+      seen[key] = true;
+      results.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name, sido: sido });
+    }
   }
 
   if (!results.length) {
@@ -65,8 +73,10 @@ function showAutocomplete(query) {
   results.forEach(function(r) {
     var item = document.createElement("div");
     item.className = "ac-item";
+    var locText = r.district + " " + r.dong_name;
+    if (r.sido !== activeSido) locText = r.sido + " " + locText;
     item.innerHTML = '<span class="ac-name">' + escapeHTML(r.apt_name) + '</span>'
-      + '<span class="ac-loc">' + escapeHTML(r.district + " " + r.dong_name) + '</span>';
+      + '<span class="ac-loc">' + escapeHTML(locText) + '</span>';
     item.addEventListener("mousedown", function(e) {
       e.preventDefault();
       searchInput.value = r.apt_name;
@@ -111,6 +121,14 @@ async function loadSido(sido) {
   var data = await res.json();
   sidoCache[sido] = data;
   return data;
+}
+
+async function loadAllSidos() {
+  if (!globalData || !globalData.sido_order) return;
+  var promises = globalData.sido_order.map(function (sido) {
+    return loadSido(sido);
+  });
+  await Promise.all(promises);
 }
 
 function getSidoData() {
@@ -227,7 +245,7 @@ function renderGroup(group) {
           APTWatchlist.remove(r.id);
           watchBtn.textContent = "\uAD00\uC2EC"; watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
         } else {
-          APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu || group.sigungu, dong_name: r.dong_name || group.dong_name, latest_price: r.latest_price, pct: r.pct, sido: activeSido });
+          APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu || group.sigungu, dong_name: r.dong_name || group.dong_name, latest_price: r.latest_price, pct: r.pct, sido: r._sido || activeSido });
           watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C"; watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
         }
         APTWatchlist.track("add_to_watchlist", { apt_name: r.apt_name, page: "search" });
@@ -236,7 +254,7 @@ function renderGroup(group) {
 
       var aptLink = document.createElement("a");
       aptLink.className = "apt-detail-link";
-      aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(activeSido);
+      aptLink.href = "apt.html?id=" + encodeURIComponent(r.id) + "&s=" + encodeURIComponent(r._sido || activeSido);
       aptLink.textContent = "상세";
       aptLink.addEventListener("click", function(e) { e.stopPropagation(); });
       ctaWrap.appendChild(aptLink);
@@ -621,10 +639,9 @@ function renderInsightCard() {
   return card;
 }
 
-function doSearch(query) {
+async function doSearch(query) {
   resultsEl.innerHTML = "";
   var q = (query || "").trim().toLowerCase();
-  var items = getFilteredItems();
 
   if (q.length < 2 && !activeDistrict && !activeDong) {
     resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD558\uAC70\uB098 \uC9C0\uC5ED\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694.</div>';
@@ -633,11 +650,38 @@ function doSearch(query) {
 
   var matched;
   if (q.length >= 2) {
-    matched = items.filter(function (r) {
-      return r.apt_name.toLowerCase().indexOf(q) >= 0;
-    });
+    /* 텍스트 검색: 전체 시도 크로스 검색 */
+    resultsEl.innerHTML = '<div class="result-count">\uAC80\uC0C9 \uC911...</div>';
+    await loadAllSidos();
+    matched = [];
+    var sidoKeys = Object.keys(sidoCache);
+    for (var si = 0; si < sidoKeys.length; si++) {
+      var sido = sidoKeys[si];
+      var data = sidoCache[sido];
+      if (!data || !data.items) continue;
+      var srcItems = data.items;
+      /* 현재 활성 시도에서는 구/동/면적 필터 적용 */
+      if (sido === activeSido) {
+        if (activeDistrict) srcItems = srcItems.filter(function (r) { return r.district === activeDistrict; });
+        if (activeSubDistrict) srcItems = srcItems.filter(function (r) { return r.sigungu === activeSubDistrict; });
+        if (activeDong) srcItems = srcItems.filter(function (r) { return r.dong_name === activeDong; });
+      }
+      if (activeArea) {
+        var range = AREA_RANGES[activeArea];
+        srcItems = srcItems.filter(function (r) { return r.area_m2 >= range.min && r.area_m2 < range.max; });
+      }
+      for (var j = 0; j < srcItems.length; j++) {
+        if (srcItems[j].apt_name.toLowerCase().indexOf(q) >= 0) {
+          var item = srcItems[j];
+          if (!item._sido) item._sido = sido;
+          matched.push(item);
+        }
+      }
+    }
+    resultsEl.innerHTML = "";
   } else {
-    matched = items;
+    /* 필터만 사용(텍스트 없음): 기존 동작 — 현재 시도만 */
+    matched = getFilteredItems();
   }
 
   var groups = groupByApt(matched);
