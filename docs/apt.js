@@ -506,11 +506,12 @@
     var myAvg6m = avgPricePerM2(txns, apt.area, 6);
     var djAvg3y = avgPricePerM2(daejangTxns, daejangInfo.area, 36);
     var djAvg6m = avgPricePerM2(daejangTxns, daejangInfo.area, 6);
-    if (!myAvg3y || !djAvg3y || !myAvg6m || !djAvg6m) return null;
+    // 3년 데이터조차 없으면 비교 불가
+    if (!myAvg3y || !djAvg3y) return null;
     var gap3y = (myAvg3y - djAvg3y) / djAvg3y * 100;
-    var gap6m = (myAvg6m - djAvg6m) / djAvg6m * 100;
-    var delta = gap6m - gap3y;
-    var trend = delta > 0 ? "narrowing" : "widening";
+    var gap6m = (myAvg6m && djAvg6m) ? (myAvg6m - djAvg6m) / djAvg6m * 100 : null;
+    var delta = (gap6m != null) ? gap6m - gap3y : null;
+    var trend = delta != null ? (delta > 0 ? "narrowing" : "widening") : null;
     return {
       myAvg3y: myAvg3y, myAvg6m: myAvg6m,
       djAvg3y: djAvg3y, djAvg6m: djAvg6m,
@@ -589,19 +590,23 @@
       }
 
       gapGrid.appendChild(createGapCell("3\uB144 \uD3C9\uADE0 \uAC2D\uCC28", comp.gap3y, comp.myAvg3y, comp.djAvg3y));
-      gapGrid.appendChild(createGapCell("6\uAC1C\uC6D4 \uD3C9\uADE0 \uAC2D\uCC28", comp.gap6m, comp.myAvg6m, comp.djAvg6m));
+      if (comp.gap6m != null) {
+        gapGrid.appendChild(createGapCell("6\uAC1C\uC6D4 \uD3C9\uADE0 \uAC2D\uCC28", comp.gap6m, comp.myAvg6m, comp.djAvg6m));
+      }
       sec.appendChild(gapGrid);
 
       // 트렌드 인사이트
-      var trendDiv = document.createElement("div");
-      trendDiv.style.cssText = "font-size:13px;color:var(--ink);margin-bottom:12px;line-height:1.5";
-      var deltaSign = comp.delta >= 0 ? "+" : "";
-      if (comp.trend === "narrowing") {
-        trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--up)'>\uC904\uC5B4\uB4E4\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
-      } else {
-        trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--down)'>\uBCA8\uC5B4\uC9C0\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
+      if (comp.trend) {
+        var trendDiv = document.createElement("div");
+        trendDiv.style.cssText = "font-size:13px;color:var(--ink);margin-bottom:12px;line-height:1.5";
+        var deltaSign = comp.delta >= 0 ? "+" : "";
+        if (comp.trend === "narrowing") {
+          trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--up)'>\uC904\uC5B4\uB4E4\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
+        } else {
+          trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--down)'>\uBCA8\uC5B4\uC9C0\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
+        }
+        sec.appendChild(trendDiv);
       }
-      sec.appendChild(trendDiv);
     }
 
     // 비교 차트: m²당 가격 추이
