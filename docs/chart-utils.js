@@ -1519,7 +1519,7 @@ function drawRadarChart(canvas, scores) {
 /**
  * 시장 포지셔닝 버블차트 (매매전세 사분면)
  * @param {HTMLCanvasElement} canvas
- * @param {Array} data - [{ name, x (전세가율변동%p), y (매매변동률%), volume (거래량) }]
+ * @param {Array} data - [{ name, x (전세가변동률%), y (매매변동률%), volume (거래량) }]
  */
 function drawPositioningChart(canvas, data) {
   if (!data || !data.length) return;
@@ -1625,14 +1625,14 @@ function drawPositioningChart(canvas, data) {
   for (var i = 0; i <= xTicks; i++) {
     var val = -maxAbsX + (2 * maxAbsX / xTicks) * i;
     if (Math.abs(val) < 0.01) continue;
-    ctx.fillText(val.toFixed(0) + "%p", pad.left + (plotW / xTicks) * i, pad.top + plotH + 4);
+    ctx.fillText(val.toFixed(0) + "%", pad.left + (plotW / xTicks) * i, pad.top + plotH + 4);
   }
 
   // 축 제목
   ctx.font = "11px -apple-system, sans-serif";
   ctx.fillStyle = "#334155";
   ctx.textAlign = "center"; ctx.textBaseline = "top";
-  ctx.fillText("\uc804\uc138\uac00\uc728 \ubcc0\ub3d9 (6\uac1c\uc6d4)", cw / 2, ch - 10);
+  ctx.fillText("\uc804\uc138\uac00 \ubcc0\ub3d9\ub960 (6\uac1c\uc6d4)", cw / 2, ch - 10);
   ctx.save();
   ctx.translate(12, ch / 2);
   ctx.rotate(-Math.PI / 2);

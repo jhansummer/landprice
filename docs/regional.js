@@ -1655,7 +1655,7 @@ function renderJeonseSections(sidoData, data, regionName) {
   gridEl.appendChild(nextAction);
 }
 
-/* ── 매매x전세: 데이터 계산 (x=전세가율 변동, y=매매 변동률) ── */
+/* ── 매매x전세: 데이터 계산 (x=전세가 변동률, y=매매 변동률) ── */
 function computePositioningData(sido) {
   if (!globalData || !globalData.sidos || !globalData.sidos[sido]) return [];
   var districts = globalData.sidos[sido].districts;
@@ -1665,11 +1665,13 @@ function computePositioningData(sido) {
   Object.keys(districts).forEach(function (guName) {
     var dist = districts[guName];
     var trend = dist.trend;
+    var jTrend = dist.jeonse_trend;
     if (!trend || trend.length < 6) return;
     var recent6 = trend.slice(-6);
     var prev6 = trend.slice(-12, -6);
     if (!prev6.length) prev6 = trend.slice(0, Math.min(6, trend.length));
 
+    // 매매 변동률
     var recentAvg = 0, prevAvg = 0;
     recent6.forEach(function (t) { recentAvg += t[1]; });
     recentAvg /= recent6.length;
@@ -1677,12 +1679,23 @@ function computePositioningData(sido) {
     prevAvg /= prev6.length;
     var priceChgPct = prevAvg > 0 ? ((recentAvg - prevAvg) / prevAvg * 100) : 0;
 
-    var jTrend = dist.jeonse_trend;
-    var jeonseChg = 0;
-    if (jTrend && jTrend.length >= 6) {
-      var jRecent = jTrend[jTrend.length - 1][1];
-      var jPrev = jTrend[jTrend.length - 6][1];
-      jeonseChg = jRecent - jPrev;
+    // 전세가 변동률 (매매평단가 × 전세가율로 전세가 추정)
+    var jeonseChgPct = 0;
+    if (jTrend && jTrend.length >= 6 && trend.length === jTrend.length) {
+      var jRecent6 = jTrend.slice(-6);
+      var jPrev6 = jTrend.slice(-12, -6);
+      if (!jPrev6.length) jPrev6 = jTrend.slice(0, Math.min(6, jTrend.length));
+      var rJeonse = 0, pJeonse = 0;
+      for (var i = 0; i < recent6.length; i++) {
+        rJeonse += recent6[i][1] * (jRecent6[i] ? jRecent6[i][1] : 0) / 100;
+      }
+      rJeonse /= recent6.length;
+      for (var i = 0; i < prev6.length; i++) {
+        var ji = jPrev6[i] ? jPrev6[i][1] : 0;
+        pJeonse += prev6[i][1] * ji / 100;
+      }
+      pJeonse /= prev6.length;
+      jeonseChgPct = pJeonse > 0 ? ((rJeonse - pJeonse) / pJeonse * 100) : 0;
     }
 
     var vol = 0;
@@ -1691,7 +1704,7 @@ function computePositioningData(sido) {
 
     result.push({
       name: guName,
-      x: Math.round(jeonseChg * 10) / 10,
+      x: Math.round(jeonseChgPct * 10) / 10,
       y: Math.round(priceChgPct * 10) / 10,
       volume: vol
     });
@@ -1844,7 +1857,7 @@ function renderPositioningSections(sidoData) {
   table.style.cssText = "font-size:12px;width:100%";
   var thead = document.createElement("thead");
   thead.innerHTML = "<tr><th>" + (isDong ? "동" : "구/군") + "</th>"
-    + "<th>" + (isDong ? "전세가율 편차" : "전세가율 변동") + "</th>"
+    + "<th>" + (isDong ? "전세가율 편차" : "전세 변동률") + "</th>"
     + "<th>" + (isDong ? "6개월 변동" : "매매 변동률") + "</th>"
     + "<th>거래량</th><th>국면</th></tr>";
   table.appendChild(thead);
@@ -1856,7 +1869,7 @@ function renderPositioningSections(sidoData) {
     var phaseColor = d.x >= 0 && d.y >= 0 ? "#ef4444" : d.x < 0 && d.y >= 0 ? "#16a34a" : d.x < 0 && d.y < 0 ? "#3b82f6" : "#f59e0b";
     var tr = document.createElement("tr");
     tr.innerHTML = "<td>" + d.name + "</td>"
-      + '<td style="color:' + (d.x >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.x >= 0 ? "+" : "") + d.x.toFixed(1) + "%p</td>"
+      + '<td style="color:' + (d.x >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.x >= 0 ? "+" : "") + d.x.toFixed(1) + "%</td>"
       + '<td style="color:' + (d.y >= 0 ? "#16a34a" : "#ef4444") + '">' + (d.y >= 0 ? "+" : "") + d.y.toFixed(1) + "%</td>"
       + "<td>" + (d.volume || 0).toLocaleString() + "건</td>"
       + '<td style="color:' + phaseColor + ';font-weight:600">' + phase + "</td>";
