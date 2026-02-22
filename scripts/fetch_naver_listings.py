@@ -58,15 +58,63 @@ def search_complex_id(apt_name, sigungu, dong_name):
     return None
 
 
-def scrape_listings(page, area_m2):
+def apply_area_filter(page, area_m2):
+    """네이버 페이지에서 면적 필터 체크박스를 클릭하여 해당 면적만 선택."""
+    if not area_m2:
+        return False
+    try:
+        # 1. '전체면적' 버튼 클릭 → 모달 열기
+        btn = page.query_selector('button:has-text("전체면적")')
+        if not btn:
+            return False
+        btn.click()
+        time.sleep(1)
+
+        # 2. 체크박스 항목 가져오기
+        items = page.query_selector_all('[class*=CheckboxModal] li')
+        if not items:
+            return False
+
+        # 3. '전체면적' (첫 항목) 클릭 → 전체 해제
+        items[0].click()
+        time.sleep(0.3)
+
+        # 4. 대상 면적과 ±1m² 이내인 항목 선택
+        selected = 0
+        for item in items[1:]:
+            text = item.inner_text()
+            m = re.search(r'\((\d+\.?\d*)', text)
+            if m and abs(float(m.group(1)) - area_m2) < 1.0:
+                item.click()
+                selected += 1
+                time.sleep(0.2)
+
+        if not selected:
+            # 매칭 없으면 전체 다시 선택
+            items[0].click()
+            time.sleep(0.3)
+            page.query_selector('button:has-text("적용")').click()
+            time.sleep(1)
+            return False
+
+        # 5. 적용 클릭
+        page.query_selector('button:has-text("적용")').click()
+        time.sleep(2)
+        log(f"    면적 필터 적용: {selected}개 타입 선택")
+        return True
+    except Exception as e:
+        log(f"    면적 필터 에러: {e}")
+        return False
+
+
+def scrape_listings(page):
     """페이지 DOM에서 매매 매물 가격 추출 → {min, max, count} 또는 None"""
     cards = page.evaluate("""() => {
         var items = document.querySelectorAll('li[class*=ArticleCard]');
         return Array.from(items).map(function(li) {
             var priceEl = li.querySelector('[class*=price]');
             return {
-                price: priceEl ? priceEl.innerText : '',
-                text: li.innerText.substring(0, 300)
+                price: priceEl ? priceEl.innerText : ''
             };
         });
     }""")
@@ -76,31 +124,11 @@ def scrape_listings(page, area_m2):
         pt = card["price"]
         if not pt.startswith("매매"):
             continue
-        # 면적 추출
-        area_match = re.search(r'전용(\d+)', card["text"])
-        area_val = float(area_match.group(1)) if area_match else 0
-        # 면적 필터 (15% 이내)
-        if area_m2 and area_val > 0 and abs(area_val - area_m2) / area_m2 > 0.15:
-            continue
-        # 가격 파싱 (범위인 경우 첫 번째 값)
         pt_clean = pt.replace("매매 ", "").split("~")[0].strip()
-        # '변동', '하락내역 보기' 등 부가 텍스트 제거 (억/만 은 유지)
         pt_clean = re.sub(r'변동.*', '', pt_clean).strip()
         p = parse_price_text(pt_clean)
         if p:
             prices.append(p)
-
-    # 면적 매칭 없으면 전체 매매에서 추출
-    if not prices:
-        for card in cards:
-            pt = card["price"]
-            if not pt.startswith("매매"):
-                continue
-            pt_clean = pt.replace("매매 ", "").split("~")[0].strip()
-            pt_clean = re.sub(r'변동.*', '', pt_clean).strip()
-            p = parse_price_text(pt_clean)
-            if p:
-                prices.append(p)
 
     if prices:
         return {"min": min(prices), "max": max(prices), "count": len(prices)}
@@ -175,7 +203,8 @@ def main():
                 time.sleep(3)
                 log(f"  [호가] {apt_name}: 페이지 로드 완료 (title={page.title()})")
 
-                result = scrape_listings(page, area_m2)
+                apply_area_filter(page, area_m2)
+                result = scrape_listings(page)
                 if result:
                     r_min = result['min'] / 10000
                     r_max = result['max'] / 10000
