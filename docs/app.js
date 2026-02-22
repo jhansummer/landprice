@@ -510,9 +510,7 @@ function toggleCompareMain(card, r) {
 
 /* ── 대시보드 (저평가 + 바닥찾기) ── */
 function renderDashboard() {
-  var dashEl = document.getElementById("dashboard");
-  if (!dashEl || !activeSido) return;
-  dashEl.innerHTML = "";
+  if (!activeSido) return;
 
   var grid = document.createElement("div");
   grid.className = "analysis-grid";
@@ -545,7 +543,7 @@ function renderDashboard() {
   btSec.appendChild(btBody);
   grid.appendChild(btSec);
 
-  dashEl.appendChild(grid);
+  gridEl.appendChild(grid);
 
   // 데이터 로드
   fetchUndervalued().then(function(data) {
@@ -634,9 +632,9 @@ function renderPopularDistricts() {
 
 function renderSections() {
   gridEl.innerHTML = "";
+  var dashEl = document.getElementById("dashboard");
+  if (dashEl) dashEl.innerHTML = "";
   if (!globalData || !activeSido) return;
-
-  renderDashboard();
 
   var sidoData = globalData.sidos[activeSido];
   if (!sidoData) return;
@@ -653,9 +651,8 @@ function renderSections() {
     gridEl.appendChild(renderSection(data.section1));
   }
 
-  // 인기 지역 (CTA 바로 위)
-  var popular = renderPopularDistricts();
-  if (popular) gridEl.appendChild(popular);
+  // 저평가 + 바닥찾기 분석 그리드
+  renderDashboard();
 
   // "다음 행동" 섹션
   var distParam = activeDistrict ? "/" + activeDistrict : "";

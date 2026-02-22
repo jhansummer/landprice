@@ -225,7 +225,6 @@ def _fmt_uv_block(sido_label, top3, geo, fetch_listings=False):
     lines.append("")
 
     for i, a in enumerate(top3, 1):
-        pyeong = int(round(a["area_m2"] / 3.306))
         recent_eok = a["recent_avg"] / 10000
 
         # 최근 실거래 정보
@@ -268,7 +267,7 @@ def _fmt_uv_block(sido_label, top3, geo, fetch_listings=False):
         diff_recent = ((a["recent_avg"] / comp_recent) - 1) * 100 if comp_recent else 0
         gap_widening = diff_recent - diff36
 
-        lines.append(f"{i}. {a['apt_name']} ({a['sigungu']} {a.get('dong_name', '')}, {pyeong}평)")
+        lines.append(f"{i}. {a['apt_name']} ({a['sigungu']} {a.get('dong_name', '')}, {a['area_m2']}m²)")
         lines.append(f"  {deal_str}{listing_str}")
         lines.append(f"  {station}({sline}) 도보{walk}분 · 강남{gangnam}분")
         lines.append(f"  비교단지: {comp_names}")

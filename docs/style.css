@@ -481,6 +481,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 
 /* ── Analysis Grid (저평가 + 바닥찾기) ── */
 .analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1200px;margin:0 auto;padding:0 24px 16px}
+#grid>.analysis-grid{padding:0;max-width:none;margin:0 0 16px}
 .analysis-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-md);transition:box-shadow .2s}
 .analysis-section:hover{box-shadow:var(--shadow-lg)}
 .analysis-title{display:flex;align-items:center;gap:4px;font-size:16px;font-weight:800;color:var(--ink);text-decoration:none;margin-bottom:14px;letter-spacing:-0.3px}
