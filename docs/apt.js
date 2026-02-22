@@ -485,16 +485,16 @@
     contentEl.appendChild(sec);
   }
 
-  /* ── 대장아파트 비교: m²당 평균가 계산 ── */
-  function avgPricePerM2(txns, areaM2, monthsBack) {
-    if (!txns || !txns.length || !areaM2) return null;
+  /* ── 대장아파트 비교: 평균가 계산 ── */
+  function avgPrice(txns, monthsBack) {
+    if (!txns || !txns.length) return null;
     var now = new Date();
     var cutoff = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
     var cutoffStr = cutoff.toISOString().slice(0, 10);
     var sum = 0, count = 0;
     txns.forEach(function (t) {
       if (t[0] >= cutoffStr) {
-        sum += t[1] / areaM2;
+        sum += t[1];
         count++;
       }
     });
@@ -502,10 +502,10 @@
   }
 
   function computeDaejangComparison(apt, txns, daejangInfo, daejangTxns) {
-    var myAvg3y = avgPricePerM2(txns, apt.area, 36);
-    var myAvg6m = avgPricePerM2(txns, apt.area, 6);
-    var djAvg3y = avgPricePerM2(daejangTxns, daejangInfo.area, 36);
-    var djAvg6m = avgPricePerM2(daejangTxns, daejangInfo.area, 6);
+    var myAvg3y = avgPrice(txns, 36);
+    var myAvg6m = avgPrice(txns, 6);
+    var djAvg3y = avgPrice(daejangTxns, 36);
+    var djAvg6m = avgPrice(daejangTxns, 6);
     // 3년 데이터조차 없으면 비교 불가
     if (!myAvg3y || !djAvg3y) return null;
     var gap3y = (myAvg3y - djAvg3y) / djAvg3y * 100;
@@ -584,7 +584,7 @@
         cell.appendChild(val);
         var detail = document.createElement("div");
         detail.style.cssText = "font-size:11px;color:var(--muted);margin-top:2px";
-        detail.textContent = "m\u00B2\uB2F9 " + Math.round(myAvg).toLocaleString() + " vs " + Math.round(djAvg).toLocaleString() + "\uB9CC";
+        detail.textContent = fmtEok(Math.round(myAvg)) + " vs " + fmtEok(Math.round(djAvg));
         cell.appendChild(detail);
         return cell;
       }
@@ -618,25 +618,20 @@
       chartDiv.appendChild(chartCanvas);
       sec.appendChild(chartDiv);
 
-      var mySeries = txns.map(function (t) { return [t[0], Math.round(t[1] / apt.area)]; });
-      var djSeries = daejangTxns.map(function (t) { return [t[0], Math.round(t[1] / daejangInfo.area)]; });
+      var mySeries = txns.map(function (t) { return [t[0], t[1]]; });
+      var djSeries = daejangTxns.map(function (t) { return [t[0], t[1]]; });
 
       requestAnimationFrame(function () {
         drawMultiScatter(chartCanvas, [
-          { name: apt.name, history: mySeries, yFormat: "man" },
-          { name: daejangInfo.name, history: djSeries, yFormat: "man" }
+          { name: apt.name + " " + apt.area + "m\u00B2", history: mySeries },
+          { name: daejangInfo.name + " " + daejangInfo.area + "m\u00B2", history: djSeries }
         ]);
       });
 
       var legend = document.createElement("div");
       legend.style.cssText = "display:flex;gap:12px;justify-content:center;margin-top:6px;font-size:11px;color:var(--muted)";
-      legend.innerHTML = '<span style="color:#2563eb">\u25CF ' + escapeHTML(apt.name) + '</span><span style="color:#ef4444">\u25CF ' + escapeHTML(daejangInfo.name) + '</span>';
+      legend.innerHTML = '<span style="color:#2563eb">\u25CF ' + escapeHTML(apt.name) + ' ' + apt.area + 'm\u00B2</span><span style="color:#ef4444">\u25CF ' + escapeHTML(daejangInfo.name) + ' ' + daejangInfo.area + 'm\u00B2</span>';
       sec.appendChild(legend);
-
-      var note = document.createElement("div");
-      note.style.cssText = "font-size:11px;color:var(--muted);text-align:right;margin-top:4px";
-      note.textContent = "* m\u00B2\uB2F9 \uAC00\uACA9(\uB9CC\uC6D0) \uAE30\uC900";
-      sec.appendChild(note);
     }
 
     contentEl.appendChild(sec);
@@ -687,7 +682,7 @@
     table.className = "apt-txn-table";
 
     var thead = document.createElement("thead");
-    thead.innerHTML = "<tr><th>날짜</th><th>가격(만)</th><th>전회대비</th></tr>";
+    thead.innerHTML = "<tr><th>날짜</th><th>가격(만)</th><th>직전거래대비</th></tr>";
     table.appendChild(thead);
 
     var tbody = document.createElement("tbody");
