@@ -4,6 +4,7 @@
   var BY_APT_BASE = "/data/apt_trade/by_apt/";
   var GEO_PATH = "/data/apt_trade/valuation_geo.json";
   var SUMMARY_PATH = "/data/apt_trade/summary.json";
+  var DAEJANG_PATH = "/data/apt_trade/daejang.json";
 
   var contentEl = document.getElementById("apt-content");
   var statusEl = document.getElementById("status");
@@ -28,11 +29,12 @@
 
     try {
       // 병렬 로드
-      var [lookupRes, txnRes, geoRes, summaryRes] = await Promise.all([
+      var [lookupRes, txnRes, geoRes, summaryRes, daejangRes] = await Promise.all([
         fetch(LOOKUP_BASE + encodeURIComponent(params.sido) + ".json?t=" + Date.now()),
         fetch(BY_APT_BASE + params.id + ".json?t=" + Date.now()),
         fetch(GEO_PATH + "?t=" + Date.now()),
-        fetch(SUMMARY_PATH + "?t=" + Date.now())
+        fetch(SUMMARY_PATH + "?t=" + Date.now()),
+        fetch(DAEJANG_PATH + "?t=" + Date.now())
       ]);
 
       var lookup = lookupRes.ok ? await lookupRes.json() : {};
@@ -41,6 +43,8 @@
       try { geoAll = geoRes.ok ? await geoRes.json() : null; } catch (e) { geoAll = null; }
       var summaryAll = null;
       try { summaryAll = summaryRes.ok ? await summaryRes.json() : null; } catch (e) { summaryAll = null; }
+      var daejangAll = null;
+      try { daejangAll = daejangRes.ok ? await daejangRes.json() : null; } catch (e) { daejangAll = null; }
 
       var aptInfo = lookup[params.id];
       if (!aptInfo) {
@@ -61,6 +65,26 @@
 
       var geo = geoAll ? geoAll[params.id] || null : null;
 
+      // 대장아파트 조회
+      var daejangInfo = null; // [apt_id, apt_name, area_m2, households]
+      var daejangTxns = null;
+      if (daejangAll && daejangAll[params.sido]) {
+        var dongKey = apt.sigungu + "/" + apt.dong;
+        var dj = daejangAll[params.sido][dongKey];
+        if (dj) {
+          daejangInfo = { id: dj[0], name: dj[1], area: dj[2], households: dj[3] };
+          if (dj[0] !== params.id) {
+            try {
+              var djRes = await fetch(BY_APT_BASE + dj[0] + ".json?t=" + Date.now());
+              daejangTxns = djRes.ok ? await djRes.json() : null;
+              if (daejangTxns) {
+                daejangTxns.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
+              }
+            } catch (e) { daejangTxns = null; }
+          }
+        }
+      }
+
       // 거래 내역 정렬
       txns.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
 
@@ -76,7 +100,7 @@
 
       // 페이지 렌더
       statusEl.remove();
-      render(apt, txns, geo, summaryAll);
+      render(apt, txns, geo, summaryAll, daejangInfo, daejangTxns);
 
       APTWatchlist.track("apt_detail_view", { apt_name: apt.name, sigungu: apt.sigungu, area_m2: apt.area });
     } catch (e) {
@@ -133,7 +157,7 @@
   }
 
   /* ── 페이지 렌더링 ── */
-  function render(apt, txns, geo, summaryAll) {
+  function render(apt, txns, geo, summaryAll, daejangInfo, daejangTxns) {
     var latest = txns.length ? txns[txns.length - 1] : null;
     var latestPrice = latest ? latest[1] : 0;
     var stats = txns.length ? calcPeakStats(txns) : null;
@@ -330,6 +354,11 @@
       renderGeo(geo);
     }
 
+    // ── 대장아파트 비교 ──
+    if (daejangInfo) {
+      renderDaejangSection(apt, txns, daejangInfo, daejangTxns);
+    }
+
     // ── 이 지역 분석 링크 ──
     renderAreaMore(apt);
 
@@ -452,6 +481,158 @@
       row.textContent = text;
       sec.appendChild(row);
     });
+
+    contentEl.appendChild(sec);
+  }
+
+  /* ── 대장아파트 비교: m²당 평균가 계산 ── */
+  function avgPricePerM2(txns, areaM2, monthsBack) {
+    if (!txns || !txns.length || !areaM2) return null;
+    var now = new Date();
+    var cutoff = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
+    var cutoffStr = cutoff.toISOString().slice(0, 10);
+    var sum = 0, count = 0;
+    txns.forEach(function (t) {
+      if (t[0] >= cutoffStr) {
+        sum += t[1] / areaM2;
+        count++;
+      }
+    });
+    return count > 0 ? sum / count : null;
+  }
+
+  function computeDaejangComparison(apt, txns, daejangInfo, daejangTxns) {
+    var myAvg3y = avgPricePerM2(txns, apt.area, 36);
+    var myAvg6m = avgPricePerM2(txns, apt.area, 6);
+    var djAvg3y = avgPricePerM2(daejangTxns, daejangInfo.area, 36);
+    var djAvg6m = avgPricePerM2(daejangTxns, daejangInfo.area, 6);
+    if (!myAvg3y || !djAvg3y || !myAvg6m || !djAvg6m) return null;
+    var gap3y = (myAvg3y - djAvg3y) / djAvg3y * 100;
+    var gap6m = (myAvg6m - djAvg6m) / djAvg6m * 100;
+    var delta = gap6m - gap3y;
+    var trend = delta > 0 ? "narrowing" : "widening";
+    return {
+      myAvg3y: myAvg3y, myAvg6m: myAvg6m,
+      djAvg3y: djAvg3y, djAvg6m: djAvg6m,
+      gap3y: gap3y, gap6m: gap6m,
+      delta: delta, trend: trend
+    };
+  }
+
+  /* ── 대장아파트 비교 섹션 렌더 ── */
+  function renderDaejangSection(apt, txns, daejangInfo, daejangTxns) {
+    var sec = document.createElement("div");
+    sec.className = "section";
+    sec.style.padding = "16px";
+
+    var title = document.createElement("div");
+    title.style.cssText = "font-size:14px;font-weight:700;margin-bottom:12px;color:var(--ink)";
+    title.innerHTML = "\uD83C\uDFC6 \uB3D9\uBCC4 \uB300\uC7A5\uC544\uD30C\uD2B8 \uBE44\uAD50";
+    sec.appendChild(title);
+
+    var isSelf = daejangInfo.id === apt.id;
+
+    // 대장 = 자기자신
+    if (isSelf) {
+      var badge = document.createElement("div");
+      badge.style.cssText = "background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;text-align:center;font-size:13px;font-weight:600;color:#2563eb";
+      badge.textContent = "\uC774 \uB2E8\uC9C0\uB294 " + apt.dong + "\uC758 \uB300\uC7A5\uC544\uD30C\uD2B8\uC785\uB2C8\uB2E4!";
+      sec.appendChild(badge);
+      contentEl.appendChild(sec);
+      return;
+    }
+
+    // 대장 아파트 정보 카드
+    var djCard = document.createElement("div");
+    djCard.style.cssText = "background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px";
+    var djTop = document.createElement("div");
+    djTop.style.cssText = "display:flex;align-items:center;gap:8px;margin-bottom:4px";
+    var djLink = document.createElement("a");
+    djLink.href = "apt.html?id=" + daejangInfo.id + "&s=" + encodeURIComponent(apt.sido);
+    djLink.style.cssText = "font-size:14px;font-weight:700;color:#2563eb;text-decoration:none";
+    djLink.textContent = daejangInfo.name;
+    djTop.appendChild(djLink);
+    var djBadge = document.createElement("span");
+    djBadge.style.cssText = "font-size:11px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;font-weight:600";
+    djBadge.textContent = "\uB300\uC7A5";
+    djTop.appendChild(djBadge);
+    djCard.appendChild(djTop);
+    var djSub = document.createElement("div");
+    djSub.style.cssText = "font-size:12px;color:var(--muted)";
+    djSub.textContent = daejangInfo.area + "m\u00B2 \u00B7 " + daejangInfo.households.toLocaleString() + "\uC138\uB300";
+    djCard.appendChild(djSub);
+    sec.appendChild(djCard);
+
+    // 비교 계산
+    var comp = computeDaejangComparison(apt, txns, daejangInfo, daejangTxns);
+    if (comp) {
+      // 갭 비교 그리드
+      var gapGrid = document.createElement("div");
+      gapGrid.style.cssText = "display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px";
+
+      function createGapCell(label, gap, myAvg, djAvg) {
+        var cell = document.createElement("div");
+        cell.style.cssText = "background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center";
+        var lbl = document.createElement("div");
+        lbl.style.cssText = "font-size:11px;color:var(--muted);margin-bottom:4px";
+        lbl.textContent = label;
+        cell.appendChild(lbl);
+        var val = document.createElement("div");
+        val.style.cssText = "font-size:18px;font-weight:700;color:" + (gap >= 0 ? "var(--up)" : "var(--down)");
+        val.textContent = (gap >= 0 ? "+" : "") + gap.toFixed(1) + "%";
+        cell.appendChild(val);
+        var detail = document.createElement("div");
+        detail.style.cssText = "font-size:11px;color:var(--muted);margin-top:2px";
+        detail.textContent = "m\u00B2\uB2F9 " + Math.round(myAvg).toLocaleString() + " vs " + Math.round(djAvg).toLocaleString() + "\uB9CC";
+        cell.appendChild(detail);
+        return cell;
+      }
+
+      gapGrid.appendChild(createGapCell("3\uB144 \uD3C9\uADE0 \uAC2D\uCC28", comp.gap3y, comp.myAvg3y, comp.djAvg3y));
+      gapGrid.appendChild(createGapCell("6\uAC1C\uC6D4 \uD3C9\uADE0 \uAC2D\uCC28", comp.gap6m, comp.myAvg6m, comp.djAvg6m));
+      sec.appendChild(gapGrid);
+
+      // 트렌드 인사이트
+      var trendDiv = document.createElement("div");
+      trendDiv.style.cssText = "font-size:13px;color:var(--ink);margin-bottom:12px;line-height:1.5";
+      var deltaSign = comp.delta >= 0 ? "+" : "";
+      if (comp.trend === "narrowing") {
+        trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--up)'>\uC904\uC5B4\uB4E4\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
+      } else {
+        trendDiv.innerHTML = "\uB300\uC7A5\uC544\uD30C\uD2B8\uC640\uC758 \uAC00\uACA9 \uAC2D\uCC28\uAC00 <strong style='color:var(--down)'>\uBCA8\uC5B4\uC9C0\uACE0 \uC788\uC5B4\uC694</strong> (\u0394" + deltaSign + comp.delta.toFixed(1) + "%p)";
+      }
+      sec.appendChild(trendDiv);
+    }
+
+    // 비교 차트: m²당 가격 추이
+    if (daejangTxns && daejangTxns.length > 1 && txns.length > 1) {
+      var chartDiv = document.createElement("div");
+      chartDiv.className = "scatter-chart";
+      chartDiv.style.height = "200px";
+      var chartCanvas = document.createElement("canvas");
+      chartDiv.appendChild(chartCanvas);
+      sec.appendChild(chartDiv);
+
+      var mySeries = txns.map(function (t) { return [t[0], Math.round(t[1] / apt.area)]; });
+      var djSeries = daejangTxns.map(function (t) { return [t[0], Math.round(t[1] / daejangInfo.area)]; });
+
+      requestAnimationFrame(function () {
+        drawMultiScatter(chartCanvas, [
+          { name: apt.name, history: mySeries, yFormat: "man" },
+          { name: daejangInfo.name, history: djSeries, yFormat: "man" }
+        ]);
+      });
+
+      var legend = document.createElement("div");
+      legend.style.cssText = "display:flex;gap:12px;justify-content:center;margin-top:6px;font-size:11px;color:var(--muted)";
+      legend.innerHTML = '<span style="color:#2563eb">\u25CF ' + escapeHTML(apt.name) + '</span><span style="color:#ef4444">\u25CF ' + escapeHTML(daejangInfo.name) + '</span>';
+      sec.appendChild(legend);
+
+      var note = document.createElement("div");
+      note.style.cssText = "font-size:11px;color:var(--muted);text-align:right;margin-top:4px";
+      note.textContent = "* m\u00B2\uB2F9 \uAC00\uACA9(\uB9CC\uC6D0) \uAE30\uC900";
+      sec.appendChild(note);
+    }
 
     contentEl.appendChild(sec);
   }

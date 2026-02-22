@@ -212,9 +212,12 @@ function drawMultiScatter(canvas, seriesList) {
   ctx.font = "10px sans-serif";
   ctx.textAlign = "right";
   ctx.textBaseline = "middle";
+  var yFormat = seriesList[0] && seriesList[0].yFormat;
   for (var i = 0; i <= 3; i++) {
     var val = minP + ((maxP - minP) / 3) * (3 - i);
-    var label = (val / 10000).toFixed(1) + "\uc5b5";
+    var label = yFormat === "man"
+      ? Math.round(val).toLocaleString() + "\ub9cc"
+      : (val / 10000).toFixed(1) + "\uc5b5";
     var ly = pad.top + (plotH / 3) * i;
     ctx.fillText(label, pad.left - 4, ly);
   }
