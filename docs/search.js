@@ -140,9 +140,10 @@ function groupByApt(items) {
   var groups = [];
   var map = {};
   items.forEach(function (r) {
-    var key = r.apt_name + "\t" + r.sigungu + "\t" + r.dong_name;
+    var sido = r._sido || activeSido || "";
+    var key = sido + "\t" + r.apt_name + "\t" + r.sigungu + "\t" + r.dong_name;
     if (!map[key]) {
-      map[key] = { apt_name: r.apt_name, sigungu: r.sigungu, dong_name: r.dong_name, items: [] };
+      map[key] = { apt_name: r.apt_name, sigungu: r.sigungu, dong_name: r.dong_name, sido: sido, items: [] };
       groups.push(map[key]);
     }
     map[key].items.push(r);
@@ -167,7 +168,8 @@ function renderGroup(group) {
   var locEl = document.createElement("span");
   locEl.className = "apt-group-loc";
   var txnTotal = group.items.reduce(function(s, r) { return s + (r.total_trades || 0); }, 0);
-  locEl.textContent = group.sigungu + " " + group.dong_name;
+  var locPrefix = (group.sido && group.sido !== activeSido) ? group.sido + " " : "";
+  locEl.textContent = locPrefix + group.sigungu + " " + group.dong_name;
   if (txnTotal > 0) {
     var txnBadge = document.createElement("span");
     txnBadge.className = "tag tag-muted";
@@ -201,7 +203,9 @@ function renderGroup(group) {
     changeEl.className = "apt-sub-change";
     var pctEl = document.createElement("div");
     pctEl.className = "apt-sub-pct";
-    if (r.pct >= 0) {
+    if (r.pct == null) {
+      pctEl.innerHTML = '<span style="color:var(--muted);">-</span>';
+    } else if (r.pct >= 0) {
       pctEl.innerHTML = '<span style="color:var(--up);">\u25B2 +' + r.pct.toFixed(1) + '%</span>';
     } else {
       pctEl.innerHTML = '<span style="color:var(--down);">\u25BC ' + r.pct.toFixed(1) + '%</span>';
