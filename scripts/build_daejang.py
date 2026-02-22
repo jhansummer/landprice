@@ -3,7 +3,7 @@
 
 각 (sigungu, dong_name)별로 m²당 가격(평당가)이 가장 높은 아파트를
 대장아파트로 선정한다.
-- 국민평형(59~90m²) 거래 우선, 없으면 전체 면적 중 최고
+- 국민평형(80~90m²) 거래 우선, 없으면 전체 면적 중 최고
 - 세대수 필터 없음 (평당가 순수 1위)
 
 출력: docs/data/apt_trade/daejang.json
@@ -56,8 +56,8 @@ def main():
             hh = households_map.get(apt_id, 0)
             entry = (price_per_m2, apt_id, item["apt_name"], area, hh)
 
-            # 국민평형 범위
-            if 59 <= area <= 90:
+            # 국민평형 범위 (34평, 80~90m²)
+            if 80 <= area <= 90:
                 if dong_key not in kukmin or price_per_m2 > kukmin[dong_key][0]:
                     kukmin[dong_key] = entry
 
