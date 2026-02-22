@@ -572,6 +572,107 @@ def get_liquidity_score(trade_count: int) -> int:
 
 
 
+# ── Enrich single apartment ──
+
+def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
+               household_data, skip_odsay=False):
+    """Enrich a single apartment and return geo dict, or None on failure."""
+    coords = geocode_apartment(apt, cache)
+    if not coords:
+        return None
+
+    lat, lng = coords
+    ck = coord_key(lat, lng)
+
+    nearest = find_nearest_station(lat, lng, stations)
+    if not nearest:
+        return None
+
+    walk_dist, walk_min = estimate_walking(nearest["dist"])
+
+    geo: Dict = {
+        "subway": nearest["name"],
+        "subway_line": nearest["line"],
+        "subway_dist": nearest["dist"],
+        "subway_walk_dist": walk_dist,
+        "subway_walk_min": walk_min,
+    }
+
+    is_metro = sido in METRO_SIDOS
+    if is_metro:
+        geo.update(compute_biz_distances(lat, lng))
+        if not skip_odsay:
+            commute = get_commute_times(lat, lng, ecache, ck)
+            geo["commute"] = commute
+
+    infra = get_facilities(lat, lng, ecache, ck)
+    geo["infra"] = infra
+    geo["infra_score"] = calc_infra_score(infra)
+
+    school_score = get_school_score(lat, lng, schools, ecache, ck)
+    if school_score is not None:
+        geo["academy_score"] = school_score
+
+    brand_s = get_brand_score(apt.get("apt_name", ""))
+    geo["brand_score"] = brand_s
+    build_year = apt_meta.get(apt_id, 0)
+    age_s = get_age_score(build_year)
+    if age_s is not None:
+        geo["age_score"] = age_s
+    hh_key = f"{apt.get('sigungu', '')}|{apt.get('dong_name', '')}|{apt.get('apt_name', '')}"
+    hh_data = household_data.get(hh_key)
+    if not hh_data:
+        hh_key_old = f"{apt.get('sigungu', '')}|{apt.get('apt_name', '')}"
+        hh_data = household_data.get(hh_key_old)
+    if hh_data and hh_data.get("households"):
+        geo["households"] = hh_data["households"]
+        geo["household_score"] = get_household_score(hh_data["households"])
+
+    trade_count = apt.get("trade_count", 0)
+    liquidity_s = get_liquidity_score(trade_count)
+    geo["liquidity_score"] = liquidity_s
+
+    livability_parts = [brand_s]
+    if age_s is not None:
+        livability_parts.append(age_s)
+    if geo.get("household_score") is not None:
+        livability_parts.append(geo["household_score"])
+    livability_s = round(sum(livability_parts) / len(livability_parts))
+    geo["livability_score"] = livability_s
+
+    subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
+    if geo.get("biz_gangnam") is not None:
+        def _bds(d): return max(0, min(100, round(100 - (d - 3) * 100 / 47)))
+        biz_dist = min(geo.get("biz_gangnam", 999), geo.get("biz_gwanghwamun", 999), geo.get("biz_yeouido", 999))
+        biz_s = _bds(biz_dist)
+        transport_s = biz_s * 0.7 + subway_s_exp * 0.3
+    else:
+        sido_short = sido.replace("광역시", "").replace("특별자치시", "").replace("특별시", "")
+        centers = CITY_CENTERS.get(sido_short)
+        if centers:
+            center_dist = min(haversine(lat, lng, c["lat"], c["lng"]) for c in centers)
+            center_s = max(0, min(100, round(100 - (center_dist - 1) * 100 / 24)))
+            transport_s = center_s * 0.7 + subway_s_exp * 0.3
+        else:
+            transport_s = subway_s_exp
+
+    w_sum = transport_s * 5
+    w_total = 5
+    if school_score is not None:
+        w_sum += school_score * 9
+        w_total += 9
+    if geo.get("infra_score") is not None:
+        w_sum += geo["infra_score"]
+        w_total += 1
+    w_sum += livability_s * 2
+    w_total += 2
+    w_sum += liquidity_s * 2
+    w_total += 2
+    geo["loc_score"] = round(w_sum / w_total)
+
+    return geo
+
+
 # ── Main ──
 
 def main() -> int:
@@ -630,6 +731,7 @@ def main() -> int:
     geo_result: Dict[str, Dict] = {}
     total_enriched = 0
 
+    # Phase 1: Enrich valuation items (with ODsay commute)
     for sido in sido_order:
         sido_file = VALUATION_DIR / f"{sido}.json"
         if not sido_file.exists():
@@ -639,7 +741,6 @@ def main() -> int:
         with open(sido_file, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        is_metro = sido in METRO_SIDOS
         items = data.get("items", [])
         enriched = 0
 
@@ -647,114 +748,64 @@ def main() -> int:
             apt_id = apt.get("id", "")
             if not apt_id:
                 continue
-
-            coords = geocode_apartment(apt, cache)
-            if not coords:
-                continue
-
-            lat, lng = coords
-            ck = coord_key(lat, lng)
-
-            # 1. Nearest subway station + walking estimate
-            nearest = find_nearest_station(lat, lng, stations)
-            if not nearest:
-                continue
-
-            walk_dist, walk_min = estimate_walking(nearest["dist"])
-
-            geo: Dict = {
-                "subway": nearest["name"],
-                "subway_line": nearest["line"],
-                "subway_dist": nearest["dist"],
-                "subway_walk_dist": walk_dist,
-                "subway_walk_min": walk_min,
-            }
-
-            # 2. Business district distances + commute times (수도권)
-            if is_metro:
-                geo.update(compute_biz_distances(lat, lng))
-                commute = get_commute_times(lat, lng, ecache, ck)
-                geo["commute"] = commute
-
-            # 3. Nearby facilities
-            infra = get_facilities(lat, lng, ecache, ck)
-            geo["infra"] = infra
-            geo["infra_score"] = calc_infra_score(infra)
-
-            # 4. School performance-based score
-            school_score = get_school_score(lat, lng, schools, ecache, ck)
-            if school_score is not None:
-                geo["academy_score"] = school_score  # 하위호환: 필드명 유지
-
-            # 5. 브랜드/연식/세대수 점수 (단지품질)
-            brand_s = get_brand_score(apt.get("apt_name", ""))
-            geo["brand_score"] = brand_s
-            build_year = apt_meta.get(apt_id, 0)
-            age_s = get_age_score(build_year)
-            if age_s is not None:
-                geo["age_score"] = age_s
-            hh_key = f"{apt.get('sigungu', '')}|{apt.get('dong_name', '')}|{apt.get('apt_name', '')}"
-            hh_data = household_data.get(hh_key)
-            if not hh_data:
-                # fallback: 기존 캐시 호환 (동 없는 키)
-                hh_key_old = f"{apt.get('sigungu', '')}|{apt.get('apt_name', '')}"
-                hh_data = household_data.get(hh_key_old)
-            if hh_data and hh_data.get("households"):
-                geo["households"] = hh_data["households"]
-                geo["household_score"] = get_household_score(hh_data["households"])
-
-            # 7. 환금성 점수 (3년 거래건수 기반)
-            trade_count = apt.get("trade_count", 0)
-            liquidity_s = get_liquidity_score(trade_count)
-            geo["liquidity_score"] = liquidity_s
-
-            # 8. 실거주가치 점수 (브랜드 + 연식 + 세대수 평균)
-            livability_parts = [brand_s]
-            if age_s is not None:
-                livability_parts.append(age_s)
-            if geo.get("household_score") is not None:
-                livability_parts.append(geo["household_score"])
-            livability_s = round(sum(livability_parts) / len(livability_parts))
-            geo["livability_score"] = livability_s
-
-            # 9. 입지점수: 교통26% + 학군47% + 인프라5% + 실거주가치11% + 환금성11%
-            #    교통: 수도권=업무지구(강남/광화문/여의도 중 최근접)70%+지하철지수30%, 비수도권=도심거리70%+지하철지수30%
-            subway_s_exp = round(100 * math.exp(-nearest["dist"] / 0.8))
-            if geo.get("biz_gangnam") is not None:
-                def _bds(d): return max(0, min(100, round(100 - (d - 3) * 100 / 47)))
-                biz_dist = min(geo.get("biz_gangnam", 999), geo.get("biz_gwanghwamun", 999), geo.get("biz_yeouido", 999))
-                biz_s = _bds(biz_dist)
-                transport_s = biz_s * 0.7 + subway_s_exp * 0.3
-            else:
-                # 비수도권: 도심거리 기반 (도심70% + 지하철30%)
-                sido_short = sido.replace("광역시", "").replace("특별자치시", "").replace("특별시", "")
-                centers = CITY_CENTERS.get(sido_short)
-                if centers:
-                    center_dist = min(haversine(lat, lng, c["lat"], c["lng"]) for c in centers)
-                    center_s = max(0, min(100, round(100 - (center_dist - 1) * 100 / 24)))
-                    transport_s = center_s * 0.7 + subway_s_exp * 0.3
-                else:
-                    transport_s = subway_s_exp
-            # 가중합: T*5 + S*9 + I*1 + L*2 + Q*2 = 19
-            w_sum = transport_s * 5
-            w_total = 5
-            if school_score is not None:
-                w_sum += school_score * 9
-                w_total += 9
-            if geo.get("infra_score") is not None:
-                w_sum += geo["infra_score"]
-                w_total += 1
-            w_sum += livability_s * 2
-            w_total += 2
-            w_sum += liquidity_s * 2
-            w_total += 2
-            geo["loc_score"] = round(w_sum / w_total)
-
-            geo_result[apt_id] = geo
-            enriched += 1
+            geo = enrich_apt(apt, apt_id, sido, cache, ecache, stations,
+                             schools, apt_meta, household_data, skip_odsay=False)
+            if geo:
+                geo_result[apt_id] = geo
+                enriched += 1
 
         print(f"  {sido}: {enriched}/{len(items)} apartments enriched", flush=True)
         total_enriched += enriched
+
+    # Phase 2: Enrich remaining search items (without ODsay, one per complex)
+    max_new = int(sys.argv[sys.argv.index("--max-new") + 1]) if "--max-new" in sys.argv else 0
+    search_enriched = 0
+    for sido in sido_order:
+        search_file = SEARCH_DIR / f"{sido}.json"
+        if not search_file.exists():
+            continue
+        with open(search_file, "r", encoding="utf-8") as f:
+            search_data = json.load(f)
+
+        # Build set of complexes already covered by geo_result
+        covered_complexes: set = set()
+        for item in search_data.get("items", []):
+            if item.get("id", "") in geo_result:
+                ckey = f"{item.get('apt_name', '')}|{item.get('sigungu', '')}|{item.get('dong_name', '')}"
+                covered_complexes.add(ckey)
+
+        # Pick one representative per uncovered complex
+        complex_repr: Dict[str, Dict] = {}
+        for item in search_data.get("items", []):
+            aid = item.get("id", "")
+            if not aid or aid in geo_result:
+                continue
+            ckey = f"{item.get('apt_name', '')}|{item.get('sigungu', '')}|{item.get('dong_name', '')}"
+            if ckey in covered_complexes or ckey in complex_repr:
+                continue
+            complex_repr[ckey] = item
+
+        enriched_sido = 0
+        for ckey, apt in complex_repr.items():
+            if max_new and search_enriched >= max_new:
+                break
+            apt_id = apt.get("id", "")
+            geo = enrich_apt(apt, apt_id, sido, cache, ecache, stations,
+                             schools, apt_meta, household_data, skip_odsay=True)
+            if geo:
+                geo_result[apt_id] = geo
+                enriched_sido += 1
+                search_enriched += 1
+
+        if enriched_sido:
+            print(f"  {sido} (search): {enriched_sido} new complexes enriched", flush=True)
+        if max_new and search_enriched >= max_new:
+            print(f"  Reached --max-new limit ({max_new})", flush=True)
+            break
+
+    if search_enriched:
+        print(f"  Search total: {search_enriched} new complexes enriched", flush=True)
+        total_enriched += search_enriched
 
     # Save caches
     save_cache(cache)

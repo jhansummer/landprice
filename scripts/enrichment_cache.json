@@ -16606,5 +16606,170 @@
    "academy": 343
   },
   "school_score": 77
+ },
+ "37.665,127.075": {
+  "infra": {
+   "mart": 0,
+   "conv": 0,
+   "school": 0,
+   "hospital": 0,
+   "bank": 0,
+   "academy": 0
+  },
+  "school_score": 80
+ },
+ "37.606,127.017": {
+  "infra": {
+   "mart": 0,
+   "conv": 0,
+   "school": 0,
+   "hospital": 0,
+   "bank": 0,
+   "academy": 0
+  },
+  "school_score": 83
+ },
+ "37.687,127.048": {
+  "infra": {
+   "mart": 0,
+   "conv": 0,
+   "school": 0,
+   "hospital": 0,
+   "bank": 0,
+   "academy": 0
+  },
+  "school_score": 76
+ },
+ "37.537,127.115": {
+  "infra": {
+   "mart": 0,
+   "conv": 0,
+   "school": 0,
+   "hospital": 0,
+   "bank": 0,
+   "academy": 0
+  },
+  "school_score": 81
+ },
+ "37.503,126.856": {
+  "infra": {
+   "mart": 0,
+   "conv": 0,
+   "school": 0,
+   "hospital": 0,
+   "bank": 0,
+   "academy": 0
+  },
+  "school_score": 79
+ },
+ "37.520,126.850": {
+  "infra": {
+   "mart": 3,
+   "conv": 55,
+   "school": 13,
+   "hospital": 143,
+   "bank": 46,
+   "academy": 312
+  },
+  "school_score": 74
+ },
+ "37.578,127.010": {
+  "infra": {
+   "mart": 4,
+   "conv": 81,
+   "school": 18,
+   "hospital": 118,
+   "bank": 95,
+   "academy": 89
+  },
+  "school_score": 78
+ },
+ "37.523,126.829": {
+  "infra": {
+   "mart": 0,
+   "conv": 35,
+   "school": 6,
+   "hospital": 25,
+   "bank": 14,
+   "academy": 80
+  },
+  "school_score": 66
+ },
+ "37.563,126.964": {
+  "infra": {
+   "mart": 2,
+   "conv": 90,
+   "school": 18,
+   "hospital": 129,
+   "bank": 125,
+   "academy": 130
+  },
+  "school_score": 79
+ },
+ "37.536,127.004": {
+  "infra": {
+   "mart": 3,
+   "conv": 35,
+   "school": 3,
+   "hospital": 52,
+   "bank": 53,
+   "academy": 50
+  },
+  "school_score": 77
+ },
+ "37.582,127.025": {
+  "infra": {
+   "mart": 3,
+   "conv": 88,
+   "school": 13,
+   "hospital": 84,
+   "bank": 78,
+   "academy": 112
+  },
+  "school_score": 77
+ },
+ "37.527,126.906": {
+  "infra": {
+   "mart": 7,
+   "conv": 95,
+   "school": 6,
+   "hospital": 164,
+   "bank": 97,
+   "academy": 205
+  },
+  "school_score": 84
+ },
+ "37.538,127.131": {
+  "infra": {
+   "mart": 8,
+   "conv": 123,
+   "school": 7,
+   "hospital": 314,
+   "bank": 96,
+   "academy": 212
+  },
+  "school_score": 72
+ },
+ "37.535,127.061": {
+  "infra": {
+   "mart": 0,
+   "conv": 67,
+   "school": 5,
+   "hospital": 116,
+   "bank": 48,
+   "academy": 125
+  },
+  "school_score": 71
+ },
+ "37.537,127.009": {
+  "infra": {
+   "mart": 4,
+   "conv": 30,
+   "school": 3,
+   "hospital": 65,
+   "bank": 46,
+   "academy": 97
+  },
+  "school_score": 78
  }
 }
