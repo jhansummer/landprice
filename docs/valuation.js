@@ -140,8 +140,8 @@
 
   /**
    * 종합 가치평가 점수 계산
-   * 서울: 교통 = 역세권(50%)+업무지구(50%), 종합 = 교통60%+학군20%+인프라20%
-   * 타지역: 교통 = 역세권(100%), 종합 = 교통60%+학군20%+인프라20%
+   * 서울: 교통 = 업무지구(70%)+지하철(30%), 종합 = 교통26%+학군47%+인프라5%+실거주11%+환금성11%
+   * 타지역: 교통 = 도심거리(70%)+지하철(30%), 종합 = 교통26%+학군47%+인프라5%+실거주11%+환금성11%
    */
   function calcValueScore(item) {
     var geo = valuationGeo && valuationGeo[item.id];
@@ -211,7 +211,7 @@
         transportScore = bizScore;
       }
 
-      // 종합: 교통60%+학군20%+인프라20%
+      // 종합: 교통26%+학군47%+인프라5%+실거주11%+환금성11%
       var total;
       var wSum = transportScore * 3;
       var wTotal = 3;
@@ -234,7 +234,7 @@
       };
     }
 
-    // 타 지역: 교통60%+학군20%+인프라20% (업무지구 거리 반영)
+    // 타 지역: 교통26%+학군47%+인프라5%+실거주11%+환금성11% (업무지구 거리 반영)
     if (subwayScore != null) {
       var transportScore2 = subwayScore;
       if (geo && geo.biz_gangnam != null) {
@@ -326,11 +326,11 @@
     var guideDiv = document.createElement("div");
     guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.6";
     guideDiv.innerHTML =
-      "<b>\uAD50\uD1B5</b>: " + (scores.isSeoul ? "\uAC15\uB0A8\uAC70\uB9AC(70%) + \uC9C0\uD558\uCCA0(30%)" : "\uB3C4\uC2EC\uAC70\uB9AC(70%) + \uC9C0\uD558\uCCA0(30%)") + "<br>" +
-      "<b>\uD559\uAD70</b>: \uBC18\uACBD 1.5km \uB0B4 \uCD08\uC911\uD559\uAD50 \uD559\uC5C5\uC131\uCDE8\uB3C4 \uAE30\uBC18 (\uAC70\uB9AC\uC5ED\uC218 \uAC00\uC911\uD3C9\uADE0)<br>" +
-      "<b>\uC790\uC5F0\uD658\uACBD</b>: \uD55C\uAC15/\uB300\uD615\uACF5\uC6D0 \uADFC\uC811\uB3C4 (exp \uAC10\uC18C)<br>" +
-      "<b>\uC0DD\uD65C\uC778\uD504\uB77C</b>: \uBC18\uACBD 1km \uB0B4 \uD559\uAD50 \u00B7 \uBCD1\uC6D0 \u00B7 \uC740\uD589 \u00B7 \uD3B8\uC758\uC810 \u00B7 \uB9C8\uD2B8<br>" +
-      "<b>\uC885\uD569</b>: \uAD50\uD1B5 25% + \uD559\uAD70 55% + \uC790\uC5F0\uD658\uACBD 10% + \uC778\uD504\uB77C 5% + \uC815\uBE44\uAD6C\uC5ED 5%";
+      "<b>교통(26%)</b>: " + (scores.isSeoul ? "업무지구 근접도(70%) + 지하철(30%)" : "도심거리(70%) + 지하철(30%)") + "<br>" +
+      "<b>학군(47%)</b>: 반경 1.5km 내 초중학교 학업성취도 기반 (거리역수 가중평균)<br>" +
+      "<b>인프라(5%)</b>: 반경 1km 내 학교 · 병원 · 은행 · 편의점 · 마트<br>" +
+      "<b>실거주(11%)</b>: 세대수 · 주차대수 · 건축연한 · 용적률<br>" +
+      "<b>환금성(11%)</b>: 최근 거래빈도 · 세대수 규모";
     guideBtn.addEventListener("click", function () {
       guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
       guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30" : "\u2139 \uC810\uC218 \uAE30\uC900 \uC811\uAE30";

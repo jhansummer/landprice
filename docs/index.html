@@ -107,7 +107,7 @@
   </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-  <link rel="stylesheet" href="style.css?v=13" />
+  <link rel="stylesheet" href="style.css?v=14" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
@@ -132,20 +132,26 @@
     </nav>
   </header>
   <section class="hero-search">
+    <div class="hero-glow"></div>
+    <p class="hero-sub">국토부 실거래가 기반 시세 분석</p>
     <h2 class="hero-heading">어떤 아파트가 궁금하세요?</h2>
     <div class="hero-search-wrap">
-      <input id="heroSearchInput" type="text" class="hero-search-input" placeholder="아파트 이름 또는 지역을 검색하세요" />
+      <svg class="hero-search-icon" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" stroke-width="1.8"/><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="heroSearchInput" type="text" class="hero-search-input" placeholder="아파트 이름으로 검색" />
       <button id="heroSearchBtn" class="hero-search-btn">검색</button>
     </div>
     <div class="scenario-cards">
       <a href="search.html" data-type="시세 조회" class="scenario-card">
-        <strong>시세 조회</strong><span>우리집 실거래가 확인</span>
+        <span class="scenario-icon">&#x1F3E0;</span>
+        <div class="scenario-text"><strong>시세 조회</strong><span>우리집 실거래가</span></div>
       </a>
       <a href="search.html" data-type="비교 분석" class="scenario-card">
-        <strong>비교 분석</strong><span>최대 5개 단지 비교</span>
+        <span class="scenario-icon">&#x1F4CA;</span>
+        <div class="scenario-text"><strong>비교 분석</strong><span>단지 비교</span></div>
       </a>
       <a href="undervalued.html" data-type="추천 단지" class="scenario-card">
-        <strong>추천 단지</strong><span>저평가 아파트 발견</span>
+        <span class="scenario-icon">&#x1F4A1;</span>
+        <div class="scenario-text"><strong>저평가 발견</strong><span>매수 기회 탐색</span></div>
       </a>
     </div>
   </section>

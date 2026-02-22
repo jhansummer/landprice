@@ -37,7 +37,7 @@ var fmt = APTCommon.fmt;
 var fmtEok = APTCommon.fmtEok;
 var escapeHTML = APTCommon.escapeHTML;
 
-/* ── 입지점수 (교통60%+학군20%+인프라20%) ── */
+/* ── 입지점수 (교통26%+학군47%+인프라5%+실거주11%+환금성11%) ── */
 function calcLocationScore(apt) {
   var geo = apt.geo;
   var vgeo = valuationGeo && valuationGeo[apt.id];
