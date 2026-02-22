@@ -1679,23 +1679,25 @@ function computePositioningData(sido) {
     prevAvg /= prev6.length;
     var priceChgPct = prevAvg > 0 ? ((recentAvg - prevAvg) / prevAvg * 100) : 0;
 
-    // 전세가 변동률 (매매평단가 × 전세가율로 전세가 추정)
+    // 전세가 변동률 (매매평단가 × 전세가율로 전세가 추정, 월 키 매칭)
     var jeonseChgPct = 0;
-    if (jTrend && jTrend.length >= 6 && trend.length === jTrend.length) {
-      var jRecent6 = jTrend.slice(-6);
-      var jPrev6 = jTrend.slice(-12, -6);
-      if (!jPrev6.length) jPrev6 = jTrend.slice(0, Math.min(6, jTrend.length));
-      var rJeonse = 0, pJeonse = 0;
-      for (var i = 0; i < recent6.length; i++) {
-        rJeonse += recent6[i][1] * (jRecent6[i] ? jRecent6[i][1] : 0) / 100;
+    if (jTrend && jTrend.length >= 6) {
+      var jMap = {};
+      jTrend.forEach(function (t) { jMap[t[0]] = t[1]; });
+      var rJeonse = 0, rCnt = 0, pJeonse = 0, pCnt = 0;
+      recent6.forEach(function (t) {
+        var jr = jMap[t[0]];
+        if (jr != null) { rJeonse += t[1] * jr / 100; rCnt++; }
+      });
+      prev6.forEach(function (t) {
+        var jr = jMap[t[0]];
+        if (jr != null) { pJeonse += t[1] * jr / 100; pCnt++; }
+      });
+      if (rCnt && pCnt) {
+        rJeonse /= rCnt;
+        pJeonse /= pCnt;
+        jeonseChgPct = pJeonse > 0 ? ((rJeonse - pJeonse) / pJeonse * 100) : 0;
       }
-      rJeonse /= recent6.length;
-      for (var i = 0; i < prev6.length; i++) {
-        var ji = jPrev6[i] ? jPrev6[i][1] : 0;
-        pJeonse += prev6[i][1] * ji / 100;
-      }
-      pJeonse /= prev6.length;
-      jeonseChgPct = pJeonse > 0 ? ((rJeonse - pJeonse) / pJeonse * 100) : 0;
     }
 
     var vol = 0;
