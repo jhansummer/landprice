@@ -36,9 +36,13 @@ def search_complex_id(apt_name, sigungu, dong_name):
     headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
     # 괄호/숫자 접미사 제거한 이름도 시도
     clean_name = re.sub(r'\s*\(.*?\)\s*$', '', apt_name).strip()
-    queries = [f"{apt_name} {sigungu} {dong_name} 네이버부동산", f"{apt_name} 네이버부동산"]
+    # 숫자만 있는 접미사도 제거 (예: "목동신시가지1" → "목동신시가지")
+    base_name = re.sub(r'\d+$', '', clean_name).strip()
+    queries = [f"{apt_name} {sigungu} {dong_name} 네이버부동산"]
     if clean_name != apt_name:
-        queries.insert(1, f"{clean_name} {sigungu} {dong_name} 네이버부동산")
+        queries.append(f"{clean_name} {sigungu} {dong_name} 네이버부동산")
+    queries.append(f"{apt_name} 네이버부동산")
+    if clean_name != apt_name:
         queries.append(f"{clean_name} 네이버부동산")
     for query in queries:
         for attempt in range(2):
@@ -56,6 +60,34 @@ def search_complex_id(apt_name, sigungu, dong_name):
             time.sleep(3)
     log(f"  [호가] {apt_name} → complex_id 못 찾음")
     return None
+
+
+def verify_complex(page, apt_name, sigungu, dong_name):
+    """페이지의 주소가 입력 시군구/동과 매칭되는지 검증."""
+    try:
+        # 헤더에 표시된 주소 텍스트 추출 (예: "강동구 둔촌동")
+        addr = page.evaluate("""() => {
+            var el = document.querySelector('[class*=HeaderName] [class*=address], [class*=header] [class*=address], [class*=Header] a[href*=complexes]');
+            if (el) return el.innerText;
+            // fallback: 헤더 영역에서 '구 ' 또는 '시 '가 포함된 텍스트
+            var header = document.querySelector('header');
+            return header ? header.innerText.substring(0, 200) : '';
+        }""")
+        title = page.title().strip()
+
+        # 1. 시군구 확인 (예: "강동구", "용인시수지구")
+        # 시군구에서 핵심 구/시 이름 추출
+        gu_match = re.search(r'(\w+[구시군])', sigungu)
+        gu_name = gu_match.group(1) if gu_match else sigungu
+        addr_text = addr + " " + title
+
+        if gu_name not in addr_text and dong_name not in addr_text:
+            log(f"    주소 불일치: '{apt_name}' ({sigungu} {dong_name}) vs 페이지 '{addr.strip()[:50]}' / '{title}'")
+            return False
+
+        return True
+    except Exception:
+        return True  # 검증 실패 시 통과시킴
 
 
 def apply_area_filter(page, area_m2):
@@ -79,12 +111,12 @@ def apply_area_filter(page, area_m2):
         items[0].click()
         time.sleep(0.3)
 
-        # 4. 대상 면적과 ±1m² 이내인 항목 선택
+        # 4. 대상 면적과 ±5% 이내인 항목 선택
         selected = 0
         for item in items[1:]:
             text = item.inner_text()
             m = re.search(r'\((\d+\.?\d*)', text)
-            if m and abs(float(m.group(1)) - area_m2) < 1.0:
+            if m and abs(float(m.group(1)) - area_m2) / area_m2 < 0.05:
                 item.click()
                 selected += 1
                 time.sleep(0.2)
@@ -203,8 +235,20 @@ def main():
                 time.sleep(3)
                 log(f"  [호가] {apt_name}: 페이지 로드 완료 (title={page.title()})")
 
-                apply_area_filter(page, area_m2)
+                # 주소 검증
+                if not verify_complex(page, apt_name, sigungu, dong_name):
+                    results.append(None)
+                    continue
+
+                # 면적 필터 적용
+                filtered = apply_area_filter(page, area_m2)
                 result = scrape_listings(page)
+
+                # 면적 필터 실패 시 결과 검증 (호가가 실거래가와 너무 동떨어지면 폐기)
+                if not filtered and result and area_m2:
+                    # 면적 필터 없이 전체 매물 → 다른 평형 섞일 수 있음
+                    log(f"    면적 필터 미적용 — 전체 매물 결과 사용")
+                    result = scrape_listings(page)
                 if result:
                     r_min = result['min'] / 10000
                     r_max = result['max'] / 10000

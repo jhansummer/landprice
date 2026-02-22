@@ -173,7 +173,7 @@ def _get_latest_deal(apt_id):
     return txns[-1][1], txns[-1][0]  # price(만원), date(YYYY-MM-DD)
 
 
-def _fetch_naver_listings_batch(apartments):
+def _fetch_naver_listings_batch(apartments, batch_size=6):
     """네이버 부동산 매물 호가 일괄 조회 (subprocess → fetch_naver_listings.py).
 
     apartments: [(apt_name, sigungu, dong_name, area_m2), ...]
@@ -181,19 +181,25 @@ def _fetch_naver_listings_batch(apartments):
     """
     import subprocess
     script = os.path.join(os.path.dirname(__file__), "fetch_naver_listings.py")
-    args = [sys.executable, script]
-    for apt_name, sigungu, dong_name, area_m2 in apartments:
-        args.append(f"{apt_name}|{sigungu}|{dong_name}|{area_m2}")
-    try:
-        result = subprocess.run(args, capture_output=True, text=True, timeout=300)
-        if result.stderr:
-            for line in result.stderr.strip().split("\n"):
-                print(line)
-        if result.returncode == 0 and result.stdout.strip():
-            return json.loads(result.stdout.strip())
-    except Exception as e:
-        print(f"  [호가] subprocess 에러: {e}")
-    return [None] * len(apartments)
+    all_results = []
+    for start in range(0, len(apartments), batch_size):
+        batch = apartments[start:start + batch_size]
+        args = [sys.executable, script]
+        for apt_name, sigungu, dong_name, area_m2 in batch:
+            args.append(f"{apt_name}|{sigungu}|{dong_name}|{area_m2}")
+        try:
+            result = subprocess.run(args, capture_output=True, text=True, timeout=600)
+            if result.stderr:
+                for line in result.stderr.strip().split("\n"):
+                    print(line)
+            if result.returncode == 0 and result.stdout.strip():
+                all_results.extend(json.loads(result.stdout.strip()))
+            else:
+                all_results.extend([None] * len(batch))
+        except Exception as e:
+            print(f"  [호가] subprocess 에러: {e}")
+            all_results.extend([None] * len(batch))
+    return all_results
 
 
 def _fmt_uv_block(sido_label, top3, geo, fetch_listings=False):
