@@ -67,11 +67,11 @@
   {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": ["메인", "지역시세", "비교검색", "신고가검색", "저평가 TOP3", "단지분석", "바닥찾기", "백테스트", "관심목록"],
+    "name": ["메인", "검색", "지역시세", "신고가검색", "저평가 TOP3", "단지분석", "바닥찾기", "백테스트", "관심목록"],
     "url": [
       "https://aptmine.com/",
-      "https://aptmine.com/regional.html",
       "https://aptmine.com/search.html",
+      "https://aptmine.com/regional.html",
       "https://aptmine.com/newhigh.html",
       "https://aptmine.com/undervalued.html",
       "https://aptmine.com/valuation.html",
@@ -125,18 +125,37 @@
     </div>
     <nav class="nav-bar" aria-label="메인 내비게이션">
       <span class="nav-link active">메인</span>
+      <a class="nav-link" href="search.html">검색</a>
       <a class="nav-link" href="regional.html">시세</a>
       <a class="nav-link" href="undervalued.html">분석</a>
       <a class="nav-link" href="watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>
     </nav>
   </header>
+  <section class="hero-search">
+    <h2 class="hero-heading">어떤 아파트가 궁금하세요?</h2>
+    <div class="hero-search-wrap">
+      <input id="heroSearchInput" type="text" class="hero-search-input" placeholder="아파트 이름 또는 지역을 검색하세요" />
+      <button id="heroSearchBtn" class="hero-search-btn">검색</button>
+    </div>
+    <div class="scenario-cards">
+      <a href="search.html" data-type="시세 조회" class="scenario-card">
+        <strong>시세 조회</strong><span>우리집 실거래가 확인</span>
+      </a>
+      <a href="search.html" data-type="비교 분석" class="scenario-card">
+        <strong>비교 분석</strong><span>최대 5개 단지 비교</span>
+      </a>
+      <a href="undervalued.html" data-type="추천 단지" class="scenario-card">
+        <strong>추천 단지</strong><span>저평가 아파트 발견</span>
+      </a>
+    </div>
+  </section>
   <nav id="tabs" class="tabs"></nav>
   <div id="subtabs" class="district-select-wrap"></div>
   <div id="meta" class="meta"></div>
   <div id="dashboard" class="dashboard"></div>
   <main>
     <h1 class="page-title">아파트 실거래가 조회 · 매매 시세 분석</h1>
-    <p class="page-desc">전국 아파트 매매·전세 실거래가를 분석하여 상승률 랭킹, 거래량 순위, 회복률을 매일 업데이트합니다. 국토교통부 실거래가 공공데이터 기반.</p>
+    <p class="page-desc">전국 아파트 매매·전세 <span class="term-tip">실거래가</span>를 분석하여 <span class="term-tip">상승률</span> 랭킹, 거래량 순위, <span class="term-tip">회복률</span>을 매일 업데이트합니다. 국토교통부 실거래가 공공데이터 기반.</p>
     <div id="status" class="status"><span class="spinner"></span>데이터 로딩 중...</div>
     <div id="grid"></div>
   </main>

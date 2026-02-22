@@ -57,6 +57,7 @@ HTML_TEMPLATE = """\
 <span class="tagline">실거래가 기반 아파트 시세 분석</span></div>\
 <nav class="nav-bar" aria-label="메인 내비게이션">\
 <a class="nav-link" href="/">메인</a>\
+<a class="nav-link" href="/search.html">검색</a>\
 <a class="nav-link" href="/regional.html">시세</a>\
 <a class="nav-link" href="/undervalued.html">분석</a>\
 <a class="nav-link" href="/watchlist.html">관심<span id="wl-badge" class="wl-badge"></span></a>\

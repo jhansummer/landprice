@@ -625,7 +625,12 @@ function doSearch(query) {
   }
   resultsEl.appendChild(countDiv);
 
-  if (!groups.length) return;
+  if (!groups.length) {
+    if (typeof gtag === "function") {
+      gtag("event", "empty_result", { query: q, page: "search" });
+    }
+    return;
+  }
 
   var sec = document.createElement("div");
   sec.className = "section";

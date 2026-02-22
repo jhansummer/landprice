@@ -271,6 +271,33 @@
       contentEl.appendChild(extraGrid);
     }
 
+    // ── 인사이트 한줄 ──
+    var insightLines = [];
+    if (vsPeak < 0 && stats) {
+      var diffVal = Math.round(peakPrice - latestPrice);
+      insightLines.push('역대 <span class="term-tip">고점가</span>(' + fmtEok(peakPrice) + ')보다 <strong>' + fmtEok(diffVal) + ' 싸게</strong> 거래됐어요 (' + vsPeak.toFixed(1) + '%)');
+    } else if (vsPeak > 0 && stats) {
+      insightLines.push('역대 <span class="term-tip">고점가</span>를 <strong>경신했어요!</strong> (+' + vsPeak.toFixed(1) + '%)');
+    }
+    if (jeonseRatio != null) {
+      var jComment = jeonseRatio >= 60
+        ? '갭이 작아 실거주 부담이 적은 편이에요'
+        : jeonseRatio >= 40
+          ? '평균적인 수준이에요'
+          : '투자 수요가 높은 단지예요';
+      insightLines.push('<span class="term-tip">전세가율</span>이 매매가의 <strong>' + jeonseRatio.toFixed(1) + '%</strong>예요. ' + jComment);
+    }
+    if (insightLines.length) {
+      var insightBlock = document.createElement("div");
+      insightBlock.className = "explain-block";
+      insightBlock.innerHTML = insightLines.join("<br>");
+      contentEl.appendChild(insightBlock);
+      APTCommon.initTooltips();
+      if (typeof gtag === "function") {
+        gtag("event", "insight_impression", { apt_name: apt.name, vs_peak: vsPeak.toFixed(1), jeonse_ratio: jeonseRatio != null ? jeonseRatio.toFixed(1) : "" });
+      }
+    }
+
     // ── 차트 ──
     if (txns.length > 1) {
       var chartSec = document.createElement("div");

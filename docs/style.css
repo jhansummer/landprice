@@ -450,6 +450,37 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   .val-compare-table{min-width:340px}
 }
 
+/* ── Hero Search ── */
+.hero-search{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:32px 24px 28px;text-align:center}
+.hero-heading{font-size:22px;font-weight:800;color:#fff;margin:0 0 16px;letter-spacing:-0.3px}
+.hero-search-wrap{display:flex;gap:8px;max-width:520px;margin:0 auto 20px;position:relative}
+.hero-search-input{flex:1;padding:13px 16px;border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-sm);background:rgba(255,255,255,0.08);color:#fff;font-family:var(--font-body);font-size:15px;transition:border-color .15s,box-shadow .15s}
+.hero-search-input::placeholder{color:rgba(255,255,255,0.4)}
+.hero-search-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,0.3)}
+.hero-search-btn{flex-shrink:0;padding:13px 24px;border:none;border-radius:var(--radius-sm);background:var(--accent);color:#fff;font-family:var(--font-body);font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;box-shadow:0 2px 8px rgba(37,99,235,0.3)}
+.hero-search-btn:hover{background:var(--accent-hover)}
+.scenario-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:520px;margin:0 auto}
+.scenario-card{display:flex;flex-direction:column;gap:2px;padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-sm);text-decoration:none;transition:all .15s;text-align:left}
+.scenario-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}
+.scenario-card strong{font-size:13px;font-weight:700;color:#fff}
+.scenario-card span{font-size:11px;color:rgba(255,255,255,0.5)}
+.hero-search .autocomplete-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);z-index:100;max-height:320px;overflow-y:auto;margin-top:2px}
+@media(max-width:480px){
+  .hero-search{padding:24px 12px 20px}
+  .hero-heading{font-size:18px}
+  .hero-search-input{font-size:14px;padding:12px 14px}
+  .hero-search-btn{font-size:14px;padding:12px 16px}
+  .scenario-cards{grid-template-columns:1fr;max-width:100%}
+}
+
+/* ── Tooltips (term-tip) ── */
+.term-tip{border-bottom:1px dashed var(--muted-light);cursor:help;position:relative;white-space:nowrap}
+.term-tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;font-size:12px;font-weight:500;line-height:1.5;padding:8px 12px;border-radius:8px;max-width:260px;width:max-content;white-space:normal;pointer-events:none;opacity:0;transition:opacity .15s;z-index:50}
+.term-tip::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1e293b;pointer-events:none;opacity:0;transition:opacity .15s;z-index:50}
+.term-tip.tip-active::after,.term-tip.tip-active::before{opacity:1}
+@media(hover:hover){.term-tip:hover::after,.term-tip:hover::before{opacity:1}}
+@media(max-width:480px){.term-tip::after{left:0;transform:none}}
+
 /* ── CTA Group ── */
 .cta-group{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;justify-content:flex-end}
 .cta-group .detail-btn{font-size:11px;padding:5px 10px}

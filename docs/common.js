@@ -76,5 +76,93 @@ var APTCommon = (function () {
     subtabsEl.appendChild(select);
   };
 
+  /* ── 전문용어 사전 (툴팁) ── */
+  C.GLOSSARY = {
+    "고점가": "2021~2022년 부동산 상승기 때 기록한 역대 최고 매매가입니다.",
+    "고점대비": "역대 고점가 대비 현재 가격이 얼마나 떨어졌는지(또는 올랐는지) 비율입니다.",
+    "전세가율": "매매가 대비 전세가의 비율(%). 높을수록 갭(매매가-전세가)이 작습니다.",
+    "세대수": "아파트 단지에 포함된 전체 가구 수. 대단지일수록 유동성이 좋습니다.",
+    "상승률": "이전 거래 대비 가격이 오른 비율(%)입니다.",
+    "저평가": "인근 유사단지 평균보다 현재 매매가가 낮은 상태를 뜻합니다.",
+    "회복률": "고점 대비 하락 후 다시 올라온 정도를 나타내는 비율입니다.",
+    "실거래가": "국토교통부에 신고된 실제 매매 계약 금액입니다.",
+    "바닥찾기": "고점 대비 크게 하락한 단지 중 반등 가능성이 있는 곳을 탐색하는 분석입니다."
+  };
+
+  /* ── 툴팁 초기화 ── */
+  C.initTooltips = function () {
+    var tips = document.querySelectorAll(".term-tip");
+    if (!tips.length) return;
+
+    tips.forEach(function (el) {
+      var text = el.textContent.trim();
+      var desc = C.GLOSSARY[text];
+      if (desc) el.setAttribute("data-tip", desc);
+
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleTooltip(el);
+        if (typeof gtag === "function") {
+          gtag("event", "tooltip_view", { term: text });
+        }
+      });
+    });
+
+    document.addEventListener("click", function () {
+      tips.forEach(function (el) { el.classList.remove("tip-active"); });
+    });
+  };
+
+  /* ── 스크롤 깊이 추적 ── */
+  C.initScrollDepth = function () {
+    var milestones = [25, 50, 75, 100];
+    var fired = {};
+    window.addEventListener("scroll", function () {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (docHeight <= 0) return;
+      var pct = Math.round(scrollTop / docHeight * 100);
+      milestones.forEach(function (m) {
+        if (pct >= m && !fired[m]) {
+          fired[m] = true;
+          if (typeof gtag === "function") {
+            gtag("event", "scroll_depth", { milestone: m, page: location.pathname });
+          }
+        }
+      });
+    }, { passive: true });
+  };
+
+  /* ── 첫 방문 첫 액션 추적 ── */
+  C.initFirstVisitAction = function () {
+    if (sessionStorage.getItem("aptmine_fva")) return;
+    function handler(e) {
+      var tag = e.target.tagName;
+      var text = (e.target.textContent || "").trim().slice(0, 30);
+      sessionStorage.setItem("aptmine_fva", "1");
+      if (typeof gtag === "function") {
+        gtag("event", "first_visit_action", { element: tag, text: text, page: location.pathname });
+      }
+      document.removeEventListener("click", handler);
+    }
+    document.addEventListener("click", handler);
+  };
+
+  function toggleTooltip(el) {
+    var wasActive = el.classList.contains("tip-active");
+    document.querySelectorAll(".term-tip.tip-active").forEach(function (t) {
+      t.classList.remove("tip-active");
+    });
+    if (!wasActive) el.classList.add("tip-active");
+  }
+
   return C;
 })();
+
+/* ── GA4 자동 초기화 ── */
+document.addEventListener("DOMContentLoaded", function () {
+  APTCommon.initScrollDepth();
+  APTCommon.initFirstVisitAction();
+  APTCommon.initTooltips();
+});

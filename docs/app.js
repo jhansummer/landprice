@@ -848,6 +848,131 @@ function showDetail(r) {
     });
 }
 
+/* ── Hero Search ── */
+function initHeroSearch(sidoOrder) {
+  var heroInput = document.getElementById("heroSearchInput");
+  var heroBtn = document.getElementById("heroSearchBtn");
+  if (!heroInput || !heroBtn) return;
+
+  var heroDropdown = null;
+  var heroSidoCache = {};
+  var heroTimeout = null;
+
+  function ensureDropdown() {
+    if (heroDropdown) return;
+    heroDropdown = document.createElement("div");
+    heroDropdown.className = "autocomplete-dropdown";
+    heroDropdown.style.display = "none";
+    heroInput.parentElement.appendChild(heroDropdown);
+  }
+
+  function loadHeroSido(sido) {
+    if (heroSidoCache[sido]) return Promise.resolve(heroSidoCache[sido]);
+    return fetch("data/apt_trade/search/" + encodeURIComponent(sido) + ".json?t=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) heroSidoCache[sido] = d; return d; })
+      .catch(function () { return null; });
+  }
+
+  function doHeroSearch(query) {
+    if (!query || query.length < 2) {
+      if (heroDropdown) heroDropdown.style.display = "none";
+      return;
+    }
+    ensureDropdown();
+    var q = query.toLowerCase();
+
+    // Load all sido data for matching
+    var promises = sidoOrder.map(function (sido) { return loadHeroSido(sido); });
+    Promise.all(promises).then(function (results) {
+      var matches = [];
+      var seen = {};
+      for (var si = 0; si < results.length && matches.length < 10; si++) {
+        var data = results[si];
+        if (!data || !data.items) continue;
+        var sido = sidoOrder[si];
+        for (var i = 0; i < data.items.length && matches.length < 10; i++) {
+          var r = data.items[i];
+          if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
+          var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
+          if (seen[key]) continue;
+          seen[key] = true;
+          matches.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name, sido: sido });
+        }
+      }
+
+      if (!matches.length) {
+        heroDropdown.style.display = "none";
+        if (typeof gtag === "function") {
+          gtag("event", "empty_result", { query: query, page: "hero" });
+        }
+        return;
+      }
+
+      heroDropdown.innerHTML = "";
+      matches.forEach(function (m) {
+        var item = document.createElement("div");
+        item.className = "ac-item";
+        item.innerHTML = '<span class="ac-name">' + APTCommon.escapeHTML(m.apt_name) + '</span>'
+          + '<span class="ac-loc">' + APTCommon.escapeHTML(m.district + " " + m.dong_name) + '</span>';
+        item.addEventListener("mousedown", function (e) {
+          e.preventDefault();
+          heroDropdown.style.display = "none";
+          location.href = "search.html#" + encodeURIComponent(m.sido) + "?q=" + encodeURIComponent(m.apt_name);
+        });
+        heroDropdown.appendChild(item);
+      });
+      heroDropdown.style.display = "block";
+    });
+  }
+
+  heroInput.addEventListener("input", function () {
+    clearTimeout(heroTimeout);
+    heroTimeout = setTimeout(function () {
+      doHeroSearch(heroInput.value.trim());
+    }, 300);
+  });
+
+  heroInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (heroDropdown) heroDropdown.style.display = "none";
+      var q = heroInput.value.trim();
+      if (q.length >= 2) {
+        if (typeof gtag === "function") {
+          gtag("event", "hero_search", { query: q });
+        }
+        location.href = "search.html#" + encodeURIComponent(activeSido || sidoOrder[0] || "") + "?q=" + encodeURIComponent(q);
+      }
+    }
+  });
+
+  heroBtn.addEventListener("click", function () {
+    if (heroDropdown) heroDropdown.style.display = "none";
+    var q = heroInput.value.trim();
+    if (q.length >= 2) {
+      if (typeof gtag === "function") {
+        gtag("event", "hero_search", { query: q });
+      }
+      location.href = "search.html#" + encodeURIComponent(activeSido || sidoOrder[0] || "") + "?q=" + encodeURIComponent(q);
+    }
+  });
+
+  heroInput.addEventListener("blur", function () {
+    setTimeout(function () {
+      if (heroDropdown) heroDropdown.style.display = "none";
+    }, 150);
+  });
+
+  // Scenario card click tracking
+  document.querySelectorAll(".scenario-card").forEach(function (card) {
+    card.addEventListener("click", function () {
+      if (typeof gtag === "function") {
+        gtag("event", "scenario_click", { type: card.getAttribute("data-type") });
+      }
+    });
+  });
+}
+
 async function init() {
   try {
     var response = await fetch(summaryPath + "?t=" + Date.now());
@@ -873,6 +998,8 @@ async function init() {
     statusEl.innerHTML = "";
     var dateOnly = globalData.updated_at ? globalData.updated_at.slice(0, 10) : "";
     metaEl.textContent = "\uC5C5\uB370\uC774\uD2B8: " + dateOnly;
+
+    initHeroSearch(sidoOrder);
   } catch (e) {
     statusEl.textContent = "\uB124\uD2B8\uC6CC\uD06C \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4. \uC0C8\uB85C\uACE0\uCE68\uD574\uC8FC\uC138\uC694.";
   }
