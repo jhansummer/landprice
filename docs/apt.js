@@ -330,6 +330,9 @@
       renderGeo(geo);
     }
 
+    // ── 이 지역 분석 링크 ──
+    renderAreaMore(apt);
+
     // ── 거래 내역 테이블 ──
     if (txns.length) {
       renderTxnTable(txns);
@@ -450,6 +453,35 @@
       sec.appendChild(row);
     });
 
+    contentEl.appendChild(sec);
+  }
+
+  /* ── 이 지역 더보기 ── */
+  function renderAreaMore(apt) {
+    if (!apt.sido) return;
+    var sec = document.createElement("div");
+    sec.className = "section";
+    sec.style.padding = "16px";
+    var title = document.createElement("div");
+    title.style.cssText = "font-size:14px;font-weight:700;margin-bottom:10px;color:var(--ink)";
+    title.textContent = "\uD83D\uDCCA " + (apt.sigungu || apt.sido) + " \uBD84\uC11D \uB354\uBCF4\uAE30";
+    sec.appendChild(title);
+    var hash = encodeURIComponent(apt.sido);
+    var links = document.createElement("div");
+    links.className = "insight-card-links";
+    var items = [
+      { icon: "\uD83D\uDCA1", text: "\uC800\uD3C9\uAC00 TOP3", href: "undervalued.html#" + hash },
+      { icon: "\uD83D\uDCC9", text: "\uBC14\uB2E5\uCC3E\uAE30", href: "bottom.html#" + hash },
+      { icon: "\uD83C\uDFC6", text: "\uC785\uC9C0 \uB7AD\uD0B9", href: "valuation.html" }
+    ];
+    items.forEach(function (it) {
+      var a = document.createElement("a");
+      a.className = "insight-card-link";
+      a.href = it.href;
+      a.textContent = it.icon + " " + it.text;
+      links.appendChild(a);
+    });
+    sec.appendChild(links);
     contentEl.appendChild(sec);
   }
 

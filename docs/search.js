@@ -592,6 +592,35 @@ function getFilteredItems() {
   return items;
 }
 
+function renderInsightCard() {
+  if (!activeSido) return null;
+  var label = activeSido;
+  if (activeDistrict) label += " " + activeDistrict;
+  var hash = encodeURIComponent(activeSido);
+  var card = document.createElement("div");
+  card.className = "insight-card";
+  var title = document.createElement("span");
+  title.className = "insight-card-title";
+  title.textContent = "\uD83D\uDCCA " + label + " \uBD84\uC11D";
+  card.appendChild(title);
+  var links = document.createElement("div");
+  links.className = "insight-card-links";
+  var items = [
+    { icon: "\uD83D\uDCA1", text: "\uC800\uD3C9\uAC00 TOP3", href: "undervalued.html#" + hash },
+    { icon: "\uD83D\uDCC9", text: "\uBC14\uB2E5\uCC3E\uAE30", href: "bottom.html#" + hash },
+    { icon: "\uD83C\uDFC6", text: "\uC785\uC9C0 \uB7AD\uD0B9", href: "valuation.html" }
+  ];
+  items.forEach(function (it) {
+    var a = document.createElement("a");
+    a.className = "insight-card-link";
+    a.href = it.href;
+    a.textContent = it.icon + " " + it.text;
+    links.appendChild(a);
+  });
+  card.appendChild(links);
+  return card;
+}
+
 function doSearch(query) {
   resultsEl.innerHTML = "";
   var q = (query || "").trim().toLowerCase();
@@ -624,6 +653,9 @@ function doSearch(query) {
     countDiv.textContent = label + ' \uC804\uCCB4 ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
   }
   resultsEl.appendChild(countDiv);
+
+  var insightEl = renderInsightCard();
+  if (insightEl) resultsEl.appendChild(insightEl);
 
   if (!groups.length) {
     if (typeof gtag === "function") {

@@ -874,34 +874,41 @@ function initHeroSearch(sidoOrder) {
       .catch(function () { return null; });
   }
 
+  var heroLastMatch = null; // 마지막 매칭된 시도 (Enter 용)
+
   function doHeroSearch(query) {
     if (!query || query.length < 2) {
       if (heroDropdown) heroDropdown.style.display = "none";
+      heroLastMatch = null;
       return;
     }
     ensureDropdown();
     var q = query.toLowerCase();
 
-    // 현재 활성 시도 데이터만 로드 (경량)
-    var targetSido = activeSido || sidoOrder[0];
-    if (!targetSido) return;
+    // 전국 검색: 모든 시도 데이터 병렬 로드
+    var promises = sidoOrder.map(function (sido) {
+      return loadHeroSido(sido).then(function (data) {
+        return { sido: sido, data: data };
+      });
+    });
 
-    loadHeroSido(targetSido).then(function (data) {
-      if (!data || !data.items) {
-        heroDropdown.style.display = "none";
-        return;
-      }
-
+    Promise.all(promises).then(function (results) {
       var matches = [];
       var seen = {};
-      for (var i = 0; i < data.items.length && matches.length < 10; i++) {
-        var r = data.items[i];
-        if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
-        var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
-        if (seen[key]) continue;
-        seen[key] = true;
-        matches.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name, sido: targetSido });
+      for (var si = 0; si < results.length && matches.length < 10; si++) {
+        var r = results[si];
+        if (!r.data || !r.data.items) continue;
+        for (var i = 0; i < r.data.items.length && matches.length < 10; i++) {
+          var item = r.data.items[i];
+          if (item.apt_name.toLowerCase().indexOf(q) < 0) continue;
+          var key = item.apt_name + "\t" + (item.district || item.sigungu) + "\t" + item.dong_name;
+          if (seen[key]) continue;
+          seen[key] = true;
+          matches.push({ apt_name: item.apt_name, district: item.district || item.sigungu, dong_name: item.dong_name, sido: r.sido });
+        }
       }
+
+      heroLastMatch = matches.length ? matches[0].sido : null;
 
       if (!matches.length) {
         heroDropdown.style.display = "none";
@@ -913,10 +920,12 @@ function initHeroSearch(sidoOrder) {
 
       heroDropdown.innerHTML = "";
       matches.forEach(function (m) {
+        var locText = m.district + " " + m.dong_name;
+        if (m.sido !== "\uC11C\uC6B8") locText = m.sido + " " + locText;
         var item = document.createElement("div");
         item.className = "ac-item";
         item.innerHTML = '<span class="ac-name">' + APTCommon.escapeHTML(m.apt_name) + '</span>'
-          + '<span class="ac-loc">' + APTCommon.escapeHTML(m.district + " " + m.dong_name) + '</span>';
+          + '<span class="ac-loc">' + APTCommon.escapeHTML(locText) + '</span>';
         item.addEventListener("mousedown", function (e) {
           e.preventDefault();
           heroDropdown.style.display = "none";
@@ -935,28 +944,22 @@ function initHeroSearch(sidoOrder) {
     }, 300);
   });
 
-  heroInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      if (heroDropdown) heroDropdown.style.display = "none";
-      var q = heroInput.value.trim();
-      if (q.length >= 2) {
-        if (typeof gtag === "function") {
-          gtag("event", "hero_search", { query: q });
-        }
-        location.href = "search.html#" + encodeURIComponent(activeSido || sidoOrder[0] || "") + "?q=" + encodeURIComponent(q);
-      }
+  function heroNavigate(q) {
+    if (heroDropdown) heroDropdown.style.display = "none";
+    if (q.length < 2) return;
+    if (typeof gtag === "function") {
+      gtag("event", "hero_search", { query: q });
     }
+    var targetSido = heroLastMatch || activeSido || sidoOrder[0] || "";
+    location.href = "search.html#" + encodeURIComponent(targetSido) + "?q=" + encodeURIComponent(q);
+  }
+
+  heroInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") heroNavigate(heroInput.value.trim());
   });
 
   heroBtn.addEventListener("click", function () {
-    if (heroDropdown) heroDropdown.style.display = "none";
-    var q = heroInput.value.trim();
-    if (q.length >= 2) {
-      if (typeof gtag === "function") {
-        gtag("event", "hero_search", { query: q });
-      }
-      location.href = "search.html#" + encodeURIComponent(activeSido || sidoOrder[0] || "") + "?q=" + encodeURIComponent(q);
-    }
+    heroNavigate(heroInput.value.trim());
   });
 
   heroInput.addEventListener("blur", function () {
