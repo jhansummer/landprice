@@ -882,23 +882,25 @@ function initHeroSearch(sidoOrder) {
     ensureDropdown();
     var q = query.toLowerCase();
 
-    // Load all sido data for matching
-    var promises = sidoOrder.map(function (sido) { return loadHeroSido(sido); });
-    Promise.all(promises).then(function (results) {
+    // 현재 활성 시도 데이터만 로드 (경량)
+    var targetSido = activeSido || sidoOrder[0];
+    if (!targetSido) return;
+
+    loadHeroSido(targetSido).then(function (data) {
+      if (!data || !data.items) {
+        heroDropdown.style.display = "none";
+        return;
+      }
+
       var matches = [];
       var seen = {};
-      for (var si = 0; si < results.length && matches.length < 10; si++) {
-        var data = results[si];
-        if (!data || !data.items) continue;
-        var sido = sidoOrder[si];
-        for (var i = 0; i < data.items.length && matches.length < 10; i++) {
-          var r = data.items[i];
-          if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
-          var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
-          if (seen[key]) continue;
-          seen[key] = true;
-          matches.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name, sido: sido });
-        }
+      for (var i = 0; i < data.items.length && matches.length < 10; i++) {
+        var r = data.items[i];
+        if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
+        var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
+        if (seen[key]) continue;
+        seen[key] = true;
+        matches.push({ apt_name: r.apt_name, district: r.district || r.sigungu, dong_name: r.dong_name, sido: targetSido });
       }
 
       if (!matches.length) {
