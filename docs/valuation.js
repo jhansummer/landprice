@@ -311,7 +311,7 @@
     header.className = "vs-header";
     var title = document.createElement("span");
     title.className = "vs-title";
-    title.textContent = "\uC785\uC9C0\uBD84\uC11D";
+    title.textContent = "\uC785\uC9C0\uC810\uC218";
     header.appendChild(title);
     var totalEl = document.createElement("span");
     totalEl.className = "vs-total";
