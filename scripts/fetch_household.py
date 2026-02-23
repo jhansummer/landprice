@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import requests
-from lxml import etree
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 CACHE_FILE = SCRIPTS_DIR / "household_cache.json"
@@ -23,14 +22,12 @@ SEARCH_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "search"
 
 SERVICE_KEY = os.getenv("MOLIT_SERVICE_KEY", "")
 
-# K-apt API endpoints
-APT_LIST_URL = "https://apis.data.go.kr/1611000/AptListService2/getSigunguAptList"
-APT_INFO_URL = "https://apis.data.go.kr/1613000/AptBasisInfoService2/getAphusBassInfo"
+# K-apt API endpoints (V3/V4 — JSON responses)
+APT_LIST_URL = "https://apis.data.go.kr/1613000/AptListService3/getSigunguAptList3"
+APT_TOTAL_URL = "https://apis.data.go.kr/1613000/AptListService3/getTotalAptList3"
+APT_INFO_URL = "https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4"
 
 API_DELAY = 0.15  # seconds between calls
-
-# LAWD codes for our target 시군구
-# Will be collected from valuation data
 
 
 def load_cache() -> Dict:
@@ -90,61 +87,6 @@ def get_target_apartments() -> List[Dict]:
     return apts
 
 
-def get_sigungu_codes() -> Dict[str, str]:
-    """Map sigungu names to LAWD codes from our data."""
-    # Read from the lawd codes used in fetch_apt_trade.py
-    lawd_file = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "lawd_codes.json"
-    if lawd_file.exists():
-        with open(lawd_file, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {}
-
-
-def fetch_apt_list(sigungu_code: str) -> List[Dict]:
-    """Fetch apartment list for a sigungu from K-apt API."""
-    all_items = []
-    page = 1
-    while True:
-        params = {
-            "serviceKey": SERVICE_KEY,
-            "sigunguCode": sigungu_code,
-            "numOfRows": "1000",
-            "pageNo": str(page),
-        }
-        try:
-            resp = requests.get(APT_LIST_URL, params=params, timeout=30)
-            if resp.status_code != 200:
-                print(f"  List API error: {resp.status_code}", flush=True)
-                break
-
-            root = etree.fromstring(resp.content)
-            result_code = root.findtext(".//resultCode")
-            if result_code != "00":
-                msg = root.findtext(".//resultMsg")
-                print(f"  List API result: {result_code} {msg}", flush=True)
-                break
-
-            items = root.findall(".//item")
-            for item in items:
-                all_items.append({
-                    "kaptCode": item.findtext("kaptCode") or "",
-                    "kaptName": item.findtext("kaptName") or "",
-                    "bjdCode": item.findtext("bjdCode") or "",
-                })
-
-            total = int(root.findtext(".//totalCount") or "0")
-            if len(all_items) >= total:
-                break
-            page += 1
-            time.sleep(API_DELAY)
-
-        except Exception as e:
-            print(f"  List API exception: {e}", flush=True)
-            break
-
-    return all_items
-
-
 def fetch_apt_info(kapt_code: str) -> Optional[Dict]:
     """Fetch apartment basic info including household count."""
     params = {
@@ -156,25 +98,26 @@ def fetch_apt_info(kapt_code: str) -> Optional[Dict]:
         if resp.status_code != 200:
             return None
 
-        root = etree.fromstring(resp.content)
-        result_code = root.findtext(".//resultCode")
-        if result_code != "00":
+        data = resp.json()
+        header = data.get("response", {}).get("header", {})
+        if header.get("resultCode") != "00":
             return None
 
-        item = root.find(".//item")
-        if item is None:
+        item = data.get("response", {}).get("body", {}).get("item")
+        if not item:
             return None
 
+        households = item.get("kaptdaCnt") or item.get("hoCnt") or 0
         return {
             "kaptCode": kapt_code,
-            "kaptName": item.findtext("kaptName") or "",
-            "households": int(item.findtext("kaptdaCnt") or "0"),
-            "dong_count": int(item.findtext("kaptDongCnt") or "0"),
-            "builder": item.findtext("kaptBcompany") or "",
-            "use_date": item.findtext("kaptUsedate") or "",
-            "address": item.findtext("doroJuso") or item.findtext("kaptAddr") or "",
+            "kaptName": item.get("kaptName", ""),
+            "households": int(households),
+            "dong_count": int(item.get("kaptDongCnt") or 0),
+            "builder": item.get("kaptBcompany") or "",
+            "use_date": item.get("kaptUsedate") or "",
+            "address": item.get("doroJuso") or item.get("kaptAddr") or "",
         }
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -200,39 +143,22 @@ def main() -> int:
     targets = get_target_apartments()
     print(f"Target apartments: {len(targets)}", flush=True)
 
-    # Check which ones are missing from cache
+    # Check which ones are missing from cache (skip estimated ones too)
     missing = []
     for apt in targets:
         cache_key = f"{apt['sigungu']}|{apt['dong_name']}|{apt['apt_name']}"
-        if cache_key not in cache:
+        cached = cache.get(cache_key)
+        if not cached or cached.get("source") == "estimated":
             missing.append(apt)
 
     if not missing:
         print("All apartments already cached. Done.", flush=True)
         return 0
 
-    print(f"Missing from cache: {len(missing)}", flush=True)
+    print(f"Missing/estimated from cache: {len(missing)}", flush=True)
 
-    # Collect unique sigungu names
-    sigungu_set = set(apt["sigungu"] for apt in missing)
-    print(f"Unique sigungu to fetch: {len(sigungu_set)}", flush=True)
-
-    # For each sigungu, fetch the apartment list
-    kapt_by_name = {}  # normalized_name -> kapt_code
-    fetched_sigungu = set()
-
-    for sigungu in sorted(sigungu_set):
-        # We need the LAWD code. Try extracting from our data or use keyword search
-        # For now, fetch the list for each sigungu
-        # The sigungu names need to be mapped to codes
-        # Skip this step if we can't get the code
-        pass
-
-    # Alternative approach: use the kaptName search
-    # Fetch all complexes nationwide and match by name
+    # Fetch nationwide apartment list (JSON)
     print("Fetching nationwide apartment list...", flush=True)
-
-    # Try getting all apartments page by page
     all_kapt = []
     page = 1
     while True:
@@ -242,41 +168,32 @@ def main() -> int:
             "pageNo": str(page),
         }
         try:
-            resp = requests.get(
-                "https://apis.data.go.kr/1611000/AptListService2/getTotalAptList",
-                params=params, timeout=30,
-            )
+            resp = requests.get(APT_TOTAL_URL, params=params, timeout=30)
             if resp.status_code != 200:
                 print(f"  Error status: {resp.status_code} on page {page}", flush=True)
                 break
 
-            root = etree.fromstring(resp.content)
-            result_code = root.findtext(".//resultCode")
-            if result_code != "00":
-                msg = root.findtext(".//resultMsg")
-                print(f"  API result: {result_code} {msg}", flush=True)
+            data = resp.json()
+            header = data.get("response", {}).get("header", {})
+            if header.get("resultCode") != "00":
+                print(f"  API result: {header.get('resultCode')} {header.get('resultMsg')}", flush=True)
                 break
 
-            items = root.findall(".//item")
+            body = data.get("response", {}).get("body", {})
+            items = body.get("items", [])
             if not items:
                 break
 
             for item in items:
-                kapt_code = item.findtext("kaptCode") or ""
-                kapt_name = item.findtext("kaptName") or ""
-                as1 = item.findtext("as1") or ""  # 시도
-                as2 = item.findtext("as2") or ""  # 시군구
-                as3 = item.findtext("as3") or ""  # 읍면
-                as4 = item.findtext("as4") or ""  # 동리
                 all_kapt.append({
-                    "code": kapt_code,
-                    "name": kapt_name,
-                    "sido": as1,
-                    "sigungu": as2,
-                    "dong": as4,
+                    "code": item.get("kaptCode", ""),
+                    "name": item.get("kaptName", ""),
+                    "sido": item.get("as1", ""),
+                    "sigungu": item.get("as2", ""),
+                    "dong": item.get("as4") or item.get("as3", ""),
                 })
 
-            total = int(root.findtext(".//totalCount") or "0")
+            total = body.get("totalCount", 0)
             if len(all_kapt) >= total:
                 break
 
@@ -293,7 +210,6 @@ def main() -> int:
 
     if not all_kapt:
         print("Failed to fetch apartment list. API may not be registered.", flush=True)
-        print("Please register at: https://www.data.go.kr/data/15057332/openapi.do", flush=True)
         return 1
 
     # Build name index for matching
