@@ -955,6 +955,23 @@ def main() -> int:
             rescaled += 1
         print(f"  Academy score percentile rescaling: {rescaled} entries", flush=True)
 
+    # ── loc_score percentile 재스케일링 (100점 집중 방지) ──
+    raw_locs = sorted(
+        g.get("loc_score", -1) for g in geo_result.values()
+        if g.get("loc_score") is not None
+    )
+    if raw_locs:
+        n_loc = len(raw_locs)
+        loc_rescaled = 0
+        for g in geo_result.values():
+            loc = g.get("loc_score")
+            if loc is None:
+                continue
+            g["loc_score_raw"] = loc
+            g["loc_score"] = round(_bisect.bisect_left(raw_locs, loc) / n_loc * 100)
+            loc_rescaled += 1
+        print(f"  loc_score percentile rescaling: {loc_rescaled} entries", flush=True)
+
     # Write output
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(geo_result, f, ensure_ascii=False, separators=(",", ":"))
