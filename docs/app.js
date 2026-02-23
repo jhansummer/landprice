@@ -590,50 +590,6 @@ function renderDashboard() {
   });
 }
 
-/* ── 인기 지역 렌더링 ── */
-function renderPopularDistricts() {
-  if (!globalData || !activeSido) return null;
-  var sidoData = globalData.sidos[activeSido];
-  if (!sidoData || !sidoData.districts) return null;
-
-  var distOrder = sidoData.district_order || Object.keys(sidoData.districts);
-  var distStats = [];
-  distOrder.forEach(function(distName) {
-    var dist = sidoData.districts[distName];
-    if (!dist || !dist.dong_stats) return;
-    var totalCount = 0, totalPrice = 0;
-    dist.dong_stats.forEach(function(d) {
-      totalCount += d.txn_count;
-      totalPrice += d.avg_per_m2 * d.txn_count;
-    });
-    if (totalCount === 0) return;
-    distStats.push({ name: distName, avg_per_m2: Math.round(totalPrice / totalCount), txn_count: totalCount });
-  });
-  distStats.sort(function(a, b) { return b.txn_count - a.txn_count; });
-  var top5 = distStats.slice(0, 5);
-
-  if (!top5.length) return null;
-
-  var popularSec = document.createElement("div");
-  popularSec.className = "section";
-  var ptitle = document.createElement("h2");
-  ptitle.className = "section-title";
-  ptitle.textContent = "\uC778\uAE30 \uC9C0\uC5ED";
-  popularSec.appendChild(ptitle);
-  var plist = document.createElement("div");
-  plist.className = "popular-list";
-  top5.forEach(function(d) {
-    var item = document.createElement("a");
-    item.className = "popular-item";
-    item.href = "regional.html#" + activeSido + "/" + d.name;
-    item.innerHTML = '<span class="popular-name">' + d.name + '</span>'
-      + '<span class="popular-meta">' + d.txn_count + '\uAC74 \u00B7 m\u00B2\uB2F9 ' + d.avg_per_m2.toLocaleString() + '\uB9CC</span>';
-    plist.appendChild(item);
-  });
-  popularSec.appendChild(plist);
-  return popularSec;
-}
-
 function renderSections() {
   gridEl.innerHTML = "";
   var dashEl = document.getElementById("dashboard");
