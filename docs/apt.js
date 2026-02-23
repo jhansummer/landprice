@@ -391,15 +391,17 @@
     return cell;
   }
 
-  /* ── 입지 점수 계산 ── */
+  /* ── 입지 점수 계산 (4축: 교통/학군/환금성/생활) ── */
   function calcGeoScores(geo) {
     var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
+    var infra = geo.infra_score || 0;
+    var livability = geo.livability_score || 0;
+    var living = Math.round((infra + livability) / 2);
     return {
       transport: transport,
       school: geo.academy_score || 0,
-      infra: geo.infra_score || 0,
       liquidity: geo.liquidity_score || 0,
-      livability: geo.livability_score || 0
+      living: living
     };
   }
 
@@ -413,18 +415,13 @@
     title.textContent = "입지 정보";
     sec.appendChild(title);
 
-    // 레이더 차트
+    // 입지 점수 바 차트 (4축)
     var scores = calcGeoScores(geo);
-    if (scores.transport || scores.school || scores.livability) {
-      var radarWrap = document.createElement("div");
-      radarWrap.style.cssText = "display:flex;justify-content:center;margin-bottom:12px";
-      var radarCanvas = document.createElement("canvas");
-      radarCanvas.style.cssText = "width:200px;height:200px";
-      radarWrap.appendChild(radarCanvas);
-      sec.appendChild(radarWrap);
-      requestAnimationFrame(function () {
-        drawRadarChart(radarCanvas, scores);
-      });
+    if (scores.transport || scores.school || scores.living) {
+      var barWrap = document.createElement("div");
+      barWrap.style.cssText = "margin-bottom:12px";
+      sec.appendChild(barWrap);
+      drawScoreBars(barWrap, scores);
 
       // 종합 점수
       if (geo.loc_score != null) {

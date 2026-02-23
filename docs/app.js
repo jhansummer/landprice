@@ -797,33 +797,34 @@ function showDetail(r) {
         body.appendChild(legend);
       }
 
-      // 입지점수 레이더 차트
+      // 입지점수 바 차트 (4축)
       if (geoAll && r.id && geoAll[r.id]) {
         var geo = geoAll[r.id];
         var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
-        var radarScores = {
+        var infra = geo.infra_score || 0;
+        var livability = geo.livability_score || 0;
+        var living = Math.round((infra + livability) / 2);
+        var barScores = {
           transport: transport,
           school: geo.academy_score || 0,
-          livability: geo.livability_score || geo.infra_score || 0
+          liquidity: geo.liquidity_score || 0,
+          living: living
         };
-        if (radarScores.transport || radarScores.school || radarScores.livability) {
-          var radarSec = document.createElement("div");
-          radarSec.style.cssText = "margin:12px 0;text-align:center";
-          var radarTitle = document.createElement("div");
-          radarTitle.style.cssText = "font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px";
-          radarTitle.textContent = "입지점수";
+        if (barScores.transport || barScores.school || barScores.living) {
+          var scoreSec = document.createElement("div");
+          scoreSec.style.cssText = "margin:12px 0";
+          var scoreTitle = document.createElement("div");
+          scoreTitle.style.cssText = "font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px";
+          scoreTitle.textContent = "입지점수";
           if (geo.loc_score != null) {
             var totalColor = geo.loc_score >= 70 ? "#2563eb" : geo.loc_score >= 40 ? "#f59e0b" : "#94a3b8";
-            radarTitle.innerHTML += ' <span style="color:' + totalColor + '">종합 ' + geo.loc_score + '</span>';
+            scoreTitle.innerHTML += ' <span style="color:' + totalColor + '">종합 ' + geo.loc_score + '</span>';
           }
-          radarSec.appendChild(radarTitle);
-          var radarCanvas = document.createElement("canvas");
-          radarCanvas.style.cssText = "width:180px;height:180px;margin:0 auto;display:block";
-          radarSec.appendChild(radarCanvas);
-          body.appendChild(radarSec);
-          requestAnimationFrame(function () {
-            drawRadarChart(radarCanvas, radarScores);
-          });
+          scoreSec.appendChild(scoreTitle);
+          var barWrap = document.createElement("div");
+          scoreSec.appendChild(barWrap);
+          body.appendChild(scoreSec);
+          drawScoreBars(barWrap, barScores);
         }
       }
 

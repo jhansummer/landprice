@@ -35,7 +35,7 @@ var fmt = APTCommon.fmt;
 var fmtEok = APTCommon.fmtEok;
 var escapeHTML = APTCommon.escapeHTML;
 
-/* ── 입지점수 (교통26%+학군47%+인프라5%+실거주11%+환금성11%) ── */
+/* ── 입지점수 (OLS 회귀 R²=0.755 / 학군~40%+생활~35%+교통~15%+환금성~10%) ── */
 function calcLocationScore(apt) {
   // valuation_geo에 회귀 기반 loc_score가 있으면 우선 사용 (R²=0.755)
   var vgeo = valuationGeo && valuationGeo[apt.id];

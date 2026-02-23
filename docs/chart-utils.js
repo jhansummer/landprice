@@ -1423,100 +1423,47 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
 }
 
 /**
- * 5축 레이더 차트 (교통/학군/인프라/환금성/실거주)
- * @param {HTMLCanvasElement} canvas
- * @param {Object} scores - 각 0~100
+ * 4축 가로 막대 점수 차트 (교통/학군/환금성/생활)
+ * @param {HTMLElement} container - DOM 컨테이너
+ * @param {Object} scores - { transport, school, liquidity, living }  각 0~100
  */
+function drawScoreBars(container, scores) {
+  var items = [
+    { label: "교통", key: "transport", color: "#2563eb" },
+    { label: "학군", key: "school", color: "#7c3aed" },
+    { label: "환금성", key: "liquidity", color: "#059669" },
+    { label: "생활", key: "living", color: "#f59e0b" },
+  ];
+  var html = "";
+  for (var i = 0; i < items.length; i++) {
+    var it = items[i];
+    var val = scores[it.key] || 0;
+    var w = Math.max(2, val);
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      + '<span style="width:40px;font-size:11px;font-weight:600;color:var(--ink);text-align:right">' + it.label + '</span>'
+      + '<div style="flex:1;height:14px;background:#f1f5f9;border-radius:7px;overflow:hidden">'
+      + '<div style="width:' + w + '%;height:100%;background:' + it.color + ';border-radius:7px;transition:width .3s"></div>'
+      + '</div>'
+      + '<span style="width:28px;font-size:11px;font-weight:700;color:' + it.color + '">' + val + '</span>'
+      + '</div>';
+  }
+  container.innerHTML = html;
+}
+/** @deprecated 하위 호환용 — drawScoreBars로 교체 */
 function drawRadarChart(canvas, scores) {
-  var labels = ["교통", "학군", "인프라", "환금성", "실거주"];
-  var keys = ["transport", "school", "infra", "liquidity", "livability"];
-  var values = keys.map(function (k) { return scores[k] || 0; });
-
-  var dpr = window.devicePixelRatio || 1;
-  var rect = canvas.getBoundingClientRect();
-  var w = rect.width * dpr;
-  var h = rect.height * dpr;
-  canvas.width = w;
-  canvas.height = h;
-
-  var ctx = canvas.getContext("2d");
-  ctx.scale(dpr, dpr);
-
-  var cw = rect.width;
-  var ch = rect.height;
-  var cx = cw / 2;
-  var cy = ch / 2;
-  var maxR = Math.min(cw, ch) / 2 - 24;
-  var n = 5;
-  var angleStep = (Math.PI * 2) / n;
-  var startAngle = -Math.PI / 2; // top
-
-  function angleFor(i) { return startAngle + angleStep * i; }
-  function pointAt(i, r) {
-    var a = angleFor(i);
-    return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
-  }
-
-  // Background grid rings (20, 40, 60, 80, 100)
-  ctx.strokeStyle = "#e2e8f0";
-  ctx.lineWidth = 0.7;
-  for (var ring = 1; ring <= 5; ring++) {
-    var r = (maxR / 5) * ring;
-    ctx.beginPath();
-    for (var i = 0; i < n; i++) {
-      var p = pointAt(i, r);
-      if (i === 0) ctx.moveTo(p.x, p.y);
-      else ctx.lineTo(p.x, p.y);
-    }
-    ctx.closePath();
-    ctx.stroke();
-  }
-
-  // Axis lines
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.lineWidth = 0.7;
-  for (var i = 0; i < n; i++) {
-    var p = pointAt(i, maxR);
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-  }
-
-  // Data polygon
-  ctx.fillStyle = "rgba(37, 99, 235, 0.15)";
-  ctx.strokeStyle = "#2563eb";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for (var i = 0; i < n; i++) {
-    var r = (values[i] / 100) * maxR;
-    var p = pointAt(i, r);
-    if (i === 0) ctx.moveTo(p.x, p.y);
-    else ctx.lineTo(p.x, p.y);
-  }
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-
-  // Data points
-  ctx.fillStyle = "#2563eb";
-  for (var i = 0; i < n; i++) {
-    var r = (values[i] / 100) * maxR;
-    var p = pointAt(i, r);
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // Labels
-  ctx.fillStyle = "#334155";
-  ctx.font = "11px -apple-system, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  for (var i = 0; i < n; i++) {
-    var lp = pointAt(i, maxR + 16);
-    ctx.fillText(labels[i], lp.x, lp.y);
-  }
+  var parent = canvas.parentElement;
+  if (!parent) return;
+  canvas.style.display = "none";
+  var wrap = document.createElement("div");
+  wrap.style.cssText = "width:100%";
+  parent.appendChild(wrap);
+  var living = Math.round(((scores.infra || 0) + (scores.livability || 0)) / 2);
+  drawScoreBars(wrap, {
+    transport: scores.transport || 0,
+    school: scores.school || 0,
+    liquidity: scores.liquidity || 0,
+    living: living
+  });
 }
 
 /**
