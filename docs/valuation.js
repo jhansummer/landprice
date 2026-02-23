@@ -380,44 +380,15 @@
       }
     }
 
-    // Bar gauges (3축: 교통/학군/생활 — valuation_geo 기반)
-    var barsCol = document.createElement("div");
-    barsCol.className = "vs-bars-col";
+    // Bar gauges (3축: 교통/학군/생활 — drawScoreBars 통일)
     var transportBar = (geoLoc && geoLoc.subway_dist != null) ? Math.max(5, Math.round(100 - geoLoc.subway_dist * 1000 / 30)) : scores.transport;
     var schoolBar = (geoLoc && geoLoc.academy_score != null) ? geoLoc.academy_score : scores.school;
     var infraVal = geoLoc ? (geoLoc.infra_score || 0) : (scores.infra || 0);
     var livVal = geoLoc ? (geoLoc.livability_score || 0) : 0;
     var livingBar = Math.round((infraVal + livVal) / 2);
-    var barItems = [
-      { label: "\uAD50\uD1B5", score: transportBar },
-      { label: "\uD559\uAD70", score: schoolBar },
-      { label: "\uC0DD\uD65C", score: livingBar }
-    ];
-    barItems.forEach(function (it) {
-      var row = document.createElement("div");
-      row.className = "vs-bar-row";
-      var lbl = document.createElement("span");
-      lbl.className = "vs-bar-label";
-      lbl.textContent = it.label;
-      row.appendChild(lbl);
-      var track = document.createElement("div");
-      track.className = "vs-bar-track";
-      var fill = document.createElement("div");
-      fill.className = "vs-bar-fill";
-      fill.style.width = it.score + "%";
-      if (it.score >= 70) fill.classList.add("vs-bar-high");
-      else if (it.score >= 40) fill.classList.add("vs-bar-mid");
-      else fill.classList.add("vs-bar-low");
-      track.appendChild(fill);
-      row.appendChild(track);
-      var val = document.createElement("span");
-      val.className = "vs-bar-val";
-      val.textContent = it.score;
-      row.appendChild(val);
-      barsCol.appendChild(row);
-    });
-
-    section.appendChild(barsCol);
+    var barsWrap = document.createElement("div");
+    drawScoreBars(barsWrap, { transport: transportBar, school: schoolBar, living: livingBar });
+    section.appendChild(barsWrap);
 
     // 단지품질 (세대수 + 브랜드 + 연식)
     if (geoLoc && (geoLoc.households || geoLoc.brand_score != null || geoLoc.age_score != null)) {
