@@ -980,8 +980,15 @@
 
     if (sidos.length) renderSido(sidos[0]);
 
+    var note = document.createElement("div");
+    note.style.cssText = "margin-top:16px;padding:10px 12px;background:var(--bg-card,#f8fafc);border-radius:8px;font-size:11px;line-height:1.6;color:var(--muted)";
+    note.innerHTML = '<b>입지점수 계산기준</b> (OLS 회귀, R\u00B2=0.755)<br>'
+      + '학군 ~40% + 생활인프라 ~35% + 교통 ~15% + 환금성 ~10%<br>'
+      + '교통: 서울 = 업무지구(70%)+지하철(30%) / 그 외 = 도심거리(70%)+지하철(30%)';
+    container.appendChild(note);
+
     var hint = document.createElement("div");
-    hint.style.cssText = "text-align:center;margin-top:16px;font-size:12px;color:var(--muted)";
+    hint.style.cssText = "text-align:center;margin-top:12px;font-size:12px;color:var(--muted)";
     hint.textContent = "\uC804\uAD6D " + totalCount.toLocaleString() + "\uAC1C \uB2E8\uC9C0 \uAC80\uC0C9 \uAC00\uB2A5 \u2014 \uC704 \uAC80\uC0C9\uCC3D\uC5D0 \uB2E8\uC9C0\uBA85\uC744 \uC785\uB825\uD558\uC138\uC694";
     container.appendChild(hint);
   }

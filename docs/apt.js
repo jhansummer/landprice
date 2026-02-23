@@ -478,6 +478,11 @@
       sec.appendChild(row);
     });
 
+    var note = document.createElement("div");
+    note.style.cssText = "margin-top:10px;font-size:10px;line-height:1.5;color:var(--muted)";
+    note.innerHTML = '* 입지점수: 학군~40% + 생활인프라~35% + 교통~15% + 환금성~10% (OLS 회귀, R\u00B2=0.755)';
+    sec.appendChild(note);
+
     contentEl.appendChild(sec);
   }
 
