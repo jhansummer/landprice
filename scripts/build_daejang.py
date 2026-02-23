@@ -17,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEARCH_DIR = os.path.join(BASE_DIR, "docs", "data", "apt_trade", "search")
 BY_APT_DIR = os.path.join(BASE_DIR, "docs", "data", "apt_trade", "by_apt")
 GEO_PATH = os.path.join(BASE_DIR, "docs", "data", "apt_trade", "valuation_geo.json")
+HOUSEHOLD_CACHE_PATH = os.path.join(BASE_DIR, "scripts", "household_cache.json")
 OUT_PATH = os.path.join(BASE_DIR, "docs", "data", "apt_trade", "daejang.json")
 
 SIDOS = ["서울", "경기", "인천", "부산", "대구", "대전", "광주", "울산", "세종"]
@@ -45,6 +46,12 @@ def main():
         hh = info.get("households")
         if hh:
             households_map[apt_id] = hh
+
+    # household_cache.json 직접 로드 (fallback)
+    household_cache = {}
+    if os.path.exists(HOUSEHOLD_CACHE_PATH):
+        with open(HOUSEHOLD_CACHE_PATH, encoding="utf-8") as f:
+            household_cache = json.load(f)
 
     result = {}
 
@@ -88,12 +95,24 @@ def main():
                 if score is not None and score > best_score:
                     best_score = score
                     hh = households_map.get(apt_id, 0)
-                    best_entry = [apt_id, None, area, hh]
+                    apt_name = None
+                    sigungu = dong_key.split("/")[0]
+                    dong_name = dong_key.split("/")[1] if "/" in dong_key else ""
                     # apt_name은 search에서 찾기
                     for item in data["items"]:
                         if item["id"] == apt_id:
-                            best_entry[1] = item["apt_name"]
+                            apt_name = item["apt_name"]
                             break
+                    # household_cache fallback
+                    if hh == 0 and apt_name and household_cache:
+                        hh_key = f"{sigungu}|{dong_name}|{apt_name}"
+                        hh_data = household_cache.get(hh_key)
+                        if not hh_data:
+                            hh_key = f"{sigungu}|{apt_name}"
+                            hh_data = household_cache.get(hh_key)
+                        if hh_data and hh_data.get("households"):
+                            hh = hh_data["households"]
+                    best_entry = [apt_id, apt_name, area, hh]
 
             if best_entry and best_entry[1]:
                 sido_dict[dong_key] = best_entry

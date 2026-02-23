@@ -19,6 +19,7 @@ from lxml import etree
 SCRIPTS_DIR = Path(__file__).resolve().parent
 CACHE_FILE = SCRIPTS_DIR / "household_cache.json"
 VALUATION_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "valuation"
+SEARCH_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade" / "search"
 
 SERVICE_KEY = os.getenv("MOLIT_SERVICE_KEY", "")
 
@@ -45,28 +46,47 @@ def save_cache(cache: Dict) -> None:
 
 
 def get_target_apartments() -> List[Dict]:
-    """Get list of apartments we need household data for."""
-    index_path = VALUATION_DIR / "index.json"
-    if not index_path.exists():
-        return []
+    """Get list of apartments we need household data for.
 
-    with open(index_path, "r", encoding="utf-8") as f:
-        index = json.load(f)
-
+    Sources: valuation index + search index (for daejang coverage).
+    """
+    seen = set()
     apts = []
-    for sido in index.get("sido_order", []):
-        fpath = VALUATION_DIR / f"{sido}.json"
-        if not fpath.exists():
-            continue
-        with open(fpath, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        for item in data.get("items", []):
-            apts.append({
-                "id": item["id"],
-                "apt_name": item["apt_name"],
-                "sigungu": item.get("sigungu", ""),
-                "dong_name": item.get("dong_name", ""),
-            })
+
+    def add_apt(item):
+        key = f"{item.get('sigungu', '')}|{item.get('dong_name', '')}|{item.get('apt_name', '')}"
+        if key in seen:
+            return
+        seen.add(key)
+        apts.append({
+            "id": item.get("id", ""),
+            "apt_name": item.get("apt_name", ""),
+            "sigungu": item.get("sigungu", ""),
+            "dong_name": item.get("dong_name", ""),
+        })
+
+    # 1) Valuation index
+    index_path = VALUATION_DIR / "index.json"
+    if index_path.exists():
+        with open(index_path, "r", encoding="utf-8") as f:
+            index = json.load(f)
+        for sido in index.get("sido_order", []):
+            fpath = VALUATION_DIR / f"{sido}.json"
+            if not fpath.exists():
+                continue
+            with open(fpath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for item in data.get("items", []):
+                add_apt(item)
+
+    # 2) Search index (covers all daejang candidates)
+    if SEARCH_DIR.exists():
+        for fpath in sorted(SEARCH_DIR.glob("*.json")):
+            with open(fpath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            for item in data.get("items", []):
+                add_apt(item)
+
     return apts
 
 
