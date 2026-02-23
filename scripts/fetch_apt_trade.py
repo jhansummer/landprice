@@ -1369,6 +1369,16 @@ def _district_group(sido: str, sigungu_name: str) -> str:
 def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                    new_records: List[Dict[str, object]] = None) -> None:
     """Read saved JSON files and write summary.json with 시도-level + district sections."""
+    # 이전 summary.json에서 section1/section2 캐시 (new_records 없을 때 유지용)
+    prev_sidos: Dict[str, Dict] = {}
+    if SUMMARY_PATH.exists():
+        try:
+            with SUMMARY_PATH.open("r", encoding="utf-8") as fp:
+                prev_summary = json.load(fp)
+            prev_sidos = prev_summary.get("sidos", {})
+        except Exception:
+            pass
+
     # Group lawd codes by sido
     sido_lawds: Dict[str, List[str]] = {}
     for lawd_cd in lawd_list:
@@ -1416,9 +1426,18 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
             dist_new = [r for r in sido_new if r["lawd_cd"] in group_set] if sido_new else []
             dong_names = sorted(set(r["dong_name"] for r in dist_records if r["dong_name"]))
             dist_rent = [r for r in rent_records if r["lawd_cd"] in group_set]
+            # 이전 캐시에서 district section1/section2 가져오기
+            prev_dist = prev_sidos.get(sido, {}).get("districts", {}).get(group_name, {})
+            dist_s1 = section1_top3(dist_records, current_month, dist_new or None)
+            dist_s2 = section2_top3(dist_records, current_month, dist_new or None)
+            # new_records 없으면 이전 캐시 유지 (top3가 비어있지 않은 경우)
+            if not dist_new and prev_dist.get("section1", {}).get("top3"):
+                dist_s1 = prev_dist["section1"]
+            if not dist_new and prev_dist.get("section2", {}).get("top3"):
+                dist_s2 = prev_dist["section2"]
             dist_data = {
-                "section1": section1_top3(dist_records, current_month, dist_new or None),
-                "section2": section2_top3(dist_records, current_month, dist_new or None),
+                "section1": dist_s1,
+                "section2": dist_s2,
                 "section3": section3_3m_top3(dist_records, current_month),
                 "section4": section4_3m_min_trades(dist_records, current_month),
                 "dong_order": dong_names,
@@ -1468,9 +1487,17 @@ def build_summary(lawd_list: List[str], months_kept: int, total_txns: int,
                     seen_ids.add(item["id"])
                     search_items.append(item)
 
+        # sido 레벨 section1/section2: new_records 없으면 이전 캐시 유지
+        prev_sido = prev_sidos.get(sido, {})
+        sido_s1 = section1_top3(records, current_month, sido_new or None)
+        sido_s2 = section2_top3(records, current_month, sido_new or None)
+        if not sido_new and prev_sido.get("section1", {}).get("top3"):
+            sido_s1 = prev_sido["section1"]
+        if not sido_new and prev_sido.get("section2", {}).get("top3"):
+            sido_s2 = prev_sido["section2"]
         sido_data = {
-            "section1": section1_top3(records, current_month, sido_new or None),
-            "section2": section2_top3(records, current_month, sido_new or None),
+            "section1": sido_s1,
+            "section2": sido_s2,
             "section3": section3_3m_top3(records, current_month),
             "section4": section4_3m_min_trades(records, current_month),
             "district_order": district_order,
@@ -1571,6 +1598,10 @@ def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
         if not records:
             continue
 
+        # 단지별 전세가율 계산
+        rent_records = gather_rent_records(codes)
+        apt_jeonse = build_apt_jeonse_ratios(rent_records, records) if rent_records else {}
+
         # District grouping (build_summary와 동일)
         dist_groups: Dict[str, List[str]] = {}
         for lawd_cd in codes:
@@ -1630,6 +1661,10 @@ def build_bottom_data(sido_lawds: Dict[str, List[str]]) -> None:
                     continue
                 meta = apt_meta.get((apt_name, area_m2), {})
                 entry = {**meta, **info, "trades": total_trades}
+                # 단지별 전세가율
+                aid = meta.get("id", "")
+                if aid and aid in apt_jeonse:
+                    entry["jeonse_ratio"] = apt_jeonse[aid]
                 all_apts.append(entry)
 
         # vs_peak 오름차순 (가장 많이 하락한 단지 먼저)
