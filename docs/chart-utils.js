@@ -1429,21 +1429,24 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
  */
 function drawScoreBars(container, scores) {
   var items = [
-    { label: "교통", key: "transport", color: "#2563eb" },
-    { label: "학군", key: "school", color: "#7c3aed" },
-    { label: "생활", key: "living", color: "#f59e0b" },
+    { label: "교통", key: "transport", color: "#2563eb", detail: "지하철 거리 · 업무지구 접근성" },
+    { label: "학군", key: "school", color: "#7c3aed", detail: "반경 1.5km 초중학교 학업성취도" },
+    { label: "생활", key: "living", color: "#f59e0b", detail: "편의시설 · 병원 · 학원 · 연식 · 환경" },
   ];
   var html = "";
   for (var i = 0; i < items.length; i++) {
     var it = items[i];
     var val = scores[it.key] || 0;
     var w = Math.max(2, val);
-    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+    html += '<div style="margin-bottom:8px">'
+      + '<div style="display:flex;align-items:center;gap:8px">'
       + '<span style="width:40px;font-size:11px;font-weight:600;color:var(--ink);text-align:right">' + it.label + '</span>'
       + '<div style="flex:1;height:14px;background:#f1f5f9;border-radius:7px;overflow:hidden">'
       + '<div style="width:' + w + '%;height:100%;background:' + it.color + ';border-radius:7px;transition:width .3s"></div>'
       + '</div>'
       + '<span style="width:28px;font-size:11px;font-weight:700;color:' + it.color + '">' + val + '</span>'
+      + '</div>'
+      + '<div style="margin-left:48px;font-size:10px;color:var(--muted,#94a3b8);margin-top:1px">' + it.detail + '</div>'
       + '</div>';
   }
   container.innerHTML = html;
