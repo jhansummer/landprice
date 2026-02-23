@@ -327,11 +327,9 @@
     var guideDiv = document.createElement("div");
     guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.6";
     guideDiv.innerHTML =
-      "<b>교통(26%)</b>: " + (scores.isSeoul ? "업무지구 근접도(70%) + 지하철(30%)" : "도심거리(70%) + 지하철(30%)") + "<br>" +
-      "<b>학군(47%)</b>: 반경 1.5km 내 초중학교 학업성취도 기반 (거리역수 가중평균)<br>" +
-      "<b>인프라(5%)</b>: 반경 1km 내 학교 · 병원 · 은행 · 편의점 · 마트<br>" +
-      "<b>실거주(11%)</b>: 세대수 · 주차대수 · 건축연한 · 용적률<br>" +
-      "<b>환금성(11%)</b>: 최근 거래빈도 · 세대수 규모";
+      "<b>학군(~40%)</b>: 반경 1.5km 내 초중학교 학업성취도 기반 (거리역수 가중평균)<br>" +
+      "<b>생활(~35%)</b>: 인프라(학교·병원·편의시설) + 연식 + 실거주 환경<br>" +
+      "<b>교통(~15%)</b>: 지하철 거리 · 도보시간 기반";
     guideBtn.addEventListener("click", function () {
       guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
       guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 \uC810\uC218 \uAE30\uC900 \uBCF4\uAE30" : "\u2139 \uC810\uC218 \uAE30\uC900 \uC811\uAE30";
@@ -382,20 +380,19 @@
       }
     }
 
-    // Bar gauges
+    // Bar gauges (3축: 교통/학군/생활 — valuation_geo 기반)
     var barsCol = document.createElement("div");
     barsCol.className = "vs-bars-col";
+    var transportBar = (geoLoc && geoLoc.subway_dist != null) ? Math.max(5, Math.round(100 - geoLoc.subway_dist * 1000 / 30)) : scores.transport;
+    var schoolBar = (geoLoc && geoLoc.academy_score != null) ? geoLoc.academy_score : scores.school;
+    var infraVal = geoLoc ? (geoLoc.infra_score || 0) : (scores.infra || 0);
+    var livVal = geoLoc ? (geoLoc.livability_score || 0) : 0;
+    var livingBar = Math.round((infraVal + livVal) / 2);
     var barItems = [
-      { label: "\uAD50\uD1B5\uC811\uADFC\uC131", score: scores.transport }
+      { label: "\uAD50\uD1B5", score: transportBar },
+      { label: "\uD559\uAD70", score: schoolBar },
+      { label: "\uC0DD\uD65C", score: livingBar }
     ];
-    // 학군 (academy_score가 있으면 전 지역 표시)
-    if (scores.school != null) {
-      barItems.push({ label: "\uD559\uAD70", score: scores.school });
-    }
-    // 생활인프라
-    if (scores.infra != null) {
-      barItems.push({ label: "\uC0DD\uD65C\uC778\uD504\uB77C", score: scores.infra });
-    }
     barItems.forEach(function (it) {
       var row = document.createElement("div");
       row.className = "vs-bar-row";
