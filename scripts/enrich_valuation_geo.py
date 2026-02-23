@@ -676,7 +676,7 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
     }
     _INTERCEPT = 5.7196
     _SCALE_LOW = 5.35    # ~2nd percentile
-    _SCALE_HIGH = 7.77   # ~98th percentile
+    _SCALE_HIGH = 8.30   # 목동신시가지≈95, 강남≈100
 
     acad = school_score if school_score is not None else 50
     sw_dist = nearest["dist"]
