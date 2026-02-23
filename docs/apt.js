@@ -478,24 +478,6 @@
       sec.appendChild(row);
     });
 
-    var guideBtn = document.createElement("button");
-    guideBtn.style.cssText = "margin-top:10px;font-size:10px;padding:2px 8px;border:1px solid var(--border,#e5e7eb);border-radius:6px;background:none;color:var(--muted);cursor:pointer";
-    guideBtn.textContent = "\u2139 점수 기준 보기";
-    var guideDiv = document.createElement("div");
-    guideDiv.style.cssText = "display:none;font-size:11px;color:var(--muted);background:var(--bg,#f8fafc);border-radius:8px;padding:10px 12px;margin-top:6px;line-height:1.6";
-    guideDiv.innerHTML =
-      "<b>학군(~40%)</b>: 반경 1.5km 내 초중학교 학업성취도 (거리역수 가중평균)<br>" +
-      "<b>생활(~35%)</b>: 인프라(학교·병원·편의시설) + 연식 + 실거주 환경<br>" +
-      "<b>교통(~15%)</b>: 지하철 거리 · 도보시간 기반<br>" +
-      "<b>환금성(~10%)</b>: 세대수 · 브랜드 · 거래량<br>" +
-      '<span style="font-size:10px">OLS 회귀 R\u00B2=0.755</span>';
-    guideBtn.addEventListener("click", function () {
-      guideDiv.style.display = guideDiv.style.display === "none" ? "block" : "none";
-      guideBtn.textContent = guideDiv.style.display === "none" ? "\u2139 점수 기준 보기" : "\u2139 점수 기준 접기";
-    });
-    sec.appendChild(guideBtn);
-    sec.appendChild(guideDiv);
-
     contentEl.appendChild(sec);
   }
 
