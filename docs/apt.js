@@ -391,7 +391,7 @@
     return cell;
   }
 
-  /* ── 입지 점수 계산 (4축: 교통/학군/환금성/생활) ── */
+  /* ── 입지 점수 계산 (3축: 교통/학군/생활) ── */
   function calcGeoScores(geo) {
     var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
     var infra = geo.infra_score || 0;
@@ -400,7 +400,6 @@
     return {
       transport: transport,
       school: geo.academy_score || 0,
-      liquidity: geo.liquidity_score || 0,
       living: living
     };
   }

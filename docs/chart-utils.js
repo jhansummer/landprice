@@ -1423,15 +1423,14 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
 }
 
 /**
- * 4축 가로 막대 점수 차트 (교통/학군/환금성/생활)
+ * 3축 가로 막대 점수 차트 (교통/학군/생활)
  * @param {HTMLElement} container - DOM 컨테이너
- * @param {Object} scores - { transport, school, liquidity, living }  각 0~100
+ * @param {Object} scores - { transport, school, living }  각 0~100
  */
 function drawScoreBars(container, scores) {
   var items = [
     { label: "교통", key: "transport", color: "#2563eb" },
     { label: "학군", key: "school", color: "#7c3aed" },
-    { label: "거래량", key: "liquidity", color: "#059669" },
     { label: "생활", key: "living", color: "#f59e0b" },
   ];
   var html = "";
@@ -1461,7 +1460,6 @@ function drawRadarChart(canvas, scores) {
   drawScoreBars(wrap, {
     transport: scores.transport || 0,
     school: scores.school || 0,
-    liquidity: scores.liquidity || 0,
     living: living
   });
 }

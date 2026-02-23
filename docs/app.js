@@ -797,7 +797,7 @@ function showDetail(r) {
         body.appendChild(legend);
       }
 
-      // 입지점수 바 차트 (4축)
+      // 입지점수 바 차트 (3축)
       if (geoAll && r.id && geoAll[r.id]) {
         var geo = geoAll[r.id];
         var transport = geo.subway_dist != null ? Math.max(5, Math.round(100 - geo.subway_dist * 1000 / 30)) : 0;
@@ -807,7 +807,6 @@ function showDetail(r) {
         var barScores = {
           transport: transport,
           school: geo.academy_score || 0,
-          liquidity: geo.liquidity_score || 0,
           living: living
         };
         if (barScores.transport || barScores.school || barScores.living) {
