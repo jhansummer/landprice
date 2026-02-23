@@ -113,6 +113,16 @@ SCHOOL_RADIUS_MAX_KM = 3.0   # 확대 반경 (학교 없을 때)
 SCHOOL_TYPE_WEIGHT = {"elementary": 1.0, "middle": 1.2}
 SCHOOL_MIN_DIST_KM = 0.1     # 최소 거리 (가중치 발산 방지)
 
+# loc_score OLS regression constants (R²=0.7551, N=23,545, 84m² 기준)
+LOC_SIDO_BASE = {
+    "서울": 0.5054, "경기": 0.0, "인천": -0.2961,
+    "세종": 0.5118, "부산": -0.6202, "대구": -0.7063,
+    "울산": -0.4869, "광주": -0.2367, "대전": -0.2387,
+}
+LOC_INTERCEPT = 5.7196
+LOC_SCALE_LOW = 5.35    # ~2nd percentile
+LOC_SCALE_HIGH = 8.30   # 목동신시가지≈95, 강남≈100
+
 
 # ── Haversine ──
 
@@ -666,18 +676,7 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
         else:
             transport_s = subway_s_exp
 
-    # --- loc_score: OLS regression (R²=0.7551, N=23,545, 84m² 기준) ---
-    # log(price/m²) = intercept + sido + 15 features (brand 제외)
-    # 모든 계수 유의 (|t| > 1.65). 2nd/98th percentile로 0-100 스케일링.
-    _SIDO_BASE = {
-        "서울": 0.5054, "경기": 0.0, "인천": -0.2961,
-        "세종": 0.5118, "부산": -0.6202, "대구": -0.7063,
-        "울산": -0.4869, "광주": -0.2367, "대전": -0.2387,
-    }
-    _INTERCEPT = 5.7196
-    _SCALE_LOW = 5.35    # ~2nd percentile
-    _SCALE_HIGH = 8.30   # 목동신시가지≈95, 강남≈100
-
+    # --- loc_score: OLS regression ---
     acad = school_score if school_score is not None else 50
     sw_dist = nearest["dist"]
     sw_walk = geo.get("subway_walk_min", 10)
@@ -688,8 +687,8 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
     liq = geo.get("liquidity_score", 50)
     liv = geo.get("livability_score", 50)
 
-    raw_loc = (_INTERCEPT
-               + _SIDO_BASE.get(sido, -0.5)
+    raw_loc = (LOC_INTERCEPT
+               + LOC_SIDO_BASE.get(sido, -0.5)
                + (-0.0673) * math.log1p(sw_dist)
                + 0.3885 * math.log1p(sw_walk)
                + (-0.000361) * (sw_walk ** 2 / 100)
@@ -706,7 +705,7 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
                + (-0.00499) * (acad * math.log1p(sw_walk))
                + (-0.00116) * (infra * math.log1p(sw_dist)))
     geo["loc_score"] = round(max(0, min(100,
-        (raw_loc - _SCALE_LOW) / (_SCALE_HIGH - _SCALE_LOW) * 100)))
+        (raw_loc - LOC_SCALE_LOW) / (LOC_SCALE_HIGH - LOC_SCALE_LOW) * 100)))
 
     return geo
 
@@ -890,6 +889,71 @@ def main() -> int:
 
     if propagated:
         print(f"  Propagated geo to {propagated} additional areas (same complex)", flush=True)
+
+    # ── 학군점수 percentile 재스케일링 (변별력 향상) ──
+    import bisect as _bisect
+    raw_academy = sorted(
+        g.get("academy_score", -1) for g in geo_result.values()
+        if g.get("academy_score") is not None
+    )
+    if raw_academy:
+        # apt_id → sido 매핑 (search index 기반)
+        _apt_sido: Dict[str, str] = {}
+        for _sn in sido_order:
+            _sf = SEARCH_DIR / f"{_sn}.json"
+            if _sf.exists():
+                with open(_sf, "r", encoding="utf-8") as _f:
+                    for _item in json.load(_f).get("items", []):
+                        if _item.get("id"):
+                            _apt_sido[_item["id"]] = _sn
+            _vf = VALUATION_DIR / f"{_sn}.json"
+            if _vf.exists():
+                with open(_vf, "r", encoding="utf-8") as _f:
+                    for _item in json.load(_f).get("items", []):
+                        if _item.get("id"):
+                            _apt_sido[_item["id"]] = _sn
+
+        n_acad = len(raw_academy)
+        rescaled = 0
+        for apt_id, g in geo_result.items():
+            acad = g.get("academy_score")
+            if acad is None:
+                continue
+            g["academy_score_raw"] = acad
+            new_acad = round(_bisect.bisect_left(raw_academy, acad) / n_acad * 100)
+            g["academy_score"] = new_acad
+
+            # loc_score 재계산
+            sw_dist = g.get("subway_dist")
+            if sw_dist is None or g.get("loc_score") is None:
+                rescaled += 1
+                continue
+            _s = _apt_sido.get(apt_id, "")
+            sw_walk = g.get("subway_walk_min", 10)
+            infra_v = g.get("infra_score", 50)
+            age_v = g.get("age_score") if g.get("age_score") is not None else 50
+            liq_v = g.get("liquidity_score", 50)
+            liv_v = g.get("livability_score", 50)
+            raw_loc = (LOC_INTERCEPT + LOC_SIDO_BASE.get(_s, -0.5)
+                       + (-0.0673) * math.log1p(sw_dist)
+                       + 0.3885 * math.log1p(sw_walk)
+                       + (-0.000361) * (sw_walk ** 2 / 100)
+                       + (-0.002034) * infra_v
+                       + 0.002713 * (infra_v ** 2 / 100)
+                       + (-0.04354) * new_acad
+                       + 0.05478 * (new_acad ** 2 / 100)
+                       + (-0.01048) * age_v
+                       + 0.01186 * (age_v ** 2 / 100)
+                       + 0.01445 * liq_v
+                       + (-0.01169) * (liq_v ** 2 / 100)
+                       + 0.01308 * liv_v
+                       + 0.00311 * (new_acad * infra_v / 100)
+                       + (-0.00499) * (new_acad * math.log1p(sw_walk))
+                       + (-0.00116) * (infra_v * math.log1p(sw_dist)))
+            g["loc_score"] = round(max(0, min(100,
+                (raw_loc - LOC_SCALE_LOW) / (LOC_SCALE_HIGH - LOC_SCALE_LOW) * 100)))
+            rescaled += 1
+        print(f"  Academy score percentile rescaling: {rescaled} entries", flush=True)
 
     # Write output
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
