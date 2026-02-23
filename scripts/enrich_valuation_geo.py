@@ -26,6 +26,7 @@ DATA_DIR = SCRIPTS_DIR.parent / "docs" / "data" / "apt_trade"
 VALUATION_DIR = DATA_DIR / "valuation"
 OUTPUT_FILE = DATA_DIR / "valuation_geo.json"
 SEARCH_DIR = DATA_DIR / "search"
+BY_APT_DIR = DATA_DIR / "by_apt"
 CACHE_FILE = SCRIPTS_DIR / "geocode_cache.json"
 ENRICHMENT_CACHE_FILE = SCRIPTS_DIR / "enrichment_cache.json"
 STATIONS_FILE = SCRIPTS_DIR / "subway_stations.json"
@@ -629,6 +630,15 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
         geo["household_score"] = get_household_score(hh_data["households"])
 
     trade_count = apt.get("trade_count", 0)
+    if trade_count <= 0:
+        # Fallback: count trades from by_apt/{id}.json
+        by_apt_file = BY_APT_DIR / f"{apt_id}.json"
+        if by_apt_file.exists():
+            try:
+                with open(by_apt_file, "r", encoding="utf-8") as _f:
+                    trade_count = len(json.load(_f))
+            except Exception:
+                pass
     liquidity_s = get_liquidity_score(trade_count)
     geo["liquidity_score"] = liquidity_s
 
@@ -656,19 +666,47 @@ def enrich_apt(apt, apt_id, sido, cache, ecache, stations, schools, apt_meta,
         else:
             transport_s = subway_s_exp
 
-    w_sum = transport_s * 5
-    w_total = 5
-    if school_score is not None:
-        w_sum += school_score * 9
-        w_total += 9
-    if geo.get("infra_score") is not None:
-        w_sum += geo["infra_score"]
-        w_total += 1
-    w_sum += livability_s * 2
-    w_total += 2
-    w_sum += liquidity_s * 2
-    w_total += 2
-    geo["loc_score"] = round(w_sum / w_total)
+    # --- loc_score: OLS regression (R²=0.7551, N=23,545, 84m² 기준) ---
+    # log(price/m²) = intercept + sido + 15 features (brand 제외)
+    # 모든 계수 유의 (|t| > 1.65). 2nd/98th percentile로 0-100 스케일링.
+    _SIDO_BASE = {
+        "서울": 0.5054, "경기": 0.0, "인천": -0.2961,
+        "세종": 0.5118, "부산": -0.6202, "대구": -0.7063,
+        "울산": -0.4869, "광주": -0.2367, "대전": -0.2387,
+    }
+    _INTERCEPT = 5.7196
+    _SCALE_LOW = 5.35    # ~2nd percentile
+    _SCALE_HIGH = 7.77   # ~98th percentile
+
+    acad = school_score if school_score is not None else 50
+    sw_dist = nearest["dist"]
+    sw_walk = geo.get("subway_walk_min", 10)
+    infra = geo.get("infra_score", 50)
+    age_val = get_age_score(apt_meta.get(apt_id, 0))
+    if age_val is None:
+        age_val = 50
+    liq = geo.get("liquidity_score", 50)
+    liv = geo.get("livability_score", 50)
+
+    raw_loc = (_INTERCEPT
+               + _SIDO_BASE.get(sido, -0.5)
+               + (-0.0673) * math.log1p(sw_dist)
+               + 0.3885 * math.log1p(sw_walk)
+               + (-0.000361) * (sw_walk ** 2 / 100)
+               + (-0.002034) * infra
+               + 0.002713 * (infra ** 2 / 100)
+               + (-0.04354) * acad
+               + 0.05478 * (acad ** 2 / 100)
+               + (-0.01048) * age_val
+               + 0.01186 * (age_val ** 2 / 100)
+               + 0.01445 * liq
+               + (-0.01169) * (liq ** 2 / 100)
+               + 0.01308 * liv
+               + 0.00311 * (acad * infra / 100)
+               + (-0.00499) * (acad * math.log1p(sw_walk))
+               + (-0.00116) * (infra * math.log1p(sw_dist)))
+    geo["loc_score"] = round(max(0, min(100,
+        (raw_loc - _SCALE_LOW) / (_SCALE_HIGH - _SCALE_LOW) * 100)))
 
     return geo
 

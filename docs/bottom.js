@@ -13,8 +13,6 @@ var bottomBase = "data/apt_trade/bottom/";
 var byAptBase = "data/apt_trade/by_apt/";
 var valuationGeoPath = "data/apt_trade/valuation_geo.json";
 var locationScoresPath = "data/apt_trade/location_scores.json";
-var summaryPath = "data/apt_trade/summary.json";
-var summaryData = null;
 
 var tabsEl = document.getElementById("tabs");
 var contentEl = document.getElementById("content");
@@ -39,61 +37,19 @@ var escapeHTML = APTCommon.escapeHTML;
 
 /* ── 입지점수 (교통26%+학군47%+인프라5%+실거주11%+환금성11%) ── */
 function calcLocationScore(apt) {
-  var geo = apt.geo;
+  // valuation_geo에 회귀 기반 loc_score가 있으면 우선 사용 (R²=0.755)
   var vgeo = valuationGeo && valuationGeo[apt.id];
+  if (vgeo && vgeo.loc_score != null) return vgeo.loc_score;
+
+  // fallback: geo 데이터로 간이 계산
+  var geo = apt.geo;
   if ((!geo || geo.subway_dist == null) && !vgeo) return 0;
-
-  // 역세권 점수
-  var subwayDist = (geo && geo.subway_dist != null) ? geo.subway_dist : (vgeo && vgeo.subway_dist != null ? vgeo.subway_dist : null);
-  var subwayScore = subwayDist != null ? Math.max(5, Math.round(100 - subwayDist * 1000 / 30)) : null;
-
-  // 업무지구 점수 (서울 구별 데이터 또는 geo 거리 기반)
-  var sigungu = apt.sigungu || "";
-  var guData = null;
-  if (locationScores) {
-    var sidos = Object.keys(locationScores);
-    for (var i = 0; i < sidos.length; i++) {
-      if (locationScores[sidos[i]][sigungu]) { guData = locationScores[sidos[i]][sigungu]; break; }
-    }
-  }
-
-  var transportScore;
-  if (guData) {
-    var t = guData.transport;
-    var bizRaw = t.gangnam * 0.5 + t.gwanghwamun * 0.25 + t.yeouido * 0.25;
-    var bizScore = bizRaw;
-    if (transportMinMax && transportMinMax.max > transportMinMax.min) {
-      bizScore = ((bizRaw - transportMinMax.min) / (transportMinMax.max - transportMinMax.min)) * 100;
-    }
-    transportScore = subwayScore != null ? subwayScore * 0.5 + bizScore * 0.5 : bizScore;
-  } else if (subwayScore != null) {
-    // 비서울: geo 업무지구 거리가 있으면 반영
-    var geoSrc = geo || vgeo;
-    if (geoSrc && geoSrc.biz_gangnam != null) {
-      function bizDistScore(d) { return Math.max(0, Math.min(100, Math.round(100 - (d - 3) * 100 / 47))); }
-      var bizBest = Math.max(
-        bizDistScore(geoSrc.biz_gangnam),
-        bizDistScore(geoSrc.biz_gwanghwamun || 99),
-        bizDistScore(geoSrc.biz_yeouido || 99)
-      );
-      transportScore = subwayScore * 0.5 + bizBest * 0.5;
-    } else {
-      transportScore = subwayScore;
-    }
-  } else {
-    return 0;
-  }
-
-  // 학군 + 인프라 (valuation_geo에서)
-  var schoolScore = (vgeo && vgeo.academy_score != null) ? vgeo.academy_score : null;
-  var infraScore = (vgeo && vgeo.infra_score != null) ? vgeo.infra_score : null;
-
-  // 종합: 교통*3 가중평균
-  var wSum = transportScore * 3;
-  var wTotal = 3;
-  if (schoolScore != null) { wSum += schoolScore; wTotal += 1; }
-  if (infraScore != null) { wSum += infraScore; wTotal += 1; }
-  return Math.round(wSum / wTotal);
+  var subwayDist = (geo && geo.subway_dist != null) ? geo.subway_dist : (vgeo ? vgeo.subway_dist : null);
+  if (subwayDist == null) return 0;
+  var subwayScore = Math.max(5, Math.round(100 - subwayDist * 1000 / 30));
+  var schoolScore = (vgeo && vgeo.academy_score != null) ? vgeo.academy_score : 50;
+  var infraScore = (vgeo && vgeo.infra_score != null) ? vgeo.infra_score : 50;
+  return Math.round(subwayScore * 0.5 + schoolScore * 0.3 + infraScore * 0.2);
 }
 
 /* ── 시도 탭 ── */
@@ -193,15 +149,6 @@ function renderSortBar() {
   return wrap;
 }
 
-/* ── 전세가율 헬퍼 ── */
-function getDistrictJeonseRatio(sido, sigungu) {
-  if (!summaryData || !summaryData.sidos) return null;
-  var sidoData = summaryData.sidos[sido];
-  if (!sidoData || !sidoData.districts || !sidoData.districts[sigungu]) return null;
-  var dist = sidoData.districts[sigungu];
-  return (dist.jeonse && dist.jeonse.avg_ratio != null) ? dist.jeonse.avg_ratio : null;
-}
-
 /* ── 아파트 카드 ── */
 function renderCard(apt, idx) {
   var card = document.createElement("div");
@@ -267,17 +214,9 @@ function renderCard(apt, idx) {
     info.appendChild(geoDiv);
   }
 
-  // 전세가율 뱃지 (단지별 우선, fallback 구 평균)
-  var jRatio = null;
-  var jLabel = "";
-  var vgeo = valuationGeo && valuationGeo[apt.id];
-  if (vgeo && vgeo.jeonse_ratio != null) {
-    jRatio = vgeo.jeonse_ratio;
-    jLabel = "\uC804\uC138 " + jRatio.toFixed(0) + "%";
-  } else {
-    jRatio = getDistrictJeonseRatio(activeSido, apt.sigungu || apt.district);
-    if (jRatio != null) jLabel = "\uC804\uC138 " + jRatio.toFixed(0) + "% (" + (apt.sigungu || apt.district) + " \uD3C9\uADE0)";
-  }
+  // 전세가율 뱃지 (단지 전세가율 — bottom 데이터에 포함)
+  var jRatio = (apt.jeonse_ratio != null) ? apt.jeonse_ratio : null;
+  var jLabel = jRatio != null ? "\uC804\uC138 " + jRatio.toFixed(0) + "%" : "";
   if (jRatio != null) {
     var jBadge = document.createElement("div");
     var jColor = jRatio >= 60 ? "#ef4444" : jRatio >= 40 ? "#f59e0b" : "#16a34a";
@@ -548,10 +487,8 @@ function renderSections() {
     return calcLocationScore(b) - calcLocationScore(a);
   });
   else if (activeSort === "jeonse_ratio") items.sort(function (a, b) {
-    var va = valuationGeo && valuationGeo[a.id];
-    var vb = valuationGeo && valuationGeo[b.id];
-    var ra = (va && va.jeonse_ratio != null) ? va.jeonse_ratio : (getDistrictJeonseRatio(activeSido, a.sigungu || a.district) || 0);
-    var rb = (vb && vb.jeonse_ratio != null) ? vb.jeonse_ratio : (getDistrictJeonseRatio(activeSido, b.sigungu || b.district) || 0);
+    var ra = (a.jeonse_ratio != null) ? a.jeonse_ratio : 0;
+    var rb = (b.jeonse_ratio != null) ? b.jeonse_ratio : 0;
     return rb - ra;
   });
 
@@ -659,8 +596,7 @@ async function init() {
     // Load location data in parallel (non-blocking)
     Promise.all([
       fetch(valuationGeoPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { valuationGeo = d; }).catch(function () {}),
-      fetch(locationScoresPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { locationScores = d; }).catch(function () {}),
-      fetch(summaryPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { summaryData = d; }).catch(function () {})
+      fetch(locationScoresPath + "?t=" + Date.now()).then(function (r) { return r.json(); }).then(function (d) { locationScores = d; }).catch(function () {})
     ]).then(function () {
       buildTransportMinMax();
       if (activeSido && sidoCache[activeSido]) renderSections();
