@@ -426,8 +426,9 @@
       if (geo.loc_score != null) {
         var totalDiv = document.createElement("div");
         totalDiv.style.cssText = "text-align:center;margin-bottom:12px";
-        var totalColor = geo.loc_score >= 70 ? "#2563eb" : geo.loc_score >= 40 ? "#f59e0b" : "#94a3b8";
-        totalDiv.innerHTML = '<span style="font-size:13px;font-weight:700;color:' + totalColor + '">종합 ' + geo.loc_score + '점</span>';
+        var dispScore = scaleScore50(geo.loc_score);
+        var totalColor = dispScore >= 85 ? "#2563eb" : dispScore >= 70 ? "#f59e0b" : "#94a3b8";
+        totalDiv.innerHTML = '<span style="font-size:13px;font-weight:700;color:' + totalColor + '">종합 ' + dispScore + '점</span>';
         sec.appendChild(totalDiv);
       }
     }

@@ -315,7 +315,8 @@
     header.appendChild(title);
     var totalEl = document.createElement("span");
     totalEl.className = "vs-total";
-    totalEl.innerHTML = '<span class="vs-total-num">' + scores.total + '</span><span class="vs-total-label">\uC810</span>';
+    var _dispTotal = scaleScore50(scores.total);
+    totalEl.innerHTML = '<span class="vs-total-num">' + _dispTotal + '</span><span class="vs-total-label">\uC810</span>';
     header.appendChild(totalEl);
     section.appendChild(header);
 
@@ -875,8 +876,8 @@
         header.appendChild(rank);
 
         var scoreBadge = document.createElement("span");
-        var sc = item.loc_score;
-        var badgeColor = sc >= 70 ? "#dbeafe;color:#2563eb" : sc >= 40 ? "#fef3c7;color:#d97706" : "#f1f5f9;color:#64748b";
+        var sc = scaleScore50(item.loc_score);
+        var badgeColor = sc >= 85 ? "#dbeafe;color:#2563eb" : sc >= 70 ? "#fef3c7;color:#d97706" : "#f1f5f9;color:#64748b";
         scoreBadge.style.cssText = "font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;background:" + badgeColor;
         scoreBadge.textContent = "\uC785\uC9C0 " + sc + "\uC810";
         header.appendChild(scoreBadge);
@@ -902,9 +903,10 @@
         ];
         labels.forEach(function (l) {
           if (l[1] == null) return;
+          var sv = scaleScore50(l[1]);
           var s = document.createElement("span");
-          var c = l[1] >= 70 ? "#2563eb" : l[1] >= 40 ? "#f59e0b" : "#94a3b8";
-          s.innerHTML = l[0] + ' <b style="color:' + c + '">' + l[1] + '</b>';
+          var c = sv >= 85 ? "#2563eb" : sv >= 70 ? "#f59e0b" : "#94a3b8";
+          s.innerHTML = l[0] + ' <b style="color:' + c + '">' + sv + '</b>';
           bars.appendChild(s);
         });
         if (item.subway) {

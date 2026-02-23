@@ -202,11 +202,11 @@ function renderCard(apt, idx) {
       bizSpan.textContent = "\uAC15\uB0A8 " + apt.geo.biz_gangnam + "km \u00B7 \uAD11\uD654\uBB38 " + apt.geo.biz_gwanghwamun + "km \u00B7 \uC5EC\uC758\uB3C4 " + apt.geo.biz_yeouido + "km";
       geoDiv.appendChild(bizSpan);
     }
-    var aptScore = calcLocationScore(apt);
-    if (aptScore > 0) {
+    var aptScore = scaleScore50(calcLocationScore(apt));
+    if (aptScore > 50) {
       var asBadge = document.createElement("span");
-      var asColor = aptScore >= 70 ? "#2563eb" : aptScore >= 40 ? "#f59e0b" : "#94a3b8";
-      var asBg = aptScore >= 70 ? "#dbeafe" : aptScore >= 40 ? "#fef3c7" : "#f1f5f9";
+      var asColor = aptScore >= 85 ? "#2563eb" : aptScore >= 70 ? "#f59e0b" : "#94a3b8";
+      var asBg = aptScore >= 85 ? "#dbeafe" : aptScore >= 70 ? "#fef3c7" : "#f1f5f9";
       asBadge.style.cssText = "font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px;color:" + asColor + ";background:" + asBg;
       asBadge.textContent = "\uC785\uC9C0 " + aptScore;
       geoDiv.appendChild(asBadge);

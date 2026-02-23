@@ -1427,6 +1427,9 @@ function drawBacktestCompareChart(canvas, mainTxns, compareTxnList, pick) {
  * @param {HTMLElement} container - DOM 컨테이너
  * @param {Object} scores - { transport, school, living }  각 0~100
  */
+/** 0-100 raw → 50-100 display 스케일 변환 */
+function scaleScore50(raw) { return Math.round(50 + (raw || 0) / 2); }
+
 function drawScoreBars(container, scores) {
   var items = [
     { label: "교통", key: "transport", color: "#2563eb", detail: "지하철 거리 · 업무지구 접근성" },
@@ -1436,8 +1439,8 @@ function drawScoreBars(container, scores) {
   var html = "";
   for (var i = 0; i < items.length; i++) {
     var it = items[i];
-    var val = scores[it.key] || 0;
-    var w = Math.max(2, val);
+    var val = scaleScore50(scores[it.key]);
+    var w = Math.max(50, val);
     html += '<div style="margin-bottom:8px">'
       + '<div style="display:flex;align-items:center;gap:8px">'
       + '<span style="width:40px;font-size:11px;font-weight:600;color:var(--ink);text-align:right">' + it.label + '</span>'

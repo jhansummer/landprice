@@ -816,8 +816,9 @@ function showDetail(r) {
           scoreTitle.style.cssText = "font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px";
           scoreTitle.textContent = "입지점수";
           if (geo.loc_score != null) {
-            var totalColor = geo.loc_score >= 70 ? "#2563eb" : geo.loc_score >= 40 ? "#f59e0b" : "#94a3b8";
-            scoreTitle.innerHTML += ' <span style="color:' + totalColor + '">종합 ' + geo.loc_score + '</span>';
+            var _ds = scaleScore50(geo.loc_score);
+            var totalColor = _ds >= 85 ? "#2563eb" : _ds >= 70 ? "#f59e0b" : "#94a3b8";
+            scoreTitle.innerHTML += ' <span style="color:' + totalColor + '">종합 ' + _ds + '</span>';
           }
           scoreSec.appendChild(scoreTitle);
           var barWrap = document.createElement("div");
