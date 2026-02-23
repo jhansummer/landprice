@@ -1431,7 +1431,7 @@ function drawScoreBars(container, scores) {
   var items = [
     { label: "교통", key: "transport", color: "#2563eb" },
     { label: "학군", key: "school", color: "#7c3aed" },
-    { label: "환금성", key: "liquidity", color: "#059669" },
+    { label: "거래량", key: "liquidity", color: "#059669" },
     { label: "생활", key: "living", color: "#f59e0b" },
   ];
   var html = "";
