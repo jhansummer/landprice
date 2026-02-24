@@ -108,21 +108,31 @@ def pick_best(candidates: list, vgeo: dict, exclude_ids: set = None) -> Optional
 
 # ── 네이버 호가 조회 (선택적) ──
 def fetch_naver_listings(apts: List[dict]) -> List[Optional[dict]]:
-    """fetch_naver_listings.py 호출. 실패 시 빈 리스트 반환."""
+    """fetch_naver_listings.py 호출. 실패 시 빈 리스트 반환.
+
+    apts: [{"name", "region" (시군구 동), "area"}]
+    인자 형식: "아파트명|시군구|동|면적"
+    """
     try:
         script = os.path.join(os.path.dirname(__file__), "fetch_naver_listings.py")
         if not os.path.exists(script):
             return [None] * len(apts)
+        # fetch_naver_listings.py는 "이름|시군구|동|면적" 형식 인자
+        args = [sys.executable, script]
+        for a in apts:
+            region_parts = a["region"].split()
+            sigungu = region_parts[0] if region_parts else ""
+            dong = region_parts[1] if len(region_parts) > 1 else ""
+            args.append(f"{a['name']}|{sigungu}|{dong}|{a['area']}")
         result = subprocess.run(
-            [sys.executable, script, json.dumps(apts)],
-            capture_output=True, text=True, timeout=120,
+            args, capture_output=True, text=True, timeout=180,
         )
         if result.returncode == 0 and result.stdout.strip():
             data = json.loads(result.stdout.strip())
             if isinstance(data, list):
                 return data
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"  네이버 호가 조회 실패: {e}")
     return [None] * len(apts)
 
 

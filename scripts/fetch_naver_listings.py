@@ -189,16 +189,15 @@ def main():
         complex_ids[apt_name] = cid
         time.sleep(1)
 
-    # Chrome 쿠키
+    # Chrome 쿠키 (선택적 — 없어도 동작)
+    cookies = []
     try:
         cj = browser_cookie3.chrome(domain_name=".naver.com")
+        cookies = [{"name": c.name, "value": c.value, "domain": c.domain, "path": c.path,
+                    **({"expires": c.expires} if c.expires else {})} for c in cj]
+        log(f"  [호가] 쿠키 {len(cookies)}개 로드")
     except Exception as e:
-        log(f"  [호가] 쿠키 로드 실패: {e}")
-        print(json.dumps([None] * len(apartments)))
-        return
-
-    cookies = [{"name": c.name, "value": c.value, "domain": c.domain, "path": c.path,
-                **({"expires": c.expires} if c.expires else {})} for c in cj]
+        log(f"  [호가] 쿠키 없이 진행: {e}")
 
     results = []
 
@@ -217,7 +216,8 @@ def main():
                 "sec-ch-ua-platform": '"macOS"',
             },
         )
-        context.add_cookies(cookies)
+        if cookies:
+            context.add_cookies(cookies)
         context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
 
         for apt_name, sigungu, dong_name, area_m2 in apartments:
