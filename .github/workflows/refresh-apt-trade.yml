@@ -92,6 +92,11 @@ jobs:
         env:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
         run: python scripts/update_notion_weekly.py
+      - name: Daily recommendation
+        continue-on-error: true
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        run: python scripts/daily_recommendation.py
       - name: Commit and push if changed
         run: |
           if [[ -n "$(git status --porcelain)" ]]; then
