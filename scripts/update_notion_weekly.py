@@ -7,11 +7,12 @@ DOW 환경변수(0=월~6=일)로 요일 오버라이드 가능.
 """
 import json, os, re, sys, time
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 
 BY_APT_DIR = os.path.join("docs", "data", "apt_trade", "by_apt")
+HISTORY_PATH = os.path.join(os.path.dirname(__file__), "thread_history.json")
 
 # ── .env 로드 (로컬 실행용, CI에서는 secrets로 주입) ──
 def _load_dotenv():
@@ -157,6 +158,43 @@ def create_child_page(parent_id, title, blocks):
 # ══════════════════════════════════════════════
 # 월요일: 저평가 TOP 3 (전국)
 # ══════════════════════════════════════════════
+def load_thread_history():
+    """최근 7일간 게시된 단지 ID 목록 로드."""
+    if not os.path.exists(HISTORY_PATH):
+        return []
+    try:
+        with open(HISTORY_PATH) as f:
+            entries = json.load(f)
+    except Exception:
+        return []
+    cutoff = (TODAY - timedelta(days=7)).strftime("%Y-%m-%d")
+    return [e for e in entries if e.get("date", "") >= cutoff]
+
+
+def save_thread_history(entries, apt_id, apt_name):
+    """게시 이력에 오늘 단지 추가 후 저장."""
+    cutoff = (TODAY - timedelta(days=7)).strftime("%Y-%m-%d")
+    entries = [e for e in entries if e.get("date", "") >= cutoff]
+    entries.append({
+        "date": TODAY.strftime("%Y-%m-%d"),
+        "apt_id": apt_id,
+        "apt_name": apt_name,
+    })
+    with open(HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(entries, f, ensure_ascii=False, indent=2)
+
+
+def pick_one(candidates, history):
+    """후보 리스트에서 최근 7일 게시 이력과 겹치지 않는 첫 번째 단지 선택."""
+    recent_ids = {e["apt_id"] for e in history}
+    for item in candidates:
+        apt_id = item.get("id", "")
+        if apt_id and apt_id not in recent_ids:
+            return item
+    # 모두 겹치면 첫 번째 반환
+    return candidates[0] if candidates else None
+
+
 def _get_latest_deal(apt_id):
     """by_apt/{id}.json에서 최근 실거래 가격(만원 총액)과 날짜 반환."""
     path = os.path.join(BY_APT_DIR, f"{apt_id}.json")
@@ -319,13 +357,16 @@ def generate_monday():
             all_uv.append(item)
 
     all_uv.sort(key=lambda x: x.get("gap_pct", 0))
-    top3 = all_uv[:3]
 
-    enrich_naver_prices(top3)
-    lines = _fmt_uv_block("전국", top3, geo, fetch_listings=False)
+    history = load_thread_history()
+    picked = pick_one(all_uv, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
+    lines = _fmt_uv_block("전국", top, geo, fetch_listings=False)
 
     title = "비교단지는 올랐는데 왜 이 아파트만?"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -354,39 +395,40 @@ def generate_tuesday():
                 candidates.append(item)
 
     candidates.sort(key=lambda x: x.get("current_price", float("inf")))
-    top3 = candidates[:3]
 
-    enrich_naver_prices(top3)
+    history = load_thread_history()
+    picked = pick_one(candidates, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
 
     lines = []
-    if top3:
-        cheapest = top3[0]
-        cp = cheapest.get("naver_price") or cheapest["current_price"]
+    if top:
+        a = top[0]
+        ap = a.get("naver_price") or a["current_price"]
+        g = geo.get(a["id"], {})
+        station = g.get("subway", "?")
+        sline = g.get("subway_line", "")
+        walk = g.get("subway_walk_min", "?")
+
         lines.append("강남까지 30분이면 되는데")
         lines.append(f"이 가격이면 살 만하지 않을까?")
         lines.append("")
-        lines.append(f'{fmt_loc(cheapest)},')
-        lines.append(f'대중교통 기준 강남 {cheapest["commute_gangnam"]}분.')
-        lines.append(f"현재 {fmt_price(cp)}.")
+        lines.append(f'{fmt_loc(a)},')
+        lines.append(f'대중교통 기준 강남 {a["commute_gangnam"]}분.')
+        lines.append(f"현재 {fmt_price(ap)}.")
         lines.append("")
-
-        for a in top3:
-            g = geo.get(a["id"], {})
-            station = g.get("subway", "?")
-            sline = g.get("subway_line", "")
-            walk = g.get("subway_walk_min", "?")
-            ap = a.get("naver_price") or a["current_price"]
-            lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
-            lines.append(f'  {fmt_price(ap)} · 강남 {a["commute_gangnam"]}분')
-            lines.append(f'  {station}({sline}) 도보{walk}분')
-            lines.append("")
+        lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
+        lines.append(f'  {fmt_price(ap)} · 강남 {a["commute_gangnam"]}분')
+        lines.append(f'  {station}({sline}) 도보{walk}분')
+        lines.append("")
 
     lines.append("강남 30분 이내 + 가격 낮은 순")
     lines.append(f"네이버 매물 호가 기준 · {TODAY.strftime('%Y.%m.%d')}")
     lines.append("aptmine.com")
 
     title = "강남 30분인데 이 가격이면?"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -416,25 +458,26 @@ def generate_wednesday():
             candidates.append(item)
 
     candidates.sort(key=lambda x: x.get("gap_pct", 0))
-    top3 = candidates[:3]
 
-    enrich_naver_prices(top3)
+    history = load_thread_history()
+    picked = pick_one(candidates, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
 
     lines = []
-    if top3:
-        a = top3[0]
+    if top:
+        a = top[0]
+        ap = a.get("naver_price") or a["current_price"]
         lines.append("학군은 검증됐는데")
         lines.append("가격은 아직 안 올랐다?")
         lines.append("")
         lines.append(f"{fmt_loc(a)}, 학원가 점수 {a['academy_score']}점.")
         lines.append(f"비교단지 대비 {abs(a['gap_pct']):.1f}%p 저평가 상태.")
         lines.append("")
-
-        for a in top3:
-            ap = a.get("naver_price") or a["current_price"]
-            lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
-            lines.append(f'  {fmt_price(ap)} · 학원가 {a["academy_score"]}점 · 벌어짐 {a["gap_pct"]:+.1f}%p')
-            lines.append("")
+        lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
+        lines.append(f'  {fmt_price(ap)} · 학원가 {a["academy_score"]}점 · 벌어짐 {a["gap_pct"]:+.1f}%p')
+        lines.append("")
     else:
         lines.append("학군 + 저평가 교집합에 해당하는")
         lines.append("단지가 현재 없습니다.")
@@ -445,7 +488,7 @@ def generate_wednesday():
     lines.append("aptmine.com")
 
     title = "학군 좋은데 왜 이 단지만 저평가?"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -468,35 +511,33 @@ def generate_thursday():
                     all_items.append(apt)
 
     all_items.sort(key=lambda x: x.get("vs_all_time_peak", 0), reverse=True)
-    top3 = all_items[:3]
 
-    enrich_naver_prices(top3)
+    history = load_thread_history()
+    picked = pick_one(all_items, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
 
     lines = []
-    if top3:
-        a = top3[0]
+    if top:
+        a = top[0]
         loc = f'{a["sigungu"]} {a["dong_name"]}'
-        total_price = fmt_price(a.get("naver_price") or 0) if a.get("naver_price") else fmt_price_m2(a["price"], a["area_m2"])
+        ap = fmt_price(a["naver_price"]) if a.get("naver_price") else fmt_price_m2(a["price"], a["area_m2"])
         lines.append("역대 최고가를 뚫었다.")
         lines.append("")
         lines.append(f"{loc},")
         lines.append(f'전고점 대비 +{a["vs_all_time_peak"]:.1f}%.')
-        lines.append(f"이 시장에서 가장 강한 단지는 어디일까?")
         lines.append("")
-
-        for a in top3:
-            loc = f'{a["sigungu"]} {a["dong_name"]}'
-            ap = fmt_price(a["naver_price"]) if a.get("naver_price") else fmt_price_m2(a["price"], a["area_m2"])
-            lines.append(f'→ {a["apt_name"]} ({loc}, {fmt_area(a["area_m2"])})')
-            lines.append(f'  현재 {ap} · 전고점 대비 +{a["vs_all_time_peak"]:.1f}%')
-            lines.append("")
+        lines.append(f'→ {a["apt_name"]} ({loc}, {fmt_area(a["area_m2"])})')
+        lines.append(f'  현재 {ap} · 전고점 대비 +{a["vs_all_time_peak"]:.1f}%')
+        lines.append("")
 
     lines.append("역대 최고가 돌파 단지")
     lines.append(f"네이버 매물 호가 기준 · {TODAY.strftime('%Y.%m.%d')}")
     lines.append("aptmine.com")
 
     title = "역대 최고가를 뚫은 단지"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -519,15 +560,19 @@ def generate_friday():
             all_turning.append(item)
 
     all_turning.sort(key=lambda x: x["bounce_pct"], reverse=True)
-    top3 = all_turning[:3]
 
-    enrich_naver_prices(top3)
+    history = load_thread_history()
+    picked = pick_one(all_turning, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
 
     lines = []
-    if top3:
-        a = top3[0]
+    if top:
+        a = top[0]
         trough_ym = a.get("trough_ym", "")
         trough_str = f"{trough_ym[:4]}.{trough_ym[4:]}" if len(trough_ym) == 6 else trough_ym
+        ap = fmt_price(a["naver_price"]) if a.get("naver_price") else fmt_price_m2(a["price"], a["area_m2"])
         lines.append("바닥을 찍고 올라오기 시작했다.")
         lines.append("")
         lines.append(f"{fmt_loc(a)},")
@@ -535,22 +580,17 @@ def generate_friday():
         lines.append(f"아직 전고점 대비 {a['vs_all_time_peak']:+.1f}%.")
         lines.append("회복 여력이 남아 있을까?")
         lines.append("")
-
-        for a in top3:
-            trough_ym = a.get("trough_ym", "")
-            trough_str = f"{trough_ym[:4]}.{trough_ym[4:]}" if len(trough_ym) == 6 else trough_ym
-            ap = fmt_price(a["naver_price"]) if a.get("naver_price") else fmt_price_m2(a["price"], a["area_m2"])
-            lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
-            lines.append(f'  저점 {fmt_price_m2(a["trough"], a["area_m2"])}({trough_str}) → 현재 {ap}')
-            lines.append(f'  반등 +{a["bounce_pct"]:.1f}% · 전고점 대비 {a["vs_all_time_peak"]:+.1f}%')
-            lines.append("")
+        lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
+        lines.append(f'  저점 {fmt_price_m2(a["trough"], a["area_m2"])}({trough_str}) → 현재 {ap}')
+        lines.append(f'  반등 +{a["bounce_pct"]:.1f}% · 전고점 대비 {a["vs_all_time_peak"]:+.1f}%')
+        lines.append("")
 
     lines.append("저점 대비 반등폭 기준")
     lines.append(f"네이버 매물 호가 기준 · {TODAY.strftime('%Y.%m.%d')}")
     lines.append("aptmine.com")
 
     title = "바닥 찍고 올라오는 단지"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -578,46 +618,43 @@ def generate_saturday():
             all_items.append(item)
 
     all_items.sort(key=lambda x: x.get("location_gap", 0), reverse=True)
-    top3 = all_items[:3]
 
-    enrich_naver_prices(top3)
+    history = load_thread_history()
+    picked = pick_one(all_items, history)
+    top = [picked] if picked else []
+
+    enrich_naver_prices(top)
 
     lines = []
-    if top3:
-        a = top3[0]
+    if top:
+        a = top[0]
         g = geo.get(a["id"], {})
         inf = g.get("infra", {})
         academy = inf.get("academy", 0)
         inf_score = g.get("infra_score", 0)
         ap = a.get("naver_price") or a["price"]
+        station = g.get("subway", "?")
+        sline = g.get("subway_line", "")
+        walk = g.get("subway_walk_min", "?")
+        hh = g.get("households", 0)
+
         lines.append("주변에 다 있는데 가격은 싸다?")
         lines.append("")
         lines.append(f"{fmt_loc(a)},")
         lines.append(f"학원 {academy}개, 생활인프라 {_infra_label(inf_score)}등급.")
         lines.append(f"그런데 가격은 {fmt_price(ap)}.")
         lines.append("")
-
-        for a in top3:
-            g = geo.get(a["id"], {})
-            if g:
-                station = g.get("subway", "?")
-                sline = g.get("subway_line", "")
-                walk = g.get("subway_walk_min", "?")
-                inf = g.get("infra", {})
-                inf_score = g.get("infra_score", 0)
-                hh = g.get("households", 0)
-                ap = a.get("naver_price") or a["price"]
-                lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
-                lines.append(f'  {fmt_price(ap)} · {station}({sline}) 도보{walk}분')
-                lines.append(f'  인프라 {_infra_label(inf_score)} · {hh:,}세대')
-                lines.append("")
+        lines.append(f'→ {a["apt_name"]} ({fmt_loc(a)}, {fmt_area(a["area_m2"])})')
+        lines.append(f'  {fmt_price(ap)} · {station}({sline}) 도보{walk}분')
+        lines.append(f'  인프라 {_infra_label(inf_score)} · {hh:,}세대')
+        lines.append("")
 
     lines.append("입지점수 대비 가격순위가 낮은 단지")
     lines.append(f"네이버 매물 호가 기준 · {TODAY.strftime('%Y.%m.%d')}")
     lines.append("aptmine.com")
 
     title = "인프라는 좋은데 가격은 왜 이럴까"
-    return title, lines, top3
+    return title, lines, top
 
 
 # ══════════════════════════════════════════════
@@ -1021,6 +1058,15 @@ def main():
     new_id = create_child_page(PAGE_ID, page_title, blocks)
     if new_id:
         print(f"✓ 노션 하위 페이지 생성 완료! (id: {new_id})")
+        # 게시 성공 시 단지 히스토리 저장 (7일 로테이션용)
+        if top_items and isinstance(top_items, list) and len(top_items) > 0:
+            item = top_items[0]
+            apt_id = item.get("id", "")
+            apt_name = item.get("apt_name", "")
+            if apt_id:
+                history = load_thread_history()
+                save_thread_history(history, apt_id, apt_name)
+                print(f"  히스토리 저장: {apt_name} ({apt_id})")
     else:
         print("✗ 노션 업데이트 실패")
 
