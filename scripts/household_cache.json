@@ -59115,5 +59115,3175 @@
   "households": 1646,
   "dong_count": 12,
   "builder": "DL건설,DL이앤씨"
+ },
+ "서구|가정동|루원더퍼스트": {
+  "households": 616,
+  "dong_count": 7,
+  "builder": "제일건설(주),남양건설(주),"
+ },
+ "서구|당하동|검단SKVIEW": {
+  "households": 530,
+  "dong_count": 8,
+  "builder": "SK건설"
+ },
+ "노원구|상계동|해링턴플레이스노원센트럴": {
+  "households": 299,
+  "dong_count": 0,
+  "builder": " "
+ },
+ "양천구|신월동|신목동파라곤": {
+  "households": 299,
+  "dong_count": 5,
+  "builder": "동양건설"
+ },
+ "중구|우정동|평화맨션": {
+  "households": 140,
+  "dong_count": 1,
+  "builder": "평화건설"
+ },
+ "계양구|계산동|삼보3": {
+  "households": 366,
+  "dong_count": 5,
+  "builder": "삼보건설"
+ },
+ "계양구|효성동|서해그랑블더테라스": {
+  "households": 124,
+  "dong_count": 2,
+  "builder": "서해종합건설"
+ },
+ "서구|청라동|청라린스트라우스": {
+  "households": 590,
+  "dong_count": 4,
+  "builder": "(주)우미건설"
+ },
+ "서구|가좌동|동남": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "서구|가좌동|영남": {
+  "households": 836,
+  "dong_count": 7,
+  "builder": "영남건설"
+ },
+ "서구|가좌동|태화": {
+  "households": 299,
+  "dong_count": 2,
+  "builder": "태화건설(주)"
+ },
+ "서구|청라동|청라국제금융단지한양수자인레이크블루": {
+  "households": 1534,
+  "dong_count": 14,
+  "builder": "(주)한양,보성산업(주)"
+ },
+ "서구|가좌동|인천가좌두산위브트레지움1,2단지": {
+  "households": 1757,
+  "dong_count": 16,
+  "builder": "두산건설"
+ },
+ "서구|오류동|오류풍림아이원": {
+  "households": 207,
+  "dong_count": 3,
+  "builder": "풍림산업"
+ },
+ "서구|청라동|청라더샵레이크파크": {
+  "households": 766,
+  "dong_count": 4,
+  "builder": "포스코건설"
+ },
+ "서구|석남동|해드림": {
+  "households": 250,
+  "dong_count": 7,
+  "builder": "영동건설"
+ },
+ "서구|마전동|검단힐스테이트2차": {
+  "households": 465,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|가좌동|진주1": {
+  "households": 686,
+  "dong_count": 3,
+  "builder": "라이프주택"
+ },
+ "서구|청라동|대우푸르지오": {
+  "households": 1210,
+  "dong_count": 13,
+  "builder": "(주)대우건설"
+ },
+ "서구|석남동|현광": {
+  "households": 144,
+  "dong_count": 2,
+  "builder": "현광"
+ },
+ "서구|청라동|청라자이": {
+  "households": 884,
+  "dong_count": 19,
+  "builder": "GS건설(주)"
+ },
+ "서구|왕길동|원흥": {
+  "households": 183,
+  "dong_count": 1,
+  "builder": "원흥건설"
+ },
+ "서구|오류동|검단힐스테이트3차2단지": {
+  "households": 465,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|청라동|청라한화꿈에그린": {
+  "households": 1172,
+  "dong_count": 10,
+  "builder": "한화건설"
+ },
+ "서구|석남동|효성": {
+  "households": 452,
+  "dong_count": 5,
+  "builder": "효성중공업(주)"
+ },
+ "서구|불로동|신검단중앙역풍경채어바니티": {
+  "households": 1425,
+  "dong_count": 15,
+  "builder": "제일건설(주)"
+ },
+ "서구|석남동|아인": {
+  "households": 1112,
+  "dong_count": 17,
+  "builder": "영조주택"
+ },
+ "서구|불로동|신검단중앙역풍경채어바니티2차": {
+  "households": 1734,
+  "dong_count": 17,
+  "builder": "제일건설(주)"
+ },
+ "서구|불로동|힐스테이트검단포레스트": {
+  "households": 736,
+  "dong_count": 8,
+  "builder": "현대건설"
+ },
+ "서구|당하동|아라역금강펜테리움더시글로2차": {
+  "households": 483,
+  "dong_count": 3,
+  "builder": " 금강 주택"
+ },
+ "서구|불로동|신검단중앙역우미린클래스원": {
+  "households": 875,
+  "dong_count": 11,
+  "builder": "우미건설"
+ },
+ "서구|청라동|인천청라시티프라디움": {
+  "households": 270,
+  "dong_count": 6,
+  "builder": "(주)시티종합건설"
+ },
+ "서구|왕길동|왕길역로열파크씨티푸르지오": {
+  "households": 1500,
+  "dong_count": 15,
+  "builder": "대우건설"
+ },
+ "서구|불로동|검단대광로제비앙센트럴포레": {
+  "households": 556,
+  "dong_count": 6,
+  "builder": "(주)대광건영"
+ },
+ "서구|마전동|마전예뜰채": {
+  "households": 93,
+  "dong_count": 1,
+  "builder": "태훈"
+ },
+ "서구|원당동|호반써밋1차": {
+  "households": 1168,
+  "dong_count": 14,
+  "builder": "주식회사 호반산업"
+ },
+ "중구|운서동|주공스카이빌12단지": {
+  "households": 323,
+  "dong_count": 11,
+  "builder": "대우자판외"
+ },
+ "계양구|작전동|작전역서해그랑블": {
+  "households": 280,
+  "dong_count": 3,
+  "builder": "(주)서해종합건설"
+ },
+ "동구|만석동|만석웰카운티": {
+  "households": 178,
+  "dong_count": 3,
+  "builder": "인천도시공사"
+ },
+ "서구|심곡동|한국2": {
+  "households": 256,
+  "dong_count": 4,
+  "builder": "한국종합건설"
+ },
+ "남동구|만수동|고운웰리움": {
+  "households": 101,
+  "dong_count": 1,
+  "builder": "고운주택건설(주)"
+ },
+ "연수구|송도동|송도SK뷰센트럴": {
+  "households": 299,
+  "dong_count": 3,
+  "builder": "sk건설"
+ },
+ "미추홀구|숭의동|광해리드빌": {
+  "households": 117,
+  "dong_count": 2,
+  "builder": "(주)광해건설"
+ },
+ "서구|청라동|청라우미린": {
+  "households": 200,
+  "dong_count": 3,
+  "builder": "서령개발"
+ },
+ "계양구|서운동|계양효성해링턴플레이스": {
+  "households": 1669,
+  "dong_count": 16,
+  "builder": "효성중공업(주)"
+ },
+ "연수구|송도동|베르디움더퍼스트": {
+  "households": 1834,
+  "dong_count": 15,
+  "builder": "호반건설"
+ },
+ "남동구|만수동|금호타운": {
+  "households": 414,
+  "dong_count": 5,
+  "builder": "금호건설"
+ },
+ "서구|마전동|서해": {
+  "households": 950,
+  "dong_count": 11,
+  "builder": "서해종합건설"
+ },
+ "서구|청라동|청라지구중흥S-CLASS2단지": {
+  "households": 320,
+  "dong_count": 2,
+  "builder": "중흥주택"
+ },
+ "중구|중산동|영종국제도시동원로얄듀크마리나포레": {
+  "households": 412,
+  "dong_count": 6,
+  "builder": "(주)동원개발"
+ },
+ "남동구|만수동|신한(6-21)": {
+  "households": 132,
+  "dong_count": 1,
+  "builder": "확인불가"
+ },
+ "부평구|부개동|부평코오롱하늘채": {
+  "households": 922,
+  "dong_count": 7,
+  "builder": "코오롱글로벌"
+ },
+ "남동구|만수동|산호(844-125)": {
+  "households": 135,
+  "dong_count": 2,
+  "builder": " 포스트 건설"
+ },
+ "중구|운남동|영종베르힐스카이시티": {
+  "households": 1224,
+  "dong_count": 13,
+  "builder": "대성베르힐건설(주)"
+ },
+ "서구|마전동|동남": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "계양구|계산동|신한(가,나동)": {
+  "households": 324,
+  "dong_count": 3,
+  "builder": "(주)신한"
+ },
+ "서구|청라동|청라메이루즈 커낼파크뷰": {
+  "households": 263,
+  "dong_count": 6,
+  "builder": "광명건설"
+ },
+ "서구|오류동|검단오류역우방아이유쉘": {
+  "households": 420,
+  "dong_count": 6,
+  "builder": "SM우방산업"
+ },
+ "남동구|만수동|포레시안": {
+  "households": 3208,
+  "dong_count": 38,
+  "builder": "LH공사"
+ },
+ "연수구|동춘동|연수서해그랑블에듀파크": {
+  "households": 641,
+  "dong_count": 12,
+  "builder": "서해종합건설"
+ },
+ "서구|청라동|호반베르디움": {
+  "households": 642,
+  "dong_count": 8,
+  "builder": "(주)호반건설"
+ },
+ "남동구|논현동|주공13단지(푸르내마을)": {
+  "households": 785,
+  "dong_count": 9,
+  "builder": "풍창건설(주)"
+ },
+ "계양구|작전동|미도아파트": {
+  "households": 205,
+  "dong_count": 3,
+  "builder": "가나안미도"
+ },
+ "미추홀구|도화동|도화역대성유니드": {
+  "households": 265,
+  "dong_count": 4,
+  "builder": "대성산업(주)"
+ },
+ "부평구|부평동|래미안부평(임대)": {
+  "households": 1145,
+  "dong_count": 16,
+  "builder": "삼성물산"
+ },
+ "서구|불로동|월드": {
+  "households": 168,
+  "dong_count": 5,
+  "builder": "월드건설(주)"
+ },
+ "남동구|간석동|신한": {
+  "households": 132,
+  "dong_count": 1,
+  "builder": "확인불가"
+ },
+ "동구|송림동|동산휴먼시아1단지": {
+  "households": 310,
+  "dong_count": 3,
+  "builder": "남양건설(주)"
+ },
+ "서구|마전동|목화": {
+  "households": 300,
+  "dong_count": 4,
+  "builder": "주식회사 동문주택"
+ },
+ "연수구|청학동|용담마을": {
+  "households": 500,
+  "dong_count": 14,
+  "builder": "인천 직할시 종합건설본부"
+ },
+ "계양구|효성동|미도": {
+  "households": 205,
+  "dong_count": 3,
+  "builder": "가나안미도"
+ },
+ "중구|송월동1가|송월": {
+  "households": 340,
+  "dong_count": 11,
+  "builder": "반도건업"
+ },
+ "미추홀구|용현동|한국": {
+  "households": 298,
+  "dong_count": 2,
+  "builder": "한국종합건설(주)"
+ },
+ "연수구|송도동|송도금호어울림": {
+  "households": 510,
+  "dong_count": 11,
+  "builder": "금호산업(주)"
+ },
+ "남동구|간석동|우성": {
+  "households": 108,
+  "dong_count": 2,
+  "builder": "(주)우성건설"
+ },
+ "남동구|논현동|풍림": {
+  "households": 922,
+  "dong_count": 8,
+  "builder": "(주)풍림산업"
+ },
+ "서구|가정동|신영루원지웰시티푸르지오": {
+  "households": 778,
+  "dong_count": 5,
+  "builder": "대우건설"
+ },
+ "부평구|갈산동|갈산": {
+  "households": 247,
+  "dong_count": 5,
+  "builder": "대성산업"
+ },
+ "서구|청라동|청라디이스트": {
+  "households": 734,
+  "dong_count": 7,
+  "builder": "동문건설(주)"
+ },
+ "연수구|송도동|송도센트럴파크푸르지오": {
+  "households": 551,
+  "dong_count": 3,
+  "builder": "대우건설"
+ },
+ "남동구|서창동|서창자이": {
+  "households": 500,
+  "dong_count": 7,
+  "builder": "GS건설(주)"
+ },
+ "부평구|십정동|서희스타힐스부평센트럴": {
+  "households": 571,
+  "dong_count": 5,
+  "builder": "서희건설"
+ },
+ "남동구|논현동|이안논현오션파크": {
+  "households": 294,
+  "dong_count": 2,
+  "builder": "대우산업개발"
+ },
+ "서구|금곡동|하나": {
+  "households": 178,
+  "dong_count": 1,
+  "builder": "삼성건설(주)"
+ },
+ "서구|석남동|(517-2)": {
+  "households": 106,
+  "dong_count": 1,
+  "builder": "현대산업개발(주)"
+ },
+ "서구|석남동|대원": {
+  "households": 311,
+  "dong_count": 4,
+  "builder": "대원산업개발(주)"
+ },
+ "서구|당하동|동인스카이빌": {
+  "households": 129,
+  "dong_count": 1,
+  "builder": "신원건설(주)"
+ },
+ "서구|가좌동|신현대": {
+  "households": 343,
+  "dong_count": 1,
+  "builder": "신현대주택"
+ },
+ "미추홀구|주안동|월드스테이트(112~123)": {
+  "households": 3160,
+  "dong_count": 37,
+  "builder": "벽산,풍림"
+ },
+ "연수구|청학동|동보": {
+  "households": 135,
+  "dong_count": 1,
+  "builder": "동보건설(주)"
+ },
+ "연수구|송도동|송도풍림아이원3단지": {
+  "households": 504,
+  "dong_count": 7,
+  "builder": "풍림산업(주)"
+ },
+ "미추홀구|학익동|신동아5": {
+  "households": 594,
+  "dong_count": 8,
+  "builder": "신동아 건설"
+ },
+ "남동구|논현동|논현 파크 포레": {
+  "households": 872,
+  "dong_count": 11,
+  "builder": "서희건설"
+ },
+ "중구|운남동|영종국제도시화성파크드림2차": {
+  "households": 657,
+  "dong_count": 5,
+  "builder": "화성산업(주)"
+ },
+ "연수구|송도동|힐스테이트레이크송도4차": {
+  "households": 1319,
+  "dong_count": 12,
+  "builder": "현대건설(주)"
+ },
+ "미추홀구|관교동|풍림": {
+  "households": 1480,
+  "dong_count": 22,
+  "builder": "동아건설산업(주),풍림산업(주)"
+ },
+ "계양구|박촌동|풍림": {
+  "households": 342,
+  "dong_count": 2,
+  "builder": "풍림산업"
+ },
+ "서구|청라동|청라롯데캐슬": {
+  "households": 828,
+  "dong_count": 7,
+  "builder": "롯데건설"
+ },
+ "부평구|산곡동|경남4차": {
+  "households": 776,
+  "dong_count": 11,
+  "builder": "경남건설"
+ },
+ "부평구|청천동|미가로": {
+  "households": 170,
+  "dong_count": 2,
+  "builder": "(주)지구종합건설"
+ },
+ "동구|송현동|솔빛마을주공": {
+  "households": 2711,
+  "dong_count": 27,
+  "builder": "한신공영"
+ },
+ "남동구|서창동|더포레스트": {
+  "households": 1228,
+  "dong_count": 12,
+  "builder": "(주)케이알산업"
+ },
+ "연수구|선학동|정광": {
+  "households": 300,
+  "dong_count": 4,
+  "builder": "(주)정광건설"
+ },
+ "서구|청라동|청라반도유보라": {
+  "households": 174,
+  "dong_count": 4,
+  "builder": "(주)반도건설"
+ },
+ "중구|항동7가|라이프비취1차": {
+  "households": 181,
+  "dong_count": 1,
+  "builder": "라이프 주택개발(주)"
+ },
+ "남동구|논현동|논현푸르지오 더퍼스트": {
+  "households": 754,
+  "dong_count": 7,
+  "builder": "(주)대우건설"
+ },
+ "서구|불로동|백두": {
+  "households": 175,
+  "dong_count": 1,
+  "builder": "백두건설"
+ },
+ "서구|가좌동|진주4": {
+  "households": 302,
+  "dong_count": 4,
+  "builder": "라이프주택건설"
+ },
+ "중구|운남동|e편한세상영종하늘도시": {
+  "households": 577,
+  "dong_count": 8,
+  "builder": "대림산업(주)"
+ },
+ "서구|석남동|우림필유": {
+  "households": 320,
+  "dong_count": 3,
+  "builder": "우림건설(주)"
+ },
+ "계양구|동양동|우남푸르미아": {
+  "households": 117,
+  "dong_count": 1,
+  "builder": "우남건설(주)"
+ },
+ "중구|항동7가|라이프비취2차": {
+  "households": 181,
+  "dong_count": 1,
+  "builder": "라이프 주택개발(주)"
+ },
+ "미추홀구|도화동|대동(919-0)": {
+  "households": 120,
+  "dong_count": 2,
+  "builder": "대동건설"
+ },
+ "남동구|구월동|뷰그리안": {
+  "households": 120,
+  "dong_count": 1,
+  "builder": "기성건설"
+ },
+ "부평구|십정동|동보": {
+  "households": 207,
+  "dong_count": 1,
+  "builder": "동보산업개발"
+ },
+ "미추홀구|주안동|두산": {
+  "households": 1115,
+  "dong_count": 10,
+  "builder": "두산건설"
+ },
+ "미추홀구|도화동|더샵인천스카이타워1단지": {
+  "households": 1309,
+  "dong_count": 8,
+  "builder": "포스코건설"
+ },
+ "연수구|선학동|한화포레나인천연수": {
+  "households": 767,
+  "dong_count": 9,
+  "builder": "한화건설"
+ },
+ "부평구|삼산동|브라운스톤부평": {
+  "households": 726,
+  "dong_count": 7,
+  "builder": "이수건설"
+ },
+ "계양구|계산동|삼천리": {
+  "households": 460,
+  "dong_count": 10,
+  "builder": "삼천리주택"
+ },
+ "서구|청라동|청라SKVIEW": {
+  "households": 879,
+  "dong_count": 9,
+  "builder": "sk건설"
+ },
+ "미추홀구|학익동|현광2차": {
+  "households": 171,
+  "dong_count": 1,
+  "builder": "현광건설"
+ },
+ "연수구|옥련동|송도역서해그랑블": {
+  "households": 215,
+  "dong_count": 4,
+  "builder": "서해종합건설"
+ },
+ "남동구|간석동|이삭": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "(주)이삭종합건설"
+ },
+ "부평구|갈산동|대성유니드": {
+  "households": 247,
+  "dong_count": 5,
+  "builder": "대성산업"
+ },
+ "서구|청라동|청라제일풍경채": {
+  "households": 1071,
+  "dong_count": 14,
+  "builder": "제일건설(주)"
+ },
+ "연수구|송도동|송도더샵그린워크3차(18-1블럭)": {
+  "households": 358,
+  "dong_count": 3,
+  "builder": "포스코건설"
+ },
+ "중구|신생동|삼성": {
+  "households": 2526,
+  "dong_count": 24,
+  "builder": "삼성종합건설"
+ },
+ "계양구|작전동|한아름": {
+  "households": 150,
+  "dong_count": 1,
+  "builder": "(주)한일건설"
+ },
+ "부평구|갈산동|부평지웰에스테이트": {
+  "households": 151,
+  "dong_count": 3,
+  "builder": "신영건설(주)"
+ },
+ "남동구|간석동|두진": {
+  "households": 354,
+  "dong_count": 1,
+  "builder": "(주) 두진건설"
+ },
+ "계양구|계산동|은행마을(삼보)": {
+  "households": 544,
+  "dong_count": 6,
+  "builder": "(주) 태산"
+ },
+ "계양구|계산동|삼환2": {
+  "households": 144,
+  "dong_count": 4,
+  "builder": "삼환건설"
+ },
+ "계양구|이화동|신동아파밀리에": {
+  "households": 399,
+  "dong_count": 6,
+  "builder": "신동아건설(주)"
+ },
+ "서구|마전동|검단 양우내안애 퍼스트힐": {
+  "households": 545,
+  "dong_count": 7,
+  "builder": "양우건설"
+ },
+ "연수구|옥련동|풍림": {
+  "households": 386,
+  "dong_count": 3,
+  "builder": "풍림산업"
+ },
+ "부평구|산곡동|우성5차": {
+  "households": 299,
+  "dong_count": 3,
+  "builder": "우성건설(주)"
+ },
+ "부평구|십정동|부평금호어울림": {
+  "households": 290,
+  "dong_count": 6,
+  "builder": "금호건설(주)"
+ },
+ "서구|왕길동|드림파크어울림1단지": {
+  "households": 731,
+  "dong_count": 12,
+  "builder": "금호건설"
+ },
+ "계양구|작전동|한양": {
+  "households": 280,
+  "dong_count": 2,
+  "builder": "한양건설"
+ },
+ "계양구|작전동|동보": {
+  "households": 1187,
+  "dong_count": 6,
+  "builder": "동보건설"
+ },
+ "동구|송현동|삼두2": {
+  "households": 432,
+  "dong_count": 3,
+  "builder": "삼두실업"
+ },
+ "서구|청라동|청라하우스토리커낼뷰": {
+  "households": 260,
+  "dong_count": 5,
+  "builder": "남광토건"
+ },
+ "부평구|갈산동|태화(363)": {
+  "households": 410,
+  "dong_count": 5,
+  "builder": "태화건설"
+ },
+ "연수구|선학동|대진": {
+  "households": 300,
+  "dong_count": 5,
+  "builder": "대진건설"
+ },
+ "연수구|송도동|송도에듀포레푸르지오": {
+  "households": 1406,
+  "dong_count": 8,
+  "builder": "대우건설"
+ },
+ "남동구|구월동|나이스뷰": {
+  "households": 144,
+  "dong_count": 1,
+  "builder": "우평코리아(주)"
+ },
+ "남동구|만수동|삼환2단지": {
+  "households": 660,
+  "dong_count": 5,
+  "builder": "삼환까뮤"
+ },
+ "남동구|만수동|향촌휴먼시아2단지": {
+  "households": 438,
+  "dong_count": 5,
+  "builder": "이수건설"
+ },
+ "계양구|계산동|삼환1": {
+  "households": 276,
+  "dong_count": 6,
+  "builder": "삼환기업"
+ },
+ "부평구|부개동|한국": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "청방건설(주)"
+ },
+ "남동구|간석동|금호": {
+  "households": 630,
+  "dong_count": 5,
+  "builder": "금호건설"
+ },
+ "계양구|효성동|두산": {
+  "households": 957,
+  "dong_count": 9,
+  "builder": "두산건설(주)"
+ },
+ "미추홀구|용현동|인천용현엑슬루타워": {
+  "households": 630,
+  "dong_count": 4,
+  "builder": "풍림산업(주)"
+ },
+ "서구|가좌동|유영아파트": {
+  "households": 200,
+  "dong_count": 2,
+  "builder": "유영건설"
+ },
+ "미추홀구|관교동|삼환1(관교삼환나우빌)": {
+  "households": 352,
+  "dong_count": 5,
+  "builder": "삼환기업"
+ },
+ "서구|가좌동|공작": {
+  "households": 1074,
+  "dong_count": 13,
+  "builder": "(주)한양"
+ },
+ "중구|중산동|하늘도시우미린1단지": {
+  "households": 964,
+  "dong_count": 8,
+  "builder": "대한토지주택공사"
+ },
+ "서구|마전동|한일": {
+  "households": 138,
+  "dong_count": 2,
+  "builder": "한일종합건설"
+ },
+ "미추홀구|학익동|신동아3": {
+  "households": 894,
+  "dong_count": 12,
+  "builder": "신동아건설(주)"
+ },
+ "서구|마전동|검단2차풍림아이원": {
+  "households": 174,
+  "dong_count": 3,
+  "builder": "풍림산업"
+ },
+ "계양구|귤현동|계양센트레빌1단지": {
+  "households": 715,
+  "dong_count": 12,
+  "builder": "동부건설"
+ },
+ "중구|항동7가|라이프비취3차": {
+  "households": 181,
+  "dong_count": 1,
+  "builder": "라이프 주택개발(주)"
+ },
+ "미추홀구|용현동|윤성": {
+  "households": 368,
+  "dong_count": 2,
+  "builder": "대도윤성건설"
+ },
+ "부평구|산곡동|뉴서울(264-1)": {
+  "households": 498,
+  "dong_count": 4,
+  "builder": "뉴서울주택건설"
+ },
+ "중구|운서동|운서역반도유보라퍼스티지": {
+  "households": 450,
+  "dong_count": 6,
+  "builder": "(주)반도유보라"
+ },
+ "중구|신흥동2가|누리타워": {
+  "households": 95,
+  "dong_count": 1,
+  "builder": "대호종합건설"
+ },
+ "남동구|서창동|호반베르디움": {
+  "households": 600,
+  "dong_count": 8,
+  "builder": "호반건설산업,호반건설"
+ },
+ "미추홀구|주안동|현광(32-1)": {
+  "households": 171,
+  "dong_count": 1,
+  "builder": "현광건설"
+ },
+ "미추홀구|도화동|더샵인천스카이타워2단지": {
+  "households": 588,
+  "dong_count": 3,
+  "builder": "포스코"
+ },
+ "서구|당하동|대주파크빌": {
+  "households": 346,
+  "dong_count": 5,
+  "builder": "(주)대주건설"
+ },
+ "서구|가좌동|범양파크": {
+  "households": 510,
+  "dong_count": 6,
+  "builder": "범양건설(주)"
+ },
+ "서구|마전동|검단힐스테이트": {
+  "households": 465,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|가정동|루원제일풍경채": {
+  "households": 900,
+  "dong_count": 9,
+  "builder": "제일건설(주)"
+ },
+ "계양구|효성동|중앙하이츠": {
+  "households": 168,
+  "dong_count": 4,
+  "builder": "중앙건설"
+ },
+ "남동구|서창동|에코에비뉴": {
+  "households": 855,
+  "dong_count": 10,
+  "builder": "울트라건설"
+ },
+ "미추홀구|숭의동|한화꿈에그린": {
+  "households": 405,
+  "dong_count": 9,
+  "builder": "한화"
+ },
+ "미추홀구|주안동|윤성": {
+  "households": 368,
+  "dong_count": 2,
+  "builder": "대도윤성건설"
+ },
+ "서구|마전동|당하2차풍림아이원": {
+  "households": 400,
+  "dong_count": 5,
+  "builder": "풍림산업(주)"
+ },
+ "부평구|갈산동|대우": {
+  "households": 308,
+  "dong_count": 4,
+  "builder": "대우건설"
+ },
+ "서구|청라동|청라센트럴에일린의뜰": {
+  "households": 1163,
+  "dong_count": 6,
+  "builder": "아이에스동서(주)"
+ },
+ "남동구|구월동|서울": {
+  "households": 1234,
+  "dong_count": 6,
+  "builder": "뉴서울건설"
+ },
+ "계양구|효성동|신진": {
+  "households": 410,
+  "dong_count": 4,
+  "builder": "신진주택개발공사"
+ },
+ "연수구|송도동|성지리벨루스": {
+  "households": 626,
+  "dong_count": 12,
+  "builder": "성지건설(주)"
+ },
+ "남동구|논현동|논현신일해피트리": {
+  "households": 828,
+  "dong_count": 12,
+  "builder": "신일건설"
+ },
+ "남동구|논현동|에코메트로9": {
+  "households": 810,
+  "dong_count": 6,
+  "builder": "(주)한화건설"
+ },
+ "부평구|청천동|영진": {
+  "households": 196,
+  "dong_count": 1,
+  "builder": "(주) 영진주택"
+ },
+ "계양구|효성동|대산": {
+  "households": 130,
+  "dong_count": 1,
+  "builder": "동신"
+ },
+ "서구|공촌동|광명": {
+  "households": 230,
+  "dong_count": 4,
+  "builder": "광명주택"
+ },
+ "서구|경서동|태평샹베르1차": {
+  "households": 572,
+  "dong_count": 10,
+  "builder": "(주)태평주택"
+ },
+ "연수구|송도동|더샵송도마리나베이": {
+  "households": 3100,
+  "dong_count": 25,
+  "builder": "포스코건설"
+ },
+ "연수구|연수동|연수1차시영(영구임대)": {
+  "households": 1000,
+  "dong_count": 6,
+  "builder": "인천시 종합건설본부"
+ },
+ "연수구|동춘동|태평2": {
+  "households": 198,
+  "dong_count": 2,
+  "builder": "태평주택"
+ },
+ "연수구|옥련동|서해": {
+  "households": 348,
+  "dong_count": 4,
+  "builder": "(주)서해종합건설"
+ },
+ "계양구|계산동|뉴서울1": {
+  "households": 460,
+  "dong_count": 10,
+  "builder": "뉴서울주택건설"
+ },
+ "서구|당하동|검단힐스테이트4차": {
+  "households": 465,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "연수구|송도동|송도풍림아이원4단지": {
+  "households": 504,
+  "dong_count": 13,
+  "builder": "풍림"
+ },
+ "서구|가정동|하나2": {
+  "households": 495,
+  "dong_count": 5,
+  "builder": "한국공영"
+ },
+ "서구|석남동|신동아": {
+  "households": 348,
+  "dong_count": 3,
+  "builder": "신동아건설"
+ },
+ "서구|당하동|검단신안인스빌어반퍼스트": {
+  "households": 1073,
+  "dong_count": 12,
+  "builder": "(주)관악"
+ },
+ "부평구|십정동|해피트리": {
+  "households": 1116,
+  "dong_count": 12,
+  "builder": "신일건설(주)"
+ },
+ "서구|석남동|신광(485)": {
+  "households": 134,
+  "dong_count": 1,
+  "builder": "신광"
+ },
+ "서구|검암동|풍림아이원1": {
+  "households": 286,
+  "dong_count": 4,
+  "builder": "풍림산업"
+ },
+ "부평구|부평동|동아(2차)": {
+  "households": 2475,
+  "dong_count": 17,
+  "builder": "동아건설"
+ },
+ "서구|청라동|청라제일풍경채2차에듀앤파크": {
+  "households": 1581,
+  "dong_count": 14,
+  "builder": "제일건설(주)"
+ },
+ "부평구|일신동|일신주공아파트(100~112동)": {
+  "households": 967,
+  "dong_count": 12,
+  "builder": "두진,동신"
+ },
+ "미추홀구|주안동|드림시티": {
+  "households": 264,
+  "dong_count": 1,
+  "builder": "(주)한일종합건설"
+ },
+ "남동구|구월동|롯데캐슬골드": {
+  "households": 5076,
+  "dong_count": 60,
+  "builder": "구월주공아파트재건축조합"
+ },
+ "남동구|서창동|서창센트라스아파트": {
+  "households": 566,
+  "dong_count": 8,
+  "builder": "(주)대명건설"
+ },
+ "계양구|효성동|뉴서울1": {
+  "households": 460,
+  "dong_count": 10,
+  "builder": "뉴서울주택건설"
+ },
+ "서구|석남동|금호어울림": {
+  "households": 256,
+  "dong_count": 3,
+  "builder": "금호건설"
+ },
+ "계양구|효성동|현대1": {
+  "households": 570,
+  "dong_count": 6,
+  "builder": "현대산업개발"
+ },
+ "남동구|간석동|웰스하임": {
+  "households": 182,
+  "dong_count": 1,
+  "builder": "웰스건설(주)"
+ },
+ "계양구|계산동|한국": {
+  "households": 416,
+  "dong_count": 2,
+  "builder": "한국종합건설(주)"
+ },
+ "계양구|작전동|광명11": {
+  "households": 288,
+  "dong_count": 4,
+  "builder": "(주)광명주택"
+ },
+ "서구|금곡동|검단우방아이유쉘": {
+  "households": 555,
+  "dong_count": 8,
+  "builder": "우방"
+ },
+ "부평구|삼산동|삼산타운7단지": {
+  "households": 1314,
+  "dong_count": 15,
+  "builder": "대한주택공사"
+ },
+ "남동구|간석동|풍림아이원": {
+  "households": 922,
+  "dong_count": 8,
+  "builder": "(주)풍림산업"
+ },
+ "연수구|송도동|아이파크송도": {
+  "households": 616,
+  "dong_count": 13,
+  "builder": "현대산업개발(주)"
+ },
+ "서구|청라동|청라한라비발디": {
+  "households": 992,
+  "dong_count": 12,
+  "builder": "한라건설(주)"
+ },
+ "남동구|만수동|만수주공2단지": {
+  "households": 1920,
+  "dong_count": 18,
+  "builder": "대한주택공사"
+ },
+ "계양구|계산동|신도브래뉴": {
+  "households": 481,
+  "dong_count": 7,
+  "builder": "신도건설"
+ },
+ "서구|마전동|이지미래지향": {
+  "households": 128,
+  "dong_count": 3,
+  "builder": "이지종합건설 주식회사"
+ },
+ "서구|가좌동|현대3": {
+  "households": 127,
+  "dong_count": 1,
+  "builder": "현대산업개발"
+ },
+ "연수구|청학동|동남": {
+  "households": 420,
+  "dong_count": 5,
+  "builder": "동남기업(주)"
+ },
+ "서구|심곡동|동남": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "연수구|청학동|현대": {
+  "households": 621,
+  "dong_count": 7,
+  "builder": "현대산업개발"
+ },
+ "중구|북성동2가|선광": {
+  "households": 102,
+  "dong_count": 1,
+  "builder": "선광개발(주)"
+ },
+ "남동구|만수동|대동(5-397)": {
+  "households": 276,
+  "dong_count": 5,
+  "builder": "대동건설"
+ },
+ "부평구|산곡동|경남5차": {
+  "households": 308,
+  "dong_count": 3,
+  "builder": "경남기업"
+ },
+ "서구|연희동|태영": {
+  "households": 277,
+  "dong_count": 4,
+  "builder": "태영건설(주)"
+ },
+ "남동구|남촌동|남촌풍림2차": {
+  "households": 319,
+  "dong_count": 3,
+  "builder": "풍림"
+ },
+ "남동구|논현동|동보": {
+  "households": 278,
+  "dong_count": 4,
+  "builder": "동보건설"
+ },
+ "부평구|부개동|(304-2)": {
+  "households": 160,
+  "dong_count": 3,
+  "builder": "남광토건(주)"
+ },
+ "서구|경서동|우정에쉐르": {
+  "households": 292,
+  "dong_count": 5,
+  "builder": "우정건설주식회사"
+ },
+ "서구|당하동|탑스빌(영남,신대진,성웅)아파트": {
+  "households": 125,
+  "dong_count": 1,
+  "builder": "현대중공업"
+ },
+ "미추홀구|학익동|신동아6": {
+  "households": 254,
+  "dong_count": 3,
+  "builder": "신동아건설"
+ },
+ "연수구|송도동|송도오션파크베르디움": {
+  "households": 1530,
+  "dong_count": 10,
+  "builder": "(주)호반건설"
+ },
+ "부평구|부개동|현대": {
+  "households": 2204,
+  "dong_count": 23,
+  "builder": "현대산업개발(주)"
+ },
+ "부평구|갈산동|동남": {
+  "households": 138,
+  "dong_count": 2,
+  "builder": "동남건설"
+ },
+ "남동구|서창동|임광그대가": {
+  "households": 666,
+  "dong_count": 18,
+  "builder": "임관토건"
+ },
+ "부평구|산곡동|경남2차": {
+  "households": 690,
+  "dong_count": 8,
+  "builder": "경남기업(주)"
+ },
+ "서구|석남동|서인천월드메르디앙": {
+  "households": 778,
+  "dong_count": 13,
+  "builder": "재건축조합"
+ },
+ "연수구|청학동|성호": {
+  "households": 488,
+  "dong_count": 7,
+  "builder": "성호주택"
+ },
+ "남동구|만수동|이삭(1086-1)": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "(주)이삭종합건설"
+ },
+ "부평구|삼산동|광명12차": {
+  "households": 456,
+  "dong_count": 6,
+  "builder": "광명주택"
+ },
+ "부평구|청천동|청천우민늘푸른아파트": {
+  "households": 341,
+  "dong_count": 5,
+  "builder": "우민산업개발(주)"
+ },
+ "서구|청라동|청라 엑슬루타워": {
+  "households": 616,
+  "dong_count": 2,
+  "builder": "주식회사풍림산업"
+ },
+ "부평구|삼산동|부평삼산엠코타운": {
+  "households": 708,
+  "dong_count": 9,
+  "builder": "(주)엠코"
+ },
+ "서구|청라동|청라웰카운티1차": {
+  "households": 692,
+  "dong_count": 7,
+  "builder": "현대건설"
+ },
+ "서구|심곡동|대동": {
+  "households": 241,
+  "dong_count": 3,
+  "builder": "(주)대동"
+ },
+ "서구|오류동|검단힐스테이트3차1단지": {
+  "households": 465,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|가정동|하나3": {
+  "households": 274,
+  "dong_count": 2,
+  "builder": "한국공영"
+ },
+ "부평구|산곡동|경남1차": {
+  "households": 810,
+  "dong_count": 7,
+  "builder": "경남기업"
+ },
+ "서구|청라동|청라골드클래스": {
+  "households": 269,
+  "dong_count": 6,
+  "builder": "보광건설"
+ },
+ "서구|마전동|대원레스피아2차": {
+  "households": 311,
+  "dong_count": 4,
+  "builder": "대원산업개발(주)"
+ },
+ "서구|경서동|가이아샹베르2차": {
+  "households": 560,
+  "dong_count": 10,
+  "builder": "가이아 건설(주),세계건설(주)"
+ },
+ "계양구|용종동|초정마을(쌍용)": {
+  "households": 616,
+  "dong_count": 6,
+  "builder": "동아건설"
+ },
+ "중구|운서동|주공스카이빌7단지": {
+  "households": 295,
+  "dong_count": 6,
+  "builder": "대한주택공사"
+ },
+ "연수구|송도동|힐스테이트레이크송도2차": {
+  "households": 889,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|청라동|청라호수공원한신더휴": {
+  "households": 898,
+  "dong_count": 10,
+  "builder": "한신공영(주)"
+ },
+ "서구|가정동|루원호반베르디움더센트럴": {
+  "households": 980,
+  "dong_count": 10,
+  "builder": "(주)호반건설산업"
+ },
+ "미추홀구|주안동|주안현대홈타운": {
+  "households": 443,
+  "dong_count": 5,
+  "builder": "현대건설(주)"
+ },
+ "강화군|강화읍 갑곳리|현대": {
+  "households": 219,
+  "dong_count": 3,
+  "builder": "현대건설"
+ },
+ "동구|송현동|솔빛마을주공2차": {
+  "households": 354,
+  "dong_count": 3,
+  "builder": "요진건설산업"
+ },
+ "부평구|일신동|풍림아파트(101동~110동)": {
+  "households": 750,
+  "dong_count": 10,
+  "builder": "풍림산업(주)"
+ },
+ "계양구|작전동|현대2-2차": {
+  "households": 904,
+  "dong_count": 5,
+  "builder": "성호주택"
+ },
+ "연수구|송도동|송도더샵그린워크3차(17-1블럭)": {
+  "households": 358,
+  "dong_count": 3,
+  "builder": "포스코건설"
+ },
+ "남동구|구월동|구월아시아드선수촌6단지": {
+  "households": 602,
+  "dong_count": 7,
+  "builder": "남양건설(주)"
+ },
+ "부평구|갈산동|정광": {
+  "households": 311,
+  "dong_count": 5,
+  "builder": "정광주택(주)"
+ },
+ "서구|가좌동|한신휴플러스": {
+  "households": 321,
+  "dong_count": 5,
+  "builder": "한신공영(주)"
+ },
+ "부평구|청천동|쌍용": {
+  "households": 811,
+  "dong_count": 10,
+  "builder": "쌍용건설(주)"
+ },
+ "동구|송림동|진로": {
+  "households": 68,
+  "dong_count": 1,
+  "builder": " "
+ },
+ "서구|마전동|장미": {
+  "households": 260,
+  "dong_count": 6,
+  "builder": "선우공영"
+ },
+ "남동구|간석동|현대(893-0)": {
+  "households": 649,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|마전동|검단우림필유": {
+  "households": 429,
+  "dong_count": 9,
+  "builder": "(주)우림건설"
+ },
+ "계양구|계산동|은행마을(아주)": {
+  "households": 544,
+  "dong_count": 6,
+  "builder": "(주) 태산"
+ },
+ "연수구|옥련동|태평": {
+  "households": 273,
+  "dong_count": 3,
+  "builder": "(주)태평주택"
+ },
+ "남동구|만수동|신동아": {
+  "households": 715,
+  "dong_count": 5,
+  "builder": "신동아건설"
+ },
+ "미추홀구|용현동|한양1차": {
+  "households": 606,
+  "dong_count": 9,
+  "builder": "(주)한양"
+ },
+ "연수구|옥련동|현대2차아파트": {
+  "households": 1180,
+  "dong_count": 9,
+  "builder": "현대산업개발"
+ },
+ "남동구|서창동|현대모닝사이드": {
+  "households": 630,
+  "dong_count": 8,
+  "builder": "(주)태평주택"
+ },
+ "서구|신현동|루원시티 대성베르힐": {
+  "households": 1147,
+  "dong_count": 12,
+  "builder": "대성베르힐건설(주) 디에스종합건설(주)"
+ },
+ "동구|송림동|풍림아이원": {
+  "households": 758,
+  "dong_count": 15,
+  "builder": "풍림산업(주)"
+ },
+ "계양구|효성동|현대2": {
+  "households": 840,
+  "dong_count": 5,
+  "builder": "성호주택(주)"
+ },
+ "서구|마전동|마전금호어울림": {
+  "households": 163,
+  "dong_count": 3,
+  "builder": "금호산업(주)"
+ },
+ "서구|청라동|청라힐스테이트": {
+  "households": 224,
+  "dong_count": 4,
+  "builder": "현대건설"
+ },
+ "미추홀구|학익동|신동아4": {
+  "households": 630,
+  "dong_count": 6,
+  "builder": "신동아건설"
+ },
+ "남동구|논현동|에코메트로10": {
+  "households": 556,
+  "dong_count": 5,
+  "builder": "한화건설"
+ },
+ "서구|왕길동|대림e-편한세상(검단2지구66BL1L)": {
+  "households": 1003,
+  "dong_count": 19,
+  "builder": "대림산업(주)"
+ },
+ "미추홀구|용현동|금호타운": {
+  "households": 1170,
+  "dong_count": 12,
+  "builder": "광주고속"
+ },
+ "미추홀구|학익동|신동아2": {
+  "households": 496,
+  "dong_count": 4,
+  "builder": "동아건설"
+ },
+ "서구|공촌동|경남": {
+  "households": 140,
+  "dong_count": 1,
+  "builder": "경남건설"
+ },
+ "미추홀구|용현동|용현대우": {
+  "households": 616,
+  "dong_count": 8,
+  "builder": "대우건설"
+ },
+ "연수구|동춘동|연수타운(금호,동아)": {
+  "households": 1056,
+  "dong_count": 18,
+  "builder": "동아건설산업(주), (주)광주고속건설"
+ },
+ "남동구|구월동|구월아시아드선수촌8단지": {
+  "households": 768,
+  "dong_count": 8,
+  "builder": "일성건설"
+ },
+ "계양구|오류동|신동아": {
+  "households": 399,
+  "dong_count": 6,
+  "builder": "신동아건설(주)"
+ },
+ "계양구|작전동|코오롱": {
+  "households": 480,
+  "dong_count": 3,
+  "builder": "코오롱건설"
+ },
+ "서구|마전동|영남탑스빌": {
+  "households": 1042,
+  "dong_count": 19,
+  "builder": "영남건설"
+ },
+ "연수구|동춘동|태평1": {
+  "households": 192,
+  "dong_count": 5,
+  "builder": "태평건설"
+ },
+ "남동구|간석동|간석한신더휴": {
+  "households": 643,
+  "dong_count": 9,
+  "builder": "한신공영(주)"
+ },
+ "미추홀구|용현동|용현오션뷰경남아너스빌": {
+  "households": 303,
+  "dong_count": 3,
+  "builder": "경남기업(주)"
+ },
+ "남동구|간석동|현대홈타운(900-153)": {
+  "households": 649,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "서구|불로동|퀸스타운(길훈)": {
+  "households": 614,
+  "dong_count": 7,
+  "builder": "신명종합건설(주)"
+ },
+ "부평구|부개동|푸른마을한신,삼부": {
+  "households": 542,
+  "dong_count": 4,
+  "builder": "한신공영"
+ },
+ "서구|석남동|대명": {
+  "households": 184,
+  "dong_count": 1,
+  "builder": "(주)대명건설"
+ },
+ "연수구|송도동|랜드마크시티센트럴더샵": {
+  "households": 2230,
+  "dong_count": 8,
+  "builder": "포스코건설"
+ },
+ "서구|연희동|중앙": {
+  "households": 473,
+  "dong_count": 4,
+  "builder": "중앙건설"
+ },
+ "서구|청라동|서해그랑블": {
+  "households": 950,
+  "dong_count": 11,
+  "builder": "서해종합건설"
+ },
+ "서구|불로동|신명스카이뷰": {
+  "households": 268,
+  "dong_count": 4,
+  "builder": "신명종합건설(주)"
+ },
+ "미추홀구|주안동|광명8": {
+  "households": 462,
+  "dong_count": 6,
+  "builder": "(주)광명주택"
+ },
+ "서구|마전동|검단2차우방아이유쉘": {
+  "households": 380,
+  "dong_count": 5,
+  "builder": "에스엠상선(주) 건설부문"
+ },
+ "계양구|방축동|한성": {
+  "households": 200,
+  "dong_count": 5,
+  "builder": "한성아파트 건설"
+ },
+ "부평구|부평동|건영(452-1)": {
+  "households": 142,
+  "dong_count": 1,
+  "builder": "건영건설"
+ },
+ "서구|마전동|검단아이파크": {
+  "households": 573,
+  "dong_count": 10,
+  "builder": "현대산업개발"
+ },
+ "계양구|용종동|용종마을중앙": {
+  "households": 428,
+  "dong_count": 3,
+  "builder": "주식회사 중앙공영"
+ },
+ "부평구|청천동|우림필유(192-0)": {
+  "households": 209,
+  "dong_count": 2,
+  "builder": "우림산업개발"
+ },
+ "연수구|송도동|더샵그린스퀘어": {
+  "households": 1516,
+  "dong_count": 12,
+  "builder": "포스코건설(주)"
+ },
+ "미추홀구|도화동|나산": {
+  "households": 211,
+  "dong_count": 2,
+  "builder": "나산종합건설(주)"
+ },
+ "계양구|작전동|선우": {
+  "households": 210,
+  "dong_count": 6,
+  "builder": "선우건설"
+ },
+ "서구|청라동|청라반도유보라2.0": {
+  "households": 174,
+  "dong_count": 4,
+  "builder": "(주)반도건설"
+ },
+ "미추홀구|주안동|월드스테이트(201~205)": {
+  "households": 3160,
+  "dong_count": 37,
+  "builder": "벽산,풍림"
+ },
+ "부평구|산곡동|신명스카이뷰": {
+  "households": 191,
+  "dong_count": 4,
+  "builder": "신명주택건설"
+ },
+ "남동구|만수동|영풍(849)": {
+  "households": 132,
+  "dong_count": 2,
+  "builder": "영풍건설"
+ },
+ "연수구|선학동|희영무지개2": {
+  "households": 157,
+  "dong_count": 1,
+  "builder": "(주)희영공영"
+ },
+ "미추홀구|용현동|한양2차": {
+  "households": 352,
+  "dong_count": 3,
+  "builder": "금아산업(주)"
+ },
+ "연수구|연수동|대우1": {
+  "households": 390,
+  "dong_count": 6,
+  "builder": "(주)대우"
+ },
+ "연수구|선학동|윤성": {
+  "households": 423,
+  "dong_count": 4,
+  "builder": "윤성건설"
+ },
+ "계양구|작전동|중앙하이츠": {
+  "households": 168,
+  "dong_count": 4,
+  "builder": "중앙건설"
+ },
+ "미추홀구|주안동|관교한신휴플러스": {
+  "households": 1509,
+  "dong_count": 18,
+  "builder": "한신공영(주)"
+ },
+ "계양구|계산동|동남(55-1)": {
+  "households": 336,
+  "dong_count": 5,
+  "builder": "동남기업"
+ },
+ "서구|가정동|뉴서울(284-401)": {
+  "households": 555,
+  "dong_count": 3,
+  "builder": "뉴서울건설"
+ },
+ "서구|마전동|인천마전대주파크빌": {
+  "households": 346,
+  "dong_count": 5,
+  "builder": "(주)대주건설"
+ },
+ "부평구|부개동|주공5": {
+  "households": 960,
+  "dong_count": 10,
+  "builder": "풍창. 삼협. 기산"
+ },
+ "서구|가좌동|풍림": {
+  "households": 239,
+  "dong_count": 3,
+  "builder": "풍림산업"
+ },
+ "남동구|만수동|삼익세라믹": {
+  "households": 256,
+  "dong_count": 3,
+  "builder": "(주)삼익세라믹"
+ },
+ "남동구|논현동|에코메트로11": {
+  "households": 1622,
+  "dong_count": 20,
+  "builder": "(주)한화건설"
+ },
+ "부평구|청천동|무지개": {
+  "households": 330,
+  "dong_count": 2,
+  "builder": "(주)서만건설"
+ },
+ "계양구|효성동|뉴서울6": {
+  "households": 370,
+  "dong_count": 2,
+  "builder": "뉴서울주택건설"
+ },
+ "미추홀구|주안동|보미리즌빌": {
+  "households": 80,
+  "dong_count": 1,
+  "builder": " "
+ },
+ "서구|왕길동|검단자이2단지": {
+  "households": 413,
+  "dong_count": 7,
+  "builder": "GS건설(주)"
+ },
+ "부평구|산곡동|동남": {
+  "households": 138,
+  "dong_count": 2,
+  "builder": "동남건설"
+ },
+ "연수구|송도동|더샵그린워크1차": {
+  "households": 736,
+  "dong_count": 6,
+  "builder": "포스코"
+ },
+ "서구|검암동|풍림아이원3차": {
+  "households": 309,
+  "dong_count": 5,
+  "builder": "풍림산업개발"
+ },
+ "부평구|삼산동|삼산타운6단지": {
+  "households": 784,
+  "dong_count": 10,
+  "builder": "LH공사"
+ },
+ "서구|당하동|원당동문굿모닝힐": {
+  "households": 434,
+  "dong_count": 7,
+  "builder": "동문건설"
+ },
+ "부평구|갈산동|두산": {
+  "households": 280,
+  "dong_count": 4,
+  "builder": "두산건설"
+ },
+ "계양구|작전동|뉴서울2": {
+  "households": 775,
+  "dong_count": 12,
+  "builder": "뉴서울주택"
+ },
+ "부평구|산곡동|부평샬레아넬리스": {
+  "households": 266,
+  "dong_count": 4,
+  "builder": "화산건설(주)"
+ },
+ "연수구|연수동|대명": {
+  "households": 108,
+  "dong_count": 2,
+  "builder": "대명주택"
+ },
+ "남동구|구월동|구월아시아드선수촌5단지": {
+  "households": 782,
+  "dong_count": 7,
+  "builder": "신일건업"
+ },
+ "미추홀구|학익동|서원": {
+  "households": 342,
+  "dong_count": 4,
+  "builder": "서원건설"
+ },
+ "부평구|청천동|동양": {
+  "households": 200,
+  "dong_count": 6,
+  "builder": "알수없음 "
+ },
+ "서구|당하동|당하푸르지오": {
+  "households": 719,
+  "dong_count": 11,
+  "builder": "(주)대우건설"
+ },
+ "남동구|만수동|현대": {
+  "households": 649,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "부평구|갈산동|하나": {
+  "households": 526,
+  "dong_count": 5,
+  "builder": "한국공영"
+ },
+ "서구|불로동|퀸스타운(동성)": {
+  "households": 614,
+  "dong_count": 7,
+  "builder": "신명종합건설(주)"
+ },
+ "연수구|송도동|롯데캐슬캠퍼스타운": {
+  "households": 1230,
+  "dong_count": 6,
+  "builder": "롯데건설 외"
+ },
+ "계양구|작전동|작전현대1차": {
+  "households": 570,
+  "dong_count": 6,
+  "builder": "현대산업개발"
+ },
+ "연수구|동춘동|롯데": {
+  "households": 320,
+  "dong_count": 13,
+  "builder": "롯데건설"
+ },
+ "서구|가좌동|한일": {
+  "households": 138,
+  "dong_count": 2,
+  "builder": "한일종합건설"
+ },
+ "계양구|효성동|뉴서울2": {
+  "households": 775,
+  "dong_count": 12,
+  "builder": "뉴서울주택"
+ },
+ "남동구|만수동|주공11단지": {
+  "households": 902,
+  "dong_count": 11,
+  "builder": "대한주택공사"
+ },
+ "중구|운남동|영종센트럴푸르지오자이": {
+  "households": 1604,
+  "dong_count": 19,
+  "builder": "대우건설"
+ },
+ "부평구|삼산동|서해그랑블5단지": {
+  "households": 454,
+  "dong_count": 4,
+  "builder": "서해건설"
+ },
+ "계양구|작전동|무지개": {
+  "households": 240,
+  "dong_count": 2,
+  "builder": "서만건설(주)"
+ },
+ "서구|검암동|서해그랑블": {
+  "households": 950,
+  "dong_count": 11,
+  "builder": "서해종합건설"
+ },
+ "부평구|산곡동|한양(155-1)": {
+  "households": 720,
+  "dong_count": 21,
+  "builder": "(주)한양건설"
+ },
+ "서구|당하동|신안실크벨리": {
+  "households": 936,
+  "dong_count": 15,
+  "builder": "신안건설(주)"
+ },
+ "동구|송현동|동부": {
+  "households": 1140,
+  "dong_count": 10,
+  "builder": "동부건설(주)"
+ },
+ "계양구|임학동|유호": {
+  "households": 299,
+  "dong_count": 2,
+  "builder": "유호건설"
+ },
+ "부평구|삼산동|현대": {
+  "households": 2204,
+  "dong_count": 23,
+  "builder": "현대산업개발(주)"
+ },
+ "부평구|갈산동|한국": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "청방건설(주)"
+ },
+ "서구|원당동|금호어울림2차(원당지구80BL3L)": {
+  "households": 256,
+  "dong_count": 3,
+  "builder": "금호건설"
+ },
+ "계양구|용종동|초정마을(두산)": {
+  "households": 616,
+  "dong_count": 6,
+  "builder": "동아건설"
+ },
+ "서구|경서동|인천경서아시아드대광로제비앙": {
+  "households": 720,
+  "dong_count": 13,
+  "builder": "(주)대광건영"
+ },
+ "연수구|연수동|동남": {
+  "households": 420,
+  "dong_count": 5,
+  "builder": "동남기업(주)"
+ },
+ "계양구|작전동|한신": {
+  "households": 259,
+  "dong_count": 3,
+  "builder": "(주)한신공영"
+ },
+ "서구|당하동|원당풍림아이원": {
+  "households": 1739,
+  "dong_count": 25,
+  "builder": "풍림산업"
+ },
+ "미추홀구|주안동|주안지웰에스테이트": {
+  "households": 186,
+  "dong_count": 2,
+  "builder": "신영건설(주)"
+ },
+ "미추홀구|주안동|진흥": {
+  "households": 828,
+  "dong_count": 10,
+  "builder": "진흥기업(주)"
+ },
+ "계양구|작전동|풍림아이원": {
+  "households": 468,
+  "dong_count": 5,
+  "builder": "풍림산업(주)"
+ },
+ "남동구|간석동|광명(894-1)": {
+  "households": 870,
+  "dong_count": 6,
+  "builder": "주식회사 광명주택"
+ },
+ "남동구|논현동|에코메트로6": {
+  "households": 960,
+  "dong_count": 7,
+  "builder": "(주)한화"
+ },
+ "부평구|십정동|대주파크빌": {
+  "households": 312,
+  "dong_count": 2,
+  "builder": "대주건설(주)"
+ },
+ "서구|검암동|풍림아이원2차": {
+  "households": 109,
+  "dong_count": 1,
+  "builder": "풍림아이원"
+ },
+ "미추홀구|용현동|우성": {
+  "households": 408,
+  "dong_count": 3,
+  "builder": "우성건설"
+ },
+ "서구|청라동|청라모아미래도": {
+  "households": 418,
+  "dong_count": 5,
+  "builder": "(주)모아미래도건설"
+ },
+ "계양구|작전동|현광": {
+  "households": 392,
+  "dong_count": 3,
+  "builder": "주)현광건설"
+ },
+ "서구|마전동|이지2차미래지향2단지": {
+  "households": 128,
+  "dong_count": 3,
+  "builder": "이지종합건설 주식회사"
+ },
+ "계양구|계산동|태산": {
+  "households": 408,
+  "dong_count": 5,
+  "builder": "태산건설(주)"
+ },
+ "계양구|효성동|현대3": {
+  "households": 374,
+  "dong_count": 3,
+  "builder": "현대산업개발"
+ },
+ "서구|석남동|동아": {
+  "households": 778,
+  "dong_count": 5,
+  "builder": "동아건설"
+ },
+ "부평구|부평동|대우": {
+  "households": 308,
+  "dong_count": 4,
+  "builder": "대우건설"
+ },
+ "미추홀구|학익동|신동아1": {
+  "households": 938,
+  "dong_count": 9,
+  "builder": "신동아건설"
+ },
+ "남동구|간석동|한국(신)": {
+  "households": 132,
+  "dong_count": 1,
+  "builder": "확인불가"
+ },
+ "부평구|삼산동|삼산타운2단지": {
+  "households": 1622,
+  "dong_count": 22,
+  "builder": "두산건설"
+ },
+ "연수구|동춘동|인천연수서해그랑블3단지": {
+  "households": 251,
+  "dong_count": 4,
+  "builder": "서해종합건설 주식회사"
+ },
+ "서구|청라동|청라한양수자인": {
+  "households": 566,
+  "dong_count": 6,
+  "builder": "(주)한양"
+ },
+ "계양구|작전동|팬더(53)": {
+  "households": 126,
+  "dong_count": 2,
+  "builder": "팬더 건설"
+ },
+ "남동구|구월동|성문": {
+  "households": 103,
+  "dong_count": 1,
+  "builder": "(주) 성문건설"
+ },
+ "부평구|부개동|백영": {
+  "households": 206,
+  "dong_count": 1,
+  "builder": "백영건설"
+ },
+ "연수구|연수동|풍림1": {
+  "households": 769,
+  "dong_count": 9,
+  "builder": "풍림산업"
+ },
+ "서구|왕길동|동남디아망": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "부평구|부개동|부개주공1": {
+  "households": 1044,
+  "dong_count": 11,
+  "builder": "화신종합건설,한진건설,풍창건설,경우전기,한진건설,세원종합조경"
+ },
+ "계양구|작전동|한국(101동,102동)": {
+  "households": 416,
+  "dong_count": 2,
+  "builder": "한국종합건설(주)"
+ },
+ "계양구|계산동|극동": {
+  "households": 629,
+  "dong_count": 14,
+  "builder": "극동건설"
+ },
+ "서구|심곡동|광명": {
+  "households": 230,
+  "dong_count": 4,
+  "builder": "광명주택"
+ },
+ "서구|석남동|태화": {
+  "households": 299,
+  "dong_count": 2,
+  "builder": "태화건설(주)"
+ },
+ "서구|석남동|동남": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "미추홀구|학익동|정광": {
+  "households": 280,
+  "dong_count": 2,
+  "builder": "정광종합건설"
+ },
+ "서구|금곡동|동남": {
+  "households": 111,
+  "dong_count": 2,
+  "builder": "동남기업(주)"
+ },
+ "서구|마전동|동아": {
+  "households": 778,
+  "dong_count": 5,
+  "builder": "동아건설"
+ },
+ "연수구|연수동|우주": {
+  "households": 230,
+  "dong_count": 5,
+  "builder": "우주건설(주)"
+ },
+ "서구|연희동|우성": {
+  "households": 196,
+  "dong_count": 2,
+  "builder": "우성건설(주)"
+ },
+ "미추홀구|주안동|신비마을": {
+  "households": 960,
+  "dong_count": 11,
+  "builder": "인천시 종합건설본부"
+ },
+ "부평구|부평동|동아(1차)": {
+  "households": 2475,
+  "dong_count": 17,
+  "builder": "동아건설"
+ },
+ "서구|마전동|대원레스피아1차": {
+  "households": 423,
+  "dong_count": 5,
+  "builder": "대원산업개발(주)"
+ },
+ "부평구|구산동|부평자이": {
+  "households": 719,
+  "dong_count": 9,
+  "builder": "GS자이"
+ },
+ "서구|왕길동|신명스카이뷰드림": {
+  "households": 390,
+  "dong_count": 6,
+  "builder": "신명종합건설"
+ },
+ "서구|당하동|태평": {
+  "households": 572,
+  "dong_count": 10,
+  "builder": "(주)태평주택"
+ },
+ "남동구|논현동|에코메트로7": {
+  "households": 848,
+  "dong_count": 7,
+  "builder": "(주)한화"
+ },
+ "서구|청라동|힐데스하임": {
+  "households": 1284,
+  "dong_count": 10,
+  "builder": "원건설(주)"
+ },
+ "미추홀구|주안동|우성아파트": {
+  "households": 408,
+  "dong_count": 3,
+  "builder": "우성건설"
+ },
+ "서구|마전동|당하3차풍림아이원": {
+  "households": 579,
+  "dong_count": 8,
+  "builder": "풍림산업"
+ },
+ "서구|왕길동|유승": {
+  "households": 938,
+  "dong_count": 10,
+  "builder": "(주)유승종합건설"
+ },
+ "동구|송현동|주공2": {
+  "households": 386,
+  "dong_count": 3,
+  "builder": "요진산업(주)"
+ },
+ "연수구|동춘동|자이(xi)": {
+  "households": 1023,
+  "dong_count": 9,
+  "builder": "GS건설"
+ },
+ "부평구|산곡동|한신(137-8)": {
+  "households": 542,
+  "dong_count": 4,
+  "builder": "한신공영"
+ },
+ "중구|운서동|영종주공스카이빌10단지": {
+  "households": 740,
+  "dong_count": 15,
+  "builder": "(주)남해건설"
+ },
+ "중구|중산동|영종신명스카이뷰주얼리": {
+  "households": 1002,
+  "dong_count": 7,
+  "builder": "(주)신명종합건설"
+ },
+ "부평구|부평동|창보": {
+  "households": 202,
+  "dong_count": 1,
+  "builder": "창보종합건설(주)"
+ },
+ "부평구|십정동|동암신동아": {
+  "households": 1690,
+  "dong_count": 17,
+  "builder": "신동아건설(주), (주)창보종합건설, 백영건설(주)"
+ },
+ "부평구|부평동|신성미소지움아파트(101~106동)": {
+  "households": 298,
+  "dong_count": 6,
+  "builder": "신성건설(주)"
+ },
+ "연수구|연수동|성일": {
+  "households": 414,
+  "dong_count": 5,
+  "builder": "성일건설"
+ },
+ "계양구|계산동|계양산파크트루엘": {
+  "households": 369,
+  "dong_count": 8,
+  "builder": "일성건설"
+ },
+ "서구|심곡동|삼성": {
+  "households": 140,
+  "dong_count": 1,
+  "builder": "삼성건설"
+ },
+ "연수구|청학동|삼용": {
+  "households": 300,
+  "dong_count": 3,
+  "builder": "삼용종합건설사업(주)"
+ },
+ "남동구|서창동|청광플러스원아파트": {
+  "households": 582,
+  "dong_count": 7,
+  "builder": "청광종합건설(주)"
+ },
+ "계양구|병방동|아주": {
+  "households": 612,
+  "dong_count": 5,
+  "builder": "(주)아주종합건설"
+ },
+ "서구|불로동|동부": {
+  "households": 205,
+  "dong_count": 4,
+  "builder": "동부건설(주)"
+ },
+ "부평구|갈산동|태화(416)": {
+  "households": 410,
+  "dong_count": 5,
+  "builder": "태화건설"
+ },
+ "서구|청라동|청라골드클래스커낼웨이": {
+  "households": 269,
+  "dong_count": 6,
+  "builder": "보광건설"
+ },
+ "서구|마전동|마전4차풍림아이원": {
+  "households": 216,
+  "dong_count": 5,
+  "builder": "풍림산업(주)"
+ },
+ "계양구|귤현동|귤현현대아이파크": {
+  "households": 394,
+  "dong_count": 6,
+  "builder": "현대산업개발"
+ },
+ "계양구|작전동|한화": {
+  "households": 179,
+  "dong_count": 2,
+  "builder": "한화건설(주)"
+ },
+ "서구|불로동|삼보해피하임2단지(불로지구51BL1L)": {
+  "households": 482,
+  "dong_count": 8,
+  "builder": "(주)삼보건영"
+ },
+ "연수구|동춘동|건영": {
+  "households": 970,
+  "dong_count": 30,
+  "builder": "건영"
+ },
+ "계양구|병방동|학마을한진": {
+  "households": 1500,
+  "dong_count": 14,
+  "builder": "한진건설"
+ },
+ "계양구|계산동|영남": {
+  "households": 360,
+  "dong_count": 4,
+  "builder": "영남주택"
+ },
+ "부평구|삼산동|서해그랑블": {
+  "households": 454,
+  "dong_count": 4,
+  "builder": "서해건설"
+ },
+ "계양구|계산동|현대": {
+  "households": 919,
+  "dong_count": 5,
+  "builder": "현대산업개발"
+ },
+ "미추홀구|학익동|동아풍림": {
+  "households": 1480,
+  "dong_count": 22,
+  "builder": "동아건설산업(주),풍림산업(주)"
+ },
+ "연수구|동춘동|송도파크레인동일하이빌": {
+  "households": 1180,
+  "dong_count": 11,
+  "builder": "동일토건"
+ },
+ "남동구|서창동|서창센트럴푸르지오": {
+  "households": 1160,
+  "dong_count": 10,
+  "builder": "(주)대우건설, 대림산업(주)"
+ },
+ "동구|만석동|만석비치타운 주공아파트": {
+  "households": 1273,
+  "dong_count": 15,
+  "builder": "대한주택공사"
+ },
+ "동구|화수동|영풍": {
+  "households": 359,
+  "dong_count": 5,
+  "builder": "영풍산업주식회사"
+ },
+ "계양구|효성동|현대": {
+  "households": 919,
+  "dong_count": 5,
+  "builder": "현대산업개발"
+ },
+ "남동구|만수동|벽산": {
+  "households": 2073,
+  "dong_count": 19,
+  "builder": "벽산건설"
+ },
+ "부평구|부평동|두산위브": {
+  "households": 280,
+  "dong_count": 4,
+  "builder": "두산건설"
+ },
+ "계양구|동양동|한진해모로": {
+  "households": 478,
+  "dong_count": 6,
+  "builder": "주택공사"
+ },
+ "서구|청라동|청라29블럭호반베르디움": {
+  "households": 2134,
+  "dong_count": 15,
+  "builder": "호반건설(주)"
+ },
+ "중구|중산동|인천영종한양수자인": {
+  "households": 1304,
+  "dong_count": 12,
+  "builder": "(주)한양"
+ },
+ "중구|중산동|영종국제도시화성파크드림": {
+  "households": 657,
+  "dong_count": 5,
+  "builder": "화성산업(주)"
+ },
+ "서구|불로동|삼보해피하임1단지(불로지구34BL1L)": {
+  "households": 384,
+  "dong_count": 6,
+  "builder": "(주)삼보건영"
+ },
+ "연수구|동춘동|대림": {
+  "households": 640,
+  "dong_count": 7,
+  "builder": "대림산업(주)"
+ },
+ "계양구|작전동|동보2": {
+  "households": 502,
+  "dong_count": 8,
+  "builder": "동보건설"
+ },
+ "남동구|논현동|휴먼시아동산마을": {
+  "households": 833,
+  "dong_count": 10,
+  "builder": "한국주택공사"
+ },
+ "남동구|간석동|간석래미안자이": {
+  "households": 2432,
+  "dong_count": 28,
+  "builder": "삼성물산, GS건설"
+ },
+ "미추홀구|학익동|원흥아파트": {
+  "households": 396,
+  "dong_count": 2,
+  "builder": "원흥종합건설(주)"
+ },
+ "부평구|부개동|대동(494-1)": {
+  "households": 686,
+  "dong_count": 6,
+  "builder": "(주)대동건설"
+ },
+ "계양구|작전동|삼보": {
+  "households": 366,
+  "dong_count": 5,
+  "builder": "삼보건설"
+ },
+ "계양구|병방동|학마을서원": {
+  "households": 688,
+  "dong_count": 7,
+  "builder": "서원건설(주)"
+ },
+ "남동구|남촌동|남촌풍림1차": {
+  "households": 421,
+  "dong_count": 3,
+  "builder": "풍림산업(주)"
+ },
+ "남동구|만수동|만수주공4단지": {
+  "households": 2220,
+  "dong_count": 20,
+  "builder": "대한주택공사"
+ },
+ "계양구|용종동|초정마을(동아)": {
+  "households": 616,
+  "dong_count": 6,
+  "builder": "동아건설"
+ },
+ "미추홀구|주안동|광명(20-7)": {
+  "households": 462,
+  "dong_count": 6,
+  "builder": "(주)광명주택"
+ },
+ "서구|석남동|서보": {
+  "households": 918,
+  "dong_count": 8,
+  "builder": "삼주,창신"
+ },
+ "미추홀구|관교동|동아(관교동아)": {
+  "households": 496,
+  "dong_count": 4,
+  "builder": "동아건설"
+ },
+ "계양구|계산동|태평": {
+  "households": 432,
+  "dong_count": 5,
+  "builder": "태평건설"
+ },
+ "서구|심곡동|극동늘푸른": {
+  "households": 998,
+  "dong_count": 8,
+  "builder": "극동건설"
+ },
+ "연수구|동춘동|풍림2": {
+  "households": 1200,
+  "dong_count": 16,
+  "builder": "풍림건설"
+ },
+ "남동구|논현동|주공2단지": {
+  "households": 1920,
+  "dong_count": 18,
+  "builder": "대한주택공사"
+ },
+ "중구|중산동|하늘도시우미린2단지": {
+  "households": 1287,
+  "dong_count": 9,
+  "builder": "우미건설"
+ },
+ "동구|송현동|삼두1차": {
+  "households": 264,
+  "dong_count": 2,
+  "builder": "삼두건설"
+ },
+ "계양구|효성동|신한": {
+  "households": 324,
+  "dong_count": 3,
+  "builder": "(주)신한"
+ },
+ "서구|연희동|한국1": {
+  "households": 356,
+  "dong_count": 5,
+  "builder": "한국종합건설(주)"
+ },
+ "동구|송림동|누리": {
+  "households": 94,
+  "dong_count": 1,
+  "builder": "(주) 월드"
+ },
+ "남동구|만수동|광명아파트": {
+  "households": 870,
+  "dong_count": 6,
+  "builder": "주식회사 광명주택"
+ },
+ "계양구|작전동|도두리마을동남": {
+  "households": 1282,
+  "dong_count": 12,
+  "builder": "동남기업, 롯데건설"
+ },
+ "미추홀구|학익동|풍림아이원": {
+  "households": 2090,
+  "dong_count": 26,
+  "builder": "풍림산업"
+ },
+ "연수구|송도동|송도SKVIEW": {
+  "households": 2100,
+  "dong_count": 11,
+  "builder": "sk 건설"
+ },
+ "서구|가좌동|진주2": {
+  "households": 644,
+  "dong_count": 7,
+  "builder": "라이프건설"
+ },
+ "계양구|계산동|하나": {
+  "households": 498,
+  "dong_count": 5,
+  "builder": "한국공영"
+ },
+ "연수구|송도동|힐스테이트레이크송도1차": {
+  "households": 886,
+  "dong_count": 9,
+  "builder": "현대건설"
+ },
+ "계양구|효성동|유승": {
+  "households": 279,
+  "dong_count": 1,
+  "builder": "유승종합건설"
+ },
+ "계양구|작전동|현대2-1차": {
+  "households": 840,
+  "dong_count": 5,
+  "builder": "성호주택(주)"
+ },
+ "서구|석남동|동우": {
+  "households": 474,
+  "dong_count": 5,
+  "builder": "동우건설"
+ },
+ "남동구|구월동|팬더": {
+  "households": 946,
+  "dong_count": 8,
+  "builder": "천금주택"
+ },
+ "중구|신흥동3가|신흥아이파크": {
+  "households": 1330,
+  "dong_count": 9,
+  "builder": "현대산업개발"
+ },
+ "계양구|효성동|백영": {
+  "households": 208,
+  "dong_count": 2,
+  "builder": "백영건설(주)"
+ },
+ "미추홀구|도화동|동아": {
+  "households": 496,
+  "dong_count": 4,
+  "builder": "동아건설"
+ },
+ "계양구|작전동|신한": {
+  "households": 324,
+  "dong_count": 3,
+  "builder": "(주)신한"
+ },
+ "연수구|동춘동|무지개마을": {
+  "households": 1068,
+  "dong_count": 16,
+  "builder": "태화,동보,영남,동남"
+ },
+ "연수구|동춘동|송도동일하이빌파크포레": {
+  "households": 281,
+  "dong_count": 6,
+  "builder": "동일토건"
+ },
+ "서구|마전동|검단금호어울림": {
+  "households": 236,
+  "dong_count": 6,
+  "builder": "금호건설"
+ },
+ "연수구|연수동|대림": {
+  "households": 640,
+  "dong_count": 7,
+  "builder": "대림산업(주)"
+ },
+ "서구|원당동|대림e편한세상(원당지구78BL1L)": {
+  "households": 222,
+  "dong_count": 4,
+  "builder": "(주)삼호"
+ },
+ "계양구|작전동|도두리마을대동": {
+  "households": 1299,
+  "dong_count": 8,
+  "builder": "대동주택종합건설"
+ },
+ "미추홀구|학익동|신동아7": {
+  "households": 510,
+  "dong_count": 6,
+  "builder": "(주)신동아패밀리"
+ },
+ "부평구|부개동|욱일": {
+  "households": 780,
+  "dong_count": 4,
+  "builder": "욱일주택"
+ },
+ "연수구|연수동|효정": {
+  "households": 312,
+  "dong_count": 3,
+  "builder": "화인주택"
+ },
+ "남동구|논현동|논현단풍마을트리플에듀": {
+  "households": 898,
+  "dong_count": 11,
+  "builder": "서희건설,신일"
+ },
+ "계양구|병방동|학마을서해": {
+  "households": 1261,
+  "dong_count": 12,
+  "builder": "(주)서해종합건설"
+ },
+ "중구|중산동|e편한세상영종국제도시오션하임": {
+  "households": 1520,
+  "dong_count": 18,
+  "builder": "(주)영종하늘도시주택위탁관리부동산투자회사"
+ },
+ "남동구|서창동|태평1차": {
+  "households": 435,
+  "dong_count": 4,
+  "builder": "영남건설"
+ },
+ "연수구|연수동|대동": {
+  "households": 336,
+  "dong_count": 9,
+  "builder": "대동건설"
+ },
+ "동구|송림동|송림파인앤유주상복합아파트": {
+  "households": 232,
+  "dong_count": 3,
+  "builder": "파인건설"
+ },
+ "남동구|장수동|장자마을한별렉스힐": {
+  "households": 60,
+  "dong_count": 3,
+  "builder": "한별종합건설(주)"
+ },
+ "미추홀구|용현동|신창미션힐": {
+  "households": 821,
+  "dong_count": 8,
+  "builder": "주식회사 신창건설"
+ },
+ "연수구|연수동|경남": {
+  "households": 620,
+  "dong_count": 7,
+  "builder": "경남기업"
+ },
+ "연수구|선학동|뉴서울": {
+  "households": 720,
+  "dong_count": 7,
+  "builder": "뉴서울주택"
+ },
+ "계양구|작전동|유호": {
+  "households": 299,
+  "dong_count": 2,
+  "builder": "유호건설"
+ },
+ "서구|마전동|현대": {
+  "households": 604,
+  "dong_count": 7,
+  "builder": "현대산업개발"
+ },
+ "연수구|송도동|송도풍림아이원2단지": {
+  "households": 958,
+  "dong_count": 14,
+  "builder": "풍림산업"
+ },
+ "연수구|송도동|송도이안": {
+  "households": 108,
+  "dong_count": 2,
+  "builder": "(주)대우자동차판매건설(현 : 대우산업개발)"
+ },
+ "계양구|계산동|은행마을(태산)": {
+  "households": 544,
+  "dong_count": 6,
+  "builder": "(주) 태산"
+ },
+ "미추홀구|도화동|동원": {
+  "households": 375,
+  "dong_count": 5,
+  "builder": "동원건설"
+ },
+ "연수구|선학동|대동": {
+  "households": 336,
+  "dong_count": 9,
+  "builder": "대동건설"
+ },
+ "미추홀구|학익동|하나아파트": {
+  "households": 114,
+  "dong_count": 2,
+  "builder": "(주)한국공영"
+ },
+ "연수구|옥련동|우성": {
+  "households": 255,
+  "dong_count": 3,
+  "builder": "(주)다원종합건설"
+ },
+ "남동구|만수동|만수주공3단지": {
+  "households": 510,
+  "dong_count": 20,
+  "builder": "LH 공사"
+ },
+ "계양구|효성동|하나": {
+  "households": 498,
+  "dong_count": 5,
+  "builder": "한국공영"
+ },
+ "서구|불로동|퀸스타운(신명)": {
+  "households": 614,
+  "dong_count": 7,
+  "builder": "신명종합건설(주)"
+ },
+ "계양구|병방동|학마을영남": {
+  "households": 1047,
+  "dong_count": 12,
+  "builder": "(주)영남건설"
+ },
+ "미추홀구|용현동|동아": {
+  "households": 496,
+  "dong_count": 4,
+  "builder": "동아건설"
+ },
+ "부평구|부개동|부개주공6": {
+  "households": 1240,
+  "dong_count": 14,
+  "builder": "LH공사"
+ },
+ "연수구|동춘동|대동": {
+  "households": 336,
+  "dong_count": 9,
+  "builder": "대동건설"
+ },
+ "부평구|산곡동|한양(185-17)": {
+  "households": 720,
+  "dong_count": 21,
+  "builder": "(주)한양건설"
+ },
+ "연수구|연수동|태경": {
+  "households": 220,
+  "dong_count": 1,
+  "builder": "태경건설"
+ },
+ "동구|송림동|송림휴먼시아1단지": {
+  "households": 1011,
+  "dong_count": 11,
+  "builder": "풍림건설"
+ },
+ "미추홀구|도화동|금강(369-17)": {
+  "households": 479,
+  "dong_count": 5,
+  "builder": "(주)금강주택"
+ },
+ "미추홀구|관교동|쌍용": {
+  "households": 768,
+  "dong_count": 9,
+  "builder": "쌍용종합건설"
+ },
+ "남동구|만수동|대동(5-328)": {
+  "households": 276,
+  "dong_count": 5,
+  "builder": "대동건설"
+ },
+ "미추홀구|관교동|신비마을": {
+  "households": 960,
+  "dong_count": 11,
+  "builder": "인천시 종합건설본부"
+ },
+ "연수구|연수동|유천": {
+  "households": 788,
+  "dong_count": 10,
+  "builder": "유천건설"
+ },
+ "부평구|부개동|부개주공3": {
+  "households": 1724,
+  "dong_count": 19,
+  "builder": "(주)한양,서광(주), 삼양건설(주)"
+ },
+ "부평구|청천동|삼익": {
+  "households": 375,
+  "dong_count": 2,
+  "builder": "삼익주택"
+ },
+ "미추홀구|관교동|삼환2(삼환관교2단지)": {
+  "households": 410,
+  "dong_count": 3,
+  "builder": "삼환까뮤"
+ },
+ "미추홀구|학익동|태산": {
+  "households": 252,
+  "dong_count": 2,
+  "builder": "(주)태산"
+ },
+ "남동구|만수동|대동": {
+  "households": 276,
+  "dong_count": 5,
+  "builder": "대동건설"
+ },
+ "미추홀구|관교동|성지": {
+  "households": 420,
+  "dong_count": 4,
+  "builder": "성지건설(주)"
+ },
+ "서구|가좌동|진주5": {
+  "households": 268,
+  "dong_count": 3,
+  "builder": "라이프주택(주)"
+ },
+ "계양구|계산동|주공": {
+  "households": 1140,
+  "dong_count": 7,
+  "builder": "대한주택공사"
+ },
+ "미추홀구|용현동|대림": {
+  "households": 598,
+  "dong_count": 8,
+  "builder": "대림산업주식회사"
+ },
+ "남동구|논현동|논현센트럴뷰": {
+  "households": 820,
+  "dong_count": 6,
+  "builder": "삼환기업(주)"
+ },
+ "연수구|선학동|아주": {
+  "households": 384,
+  "dong_count": 3,
+  "builder": "(주)아주종합건설"
+ },
+ "부평구|부개동|성일": {
+  "households": 415,
+  "dong_count": 3,
+  "builder": "성일건설"
+ },
+ "남동구|구월동|희망(3,5동)": {
+  "households": 160,
+  "dong_count": 1,
+  "builder": "희망주택"
+ },
+ "계양구|용종동|초정마을하나": {
+  "households": 972,
+  "dong_count": 8,
+  "builder": "한국공영"
+ },
+ "미추홀구|관교동|동부(관교동부)": {
+  "households": 420,
+  "dong_count": 4,
+  "builder": "동부건설(주)"
+ },
+ "연수구|연수동|문남마을": {
+  "households": 400,
+  "dong_count": 9,
+  "builder": "(주)풍창건설"
+ },
+ "중구|중산동|영종힐스테이트": {
+  "households": 1628,
+  "dong_count": 13,
+  "builder": "현대건설"
+ },
+ "중구|신흥동1가|대림": {
+  "households": 140,
+  "dong_count": 1,
+  "builder": "경동건설"
+ },
+ "남동구|논현동|논현유승한내들": {
+  "households": 376,
+  "dong_count": 3,
+  "builder": "(주)유승종합건설"
+ },
+ "연수구|동춘동|송도파크자이": {
+  "households": 1023,
+  "dong_count": 9,
+  "builder": "GS건설"
+ },
+ "연수구|옥련동|현대3": {
+  "households": 368,
+  "dong_count": 4,
+  "builder": "현대산업개발(주)"
+ },
+ "연수구|연수동|세경": {
+  "households": 567,
+  "dong_count": 5,
+  "builder": "세경건설"
+ },
+ "부평구|갈산동|대동2": {
+  "households": 623,
+  "dong_count": 4,
+  "builder": "대동건설(주)"
+ },
+ "남동구|간석동|희망(1동,2동)": {
+  "households": 160,
+  "dong_count": 1,
+  "builder": "희망주택"
+ },
+ "연수구|옥련동|럭키송도": {
+  "households": 1304,
+  "dong_count": 16,
+  "builder": "LG"
+ },
+ "남동구|논현동|한라": {
+  "households": 288,
+  "dong_count": 1,
+  "builder": "한라중공업"
+ },
+ "남동구|만수동|진흥(1036)": {
+  "households": 300,
+  "dong_count": 5,
+  "builder": "진흥 주택"
+ },
+ "미추홀구|학익동|신동아8": {
+  "households": 538,
+  "dong_count": 5,
+  "builder": "신동아건설"
+ },
+ "연수구|송도동|송도풍림아이원1단지": {
+  "households": 1024,
+  "dong_count": 18,
+  "builder": "풍림산업"
+ },
+ "서구|당하동|금호어울림1차": {
+  "households": 341,
+  "dong_count": 6,
+  "builder": "금호산업(주)"
+ },
+ "남동구|논현동|주공1단지": {
+  "households": 516,
+  "dong_count": 20,
+  "builder": "대한주택공사"
+ },
+ "서구|불로동|불로금호어울림(불로지구39BL)": {
+  "households": 412,
+  "dong_count": 6,
+  "builder": "(주)금호건설"
+ },
+ "부평구|산곡동|우성4차": {
+  "households": 494,
+  "dong_count": 5,
+  "builder": "우성"
+ },
+ "남동구|만수동|한국": {
+  "households": 132,
+  "dong_count": 1,
+  "builder": "확인불가"
+ },
+ "남동구|만수동|남동아파트": {
+  "households": 770,
+  "dong_count": 6,
+  "builder": "강산건설"
+ },
+ "남동구|만수동|담방마을": {
+  "households": 1100,
+  "dong_count": 9,
+  "builder": "고려개발주식회사"
+ },
+ "미추홀구|용현동|태화": {
+  "households": 143,
+  "dong_count": 1,
+  "builder": "주식회사 태화주택"
+ },
+ "연수구|옥련동|한국": {
+  "households": 481,
+  "dong_count": 6,
+  "builder": "한국종합건설"
+ },
+ "계양구|계산동|은행마을(강북)": {
+  "households": 544,
+  "dong_count": 6,
+  "builder": "(주) 태산"
+ },
+ "남동구|만수동|만수주공5단지": {
+  "households": 900,
+  "dong_count": 5,
+  "builder": "주택공사"
+ },
+ "연수구|동춘동|동남": {
+  "households": 420,
+  "dong_count": 5,
+  "builder": "동남기업(주)"
+ },
+ "계양구|계산동|팬더": {
+  "households": 126,
+  "dong_count": 2,
+  "builder": "팬더 건설"
+ },
+ "동구|화수동|미륭": {
+  "households": 560,
+  "dong_count": 14,
+  "builder": "동부건설"
+ },
+ "서구|가좌동|현대": {
+  "households": 604,
+  "dong_count": 7,
+  "builder": "현대산업개발"
+ },
+ "연수구|송도동|e편한세상송도": {
+  "households": 2708,
+  "dong_count": 15,
+  "builder": "대림산업(주)"
+ },
+ "부평구|갈산동|아주": {
+  "households": 340,
+  "dong_count": 4,
+  "builder": "아주건설"
+ },
+ "계양구|박촌동|한화꿈에그린": {
+  "households": 670,
+  "dong_count": 13,
+  "builder": "(주)한화건설"
+ },
+ "남동구|만수동|만수주공10단지": {
+  "households": 420,
+  "dong_count": 3,
+  "builder": "대한주택공사"
+ },
+ "연수구|옥련동|원흥": {
+  "households": 359,
+  "dong_count": 3,
+  "builder": "원흥종합건설"
+ },
+ "남동구|만수동|한국공영": {
+  "households": 160,
+  "dong_count": 4,
+  "builder": "한국공영"
+ },
+ "연수구|연수동|태산": {
+  "households": 300,
+  "dong_count": 4,
+  "builder": "(주)태산건설"
+ },
+ "부평구|청천동|미도7": {
+  "households": 384,
+  "dong_count": 4,
+  "builder": "(주)가나안 진흥 건설"
+ },
+ "미추홀구|주안동|광명(20-4)": {
+  "households": 462,
+  "dong_count": 6,
+  "builder": "(주)광명주택"
+ },
+ "연수구|동춘동|아주": {
+  "households": 384,
+  "dong_count": 3,
+  "builder": "(주)아주종합건설"
+ },
+ "부평구|부평동|욱일": {
+  "households": 780,
+  "dong_count": 4,
+  "builder": "욱일주택"
+ },
+ "계양구|방축동|아주": {
+  "households": 612,
+  "dong_count": 5,
+  "builder": "(주)아주종합건설"
+ },
+ "부평구|산곡동|한신(137-3)": {
+  "households": 542,
+  "dong_count": 4,
+  "builder": "한신공영"
+ },
+ "부평구|삼산동|임광그대가": {
+  "households": 393,
+  "dong_count": 9,
+  "builder": "임광토건"
+ },
+ "연수구|옥련동|삼성": {
+  "households": 612,
+  "dong_count": 4,
+  "builder": "삼성물산(주)"
+ },
+ "계양구|작전동|신진": {
+  "households": 410,
+  "dong_count": 4,
+  "builder": "신진주택개발공사"
+ },
+ "연수구|동춘동|동춘마을": {
+  "households": 930,
+  "dong_count": 18,
+  "builder": "한보철강공업주"
+ },
+ "부평구|십정동|한국": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "청방건설(주)"
+ },
+ "서구|가좌동|현광": {
+  "households": 144,
+  "dong_count": 2,
+  "builder": "현광"
+ },
+ "미추홀구|용현동|성원상떼빌": {
+  "households": 550,
+  "dong_count": 7,
+  "builder": "성원건설"
+ },
+ "연수구|옥련동|현대5": {
+  "households": 621,
+  "dong_count": 7,
+  "builder": "현대산업개발"
+ },
+ "연수구|옥련동|백산": {
+  "households": 301,
+  "dong_count": 3,
+  "builder": "백산건설"
+ },
+ "계양구|효성동|동남": {
+  "households": 336,
+  "dong_count": 5,
+  "builder": "동남기업"
+ },
+ "계양구|효성동|태산": {
+  "households": 408,
+  "dong_count": 5,
+  "builder": "태산건설(주)"
+ },
+ "연수구|옥련동|현대4": {
+  "households": 1011,
+  "dong_count": 9,
+  "builder": "현대산업개발(주)"
+ },
+ "연수구|연수동|연수주공2차": {
+  "households": 960,
+  "dong_count": 8,
+  "builder": "대한주택공사"
+ },
+ "남동구|만수동|만수주공6단지": {
+  "households": 800,
+  "dong_count": 21,
+  "builder": "대한주택공사"
+ },
+ "부평구|갈산동|주공1단지": {
+  "households": 1650,
+  "dong_count": 9,
+  "builder": "대한주택공사"
+ },
+ "연수구|연수동|영남": {
+  "households": 335,
+  "dong_count": 8,
+  "builder": "영남건설"
+ },
+ "부평구|산곡동|동원(82-36)": {
+  "households": 348,
+  "dong_count": 2,
+  "builder": "동원건설주식회사"
+ },
+ "연수구|연수동|솔밭마을아파트": {
+  "households": 1200,
+  "dong_count": 9,
+  "builder": "한보철강주식회사"
+ },
+ "부평구|부평동|삼보": {
+  "households": 295,
+  "dong_count": 4,
+  "builder": "삼보건설"
+ },
+ "연수구|청학동|서해": {
+  "households": 348,
+  "dong_count": 4,
+  "builder": "(주)서해종합건설"
+ },
+ "서구|가정동|동우1": {
+  "households": 474,
+  "dong_count": 5,
+  "builder": "동우건설"
+ },
+ "남동구|만수동|만수뉴서울아파트": {
+  "households": 1234,
+  "dong_count": 6,
+  "builder": "뉴서울건설"
+ },
+ "동구|송현동|삼부": {
+  "households": 498,
+  "dong_count": 7,
+  "builder": "삼부토건"
+ },
+ "서구|가정동|현광": {
+  "households": 144,
+  "dong_count": 2,
+  "builder": "현광"
+ },
+ "계양구|작전동|뉴서울1": {
+  "households": 460,
+  "dong_count": 10,
+  "builder": "뉴서울주택건설"
+ },
+ "연수구|연수동|주공3": {
+  "households": 1170,
+  "dong_count": 8,
+  "builder": "대한주택공사"
+ },
+ "부평구|삼산동|한국": {
+  "households": 180,
+  "dong_count": 2,
+  "builder": "청방건설(주)"
+ },
+ "연수구|동춘동|대림3": {
+  "households": 408,
+  "dong_count": 8,
+  "builder": "대림산업(주)"
+ },
+ "서구|가정동|하나1": {
+  "households": 252,
+  "dong_count": 5,
+  "builder": "(주)한국공영"
+ },
+ "미추홀구|주안동|현광": {
+  "households": 171,
+  "dong_count": 1,
+  "builder": "현광건설"
+ },
+ "부평구|십정동|백영": {
+  "households": 206,
+  "dong_count": 1,
+  "builder": "백영건설"
  }
 }
