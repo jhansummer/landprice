@@ -37,8 +37,43 @@ HEADERS = {
 }
 BASE = "https://api.notion.com/v1"
 DATA_DIR = "docs/data/apt_trade"
+SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+HISTORY_FILE = os.path.join(SCRIPTS_DIR, "daily_rec_history.json")
 KST = timezone(timedelta(hours=9))
 TODAY = datetime.now(KST)
+
+
+# ── 7일 이력 관리 (중복 방지) ──
+def load_history() -> list:
+    """최근 7일 추천 이력 로드. [{date, sido, apt_id, apt_name}, ...]"""
+    if not os.path.exists(HISTORY_FILE):
+        return []
+    with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+        entries = json.load(f)
+    cutoff = (TODAY - timedelta(days=7)).strftime("%Y-%m-%d")
+    return [e for e in entries if e.get("date", "") >= cutoff]
+
+
+def save_history(entries: list):
+    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(entries, f, ensure_ascii=False, indent=1)
+
+
+def get_excluded_ids() -> set:
+    """최근 7일간 추천된 단지 ID 집합"""
+    return {e["apt_id"] for e in load_history() if "apt_id" in e}
+
+
+def record_pick(sido: str, apt: dict):
+    """추천 단지를 이력에 기록"""
+    history = load_history()
+    history.append({
+        "date": TODAY.strftime("%Y-%m-%d"),
+        "sido": sido,
+        "apt_id": apt["id"],
+        "apt_name": apt["apt_name"],
+    })
+    save_history(history)
 
 
 # ── 유틸 ──
@@ -137,7 +172,8 @@ def fetch_naver_listings(apts: List[dict]) -> List[Optional[dict]]:
 
 
 # ── 추천 텍스트 생성 ──
-def build_text(pick: dict, vgeo: dict, listing: Optional[dict] = None) -> str:
+def build_text(pick: dict, vgeo: dict, listing: Optional[dict] = None,
+               comp_listings: Optional[List[Optional[dict]]] = None) -> str:
     geo = vgeo.get(pick["id"], {})
     if not isinstance(geo, dict):
         geo = {}
@@ -163,27 +199,82 @@ def build_text(pick: dict, vgeo: dict, listing: Optional[dict] = None) -> str:
 
     lines.append("")
 
+    # ── 실거래가 ──
     if last_txn:
         lines.append(f"최근 실거래: {fmt_price(last_txn[1])} ({last_txn[0]})")
 
     lines.append(f"비교단지 대비 {abs(pick['gap_pct']):.1f}% 저평가")
 
-    # 네이버 호가
-    if listing and listing.get("count"):
-        lines.append(f"네이버 매물: {listing['count']}건 ({fmt_price(listing['min'])}~{fmt_price(listing['max'])})")
-
+    # ── 3년평균 vs 최근평균 비교 ──
     lines.append("")
-    lines.append("비교단지 최근 거래:")
+    lines.append("━━ 가격 추이 비교 ━━")
 
-    for c in pick.get("compare", [])[:2]:
+    avg_36 = pick.get("avg_36", 0)
+    recent_avg = pick.get("recent_avg", 0)
+    comp_avg_36 = pick.get("compare_avg_36", 0)
+    comp_avg_recent = pick.get("compare_avg_recent", 0)
+
+    if avg_36 and recent_avg:
+        own_chg = (recent_avg - avg_36) / avg_36 * 100
+        lines.append(f"  {pick['apt_name']}")
+        lines.append(f"    3년평균 {fmt_price(avg_36)} → 최근평균 {fmt_price(recent_avg)} ({own_chg:+.1f}%)")
+
+    if comp_avg_36 and comp_avg_recent:
+        comp_chg = (comp_avg_recent - comp_avg_36) / comp_avg_36 * 100
+        lines.append(f"  비교단지")
+        lines.append(f"    3년평균 {fmt_price(comp_avg_36)} → 최근평균 {fmt_price(comp_avg_recent)} ({comp_chg:+.1f}%)")
+
+    if avg_36 and comp_avg_36 and recent_avg and comp_avg_recent:
+        lines.append(f"  → 비교단지는 {abs(comp_chg):.1f}% 올랐지만 이 단지는 아직 덜 올라 격차 발생")
+
+    # ── 네이버 호가 비교 ──
+    lines.append("")
+    lines.append("━━ 네이버 매물 호가 ━━")
+
+    if listing and listing.get("count"):
+        lines.append(f"  {pick['apt_name']}: {listing['count']}건, {fmt_price(listing['min'])}~{fmt_price(listing['max'])}")
+    else:
+        lines.append(f"  {pick['apt_name']}: 매물 없음 또는 조회 실패")
+
+    comparisons = pick.get("compare", [])[:2]
+    if comp_listings is None:
+        comp_listings = []
+
+    for i, c in enumerate(comparisons):
+        cl = comp_listings[i] if i < len(comp_listings) else None
+        if cl and cl.get("count"):
+            lines.append(f"  {c['apt_name']}: {cl['count']}건, {fmt_price(cl['min'])}~{fmt_price(cl['max'])}")
+        else:
+            lines.append(f"  {c['apt_name']}: 매물 없음 또는 조회 실패")
+
+    # 호가 비교 해석
+    if listing and listing.get("count") and comp_listings:
+        comp_mins = [cl["min"] for cl in comp_listings if cl and cl.get("count")]
+        if comp_mins:
+            avg_comp_min = sum(comp_mins) / len(comp_mins)
+            diff = (listing["min"] - avg_comp_min) / avg_comp_min * 100
+            if diff < 0:
+                lines.append(f"  → 호가가 비교단지보다 {abs(diff):.0f}% 낮아 진입 기회")
+            else:
+                lines.append(f"  → 호가는 비교단지 대비 {diff:.0f}% 높음")
+
+    # ── 비교단지 상세 ──
+    lines.append("")
+    lines.append("━━ 비교단지 상세 ━━")
+
+    for i, c in enumerate(comparisons):
         ctxns = get_txns(c["id"])
         clast = ctxns[-1] if ctxns else None
         cprice = fmt_price(clast[1]) if clast else "?"
         cdate = clast[0] if clast else "?"
-        cgeo = vgeo.get(c["id"], {})
-        cloc = cgeo.get("loc_score", "") if isinstance(cgeo, dict) else ""
-        loc_str = f" (입지 {cloc})" if cloc else ""
-        lines.append(f"  · {c['apt_name']}: {cprice} ({cdate}){loc_str}")
+        c_avg36 = c.get("avg_36", 0)
+        c_recent = c.get("recent_avg", 0)
+        corr = c.get("corr", 0)
+        c_chg = (c_recent - c_avg36) / c_avg36 * 100 if c_avg36 else 0
+        lines.append(f"  · {c['apt_name']} ({c['sigungu']} {c['dong_name']}, {c['area_m2']:.0f}m²)")
+        lines.append(f"    최근거래 {cprice} ({cdate}), 상관계수 {corr:.2f}")
+        if c_avg36 and c_recent:
+            lines.append(f"    3년평균 {fmt_price(c_avg36)} → 최근평균 {fmt_price(c_recent)} ({c_chg:+.1f}%)")
 
     return "\n".join(lines)
 
@@ -231,41 +322,63 @@ def main():
     uv = load_json("undervalued.json")
     vgeo = load_json("valuation_geo.json") if os.path.exists(os.path.join(DATA_DIR, "valuation_geo.json")) else {}
 
+    # 최근 7일 추천 이력에서 제외할 단지 ID
+    exclude_ids = get_excluded_ids()
+    print(f"  최근 7일 추천 이력: {len(exclude_ids)}건 제외")
+
+    MAX_RETRIES = 5  # 호가 없으면 다음 후보로 (최대 5회 시도)
+
     picks = {}
+    listings = {}
+    comp_listings = {}
+
     for sido in ["서울", "경기"]:
         candidates = uv.get("sidos", {}).get(sido, {}).get("undervalued", [])
         if not candidates:
             print(f"  {sido}: 저평가 후보 없음")
             continue
 
-        best = pick_best(candidates, vgeo)
-        if not best:
-            print(f"  {sido}: 조건 맞는 매물 없음")
-            continue
+        tried_ids = set()
+        for attempt in range(MAX_RETRIES):
+            best = pick_best(candidates, vgeo, exclude_ids | tried_ids)
+            if not best:
+                print(f"  {sido}: 조건 맞는 매물 없음")
+                break
 
-        picks[sido] = best
-        print(f"  {sido}: {best['apt_name']} ({best['sigungu']}) gap={best['gap_pct']:.1f}%")
+            tried_ids.add(best["id"])
+            print(f"  {sido} 시도 {attempt + 1}: {best['apt_name']} ({best['sigungu']}) gap={best['gap_pct']:.1f}%")
+
+            # 네이버 호가 조회 — 추천 단지 + 비교단지
+            naver_apts = [{
+                "name": best["apt_name"],
+                "region": f"{best['sigungu']} {best['dong_name']}",
+                "area": best["area_m2"],
+            }]
+            for c in best.get("compare", [])[:2]:
+                naver_apts.append({
+                    "name": c["apt_name"],
+                    "region": f"{c['sigungu']} {c['dong_name']}",
+                    "area": c["area_m2"],
+                })
+
+            print(f"    네이버 호가 조회: {len(naver_apts)}건")
+            lr_raw = fetch_naver_listings(naver_apts)
+
+            pick_listing = lr_raw[0] if lr_raw else None
+            c_listings = lr_raw[1:] if len(lr_raw) > 1 else []
+
+            if pick_listing and pick_listing.get("count"):
+                picks[sido] = best
+                listings[sido] = pick_listing
+                comp_listings[sido] = c_listings
+                print(f"    ✓ 호가 확인: {pick_listing['count']}건, {pick_listing['min']/10000:.1f}~{pick_listing['max']/10000:.1f}억")
+                break
+            else:
+                print(f"    ✗ 호가 없음 — 다음 후보 시도")
 
     if not picks:
         print("추천할 매물이 없습니다.")
         return
-
-    # 네이버 호가 조회 (선택적)
-    naver_apts = []
-    pick_order = []
-    for sido, p in picks.items():
-        naver_apts.append({
-            "name": p["apt_name"],
-            "region": f"{p['sigungu']} {p['dong_name']}",
-            "area": p["area_m2"],
-        })
-        pick_order.append(sido)
-
-    listings_raw = fetch_naver_listings(naver_apts)
-    listings = {}
-    for i, sido in enumerate(pick_order):
-        if i < len(listings_raw) and listings_raw[i]:
-            listings[sido] = listings_raw[i]
 
     # 노션 블록 구성
     date_str = TODAY.strftime("%m/%d")
@@ -282,7 +395,7 @@ def main():
                 "icon": {"type": "emoji", "emoji": "📌"},
                 "color": "blue_background",
                 "rich_text": [{"type": "text", "text": {
-                    "content": "비교단지 대비 실거래가가 저평가된 매물 중 상승 여력이 있는 단지를 선별했습니다."
+                    "content": "비교단지 대비 실거래가가 저평가되고, 네이버 호가도 비교단지보다 낮은 매물을 선별했습니다."
                 }}],
             },
         },
@@ -293,7 +406,7 @@ def main():
         if not p:
             continue
 
-        text = build_text(p, vgeo, listings.get(sido))
+        text = build_text(p, vgeo, listings.get(sido), comp_listings.get(sido))
         blocks.append({
             "object": "block", "type": "heading_2",
             "heading_2": {"rich_text": [{"type": "text", "text": {"content": f"{sido} — {p['apt_name']}"}}]},
@@ -304,7 +417,13 @@ def main():
         })
         blocks.append({"object": "block", "type": "divider", "divider": {}})
 
-    post_to_notion(title, blocks)
+    result = post_to_notion(title, blocks)
+
+    # 게시 성공 시 이력 기록 (7일간 중복 방지)
+    if result or DRY_RUN:
+        for sido, p in picks.items():
+            record_pick(sido, p)
+        print(f"  이력 기록 완료 ({len(picks)}건)")
 
 
 if __name__ == "__main__":
