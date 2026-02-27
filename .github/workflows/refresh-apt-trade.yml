@@ -65,6 +65,10 @@ jobs:
           ODSAY_API_KEY: ${{ secrets.ODSAY_API_KEY }}
         run: |
           python scripts/enrich_valuation_geo.py
+      - name: Build coords for map view
+        continue-on-error: true
+        run: |
+          python scripts/build_coords.py
       - name: Build location value ranking
         continue-on-error: true
         run: |

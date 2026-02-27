@@ -38,8 +38,20 @@ def search_complex_id(apt_name, sigungu, dong_name):
     clean_name = re.sub(r'\s*\(.*?\)\s*$', '', apt_name).strip()
     # 숫자만 있는 접미사도 제거 (예: "목동신시가지1" → "목동신시가지")
     base_name = re.sub(r'\d+$', '', clean_name).strip()
-    queries = [f"{apt_name} {sigungu} {dong_name} 네이버부동산"]
+    # 시군구에서 구/시 이름 추출 (성남시분당구 → 분당구, 분당)
+    gu_match = re.search(r'(\w+[구군])', sigungu)
+    gu_short = gu_match.group(1) if gu_match else sigungu
+    gu_prefix = gu_short.replace("구", "").replace("군", "")  # 분당, 강남 등
+    # 괄호 → 공백 변환 (상록마을(보성) → 상록마을 보성)
+    spaced_name = re.sub(r'[()]', ' ', apt_name).strip()
+    spaced_name = re.sub(r'\s+', ' ', spaced_name)
+    queries = [
+        f"{spaced_name} {gu_short} {dong_name} 아파트",
+        f"{gu_prefix} {spaced_name} 아파트",
+        f"{apt_name} {sigungu} {dong_name} 네이버부동산",
+    ]
     if clean_name != apt_name:
+        queries.append(f"{gu_prefix} {clean_name} 아파트")
         queries.append(f"{clean_name} {sigungu} {dong_name} 네이버부동산")
     queries.append(f"{apt_name} 네이버부동산")
     if clean_name != apt_name:
@@ -51,7 +63,7 @@ def search_complex_id(apt_name, sigungu, dong_name):
                     f"https://search.naver.com/search.naver?query={query}",
                     headers=headers, timeout=10,
                 )
-                matches = re.findall(r'fin\.land\.naver\.com/complexes/(\d+)', r.text)
+                matches = re.findall(r'(?:fin\.)?land\.naver\.com/complexes/(\d+)', r.text)
                 if matches:
                     log(f"  [호가] {apt_name} → complex_id={matches[0]}")
                     return matches[0]

@@ -36,7 +36,7 @@
   </script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-  <link rel="stylesheet" href="style.css?v=14" />
+  <link rel="stylesheet" href="style.css?v=15" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9MBJYB0DQ"></script>
   <script>
@@ -71,8 +71,13 @@
   <main>
     <h1 class="page-title">아파트 단지별 시세 비교 검색</h1>
     <p class="page-desc">단지명으로 아파트를 검색하고, 최대 5개 단지의 매매가 추이를 비교할 수 있습니다. 국토교통부 실거래가 기반.</p>
+    <div class="view-toggle-wrap">
+      <button id="viewListBtn" class="view-toggle active" aria-pressed="true">리스트</button>
+      <button id="viewMapBtn" class="view-toggle" aria-pressed="false">지도</button>
+    </div>
     <div id="status" class="status"><span class="spinner"></span>데이터 로딩 중...</div>
     <div id="results"></div>
+    <div id="mapContainer" class="map-container" style="display:none"></div>
   </main>
   <footer class="site-footer">
     <nav class="footer-links" aria-label="사이트맵">
@@ -95,10 +100,11 @@
       <span>데이터 출처: 국토교통부 실거래가 공공데이터</span>
     </div>
   </footer>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1002744323242293" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=YOUR_KAKAO_JS_KEY&libraries=clusterer"></script>
   <script src="chart-utils.js?v=12"></script>
   <script src="watchlist.js?v=2"></script>
   <script src="common.js?v=1"></script>
-  <script src="search.js?v=15"></script>
+  <script src="search.js?v=16"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

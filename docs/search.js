@@ -373,6 +373,7 @@ function renderTabs() {
       renderFilters();
       resultsEl.innerHTML = "";
       updateURL();
+      if (typeof refreshMapMarkers === "function") refreshMapMarkers();
     });
     APTWatchlist.track("tab_switch", { sido: sido, page: "search" });
   });
@@ -746,6 +747,223 @@ searchBtn.addEventListener("click", function () {
   if (acDropdown) acDropdown.style.display = "none";
   doSearch(searchInput.value);
 });
+
+/* ── 지도 뷰 ── */
+var mapObj = null;
+var mapClusterer = null;
+var mapMarkers = [];
+var coordsData = null;
+var coordsLoading = false;
+var activeOverlay = null;
+var viewListBtn = document.getElementById("viewListBtn");
+var viewMapBtn = document.getElementById("viewMapBtn");
+var mapContainer = document.getElementById("mapContainer");
+
+function loadCoords() {
+  if (coordsData) return Promise.resolve(coordsData);
+  if (coordsLoading) {
+    return new Promise(function (resolve) {
+      var iv = setInterval(function () {
+        if (coordsData) { clearInterval(iv); resolve(coordsData); }
+      }, 100);
+    });
+  }
+  coordsLoading = true;
+  return fetch("data/apt_trade/coords.json?t=" + Date.now())
+    .then(function (res) { return res.ok ? res.json() : {}; })
+    .then(function (data) { coordsData = data; return data; })
+    .catch(function () { coordsData = {}; return {}; });
+}
+
+function initMap() {
+  if (mapObj) return Promise.resolve();
+  if (typeof kakao === "undefined" || !kakao.maps) return Promise.reject("no sdk");
+  return new Promise(function (resolve) {
+    kakao.maps.load(function () {
+      var container = mapContainer;
+      mapObj = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(37.5665, 126.978),
+        level: 8
+      });
+      mapClusterer = new kakao.maps.MarkerClusterer({
+        map: mapObj,
+        averageCenter: true,
+        minLevel: 4,
+        disableClickZoom: false
+      });
+      resolve();
+    });
+  });
+}
+
+function clearMapMarkers() {
+  if (activeOverlay) { activeOverlay.setMap(null); activeOverlay = null; }
+  if (mapClusterer) mapClusterer.clear();
+  mapMarkers = [];
+}
+
+function getMarkerImage(pct) {
+  var color;
+  if (pct == null) color = "#94a3b8";
+  else if (pct >= 0) color = "#ef4444";
+  else color = "#3b82f6";
+
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="35">'
+    + '<path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 23 12 23s12-14 12-23C24 5.4 18.6 0 12 0z" fill="' + color + '"/>'
+    + '<circle cx="12" cy="12" r="5" fill="#fff"/>'
+    + '</svg>';
+  return new kakao.maps.MarkerImage(
+    "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg),
+    new kakao.maps.Size(24, 35),
+    { offset: new kakao.maps.Point(12, 35) }
+  );
+}
+
+function showMapMarkers(items) {
+  clearMapMarkers();
+  if (!mapObj || !coordsData) return;
+
+  var bounds = new kakao.maps.LatLngBounds();
+  var hasAny = false;
+
+  /* group items by apt (unique sigungu+dong+name) to pick representative */
+  var seen = {};
+  var reps = [];
+  for (var i = 0; i < items.length; i++) {
+    var r = items[i];
+    if (!r.id || !coordsData[r.id]) continue;
+    var gkey = (r.sigungu || "") + "\t" + (r.dong_name || "") + "\t" + (r.apt_name || "");
+    if (seen[gkey]) continue;
+    seen[gkey] = true;
+    reps.push(r);
+  }
+
+  for (var j = 0; j < reps.length; j++) {
+    (function (r) {
+      var c = coordsData[r.id];
+      var pos = new kakao.maps.LatLng(c[0], c[1]);
+      var marker = new kakao.maps.Marker({
+        position: pos,
+        image: getMarkerImage(r.pct)
+      });
+
+      kakao.maps.event.addListener(marker, "click", function () {
+        if (activeOverlay) { activeOverlay.setMap(null); activeOverlay = null; }
+
+        var pctHtml = "";
+        if (r.pct != null) {
+          if (r.pct >= 0) {
+            pctHtml = '<div class="map-info-pct up">\u25B2 +' + r.pct.toFixed(1) + '%</div>';
+          } else {
+            pctHtml = '<div class="map-info-pct down">\u25BC ' + r.pct.toFixed(1) + '%</div>';
+          }
+        }
+
+        var sido = r._sido || activeSido || "";
+        var content = '<div class="map-info-window" style="position:relative;">'
+          + '<button class="map-info-close" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'">\u2715</button>'
+          + '<div class="map-info-name">' + escapeHTML(r.apt_name) + '</div>'
+          + '<div class="map-info-loc">' + escapeHTML(r.sigungu + " " + r.dong_name) + '</div>'
+          + '<div class="map-info-price">' + fmt(r.prev_price) + ' \u2192 ' + fmt(r.latest_price) + '\uB9CC</div>'
+          + pctHtml
+          + '<a class="map-info-link" href="apt.html?id=' + encodeURIComponent(r.id) + '&s=' + encodeURIComponent(sido) + '">\uC0C1\uC138\uBCF4\uAE30 \u2192</a>'
+          + '</div>';
+
+        activeOverlay = new kakao.maps.CustomOverlay({
+          content: content,
+          position: pos,
+          yAnchor: 1.3
+        });
+        activeOverlay.setMap(mapObj);
+      });
+
+      mapMarkers.push(marker);
+      bounds.extend(pos);
+      hasAny = true;
+    })(reps[j]);
+  }
+
+  mapClusterer.addMarkers(mapMarkers);
+  if (hasAny) {
+    mapObj.setBounds(bounds);
+  }
+}
+
+function toggleView(mode) {
+  if (mode === "map") {
+    viewListBtn.classList.remove("active");
+    viewListBtn.setAttribute("aria-pressed", "false");
+    viewMapBtn.classList.add("active");
+    viewMapBtn.setAttribute("aria-pressed", "true");
+    resultsEl.style.display = "none";
+    mapContainer.style.display = "block";
+
+    Promise.all([loadCoords(), initMap()]).then(function () {
+      mapObj.relayout();
+      refreshMapMarkers();
+    }).catch(function () {
+      mapContainer.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);">\uC9C0\uB3C4\uB97C \uBD88\uB7EC\uC62C \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uCE74\uCE74\uC624\uB9F5 SDK \uC124\uC815\uC744 \uD655\uC778\uD574\uC8FC\uC138\uC694.</div>';
+    });
+  } else {
+    viewMapBtn.classList.remove("active");
+    viewMapBtn.setAttribute("aria-pressed", "false");
+    viewListBtn.classList.add("active");
+    viewListBtn.setAttribute("aria-pressed", "true");
+    resultsEl.style.display = "";
+    mapContainer.style.display = "none";
+  }
+}
+
+function refreshMapMarkers() {
+  if (mapContainer.style.display === "none") return;
+  if (!mapObj || !coordsData) return;
+
+  var q = searchInput.value.trim().toLowerCase();
+  var items;
+  if (q.length >= 2) {
+    items = [];
+    var sidoKeys = Object.keys(sidoCache);
+    for (var si = 0; si < sidoKeys.length; si++) {
+      var sido = sidoKeys[si];
+      var data = sidoCache[sido];
+      if (!data || !data.items) continue;
+      var srcItems = data.items;
+      if (sido === activeSido) {
+        if (activeDistrict) srcItems = srcItems.filter(function (r) { return r.district === activeDistrict; });
+        if (activeSubDistrict) srcItems = srcItems.filter(function (r) { return r.sigungu === activeSubDistrict; });
+        if (activeDong) srcItems = srcItems.filter(function (r) { return r.dong_name === activeDong; });
+      }
+      if (activeArea) {
+        var range = AREA_RANGES[activeArea];
+        srcItems = srcItems.filter(function (r) { return r.area_m2 >= range.min && r.area_m2 < range.max; });
+      }
+      for (var j = 0; j < srcItems.length; j++) {
+        if (srcItems[j].apt_name.toLowerCase().indexOf(q) >= 0) {
+          var item = srcItems[j];
+          if (!item._sido) item._sido = sido;
+          items.push(item);
+        }
+      }
+    }
+  } else {
+    items = getFilteredItems();
+  }
+  showMapMarkers(items);
+}
+
+if (viewListBtn && viewMapBtn) {
+  viewListBtn.addEventListener("click", function () { toggleView("list"); });
+  viewMapBtn.addEventListener("click", function () { toggleView("map"); });
+}
+
+/* ── doSearch 후 지도 마커도 갱신 ── */
+var _origDoSearch = doSearch;
+doSearch = async function (query) {
+  await _origDoSearch(query);
+  if (mapContainer.style.display !== "none" && coordsData) {
+    refreshMapMarkers();
+  }
+};
 
 async function init() {
   try {
