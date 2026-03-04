@@ -92,12 +92,22 @@ function showAutocomplete(query) {
 
 var escapeHTML = APTCommon.escapeHTML;
 
-/* ── 검색 매칭: 띄어쓰기로 나눈 토큰 모두 포함 여부 ── */
+/* ── 검색 매칭: 토큰 분리 + 붙여쓰기 공백 제거 매칭 ── */
 function matchQuery(name, q) {
   if (!q) return true;
-  var tokens = q.split(/\s+/).filter(Boolean);
   var lname = name.toLowerCase();
-  return tokens.every(function(t) { return lname.indexOf(t) >= 0; });
+  var lq = q.toLowerCase();
+
+  // 1. 토큰 분리 매칭: "래미안 강남" → 두 단어 모두 포함
+  var tokens = lq.split(/\s+/).filter(Boolean);
+  if (tokens.every(function(t) { return lname.indexOf(t) >= 0; })) return true;
+
+  // 2. 공백 제거 매칭: "래미안원베일리" → "래미안 원베일리" 도 매칭
+  var nameNoSpace = lname.replace(/\s+/g, '');
+  var qNoSpace = lq.replace(/\s+/g, '');
+  if (qNoSpace.length >= 2 && nameNoSpace.indexOf(qNoSpace) >= 0) return true;
+
+  return false;
 }
 
 /* ── URL 상태 유지 ── */
