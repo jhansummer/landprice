@@ -38,7 +38,8 @@ function createAutocomplete() {
 }
 
 function showAutocomplete(query) {
-  if (!acDropdown || query.length < 2) {
+  var _tokens = query.trim().split(/\s+/).filter(Boolean);
+  if (!acDropdown || !_tokens.length || _tokens[0].length < 2) {
     if (acDropdown) acDropdown.style.display = "none";
     return;
   }
@@ -56,7 +57,7 @@ function showAutocomplete(query) {
     var items = data.items;
     for (var i = 0; i < items.length && results.length < 10; i++) {
       var r = items[i];
-      if (r.apt_name.toLowerCase().indexOf(q) < 0) continue;
+      if (!matchQuery(r.apt_name, q)) continue;
       var key = r.apt_name + "\t" + (r.district || r.sigungu) + "\t" + r.dong_name;
       if (seen[key]) continue;
       seen[key] = true;
@@ -90,6 +91,14 @@ function showAutocomplete(query) {
 }
 
 var escapeHTML = APTCommon.escapeHTML;
+
+/* ── 검색 매칭: 띄어쓰기로 나눈 토큰 모두 포함 여부 ── */
+function matchQuery(name, q) {
+  if (!q) return true;
+  var tokens = q.split(/\s+/).filter(Boolean);
+  var lname = name.toLowerCase();
+  return tokens.every(function(t) { return lname.indexOf(t) >= 0; });
+}
 
 /* ── URL 상태 유지 ── */
 function updateURL() {
@@ -557,7 +566,8 @@ function renderFilters() {
   areaSelect.addEventListener("change", function () {
     activeArea = areaSelect.value ? parseInt(areaSelect.value) : null;
     var q = searchInput.value.trim();
-    if (q.length >= 2 || activeDistrict || activeDong) {
+    var _qt = q.split(/\s+/).filter(Boolean);
+    if ((_qt.length > 0 && _qt[0].length >= 2) || activeDistrict || activeDong) {
       doSearch(q);
     }
   });
@@ -648,13 +658,16 @@ async function doSearch(query) {
   resultsEl.innerHTML = "";
   var q = (query || "").trim().toLowerCase();
 
-  if (q.length < 2 && !activeDistrict && !activeDong) {
+  var qTokens = q.split(/\s+/).filter(Boolean);
+  var hasValidQuery = qTokens.length > 0 && qTokens[0].length >= 2;
+
+  if (!hasValidQuery && !activeDistrict && !activeDong) {
     resultsEl.innerHTML = '<div class="result-count">2\uAE00\uC790 \uC774\uC0C1 \uC785\uB825\uD558\uAC70\uB098 \uC9C0\uC5ED\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694.</div>';
     return;
   }
 
   var matched;
-  if (q.length >= 2) {
+  if (hasValidQuery) {
     /* 텍스트 검색: 전체 시도 크로스 검색 */
     resultsEl.innerHTML = '<div class="result-count">\uAC80\uC0C9 \uC911...</div>';
     await loadAllSidos();
@@ -676,7 +689,7 @@ async function doSearch(query) {
         srcItems = srcItems.filter(function (r) { return r.area_m2 >= range.min && r.area_m2 < range.max; });
       }
       for (var j = 0; j < srcItems.length; j++) {
-        if (srcItems[j].apt_name.toLowerCase().indexOf(q) >= 0) {
+        if (matchQuery(srcItems[j].apt_name, q)) {
           var item = srcItems[j];
           if (!item._sido) item._sido = sido;
           matched.push(item);
@@ -693,7 +706,7 @@ async function doSearch(query) {
 
   var countDiv = document.createElement("div");
   countDiv.className = "result-count";
-  if (q.length >= 2) {
+  if (hasValidQuery) {
     countDiv.textContent = '"' + query.trim() + '" \uAC80\uC0C9\uACB0\uACFC ' + groups.length + '\uAC1C \uB2E8\uC9C0 (' + matched.length + '\uAC74)';
   } else {
     var label = activeSido || "";
@@ -919,8 +932,9 @@ function refreshMapMarkers() {
   if (!mapObj || !coordsData) return;
 
   var q = searchInput.value.trim().toLowerCase();
+  var _rqt = q.split(/\s+/).filter(Boolean);
   var items;
-  if (q.length >= 2) {
+  if (_rqt.length > 0 && _rqt[0].length >= 2) {
     items = [];
     var sidoKeys = Object.keys(sidoCache);
     for (var si = 0; si < sidoKeys.length; si++) {
@@ -938,7 +952,7 @@ function refreshMapMarkers() {
         srcItems = srcItems.filter(function (r) { return r.area_m2 >= range.min && r.area_m2 < range.max; });
       }
       for (var j = 0; j < srcItems.length; j++) {
-        if (srcItems[j].apt_name.toLowerCase().indexOf(q) >= 0) {
+        if (matchQuery(srcItems[j].apt_name, q)) {
           var item = srcItems[j];
           if (!item._sido) item._sido = sido;
           items.push(item);
