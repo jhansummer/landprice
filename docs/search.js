@@ -1015,9 +1015,9 @@ async function init() {
     createAutocomplete();
 
     // URL에서 검색어 복원 또는 기본 검색
-    var defaultQuery = urlState.query || "래미안원베일리";
+    var defaultQuery = urlState.query || "";
     searchInput.value = defaultQuery;
-    doSearch(defaultQuery);
+    if (defaultQuery) doSearch(defaultQuery);
     if (!urlState.query) updateURL();
 
     statusEl.innerHTML = "";
