@@ -110,7 +110,7 @@ jobs:
             git config user.name "github-actions"
             git config user.email "github-actions@users.noreply.github.com"
             git add docs/data/apt_trade docs/apt docs/sitemap.xml docs/sitemap-pages.xml docs/sitemap-apt-*.xml
-            for f in scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json scripts/household_cache.json scripts/backtest_cache.json scripts/backtest_hist_cache.json; do
+            for f in scripts/geocode_cache.json scripts/enrichment_cache.json scripts/schools.json scripts/household_cache.json scripts/backtest_cache.json scripts/backtest_hist_cache.json scripts/today_trades_cache.json; do
               [ -f "$f" ] && git add "$f"
             done
             git diff --cached --quiet && echo "Nothing staged" && exit 0
