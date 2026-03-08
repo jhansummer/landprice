@@ -1,1 +1,1 @@
-[["2023-05-01",62000],["2025-06-02",78500]]
+{"trades":[["2023-05-01",62000],["2025-06-02",78500]],"info":{"build_year":2022,"households":870,"subway":"녹번","subway_line":"3호선","subway_walk_min":4,"commute":{"gangnam":42,"gwanghwamun":15,"yeouido":26},"scores":{"transport":93,"infra":95,"academy":26,"brand":80,"livability":82,"loc":89}}}

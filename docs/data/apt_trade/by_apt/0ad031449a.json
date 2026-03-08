@@ -1,1 +1,1 @@
-[["2021-10-25",35900],["2024-07-18",30000]]
+{"trades":[["2021-10-25",35900],["2024-07-18",30000]],"info":{"build_year":2021,"subway":"동대구역","subway_line":"대구1호선","subway_walk_min":10,"scores":{"transport":83,"infra":95,"academy":48,"brand":50,"livability":72,"loc":15}}}

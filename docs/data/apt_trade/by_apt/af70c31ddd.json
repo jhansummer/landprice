@@ -1,1 +1,1 @@
-[["2020-08-19",155000],["2020-09-04",156000]]
+{"trades":[["2020-08-19",155000],["2020-09-04",156000]],"info":{"build_year":2016,"households":5765,"subway":"고덕","subway_line":"5호선","subway_walk_min":14,"commute":{"gangnam":38,"gwanghwamun":46,"yeouido":61},"scores":{"transport":76,"infra":100,"academy":71,"brand":90,"livability":90,"loc":91}}}

@@ -1,1 +1,1 @@
-[["2020-02-13",105000],["2020-06-29",120000]]
+{"trades":[["2020-02-13",105000],["2020-06-29",120000]],"info":{"build_year":2020,"subway":"무악재","subway_line":"3호선","subway_walk_min":9,"commute":{"gangnam":36,"gwanghwamun":9,"yeouido":22},"scores":{"transport":84,"infra":100,"academy":33,"brand":50,"livability":71,"loc":84}}}

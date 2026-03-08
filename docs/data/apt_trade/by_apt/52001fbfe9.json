@@ -1,1 +1,1 @@
-[["2020-08-11",161500],["2021-06-12",170000],["2024-04-30",150800],["2025-02-22",174000]]
+{"trades":[["2020-08-11",161500],["2021-06-12",170000],["2024-04-30",150800],["2025-02-22",174000]],"info":{"build_year":2018,"households":771,"subway":"과천","subway_line":"4호선","subway_walk_min":3,"commute":{"gangnam":23,"gwanghwamun":47,"yeouido":36},"scores":{"transport":96,"infra":100,"academy":89,"brand":90,"livability":80,"loc":94}}}

@@ -1,1 +1,1 @@
-[["2020-10-15",300000],["2020-10-26",300000],["2025-02-04",475000],["2025-02-17",479000]]
+{"trades":[["2020-10-15",300000],["2020-10-26",300000],["2025-02-04",475000],["2025-02-17",479000]],"info":{"build_year":2016,"households":789,"subway":"잠원","subway_line":"3호선","subway_walk_min":9,"commute":{"gangnam":7,"gwanghwamun":21,"yeouido":23},"scores":{"transport":85,"infra":100,"academy":95,"brand":90,"livability":78,"loc":99}}}

@@ -1,1 +1,1 @@
-[["2019-12-07",540000],["2021-07-03",585000],["2021-07-19",580000],["2025-07-13",950000]]
+{"trades":[["2019-12-07",540000],["2021-07-03",585000],["2021-07-19",580000],["2025-07-13",950000]],"info":{"build_year":2016,"households":2204,"subway":"신반포","subway_line":"9호선","subway_walk_min":5,"commute":{"gangnam":10,"gwanghwamun":22,"yeouido":19},"scores":{"transport":91,"infra":100,"academy":96,"brand":92,"livability":91,"loc":99}}}

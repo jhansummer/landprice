@@ -1,1 +1,1 @@
-[["2019-07-02",195000],["2024-06-16",280000]]
+{"trades":[["2019-07-02",195000],["2024-06-16",280000]],"info":{"build_year":1986,"households":1235,"subway":"신목동","subway_line":"9호선","subway_walk_min":15,"commute":{"gangnam":43,"gwanghwamun":30,"yeouido":14},"scores":{"transport":74,"infra":100,"academy":93,"brand":50,"livability":46,"loc":97}}}

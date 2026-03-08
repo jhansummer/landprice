@@ -1,1 +1,1 @@
-[["2020-06-29",87000],["2020-07-14",89900],["2023-03-02",70000]]
+{"trades":[["2020-06-29",87000],["2020-07-14",89900],["2023-03-02",70000]],"info":{"build_year":2018,"households":1844,"subway":"반석","subway_line":"대전1호선","subway_walk_min":256,"scores":{"transport":5,"infra":100,"academy":30,"brand":50,"livability":79,"loc":85}}}

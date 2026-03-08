@@ -1,1 +1,1 @@
-[["2024-07-07",119000],["2025-04-07",127000],["2025-08-09",122000]]
+{"trades":[["2024-07-07",119000],["2025-04-07",127000],["2025-08-09",122000]],"info":{"build_year":2019,"households":2129,"subway":"상일동","subway_line":"5호선","subway_walk_min":17,"commute":{"gangnam":41,"gwanghwamun":51,"yeouido":65},"scores":{"transport":70,"infra":100,"academy":22,"brand":82,"livability":90,"loc":95}}}

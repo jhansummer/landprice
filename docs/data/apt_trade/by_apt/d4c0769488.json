@@ -1,1 +1,1 @@
-[["2021-03-02",55000],["2021-03-15",56000],["2021-04-12",54000]]
+{"trades":[["2021-03-02",55000],["2021-03-15",56000],["2021-04-12",54000]],"info":{"build_year":2009,"households":383,"subway":"계양","subway_line":"공항철도","subway_walk_min":39,"commute":{"gangnam":76,"gwanghwamun":60,"yeouido":48},"scores":{"transport":33,"infra":100,"academy":10,"brand":50,"livability":52,"loc":66}}}

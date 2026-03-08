@@ -1,1 +1,1 @@
-[["2019-10-01",90000],["2024-01-14",113000],["2024-05-09",125000]]
+{"trades":[["2019-10-01",90000],["2024-01-14",113000],["2024-05-09",125000]],"info":{"build_year":1988,"households":870,"subway":"흑석","subway_line":"9호선","subway_walk_min":6,"commute":{"gangnam":17,"gwanghwamun":21,"yeouido":12},"scores":{"transport":90,"infra":100,"academy":62,"brand":50,"livability":41,"loc":65}}}

@@ -1,1 +1,1 @@
-[["2020-06-13",139000],["2020-07-31",147000]]
+{"trades":[["2020-06-13",139000],["2020-07-31",147000]],"info":{"build_year":1993,"households":1270,"subway":"수내","subway_line":"수인분당선","subway_walk_min":20,"commute":{"gangnam":49,"gwanghwamun":77,"yeouido":73},"scores":{"transport":65,"infra":100,"academy":100,"brand":50,"livability":52,"loc":91}}}

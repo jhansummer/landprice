@@ -1,1 +1,1 @@
-[["2023-04-08",130700],["2024-06-08",140000],["2025-10-17",164000]]
+{"trades":[["2023-04-08",130700],["2024-06-08",140000],["2025-10-17",164000]],"info":{"build_year":2021,"subway":"마천","subway_line":"5호선","subway_walk_min":20,"commute":{"gangnam":33,"gwanghwamun":54,"yeouido":61},"scores":{"transport":65,"infra":100,"academy":37,"brand":68,"livability":82,"loc":75}}}

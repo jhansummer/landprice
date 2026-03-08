@@ -1,1 +1,1 @@
-[["2022-05-14",150000],["2022-05-24",157500],["2024-07-01",83000]]
+{"trades":[["2022-05-14",150000],["2022-05-24",157500],["2024-07-01",83000]],"info":{"build_year":2017,"households":203,"subway":"남위례","subway_line":"8호선","subway_walk_min":18,"commute":{"gangnam":31,"gwanghwamun":55,"yeouido":60},"scores":{"transport":69,"infra":100,"academy":53,"brand":50,"livability":56,"loc":44}}}

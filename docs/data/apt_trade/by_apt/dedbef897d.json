@@ -1,1 +1,1 @@
-[["2019-07-29",87600],["2019-10-09",88000],["2025-09-12",128000]]
+{"trades":[["2019-07-29",87600],["2019-10-09",88000],["2025-09-12",128000]],"info":{"build_year":2014,"households":1786,"subway":"신정네거리","subway_line":"2호선","subway_walk_min":15,"commute":{"gangnam":48,"gwanghwamun":38,"yeouido":20},"scores":{"transport":74,"infra":100,"academy":30,"brand":82,"livability":86,"loc":87}}}

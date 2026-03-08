@@ -1,1 +1,1 @@
-[["2019-11-16",270000],["2022-04-23",360000],["2025-02-13",390000]]
+{"trades":[["2019-11-16",270000],["2022-04-23",360000],["2025-02-13",390000]],"info":{"build_year":2018,"households":684,"subway":"사평","subway_line":"9호선","subway_walk_min":7,"commute":{"gangnam":7,"gwanghwamun":22,"yeouido":23},"scores":{"transport":88,"infra":100,"academy":96,"brand":88,"livability":78,"loc":99}}}

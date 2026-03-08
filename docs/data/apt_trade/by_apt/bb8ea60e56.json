@@ -1,1 +1,1 @@
-[["2019-10-16",250000],["2020-07-08",230000]]
+{"trades":[["2019-10-16",250000],["2020-07-08",230000]],"info":{"build_year":2018,"households":510,"subway":"방배","subway_line":"2호선","subway_walk_min":9,"commute":{"gangnam":9,"gwanghwamun":31,"yeouido":25},"scores":{"transport":85,"infra":100,"academy":86,"brand":88,"livability":75,"loc":97}}}

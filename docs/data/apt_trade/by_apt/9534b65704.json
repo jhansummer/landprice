@@ -1,1 +1,1 @@
-[["2020-05-20",245000]]
+{"trades":[["2020-05-20",245000]],"info":{"build_year":2018,"households":1073,"subway":"일원","subway_line":"3호선","subway_walk_min":12,"commute":{"gangnam":14,"gwanghwamun":39,"yeouido":43},"scores":{"transport":80,"infra":100,"academy":86,"brand":90,"livability":85,"loc":98}}}

@@ -1,1 +1,1 @@
-[["2024-01-22",165500],["2025-09-20",170000],["2025-10-11",186500]]
+{"trades":[["2024-01-22",165500],["2025-09-20",170000],["2025-10-11",186500]],"info":{"build_year":2023,"households":418,"subway":"수색","subway_line":"경의중앙선","subway_walk_min":3,"commute":{"gangnam":46,"gwanghwamun":23,"yeouido":23},"scores":{"transport":96,"infra":92,"academy":26,"brand":50,"livability":65,"loc":83}}}

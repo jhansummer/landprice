@@ -1,1 +1,1 @@
-[["2020-04-08",130000],["2020-07-05",134000]]
+{"trades":[["2020-04-08",130000],["2020-07-05",134000]],"info":{"build_year":2019,"households":858,"subway":"등촌","subway_line":"9호선","subway_walk_min":17,"commute":{"gangnam":46,"gwanghwamun":31,"yeouido":17},"scores":{"transport":71,"infra":100,"academy":53,"brand":82,"livability":80,"loc":83}}}

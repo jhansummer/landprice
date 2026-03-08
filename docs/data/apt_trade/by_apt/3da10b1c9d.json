@@ -1,1 +1,1 @@
-[["2021-11-05",199000],["2022-06-22",214000],["2025-03-28",180000],["2025-10-02",193000]]
+{"trades":[["2021-11-05",199000],["2022-06-22",214000],["2025-03-28",180000],["2025-10-02",193000]],"info":{"build_year":2018,"households":1027,"subway":"아차산","subway_line":"5호선","subway_walk_min":13,"commute":{"gangnam":23,"gwanghwamun":31,"yeouido":45},"scores":{"transport":77,"infra":100,"academy":48,"brand":90,"livability":84,"loc":83}}}

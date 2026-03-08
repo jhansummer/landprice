@@ -1,1 +1,1 @@
-[["2023-08-14",139500],["2025-06-13",244000]]
+{"trades":[["2023-08-14",139500],["2025-06-13",244000]],"info":{"build_year":1991,"households":1462,"subway":"서현","subway_line":"수인분당선","subway_walk_min":14,"commute":{"gangnam":46,"gwanghwamun":75,"yeouido":71},"scores":{"transport":75,"infra":100,"academy":99,"brand":50,"livability":54,"loc":91}}}

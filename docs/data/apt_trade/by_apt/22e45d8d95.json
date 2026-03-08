@@ -1,1 +1,1 @@
-[["2020-01-10",25000],["2021-03-15",26000]]
+{"trades":[["2020-01-10",25000],["2021-03-15",26000]],"info":{"build_year":2017,"subway":"종로5가","subway_line":"1호선","subway_walk_min":7,"scores":{"transport":88,"infra":100,"academy":37,"brand":50,"livability":67,"loc":64}}}

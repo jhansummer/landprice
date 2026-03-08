@@ -1,1 +1,1 @@
-[["2022-03-12",175000],["2024-06-27",175000],["2024-08-21",175000],["2025-06-19",185000]]
+{"trades":[["2022-03-12",175000],["2024-06-27",175000],["2024-08-21",175000],["2025-06-19",185000]],"info":{"build_year":2021,"households":1624,"subway":"상일동","subway_line":"5호선","subway_walk_min":10,"commute":{"gangnam":42,"gwanghwamun":52,"yeouido":66},"scores":{"transport":82,"infra":100,"academy":37,"brand":88,"livability":94,"loc":93}}}

@@ -1,1 +1,1 @@
-[["2020-06-17",141500],["2025-03-06",175000]]
+{"trades":[["2020-06-17",141500],["2025-03-06",175000]],"info":{"build_year":2015,"households":574,"subway":"마포","subway_line":"5호선","subway_walk_min":9,"commute":{"gangnam":27,"gwanghwamun":13,"yeouido":8},"scores":{"transport":84,"infra":100,"academy":75,"brand":90,"livability":74,"loc":88}}}

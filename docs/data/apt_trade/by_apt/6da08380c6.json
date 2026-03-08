@@ -1,1 +1,1 @@
-[["2019-12-14",48300],["2020-11-28",66700],["2025-07-29",82600]]
+{"trades":[["2019-12-14",48300],["2020-11-28",66700],["2025-07-29",82600]],"info":{"build_year":2012,"households":1235,"subway":"국제업무지구","subway_line":"인천1호선","subway_walk_min":28,"commute":{"gangnam":106,"gwanghwamun":105,"yeouido":84},"scores":{"transport":53,"infra":100,"academy":98,"brand":83,"livability":80,"loc":88}}}

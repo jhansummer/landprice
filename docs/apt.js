@@ -38,7 +38,8 @@
       ]);
 
       var lookup = lookupRes.ok ? await lookupRes.json() : {};
-      var txns = txnRes.ok ? await txnRes.json() : [];
+      var raw = txnRes.ok ? await txnRes.json() : [];
+      var txns = Array.isArray(raw) ? raw : (raw.trades || []);
       var geoAll = null;
       try { geoAll = geoRes.ok ? await geoRes.json() : null; } catch (e) { geoAll = null; }
       var summaryAll = null;
@@ -76,7 +77,8 @@
           if (dj[0] !== params.id) {
             try {
               var djRes = await fetch(BY_APT_BASE + dj[0] + ".json?t=" + Date.now());
-              daejangTxns = djRes.ok ? await djRes.json() : null;
+              var djRaw = djRes.ok ? await djRes.json() : null;
+              daejangTxns = djRaw ? (Array.isArray(djRaw) ? djRaw : (djRaw.trades || null)) : null;
               if (daejangTxns) {
                 daejangTxns.sort(function (a, b) { return new Date(a[0]).getTime() - new Date(b[0]).getTime(); });
               }

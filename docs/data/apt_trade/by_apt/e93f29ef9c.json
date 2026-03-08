@@ -1,1 +1,1 @@
-[["2020-06-30",150000],["2022-04-27",215000],["2025-06-28",200000]]
+{"trades":[["2020-06-30",150000],["2022-04-27",215000],["2025-06-28",200000]],"info":{"build_year":2014,"households":1473,"subway":"신설동","subway_line":"1호선","subway_walk_min":11,"commute":{"gangnam":24,"gwanghwamun":13,"yeouido":31},"scores":{"transport":81,"infra":100,"academy":42,"brand":50,"livability":75,"loc":80}}}

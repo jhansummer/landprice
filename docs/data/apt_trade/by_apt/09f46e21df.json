@@ -1,1 +1,1 @@
-[["2020-07-10",90000],["2020-11-26",93000],["2021-08-21",118000],["2025-07-17",113000]]
+{"trades":[["2020-07-10",90000],["2020-11-26",93000],["2021-08-21",118000],["2025-07-17",113000]],"info":{"build_year":2013,"households":2645,"subway":"장지","subway_line":"8호선","subway_walk_min":25,"commute":{"gangnam":30,"gwanghwamun":53,"yeouido":59},"scores":{"transport":57,"infra":100,"academy":67,"brand":50,"livability":74,"loc":81}}}

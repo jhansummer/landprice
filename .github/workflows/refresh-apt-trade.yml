@@ -89,6 +89,10 @@ jobs:
         continue-on-error: true
         run: |
           python scripts/build_apt_lookup.py
+      - name: Enrich per-apt files
+        continue-on-error: true
+        run: |
+          python scripts/build_apt_enriched.py
       - name: Generate apt SEO pages
         continue-on-error: true
         run: python scripts/generate_apt_pages.py

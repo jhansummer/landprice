@@ -1,1 +1,1 @@
-[["2024-02-18",105000],["2024-06-29",119000],["2025-05-11",129500]]
+{"trades":[["2024-02-18",105000],["2024-06-29",119000],["2025-05-11",129500]],"info":{"build_year":2022,"households":412,"subway":"신길","subway_line":"1호선","subway_walk_min":13,"commute":{"gangnam":30,"gwanghwamun":28,"yeouido":7},"scores":{"transport":77,"infra":100,"academy":13,"brand":88,"livability":77,"loc":98}}}

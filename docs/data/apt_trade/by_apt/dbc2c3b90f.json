@@ -1,1 +1,1 @@
-[["2021-10-02",170000],["2024-05-07",155000],["2024-06-30",175000],["2025-01-03",181500]]
+{"trades":[["2021-10-02",170000],["2024-05-07",155000],["2024-06-30",175000],["2025-01-03",181500]],"info":{"build_year":2017,"households":986,"subway":"서대문","subway_line":"5호선","subway_walk_min":8,"commute":{"gangnam":29,"gwanghwamun":3,"yeouido":19},"scores":{"transport":87,"infra":100,"academy":67,"brand":88,"livability":82,"loc":87}}}
