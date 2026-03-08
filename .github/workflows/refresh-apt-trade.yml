@@ -38,6 +38,9 @@ jobs:
           FETCH_WORKERS: "4"
         run: |
           python scripts/fetch_apt_trade.py
+      - name: Build today trades
+        continue-on-error: true
+        run: python scripts/build_today_trades.py
       - name: Enrich bottom with geo data
         continue-on-error: true
         env:
