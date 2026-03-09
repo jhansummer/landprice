@@ -339,6 +339,7 @@ function showDetail(r) {
       if (!res.ok) throw new Error("not found");
       return res.json();
     })
+    .then(function (raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
     .then(function (history) {
       body.innerHTML = "";
 

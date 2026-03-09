@@ -165,6 +165,7 @@ var APTWatchlist = (function () {
     Promise.all(items.map(function (c) {
       return fetch("data/apt_trade/by_apt/" + c.id + ".json")
         .then(function (res) { return res.ok ? res.json() : []; })
+        .then(function (raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
         .then(function (history) {
           return { name: c.apt_name, history: history, region: c.sigungu + " " + c.dong_name };
         });

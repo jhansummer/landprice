@@ -327,6 +327,7 @@ function renderAnalysisCard(item, idx, type) {
 
     fetch("data/apt_trade/by_apt/" + item.id + ".json")
       .then(function(res) { return res.ok ? res.json() : []; })
+      .then(function(raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
       .then(function(txns) {
         if (txns.length > 1) {
           requestAnimationFrame(function() {
@@ -395,6 +396,7 @@ function renderUndervaluedCard(r, idx) {
   Promise.all(ids.map(function(id) {
     return fetch("data/apt_trade/by_apt/" + id + ".json")
       .then(function(res) { return res.ok ? res.json() : []; })
+      .then(function(raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
       .catch(function() { return []; });
   })).then(function(txnsList) {
     var seriesList = ids.map(function(id, i) {
@@ -473,6 +475,7 @@ function toggleCompareMain(card, r) {
   Promise.all(ids.map(function(id) {
     return fetch("data/apt_trade/by_apt/" + id + ".json")
       .then(function(res) { return res.ok ? res.json() : []; })
+      .then(function(raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
       .catch(function() { return []; });
   })).then(function(txnsList) {
     loading.remove();
@@ -703,6 +706,7 @@ function showDetail(r) {
           if (!res.ok) throw new Error("not found");
           return res.json();
         })
+        .then(function (raw) { return Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []); })
         .then(function (history) { return { name: t.name, history: history, price: t.price, region: t.region }; });
     }))
   ])

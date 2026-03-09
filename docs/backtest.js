@@ -673,7 +673,8 @@ function loadTxn(id) {
   if (txnCache[id]) return Promise.resolve(txnCache[id]);
   return fetch(byAptBase + id + ".json?t=" + Date.now()).then(function (res) {
     return res.ok ? res.json() : [];
-  }).then(function (data) {
+  }).then(function (raw) {
+    var data = Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []);
     txnCache[id] = data;
     return data;
   });

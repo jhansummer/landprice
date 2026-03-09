@@ -72,7 +72,8 @@
 
   function loadTxn(aptId) {
     if (txnCache[aptId]) return Promise.resolve(txnCache[aptId]);
-    return fetch(BY_APT_BASE + aptId + ".json").then(function (r) { return r.json(); }).then(function (data) {
+    return fetch(BY_APT_BASE + aptId + ".json").then(function (r) { return r.json(); }).then(function (raw) {
+      var data = Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []);
       txnCache[aptId] = data;
       return data;
     }).catch(function () { return []; });

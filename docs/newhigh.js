@@ -245,6 +245,7 @@ function renderCard(apt) {
     (function (cvs, aptId) {
       fetch("data/apt_trade/by_apt/" + aptId + ".json?t=" + Date.now())
         .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (raw) { return raw === null ? null : (Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : [])); })
         .then(function (txns) {
           if (txns && txns.length) {
             drawNewHighChart(cvs, txns);

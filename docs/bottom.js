@@ -310,7 +310,8 @@ async function toggleChart(card, apt) {
   try {
     if (!txnCache[apt.id]) {
       var res = await fetch(byAptBase + apt.id + ".json?t=" + Date.now());
-      txnCache[apt.id] = res.ok ? await res.json() : [];
+      var raw = res.ok ? await res.json() : [];
+      txnCache[apt.id] = Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []);
     }
     var txns = txnCache[apt.id];
     if (!txns.length) {

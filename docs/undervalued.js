@@ -28,7 +28,8 @@ async function loadTxns(id) {
     txnCache[id] = [];
     return [];
   }
-  const data = await res.json();
+  const raw = await res.json();
+  const data = Array.isArray(raw) ? raw : (raw && raw.trades ? raw.trades : []);
   txnCache[id] = sortTxns(data);
   return txnCache[id];
 }
