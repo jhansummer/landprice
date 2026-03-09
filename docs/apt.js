@@ -311,7 +311,7 @@
         : jeonseRatio >= 40
           ? '평균적인 수준이에요'
           : '투자 수요가 높은 단지예요';
-      insightLines.push('<span class="term-tip">전세가율</span>이 매매가의 <strong>' + jeonseRatio.toFixed(1) + '%</strong>예요. ' + jComment);
+      insightLines.push('<span class="term-tip">전세가율</span>이 매매가의 <strong>' + jeonseRatio.toFixed(1) + '%</strong>예요.');
     }
     if (insightLines.length) {
       var insightBlock = document.createElement("div");
