@@ -155,7 +155,7 @@ function renderRankedItem(r, idx) {
         watchBtn.textContent = "\uAD00\uC2EC";
         watchBtn.style.background = ""; watchBtn.style.color = ""; watchBtn.style.borderColor = "";
       } else {
-        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.latest_price, pct: r.pct });
+        APTWatchlist.add({ id: r.id, apt_name: r.apt_name, area_m2: r.area_m2, sigungu: r.sigungu, dong_name: r.dong_name, latest_price: r.latest_price, pct: r.pct, sido: activeSido });
         watchBtn.textContent = "\uAD00\uC2EC\uD574\uC81C";
         watchBtn.style.background = "var(--accent-soft)"; watchBtn.style.color = "var(--accent)"; watchBtn.style.borderColor = "var(--accent)";
       }

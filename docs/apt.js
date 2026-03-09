@@ -27,6 +27,8 @@
       return;
     }
 
+    var ALL_SIDOS = ["서울", "경기", "부산", "대구", "인천", "광주", "대전", "울산", "세종"];
+
     try {
       // 병렬 로드
       var [lookupRes, txnRes, geoRes, summaryRes, daejangRes] = await Promise.all([
@@ -48,6 +50,26 @@
       try { daejangAll = daejangRes.ok ? await daejangRes.json() : null; } catch (e) { daejangAll = null; }
 
       var aptInfo = lookup[params.id];
+      var resolvedSido = params.sido;
+
+      // sido가 잘못됐거나 누락된 경우 모든 lookup 파일에서 검색
+      if (!aptInfo) {
+        var fallbackSidos = ALL_SIDOS.filter(function (s) { return s !== params.sido; });
+        var fallbackResults = await Promise.all(fallbackSidos.map(function (s) {
+          return fetch(LOOKUP_BASE + encodeURIComponent(s) + ".json?t=" + Date.now())
+            .then(function (r) { return r.ok ? r.json().then(function (d) { return { sido: s, data: d }; }) : null; })
+            .catch(function () { return null; });
+        }));
+        for (var i = 0; i < fallbackResults.length; i++) {
+          var fb = fallbackResults[i];
+          if (fb && fb.data[params.id]) {
+            aptInfo = fb.data[params.id];
+            resolvedSido = fb.sido;
+            break;
+          }
+        }
+      }
+
       if (!aptInfo) {
         statusEl.textContent = "단지 정보를 찾을 수 없습니다.";
         return;
@@ -56,7 +78,7 @@
       // aptInfo: [name, sigungu, dong, area, year]
       var apt = {
         id: params.id,
-        sido: params.sido,
+        sido: resolvedSido,
         name: aptInfo[0],
         sigungu: aptInfo[1],
         dong: aptInfo[2],
