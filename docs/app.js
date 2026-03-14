@@ -56,13 +56,9 @@ function renderRankedItem(r, idx) {
 
   var info = document.createElement("div");
   info.className = "rank-info";
-  var aptEl = document.createElement("a");
+  var aptEl = document.createElement("span");
   aptEl.className = "rank-apt";
   aptEl.textContent = r.apt_name;
-  aptEl.href = "https://map.kakao.com/?q=" + encodeURIComponent(r.sigungu + " " + r.dong_name + " " + r.apt_name);
-  aptEl.target = "_blank";
-  aptEl.rel = "noopener";
-  aptEl.addEventListener("click", function (e) { e.stopPropagation(); });
   info.appendChild(aptEl);
   var detail = document.createElement("div");
   detail.className = "rank-detail";
@@ -129,6 +125,15 @@ function renderRankedItem(r, idx) {
     aptLink.textContent = "\uC0C1\uC138";
     aptLink.addEventListener("click", function (e) { e.stopPropagation(); });
     ctaGroup.appendChild(aptLink);
+
+    var mapLink = document.createElement("a");
+    mapLink.className = "apt-detail-link";
+    mapLink.href = "https://map.kakao.com/?q=" + encodeURIComponent(r.sigungu + " " + r.dong_name + " " + r.apt_name);
+    mapLink.target = "_blank";
+    mapLink.rel = "noopener";
+    mapLink.textContent = "지도";
+    mapLink.addEventListener("click", function (e) { e.stopPropagation(); });
+    ctaGroup.appendChild(mapLink);
 
     var cmpBtn = document.createElement("button");
     cmpBtn.className = "detail-btn";
