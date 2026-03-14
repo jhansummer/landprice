@@ -160,7 +160,7 @@ function groupByApt(items) {
   var map = {};
   items.forEach(function (r) {
     var sido = r._sido || activeSido || "";
-    var key = sido + "\t" + r.apt_name + "\t" + r.sigungu + "\t" + r.dong_name;
+    var key = sido + "\t" + r.apt_name + "\t" + r.dong_name;
     if (!map[key]) {
       map[key] = { apt_name: r.apt_name, sigungu: r.sigungu, dong_name: r.dong_name, sido: sido, items: [] };
       groups.push(map[key]);
@@ -169,6 +169,7 @@ function groupByApt(items) {
   });
   groups.forEach(function (g) {
     g.items.sort(function (a, b) { return a.area_m2 - b.area_m2; });
+    g.total_trades = g.items.reduce(function (s, r) { return s + (r.total_trades || 0); }, 0);
   });
   return groups;
 }
@@ -714,6 +715,7 @@ async function doSearch(query) {
   }
 
   var groups = groupByApt(matched);
+  groups.sort(function (a, b) { return b.total_trades - a.total_trades; });
 
   var countDiv = document.createElement("div");
   countDiv.className = "result-count";

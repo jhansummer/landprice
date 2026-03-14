@@ -625,29 +625,50 @@
       }
     }
 
-    // 비교 차트: m²당 가격 추이
+    // 비교 차트: m²당 가격 추이 (클릭 시 노출)
     if (daejangTxns && daejangTxns.length > 1 && txns.length > 1) {
+      var chartToggleBtn = document.createElement("button");
+      chartToggleBtn.style.cssText = "width:100%;text-align:center;font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:8px;padding:8px;cursor:pointer;margin-top:4px";
+      chartToggleBtn.textContent = "\uC2E4\uAC70\uB798 \uCC28\uD2B8 \uBCF4\uAE30 \u25BC";
+      sec.appendChild(chartToggleBtn);
+
+      var chartWrap = document.createElement("div");
+      chartWrap.style.display = "none";
       var chartDiv = document.createElement("div");
       chartDiv.className = "scatter-chart";
       chartDiv.style.height = "200px";
       var chartCanvas = document.createElement("canvas");
       chartDiv.appendChild(chartCanvas);
-      sec.appendChild(chartDiv);
-
-      var mySeries = txns.map(function (t) { return [t[0], t[1]]; });
-      var djSeries = daejangTxns.map(function (t) { return [t[0], t[1]]; });
-
-      requestAnimationFrame(function () {
-        drawMultiScatter(chartCanvas, [
-          { name: apt.name + " " + apt.area + "m\u00B2", history: mySeries },
-          { name: daejangInfo.name + " " + daejangInfo.area + "m\u00B2", history: djSeries }
-        ]);
-      });
+      chartWrap.appendChild(chartDiv);
 
       var legend = document.createElement("div");
       legend.style.cssText = "display:flex;gap:12px;justify-content:center;margin-top:6px;font-size:11px;color:var(--muted)";
       legend.innerHTML = '<span style="color:#2563eb">\u25CF ' + escapeHTML(apt.name) + ' ' + apt.area + 'm\u00B2</span><span style="color:#ef4444">\u25CF ' + escapeHTML(daejangInfo.name) + ' ' + daejangInfo.area + 'm\u00B2</span>';
-      sec.appendChild(legend);
+      chartWrap.appendChild(legend);
+      sec.appendChild(chartWrap);
+
+      var mySeries = txns.map(function (t) { return [t[0], t[1]]; });
+      var djSeries = daejangTxns.map(function (t) { return [t[0], t[1]]; });
+      var chartDrawn = false;
+
+      chartToggleBtn.addEventListener("click", function () {
+        if (chartWrap.style.display === "none") {
+          chartWrap.style.display = "block";
+          chartToggleBtn.textContent = "\uC2E4\uAC70\uB798 \uCC28\uD2B8 \uC811\uAE30 \u25B2";
+          if (!chartDrawn) {
+            chartDrawn = true;
+            requestAnimationFrame(function () {
+              drawMultiScatter(chartCanvas, [
+                { name: apt.name + " " + apt.area + "m\u00B2", history: mySeries },
+                { name: daejangInfo.name + " " + daejangInfo.area + "m\u00B2", history: djSeries }
+              ]);
+            });
+          }
+        } else {
+          chartWrap.style.display = "none";
+          chartToggleBtn.textContent = "\uC2E4\uAC70\uB798 \uCC28\uD2B8 \uBCF4\uAE30 \u25BC";
+        }
+      });
     }
 
     contentEl.appendChild(sec);
