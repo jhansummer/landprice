@@ -328,11 +328,6 @@
       insightLines.push('역대 <span class="term-tip">고점가</span>를 <strong>경신했어요!</strong> (+' + vsPeak.toFixed(1) + '%)');
     }
     if (jeonseRatio != null) {
-      var jComment = jeonseRatio >= 60
-        ? '갭이 작아 실거주 부담이 적은 편이에요'
-        : jeonseRatio >= 40
-          ? '평균적인 수준이에요'
-          : '투자 수요가 높은 단지예요';
       insightLines.push('<span class="term-tip">전세가율</span>이 매매가의 <strong>' + jeonseRatio.toFixed(1) + '%</strong>예요.');
     }
     if (insightLines.length) {
