@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Market Correlation Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0f19;color:#e2e8f0;font-family:'JetBrains Mono',monospace;line-height:1.6;min-height:100vh}
+#root{max-width:1200px;margin:0 auto;padding:24px 16px 48px}
+.card{background:#111827;border:1px solid #1e293b;border-radius:12px;padding:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid #1e293b}
+th{color:#94a3b8;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.5px}
+td:first-child,th:first-child{text-align:left}
+.up{color:#10b981}.dn{color:#ef4444}
+button{font-family:inherit;cursor:pointer;border:none;border-radius:8px;font-size:12px;font-weight:600;padding:6px 14px;transition:opacity .15s}
+button:hover{opacity:0.85}
+@media(max-width:768px){.grid-3,.grid-2{grid-template-columns:1fr}.card{padding:14px}#root{padding:12px 8px 32px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useCallback,useMemo,useRef}=React;
+const {AreaChart,Area,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer,ScatterChart,Scatter,BarChart,Bar,Cell,ReferenceLine,Legend}=Recharts;
+
+// ── Colors ──
+const C={amber:'#f59e0b',emerald:'#10b981',blue:'#3b82f6',up:'#10b981',dn:'#ef4444',bg:'#0b0f19',card:'#111827',border:'#1e293b',muted:'#94a3b8',text:'#e2e8f0'};
+
+// ── Fallback Data ──
+const FALLBACK_DATES=['02-27','02-28','03-03','03-04','03-05','03-06','03-07','03-10','03-11','03-12','03-13'];
+const FALLBACK_KRW=[1432.3,1443.0,1483.8,1472.5,1458.2,1465.0,1470.3,1478.5,1466.5,1480.1,1501.5];
+const FALLBACK_WTI=[68.8,72.5,79.8,76.2,73.1,74.5,80.2,85.3,87.2,95.7,98.7];
+const FALLBACK_KOSPI=[6180,5950,5340,5520,5680,5630,5420,5059.5,5609,5574.5,5487.2];
+
+function buildFallback(){
+  return FALLBACK_DATES.map((d,i)=>({date:'2026-'+d,krw:FALLBACK_KRW[i],wti:FALLBACK_WTI[i],kospi:FALLBACK_KOSPI[i]}));
+}
+
+// ── Fetch helpers ──
+async function fetchKRW(){
+  try{
+    const r=await fetch('https://open.er-api.com/v6/latest/USD');
+    const j=await r.json();
+    if(j.rates?.KRW)return j.rates.KRW;
+  }catch{}
+  try{
+    const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const j=await r.json();
+    if(j.rates?.KRW)return j.rates.KRW;
+  }catch{}
+  return null;
+}
+
+async function fetchYahoo(symbol){
+  try{
+    const url='https://api.allorigins.win/raw?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+symbol+'?range=1mo&interval=1d');
+    const r=await fetch(url);
+    const j=await r.json();
+    const res=j.chart.result[0];
+    const current=res.meta.regularMarketPrice;
+    const ts=res.timestamp||[];
+    const closes=res.indicators.quote[0].close||[];
+    const history=ts.map((t,i)=>{
+      const d=new Date(t*1000);
+      const ds=d.toISOString().slice(0,10);
+      return {date:ds,close:closes[i]};
+    }).filter(x=>x.close!=null);
+    return {current,history};
+  }catch{return null;}
+}
+
+// ── Math ──
+function calcReturns(arr){
+  const r=[];
+  for(let i=1;i<arr.length;i++) r.push((arr[i]-arr[i-1])/arr[i-1]*100);
+  return r;
+}
+
+function pearson(x,y){
+  const n=Math.min(x.length,y.length);
+  if(n<2)return 0;
+  const mx=x.slice(0,n).reduce((a,b)=>a+b,0)/n;
+  const my=y.slice(0,n).reduce((a,b)=>a+b,0)/n;
+  let num=0,dx=0,dy=0;
+  for(let i=0;i<n;i++){
+    const xi=x[i]-mx,yi=y[i]-my;
+    num+=xi*yi;dx+=xi*xi;dy+=yi*yi;
+  }
+  const den=Math.sqrt(dx*dy);
+  return den===0?0:num/den;
+}
+
+function normalize(arr){
+  if(!arr.length)return[];
+  const f=arr[0];
+  return arr.map(v=>(v-f)/f*100);
+}
+
+function corrColor(r){
+  const a=Math.abs(r);
+  if(a>0.7)return r>0?C.emerald:C.dn;
+  if(a>0.3)return '#eab308';
+  return C.muted;
+}
+function corrLabel(r){
+  const a=Math.abs(r);
+  if(a>0.7)return 'Strong';
+  if(a>0.3)return 'Moderate';
+  return 'Weak';
+}
+
+function fmtNum(v,d=1){return v==null?'—':v.toFixed(d)}
+function fmtPct(v){return v==null?'—':(v>0?'+':'')+v.toFixed(2)+'%'}
+
+// ── Components ──
+function MetricCard({title,value,change,color,prefix='',suffix=''}){
+  const isUp=change>=0;
+  return(
+    <div className="card" style={{borderTop:`3px solid ${color}`,position:'relative'}}>
+      <div style={{fontSize:11,color:C.muted,marginBottom:8,fontWeight:600}}>{title}</div>
+      <div style={{fontSize:24,fontWeight:800,color:C.text}}>{prefix}{fmtNum(value,title==='KOSPI'?1:1)}{suffix}</div>
+      <div style={{fontSize:13,fontWeight:600,color:isUp?C.up:C.dn,marginTop:4}}>{fmtPct(change)}</div>
+    </div>
+  );
+}
+
+function CorrBadge({labelA,labelB,value}){
+  const col=corrColor(value);
+  const lab=corrLabel(value);
+  return(
+    <div className="card" style={{textAlign:'center'}}>
+      <div style={{fontSize:11,color:C.muted,marginBottom:6}}>{labelA} ↔ {labelB}</div>
+      <div style={{fontSize:28,fontWeight:800,color:col}}>{value.toFixed(3)}</div>
+      <div style={{fontSize:11,fontWeight:600,color:col,marginTop:4}}>{lab}</div>
+    </div>
+  );
+}
+
+const SCATTER_PAIRS=[
+  {key:'krw_kospi',labelA:'USD/KRW',labelB:'KOSPI',colorA:C.amber,colorB:C.blue},
+  {key:'wti_kospi',labelA:'WTI',labelB:'KOSPI',colorA:C.emerald,colorB:C.blue},
+  {key:'krw_wti',labelA:'USD/KRW',labelB:'WTI',colorA:C.amber,colorB:C.emerald},
+];
+
+function App(){
+  const [data,setData]=useState(buildFallback());
+  const [status,setStatus]=useState('Loaded fallback data');
+  const [countdown,setCountdown]=useState(300);
+  const [paused,setPaused]=useState(false);
+  const [scatterPair,setScatterPair]=useState(0);
+  const timerRef=useRef(null);
+
+  const fetchAll=useCallback(async()=>{
+    setStatus('Fetching...');
+    try{
+      const [krwRate,wtiRes,kospiRes]=await Promise.allSettled([
+        fetchKRW(),fetchYahoo('CL%3DF'),fetchYahoo('%5EKS11')
+      ]);
+      const krwVal=krwRate.status==='fulfilled'?krwRate.value:null;
+      const wtiData=wtiRes.status==='fulfilled'?wtiRes.value:null;
+      const kospiData=kospiRes.status==='fulfilled'?kospiRes.value:null;
+
+      if(wtiData?.history?.length && kospiData?.history?.length){
+        const dateMap=new Map();
+        for(const h of wtiData.history) dateMap.set(h.date,{wti:h.close});
+        for(const h of kospiData.history){
+          const e=dateMap.get(h.date);
+          if(e) e.kospi=h.close; else dateMap.set(h.date,{kospi:h.close});
+        }
+        const merged=[...dateMap.entries()]
+          .filter(([,v])=>v.wti!=null&&v.kospi!=null)
+          .sort(([a],[b])=>a.localeCompare(b))
+          .map(([date,v])=>({date,krw:krwVal||FALLBACK_KRW[FALLBACK_KRW.length-1],wti:v.wti,kospi:v.kospi}));
+        if(merged.length>=3){
+          if(krwVal) merged[merged.length-1].krw=krwVal;
+          setData(merged);
+          setStatus('Live data · '+new Date().toLocaleTimeString('ko-KR'));
+          setCountdown(300);
+          return;
+        }
+      }
+      // partial success: update latest values on fallback
+      const fb=buildFallback();
+      const last=fb[fb.length-1];
+      if(krwVal)last.krw=krwVal;
+      if(wtiData?.current)last.wti=wtiData.current;
+      if(kospiData?.current)last.kospi=kospiData.current;
+      setData(fb);
+      setStatus('Partial data · '+new Date().toLocaleTimeString('ko-KR'));
+      setCountdown(300);
+    }catch{
+      setData(buildFallback());
+      setStatus('API error — using fallback');
+      setCountdown(300);
+    }
+  },[]);
+
+  useEffect(()=>{fetchAll()},[fetchAll]);
+
+  useEffect(()=>{
+    timerRef.current=setInterval(()=>{
+      if(!paused){
+        setCountdown(c=>{
+          if(c<=1){fetchAll();return 300;}
+          return c-1;
+        });
+      }
+    },1000);
+    return()=>clearInterval(timerRef.current);
+  },[paused,fetchAll]);
+
+  // ── Derived ──
+  const krwArr=data.map(d=>d.krw);
+  const wtiArr=data.map(d=>d.wti);
+  const kospiArr=data.map(d=>d.kospi);
+  const dates=data.map(d=>d.date);
+
+  const retKrw=calcReturns(krwArr);
+  const retWti=calcReturns(wtiArr);
+  const retKospi=calcReturns(kospiArr);
+
+  const corrKK=pearson(retKrw,retKospi);
+  const corrWK=pearson(retWti,retKospi);
+  const corrKW=pearson(retKrw,retWti);
+
+  const normKrw=normalize(krwArr);
+  const normWti=normalize(wtiArr);
+  const normKospi=normalize(kospiArr);
+  const normData=dates.map((d,i)=>({date:d.slice(5),krw:normKrw[i],wti:normWti[i],kospi:normKospi[i]}));
+
+  const latest=data[data.length-1];
+  const prev=data.length>=2?data[data.length-2]:data[0];
+  const chgKrw=(latest.krw-prev.krw)/prev.krw*100;
+  const chgWti=(latest.wti-prev.wti)/prev.wti*100;
+  const chgKospi=(latest.kospi-prev.kospi)/prev.kospi*100;
+
+  // scatter data
+  const scatterData=useMemo(()=>{
+    const pairs=SCATTER_PAIRS[scatterPair];
+    const retA=pairs.key.startsWith('krw')?retKrw:retWti;
+    const retB=pairs.key.endsWith('kospi')?retKospi:retWti;
+    return retA.map((v,i)=>({x:v,y:retB[i]||0})).filter(d=>!isNaN(d.x)&&!isNaN(d.y));
+  },[scatterPair,retKrw,retWti,retKospi]);
+
+  // bar data
+  const barData=[
+    {name:'KRW↔KOSPI',value:corrKK,color:corrColor(corrKK)},
+    {name:'WTI↔KOSPI',value:corrWK,color:corrColor(corrWK)},
+    {name:'KRW↔WTI',value:corrKW,color:corrColor(corrKW)},
+  ];
+
+  // table data with daily changes
+  const tableData=data.map((d,i)=>{
+    const p=i>0?data[i-1]:null;
+    return{
+      date:d.date,
+      krw:d.krw, chgKrw:p?(d.krw-p.krw)/p.krw*100:null,
+      wti:d.wti, chgWti:p?(d.wti-p.wti)/p.wti*100:null,
+      kospi:d.kospi, chgKospi:p?(d.kospi-p.kospi)/p.kospi*100:null,
+    };
+  });
+
+  const ttStyle={backgroundColor:'#1e293b',border:'1px solid #334155',borderRadius:8,fontSize:11,fontFamily:'JetBrains Mono',color:C.text};
+  const mins=Math.floor(countdown/60);
+  const secs=countdown%60;
+
+  const sp=SCATTER_PAIRS[scatterPair];
+
+  // period change from first to last
+  const periodChgKrw=((latest.krw-data[0].krw)/data[0].krw*100);
+  const periodChgWti=((latest.wti-data[0].wti)/data[0].wti*100);
+  const periodChgKospi=((latest.kospi-data[0].kospi)/data[0].kospi*100);
+
+  return(
+    <div>
+      {/* Header */}
+      <div style={{marginBottom:24}}>
+        <div style={{fontSize:11,color:C.muted,fontWeight:600,letterSpacing:1,textTransform:'uppercase',marginBottom:4}}>Market Correlation Dashboard</div>
+        <div style={{fontSize:28,fontWeight:800,color:C.text,marginBottom:8}}>환율 · 유가 · KOSPI</div>
+        <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+          <span style={{fontSize:12,color:C.muted}}>{status}</span>
+          <span style={{fontSize:12,color:C.amber,fontWeight:600}}>{String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}</span>
+          <button onClick={()=>setPaused(p=>!p)} style={{background:paused?C.amber:'#1e293b',color:paused?'#000':C.text}}>
+            {paused?'Resume':'Pause'}
+          </button>
+          <button onClick={()=>{fetchAll();setCountdown(300)}} style={{background:'#1e293b',color:C.text}}>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      {/* Metric Cards */}
+      <div className="grid-3" style={{marginBottom:12}}>
+        <MetricCard title="USD/KRW" value={latest.krw} change={chgKrw} color={C.amber} prefix="₩" />
+        <MetricCard title="WTI Crude" value={latest.wti} change={chgWti} color={C.emerald} prefix="$" />
+        <MetricCard title="KOSPI" value={latest.kospi} change={chgKospi} color={C.blue} />
+      </div>
+
+      {/* Iran Context Banner */}
+      <div className="card" style={{borderLeft:`3px solid ${C.dn}`,borderTop:'none',marginBottom:12,padding:'14px 16px'}}>
+        <div style={{fontSize:13,fontWeight:600,color:C.dn}}>
+          &#9888; 이란 분쟁 영향 — 2/28 이후 WTI {periodChgWti>=0?'+':''}{periodChgWti.toFixed(1)}% 급등, 원/달러 {periodChgKrw>=0?'+':''}{periodChgKrw.toFixed(1)}% 절하, KOSPI {periodChgKospi.toFixed(1)}% 하락
+        </div>
+      </div>
+
+      {/* Correlation Badges */}
+      <div className="grid-3" style={{marginBottom:12}}>
+        <CorrBadge labelA="환율" labelB="KOSPI" value={corrKK} />
+        <CorrBadge labelA="유가" labelB="KOSPI" value={corrWK} />
+        <CorrBadge labelA="환율" labelB="유가" value={corrKW} />
+      </div>
+
+      {/* Normalized Returns Chart */}
+      <div className="card" style={{marginBottom:12}}>
+        <div style={{fontSize:13,fontWeight:700,marginBottom:12}}>Normalized Returns (%)</div>
+        <ResponsiveContainer width="100%" height={280}>
+          <AreaChart data={normData} margin={{top:5,right:10,left:0,bottom:0}}>
+            <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
+            <XAxis dataKey="date" tick={{fill:C.muted,fontSize:10}} tickLine={false} axisLine={{stroke:C.border}} />
+            <YAxis tick={{fill:C.muted,fontSize:10}} tickLine={false} axisLine={{stroke:C.border}} tickFormatter={v=>v.toFixed(0)+'%'} />
+            <ReferenceLine y={0} stroke={C.muted} strokeDasharray="4 4" />
+            <Tooltip contentStyle={ttStyle} formatter={(v,n)=>[v.toFixed(2)+'%',n==='krw'?'USD/KRW':n==='wti'?'WTI':'KOSPI']} />
+            <Area type="monotone" dataKey="krw" stroke={C.amber} fill={C.amber} fillOpacity={0.08} strokeWidth={2} name="krw" dot={false} />
+            <Area type="monotone" dataKey="wti" stroke={C.emerald} fill={C.emerald} fillOpacity={0.08} strokeWidth={2} name="wti" dot={false} />
+            <Area type="monotone" dataKey="kospi" stroke={C.blue} fill={C.blue} fillOpacity={0.08} strokeWidth={2} name="kospi" dot={false} />
+          </AreaChart>
+        </ResponsiveContainer>
+        <div style={{display:'flex',justifyContent:'center',gap:20,marginTop:8}}>
+          {[['USD/KRW',C.amber],['WTI',C.emerald],['KOSPI',C.blue]].map(([l,c])=>(
+            <div key={l} style={{display:'flex',alignItems:'center',gap:6}}>
+              <div style={{width:10,height:10,borderRadius:5,background:c}} />
+              <span style={{fontSize:11,color:C.muted}}>{l}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2-col: Scatter + Corr Bar */}
+      <div className="grid-2" style={{marginBottom:12}}>
+        <div className="card">
+          <div style={{display:'flex',gap:0,marginBottom:12,borderRadius:8,overflow:'hidden',border:`1px solid ${C.border}`}}>
+            {SCATTER_PAIRS.map((p,i)=>(
+              <button key={i} onClick={()=>setScatterPair(i)}
+                style={{flex:1,borderRadius:0,background:scatterPair===i?'#1e293b':'transparent',color:scatterPair===i?C.text:C.muted,padding:'8px 4px',fontSize:11,border:'none',borderRight:i<2?`1px solid ${C.border}`:'none'}}>
+                {p.labelA}↔{p.labelB}
+              </button>
+            ))}
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
+            <ScatterChart margin={{top:5,right:10,left:0,bottom:5}}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.border} />
+              <XAxis type="number" dataKey="x" tick={{fill:C.muted,fontSize:10}} tickLine={false} axisLine={{stroke:C.border}} name={sp.labelA} unit="%" />
+              <YAxis type="number" dataKey="y" tick={{fill:C.muted,fontSize:10}} tickLine={false} axisLine={{stroke:C.border}} name={sp.labelB} unit="%" />
+              <ReferenceLine x={0} stroke={C.muted} strokeDasharray="3 3" />
+              <ReferenceLine y={0} stroke={C.muted} strokeDasharray="3 3" />
+              <Tooltip contentStyle={ttStyle} formatter={(v)=>v.toFixed(2)+'%'} />
+              <Scatter data={scatterData} fill={sp.colorA} fillOpacity={0.8} r={5} />
+            </ScatterChart>
+          </ResponsiveContainer>
+          <div style={{fontSize:11,color:C.muted,textAlign:'center',marginTop:4}}>Daily Returns Scatter (x: {sp.labelA}, y: {sp.labelB})</div>
+        </div>
+        <div className="card">
+          <div style={{fontSize:13,fontWeight:700,marginBottom:12}}>Correlation Coefficients</div>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={barData} layout="vertical" margin={{top:5,right:20,left:0,bottom:5}}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.border} horizontal={false} />
+              <XAxis type="number" domain={[-1,1]} tick={{fill:C.muted,fontSize:10}} tickLine={false} axisLine={{stroke:C.border}} />
+              <YAxis type="category" dataKey="name" tick={{fill:C.muted,fontSize:11}} tickLine={false} axisLine={{stroke:C.border}} width={100} />
+              <ReferenceLine x={0} stroke={C.muted} />
+              <Tooltip contentStyle={ttStyle} formatter={(v)=>v.toFixed(3)} />
+              <Bar dataKey="value" radius={[0,4,4,0]} barSize={28}>
+                {barData.map((d,i)=><Cell key={i} fill={d.color} fillOpacity={0.85} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <div style={{display:'flex',justifyContent:'center',gap:16,marginTop:8}}>
+            {[['Strong',C.emerald],['Moderate','#eab308'],['Weak',C.muted]].map(([l,c])=>(
+              <div key={l} style={{display:'flex',alignItems:'center',gap:4}}>
+                <div style={{width:8,height:8,borderRadius:4,background:c}} />
+                <span style={{fontSize:10,color:C.muted}}>{l}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Data Table */}
+      <div className="card" style={{marginBottom:12,overflowX:'auto'}}>
+        <div style={{fontSize:13,fontWeight:700,marginBottom:12}}>Daily Data</div>
+        <table>
+          <thead><tr>
+            <th>Date</th><th>USD/KRW</th><th>Chg%</th><th>WTI</th><th>Chg%</th><th>KOSPI</th><th>Chg%</th>
+          </tr></thead>
+          <tbody>
+            {tableData.map(r=>(
+              <tr key={r.date}>
+                <td style={{color:C.text,fontWeight:500}}>{r.date.slice(5)}</td>
+                <td>{fmtNum(r.krw,1)}</td>
+                <td className={r.chgKrw==null?'':r.chgKrw>=0?'up':'dn'}>{r.chgKrw!=null?fmtPct(r.chgKrw):'—'}</td>
+                <td>{fmtNum(r.wti,2)}</td>
+                <td className={r.chgWti==null?'':r.chgWti>=0?'up':'dn'}>{r.chgWti!=null?fmtPct(r.chgWti):'—'}</td>
+                <td>{fmtNum(r.kospi,1)}</td>
+                <td className={r.chgKospi==null?'':r.chgKospi>=0?'up':'dn'}>{r.chgKospi!=null?fmtPct(r.chgKospi):'—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Interpretation Notes */}
+      <div className="card" style={{marginBottom:12}}>
+        <div style={{fontSize:13,fontWeight:700,marginBottom:12}}>Analysis Notes</div>
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:C.amber,marginBottom:4}}>환율 ↔ KOSPI (r = {corrKK.toFixed(3)})</div>
+            <div style={{fontSize:12,color:C.muted,lineHeight:1.7}}>
+              {Math.abs(corrKK)>0.5
+                ?'환율 상승(원화 약세)과 KOSPI 하락이 강한 역상관을 보이고 있습니다. 외국인 자금 이탈과 수입 비용 증가가 동시에 작용하는 구간입니다.'
+                :'환율과 KOSPI 간 뚜렷한 상관관계가 관측되지 않습니다. 개별 이벤트 요인이 더 크게 작용하는 구간입니다.'}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:C.emerald,marginBottom:4}}>유가 ↔ KOSPI (r = {corrWK.toFixed(3)})</div>
+            <div style={{fontSize:12,color:C.muted,lineHeight:1.7}}>
+              {corrWK<-0.3
+                ?'유가 급등이 KOSPI에 부정적 영향을 미치고 있습니다. 에너지 수입 의존도가 높은 한국 경제 구조 상 유가 상승은 기업 비용 부담으로 이어집니다.'
+                :corrWK>0.3
+                ?'유가와 KOSPI가 동조화 움직임을 보이고 있습니다. 글로벌 경기 회복 기대가 양쪽을 동시에 끌어올리는 국면일 수 있습니다.'
+                :'유가와 KOSPI 간 상관관계가 약합니다. 유가 변동이 아직 국내 시장에 충분히 반영되지 않은 상태일 수 있습니다.'}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:C.blue,marginBottom:4}}>환율 ↔ 유가 (r = {corrKW.toFixed(3)})</div>
+            <div style={{fontSize:12,color:C.muted,lineHeight:1.7}}>
+              {corrKW>0.3
+                ?'유가 상승과 원화 약세가 동시에 진행되고 있습니다. 지정학적 리스크(이란 분쟁)가 달러 강세와 원유 가격 상승을 함께 유발하는 전형적인 패턴입니다.'
+                :'환율과 유가 간 뚜렷한 동조화가 관측되지 않습니다.'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{textAlign:'center',fontSize:11,color:'#475569',padding:'16px 0'}}>
+        Data: open.er-api.com · Yahoo Finance · 5min auto-refresh
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
