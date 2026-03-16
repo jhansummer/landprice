@@ -32,14 +32,17 @@
 
 **Step 1: Expo 프로젝트 생성**
 
+{% raw %}
 ```bash
 cd /Users/hanjin
 npx create-expo-app aptmine-app --template blank-typescript
 cd aptmine-app
 ```
+{% endraw %}
 
 **Step 2: 기본 패키지 설치**
 
+{% raw %}
 ```bash
 npx expo install expo-router react-native-safe-area-context react-native-screens
 npx expo install @react-navigation/native @react-navigation/bottom-tabs @react-navigation/native-stack
@@ -50,17 +53,21 @@ npx expo install expo-auth-session expo-web-browser expo-crypto
 npx expo install victory-native react-native-svg react-native-reanimated
 npx expo install @react-native-async-storage/async-storage
 ```
+{% endraw %}
 
 **Step 3: NativeWind 설치**
 
+{% raw %}
 ```bash
 npm install nativewind
 npm install --save-dev tailwindcss
 npx tailwindcss init
 ```
+{% endraw %}
 
 **Step 4: app.json 수정**
 
+{% raw %}
 ```json
 {
   "expo": {
@@ -82,9 +89,11 @@ npx tailwindcss init
   }
 }
 ```
+{% endraw %}
 
 **Step 5: babel.config.js 수정 (NativeWind)**
 
+{% raw %}
 ```js
 module.exports = function (api) {
   api.cache(true);
@@ -94,9 +103,11 @@ module.exports = function (api) {
   };
 };
 ```
+{% endraw %}
 
 **Step 6: tailwind.config.js**
 
+{% raw %}
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -117,20 +128,25 @@ module.exports = {
   plugins: [],
 };
 ```
+{% endraw %}
 
 **Step 7: 실행 확인**
 
+{% raw %}
 ```bash
 npx expo start
 ```
+{% endraw %}
 
 Expo Go 앱에서 QR 스캔해서 기본 화면 확인
 
 **Step 8: 커밋**
 
+{% raw %}
 ```bash
 git init && git add . && git commit -m "chore: Expo 프로젝트 초기화"
 ```
+{% endraw %}
 
 ---
 
@@ -148,12 +164,15 @@ git init && git add . && git commit -m "chore: Expo 프로젝트 초기화"
 
 **Step 1: 폴더 구조 생성**
 
+{% raw %}
 ```bash
 mkdir -p app/(tabs) app/apt components/ui components/charts lib
 ```
+{% endraw %}
 
 **Step 2: app/_layout.tsx**
 
+{% raw %}
 ```tsx
 import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -173,9 +192,11 @@ export default function RootLayout() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: app/(tabs)/_layout.tsx**
 
+{% raw %}
 ```tsx
 import { Tabs } from 'expo-router';
 import { Text } from 'react-native';
@@ -200,9 +221,11 @@ export default function TabLayout() {
   );
 }
 ```
+{% endraw %}
 
 **Step 4: 각 탭 placeholder 파일 생성**
 
+{% raw %}
 ```tsx
 // app/(tabs)/index.tsx
 import { View, Text } from 'react-native';
@@ -210,10 +233,12 @@ export default function HomeScreen() {
   return <View className="flex-1 items-center justify-center"><Text>홈</Text></View>;
 }
 ```
+{% endraw %}
 search.tsx, regional.tsx, analysis.tsx, watchlist.tsx 동일 패턴
 
 **Step 5: app/apt/[id].tsx**
 
+{% raw %}
 ```tsx
 import { View, Text } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
@@ -222,14 +247,17 @@ export default function AptScreen() {
   return <View className="flex-1 items-center justify-center"><Text>아파트: {id}</Text></View>;
 }
 ```
+{% endraw %}
 
 **Step 6: 실행 확인** — 5개 탭이 화면 하단에 보여야 함
 
 **Step 7: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 탭 내비게이션 기본 구조"
 ```
+{% endraw %}
 
 ---
 
@@ -244,6 +272,7 @@ git add . && git commit -m "feat: 탭 내비게이션 기본 구조"
 
 **Step 1: lib/api.ts**
 
+{% raw %}
 ```ts
 const BASE = 'https://aptmine.com/';
 const TS = () => `?t=${Date.now()}`;
@@ -262,9 +291,11 @@ export const api = {
   locationScores: () => fetch(`${BASE}data/apt_trade/location_scores.json${TS()}`).then(r => r.json()),
 };
 ```
+{% endraw %}
 
 **Step 2: components/ui/Card.tsx**
 
+{% raw %}
 ```tsx
 import { View, ViewProps } from 'react-native';
 
@@ -276,9 +307,11 @@ export function Card({ children, className = '', ...props }: ViewProps & { class
   );
 }
 ```
+{% endraw %}
 
 **Step 3: components/ui/LoadingView.tsx**
 
+{% raw %}
 ```tsx
 import { View, ActivityIndicator } from 'react-native';
 
@@ -290,9 +323,11 @@ export function LoadingView() {
   );
 }
 ```
+{% endraw %}
 
 **Step 4: components/ui/ErrorView.tsx**
 
+{% raw %}
 ```tsx
 import { View, Text, TouchableOpacity } from 'react-native';
 
@@ -309,9 +344,11 @@ export function ErrorView({ onRetry }: { onRetry?: () => void }) {
   );
 }
 ```
+{% endraw %}
 
 **Step 5: components/ui/Badge.tsx**
 
+{% raw %}
 ```tsx
 import { Text, View } from 'react-native';
 
@@ -336,12 +373,15 @@ export function Badge({ type }: { type: BadgeType }) {
   );
 }
 ```
+{% endraw %}
 
 **Step 6: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: API 클라이언트 + 공통 UI 컴포넌트"
 ```
+{% endraw %}
 
 ---
 
@@ -355,13 +395,16 @@ git add . && git commit -m "feat: API 클라이언트 + 공통 UI 컴포넌트"
 **Step 1: summary.json 구조 확인**
 
 실제 앱에서 fetch 후 console.log로 확인:
+{% raw %}
 ```bash
 curl https://aptmine.com/data/apt_trade/summary.json | python3 -m json.tool | head -50
 ```
+{% endraw %}
 
 **Step 2: useSummary 훅 작성**
 
 `lib/hooks.ts` 생성:
+{% raw %}
 ```ts
 import { useQuery } from '@tanstack/react-query';
 import { api } from './api';
@@ -375,9 +418,11 @@ export const useBacktest = () => useQuery({ queryKey: ['backtest'], queryFn: api
 export const useValuation = () => useQuery({ queryKey: ['valuation'], queryFn: api.valuation });
 export const useBottomIndex = () => useQuery({ queryKey: ['bottom-index'], queryFn: api.bottomIndex });
 ```
+{% endraw %}
 
 **Step 3: 홈 화면 구현**
 
+{% raw %}
 ```tsx
 // app/(tabs)/index.tsx
 import { ScrollView, View, Text, RefreshControl } from 'react-native';
@@ -422,14 +467,17 @@ export default function HomeScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 4: 실행 확인** — 홈에서 summary 데이터 로드, pull-to-refresh 동작
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 홈 화면 + TanStack Query 연동"
 ```
+{% endraw %}
 
 ---
 
@@ -442,15 +490,18 @@ git add . && git commit -m "feat: 홈 화면 + TanStack Query 연동"
 **Step 1: 시도 목록 상수 정의**
 
 `lib/constants.ts`:
+{% raw %}
 ```ts
 export const SIDO_LIST = [
   '서울', '경기', '인천', '부산', '대구', '광주', '대전', '울산', '세종',
   '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주',
 ];
 ```
+{% endraw %}
 
 **Step 2: AptListItem 컴포넌트**
 
+{% raw %}
 ```tsx
 // components/AptListItem.tsx
 import { TouchableOpacity, View, Text } from 'react-native';
@@ -483,9 +534,11 @@ export function AptListItem({ item }: { item: AptItem }) {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: 검색 화면 구현**
 
+{% raw %}
 ```tsx
 // app/(tabs)/search.tsx
 import { useState, useMemo } from 'react';
@@ -548,14 +601,17 @@ export default function SearchScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 4: 실행 확인** — 시도 선택, 검색어 입력 시 필터링, 항목 탭 시 아파트 상세 이동
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 검색 화면"
 ```
+{% endraw %}
 
 ---
 
@@ -568,6 +624,7 @@ summary.json에 시도별 시세 데이터가 포함되어 있음.
 
 **Step 1: 시세 화면 구현**
 
+{% raw %}
 ```tsx
 // app/(tabs)/regional.tsx
 import { useState } from 'react';
@@ -621,20 +678,25 @@ export default function RegionalScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 2: summary.json 실제 구조 확인 후 필드명 수정**
 
+{% raw %}
 ```bash
 curl https://aptmine.com/data/apt_trade/summary.json | python3 -m json.tool | head -80
 ```
+{% endraw %}
 
 **Step 3: 실행 확인**
 
 **Step 4: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 시세 화면"
 ```
+{% endraw %}
 
 ---
 
@@ -647,6 +709,7 @@ git add . && git commit -m "feat: 시세 화면"
 
 **Step 1: 분석 메뉴 화면**
 
+{% raw %}
 ```tsx
 // app/(tabs)/analysis.tsx
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
@@ -687,13 +750,17 @@ export default function AnalysisScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 2: 저평가 화면 (app/analysis/undervalued.tsx)**
 
+{% raw %}
 ```bash
 mkdir -p app/analysis
 ```
+{% endraw %}
 
+{% raw %}
 ```tsx
 import { FlatList, View, Text, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -737,6 +804,7 @@ export default function UndervaluedScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: 신고가 화면 (동일 패턴으로 app/analysis/newhigh.tsx 작성)**
 
@@ -746,9 +814,11 @@ useNewhigh() 훅 사용, 필드명 실제 API에 맞게 조정
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 분석 화면 (저평가, 신고가)"
 ```
+{% endraw %}
 
 ---
 
@@ -767,14 +837,17 @@ git add . && git commit -m "feat: 분석 화면 (저평가, 신고가)"
 
 **Step 1: 각 화면 실제 API 구조 확인**
 
+{% raw %}
 ```bash
 curl https://aptmine.com/data/apt_trade/valuation/index.json | python3 -m json.tool | head -40
 curl https://aptmine.com/data/apt_trade/bottom/index.json | python3 -m json.tool | head -40
 curl https://aptmine.com/data/apt_trade/backtest.json | python3 -m json.tool | head -40
 ```
+{% endraw %}
 
 **Step 2: 각 화면 구현** (valuation.tsx 예시)
 
+{% raw %}
 ```tsx
 import { FlatList, View, Text, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -806,14 +879,17 @@ export default function ValuationScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: 실행 확인**
 
 **Step 4: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 밸류에이션/바닥찾기/백테스트/전세 화면"
 ```
+{% endraw %}
 
 ---
 
@@ -825,6 +901,7 @@ git add . && git commit -m "feat: 밸류에이션/바닥찾기/백테스트/전�
 
 **Step 1: 실거래가 차트 컴포넌트**
 
+{% raw %}
 ```tsx
 // components/charts/PriceChart.tsx
 import { VictoryLine, VictoryChart, VictoryAxis, VictoryTheme } from 'victory-native';
@@ -854,9 +931,11 @@ export function PriceChart({ trades }: { trades: Trade[] }) {
   );
 }
 ```
+{% endraw %}
 
 **Step 2: 아파트 상세 화면**
 
+{% raw %}
 ```tsx
 // app/apt/[id].tsx
 import { ScrollView, View, Text, TouchableOpacity, RefreshControl } from 'react-native';
@@ -923,20 +1002,25 @@ export default function AptScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: 실제 by_apt JSON 구조 확인 후 필드명 조정**
 
+{% raw %}
 ```bash
 curl https://aptmine.com/data/apt_trade/by_apt/$(curl -s https://aptmine.com/data/apt_trade/search/서울.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d[0]['id'])" 2>/dev/null || echo "sample_id").json | python3 -m json.tool | head -60
 ```
+{% endraw %}
 
 **Step 4: 실행 확인** — 아파트 상세 → 차트 렌더링
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 아파트 상세 화면 + 실거래가 차트"
 ```
+{% endraw %}
 
 ---
 
@@ -951,6 +1035,7 @@ git add . && git commit -m "feat: 아파트 상세 화면 + 실거래가 차트"
 
 **Step 1: Zustand 스토어**
 
+{% raw %}
 ```ts
 // lib/watchlist.ts
 import { create } from 'zustand';
@@ -988,9 +1073,11 @@ export const useWatchlistStore = create<WatchlistStore>()(
   )
 );
 ```
+{% endraw %}
 
 **Step 2: 관심목록 화면**
 
+{% raw %}
 ```tsx
 // app/(tabs)/watchlist.tsx
 import { FlatList, View, Text, TouchableOpacity } from 'react-native';
@@ -1039,10 +1126,12 @@ export default function WatchlistScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: 아파트 상세에 찜 버튼 추가**
 
 app/apt/[id].tsx의 Card 헤더에 추가:
+{% raw %}
 ```tsx
 const { add, remove, has } = useWatchlistStore();
 const isWatched = has(id!);
@@ -1052,14 +1141,17 @@ const isWatched = has(id!);
   <Text className="text-2xl">{isWatched ? '⭐' : '☆'}</Text>
 </TouchableOpacity>
 ```
+{% endraw %}
 
 **Step 4: 실행 확인** — 찜 추가/삭제, 관심목록 탭에서 확인
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 관심목록 (로컬 AsyncStorage)"
 ```
+{% endraw %}
 
 ---
 
@@ -1077,13 +1169,16 @@ git add . && git commit -m "feat: 관심목록 (로컬 AsyncStorage)"
 2. Settings → API에서 URL과 anon key 복사
 3. `.env` 파일 생성 (gitignore에 추가):
 
+{% raw %}
 ```
 EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJxxx
 ```
+{% endraw %}
 
 **Step 2: lib/supabase.ts**
 
+{% raw %}
 ```ts
 import { createClient } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
@@ -1101,6 +1196,7 @@ export const supabase = createClient(
   { auth: { storage: ExpoSecureStoreAdapter, autoRefreshToken: true, persistSession: true, detectSessionInUrl: false } }
 );
 ```
+{% endraw %}
 
 **Step 3: Supabase Google OAuth 설정**
 
@@ -1111,6 +1207,7 @@ export const supabase = createClient(
 
 **Step 4: auth.tsx**
 
+{% raw %}
 ```tsx
 // app/auth.tsx
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
@@ -1165,14 +1262,17 @@ export default function AuthScreen() {
   );
 }
 ```
+{% endraw %}
 
 **Step 5: 실행 확인** — 구글 로그인 → 콜백 처리 → 로그인 성공
 
 **Step 6: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: Supabase + 구글 로그인"
 ```
+{% endraw %}
 
 ---
 
@@ -1185,14 +1285,17 @@ git add . && git commit -m "feat: Supabase + 구글 로그인"
 3. Kakao SDK 설치: `npm install @react-native-kakao/core @react-native-kakao/user`
 4. app.json에 Kakao 플러그인 추가
 
+{% raw %}
 ```json
 "plugins": [
   ["@react-native-kakao/core", { "nativeAppKey": "YOUR_KAKAO_KEY" }]
 ]
 ```
+{% endraw %}
 
 **Step 2: 카카오 로그인 구현 (auth.tsx에 추가)**
 
+{% raw %}
 ```ts
 import { login as kakaoLogin } from '@react-native-kakao/user';
 
@@ -1212,6 +1315,7 @@ const signInWithKakao = async () => {
   setLoading(null);
 };
 ```
+{% endraw %}
 
 **Step 3: 네이버 로그인 설정**
 
@@ -1221,6 +1325,7 @@ const signInWithKakao = async () => {
 
 **Step 4: Supabase Edge Function: auth-kakao**
 
+{% raw %}
 ```ts
 // supabase/functions/auth-kakao/index.ts
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
@@ -1251,20 +1356,25 @@ serve(async (req) => {
   });
 });
 ```
+{% endraw %}
 
 **Step 5: 배포**
 
+{% raw %}
 ```bash
 npx supabase functions deploy auth-kakao
 ```
+{% endraw %}
 
 **Step 6: 실행 확인**
 
 **Step 7: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 카카오/네이버 로그인"
 ```
+{% endraw %}
 
 ---
 
@@ -1278,6 +1388,7 @@ git add . && git commit -m "feat: 카카오/네이버 로그인"
 
 **Step 1: DB 마이그레이션**
 
+{% raw %}
 ```sql
 -- supabase/migrations/001_watchlist.sql
 create table watchlist (
@@ -1311,16 +1422,20 @@ create table notification_log (
   sent_at timestamptz default now()
 );
 ```
+{% endraw %}
 
 **Step 2: 마이그레이션 실행**
 
+{% raw %}
 ```bash
 npx supabase db push
 ```
+{% endraw %}
 
 **Step 3: 관심목록 스토어 수정 (로그인 시 Supabase 동기화)**
 
 `lib/watchlist.ts`에 syncWithSupabase 함수 추가:
+{% raw %}
 ```ts
 import { supabase } from './supabase';
 
@@ -1336,14 +1451,17 @@ export async function loadWatchlistFromSupabase(userId: string): Promise<WatchIt
   return (data ?? []).map(d => ({ id: d.apt_id, name: d.apt_name, sido: d.sido, district: d.district, addedAt: d.created_at }));
 }
 ```
+{% endraw %}
 
 **Step 4: 로그인 후 자동 동기화** — 관심목록 화면에서 로그인 감지 후 Supabase 로드
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 관심목록 Supabase 동기화"
 ```
+{% endraw %}
 
 ---
 
@@ -1356,6 +1474,7 @@ git add . && git commit -m "feat: 관심목록 Supabase 동기화"
 **Step 1: Expo Push Token 등록**
 
 앱 시작 시 `lib/notifications.ts`:
+{% raw %}
 ```ts
 import * as Notifications from 'expo-notifications';
 import { supabase } from './supabase';
@@ -1370,14 +1489,18 @@ export async function registerPushToken(userId: string) {
     .upsert({ user_id: userId, push_token: token, newhigh_enabled: true, undervalued_enabled: true }, { onConflict: 'user_id' });
 }
 ```
+{% endraw %}
 
 notification_settings 테이블에 `push_token text` 컬럼 추가:
+{% raw %}
 ```sql
 alter table notification_settings add column if not exists push_token text;
 ```
+{% endraw %}
 
 **Step 2: Edge Function — 매일 알림 발송**
 
+{% raw %}
 ```ts
 // supabase/functions/notify-watchlist/index.ts
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
@@ -1444,21 +1567,27 @@ serve(async () => {
   return new Response(JSON.stringify({ sent: messages.length }), { headers: { 'Content-Type': 'application/json' } });
 });
 ```
+{% endraw %}
 
 **Step 3: Edge Function 배포 + Cron 설정**
 
+{% raw %}
 ```bash
 npx supabase functions deploy notify-watchlist
 ```
+{% endraw %}
 
 Supabase Dashboard → Database → Cron Jobs:
+{% raw %}
 ```
 Schedule: 0 9 * * *  (매일 오전 9시)
 Command: SELECT net.http_post('https://xxx.supabase.co/functions/v1/notify-watchlist', '{}', 'application/json');
 ```
+{% endraw %}
 
 **Step 4: 알림 설정 UI (watchlist 화면에 추가)**
 
+{% raw %}
 ```tsx
 // 알림 토글 UI
 const [newhigh, setNewhigh] = useState(true);
@@ -1468,12 +1597,15 @@ const toggleNewhigh = async (value: boolean) => {
 };
 <Switch value={newhigh} onValueChange={toggleNewhigh} trackColor={{ true: '#2563eb' }} />
 ```
+{% endraw %}
 
 **Step 5: 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "feat: 푸시 알림 + Edge Function"
 ```
+{% endraw %}
 
 ---
 
@@ -1483,13 +1615,16 @@ git add . && git commit -m "feat: 푸시 알림 + Edge Function"
 
 **Step 1: EAS 설정**
 
+{% raw %}
 ```bash
 npm install -g eas-cli
 eas login
 eas build:configure
 ```
+{% endraw %}
 
 eas.json 생성:
+{% raw %}
 ```json
 {
   "cli": { "version": ">= 5.0.0" },
@@ -1506,6 +1641,7 @@ eas.json 생성:
   }
 }
 ```
+{% endraw %}
 
 **Step 2: 앱 아이콘 + 스플래시 준비**
 
@@ -1515,18 +1651,23 @@ eas.json 생성:
 
 **Step 3: Android 빌드**
 
+{% raw %}
 ```bash
 eas build --platform android --profile production
 ```
+{% endraw %}
 
 **Step 4: iOS 빌드**
 
+{% raw %}
 ```bash
 eas build --platform ios --profile production
 ```
+{% endraw %}
 
 **Step 5: 스토어 제출**
 
+{% raw %}
 ```bash
 # Google Play
 eas submit --platform android
@@ -1534,6 +1675,7 @@ eas submit --platform android
 # App Store
 eas submit --platform ios
 ```
+{% endraw %}
 
 **Step 6: 스토어 메타데이터 준비**
 - 앱 이름: APT Mine - 아파트 실거래가
@@ -1543,9 +1685,11 @@ eas submit --platform ios
 
 **Step 7: 최종 커밋**
 
+{% raw %}
 ```bash
 git add . && git commit -m "chore: EAS Build 설정 + 스토어 제출 준비"
 ```
+{% endraw %}
 
 ---
 
