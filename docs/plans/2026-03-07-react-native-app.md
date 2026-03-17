@@ -1,3 +1,6 @@
+---
+render_with_liquid: false
+---
 # APT Mine React Native App 구현 플랜
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
