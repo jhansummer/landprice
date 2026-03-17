@@ -1,0 +1,4 @@
+exclude:
+  - docs/plans/
+  - scripts/
+  - .github/
