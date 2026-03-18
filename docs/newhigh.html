@@ -65,7 +65,12 @@
       <a class="nav-sub-link active" href="newhigh.html">신고가검색</a>
     </nav>
   </header>
+  <div id="period-toggle" style="display:flex;gap:0;padding:8px 24px;max-width:1200px;margin:0 auto">
+    <button class="period-btn active" data-period="all">전체 신고가</button>
+    <button class="period-btn" data-period="30d">최근 30일</button>
+  </div>
   <nav id="tabs" class="tabs"></nav>
+  <div id="district-badges" class="district-badges" style="display:none"></div>
   <div id="subtabs" class="district-select-wrap"></div>
   <div id="dongtabs" class="district-select-wrap" style="padding-top:8px"></div>
   <div id="filters" class="filter-bar" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 16px;margin:0 0 4px">
@@ -112,7 +117,7 @@
   <script src="watchlist.js?v=2"></script>
   <script src="chart-utils.js?v=12"></script>
   <script src="common.js?v=1"></script>
-  <script src="newhigh.js?v=5"></script>
+  <script src="newhigh.js?v=6"></script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "qp1Cd4GifaZxLn05eGgQ5U4hcTAi06HuYCx_CZIL"}'></script>
 </body>
 </html>

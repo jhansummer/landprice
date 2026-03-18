@@ -6,11 +6,13 @@ var subtabsEl = document.getElementById("subtabs");
 var dongtabsEl = document.getElementById("dongtabs");
 var statusEl = document.getElementById("status");
 var resultsEl = document.getElementById("results");
+var distBadgesEl = document.getElementById("district-badges");
 
 var globalData = null;
 var activeSido = null;
 var activeDistrict = null;
 var activeDong = null;
+var activePeriod = "all";
 var PAGE_SIZE = 20;
 var visibleCount = PAGE_SIZE;
 
@@ -29,10 +31,39 @@ fSearchBtn.addEventListener("click", function () {
   renderResults();
 });
 
+/* ── 기간 토글 이벤트 ── */
+document.getElementById("period-toggle").addEventListener("click", function (e) {
+  var btn = e.target.closest(".period-btn");
+  if (!btn) return;
+  var period = btn.getAttribute("data-period");
+  if (period === activePeriod) return;
+  activePeriod = period;
+  document.querySelectorAll(".period-btn").forEach(function (b) {
+    b.classList.toggle("active", b.getAttribute("data-period") === activePeriod);
+  });
+  activeDistrict = null;
+  activeDong = null;
+  visibleCount = PAGE_SIZE;
+  renderSubTabs();
+  renderDongTabs();
+  renderDistrictBadges();
+  renderResults();
+  updateHash();
+});
+
 /* ── 억원 포맷 ── */
 function fmtEok(val) {
   if (val >= 1) return val.toFixed(1) + "억";
   return (val * 10000).toFixed(0) + "만";
+}
+
+/* ── 30일 전 날짜 문자열 (YYYY-MM-DD) ── */
+function getDate30dAgo() {
+  var d = new Date();
+  d.setDate(d.getDate() - 30);
+  var mm = String(d.getMonth() + 1).padStart(2, "0");
+  var dd = String(d.getDate()).padStart(2, "0");
+  return d.getFullYear() + "-" + mm + "-" + dd;
 }
 
 /* ── 시도 탭 ── */
@@ -45,6 +76,7 @@ function renderTabs(sidoOrder) {
     renderTabs(sidoOrder);
     renderSubTabs();
     renderDongTabs();
+    renderDistrictBadges();
     renderResults();
     updateHash();
   });
@@ -60,6 +92,7 @@ function renderSubTabs() {
     activeDong = null;
     visibleCount = PAGE_SIZE;
     renderDongTabs();
+    renderDistrictBadges();
     renderResults();
     updateHash();
   });
@@ -101,6 +134,67 @@ function renderDongTabs() {
   dongtabsEl.appendChild(select);
 }
 
+/* ── 구별 배지 (30일 모드 전용) ── */
+function renderDistrictBadges() {
+  if (!distBadgesEl) return;
+  distBadgesEl.innerHTML = "";
+
+  if (activePeriod !== "30d" || !globalData || !activeSido) {
+    distBadgesEl.style.display = "none";
+    return;
+  }
+
+  var sidoData = globalData.sidos[activeSido];
+  if (!sidoData) { distBadgesEl.style.display = "none"; return; }
+
+  var cutoff = getDate30dAgo();
+  var counts = {};
+  var districts = sidoData.district_order || [];
+
+  districts.forEach(function (distName) {
+    var dist = sidoData.districts[distName];
+    if (!dist || !dist.dong_recovery || !dist.dong_recovery.items) return;
+    var count = 0;
+    dist.dong_recovery.items.forEach(function (dongItem) {
+      if (!dongItem.apt_details) return;
+      dongItem.apt_details.forEach(function (apt) {
+        if (apt.vs_all_time_peak > 0 && apt.last_deal_date && apt.last_deal_date >= cutoff) {
+          count++;
+        }
+      });
+    });
+    if (count > 0) counts[distName] = count;
+  });
+
+  var keys = Object.keys(counts);
+  if (keys.length === 0) { distBadgesEl.style.display = "none"; return; }
+
+  // 카운트 내림차순 정렬
+  keys.sort(function (a, b) { return counts[b] - counts[a]; });
+
+  distBadgesEl.style.display = "flex";
+  keys.forEach(function (distName) {
+    var badge = document.createElement("button");
+    badge.className = "district-badge" + (activeDistrict === distName ? " active" : "");
+    badge.textContent = distName + " " + counts[distName];
+    badge.addEventListener("click", function () {
+      if (activeDistrict === distName) {
+        activeDistrict = null;
+      } else {
+        activeDistrict = distName;
+      }
+      activeDong = null;
+      visibleCount = PAGE_SIZE;
+      renderSubTabs();
+      renderDongTabs();
+      renderDistrictBadges();
+      renderResults();
+      updateHash();
+    });
+    distBadgesEl.appendChild(badge);
+  });
+}
+
 /* ── 신고가 아파트 수집 (필터 적용) ── */
 function collectNewHighApts() {
   if (!globalData || !activeSido) return [];
@@ -111,6 +205,7 @@ function collectNewHighApts() {
   var areaMax = parseFloat(fAreaMax.value) || Infinity;
   var priceMinEok = parseFloat(fPriceMin.value) || 0;
   var priceMaxEok = parseFloat(fPriceMax.value) || Infinity;
+  var cutoff = activePeriod === "30d" ? getDate30dAgo() : null;
 
   var items = [];
   var districts = activeDistrict ? [activeDistrict] : (sidoData.district_order || []);
@@ -125,6 +220,9 @@ function collectNewHighApts() {
 
       dongItem.apt_details.forEach(function (apt) {
         if (apt.vs_all_time_peak > 0) {
+          // 30일 필터
+          if (cutoff && (!apt.last_deal_date || apt.last_deal_date < cutoff)) return;
+
           // 면적 필터
           if (apt.area_m2 < areaMin || apt.area_m2 > areaMax) return;
 
@@ -292,7 +390,8 @@ function renderResults() {
   var locationText = activeSido;
   if (activeDistrict) locationText += " " + activeDistrict;
   if (activeDong) locationText += " " + activeDong;
-  summary.textContent = locationText + " 신고가 단지 " + fmt(items.length) + "개";
+  var periodLabel = activePeriod === "30d" ? " 최근 30일 신고가 단지 " : " 신고가 단지 ";
+  summary.textContent = locationText + periodLabel + fmt(items.length) + "개";
   resultsEl.appendChild(summary);
 
   // 카드 렌더
@@ -319,7 +418,9 @@ function renderResults() {
 
 /* ── URL hash 관리 ── */
 function updateHash() {
-  var parts = [activeSido];
+  var parts = [];
+  if (activePeriod === "30d") parts.push("30d");
+  parts.push(activeSido);
   if (activeDistrict) parts.push(activeDistrict);
   if (activeDong) parts.push(activeDong);
   history.replaceState(null, "", "#" + parts.join("/"));
@@ -327,7 +428,13 @@ function updateHash() {
 
 function parseHash() {
   var hash = decodeURIComponent(location.hash.replace("#", ""));
-  return hash.split("/");
+  var parts = hash.split("/");
+  var period = "all";
+  if (parts[0] === "30d") {
+    period = "30d";
+    parts.shift();
+  }
+  return { period: period, sido: parts[0] || "", district: parts[1] || "", dong: parts[2] || "" };
 }
 
 /* ── 초기화 ── */
@@ -341,10 +448,17 @@ async function init() {
     globalData = await response.json();
 
     var sidoOrder = globalData.sido_order || [];
-    var parts = parseHash();
-    var hashSido = parts[0] || "";
-    var hashDist = parts[1] || "";
-    var hashDong = parts[2] || "";
+    var parsed = parseHash();
+    activePeriod = parsed.period;
+
+    // 기간 토글 UI 동기화
+    document.querySelectorAll(".period-btn").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-period") === activePeriod);
+    });
+
+    var hashSido = parsed.sido;
+    var hashDist = parsed.district;
+    var hashDong = parsed.dong;
 
     activeSido = sidoOrder.indexOf(hashSido) >= 0 ? hashSido : sidoOrder[0] || null;
 
@@ -362,6 +476,7 @@ async function init() {
     renderTabs(sidoOrder);
     renderSubTabs();
     renderDongTabs();
+    renderDistrictBadges();
     renderResults();
 
     statusEl.innerHTML = "";
