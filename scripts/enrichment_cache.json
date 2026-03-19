@@ -131982,7 +131982,12 @@
    "bank": 13,
    "academy": 68
   },
-  "school_score": 74
+  "school_score": 74,
+  "commute_transit": {
+   "gangnam": 158,
+   "gwanghwamun": 185,
+   "yeouido": 172
+  }
  },
  "37.291,126.990": {
   "infra": {
@@ -235528,5 +235533,49 @@
    "academy": 213
   },
   "school_score": 74
+ },
+ "37.517,126.885": {
+  "infra": {
+   "mart": 5,
+   "conv": 63,
+   "school": 7,
+   "hospital": 95,
+   "bank": 50,
+   "academy": 234
+  },
+  "school_score": 86
+ },
+ "37.509,126.785": {
+  "infra": {
+   "mart": 0,
+   "conv": 44,
+   "school": 5,
+   "hospital": 39,
+   "bank": 37,
+   "academy": 30
+  },
+  "school_score": 71
+ },
+ "37.367,126.952": {
+  "infra": {
+   "mart": 1,
+   "conv": 58,
+   "school": 3,
+   "hospital": 72,
+   "bank": 35,
+   "academy": 86
+  },
+  "school_score": 81
+ },
+ "35.922,128.640": {
+  "infra": {
+   "mart": 2,
+   "conv": 11,
+   "school": 5,
+   "hospital": 14,
+   "bank": 16,
+   "academy": 78
+  },
+  "school_score": 92
  }
 }
