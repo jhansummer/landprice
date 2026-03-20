@@ -66,10 +66,9 @@ body{font-family:var(--font-body);color:var(--ink);background:var(--bg);-webkit-
 .period-btn:last-child{border-radius:0 var(--radius-sm) var(--radius-sm) 0;border-left:none}
 .period-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .period-btn:not(.active):hover{background:var(--accent-soft);color:var(--accent)}
-.district-badges{display:flex;flex-wrap:wrap;gap:6px;padding:8px 24px;max-width:1200px;margin:0 auto}
-.district-badge{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--paper);color:var(--ink);transition:all .15s ease}
-.district-badge:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
-.district-badge.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.district-tabs{border-top:none}
+.district-tabs .tab-btn .badge-count{display:inline-block;margin-left:4px;padding:1px 6px;border-radius:10px;font-size:10px;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+.district-tabs .tab-btn.active .badge-count{background:rgba(255,255,255,0.25);color:var(--accent)}
 /* ── Tabs ── */
 .tabs{display:flex;gap:0;padding:0 24px;max-width:1200px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid var(--line);background:var(--paper)}
 .tabs::-webkit-scrollbar{display:none}

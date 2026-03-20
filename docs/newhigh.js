@@ -173,16 +173,29 @@ function renderDistrictBadges() {
   keys.sort(function (a, b) { return counts[b] - counts[a]; });
 
   distBadgesEl.style.display = "flex";
+
+  // "전체" 탭
+  var allBtn = document.createElement("button");
+  allBtn.className = "tab-btn" + (activeDistrict === null ? " active" : "");
+  allBtn.textContent = "전체";
+  allBtn.addEventListener("click", function () {
+    activeDistrict = null;
+    activeDong = null;
+    visibleCount = PAGE_SIZE;
+    renderSubTabs();
+    renderDongTabs();
+    renderDistrictBadges();
+    renderResults();
+    updateHash();
+  });
+  distBadgesEl.appendChild(allBtn);
+
   keys.forEach(function (distName) {
-    var badge = document.createElement("button");
-    badge.className = "district-badge" + (activeDistrict === distName ? " active" : "");
-    badge.textContent = distName + " " + counts[distName];
-    badge.addEventListener("click", function () {
-      if (activeDistrict === distName) {
-        activeDistrict = null;
-      } else {
-        activeDistrict = distName;
-      }
+    var btn = document.createElement("button");
+    btn.className = "tab-btn" + (activeDistrict === distName ? " active" : "");
+    btn.innerHTML = distName + '<span class="badge-count">' + counts[distName] + '</span>';
+    btn.addEventListener("click", function () {
+      activeDistrict = activeDistrict === distName ? null : distName;
       activeDong = null;
       visibleCount = PAGE_SIZE;
       renderSubTabs();
@@ -191,7 +204,7 @@ function renderDistrictBadges() {
       renderResults();
       updateHash();
     });
-    distBadgesEl.appendChild(badge);
+    distBadgesEl.appendChild(btn);
   });
 }
 
