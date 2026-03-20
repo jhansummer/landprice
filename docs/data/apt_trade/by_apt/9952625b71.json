@@ -1,1 +1,1 @@
-{"trades":[["2020-03-30",110000],["2024-08-01",120500]],"info":{"build_year":2018,"households":905,"subway":"불광","subway_line":"3호선","subway_walk_min":8,"scores":{"transport":86,"infra":100,"academy":26,"brand":82,"livability":79,"loc":79}}}
+{"trades":[["2020-03-30",110000],["2024-08-01",120500]],"info":{"build_year":2018,"households":905,"subway":"불광","subway_line":"3호선","subway_walk_min":8,"commute":{"gangnam":46,"gwanghwamun":18,"yeouido":31},"scores":{"transport":86,"infra":100,"academy":26,"brand":82,"livability":79,"loc":90}}}
