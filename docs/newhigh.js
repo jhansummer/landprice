@@ -291,6 +291,12 @@ function renderCard(apt) {
   nameEl.style.cssText = "font-size:15px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
   nameEl.textContent = apt.apt_name;
   nameWrap.appendChild(nameEl);
+
+  var nhBadge = document.createElement("span");
+  nhBadge.className = "newhigh-badge";
+  nhBadge.textContent = "신고가";
+  nameWrap.appendChild(nhBadge);
+
   header.appendChild(nameWrap);
 
   var badge = document.createElement("span");
