@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-22T17:56:30Z",
+  "updated_at": "2026-03-23T18:23:43Z",
   "current_month": "202603",
   "params": {
     "months": 36,
@@ -30257,7 +30257,7 @@
               "dong_name": "상도동",
               "area_m2": 32.8,
               "current_price": 70000.0,
-              "trade_count": 36
+              "trade_count": 37
             },
             {
               "id": "2b83b7d24a",
@@ -63519,7 +63519,7 @@
         },
         {
           "size": 37,
-          "avg_current_price": 114737.61,
+          "avg_current_price": 114752.34,
           "members": [
             {
               "id": "7e416d29bd",
@@ -63572,8 +63572,8 @@
               "sigungu": "수원시영통구",
               "dong_name": "영통동",
               "area_m2": 59.39,
-              "current_price": 56975.0,
-              "trade_count": 260
+              "current_price": 57520.0,
+              "trade_count": 261
             },
             {
               "id": "a03168db6c",
@@ -68110,7 +68110,7 @@
               "avg_36": 115277.14285714286,
               "compare_avg_recent": 149733.33333333334,
               "compare_avg_36": 125491.8182319224,
-              "cluster_avg": 114737.61,
+              "cluster_avg": 114752.34,
               "gap_pct": -7.04,
               "status": "undervalued",
               "trade_count": 17,
@@ -76214,8 +76214,8 @@
     "대구": {
       "clusters": [
         {
-          "size": 77,
-          "avg_current_price": 88467.66,
+          "size": 78,
+          "avg_current_price": 88607.82,
           "members": [
             {
               "id": "92b811b1b9",
@@ -76783,6 +76783,15 @@
               "area_m2": 75.9909,
               "current_price": 96000.0,
               "trade_count": 41
+            },
+            {
+              "id": "d1384ef64a",
+              "apt_name": "범어서한포레스트",
+              "sigungu": "수성구",
+              "dong_name": "범어동",
+              "area_m2": 84.9961,
+              "current_price": 99400.0,
+              "trade_count": 8
             },
             {
               "id": "126cb7ce62",
@@ -77450,8 +77459,8 @@
           ]
         },
         {
-          "size": 55,
-          "avg_current_price": 98071.3,
+          "size": 56,
+          "avg_current_price": 98095.03,
           "members": [
             {
               "id": "d369f49d10",
@@ -77920,6 +77929,15 @@
               "area_m2": 84.9902,
               "current_price": 94500.0,
               "trade_count": 9
+            },
+            {
+              "id": "d1384ef64a",
+              "apt_name": "범어서한포레스트",
+              "sigungu": "수성구",
+              "dong_name": "범어동",
+              "area_m2": 84.9961,
+              "current_price": 99400.0,
+              "trade_count": 8
             },
             {
               "id": "126cb7ce62",
@@ -78908,12 +78926,12 @@
           "avg_36": 61364.0625,
           "compare_avg_recent": 73083.33333333333,
           "compare_avg_36": 63534.7,
-          "cluster_avg": 88467.66,
+          "cluster_avg": 88607.82,
           "gap_pct": -5.73,
           "status": "undervalued",
           "trade_count": 12,
           "recent_3m_trades": 2,
-          "cluster_size": 77,
+          "cluster_size": 78,
           "compare": [
             {
               "id": "e13a32ec2b",
@@ -78941,12 +78959,12 @@
           "avg_36": 57899.07407407407,
           "compare_avg_recent": 73083.33333333333,
           "compare_avg_36": 63534.7,
-          "cluster_avg": 88467.66,
+          "cluster_avg": 88607.82,
           "gap_pct": -0.39,
           "status": "market",
           "trade_count": 21,
           "recent_3m_trades": 4,
-          "cluster_size": 77,
+          "cluster_size": 78,
           "compare": [
             {
               "id": "e13a32ec2b",
@@ -79083,12 +79101,12 @@
               "avg_36": 61364.0625,
               "compare_avg_recent": 73083.33333333333,
               "compare_avg_36": 63534.7,
-              "cluster_avg": 88467.66,
+              "cluster_avg": 88607.82,
               "gap_pct": -5.73,
               "status": "undervalued",
               "trade_count": 12,
               "recent_3m_trades": 2,
-              "cluster_size": 77,
+              "cluster_size": 78,
               "compare": [
                 {
                   "id": "e13a32ec2b",
@@ -79116,12 +79134,12 @@
               "avg_36": 57899.07407407407,
               "compare_avg_recent": 73083.33333333333,
               "compare_avg_36": 63534.7,
-              "cluster_avg": 88467.66,
+              "cluster_avg": 88607.82,
               "gap_pct": -0.39,
               "status": "market",
               "trade_count": 21,
               "recent_3m_trades": 4,
-              "cluster_size": 77,
+              "cluster_size": 78,
               "compare": [
                 {
                   "id": "e13a32ec2b",
@@ -79154,12 +79172,12 @@
               "avg_36": 105103.7037037037,
               "compare_avg_recent": 114500.0,
               "compare_avg_36": 96423.37962962962,
-              "cluster_avg": 88467.66,
+              "cluster_avg": 88607.82,
               "gap_pct": -9.44,
               "status": "undervalued",
               "trade_count": 27,
               "recent_3m_trades": 4,
-              "cluster_size": 77,
+              "cluster_size": 78,
               "compare": [
                 {
                   "id": "56be2889d5",
@@ -79187,12 +79205,12 @@
               "avg_36": 74870.0,
               "compare_avg_recent": 91191.66666666667,
               "compare_avg_36": 74987.77488425926,
-              "cluster_avg": 88467.66,
+              "cluster_avg": 88607.82,
               "gap_pct": -8.83,
               "status": "undervalued",
               "trade_count": 53,
               "recent_3m_trades": 2,
-              "cluster_size": 77,
+              "cluster_size": 78,
               "compare": [
                 {
                   "id": "c53d195882",
@@ -79223,48 +79241,48 @@
               ]
             },
             {
-              "id": "88fa249675",
-              "apt_name": "범어롯데캐슬",
+              "id": "aaadd491af",
+              "apt_name": "힐스테이트황금엘포레",
               "sigungu": "수성구",
-              "dong_name": "범어동",
-              "area_m2": 84.89,
-              "current_price": 106000.0,
-              "recent_avg": 106500.0,
-              "avg_36": 98402.77777777778,
-              "compare_avg_recent": 110875.0,
-              "compare_avg_36": 96890.85648148147,
-              "cluster_avg": 88467.66,
-              "gap_pct": -5.51,
+              "dong_name": "황금동",
+              "area_m2": 84.9956,
+              "current_price": 90000.0,
+              "recent_avg": 89500.0,
+              "avg_36": 79058.82352941176,
+              "compare_avg_recent": 99066.66666666666,
+              "compare_avg_36": 82346.40692640693,
+              "cluster_avg": 88607.82,
+              "gap_pct": -5.66,
               "status": "undervalued",
               "trade_count": 9,
-              "recent_3m_trades": 2,
-              "cluster_size": 77,
+              "recent_3m_trades": 3,
+              "cluster_size": 78,
               "compare": [
                 {
-                  "id": "963a73736f",
-                  "apt_name": "범어효성해링턴플레이스",
+                  "id": "d1384ef64a",
+                  "apt_name": "범어서한포레스트",
                   "sigungu": "수성구",
                   "dong_name": "범어동",
-                  "area_m2": 84.991,
-                  "current_price": 107250.0,
-                  "recent_avg": 107250.0,
-                  "avg_36": 97358.33333333333,
-                  "trade_count": 14,
-                  "corr": 0.937,
-                  "hist_diff_pct": 1.85
+                  "area_m2": 84.9961,
+                  "current_price": 99400.0,
+                  "recent_avg": 99133.33333333333,
+                  "avg_36": 82568.57142857143,
+                  "trade_count": 8,
+                  "corr": 0.949,
+                  "hist_diff_pct": 4.13
                 },
                 {
-                  "id": "56be2889d5",
-                  "apt_name": "범어에일린의뜰",
+                  "id": "385912442a",
+                  "apt_name": "힐스테이트범어센트럴",
                   "sigungu": "수성구",
                   "dong_name": "범어동",
-                  "area_m2": 84.941,
-                  "current_price": 114500.0,
-                  "recent_avg": 114500.0,
-                  "avg_36": 96423.37962962962,
-                  "trade_count": 45,
-                  "corr": 0.892,
-                  "hist_diff_pct": 7.57
+                  "area_m2": 84.91,
+                  "current_price": 99000.0,
+                  "recent_avg": 99000.0,
+                  "avg_36": 82124.24242424243,
+                  "trade_count": 17,
+                  "corr": 0.936,
+                  "hist_diff_pct": 3.9
                 }
               ]
             }
