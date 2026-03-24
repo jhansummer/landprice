@@ -1,1 +1,1 @@
-{"trades":[["2019-09-09",60000],["2025-04-29",70000],["2025-06-09",75000],["2025-06-13",74800]],"info":{"build_year":1996}}
+{"trades":[["2019-09-09",60000],["2025-04-29",70000],["2025-06-09",75000],["2025-06-13",74800]],"info":{"build_year":1996,"households":377,"subway":"고덕","subway_line":"5호선","subway_walk_min":18,"commute":{"gangnam":38,"gwanghwamun":48,"yeouido":62},"scores":{"transport":69,"infra":100,"academy":62,"brand":50,"livability":40,"loc":57}}}

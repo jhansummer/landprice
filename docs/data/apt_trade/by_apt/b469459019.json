@@ -1,1 +1,1 @@
-{"trades":[["2020-05-27",12000],["2021-02-16",12000],["2021-04-07",12000]],"info":{"build_year":1998}}
+{"trades":[["2020-05-27",12000],["2021-02-16",12000],["2021-04-07",12000]],"info":{"build_year":1998,"subway":"서정리","subway_line":"1호선","subway_walk_min":34,"scores":{"transport":42,"infra":100,"academy":6,"brand":50,"livability":41,"loc":75}}}

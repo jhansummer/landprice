@@ -42737,7 +42737,12 @@
    "bank": 61,
    "academy": 160
   },
-  "school_score": 67
+  "school_score": 67,
+  "commute_transit": {
+   "gangnam": 34,
+   "gwanghwamun": 30,
+   "yeouido": 8
+  }
  },
  "37.581,127.075": {
   "infra": {
@@ -49516,7 +49521,12 @@
    "bank": 40,
    "academy": 179
   },
-  "school_score": 74
+  "school_score": 74,
+  "commute_transit": {
+   "gangnam": 17,
+   "gwanghwamun": 28,
+   "yeouido": 39
+  }
  },
  "37.562,127.062": {
   "infra": {
@@ -235599,5 +235609,3029 @@
    "academy": 104
   },
   "school_score": 79
+ },
+ "37.550,126.877": {
+  "commute_transit": {
+   "gangnam": 44,
+   "gwanghwamun": 27,
+   "yeouido": 16
+  },
+  "infra": {
+   "mart": 2,
+   "conv": 37,
+   "school": 8,
+   "hospital": 77,
+   "bank": 24,
+   "academy": 190
+  },
+  "school_score": 83
+ },
+ "37.498,126.912": {
+  "commute_transit": {
+   "gangnam": 31,
+   "gwanghwamun": 30,
+   "yeouido": 8
+  },
+  "infra": {
+   "mart": 5,
+   "conv": 55,
+   "school": 18,
+   "hospital": 163,
+   "bank": 51,
+   "academy": 252
+  },
+  "school_score": 72
+ },
+ "37.548,126.951": {
+  "commute_transit": {
+   "gangnam": 27,
+   "gwanghwamun": 10,
+   "yeouido": 11
+  },
+  "infra": {
+   "mart": 4,
+   "conv": 88,
+   "school": 16,
+   "hospital": 215,
+   "bank": 99,
+   "academy": 361
+  },
+  "school_score": 82
+ },
+ "37.485,127.050": {
+  "commute_transit": {
+   "gangnam": 7,
+   "gwanghwamun": 35,
+   "yeouido": 36
+  },
+  "infra": {
+   "mart": 3,
+   "conv": 44,
+   "school": 13,
+   "hospital": 122,
+   "bank": 58,
+   "academy": 178
+  },
+  "school_score": 90
+ },
+ "37.498,127.072": {
+  "commute_transit": {
+   "gangnam": 12,
+   "gwanghwamun": 35,
+   "yeouido": 40
+  },
+  "infra": {
+   "mart": 6,
+   "conv": 30,
+   "school": 8,
+   "hospital": 81,
+   "bank": 45,
+   "academy": 433
+  },
+  "school_score": 89
+ },
+ "37.547,127.157": {
+  "commute_transit": {
+   "gangnam": 38,
+   "gwanghwamun": 48,
+   "yeouido": 62
+  },
+  "infra": {
+   "mart": 2,
+   "conv": 21,
+   "school": 9,
+   "hospital": 60,
+   "bank": 31,
+   "academy": 286
+  },
+  "school_score": 81
+ },
+ "37.528,127.143": {
+  "commute_transit": {
+   "gangnam": 32,
+   "gwanghwamun": 46,
+   "yeouido": 58
+  },
+  "infra": {
+   "mart": 5,
+   "conv": 51,
+   "school": 9,
+   "hospital": 183,
+   "bank": 47,
+   "academy": 209
+  },
+  "school_score": 72
+ },
+ "37.477,127.055": {
+  "commute_transit": {
+   "gangnam": 10,
+   "gwanghwamun": 38,
+   "yeouido": 38
+  },
+  "infra": {
+   "mart": 4,
+   "conv": 33,
+   "school": 8,
+   "hospital": 71,
+   "bank": 29,
+   "academy": 162
+  },
+  "school_score": 85
+ },
+ "37.519,126.986": {
+  "commute_transit": {
+   "gangnam": 13,
+   "gwanghwamun": 18,
+   "yeouido": 16
+  },
+  "infra": {
+   "mart": 0,
+   "conv": 10,
+   "school": 5,
+   "hospital": 15,
+   "bank": 13,
+   "academy": 30
+  },
+  "school_score": 84
+ },
+ "37.537,127.074": {
+  "commute_transit": {
+   "gangnam": 18,
+   "gwanghwamun": 28,
+   "yeouido": 40
+  },
+  "infra": {
+   "mart": 3,
+   "conv": 104,
+   "school": 12,
+   "hospital": 187,
+   "bank": 64,
+   "academy": 219
+  },
+  "school_score": 75
+ },
+ "37.535,127.072": {
+  "commute_transit": {
+   "gangnam": 17,
+   "gwanghwamun": 28,
+   "yeouido": 39
+  },
+  "infra": {
+   "mart": 3,
+   "conv": 91,
+   "school": 8,
+   "hospital": 142,
+   "bank": 55,
+   "academy": 196
+  },
+  "school_score": 75
+ },
+ "37.543,127.104": {
+  "commute_transit": {
+   "gangnam": 25,
+   "gwanghwamun": 35,
+   "yeouido": 48
+  },
+  "infra": {
+   "mart": 4,
+   "conv": 29,
+   "school": 8,
+   "hospital": 73,
+   "bank": 27,
+   "academy": 249
+  },
+  "school_score": 86
+ },
+ "37.542,127.103": {
+  "commute_transit": {
+   "gangnam": 25,
+   "gwanghwamun": 35,
+   "yeouido": 48
+  },
+  "infra": {
+   "mart": 5,
+   "conv": 32,
+   "school": 8,
+   "hospital": 75,
+   "bank": 39,
+   "academy": 264
+  },
+  "school_score": 87
+ },
+ "35.840,128.712": {
+  "infra": {
+   "mart": 2,
+   "conv": 36,
+   "school": 8,
+   "hospital": 95,
+   "bank": 32,
+   "academy": 423
+  },
+  "school_score": 92
+ },
+ "35.531,129.299": {
+  "infra": {
+   "mart": 2,
+   "conv": 29,
+   "school": 9,
+   "hospital": 45,
+   "bank": 26,
+   "academy": 305
+  },
+  "school_score": 94
+ },
+ "37.490,127.055": {
+  "infra": {
+   "mart": 7,
+   "conv": 42,
+   "school": 19,
+   "hospital": 235,
+   "bank": 84,
+   "academy": 673
+  },
+  "school_score": 92
+ },
+ "37.549,127.006": {
+  "infra": {
+   "mart": 4,
+   "conv": 27,
+   "school": 6,
+   "hospital": 91,
+   "bank": 44,
+   "academy": 107
+  },
+  "school_score": 79
+ },
+ "37.577,127.088": {
+  "infra": {
+   "mart": 3,
+   "conv": 50,
+   "school": 5,
+   "hospital": 86,
+   "bank": 39,
+   "academy": 117
+  },
+  "school_score": 66
+ },
+ "37.488,127.061": {
+  "infra": {
+   "mart": 7,
+   "conv": 30,
+   "school": 21,
+   "hospital": 149,
+   "bank": 70,
+   "academy": 394
+  },
+  "school_score": 91
+ },
+ "37.485,127.053": {
+  "infra": {
+   "mart": 4,
+   "conv": 38,
+   "school": 18,
+   "hospital": 113,
+   "bank": 57,
+   "academy": 196
+  },
+  "school_score": 90
+ },
+ "37.660,127.033": {
+  "infra": {
+   "mart": 4,
+   "conv": 69,
+   "school": 16,
+   "hospital": 94,
+   "bank": 47,
+   "academy": 240
+  },
+  "school_score": 76
+ },
+ "37.539,126.846": {
+  "infra": {
+   "mart": 2,
+   "conv": 91,
+   "school": 9,
+   "hospital": 177,
+   "bank": 49,
+   "academy": 207
+  },
+  "school_score": 69
+ },
+ "37.529,126.994": {
+  "infra": {
+   "mart": 0,
+   "conv": 37,
+   "school": 6,
+   "hospital": 26,
+   "bank": 42,
+   "academy": 45
+  },
+  "school_score": 78
+ },
+ "37.531,127.039": {
+  "infra": {
+   "mart": 1,
+   "conv": 42,
+   "school": 6,
+   "hospital": 382,
+   "bank": 49,
+   "academy": 235
+  },
+  "school_score": 86
+ },
+ "37.516,127.015": {
+  "infra": {
+   "mart": 4,
+   "conv": 65,
+   "school": 3,
+   "hospital": 462,
+   "bank": 66,
+   "academy": 287
+  },
+  "school_score": 91
+ },
+ "37.513,127.010": {
+  "infra": {
+   "mart": 6,
+   "conv": 46,
+   "school": 7,
+   "hospital": 278,
+   "bank": 62,
+   "academy": 297
+  },
+  "school_score": 91
+ },
+ "37.468,126.932": {
+  "infra": {
+   "mart": 1,
+   "conv": 57,
+   "school": 13,
+   "hospital": 43,
+   "bank": 34,
+   "academy": 107
+  },
+  "school_score": 71
+ },
+ "37.531,127.038": {
+  "infra": {
+   "mart": 1,
+   "conv": 39,
+   "school": 6,
+   "hospital": 379,
+   "bank": 47,
+   "academy": 236
+  },
+  "school_score": 86
+ },
+ "37.515,126.917": {
+  "infra": {
+   "mart": 4,
+   "conv": 83,
+   "school": 9,
+   "hospital": 97,
+   "bank": 72,
+   "academy": 125
+  },
+  "school_score": 77
+ },
+ "37.491,126.977": {
+  "infra": {
+   "mart": 5,
+   "conv": 61,
+   "school": 12,
+   "hospital": 214,
+   "bank": 50,
+   "academy": 310
+  },
+  "school_score": 81
+ },
+ "37.477,126.912": {
+  "infra": {
+   "mart": 1,
+   "conv": 69,
+   "school": 15,
+   "hospital": 95,
+   "bank": 39,
+   "academy": 123
+  },
+  "school_score": 67
+ },
+ "37.475,126.991": {
+  "infra": {
+   "mart": 3,
+   "conv": 41,
+   "school": 8,
+   "hospital": 91,
+   "bank": 48,
+   "academy": 153
+  },
+  "school_score": 84
+ },
+ "37.529,127.039": {
+  "infra": {
+   "mart": 1,
+   "conv": 55,
+   "school": 6,
+   "hospital": 438,
+   "bank": 61,
+   "academy": 262
+  },
+  "school_score": 88
+ },
+ "37.475,126.897": {
+  "infra": {
+   "mart": 5,
+   "conv": 126,
+   "school": 5,
+   "hospital": 133,
+   "bank": 102,
+   "academy": 91
+  },
+  "school_score": 65
+ },
+ "37.495,126.987": {
+  "infra": {
+   "mart": 5,
+   "conv": 45,
+   "school": 12,
+   "hospital": 143,
+   "bank": 44,
+   "academy": 360
+  },
+  "school_score": 89
+ },
+ "37.610,127.097": {
+  "infra": {
+   "mart": 4,
+   "conv": 32,
+   "school": 14,
+   "hospital": 63,
+   "bank": 29,
+   "academy": 202
+  },
+  "school_score": 70
+ },
+ "37.541,127.103": {
+  "infra": {
+   "mart": 5,
+   "conv": 33,
+   "school": 8,
+   "hospital": 76,
+   "bank": 40,
+   "academy": 264
+  },
+  "school_score": 88
+ },
+ "37.656,127.029": {
+  "infra": {
+   "mart": 5,
+   "conv": 55,
+   "school": 18,
+   "hospital": 93,
+   "bank": 43,
+   "academy": 246
+  },
+  "school_score": 79
+ },
+ "37.521,126.873": {
+  "infra": {
+   "mart": 8,
+   "conv": 51,
+   "school": 12,
+   "hospital": 140,
+   "bank": 73,
+   "academy": 663
+  },
+  "school_score": 89
+ },
+ "37.568,126.906": {
+  "infra": {
+   "mart": 3,
+   "conv": 79,
+   "school": 11,
+   "hospital": 91,
+   "bank": 53,
+   "academy": 180
+  },
+  "school_score": 78
+ },
+ "37.498,127.118": {
+  "infra": {
+   "mart": 8,
+   "conv": 66,
+   "school": 11,
+   "hospital": 170,
+   "bank": 92,
+   "academy": 281
+  },
+  "school_score": 80
+ },
+ "37.491,127.024": {
+  "infra": {
+   "mart": 10,
+   "conv": 119,
+   "school": 8,
+   "hospital": 545,
+   "bank": 147,
+   "academy": 562
+  },
+  "school_score": 93
+ },
+ "37.475,126.992": {
+  "infra": {
+   "mart": 3,
+   "conv": 32,
+   "school": 8,
+   "hospital": 76,
+   "bank": 32,
+   "academy": 135
+  },
+  "school_score": 85
+ },
+ "37.476,126.990": {
+  "infra": {
+   "mart": 3,
+   "conv": 42,
+   "school": 8,
+   "hospital": 91,
+   "bank": 48,
+   "academy": 156
+  },
+  "school_score": 84
+ },
+ "37.648,127.031": {
+  "infra": {
+   "mart": 2,
+   "conv": 82,
+   "school": 13,
+   "hospital": 94,
+   "bank": 50,
+   "academy": 151
+  },
+  "school_score": 76
+ },
+ "37.477,126.952": {
+  "infra": {
+   "mart": 2,
+   "conv": 78,
+   "school": 14,
+   "hospital": 168,
+   "bank": 59,
+   "academy": 149
+  },
+  "school_score": 75
+ },
+ "37.506,127.122": {
+  "infra": {
+   "mart": 6,
+   "conv": 62,
+   "school": 15,
+   "hospital": 113,
+   "bank": 55,
+   "academy": 461
+  },
+  "school_score": 81
+ },
+ "37.513,126.855": {
+  "infra": {
+   "mart": 5,
+   "conv": 28,
+   "school": 17,
+   "hospital": 105,
+   "bank": 36,
+   "academy": 299
+  },
+  "school_score": 81
+ },
+ "37.543,126.963": {
+  "infra": {
+   "mart": 3,
+   "conv": 88,
+   "school": 13,
+   "hospital": 142,
+   "bank": 83,
+   "academy": 174
+  },
+  "school_score": 79
+ },
+ "37.553,126.905": {
+  "infra": {
+   "mart": 1,
+   "conv": 85,
+   "school": 4,
+   "hospital": 103,
+   "bank": 40,
+   "academy": 162
+  },
+  "school_score": 76
+ },
+ "37.512,127.008": {
+  "infra": {
+   "mart": 7,
+   "conv": 46,
+   "school": 7,
+   "hospital": 125,
+   "bank": 60,
+   "academy": 331
+  },
+  "school_score": 92
+ },
+ "37.513,126.885": {
+  "infra": {
+   "mart": 6,
+   "conv": 51,
+   "school": 11,
+   "hospital": 104,
+   "bank": 51,
+   "academy": 262
+  },
+  "school_score": 87
+ },
+ "37.581,127.094": {
+  "infra": {
+   "mart": 2,
+   "conv": 48,
+   "school": 6,
+   "hospital": 103,
+   "bank": 38,
+   "academy": 87
+  },
+  "school_score": 65
+ },
+ "37.622,127.062": {
+  "infra": {
+   "mart": 4,
+   "conv": 48,
+   "school": 8,
+   "hospital": 60,
+   "bank": 45,
+   "academy": 93
+  },
+  "school_score": 73
+ },
+ "37.537,127.085": {
+  "infra": {
+   "mart": 6,
+   "conv": 96,
+   "school": 16,
+   "hospital": 166,
+   "bank": 69,
+   "academy": 329
+  },
+  "school_score": 75
+ },
+ "37.611,127.097": {
+  "infra": {
+   "mart": 3,
+   "conv": 33,
+   "school": 11,
+   "hospital": 60,
+   "bank": 28,
+   "academy": 187
+  },
+  "school_score": 71
+ },
+ "37.646,127.030": {
+  "infra": {
+   "mart": 3,
+   "conv": 87,
+   "school": 10,
+   "hospital": 115,
+   "bank": 57,
+   "academy": 137
+  },
+  "school_score": 76
+ },
+ "37.652,127.073": {
+  "infra": {
+   "mart": 5,
+   "conv": 60,
+   "school": 23,
+   "hospital": 169,
+   "bank": 54,
+   "academy": 734
+  },
+  "school_score": 86
+ },
+ "37.617,126.924": {
+  "infra": {
+   "mart": 6,
+   "conv": 89,
+   "school": 12,
+   "hospital": 255,
+   "bank": 80,
+   "academy": 359
+  },
+  "school_score": 73
+ },
+ "37.559,126.927": {
+  "infra": {
+   "mart": 5,
+   "conv": 141,
+   "school": 7,
+   "hospital": 212,
+   "bank": 89,
+   "academy": 380
+  },
+  "school_score": 78
+ },
+ "37.551,126.867": {
+  "infra": {
+   "mart": 7,
+   "conv": 78,
+   "school": 11,
+   "hospital": 142,
+   "bank": 57,
+   "academy": 299
+  },
+  "school_score": 78
+ },
+ "37.474,126.969": {
+  "infra": {
+   "mart": 3,
+   "conv": 52,
+   "school": 8,
+   "hospital": 83,
+   "bank": 24,
+   "academy": 90
+  },
+  "school_score": 76
+ },
+ "37.481,127.009": {
+  "infra": {
+   "mart": 5,
+   "conv": 57,
+   "school": 5,
+   "hospital": 83,
+   "bank": 54,
+   "academy": 193
+  },
+  "school_score": 89
+ },
+ "37.496,126.999": {
+  "infra": {
+   "mart": 4,
+   "conv": 34,
+   "school": 10,
+   "hospital": 121,
+   "bank": 75,
+   "academy": 204
+  },
+  "school_score": 91
+ },
+ "37.483,127.006": {
+  "infra": {
+   "mart": 8,
+   "conv": 65,
+   "school": 9,
+   "hospital": 142,
+   "bank": 68,
+   "academy": 242
+  },
+  "school_score": 89
+ },
+ "37.612,127.081": {
+  "infra": {
+   "mart": 4,
+   "conv": 52,
+   "school": 12,
+   "hospital": 75,
+   "bank": 33,
+   "academy": 129
+  },
+  "school_score": 74
+ },
+ "37.497,126.901": {
+  "infra": {
+   "mart": 4,
+   "conv": 85,
+   "school": 14,
+   "hospital": 153,
+   "bank": 77,
+   "academy": 151
+  },
+  "school_score": 67
+ },
+ "37.525,126.876": {
+  "infra": {
+   "mart": 7,
+   "conv": 52,
+   "school": 9,
+   "hospital": 136,
+   "bank": 63,
+   "academy": 531
+  },
+  "school_score": 90
+ },
+ "37.613,127.082": {
+  "infra": {
+   "mart": 4,
+   "conv": 55,
+   "school": 13,
+   "hospital": 76,
+   "bank": 35,
+   "academy": 140
+  },
+  "school_score": 75
+ },
+ "37.645,127.030": {
+  "infra": {
+   "mart": 3,
+   "conv": 98,
+   "school": 10,
+   "hospital": 167,
+   "bank": 66,
+   "academy": 162
+  },
+  "school_score": 74
+ },
+ "37.490,127.026": {
+  "infra": {
+   "mart": 9,
+   "conv": 115,
+   "school": 8,
+   "hospital": 468,
+   "bank": 137,
+   "academy": 513
+  },
+  "school_score": 93
+ },
+ "37.634,127.064": {
+  "infra": {
+   "mart": 6,
+   "conv": 37,
+   "school": 16,
+   "hospital": 78,
+   "bank": 50,
+   "academy": 154
+  },
+  "school_score": 81
+ },
+ "37.609,127.099": {
+  "infra": {
+   "mart": 3,
+   "conv": 41,
+   "school": 15,
+   "hospital": 62,
+   "bank": 33,
+   "academy": 193
+  },
+  "school_score": 67
+ },
+ "37.507,126.903": {
+  "infra": {
+   "mart": 6,
+   "conv": 61,
+   "school": 9,
+   "hospital": 106,
+   "bank": 67,
+   "academy": 175
+  },
+  "school_score": 69
+ },
+ "37.467,126.943": {
+  "infra": {
+   "mart": 1,
+   "conv": 53,
+   "school": 9,
+   "hospital": 30,
+   "bank": 37,
+   "academy": 79
+  },
+  "school_score": 75
+ },
+ "37.516,127.010": {
+  "infra": {
+   "mart": 4,
+   "conv": 35,
+   "school": 5,
+   "hospital": 315,
+   "bank": 49,
+   "academy": 220
+  },
+  "school_score": 90
+ },
+ "37.658,127.033": {
+  "infra": {
+   "mart": 7,
+   "conv": 69,
+   "school": 20,
+   "hospital": 92,
+   "bank": 52,
+   "academy": 275
+  },
+  "school_score": 76
+ },
+ "37.638,127.069": {
+  "infra": {
+   "mart": 3,
+   "conv": 38,
+   "school": 20,
+   "hospital": 57,
+   "bank": 49,
+   "academy": 147
+  },
+  "school_score": 84
+ },
+ "37.659,127.033": {
+  "infra": {
+   "mart": 7,
+   "conv": 69,
+   "school": 19,
+   "hospital": 92,
+   "bank": 49,
+   "academy": 271
+  },
+  "school_score": 76
+ },
+ "37.648,127.085": {
+  "infra": {
+   "mart": 4,
+   "conv": 23,
+   "school": 6,
+   "hospital": 53,
+   "bank": 17,
+   "academy": 543
+  },
+  "school_score": 87
+ },
+ "37.468,126.944": {
+  "infra": {
+   "mart": 1,
+   "conv": 52,
+   "school": 11,
+   "hospital": 26,
+   "bank": 37,
+   "academy": 72
+  },
+  "school_score": 74
+ },
+ "37.483,126.770": {
+  "infra": {
+   "mart": 1,
+   "conv": 78,
+   "school": 13,
+   "hospital": 89,
+   "bank": 44,
+   "academy": 166
+  },
+  "school_score": 70
+ },
+ "37.331,127.132": {
+  "infra": {
+   "mart": 2,
+   "conv": 15,
+   "school": 6,
+   "hospital": 24,
+   "bank": 17,
+   "academy": 142
+  },
+  "school_score": 91
+ },
+ "37.347,126.782": {
+  "infra": {
+   "mart": 0,
+   "conv": 16,
+   "school": 4,
+   "hospital": 19,
+   "bank": 6,
+   "academy": 20
+  },
+  "school_score": 66
+ },
+ "37.070,127.056": {
+  "infra": {
+   "mart": 3,
+   "conv": 66,
+   "school": 9,
+   "hospital": 38,
+   "bank": 36,
+   "academy": 47
+  },
+  "school_score": 67
+ },
+ "37.531,126.807": {
+  "infra": {
+   "mart": 0,
+   "conv": 45,
+   "school": 7,
+   "hospital": 75,
+   "bank": 18,
+   "academy": 83
+  },
+  "school_score": 65
+ },
+ "37.531,126.808": {
+  "infra": {
+   "mart": 0,
+   "conv": 47,
+   "school": 7,
+   "hospital": 75,
+   "bank": 20,
+   "academy": 81
+  },
+  "school_score": 64
+ },
+ "37.083,127.063": {
+  "infra": {
+   "mart": 1,
+   "conv": 46,
+   "school": 3,
+   "hospital": 41,
+   "bank": 20,
+   "academy": 39
+  },
+  "school_score": 68
+ },
+ "37.157,127.075": {
+  "infra": {
+   "mart": 1,
+   "conv": 37,
+   "school": 5,
+   "hospital": 48,
+   "bank": 26,
+   "academy": 84
+  },
+  "school_score": 74
+ },
+ "37.703,127.048": {
+  "infra": {
+   "mart": 1,
+   "conv": 25,
+   "school": 4,
+   "hospital": 8,
+   "bank": 11,
+   "academy": 33
+  },
+  "school_score": 79
+ },
+ "37.070,127.060": {
+  "infra": {
+   "mart": 3,
+   "conv": 60,
+   "school": 12,
+   "hospital": 37,
+   "bank": 35,
+   "academy": 54
+  },
+  "school_score": 66
+ },
+ "37.600,127.145": {
+  "infra": {
+   "mart": 2,
+   "conv": 73,
+   "school": 7,
+   "hospital": 166,
+   "bank": 59,
+   "academy": 235
+  },
+  "school_score": 77
+ },
+ "37.701,126.900": {
+  "infra": {
+   "mart": 3,
+   "conv": 11,
+   "school": 2,
+   "hospital": 18,
+   "bank": 8,
+   "academy": 37
+  },
+  "school_score": 61
+ },
+ "37.352,126.730": {
+  "infra": {
+   "mart": 2,
+   "conv": 52,
+   "school": 9,
+   "hospital": 49,
+   "bank": 44,
+   "academy": 82
+  },
+  "school_score": 73
+ },
+ "37.438,126.779": {
+  "infra": {
+   "mart": 0,
+   "conv": 34,
+   "school": 6,
+   "hospital": 63,
+   "bank": 18,
+   "academy": 45
+  },
+  "school_score": 65
+ },
+ "37.463,127.167": {
+  "infra": {
+   "mart": 0,
+   "conv": 33,
+   "school": 6,
+   "hospital": 35,
+   "bank": 13,
+   "academy": 34
+  },
+  "school_score": 72
+ },
+ "37.497,126.793": {
+  "infra": {
+   "mart": 0,
+   "conv": 49,
+   "school": 8,
+   "hospital": 52,
+   "bank": 39,
+   "academy": 57
+  },
+  "school_score": 67
+ },
+ "37.755,126.773": {
+  "infra": {
+   "mart": 3,
+   "conv": 54,
+   "school": 8,
+   "hospital": 71,
+   "bank": 43,
+   "academy": 118
+  },
+  "school_score": 74
+ },
+ "37.073,127.058": {
+  "infra": {
+   "mart": 3,
+   "conv": 73,
+   "school": 10,
+   "hospital": 72,
+   "bank": 47,
+   "academy": 63
+  },
+  "school_score": 66
+ },
+ "37.280,127.435": {
+  "infra": {
+   "mart": 1,
+   "conv": 38,
+   "school": 4,
+   "hospital": 31,
+   "bank": 20,
+   "academy": 60
+  },
+  "school_score": 62
+ },
+ "37.269,127.056": {
+  "infra": {
+   "mart": 1,
+   "conv": 54,
+   "school": 12,
+   "hospital": 47,
+   "bank": 32,
+   "academy": 149
+  },
+  "school_score": 72
+ },
+ "37.383,127.095": {
+  "infra": {
+   "mart": 2,
+   "conv": 12,
+   "school": 4,
+   "hospital": 21,
+   "bank": 14,
+   "academy": 68
+  },
+  "school_score": 92
+ },
+ "37.447,126.796": {
+  "infra": {
+   "mart": 3,
+   "conv": 45,
+   "school": 9,
+   "hospital": 70,
+   "bank": 28,
+   "academy": 181
+  },
+  "school_score": 74
+ },
+ "37.077,127.056": {
+  "infra": {
+   "mart": 1,
+   "conv": 75,
+   "school": 7,
+   "hospital": 45,
+   "bank": 28,
+   "academy": 55
+  },
+  "school_score": 66
+ },
+ "37.362,126.726": {
+  "infra": {
+   "mart": 3,
+   "conv": 54,
+   "school": 12,
+   "hospital": 63,
+   "bank": 31,
+   "academy": 179
+  },
+  "school_score": 72
+ },
+ "37.724,127.049": {
+  "infra": {
+   "mart": 7,
+   "conv": 40,
+   "school": 9,
+   "hospital": 68,
+   "bank": 27,
+   "academy": 138
+  },
+  "school_score": 77
+ },
+ "37.284,127.439": {
+  "infra": {
+   "mart": 2,
+   "conv": 53,
+   "school": 5,
+   "hospital": 98,
+   "bank": 30,
+   "academy": 105
+  },
+  "school_score": 64
+ },
+ "37.761,127.031": {
+  "infra": {
+   "mart": 3,
+   "conv": 21,
+   "school": 6,
+   "hospital": 19,
+   "bank": 12,
+   "academy": 39
+  },
+  "school_score": 77
+ },
+ "37.471,126.797": {
+  "infra": {
+   "mart": 2,
+   "conv": 33,
+   "school": 13,
+   "hospital": 37,
+   "bank": 19,
+   "academy": 116
+  },
+  "school_score": 77
+ },
+ "37.889,127.060": {
+  "infra": {
+   "mart": 1,
+   "conv": 36,
+   "school": 6,
+   "hospital": 46,
+   "bank": 18,
+   "academy": 73
+  },
+  "school_score": 67
+ },
+ "37.621,126.829": {
+  "infra": {
+   "mart": 6,
+   "conv": 47,
+   "school": 12,
+   "hospital": 94,
+   "bank": 26,
+   "academy": 231
+  },
+  "school_score": 81
+ },
+ "37.345,126.940": {
+  "infra": {
+   "mart": 5,
+   "conv": 33,
+   "school": 7,
+   "hospital": 42,
+   "bank": 24,
+   "academy": 109
+  },
+  "school_score": 81
+ },
+ "37.331,127.131": {
+  "infra": {
+   "mart": 3,
+   "conv": 18,
+   "school": 7,
+   "hospital": 26,
+   "bank": 17,
+   "academy": 144
+  },
+  "school_score": 91
+ },
+ "37.622,126.697": {
+  "infra": {
+   "mart": 1,
+   "conv": 24,
+   "school": 6,
+   "hospital": 33,
+   "bank": 10,
+   "academy": 80
+  },
+  "school_score": 77
+ },
+ "37.295,127.633": {
+  "infra": {
+   "mart": 2,
+   "conv": 27,
+   "school": 2,
+   "hospital": 54,
+   "bank": 16,
+   "academy": 60
+  },
+  "school_score": 62
+ },
+ "37.240,127.051": {
+  "infra": {
+   "mart": 8,
+   "conv": 39,
+   "school": 9,
+   "hospital": 106,
+   "bank": 29,
+   "academy": 338
+  },
+  "school_score": 88
+ },
+ "37.326,127.089": {
+  "infra": {
+   "mart": 6,
+   "conv": 44,
+   "school": 12,
+   "hospital": 106,
+   "bank": 45,
+   "academy": 364
+  },
+  "school_score": 91
+ },
+ "37.744,127.060": {
+  "infra": {
+   "mart": 3,
+   "conv": 56,
+   "school": 8,
+   "hospital": 76,
+   "bank": 38,
+   "academy": 137
+  },
+  "school_score": 77
+ },
+ "37.299,127.111": {
+  "infra": {
+   "mart": 4,
+   "conv": 20,
+   "school": 6,
+   "hospital": 50,
+   "bank": 26,
+   "academy": 89
+  },
+  "school_score": 88
+ },
+ "37.729,127.059": {
+  "infra": {
+   "mart": 4,
+   "conv": 36,
+   "school": 9,
+   "hospital": 61,
+   "bank": 17,
+   "academy": 128
+  },
+  "school_score": 76
+ },
+ "37.364,126.736": {
+  "infra": {
+   "mart": 4,
+   "conv": 47,
+   "school": 7,
+   "hospital": 66,
+   "bank": 30,
+   "academy": 157
+  },
+  "school_score": 74
+ },
+ "37.312,126.824": {
+  "infra": {
+   "mart": 5,
+   "conv": 59,
+   "school": 5,
+   "hospital": 106,
+   "bank": 61,
+   "academy": 297
+  },
+  "school_score": 81
+ },
+ "37.344,126.782": {
+  "infra": {
+   "mart": 0,
+   "conv": 21,
+   "school": 6,
+   "hospital": 23,
+   "bank": 11,
+   "academy": 41
+  },
+  "school_score": 66
+ },
+ "37.266,127.041": {
+  "infra": {
+   "mart": 6,
+   "conv": 81,
+   "school": 12,
+   "hospital": 178,
+   "bank": 78,
+   "academy": 308
+  },
+  "school_score": 80
+ },
+ "37.481,126.795": {
+  "infra": {
+   "mart": 1,
+   "conv": 57,
+   "school": 7,
+   "hospital": 49,
+   "bank": 40,
+   "academy": 84
+  },
+  "school_score": 75
+ },
+ "37.826,127.141": {
+  "infra": {
+   "mart": 3,
+   "conv": 28,
+   "school": 8,
+   "hospital": 41,
+   "bank": 36,
+   "academy": 61
+  },
+  "school_score": 70
+ },
+ "37.727,127.051": {
+  "infra": {
+   "mart": 8,
+   "conv": 61,
+   "school": 10,
+   "hospital": 94,
+   "bank": 34,
+   "academy": 194
+  },
+  "school_score": 76
+ },
+ "37.445,126.795": {
+  "infra": {
+   "mart": 5,
+   "conv": 59,
+   "school": 13,
+   "hospital": 109,
+   "bank": 35,
+   "academy": 217
+  },
+  "school_score": 73
+ },
+ "37.345,127.339": {
+  "infra": {
+   "mart": 1,
+   "conv": 9,
+   "school": 3,
+   "hospital": 17,
+   "bank": 3,
+   "academy": 13
+  },
+  "school_score": 60
+ },
+ "37.530,126.789": {
+  "infra": {
+   "mart": 1,
+   "conv": 20,
+   "school": 8,
+   "hospital": 14,
+   "bank": 9,
+   "academy": 37
+  },
+  "school_score": 66
+ },
+ "37.297,127.456": {
+  "infra": {
+   "mart": 1,
+   "conv": 7,
+   "school": 3,
+   "hospital": 11,
+   "bank": 9,
+   "academy": 53
+  },
+  "school_score": 70
+ },
+ "37.248,127.034": {
+  "infra": {
+   "mart": 7,
+   "conv": 46,
+   "school": 10,
+   "hospital": 47,
+   "bank": 26,
+   "academy": 241
+  },
+  "school_score": 78
+ },
+ "37.398,127.278": {
+  "infra": {
+   "mart": 0,
+   "conv": 10,
+   "school": 3,
+   "hospital": 5,
+   "bank": 3,
+   "academy": 23
+  },
+  "school_score": 74
+ },
+ "37.399,127.277": {
+  "infra": {
+   "mart": 0,
+   "conv": 12,
+   "school": 2,
+   "hospital": 5,
+   "bank": 4,
+   "academy": 23
+  },
+  "school_score": 74
+ },
+ "37.355,126.724": {
+  "infra": {
+   "mart": 1,
+   "conv": 40,
+   "school": 12,
+   "hospital": 28,
+   "bank": 18,
+   "academy": 89
+  },
+  "school_score": 73
+ },
+ "37.727,127.050": {
+  "infra": {
+   "mart": 8,
+   "conv": 63,
+   "school": 10,
+   "hospital": 95,
+   "bank": 34,
+   "academy": 185
+  },
+  "school_score": 76
+ },
+ "37.398,127.279": {
+  "infra": {
+   "mart": 0,
+   "conv": 10,
+   "school": 3,
+   "hospital": 5,
+   "bank": 3,
+   "academy": 27
+  },
+  "school_score": 74
+ },
+ "37.358,126.728": {
+  "infra": {
+   "mart": 2,
+   "conv": 46,
+   "school": 12,
+   "hospital": 47,
+   "bank": 20,
+   "academy": 119
+  },
+  "school_score": 73
+ },
+ "37.365,126.733": {
+  "infra": {
+   "mart": 4,
+   "conv": 52,
+   "school": 8,
+   "hospital": 69,
+   "bank": 32,
+   "academy": 179
+  },
+  "school_score": 73
+ },
+ "37.015,127.256": {
+  "infra": {
+   "mart": 3,
+   "conv": 32,
+   "school": 4,
+   "hospital": 18,
+   "bank": 20,
+   "academy": 81
+  },
+  "school_score": 70
+ },
+ "37.714,127.049": {
+  "infra": {
+   "mart": 2,
+   "conv": 30,
+   "school": 5,
+   "hospital": 20,
+   "bank": 16,
+   "academy": 63
+  },
+  "school_score": 79
+ },
+ "37.729,127.051": {
+  "infra": {
+   "mart": 8,
+   "conv": 69,
+   "school": 6,
+   "hospital": 102,
+   "bank": 36,
+   "academy": 191
+  },
+  "school_score": 76
+ },
+ "37.482,126.773": {
+  "infra": {
+   "mart": 2,
+   "conv": 88,
+   "school": 11,
+   "hospital": 112,
+   "bank": 58,
+   "academy": 185
+  },
+  "school_score": 69
+ },
+ "37.622,126.822": {
+  "infra": {
+   "mart": 3,
+   "conv": 29,
+   "school": 7,
+   "hospital": 35,
+   "bank": 17,
+   "academy": 106
+  },
+  "school_score": 80
+ },
+ "37.351,126.731": {
+  "infra": {
+   "mart": 2,
+   "conv": 53,
+   "school": 8,
+   "hospital": 77,
+   "bank": 47,
+   "academy": 73
+  },
+  "school_score": 74
+ },
+ "37.157,127.076": {
+  "infra": {
+   "mart": 1,
+   "conv": 36,
+   "school": 5,
+   "hospital": 47,
+   "bank": 21,
+   "academy": 81
+  },
+  "school_score": 74
+ },
+ "37.715,127.049": {
+  "infra": {
+   "mart": 2,
+   "conv": 32,
+   "school": 5,
+   "hospital": 22,
+   "bank": 18,
+   "academy": 70
+  },
+  "school_score": 78
+ },
+ "37.727,127.056": {
+  "infra": {
+   "mart": 5,
+   "conv": 42,
+   "school": 8,
+   "hospital": 77,
+   "bank": 23,
+   "academy": 141
+  },
+  "school_score": 75
+ },
+ "37.740,127.060": {
+  "infra": {
+   "mart": 3,
+   "conv": 57,
+   "school": 6,
+   "hospital": 107,
+   "bank": 42,
+   "academy": 127
+  },
+  "school_score": 76
+ },
+ "37.268,127.049": {
+  "infra": {
+   "mart": 3,
+   "conv": 59,
+   "school": 14,
+   "hospital": 104,
+   "bank": 37,
+   "academy": 188
+  },
+  "school_score": 76
+ },
+ "37.265,127.216": {
+  "infra": {
+   "mart": 2,
+   "conv": 38,
+   "school": 2,
+   "hospital": 21,
+   "bank": 12,
+   "academy": 79
+  },
+  "school_score": 65
+ },
+ "37.600,127.146": {
+  "infra": {
+   "mart": 3,
+   "conv": 74,
+   "school": 8,
+   "hospital": 164,
+   "bank": 59,
+   "academy": 235
+  },
+  "school_score": 77
+ },
+ "37.696,127.205": {
+  "infra": {
+   "mart": 0,
+   "conv": 21,
+   "school": 4,
+   "hospital": 22,
+   "bank": 10,
+   "academy": 43
+  },
+  "school_score": 63
+ },
+ "37.755,126.772": {
+  "infra": {
+   "mart": 3,
+   "conv": 54,
+   "school": 8,
+   "hospital": 66,
+   "bank": 43,
+   "academy": 118
+  },
+  "school_score": 75
+ },
+ "37.436,126.783": {
+  "infra": {
+   "mart": 1,
+   "conv": 44,
+   "school": 7,
+   "hospital": 70,
+   "bank": 23,
+   "academy": 62
+  },
+  "school_score": 62
+ },
+ "37.249,127.497": {
+  "infra": {
+   "mart": 1,
+   "conv": 20,
+   "school": 1,
+   "hospital": 8,
+   "bank": 11,
+   "academy": 26
+  },
+  "school_score": 77
+ },
+ "37.069,127.061": {
+  "infra": {
+   "mart": 3,
+   "conv": 61,
+   "school": 10,
+   "hospital": 37,
+   "bank": 35,
+   "academy": 59
+  },
+  "school_score": 66
+ },
+ "37.068,127.063": {
+  "infra": {
+   "mart": 4,
+   "conv": 57,
+   "school": 8,
+   "hospital": 41,
+   "bank": 34,
+   "academy": 70
+  },
+  "school_score": 65
+ },
+ "35.202,129.076": {
+  "infra": {
+   "mart": 3,
+   "conv": 76,
+   "school": 14,
+   "hospital": 181,
+   "bank": 71,
+   "academy": 309
+  },
+  "school_score": 86
+ },
+ "35.202,129.081": {
+  "infra": {
+   "mart": 3,
+   "conv": 51,
+   "school": 16,
+   "hospital": 155,
+   "bank": 54,
+   "academy": 220
+  },
+  "school_score": 85
+ },
+ "35.201,129.076": {
+  "infra": {
+   "mart": 3,
+   "conv": 74,
+   "school": 14,
+   "hospital": 184,
+   "bank": 70,
+   "academy": 287
+  },
+  "school_score": 86
+ },
+ "35.252,129.217": {
+  "infra": {
+   "mart": 1,
+   "conv": 24,
+   "school": 4,
+   "hospital": 42,
+   "bank": 15,
+   "academy": 74
+  },
+  "school_score": 68
+ },
+ "35.118,129.083": {
+  "infra": {
+   "mart": 0,
+   "conv": 15,
+   "school": 5,
+   "hospital": 22,
+   "bank": 13,
+   "academy": 25
+  },
+  "school_score": 77
+ },
+ "35.095,129.021": {
+  "infra": {
+   "mart": 2,
+   "conv": 51,
+   "school": 6,
+   "hospital": 97,
+   "bank": 65,
+   "academy": 39
+  },
+  "school_score": 77
+ },
+ "35.124,129.111": {
+  "infra": {
+   "mart": 3,
+   "conv": 27,
+   "school": 12,
+   "hospital": 75,
+   "bank": 39,
+   "academy": 172
+  },
+  "school_score": 87
+ },
+ "35.200,129.082": {
+  "infra": {
+   "mart": 3,
+   "conv": 51,
+   "school": 15,
+   "hospital": 160,
+   "bank": 54,
+   "academy": 206
+  },
+  "school_score": 85
+ },
+ "35.106,129.020": {
+  "infra": {
+   "mart": 2,
+   "conv": 59,
+   "school": 13,
+   "hospital": 98,
+   "bank": 57,
+   "academy": 163
+  },
+  "school_score": 77
+ },
+ "35.118,129.031": {
+  "infra": {
+   "mart": 1,
+   "conv": 42,
+   "school": 9,
+   "hospital": 34,
+   "bank": 31,
+   "academy": 44
+  },
+  "school_score": 80
+ },
+ "35.224,129.082": {
+  "infra": {
+   "mart": 7,
+   "conv": 55,
+   "school": 6,
+   "hospital": 126,
+   "bank": 46,
+   "academy": 256
+  },
+  "school_score": 82
+ },
+ "35.201,129.135": {
+  "infra": {
+   "mart": 0,
+   "conv": 10,
+   "school": 6,
+   "hospital": 29,
+   "bank": 8,
+   "academy": 17
+  },
+  "school_score": 72
+ },
+ "35.094,128.978": {
+  "infra": {
+   "mart": 0,
+   "conv": 27,
+   "school": 12,
+   "hospital": 23,
+   "bank": 29,
+   "academy": 103
+  },
+  "school_score": 80
+ },
+ "35.228,129.076": {
+  "infra": {
+   "mart": 3,
+   "conv": 23,
+   "school": 4,
+   "hospital": 25,
+   "bank": 20,
+   "academy": 150
+  },
+  "school_score": 86
+ },
+ "35.158,129.117": {
+  "infra": {
+   "mart": 2,
+   "conv": 92,
+   "school": 7,
+   "hospital": 118,
+   "bank": 46,
+   "academy": 151
+  },
+  "school_score": 80
+ },
+ "35.176,129.168": {
+  "infra": {
+   "mart": 5,
+   "conv": 23,
+   "school": 13,
+   "hospital": 58,
+   "bank": 32,
+   "academy": 258
+  },
+  "school_score": 90
+ },
+ "35.098,128.978": {
+  "infra": {
+   "mart": 2,
+   "conv": 36,
+   "school": 12,
+   "hospital": 45,
+   "bank": 36,
+   "academy": 176
+  },
+  "school_score": 81
+ },
+ "35.103,128.990": {
+  "infra": {
+   "mart": 3,
+   "conv": 34,
+   "school": 6,
+   "hospital": 74,
+   "bank": 39,
+   "academy": 134
+  },
+  "school_score": 80
+ },
+ "35.151,129.089": {
+  "infra": {
+   "mart": 0,
+   "conv": 4,
+   "school": 2,
+   "hospital": 4,
+   "bank": 8,
+   "academy": 14
+  },
+  "school_score": 83
+ },
+ "35.116,129.085": {
+  "infra": {
+   "mart": 0,
+   "conv": 13,
+   "school": 6,
+   "hospital": 13,
+   "bank": 14,
+   "academy": 11
+  },
+  "school_score": 77
+ },
+ "35.148,129.002": {
+  "infra": {
+   "mart": 1,
+   "conv": 32,
+   "school": 6,
+   "hospital": 46,
+   "bank": 26,
+   "academy": 59
+  },
+  "school_score": 73
+ },
+ "35.196,129.086": {
+  "infra": {
+   "mart": 2,
+   "conv": 54,
+   "school": 10,
+   "hospital": 126,
+   "bank": 49,
+   "academy": 175
+  },
+  "school_score": 83
+ },
+ "35.201,129.082": {
+  "infra": {
+   "mart": 3,
+   "conv": 52,
+   "school": 16,
+   "hospital": 155,
+   "bank": 54,
+   "academy": 207
+  },
+  "school_score": 85
+ },
+ "35.880,128.619": {
+  "infra": {
+   "mart": 2,
+   "conv": 73,
+   "school": 7,
+   "hospital": 111,
+   "bank": 49,
+   "academy": 193
+  },
+  "school_score": 84
+ },
+ "35.851,128.532": {
+  "infra": {
+   "mart": 3,
+   "conv": 56,
+   "school": 9,
+   "hospital": 109,
+   "bank": 58,
+   "academy": 230
+  },
+  "school_score": 85
+ },
+ "35.844,128.624": {
+  "infra": {
+   "mart": 2,
+   "conv": 49,
+   "school": 6,
+   "hospital": 81,
+   "bank": 28,
+   "academy": 195
+  },
+  "school_score": 86
+ },
+ "35.902,128.611": {
+  "infra": {
+   "mart": 3,
+   "conv": 40,
+   "school": 7,
+   "hospital": 68,
+   "bank": 48,
+   "academy": 123
+  },
+  "school_score": 86
+ },
+ "35.850,128.637": {
+  "infra": {
+   "mart": 1,
+   "conv": 20,
+   "school": 13,
+   "hospital": 25,
+   "bank": 15,
+   "academy": 530
+  },
+  "school_score": 94
+ },
+ "35.941,128.636": {
+  "infra": {
+   "mart": 1,
+   "conv": 9,
+   "school": 1,
+   "hospital": 11,
+   "bank": 9,
+   "academy": 22
+  },
+  "school_score": 82
+ },
+ "35.837,128.600": {
+  "infra": {
+   "mart": 1,
+   "conv": 25,
+   "school": 8,
+   "hospital": 40,
+   "bank": 22,
+   "academy": 125
+  },
+  "school_score": 81
+ },
+ "35.879,128.620": {
+  "infra": {
+   "mart": 2,
+   "conv": 75,
+   "school": 6,
+   "hospital": 105,
+   "bank": 54,
+   "academy": 195
+  },
+  "school_score": 84
+ },
+ "35.877,128.571": {
+  "infra": {
+   "mart": 0,
+   "conv": 30,
+   "school": 10,
+   "hospital": 50,
+   "bank": 27,
+   "academy": 73
+  },
+  "school_score": 69
+ },
+ "35.862,128.458": {
+  "infra": {
+   "mart": 1,
+   "conv": 28,
+   "school": 7,
+   "hospital": 56,
+   "bank": 18,
+   "academy": 187
+  },
+  "school_score": 85
+ },
+ "35.853,128.652": {
+  "infra": {
+   "mart": 0,
+   "conv": 23,
+   "school": 9,
+   "hospital": 44,
+   "bank": 12,
+   "academy": 246
+  },
+  "school_score": 93
+ },
+ "35.818,128.527": {
+  "infra": {
+   "mart": 5,
+   "conv": 73,
+   "school": 11,
+   "hospital": 192,
+   "bank": 53,
+   "academy": 719
+  },
+  "school_score": 88
+ },
+ "35.854,128.651": {
+  "infra": {
+   "mart": 0,
+   "conv": 26,
+   "school": 10,
+   "hospital": 50,
+   "bank": 12,
+   "academy": 294
+  },
+  "school_score": 93
+ },
+ "35.838,128.600": {
+  "infra": {
+   "mart": 1,
+   "conv": 26,
+   "school": 8,
+   "hospital": 41,
+   "bank": 24,
+   "academy": 120
+  },
+  "school_score": 82
+ },
+ "35.903,128.611": {
+  "infra": {
+   "mart": 3,
+   "conv": 35,
+   "school": 5,
+   "hospital": 58,
+   "bank": 48,
+   "academy": 91
+  },
+  "school_score": 86
+ },
+ "35.890,128.602": {
+  "infra": {
+   "mart": 1,
+   "conv": 42,
+   "school": 3,
+   "hospital": 49,
+   "bank": 28,
+   "academy": 114
+  },
+  "school_score": 85
+ },
+ "35.839,128.700": {
+  "infra": {
+   "mart": 4,
+   "conv": 38,
+   "school": 10,
+   "hospital": 89,
+   "bank": 32,
+   "academy": 348
+  },
+  "school_score": 91
+ },
+ "35.845,128.694": {
+  "infra": {
+   "mart": 2,
+   "conv": 19,
+   "school": 6,
+   "hospital": 27,
+   "bank": 11,
+   "academy": 166
+  },
+  "school_score": 90
+ },
+ "35.842,128.535": {
+  "infra": {
+   "mart": 2,
+   "conv": 54,
+   "school": 8,
+   "hospital": 107,
+   "bank": 46,
+   "academy": 205
+  },
+  "school_score": 85
+ },
+ "35.900,128.624": {
+  "infra": {
+   "mart": 4,
+   "conv": 24,
+   "school": 12,
+   "hospital": 44,
+   "bank": 30,
+   "academy": 143
+  },
+  "school_score": 83
+ },
+ "35.813,128.529": {
+  "infra": {
+   "mart": 6,
+   "conv": 66,
+   "school": 10,
+   "hospital": 169,
+   "bank": 57,
+   "academy": 434
+  },
+  "school_score": 88
+ },
+ "35.913,128.639": {
+  "infra": {
+   "mart": 2,
+   "conv": 5,
+   "school": 3,
+   "hospital": 15,
+   "bank": 10,
+   "academy": 7
+  },
+  "school_score": 92
+ },
+ "35.887,128.635": {
+  "infra": {
+   "mart": 2,
+   "conv": 36,
+   "school": 9,
+   "hospital": 49,
+   "bank": 30,
+   "academy": 81
+  },
+  "school_score": 69
+ },
+ "35.912,128.639": {
+  "infra": {
+   "mart": 2,
+   "conv": 5,
+   "school": 3,
+   "hospital": 13,
+   "bank": 10,
+   "academy": 7
+  },
+  "school_score": 92
+ },
+ "35.918,128.544": {
+  "infra": {
+   "mart": 0,
+   "conv": 28,
+   "school": 4,
+   "hospital": 27,
+   "bank": 17,
+   "academy": 72
+  },
+  "school_score": 80
+ },
+ "35.931,128.558": {
+  "infra": {
+   "mart": 2,
+   "conv": 39,
+   "school": 14,
+   "hospital": 64,
+   "bank": 27,
+   "academy": 180
+  },
+  "school_score": 86
+ },
+ "35.869,128.552": {
+  "infra": {
+   "mart": 1,
+   "conv": 44,
+   "school": 9,
+   "hospital": 60,
+   "bank": 42,
+   "academy": 137
+  },
+  "school_score": 78
+ },
+ "35.865,128.547": {
+  "infra": {
+   "mart": 1,
+   "conv": 39,
+   "school": 9,
+   "hospital": 38,
+   "bank": 38,
+   "academy": 81
+  },
+  "school_score": 80
+ },
+ "35.727,128.447": {
+  "infra": {
+   "mart": 0,
+   "conv": 19,
+   "school": 3,
+   "hospital": 8,
+   "bank": 23,
+   "academy": 29
+  },
+  "school_score": 81
+ },
+ "35.831,128.710": {
+  "infra": {
+   "mart": 1,
+   "conv": 27,
+   "school": 11,
+   "hospital": 68,
+   "bank": 19,
+   "academy": 379
+  },
+  "school_score": 93
+ },
+ "35.879,128.669": {
+  "infra": {
+   "mart": 1,
+   "conv": 17,
+   "school": 4,
+   "hospital": 46,
+   "bank": 15,
+   "academy": 53
+  },
+  "school_score": 71
+ },
+ "35.856,128.514": {
+  "infra": {
+   "mart": 3,
+   "conv": 40,
+   "school": 11,
+   "hospital": 77,
+   "bank": 48,
+   "academy": 212
+  },
+  "school_score": 87
+ },
+ "37.512,126.726": {
+  "infra": {
+   "mart": 2,
+   "conv": 65,
+   "school": 8,
+   "hospital": 77,
+   "bank": 49,
+   "academy": 168
+  },
+  "school_score": 76
+ },
+ "37.551,126.676": {
+  "infra": {
+   "mart": 3,
+   "conv": 43,
+   "school": 6,
+   "hospital": 34,
+   "bank": 29,
+   "academy": 46
+  },
+  "school_score": 73
+ },
+ "37.542,126.734": {
+  "infra": {
+   "mart": 1,
+   "conv": 86,
+   "school": 16,
+   "hospital": 158,
+   "bank": 59,
+   "academy": 203
+  },
+  "school_score": 73
+ },
+ "37.440,126.666": {
+  "infra": {
+   "mart": 2,
+   "conv": 36,
+   "school": 11,
+   "hospital": 40,
+   "bank": 23,
+   "academy": 91
+  },
+  "school_score": 73
+ },
+ "37.501,126.739": {
+  "infra": {
+   "mart": 4,
+   "conv": 63,
+   "school": 20,
+   "hospital": 95,
+   "bank": 36,
+   "academy": 220
+  },
+  "school_score": 78
+ },
+ "37.515,126.740": {
+  "infra": {
+   "mart": 1,
+   "conv": 39,
+   "school": 13,
+   "hospital": 51,
+   "bank": 31,
+   "academy": 185
+  },
+  "school_score": 81
+ },
+ "37.529,126.699": {
+  "infra": {
+   "mart": 1,
+   "conv": 26,
+   "school": 3,
+   "hospital": 8,
+   "bank": 8,
+   "academy": 17
+  },
+  "school_score": 72
+ },
+ "37.613,126.663": {
+  "infra": {
+   "mart": 1,
+   "conv": 16,
+   "school": 2,
+   "hospital": 3,
+   "bank": 5,
+   "academy": 25
+  },
+  "school_score": 76
+ },
+ "37.518,126.677": {
+  "infra": {
+   "mart": 4,
+   "conv": 50,
+   "school": 9,
+   "hospital": 86,
+   "bank": 35,
+   "academy": 169
+  },
+  "school_score": 67
+ },
+ "37.443,126.677": {
+  "infra": {
+   "mart": 2,
+   "conv": 59,
+   "school": 6,
+   "hospital": 70,
+   "bank": 36,
+   "academy": 99
+  },
+  "school_score": 75
+ },
+ "37.441,126.677": {
+  "infra": {
+   "mart": 2,
+   "conv": 55,
+   "school": 5,
+   "hospital": 64,
+   "bank": 31,
+   "academy": 74
+  },
+  "school_score": 74
+ },
+ "37.442,126.677": {
+  "infra": {
+   "mart": 2,
+   "conv": 58,
+   "school": 6,
+   "hospital": 65,
+   "bank": 33,
+   "academy": 82
+  },
+  "school_score": 74
+ },
+ "37.439,126.663": {
+  "infra": {
+   "mart": 2,
+   "conv": 32,
+   "school": 9,
+   "hospital": 36,
+   "bank": 25,
+   "academy": 81
+  },
+  "school_score": 73
+ },
+ "37.496,126.687": {
+  "infra": {
+   "mart": 1,
+   "conv": 29,
+   "school": 10,
+   "hospital": 44,
+   "bank": 21,
+   "academy": 69
+  },
+  "school_score": 66
+ },
+ "37.441,126.672": {
+  "infra": {
+   "mart": 2,
+   "conv": 51,
+   "school": 7,
+   "hospital": 57,
+   "bank": 28,
+   "academy": 77
+  },
+  "school_score": 73
+ },
+ "37.457,126.642": {
+  "infra": {
+   "mart": 3,
+   "conv": 77,
+   "school": 6,
+   "hospital": 84,
+   "bank": 53,
+   "academy": 100
+  },
+  "school_score": 71
+ },
+ "37.440,126.673": {
+  "infra": {
+   "mart": 2,
+   "conv": 50,
+   "school": 7,
+   "hospital": 51,
+   "bank": 27,
+   "academy": 73
+  },
+  "school_score": 73
+ },
+ "37.423,126.650": {
+  "infra": {
+   "mart": 1,
+   "conv": 37,
+   "school": 8,
+   "hospital": 44,
+   "bank": 22,
+   "academy": 77
+  },
+  "school_score": 79
+ },
+ "37.445,126.656": {
+  "infra": {
+   "mart": 4,
+   "conv": 57,
+   "school": 8,
+   "hospital": 54,
+   "bank": 47,
+   "academy": 121
+  },
+  "school_score": 73
+ },
+ "37.506,126.716": {
+  "infra": {
+   "mart": 1,
+   "conv": 52,
+   "school": 9,
+   "hospital": 65,
+   "bank": 38,
+   "academy": 175
+  },
+  "school_score": 76
+ },
+ "37.530,126.678": {
+  "infra": {
+   "mart": 3,
+   "conv": 24,
+   "school": 2,
+   "hospital": 38,
+   "bank": 17,
+   "academy": 111
+  },
+  "school_score": 66
+ },
+ "37.439,126.666": {
+  "infra": {
+   "mart": 2,
+   "conv": 35,
+   "school": 10,
+   "hospital": 40,
+   "bank": 23,
+   "academy": 91
+  },
+  "school_score": 73
+ },
+ "35.183,126.934": {
+  "infra": {
+   "mart": 2,
+   "conv": 22,
+   "school": 4,
+   "hospital": 36,
+   "bank": 26,
+   "academy": 66
+  },
+  "school_score": 73
+ },
+ "35.178,126.905": {
+  "infra": {
+   "mart": 2,
+   "conv": 55,
+   "school": 7,
+   "hospital": 31,
+   "bank": 26,
+   "academy": 87
+  },
+  "school_score": 71
+ },
+ "35.128,126.898": {
+  "infra": {
+   "mart": 0,
+   "conv": 35,
+   "school": 10,
+   "hospital": 109,
+   "bank": 37,
+   "academy": 174
+  },
+  "school_score": 80
+ },
+ "35.182,126.926": {
+  "infra": {
+   "mart": 3,
+   "conv": 34,
+   "school": 11,
+   "hospital": 95,
+   "bank": 36,
+   "academy": 152
+  },
+  "school_score": 73
+ },
+ "35.179,126.816": {
+  "infra": {
+   "mart": 3,
+   "conv": 38,
+   "school": 14,
+   "hospital": 65,
+   "bank": 24,
+   "academy": 174
+  },
+  "school_score": 72
+ },
+ "35.171,126.925": {
+  "infra": {
+   "mart": 1,
+   "conv": 37,
+   "school": 12,
+   "hospital": 105,
+   "bank": 43,
+   "academy": 133
+  },
+  "school_score": 74
+ },
+ "35.157,126.896": {
+  "infra": {
+   "mart": 1,
+   "conv": 28,
+   "school": 6,
+   "hospital": 42,
+   "bank": 27,
+   "academy": 63
+  },
+  "school_score": 56
+ },
+ "35.181,126.925": {
+  "infra": {
+   "mart": 4,
+   "conv": 36,
+   "school": 13,
+   "hospital": 100,
+   "bank": 34,
+   "academy": 153
+  },
+  "school_score": 73
+ },
+ "35.121,126.900": {
+  "infra": {
+   "mart": 1,
+   "conv": 32,
+   "school": 16,
+   "hospital": 83,
+   "bank": 23,
+   "academy": 251
+  },
+  "school_score": 85
+ },
+ "35.178,126.815": {
+  "infra": {
+   "mart": 3,
+   "conv": 41,
+   "school": 14,
+   "hospital": 66,
+   "bank": 25,
+   "academy": 172
+  },
+  "school_score": 72
+ },
+ "35.124,126.910": {
+  "infra": {
+   "mart": 1,
+   "conv": 32,
+   "school": 10,
+   "hospital": 60,
+   "bank": 30,
+   "academy": 436
+  },
+  "school_score": 83
+ },
+ "35.117,126.903": {
+  "infra": {
+   "mart": 1,
+   "conv": 24,
+   "school": 13,
+   "hospital": 73,
+   "bank": 20,
+   "academy": 218
+  },
+  "school_score": 87
+ },
+ "35.152,126.914": {
+  "infra": {
+   "mart": 0,
+   "conv": 61,
+   "school": 6,
+   "hospital": 85,
+   "bank": 77,
+   "academy": 178
+  },
+  "school_score": 61
+ },
+ "35.134,126.892": {
+  "infra": {
+   "mart": 0,
+   "conv": 25,
+   "school": 7,
+   "hospital": 78,
+   "bank": 28,
+   "academy": 84
+  },
+  "school_score": 74
+ },
+ "35.123,126.911": {
+  "infra": {
+   "mart": 1,
+   "conv": 32,
+   "school": 10,
+   "hospital": 60,
+   "bank": 29,
+   "academy": 436
+  },
+  "school_score": 83
+ },
+ "35.215,126.830": {
+  "infra": {
+   "mart": 1,
+   "conv": 19,
+   "school": 9,
+   "hospital": 17,
+   "bank": 7,
+   "academy": 59
+  },
+  "school_score": 75
+ },
+ "35.192,126.892": {
+  "infra": {
+   "mart": 1,
+   "conv": 22,
+   "school": 9,
+   "hospital": 65,
+   "bank": 17,
+   "academy": 112
+  },
+  "school_score": 72
+ },
+ "35.175,126.937": {
+  "infra": {
+   "mart": 2,
+   "conv": 28,
+   "school": 7,
+   "hospital": 56,
+   "bank": 30,
+   "academy": 61
+  },
+  "school_score": 74
+ },
+ "35.210,126.901": {
+  "infra": {
+   "mart": 3,
+   "conv": 21,
+   "school": 9,
+   "hospital": 30,
+   "bank": 11,
+   "academy": 158
+  },
+  "school_score": 80
+ },
+ "35.221,126.833": {
+  "infra": {
+   "mart": 3,
+   "conv": 16,
+   "school": 8,
+   "hospital": 33,
+   "bank": 15,
+   "academy": 72
+  },
+  "school_score": 75
+ },
+ "35.128,126.917": {
+  "infra": {
+   "mart": 2,
+   "conv": 35,
+   "school": 12,
+   "hospital": 82,
+   "bank": 33,
+   "academy": 437
+  },
+  "school_score": 81
+ },
+ "35.218,126.837": {
+  "infra": {
+   "mart": 1,
+   "conv": 40,
+   "school": 9,
+   "hospital": 72,
+   "bank": 20,
+   "academy": 172
+  },
+  "school_score": 76
+ },
+ "35.219,126.835": {
+  "infra": {
+   "mart": 2,
+   "conv": 32,
+   "school": 10,
+   "hospital": 65,
+   "bank": 16,
+   "academy": 145
+  },
+  "school_score": 75
+ },
+ "35.217,126.830": {
+  "infra": {
+   "mart": 1,
+   "conv": 16,
+   "school": 9,
+   "hospital": 17,
+   "bank": 6,
+   "academy": 63
+  },
+  "school_score": 75
+ },
+ "35.217,126.831": {
+  "infra": {
+   "mart": 1,
+   "conv": 19,
+   "school": 10,
+   "hospital": 17,
+   "bank": 7,
+   "academy": 68
+  },
+  "school_score": 75
+ },
+ "35.138,126.876": {
+  "infra": {
+   "mart": 1,
+   "conv": 19,
+   "school": 5,
+   "hospital": 45,
+   "bank": 29,
+   "academy": 117
+  },
+  "school_score": 72
+ },
+ "36.349,127.371": {
+  "infra": {
+   "mart": 3,
+   "conv": 75,
+   "school": 11,
+   "hospital": 201,
+   "bank": 61,
+   "academy": 149
+  },
+  "school_score": 80
+ },
+ "35.545,129.429": {
+  "infra": {
+   "mart": 3,
+   "conv": 15,
+   "school": 5,
+   "hospital": 20,
+   "bank": 11,
+   "academy": 61
+  },
+  "school_score": 89
+ },
+ "35.545,129.424": {
+  "infra": {
+   "mart": 3,
+   "conv": 14,
+   "school": 4,
+   "hospital": 20,
+   "bank": 11,
+   "academy": 61
+  },
+  "school_score": 89
+ },
+ "35.561,129.309": {
+  "infra": {
+   "mart": 1,
+   "conv": 16,
+   "school": 5,
+   "hospital": 31,
+   "bank": 24,
+   "academy": 113
+  },
+  "school_score": 84
+ },
+ "35.533,129.297": {
+  "infra": {
+   "mart": 2,
+   "conv": 35,
+   "school": 10,
+   "hospital": 43,
+   "bank": 31,
+   "academy": 402
+  },
+  "school_score": 94
+ },
+ "35.560,129.349": {
+  "infra": {
+   "mart": 3,
+   "conv": 42,
+   "school": 6,
+   "hospital": 24,
+   "bank": 21,
+   "academy": 84
+  },
+  "school_score": 81
+ },
+ "35.516,129.425": {
+  "infra": {
+   "mart": 1,
+   "conv": 29,
+   "school": 2,
+   "hospital": 36,
+   "bank": 46,
+   "academy": 91
+  },
+  "school_score": 84
+ },
+ "35.501,129.418": {
+  "infra": {
+   "mart": 2,
+   "conv": 34,
+   "school": 13,
+   "hospital": 38,
+   "bank": 21,
+   "academy": 122
+  },
+  "school_score": 82
  }
 }

@@ -1,1 +1,1 @@
-{"trades":[["2021-06-01",15300],["2021-06-14",16800],["2023-11-18",12000]],"info":{"build_year":1988}}
+{"trades":[["2021-06-01",15300],["2021-06-14",16800],["2023-11-18",12000]],"info":{"build_year":1988,"subway":"인천시청","subway_line":"인천1호선","subway_walk_min":29,"scores":{"transport":50,"infra":100,"academy":37,"brand":50,"livability":28,"loc":20}}}

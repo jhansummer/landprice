@@ -1,1 +1,1 @@
-{"trades":[["2021-04-08",43900],["2021-05-21",50000]],"info":{"build_year":2001}}
+{"trades":[["2021-04-08",43900],["2021-05-21",50000]],"info":{"build_year":2001,"subway":"학정","subway_line":"대구3호선","subway_walk_min":90,"scores":{"transport":5,"infra":70,"academy":67,"brand":50,"livability":46,"loc":0}}}

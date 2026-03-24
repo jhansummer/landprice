@@ -1,1 +1,1 @@
-{"trades":[["2020-01-04",16800],["2020-11-16",24000],["2026-03-04",33800]],"info":{"build_year":1985}}
+{"trades":[["2020-01-04",16800],["2020-11-16",24000],["2026-03-04",33800]],"info":{"build_year":1985,"subway":"수안","subway_line":"부산4호선","subway_walk_min":5,"scores":{"transport":92,"infra":100,"academy":82,"brand":50,"livability":25,"loc":19}}}
