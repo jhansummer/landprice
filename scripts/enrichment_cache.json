@@ -238740,5 +238740,27 @@
    "academy": 32
   },
   "school_score": 69
+ },
+ "37.234,127.290": {
+  "infra": {
+   "mart": 1,
+   "conv": 26,
+   "school": 2,
+   "hospital": 8,
+   "bank": 8,
+   "academy": 31
+  },
+  "school_score": 72
+ },
+ "35.225,129.079": {
+  "infra": {
+   "mart": 4,
+   "conv": 45,
+   "school": 4,
+   "hospital": 92,
+   "bank": 37,
+   "academy": 182
+  },
+  "school_score": 83
  }
 }
