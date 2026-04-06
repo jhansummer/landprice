@@ -239277,5 +239277,263 @@
    "academy": 167
   },
   "school_score": 74
+ },
+ "37.527,127.144": {
+  "commute_transit": {
+   "gangnam": 32,
+   "gwanghwamun": 47,
+   "yeouido": 58
+  },
+  "infra": {
+   "mart": 5,
+   "conv": 42,
+   "school": 9,
+   "hospital": 145,
+   "bank": 38,
+   "academy": 190
+  },
+  "school_score": 73
+ },
+ "37.617,127.077": {
+  "infra": {
+   "mart": 5,
+   "conv": 69,
+   "school": 10,
+   "hospital": 101,
+   "bank": 46,
+   "academy": 191
+  },
+  "school_score": 77
+ },
+ "37.533,127.122": {
+  "infra": {
+   "mart": 7,
+   "conv": 83,
+   "school": 8,
+   "hospital": 190,
+   "bank": 66,
+   "academy": 185
+  },
+  "school_score": 78
+ },
+ "37.495,126.875": {
+  "infra": {
+   "mart": 3,
+   "conv": 38,
+   "school": 8,
+   "hospital": 57,
+   "bank": 42,
+   "academy": 80
+  },
+  "school_score": 78
+ },
+ "37.593,126.943": {
+  "infra": {
+   "mart": 4,
+   "conv": 39,
+   "school": 6,
+   "hospital": 100,
+   "bank": 41,
+   "academy": 152
+  },
+  "school_score": 76
+ },
+ "37.614,127.080": {
+  "infra": {
+   "mart": 5,
+   "conv": 56,
+   "school": 11,
+   "hospital": 86,
+   "bank": 36,
+   "academy": 143
+  },
+  "school_score": 75
+ },
+ "37.603,127.094": {
+  "infra": {
+   "mart": 4,
+   "conv": 74,
+   "school": 11,
+   "hospital": 124,
+   "bank": 56,
+   "academy": 209
+  },
+  "school_score": 70
+ },
+ "37.345,127.338": {
+  "infra": {
+   "mart": 1,
+   "conv": 9,
+   "school": 3,
+   "hospital": 17,
+   "bank": 3,
+   "academy": 12
+  },
+  "school_score": 59
+ },
+ "37.394,126.804": {
+  "infra": {
+   "mart": 0,
+   "conv": 12,
+   "school": 2,
+   "hospital": 6,
+   "bank": 6,
+   "academy": 39
+  },
+  "school_score": 77
+ },
+ "37.696,127.204": {
+  "infra": {
+   "mart": 0,
+   "conv": 21,
+   "school": 5,
+   "hospital": 21,
+   "bank": 10,
+   "academy": 45
+  },
+  "school_score": 64
+ },
+ "37.340,126.744": {
+  "infra": {
+   "mart": 1,
+   "conv": 83,
+   "school": 5,
+   "hospital": 58,
+   "bank": 29,
+   "academy": 41
+  },
+  "school_score": 67
+ },
+ "37.448,126.795": {
+  "infra": {
+   "mart": 3,
+   "conv": 46,
+   "school": 10,
+   "hospital": 67,
+   "bank": 29,
+   "academy": 175
+  },
+  "school_score": 74
+ },
+ "35.062,128.982": {
+  "infra": {
+   "mart": 2,
+   "conv": 19,
+   "school": 5,
+   "hospital": 23,
+   "bank": 15,
+   "academy": 72
+  },
+  "school_score": 78
+ },
+ "35.887,128.589": {
+  "infra": {
+   "mart": 3,
+   "conv": 46,
+   "school": 7,
+   "hospital": 81,
+   "bank": 55,
+   "academy": 281
+  },
+  "school_score": 80
+ },
+ "35.931,128.549": {
+  "infra": {
+   "mart": 1,
+   "conv": 56,
+   "school": 14,
+   "hospital": 76,
+   "bank": 41,
+   "academy": 162
+  },
+  "school_score": 84
+ },
+ "35.915,128.550": {
+  "infra": {
+   "mart": 0,
+   "conv": 19,
+   "school": 5,
+   "hospital": 28,
+   "bank": 15,
+   "academy": 67
+  },
+  "school_score": 80
+ },
+ "35.876,128.500": {
+  "infra": {
+   "mart": 0,
+   "conv": 6,
+   "school": 4,
+   "hospital": 7,
+   "bank": 5,
+   "academy": 48
+  },
+  "school_score": 79
+ },
+ "35.940,128.642": {
+  "infra": {
+   "mart": 1,
+   "conv": 5,
+   "school": 1,
+   "hospital": 6,
+   "bank": 8,
+   "academy": 16
+  },
+  "school_score": 93
+ },
+ "35.890,128.588": {
+  "infra": {
+   "mart": 2,
+   "conv": 35,
+   "school": 7,
+   "hospital": 74,
+   "bank": 44,
+   "academy": 244
+  },
+  "school_score": 81
+ },
+ "37.566,126.686": {
+  "infra": {
+   "mart": 0,
+   "conv": 12,
+   "school": 4,
+   "hospital": 15,
+   "bank": 4,
+   "academy": 40
+  },
+  "school_score": 79
+ },
+ "35.179,126.873": {
+  "infra": {
+   "mart": 1,
+   "conv": 27,
+   "school": 11,
+   "hospital": 89,
+   "bank": 32,
+   "academy": 202
+  },
+  "school_score": 70
+ },
+ "35.133,126.893": {
+  "infra": {
+   "mart": 0,
+   "conv": 24,
+   "school": 7,
+   "hospital": 79,
+   "bank": 29,
+   "academy": 80
+  },
+  "school_score": 76
+ },
+ "35.180,126.887": {
+  "infra": {
+   "mart": 0,
+   "conv": 32,
+   "school": 13,
+   "hospital": 52,
+   "bank": 24,
+   "academy": 132
+  },
+  "school_score": 69
  }
 }
