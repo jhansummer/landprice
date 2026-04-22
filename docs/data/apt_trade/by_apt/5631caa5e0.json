@@ -1,1 +1,1 @@
-{"trades":[["2020-02-01",50000],["2024-10-10",65000],["2026-04-04",69000]],"info":{"build_year":1999,"subway":"북한산보국문","subway_line":"우이신설선","subway_walk_min":8,"scores":{"transport":86,"infra":0,"academy":71,"brand":50,"livability":42,"loc":39}}}
+{"trades":[["2020-02-01",50000],["2024-10-10",65000],["2026-04-04",69000]],"info":{"build_year":1999,"subway":"북한산보국문","subway_line":"우이신설선","subway_walk_min":8,"commute":{"gangnam":36,"gwanghwamun":16,"yeouido":37},"scores":{"transport":86,"infra":0,"academy":71,"brand":50,"livability":42,"loc":52}}}
