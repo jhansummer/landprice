@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-25T18:06:00Z",
+  "updated_at": "2026-04-26T18:07:24Z",
   "current_month": "202604",
   "params": {
     "months": 36,
@@ -4091,7 +4091,7 @@
         },
         {
           "size": 468,
-          "avg_current_price": 268812.24,
+          "avg_current_price": 268790.87,
           "members": [
             {
               "id": "20b11f7111",
@@ -6178,8 +6178,8 @@
               "sigungu": "강남구",
               "dong_name": "개포동",
               "area_m2": 49.86,
-              "current_price": 220000.0,
-              "trade_count": 71
+              "current_price": 210000.0,
+              "trade_count": 72
             },
             {
               "id": "a3c8c169e9",
@@ -28760,7 +28760,7 @@
         },
         {
           "size": 326,
-          "avg_current_price": 274241.69,
+          "avg_current_price": 274211.02,
           "members": [
             {
               "id": "8ab57738a8",
@@ -31648,8 +31648,8 @@
               "sigungu": "강남구",
               "dong_name": "개포동",
               "area_m2": 49.86,
-              "current_price": 220000.0,
-              "trade_count": 71
+              "current_price": 210000.0,
+              "trade_count": 72
             },
             {
               "id": "96599d1c02",
@@ -43805,7 +43805,7 @@
         },
         {
           "size": 437,
-          "avg_current_price": 242731.24,
+          "avg_current_price": 242708.36,
           "members": [
             {
               "id": "ad3610ad71",
@@ -46850,6 +46850,15 @@
               "trade_count": 58
             },
             {
+              "id": "80d9702037",
+              "apt_name": "성원대치2단지아파트",
+              "sigungu": "강남구",
+              "dong_name": "개포동",
+              "area_m2": 49.86,
+              "current_price": 210000.0,
+              "trade_count": 72
+            },
+            {
               "id": "ca31411442",
               "apt_name": "대치현대",
               "sigungu": "강남구",
@@ -47226,15 +47235,6 @@
               "area_m2": 59.4,
               "current_price": 224000.0,
               "trade_count": 20
-            },
-            {
-              "id": "80d9702037",
-              "apt_name": "성원대치2단지아파트",
-              "sigungu": "강남구",
-              "dong_name": "개포동",
-              "area_m2": 49.86,
-              "current_price": 220000.0,
-              "trade_count": 71
             },
             {
               "id": "a3c8c169e9",
@@ -49847,7 +49847,7 @@
         },
         {
           "size": 437,
-          "avg_current_price": 242731.24,
+          "avg_current_price": 242708.36,
           "members": [
             {
               "id": "03e8cd123f",
@@ -51322,8 +51322,8 @@
               "sigungu": "강남구",
               "dong_name": "개포동",
               "area_m2": 49.86,
-              "current_price": 220000.0,
-              "trade_count": 71
+              "current_price": 210000.0,
+              "trade_count": 72
             },
             {
               "id": "a3c8c169e9",
@@ -59302,7 +59302,7 @@
           "avg_36": 154226.38888888888,
           "compare_avg_recent": 210666.66666666666,
           "compare_avg_36": 153699.3957061457,
-          "cluster_avg": 268812.24,
+          "cluster_avg": 268790.87,
           "gap_pct": -20.28,
           "status": "undervalued",
           "trade_count": 31,
@@ -59690,7 +59690,7 @@
               "avg_36": 104029.57142857143,
               "compare_avg_recent": 151926.85185185185,
               "compare_avg_36": 106505.04698677096,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -15.4,
               "status": "undervalued",
               "trade_count": 79,
@@ -59787,7 +59787,7 @@
               "avg_36": 154226.38888888888,
               "compare_avg_recent": 210666.66666666666,
               "compare_avg_36": 153699.3957061457,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -20.28,
               "status": "undervalued",
               "trade_count": 31,
@@ -59866,7 +59866,7 @@
               "avg_36": 130997.54901960785,
               "compare_avg_recent": 177729.1666666667,
               "compare_avg_36": 131783.19327731093,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -11.25,
               "status": "undervalued",
               "trade_count": 18,
@@ -59963,7 +59963,7 @@
               "avg_36": 207199.2857142857,
               "compare_avg_recent": 293500.0,
               "compare_avg_36": 222795.33730158728,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -13.05,
               "status": "undervalued",
               "trade_count": 44,
@@ -60060,7 +60060,7 @@
               "avg_36": 245421.07523649198,
               "compare_avg_recent": 336944.4444444444,
               "compare_avg_36": 254355.3240740741,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -9.89,
               "status": "undervalued",
               "trade_count": 209,
@@ -60106,7 +60106,7 @@
               "avg_36": 237488.37934847808,
               "compare_avg_recent": 323944.4444444444,
               "compare_avg_36": 243587.50000000003,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -9.4,
               "status": "undervalued",
               "trade_count": 210,
@@ -60152,7 +60152,7 @@
               "avg_36": 227010.10101010103,
               "compare_avg_recent": 305500.0,
               "compare_avg_36": 232360.64814814815,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -8.66,
               "status": "undervalued",
               "trade_count": 25,
@@ -60203,7 +60203,7 @@
               "avg_36": 262685.71428571426,
               "compare_avg_recent": 354000.0,
               "compare_avg_36": 267966.58730158734,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -10.41,
               "status": "undervalued",
               "trade_count": 18,
@@ -60249,7 +60249,7 @@
               "avg_36": 318657.14285714284,
               "compare_avg_recent": 431500.0,
               "compare_avg_36": 331214.15343915345,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -9.96,
               "status": "undervalued",
               "trade_count": 17,
@@ -60295,7 +60295,7 @@
               "avg_36": 282719.0476190476,
               "compare_avg_recent": 330217.1328671329,
               "compare_avg_36": 278122.84289784293,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -7.57,
               "status": "undervalued",
               "trade_count": 24,
@@ -60346,7 +60346,7 @@
               "avg_36": 381046.29629629635,
               "compare_avg_recent": 500000.0,
               "compare_avg_36": 367849.10714285716,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -19.99,
               "status": "undervalued",
               "trade_count": 27,
@@ -60379,7 +60379,7 @@
               "avg_36": 338500.0,
               "compare_avg_recent": 452000.0,
               "compare_avg_36": 347495.7936507937,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -4.12,
               "status": "market",
               "trade_count": 18,
@@ -60425,7 +60425,7 @@
               "avg_36": 346368.1435185185,
               "compare_avg_recent": 464000.0,
               "compare_avg_36": 354377.98494397756,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -3.31,
               "status": "market",
               "trade_count": 70,
@@ -60476,7 +60476,7 @@
               "avg_36": 472963.3838383839,
               "compare_avg_recent": 557500.0,
               "compare_avg_36": 427521.1651774152,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -13.53,
               "status": "undervalued",
               "trade_count": 29,
@@ -60509,7 +60509,7 @@
               "avg_36": 522453.70370370365,
               "compare_avg_recent": 700000.0,
               "compare_avg_36": 541004.6296296295,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -10.38,
               "status": "undervalued",
               "trade_count": 41,
@@ -60542,7 +60542,7 @@
               "avg_36": 430053.9215686274,
               "compare_avg_recent": 546666.6666666667,
               "compare_avg_36": 435842.85714285716,
-              "cluster_avg": 268812.24,
+              "cluster_avg": 268790.87,
               "gap_pct": -5.99,
               "status": "undervalued",
               "trade_count": 29,
@@ -61353,25 +61353,25 @@
         },
         {
           "size": 2,
-          "avg_current_price": 71850.0,
+          "avg_current_price": 71775.0,
           "members": [
-            {
-              "id": "e13ae93f2e",
-              "apt_name": "화서주공5단지",
-              "sigungu": "수원시팔달구",
-              "dong_name": "화서동",
-              "area_m2": 49.99,
-              "current_price": 64700.0,
-              "trade_count": 55
-            },
             {
               "id": "100b5396d8",
               "apt_name": "화서주공4단지",
               "sigungu": "수원시팔달구",
               "dong_name": "화서동",
               "area_m2": 59.98,
-              "current_price": 79000.0,
-              "trade_count": 122
+              "current_price": 80250.0,
+              "trade_count": 123
+            },
+            {
+              "id": "e13ae93f2e",
+              "apt_name": "화서주공5단지",
+              "sigungu": "수원시팔달구",
+              "dong_name": "화서동",
+              "area_m2": 49.99,
+              "current_price": 63300.0,
+              "trade_count": 56
             }
           ]
         },
