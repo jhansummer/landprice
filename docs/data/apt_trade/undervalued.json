@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-17T18:33:03Z",
+  "updated_at": "2026-05-18T19:05:30Z",
   "current_month": "202605",
   "params": {
     "months": 36,
@@ -11351,7 +11351,7 @@
         },
         {
           "size": 216,
-          "avg_current_price": 159102.79,
+          "avg_current_price": 159106.26,
           "members": [
             {
               "id": "488f81da19",
@@ -11449,8 +11449,8 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 84.9965,
-              "current_price": 143500.0,
-              "trade_count": 15
+              "current_price": 144250.0,
+              "trade_count": 16
             },
             {
               "id": "affd15a24b",
@@ -13412,7 +13412,7 @@
         },
         {
           "size": 367,
-          "avg_current_price": 233889.45,
+          "avg_current_price": 233888.08,
           "members": [
             {
               "id": "1c32633d52",
@@ -13960,8 +13960,8 @@
               "sigungu": "용산구",
               "dong_name": "이촌동",
               "area_m2": 59.88,
-              "current_price": 250000.0,
-              "trade_count": 115
+              "current_price": 249500.0,
+              "trade_count": 116
             },
             {
               "id": "22c8bb9b72",
@@ -14501,7 +14501,7 @@
               "dong_name": "이촌동",
               "area_m2": 114.96,
               "current_price": 295000.0,
-              "trade_count": 51
+              "trade_count": 52
             },
             {
               "id": "7d82048d96",
@@ -25190,7 +25190,7 @@
         },
         {
           "size": 307,
-          "avg_current_price": 180804.82,
+          "avg_current_price": 180803.19,
           "members": [
             {
               "id": "41844718b7",
@@ -25684,8 +25684,8 @@
               "sigungu": "용산구",
               "dong_name": "이촌동",
               "area_m2": 59.88,
-              "current_price": 250000.0,
-              "trade_count": 115
+              "current_price": 249500.0,
+              "trade_count": 116
             },
             {
               "id": "9c48a4076b",
@@ -27992,7 +27992,7 @@
         },
         {
           "size": 199,
-          "avg_current_price": 126266.84,
+          "avg_current_price": 126270.61,
           "members": [
             {
               "id": "e201e2588a",
@@ -28477,8 +28477,8 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 84.9965,
-              "current_price": 143500.0,
-              "trade_count": 15
+              "current_price": 144250.0,
+              "trade_count": 16
             },
             {
               "id": "3c4c4cfc3b",
@@ -32705,7 +32705,7 @@
         },
         {
           "size": 220,
-          "avg_current_price": 176266.94,
+          "avg_current_price": 176268.08,
           "members": [
             {
               "id": "69128a8693",
@@ -33046,8 +33046,8 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 84.9965,
-              "current_price": 143500.0,
-              "trade_count": 15
+              "current_price": 144250.0,
+              "trade_count": 16
             },
             {
               "id": "1169c3163b",
@@ -33707,6 +33707,15 @@
               "trade_count": 21
             },
             {
+              "id": "3cbf8ee95d",
+              "apt_name": "한가람",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 59.88,
+              "current_price": 249500.0,
+              "trade_count": 116
+            },
+            {
               "id": "f29ccdef4b",
               "apt_name": "우성",
               "sigungu": "용산구",
@@ -33741,15 +33750,6 @@
               "area_m2": 59.43,
               "current_price": 168000.0,
               "trade_count": 126
-            },
-            {
-              "id": "3cbf8ee95d",
-              "apt_name": "한가람",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 59.88,
-              "current_price": 250000.0,
-              "trade_count": 115
             },
             {
               "id": "90c5091536",
@@ -35153,7 +35153,7 @@
         },
         {
           "size": 198,
-          "avg_current_price": 159323.27,
+          "avg_current_price": 159327.06,
           "members": [
             {
               "id": "5f6e4e9bff",
@@ -35377,8 +35377,8 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 84.9965,
-              "current_price": 143500.0,
-              "trade_count": 15
+              "current_price": 144250.0,
+              "trade_count": 16
             },
             {
               "id": "90af141698",
@@ -57443,7 +57443,7 @@
         },
         {
           "size": 273,
-          "avg_current_price": 181704.25,
+          "avg_current_price": 181702.42,
           "members": [
             {
               "id": "bc4279a430",
@@ -58801,8 +58801,8 @@
               "sigungu": "용산구",
               "dong_name": "이촌동",
               "area_m2": 59.88,
-              "current_price": 250000.0,
-              "trade_count": 115
+              "current_price": 249500.0,
+              "trade_count": 116
             },
             {
               "id": "cd0af3b8de",
@@ -61426,7 +61426,7 @@
           "avg_36": 115283.33333333333,
           "compare_avg_recent": 161250.0,
           "compare_avg_36": 116961.57407407406,
-          "cluster_avg": 176266.94,
+          "cluster_avg": 176268.08,
           "gap_pct": -15.6,
           "status": "undervalued",
           "trade_count": 17,
@@ -61459,7 +61459,7 @@
           "avg_36": 82484.67741935483,
           "compare_avg_recent": 116166.66666666667,
           "compare_avg_36": 85334.35185185188,
-          "cluster_avg": 126266.84,
+          "cluster_avg": 126270.61,
           "gap_pct": -15.34,
           "status": "undervalued",
           "trade_count": 19,
@@ -61677,7 +61677,7 @@
               "avg_36": 82484.67741935483,
               "compare_avg_recent": 116166.66666666667,
               "compare_avg_36": 85334.35185185188,
-              "cluster_avg": 126266.84,
+              "cluster_avg": 126270.61,
               "gap_pct": -15.34,
               "status": "undervalued",
               "trade_count": 19,
@@ -61807,7 +61807,7 @@
               "avg_36": 115283.33333333333,
               "compare_avg_recent": 161250.0,
               "compare_avg_36": 116961.57407407406,
-              "cluster_avg": 159102.79,
+              "cluster_avg": 159106.26,
               "gap_pct": -15.6,
               "status": "undervalued",
               "trade_count": 17,
@@ -62600,7 +62600,7 @@
               "avg_36": 532038.0952380951,
               "compare_avg_recent": 639333.3333333334,
               "compare_avg_36": 515757.35294117645,
-              "cluster_avg": 233889.45,
+              "cluster_avg": 233888.08,
               "gap_pct": -6.18,
               "status": "undervalued",
               "trade_count": 19,
@@ -65475,7 +65475,7 @@
         },
         {
           "size": 111,
-          "avg_current_price": 107517.18,
+          "avg_current_price": 107601.19,
           "members": [
             {
               "id": "f26db35db4",
@@ -65595,33 +65595,6 @@
               "trade_count": 31
             },
             {
-              "id": "ddbb0a97c8",
-              "apt_name": "더샵동천이스트포레",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 84.9893,
-              "current_price": 117000.0,
-              "trade_count": 30
-            },
-            {
-              "id": "a83805ae9f",
-              "apt_name": "광교산자이",
-              "sigungu": "용인시수지구",
-              "dong_name": "신봉동",
-              "area_m2": 84.951,
-              "current_price": 79000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "06259ef4b9",
-              "apt_name": "성복역롯데캐슬클라시엘",
-              "sigungu": "용인시수지구",
-              "dong_name": "성복동",
-              "area_m2": 84.95,
-              "current_price": 127000.0,
-              "trade_count": 65
-            },
-            {
               "id": "01909a2cb0",
               "apt_name": "만현마을쌍용1차",
               "sigungu": "용인시수지구",
@@ -65667,33 +65640,6 @@
               "trade_count": 40
             },
             {
-              "id": "4362b1008f",
-              "apt_name": "풍산아파트",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 84.87,
-              "current_price": 80000.0,
-              "trade_count": 35
-            },
-            {
-              "id": "e8c4922d9c",
-              "apt_name": "진산마을삼성5차",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 84.2102,
-              "current_price": 120000.0,
-              "trade_count": 85
-            },
-            {
-              "id": "f05c608ad5",
-              "apt_name": "한일드림빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "신봉동",
-              "area_m2": 84.818,
-              "current_price": 73500.0,
-              "trade_count": 48
-            },
-            {
               "id": "9258e30be8",
               "apt_name": "서원마을3단지아이파크",
               "sigungu": "용인시수지구",
@@ -65712,6 +65658,15 @@
               "trade_count": 52
             },
             {
+              "id": "e8c4922d9c",
+              "apt_name": "진산마을삼성5차",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 84.2102,
+              "current_price": 120000.0,
+              "trade_count": 85
+            },
+            {
               "id": "f3d946d348",
               "apt_name": "상현마을현대성우3차",
               "sigungu": "용인시수지구",
@@ -65728,6 +65683,24 @@
               "area_m2": 101.72,
               "current_price": 130000.0,
               "trade_count": 20
+            },
+            {
+              "id": "4362b1008f",
+              "apt_name": "풍산아파트",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.87,
+              "current_price": 83500.0,
+              "trade_count": 36
+            },
+            {
+              "id": "f05c608ad5",
+              "apt_name": "한일드림빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "신봉동",
+              "area_m2": 84.818,
+              "current_price": 73500.0,
+              "trade_count": 48
             },
             {
               "id": "b23d7dd403",
@@ -65982,6 +65955,33 @@
               "trade_count": 68
             },
             {
+              "id": "ceb565d2b4",
+              "apt_name": "벽산블루밍4단지",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 59.96,
+              "current_price": 95666.66666666667,
+              "trade_count": 46
+            },
+            {
+              "id": "c4ab13eefd",
+              "apt_name": "우미이노스빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 59.9359,
+              "current_price": 90416.66666666667,
+              "trade_count": 58
+            },
+            {
+              "id": "45ba324b3f",
+              "apt_name": "서원마을현대홈타운",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 59.9328,
+              "current_price": 91666.66666666667,
+              "trade_count": 31
+            },
+            {
               "id": "38e4b16870",
               "apt_name": "신정마을주공1",
               "sigungu": "용인시수지구",
@@ -66027,15 +66027,6 @@
               "trade_count": 29
             },
             {
-              "id": "27b4384f69",
-              "apt_name": "현대성우8차",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 59.99,
-              "current_price": 111066.66666666667,
-              "trade_count": 361
-            },
-            {
               "id": "cbf17b5dd2",
               "apt_name": "성복역아이파크",
               "sigungu": "용인시수지구",
@@ -66043,24 +66034,6 @@
               "area_m2": 59.5915,
               "current_price": 100150.0,
               "trade_count": 33
-            },
-            {
-              "id": "c4ab13eefd",
-              "apt_name": "우미이노스빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 59.9359,
-              "current_price": 90416.66666666667,
-              "trade_count": 58
-            },
-            {
-              "id": "45ba324b3f",
-              "apt_name": "서원마을현대홈타운",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 59.9328,
-              "current_price": 91666.66666666667,
-              "trade_count": 31
             },
             {
               "id": "be04ed5309",
@@ -66099,6 +66072,15 @@
               "trade_count": 70
             },
             {
+              "id": "27b4384f69",
+              "apt_name": "현대성우8차",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 59.99,
+              "current_price": 112225.0,
+              "trade_count": 363
+            },
+            {
               "id": "afe07c07de",
               "apt_name": "광교자이더클래스",
               "sigungu": "용인시수지구",
@@ -66115,15 +66097,6 @@
               "area_m2": 59.9524,
               "current_price": 94840.0,
               "trade_count": 179
-            },
-            {
-              "id": "ceb565d2b4",
-              "apt_name": "벽산블루밍4단지",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 59.96,
-              "current_price": 96500.0,
-              "trade_count": 45
             },
             {
               "id": "a374b3e03f",
@@ -66216,6 +66189,15 @@
               "trade_count": 38
             },
             {
+              "id": "a83805ae9f",
+              "apt_name": "광교산자이",
+              "sigungu": "용인시수지구",
+              "dong_name": "신봉동",
+              "area_m2": 84.951,
+              "current_price": 79000.0,
+              "trade_count": 23
+            },
+            {
               "id": "5fc8f40440",
               "apt_name": "성복역롯데캐슬골드타운",
               "sigungu": "용인시수지구",
@@ -66259,6 +66241,15 @@
               "area_m2": 84.8668,
               "current_price": 90766.66666666667,
               "trade_count": 64
+            },
+            {
+              "id": "06259ef4b9",
+              "apt_name": "성복역롯데캐슬클라시엘",
+              "sigungu": "용인시수지구",
+              "dong_name": "성복동",
+              "area_m2": 84.95,
+              "current_price": 127000.0,
+              "trade_count": 65
             },
             {
               "id": "abdaa4fd03",
@@ -66459,6 +66450,15 @@
               "trade_count": 69
             },
             {
+              "id": "ddbb0a97c8",
+              "apt_name": "더샵동천이스트포레",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 84.9893,
+              "current_price": 122500.0,
+              "trade_count": 31
+            },
+            {
               "id": "94304ea121",
               "apt_name": "광교경남아너스빌",
               "sigungu": "용인시수지구",
@@ -66475,6 +66475,30 @@
               "area_m2": 101.94,
               "current_price": 145000.0,
               "trade_count": 16
+            }
+          ]
+        },
+        {
+          "size": 2,
+          "avg_current_price": 102083.33,
+          "members": [
+            {
+              "id": "944fe053ce",
+              "apt_name": "포레나 광교상현",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.6818,
+              "current_price": 99000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "cc42a77916",
+              "apt_name": "써니벨리",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 84.8512,
+              "current_price": 105166.66666666667,
+              "trade_count": 44
             }
           ]
         },
@@ -74237,7 +74261,7 @@
           "avg_36": 72400.0,
           "compare_avg_recent": 96395.1388888889,
           "compare_avg_36": 72676.50793650793,
-          "cluster_avg": 107517.18,
+          "cluster_avg": 107601.19,
           "gap_pct": -13.0,
           "status": "undervalued",
           "trade_count": 16,
@@ -74530,7 +74554,7 @@
               "avg_36": 55266.48148148148,
               "compare_avg_recent": 81379.16666666666,
               "compare_avg_36": 59222.359858505704,
-              "cluster_avg": 107517.18,
+              "cluster_avg": 107601.19,
               "gap_pct": -9.11,
               "status": "undervalued",
               "trade_count": 68,
@@ -74627,7 +74651,7 @@
               "avg_36": 89410.0,
               "compare_avg_recent": 128295.2380952381,
               "compare_avg_36": 92366.42174954675,
-              "cluster_avg": 107517.18,
+              "cluster_avg": 107601.19,
               "gap_pct": -13.2,
               "status": "undervalued",
               "trade_count": 31,
@@ -74673,7 +74697,7 @@
               "avg_36": 72400.0,
               "compare_avg_recent": 96395.1388888889,
               "compare_avg_36": 72676.50793650793,
-              "cluster_avg": 107517.18,
+              "cluster_avg": 107601.19,
               "gap_pct": -13.0,
               "status": "undervalued",
               "trade_count": 16,
@@ -74719,7 +74743,7 @@
               "avg_36": 84061.1224489796,
               "compare_avg_recent": 115250.79365079364,
               "compare_avg_36": 85511.09767547267,
-              "cluster_avg": 107517.18,
+              "cluster_avg": 107601.19,
               "gap_pct": -12.84,
               "status": "undervalued",
               "trade_count": 31,
@@ -74770,7 +74794,7 @@
               "avg_36": 126383.87096774194,
               "compare_avg_recent": 157111.11111111112,
               "compare_avg_36": 130661.66607013175,
-              "cluster_avg": 107517.18,
+              "cluster_avg": 107601.19,
               "gap_pct": -7.47,
               "status": "undervalued",
               "trade_count": 16,
