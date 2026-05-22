@@ -186029,7 +186029,12 @@
    "bank": 28,
    "academy": 152
   },
-  "school_score": 65
+  "school_score": 65,
+  "commute_transit": {
+   "gangnam": 93,
+   "gwanghwamun": 81,
+   "yeouido": 65
+  }
  },
  "37.462,126.686": {
   "infra": {
