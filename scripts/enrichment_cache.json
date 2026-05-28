@@ -240859,5 +240859,49 @@
    "academy": 88
   },
   "school_score": 68
+ },
+ "35.172,129.076": {
+  "infra": {
+   "mart": 3,
+   "conv": 55,
+   "school": 13,
+   "hospital": 82,
+   "bank": 69,
+   "academy": 159
+  },
+  "school_score": 84
+ },
+ "37.593,126.717": {
+  "infra": {
+   "mart": 3,
+   "conv": 30,
+   "school": 3,
+   "hospital": 84,
+   "bank": 12,
+   "academy": 311
+  },
+  "school_score": 78
+ },
+ "37.611,126.702": {
+  "infra": {
+   "mart": 2,
+   "conv": 10,
+   "school": 8,
+   "hospital": 20,
+   "bank": 1,
+   "academy": 79
+  },
+  "school_score": 75
+ },
+ "35.187,126.893": {
+  "infra": {
+   "mart": 2,
+   "conv": 36,
+   "school": 10,
+   "hospital": 82,
+   "bank": 25,
+   "academy": 156
+  },
+  "school_score": 68
  }
 }
