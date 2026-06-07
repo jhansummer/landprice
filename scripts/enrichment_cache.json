@@ -241442,5 +241442,16 @@
    "academy": 196
   },
   "school_score": 86
+ },
+ "37.498,126.997": {
+  "infra": {
+   "mart": 4,
+   "conv": 33,
+   "school": 11,
+   "hospital": 125,
+   "bank": 76,
+   "academy": 233
+  },
+  "school_score": 91
  }
 }
