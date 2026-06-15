@@ -1,1 +1,1 @@
-{"trades":[["2020-05-18",25000],["2020-10-20",24900],["2020-11-09",29000],["2021-04-07",36400],["2024-05-30",35000]],"info":{"build_year":1989,"subway":"연산","subway_line":"부산1호선","subway_walk_min":34,"scores":{"transport":41,"infra":100,"academy":67,"brand":50,"livability":29,"loc":7}}}
+{"trades":[["2020-05-18",25000],["2020-10-20",24900],["2020-11-09",29000],["2021-04-07",36400],["2024-05-30",35000]],"info":{"build_year":1989,"subway":"연산","subway_line":"부산1호선","subway_walk_min":34,"scores":{"transport":41,"infra":100,"academy":67,"brand":50,"livability":29,"loc":0}}}

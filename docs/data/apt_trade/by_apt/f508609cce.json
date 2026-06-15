@@ -1,1 +1,1 @@
-{"trades":[["2019-10-10",11000],["2019-12-23",11050]],"info":{"build_year":2017}}
+{"trades":[["2019-10-10",11000],["2019-12-23",11050]],"info":{"build_year":2017,"subway":"시청","subway_line":"대전1호선","subway_walk_min":7,"scores":{"transport":88,"infra":96,"academy":67,"brand":50,"livability":67,"loc":40}}}

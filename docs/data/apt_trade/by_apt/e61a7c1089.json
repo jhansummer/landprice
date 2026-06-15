@@ -1,1 +1,1 @@
-{"trades":[["2020-06-18",18500],["2020-11-30",19500],["2021-05-27",19000],["2021-07-18",18500],["2024-02-01",15000]],"info":{"build_year":2005,"subway":"서면","subway_line":"부산1호선","subway_walk_min":9,"scores":{"transport":84,"infra":100,"academy":62,"brand":50,"livability":50,"loc":7}}}
+{"trades":[["2020-06-18",18500],["2020-11-30",19500],["2021-05-27",19000],["2021-07-18",18500],["2024-02-01",15000]],"info":{"build_year":2005,"subway":"서면","subway_line":"부산1호선","subway_walk_min":9,"scores":{"transport":84,"infra":100,"academy":62,"brand":50,"livability":50,"loc":0}}}
