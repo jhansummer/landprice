@@ -1,1 +1,1 @@
-{"trades":[["2020-07-03",184700],["2022-01-09",202500]],"info":{"build_year":2016,"households":1038,"subway":"광흥창","subway_line":"6호선","subway_walk_min":11,"scores":{"transport":81,"infra":100,"academy":71,"brand":90,"livability":83,"loc":85}}}
+{"trades":[["2020-07-03",184700],["2022-01-09",202500]],"info":{"build_year":2016,"households":1038,"subway":"광흥창","subway_line":"6호선","subway_walk_min":11,"commute":{"gangnam":29,"gwanghwamun":14,"yeouido":8},"scores":{"transport":81,"infra":100,"academy":71,"brand":90,"livability":83,"loc":89}}}

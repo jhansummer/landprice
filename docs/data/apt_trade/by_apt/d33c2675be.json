@@ -1,1 +1,1 @@
-{"trades":[["2019-07-24",50800]],"info":{"build_year":2015,"subway":"정릉","subway_line":"우이신설선","subway_walk_min":11,"scores":{"transport":81,"infra":100,"academy":62,"brand":62,"livability":70,"loc":72}}}
+{"trades":[["2019-07-24",50800]],"info":{"build_year":2015,"subway":"정릉","subway_line":"우이신설선","subway_walk_min":11,"commute":{"gangnam":35,"gwanghwamun":14,"yeouido":35},"scores":{"transport":81,"infra":100,"academy":62,"brand":62,"livability":70,"loc":76}}}

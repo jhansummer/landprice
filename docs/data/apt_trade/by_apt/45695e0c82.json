@@ -1,1 +1,1 @@
-{"trades":[["2019-07-23",170000],["2019-09-29",164000]],"info":{"build_year":2014,"households":1206,"subway":"대모산입구","subway_line":"수인분당선","subway_walk_min":22,"scores":{"transport":62,"infra":91,"academy":91,"brand":50,"livability":70,"loc":94}}}
+{"trades":[["2019-07-23",170000],["2019-09-29",164000]],"info":{"build_year":2014,"households":1206,"subway":"대모산입구","subway_line":"수인분당선","subway_walk_min":22,"commute":{"gangnam":18,"gwanghwamun":43,"yeouido":46},"scores":{"transport":62,"infra":91,"academy":91,"brand":50,"livability":70,"loc":96}}}

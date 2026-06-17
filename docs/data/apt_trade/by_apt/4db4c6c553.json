@@ -1,1 +1,1 @@
-{"trades":[["2019-12-30",412000],["2026-04-09",600000]],"info":{"build_year":2015,"households":1404,"subway":"대치","subway_line":"3호선","subway_walk_min":8,"scores":{"transport":86,"infra":100,"academy":98,"brand":90,"livability":88,"loc":99}}}
+{"trades":[["2019-12-30",412000],["2026-04-09",600000]],"info":{"build_year":2015,"households":1404,"subway":"대치","subway_line":"3호선","subway_walk_min":8,"commute":{"gangnam":8,"gwanghwamun":34,"yeouido":37},"scores":{"transport":86,"infra":100,"academy":98,"brand":90,"livability":88,"loc":99}}}

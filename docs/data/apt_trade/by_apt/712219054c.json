@@ -1,1 +1,1 @@
-{"trades":[["2019-08-03",211000],["2019-10-04",230000],["2025-02-21",310000]],"info":{"build_year":2010,"households":493,"subway":"교대","subway_line":"2호선","subway_walk_min":8,"scores":{"transport":87,"infra":100,"academy":98,"brand":72,"livability":62,"loc":98}}}
+{"trades":[["2019-08-03",211000],["2019-10-04",230000],["2025-02-21",310000]],"info":{"build_year":2010,"households":493,"subway":"교대","subway_line":"2호선","subway_walk_min":8,"commute":{"gangnam":3,"gwanghwamun":27,"yeouido":26},"scores":{"transport":87,"infra":100,"academy":98,"brand":72,"livability":62,"loc":99}}}

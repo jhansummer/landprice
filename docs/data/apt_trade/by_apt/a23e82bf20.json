@@ -1,1 +1,1 @@
-{"trades":[["2026-04-10",150000],["2026-05-06",148000],["2026-05-23",141000]],"info":{"build_year":2022,"households":412,"subway":"신길","subway_line":"1호선","subway_walk_min":1,"scores":{"transport":98,"infra":100,"academy":33,"brand":83,"livability":75,"loc":71}}}
+{"trades":[["2026-04-10",150000],["2026-05-06",148000],["2026-05-23",141000]],"info":{"build_year":2022,"households":412,"subway":"신길","subway_line":"1호선","subway_walk_min":1,"commute":{"gangnam":30,"gwanghwamun":27,"yeouido":5},"scores":{"transport":98,"infra":100,"academy":33,"brand":83,"livability":75,"loc":76}}}

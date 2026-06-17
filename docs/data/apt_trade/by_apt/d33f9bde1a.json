@@ -1,1 +1,1 @@
-{"trades":[["2019-07-03",153000],["2019-08-23",148000]],"info":{"build_year":2003,"households":1357,"subway":"언주","subway_line":"9호선","subway_walk_min":9,"scores":{"transport":84,"infra":92,"academy":93,"brand":50,"livability":63,"loc":94}}}
+{"trades":[["2019-07-03",153000],["2019-08-23",148000]],"info":{"build_year":2003,"households":1357,"subway":"언주","subway_line":"9호선","subway_walk_min":9,"commute":{"gangnam":5,"gwanghwamun":26,"yeouido":30},"scores":{"transport":84,"infra":92,"academy":93,"brand":50,"livability":63,"loc":96}}}
