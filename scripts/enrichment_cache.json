@@ -49770,7 +49770,12 @@
    "bank": 29,
    "academy": 248
   },
-  "school_score": 80
+  "school_score": 80,
+  "commute_transit": {
+   "gangnam": 47,
+   "gwanghwamun": 38,
+   "yeouido": 19
+  }
  },
  "37.536,126.837": {
   "infra": {
@@ -241828,5 +241833,16 @@
    "academy": 584
   },
   "school_score": 88
+ },
+ "37.339,126.801": {
+  "infra": {
+   "mart": 1,
+   "conv": 41,
+   "school": 12,
+   "hospital": 44,
+   "bank": 17,
+   "academy": 30
+  },
+  "school_score": 61
  }
 }
