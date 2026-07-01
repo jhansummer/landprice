@@ -1,1 +1,1 @@
-{"trades":[["2022-10-25",59000],["2025-01-18",66000]],"info":{"build_year":2020,"subway":"응암","subway_line":"6호선","subway_walk_min":7,"scores":{"transport":89,"infra":100,"academy":10,"brand":50,"livability":71,"loc":91}}}
+{"trades":[["2022-10-25",59000],["2025-01-18",66000]],"info":{"build_year":2020,"subway":"응암","subway_line":"6호선","subway_walk_min":7,"commute":{"gangnam":43,"gwanghwamun":17,"yeouido":25},"scores":{"transport":89,"infra":100,"academy":10,"brand":50,"livability":71,"loc":97}}}
