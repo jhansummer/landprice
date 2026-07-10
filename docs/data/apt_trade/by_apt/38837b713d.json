@@ -1,1 +1,1 @@
-{"trades":[["2026-04-11",126000]],"info":{"build_year":2020,"subway":"굽은다리","subway_line":"5호선","subway_walk_min":19,"scores":{"transport":68,"infra":100,"academy":48,"brand":50,"livability":71,"loc":84}}}
+{"trades":[["2026-04-11",126000]],"info":{"build_year":2020,"subway":"굽은다리","subway_line":"5호선","subway_walk_min":19,"commute":{"gangnam":35,"gwanghwamun":46,"yeouido":60},"scores":{"transport":68,"infra":100,"academy":48,"brand":50,"livability":71,"loc":78}}}
