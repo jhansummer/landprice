@@ -49393,7 +49393,12 @@
    "bank": 66,
    "academy": 201
   },
-  "school_score": 78
+  "school_score": 78,
+  "commute_transit": {
+   "gangnam": 52,
+   "gwanghwamun": 34,
+   "yeouido": 24
+  }
  },
  "37.580,126.814": {
   "infra": {
