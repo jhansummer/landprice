@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-17T18:40:27Z",
+  "updated_at": "2026-07-18T18:32:19Z",
   "current_month": "202607",
   "params": {
     "months": 36,
@@ -4582,8 +4582,8 @@
           ]
         },
         {
-          "size": 445,
-          "avg_current_price": 254220.31,
+          "size": 446,
+          "avg_current_price": 254051.66,
           "members": [
             {
               "id": "20b11f7111",
@@ -5009,6 +5009,15 @@
               "trade_count": 26
             },
             {
+              "id": "d8ea301ee8",
+              "apt_name": "반포자이",
+              "sigungu": "서초구",
+              "dong_name": "반포동",
+              "area_m2": 132.439,
+              "current_price": 580000.0,
+              "trade_count": 18
+            },
+            {
               "id": "631b1ee7f5",
               "apt_name": "삼풍아파트",
               "sigungu": "서초구",
@@ -5043,15 +5052,6 @@
               "area_m2": 163.67,
               "current_price": 700000.0,
               "trade_count": 20
-            },
-            {
-              "id": "d8ea301ee8",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 132.439,
-              "current_price": 620000.0,
-              "trade_count": 17
             },
             {
               "id": "10382254a1",
@@ -5556,6 +5556,15 @@
               "area_m2": 121.04,
               "current_price": 236250.0,
               "trade_count": 30
+            },
+            {
+              "id": "282131be21",
+              "apt_name": "대림",
+              "sigungu": "서초구",
+              "dong_name": "우면동",
+              "area_m2": 130.89,
+              "current_price": 219000.0,
+              "trade_count": 31
             },
             {
               "id": "dd2615e9b0",
@@ -10831,8 +10840,8 @@
           ]
         },
         {
-          "size": 365,
-          "avg_current_price": 230191.68,
+          "size": 363,
+          "avg_current_price": 227807.06,
           "members": [
             {
               "id": "1c32633d52",
@@ -11717,33 +11726,6 @@
               "trade_count": 21
             },
             {
-              "id": "d8ea301ee8",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 132.439,
-              "current_price": 620000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "bee2248cdf",
-              "apt_name": "래미안신반포리오센트",
-              "sigungu": "서초구",
-              "dong_name": "잠원동",
-              "area_m2": 133.37,
-              "current_price": 495000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "631b1ee7f5",
-              "apt_name": "삼풍아파트",
-              "sigungu": "서초구",
-              "dong_name": "서초동",
-              "area_m2": 163.81,
-              "current_price": 430000.0,
-              "trade_count": 16
-            },
-            {
               "id": "2ec2ffa89a",
               "apt_name": "청화1",
               "sigungu": "용산구",
@@ -11769,6 +11751,15 @@
               "area_m2": 114.46,
               "current_price": 154500.0,
               "trade_count": 59
+            },
+            {
+              "id": "282131be21",
+              "apt_name": "대림",
+              "sigungu": "서초구",
+              "dong_name": "우면동",
+              "area_m2": 130.89,
+              "current_price": 219000.0,
+              "trade_count": 31
             },
             {
               "id": "986443de32",
@@ -14123,6 +14114,30 @@
         },
         {
           "size": 2,
+          "avg_current_price": 462500.0,
+          "members": [
+            {
+              "id": "bee2248cdf",
+              "apt_name": "래미안신반포리오센트",
+              "sigungu": "서초구",
+              "dong_name": "잠원동",
+              "area_m2": 133.37,
+              "current_price": 495000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "631b1ee7f5",
+              "apt_name": "삼풍아파트",
+              "sigungu": "서초구",
+              "dong_name": "서초동",
+              "area_m2": 163.81,
+              "current_price": 430000.0,
+              "trade_count": 16
+            }
+          ]
+        },
+        {
+          "size": 2,
           "avg_current_price": 198125.0,
           "members": [
             {
@@ -14147,7 +14162,7 @@
         },
         {
           "size": 266,
-          "avg_current_price": 109679.33,
+          "avg_current_price": 109693.24,
           "members": [
             {
               "id": "fd078c92e3",
@@ -14236,8 +14251,8 @@
               "sigungu": "노원구",
               "dong_name": "중계동",
               "area_m2": 72.73,
-              "current_price": 84500.0,
-              "trade_count": 30
+              "current_price": 85000.0,
+              "trade_count": 31
             },
             {
               "id": "bf85cfc84a",
@@ -14272,8 +14287,8 @@
               "sigungu": "노원구",
               "dong_name": "월계동",
               "area_m2": 91.54,
-              "current_price": 96800.0,
-              "trade_count": 27
+              "current_price": 100000.0,
+              "trade_count": 28
             },
             {
               "id": "c4836d0c38",
@@ -28499,7 +28514,7 @@
         },
         {
           "size": 34,
-          "avg_current_price": 85793.63,
+          "avg_current_price": 85887.75,
           "members": [
             {
               "id": "0a26bbb566",
@@ -28597,8 +28612,8 @@
               "sigungu": "노원구",
               "dong_name": "월계동",
               "area_m2": 91.54,
-              "current_price": 96800.0,
-              "trade_count": 27
+              "current_price": 100000.0,
+              "trade_count": 28
             },
             {
               "id": "c4836d0c38",
@@ -28835,7 +28850,7 @@
         },
         {
           "size": 3,
-          "avg_current_price": 82666.67,
+          "avg_current_price": 82833.33,
           "members": [
             {
               "id": "ab5336b740",
@@ -28843,8 +28858,8 @@
               "sigungu": "노원구",
               "dong_name": "중계동",
               "area_m2": 72.73,
-              "current_price": 84500.0,
-              "trade_count": 30
+              "current_price": 85000.0,
+              "trade_count": 31
             },
             {
               "id": "bf85cfc84a",
@@ -28924,8 +28939,8 @@
           ]
         },
         {
-          "size": 314,
-          "avg_current_price": 253727.56,
+          "size": 313,
+          "avg_current_price": 252557.36,
           "members": [
             {
               "id": "b8d049cba7",
@@ -29529,15 +29544,6 @@
               "area_m2": 133.37,
               "current_price": 495000.0,
               "trade_count": 18
-            },
-            {
-              "id": "d8ea301ee8",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 132.439,
-              "current_price": 620000.0,
-              "trade_count": 17
             },
             {
               "id": "49f8a413c6",
@@ -41723,7 +41729,7 @@
         },
         {
           "size": 340,
-          "avg_current_price": 202340.47,
+          "avg_current_price": 202222.82,
           "members": [
             {
               "id": "c5c9c9ee3e",
@@ -42590,6 +42596,15 @@
               "trade_count": 36
             },
             {
+              "id": "d8ea301ee8",
+              "apt_name": "반포자이",
+              "sigungu": "서초구",
+              "dong_name": "반포동",
+              "area_m2": 132.439,
+              "current_price": 580000.0,
+              "trade_count": 18
+            },
+            {
               "id": "631b1ee7f5",
               "apt_name": "삼풍아파트",
               "sigungu": "서초구",
@@ -42606,15 +42621,6 @@
               "area_m2": 133.37,
               "current_price": 495000.0,
               "trade_count": 18
-            },
-            {
-              "id": "d8ea301ee8",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 132.439,
-              "current_price": 620000.0,
-              "trade_count": 17
             },
             {
               "id": "f1322dad6e",
@@ -48857,7 +48863,7 @@
         },
         {
           "size": 30,
-          "avg_current_price": 86599.44,
+          "avg_current_price": 86706.11,
           "members": [
             {
               "id": "aa8b120f11",
@@ -48876,33 +48882,6 @@
               "area_m2": 70.81,
               "current_price": 88450.0,
               "trade_count": 33
-            },
-            {
-              "id": "6b679c856e",
-              "apt_name": "동신",
-              "sigungu": "노원구",
-              "dong_name": "월계동",
-              "area_m2": 91.54,
-              "current_price": 96800.0,
-              "trade_count": 27
-            },
-            {
-              "id": "c4836d0c38",
-              "apt_name": "동신",
-              "sigungu": "노원구",
-              "dong_name": "월계동",
-              "area_m2": 71.77,
-              "current_price": 89000.0,
-              "trade_count": 30
-            },
-            {
-              "id": "dfa82f80f1",
-              "apt_name": "학여울청구",
-              "sigungu": "노원구",
-              "dong_name": "하계동",
-              "area_m2": 59.4,
-              "current_price": 71750.0,
-              "trade_count": 59
             },
             {
               "id": "2fd89d559f",
@@ -49065,6 +49044,33 @@
               "area_m2": 49.75,
               "current_price": 76000.0,
               "trade_count": 33
+            },
+            {
+              "id": "6b679c856e",
+              "apt_name": "동신",
+              "sigungu": "노원구",
+              "dong_name": "월계동",
+              "area_m2": 91.54,
+              "current_price": 100000.0,
+              "trade_count": 28
+            },
+            {
+              "id": "c4836d0c38",
+              "apt_name": "동신",
+              "sigungu": "노원구",
+              "dong_name": "월계동",
+              "area_m2": 71.77,
+              "current_price": 89000.0,
+              "trade_count": 30
+            },
+            {
+              "id": "dfa82f80f1",
+              "apt_name": "학여울청구",
+              "sigungu": "노원구",
+              "dong_name": "하계동",
+              "area_m2": 59.4,
+              "current_price": 71750.0,
+              "trade_count": 59
             },
             {
               "id": "017d31b1b9",
@@ -51430,18 +51436,9 @@
           ]
         },
         {
-          "size": 3,
-          "avg_current_price": 515000.0,
+          "size": 2,
+          "avg_current_price": 462500.0,
           "members": [
-            {
-              "id": "d8ea301ee8",
-              "apt_name": "반포자이",
-              "sigungu": "서초구",
-              "dong_name": "반포동",
-              "area_m2": 132.439,
-              "current_price": 620000.0,
-              "trade_count": 17
-            },
             {
               "id": "bee2248cdf",
               "apt_name": "래미안신반포리오센트",
@@ -58802,7 +58799,7 @@
         },
         {
           "size": 285,
-          "avg_current_price": 121692.78,
+          "avg_current_price": 121705.76,
           "members": [
             {
               "id": "5790ee32f2",
@@ -59215,8 +59212,8 @@
               "sigungu": "노원구",
               "dong_name": "중계동",
               "area_m2": 72.73,
-              "current_price": 84500.0,
-              "trade_count": 30
+              "current_price": 85000.0,
+              "trade_count": 31
             },
             {
               "id": "bb157d82ab",
@@ -59881,8 +59878,8 @@
               "sigungu": "노원구",
               "dong_name": "월계동",
               "area_m2": 91.54,
-              "current_price": 96800.0,
-              "trade_count": 27
+              "current_price": 100000.0,
+              "trade_count": 28
             },
             {
               "id": "ecc0b4a9aa",
@@ -64775,7 +64772,7 @@
         },
         {
           "size": 131,
-          "avg_current_price": 101474.11,
+          "avg_current_price": 101502.35,
           "members": [
             {
               "id": "aa8b120f11",
@@ -65062,8 +65059,8 @@
               "sigungu": "노원구",
               "dong_name": "중계동",
               "area_m2": 72.73,
-              "current_price": 84500.0,
-              "trade_count": 30
+              "current_price": 85000.0,
+              "trade_count": 31
             },
             {
               "id": "c4836d0c38",
@@ -65098,8 +65095,8 @@
               "sigungu": "노원구",
               "dong_name": "월계동",
               "area_m2": 91.54,
-              "current_price": 96800.0,
-              "trade_count": 27
+              "current_price": 100000.0,
+              "trade_count": 28
             },
             {
               "id": "ecc0b4a9aa",
@@ -66129,7 +66126,7 @@
               "avg_36": 60942.47619047618,
               "compare_avg_recent": 80108.33333333334,
               "compare_avg_36": 60626.851851851854,
-              "cluster_avg": 85793.63,
+              "cluster_avg": 85887.75,
               "gap_pct": -12.11,
               "status": "undervalued",
               "trade_count": 59,
@@ -66221,7 +66218,7 @@
               "avg_36": 60404.83870967742,
               "compare_avg_recent": 80711.48148148149,
               "compare_avg_36": 62721.938181417354,
-              "cluster_avg": 109679.33,
+              "cluster_avg": 109693.24,
               "gap_pct": -9.58,
               "status": "undervalued",
               "trade_count": 16,
@@ -66272,7 +66269,7 @@
               "avg_36": 85963.80952380953,
               "compare_avg_recent": 115550.0,
               "compare_avg_36": 85748.3697089947,
-              "cluster_avg": 109679.33,
+              "cluster_avg": 109693.24,
               "gap_pct": -13.71,
               "status": "undervalued",
               "trade_count": 48,
@@ -66461,12 +66458,12 @@
               "avg_36": 104043.74999999999,
               "compare_avg_recent": 158500.0,
               "compare_avg_36": 108945.97800925927,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -11.56,
               "status": "undervalued",
               "trade_count": 55,
               "recent_3m_trades": 4,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "488952b1e6",
@@ -66507,12 +66504,12 @@
               "avg_36": 93864.58333333333,
               "compare_avg_recent": 150522.22222222222,
               "compare_avg_36": 102848.47494553377,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -11.28,
               "status": "undervalued",
               "trade_count": 28,
               "recent_3m_trades": 3,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "845cbe1d3a",
@@ -66591,12 +66588,12 @@
               "avg_36": 134593.05555555556,
               "compare_avg_recent": 191200.0,
               "compare_avg_36": 145569.86803519062,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -11.92,
               "status": "undervalued",
               "trade_count": 40,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "8be4b09990",
@@ -66721,12 +66718,12 @@
               "avg_36": 174014.49579831935,
               "compare_avg_recent": 237375.0,
               "compare_avg_36": 185136.43973214284,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -9.04,
               "status": "undervalued",
               "trade_count": 42,
               "recent_3m_trades": 2,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "8a871ee7d8",
@@ -66818,12 +66815,12 @@
               "avg_36": 268235.71428571426,
               "compare_avg_recent": 346500.0,
               "compare_avg_36": 285172.43876941456,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -9.0,
               "status": "undervalued",
               "trade_count": 19,
               "recent_3m_trades": 2,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "b27b1803c6",
@@ -66864,12 +66861,12 @@
               "avg_36": 252233.43995510662,
               "compare_avg_recent": 320916.6666666666,
               "compare_avg_36": 254146.50462962966,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -8.6,
               "status": "undervalued",
               "trade_count": 219,
               "recent_3m_trades": 14,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "9bb3cff814",
@@ -66910,12 +66907,12 @@
               "avg_36": 271680.3333333333,
               "compare_avg_recent": 282525.0,
               "compare_avg_36": 252415.93480228347,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -7.92,
               "status": "undervalued",
               "trade_count": 18,
               "recent_3m_trades": 2,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "a107018b66",
@@ -66961,12 +66958,12 @@
               "avg_36": 292129.1666666667,
               "compare_avg_recent": 371750.0,
               "compare_avg_36": 299304.39814814815,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -12.26,
               "status": "undervalued",
               "trade_count": 37,
               "recent_3m_trades": 8,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "255285c9e5",
@@ -67007,12 +67004,12 @@
               "avg_36": 302520.8333333333,
               "compare_avg_recent": 371750.0,
               "compare_avg_36": 299304.39814814815,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -12.04,
               "status": "undervalued",
               "trade_count": 32,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "91af8e8159",
@@ -67053,12 +67050,12 @@
               "avg_36": 325273.4375,
               "compare_avg_recent": 380833.3333333333,
               "compare_avg_36": 305518.9814814815,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -10.89,
               "status": "undervalued",
               "trade_count": 17,
               "recent_3m_trades": 2,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "7f529a5275",
@@ -67091,12 +67088,12 @@
               "avg_36": 383201.93877551024,
               "compare_avg_recent": 430583.3333333334,
               "compare_avg_36": 363091.1131652661,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -8.0,
               "status": "undervalued",
               "trade_count": 38,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "ab588b294b",
@@ -67137,12 +67134,12 @@
               "avg_36": 424283.3333333333,
               "compare_avg_recent": 479166.6666666667,
               "compare_avg_36": 417318.452959078,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -7.76,
               "status": "undervalued",
               "trade_count": 17,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "7b1353204f",
@@ -67183,12 +67180,12 @@
               "avg_36": 436151.0416666666,
               "compare_avg_recent": 555000.0,
               "compare_avg_36": 478968.75000000006,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -6.38,
               "status": "undervalued",
               "trade_count": 30,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "7b0f9f5a5a",
@@ -67221,12 +67218,12 @@
               "avg_36": 503411.11111111124,
               "compare_avg_recent": 573333.3333333333,
               "compare_avg_36": 481398.1481481482,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -5.74,
               "status": "undervalued",
               "trade_count": 16,
               "recent_3m_trades": 3,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "b3de95d398",
@@ -67267,12 +67264,12 @@
               "avg_36": 644027.7777777778,
               "compare_avg_recent": 740000.0,
               "compare_avg_36": 659177.0833333333,
-              "cluster_avg": 254220.31,
+              "cluster_avg": 254051.66,
               "gap_pct": -3.78,
               "status": "market",
               "trade_count": 20,
               "recent_3m_trades": 1,
-              "cluster_size": 445,
+              "cluster_size": 446,
               "compare": [
                 {
                   "id": "0be23a95a8",
@@ -76768,7 +76765,7 @@
         },
         {
           "size": 106,
-          "avg_current_price": 96041.76,
+          "avg_current_price": 96084.21,
           "members": [
             {
               "id": "54394299d4",
@@ -77032,15 +77029,6 @@
               "trade_count": 19
             },
             {
-              "id": "e7f50e5da7",
-              "apt_name": "평촌더샵센트럴시티",
-              "sigungu": "안양시동안구",
-              "dong_name": "관양동",
-              "area_m2": 84.9897,
-              "current_price": 140000.0,
-              "trade_count": 58
-            },
-            {
               "id": "754aa60832",
               "apt_name": "목련두산",
               "sigungu": "안양시동안구",
@@ -77075,6 +77063,15 @@
               "area_m2": 84.621,
               "current_price": 94500.0,
               "trade_count": 61
+            },
+            {
+              "id": "e7f50e5da7",
+              "apt_name": "평촌더샵센트럴시티",
+              "sigungu": "안양시동안구",
+              "dong_name": "관양동",
+              "area_m2": 84.9897,
+              "current_price": 144500.0,
+              "trade_count": 59
             },
             {
               "id": "a470d27b70",
@@ -77245,7 +77242,7 @@
               "dong_name": "호계동",
               "area_m2": 59.997,
               "current_price": 120000.0,
-              "trade_count": 47
+              "trade_count": 48
             },
             {
               "id": "afc81ed82f",
