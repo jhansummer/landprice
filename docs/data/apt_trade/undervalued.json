@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-18T18:32:19Z",
+  "updated_at": "2026-07-19T18:33:49Z",
   "current_month": "202607",
   "params": {
     "months": 36,
@@ -35,7 +35,7 @@
       "clusters": [
         {
           "size": 494,
-          "avg_current_price": 164447.51,
+          "avg_current_price": 164444.05,
           "members": [
             {
               "id": "ef652e21ff",
@@ -1177,8 +1177,8 @@
               "sigungu": "영등포구",
               "dong_name": "신길동",
               "area_m2": 84.79,
-              "current_price": 133000.0,
-              "trade_count": 58
+              "current_price": 134500.0,
+              "trade_count": 59
             },
             {
               "id": "6bd6eaa9a3",
@@ -3269,6 +3269,15 @@
               "trade_count": 24
             },
             {
+              "id": "38bc80fd5b",
+              "apt_name": "당산계룡리슈빌3단지",
+              "sigungu": "영등포구",
+              "dong_name": "당산동3가",
+              "area_m2": 49.993,
+              "current_price": 84500.0,
+              "trade_count": 40
+            },
+            {
               "id": "524da15448",
               "apt_name": "삼성",
               "sigungu": "마포구",
@@ -3791,15 +3800,6 @@
               "trade_count": 48
             },
             {
-              "id": "38bc80fd5b",
-              "apt_name": "당산계룡리슈빌3단지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동3가",
-              "area_m2": 49.993,
-              "current_price": 87625.0,
-              "trade_count": 39
-            },
-            {
               "id": "ea860d9169",
               "apt_name": "우성2",
               "sigungu": "영등포구",
@@ -3949,8 +3949,8 @@
               "sigungu": "영등포구",
               "dong_name": "영등포동8가",
               "area_m2": 59.91,
-              "current_price": 147250.0,
-              "trade_count": 47
+              "current_price": 147166.66666666666,
+              "trade_count": 48
             },
             {
               "id": "b9c8c6d5ea",
@@ -4310,7 +4310,7 @@
               "dong_name": "양평동5가",
               "area_m2": 59.94,
               "current_price": 136000.0,
-              "trade_count": 128
+              "trade_count": 129
             },
             {
               "id": "194b838d88",
@@ -8675,7 +8675,7 @@
         },
         {
           "size": 229,
-          "avg_current_price": 157310.07,
+          "avg_current_price": 157314.51,
           "members": [
             {
               "id": "5270950ca4",
@@ -8822,49 +8822,13 @@
               "trade_count": 20
             },
             {
-              "id": "4bbb7ad542",
-              "apt_name": "창신쌍용2",
-              "sigungu": "종로구",
-              "dong_name": "창신동",
-              "area_m2": 54.7,
-              "current_price": 74500.0,
-              "trade_count": 29
-            },
-            {
-              "id": "3f132a118f",
-              "apt_name": "창신쌍용2",
-              "sigungu": "종로구",
-              "dong_name": "창신동",
-              "area_m2": 64.66,
-              "current_price": 82000.0,
-              "trade_count": 50
-            },
-            {
-              "id": "bc4279a430",
-              "apt_name": "현대",
-              "sigungu": "중구",
-              "dong_name": "신당동",
-              "area_m2": 83.97,
-              "current_price": 118000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "b4fb6afb82",
-              "apt_name": "홍제삼성래미안",
-              "sigungu": "서대문구",
-              "dong_name": "홍제동",
-              "area_m2": 60.0,
-              "current_price": 91300.0,
-              "trade_count": 44
-            },
-            {
-              "id": "faa1191d87",
-              "apt_name": "대우푸르지오",
-              "sigungu": "서대문구",
-              "dong_name": "연희동",
-              "area_m2": 59.584,
-              "current_price": 102000.0,
-              "trade_count": 31
+              "id": "e1c7825477",
+              "apt_name": "녹번역센트레빌",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 84.9,
+              "current_price": 91966.66666666667,
+              "trade_count": 19
             },
             {
               "id": "3fe698a9a0",
@@ -8901,6 +8865,15 @@
               "area_m2": 84.97,
               "current_price": 133500.0,
               "trade_count": 16
+            },
+            {
+              "id": "faa1191d87",
+              "apt_name": "대우푸르지오",
+              "sigungu": "서대문구",
+              "dong_name": "연희동",
+              "area_m2": 59.584,
+              "current_price": 102000.0,
+              "trade_count": 31
             },
             {
               "id": "4c0ecf3c0c",
@@ -8964,6 +8937,69 @@
               "area_m2": 59.67,
               "current_price": 146250.0,
               "trade_count": 15
+            },
+            {
+              "id": "b4fb6afb82",
+              "apt_name": "홍제삼성래미안",
+              "sigungu": "서대문구",
+              "dong_name": "홍제동",
+              "area_m2": 60.0,
+              "current_price": 91300.0,
+              "trade_count": 44
+            },
+            {
+              "id": "90fbad0333",
+              "apt_name": "현대",
+              "sigungu": "종로구",
+              "dong_name": "무악동",
+              "area_m2": 84.92,
+              "current_price": 144480.0,
+              "trade_count": 39
+            },
+            {
+              "id": "881690b67b",
+              "apt_name": "래미안밤섬리베뉴Ⅰ",
+              "sigungu": "마포구",
+              "dong_name": "상수동",
+              "area_m2": 84.99,
+              "current_price": 228000.0,
+              "trade_count": 38
+            },
+            {
+              "id": "f9d1678838",
+              "apt_name": "신촌럭키",
+              "sigungu": "서대문구",
+              "dong_name": "대현동",
+              "area_m2": 83.38,
+              "current_price": 147000.0,
+              "trade_count": 80
+            },
+            {
+              "id": "4bbb7ad542",
+              "apt_name": "창신쌍용2",
+              "sigungu": "종로구",
+              "dong_name": "창신동",
+              "area_m2": 54.7,
+              "current_price": 74500.0,
+              "trade_count": 29
+            },
+            {
+              "id": "3f132a118f",
+              "apt_name": "창신쌍용2",
+              "sigungu": "종로구",
+              "dong_name": "창신동",
+              "area_m2": 64.66,
+              "current_price": 82000.0,
+              "trade_count": 50
+            },
+            {
+              "id": "bc4279a430",
+              "apt_name": "현대",
+              "sigungu": "중구",
+              "dong_name": "신당동",
+              "area_m2": 83.97,
+              "current_price": 118000.0,
+              "trade_count": 17
             },
             {
               "id": "7639562762",
@@ -9092,123 +9128,6 @@
               "trade_count": 105
             },
             {
-              "id": "881690b67b",
-              "apt_name": "래미안밤섬리베뉴Ⅰ",
-              "sigungu": "마포구",
-              "dong_name": "상수동",
-              "area_m2": 84.99,
-              "current_price": 228000.0,
-              "trade_count": 38
-            },
-            {
-              "id": "e1c7825477",
-              "apt_name": "녹번역센트레빌",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 84.9,
-              "current_price": 90950.0,
-              "trade_count": 18
-            },
-            {
-              "id": "90fbad0333",
-              "apt_name": "현대",
-              "sigungu": "종로구",
-              "dong_name": "무악동",
-              "area_m2": 84.92,
-              "current_price": 144480.0,
-              "trade_count": 39
-            },
-            {
-              "id": "a3b5f33b1d",
-              "apt_name": "서서울삼성",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 84.89,
-              "current_price": 120000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "4dded9a6d5",
-              "apt_name": "북한산힐스테이트1차아파트",
-              "sigungu": "은평구",
-              "dong_name": "불광동",
-              "area_m2": 84.369,
-              "current_price": 95000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "1045d9d118",
-              "apt_name": "래미안밤섬리베뉴Ⅱ",
-              "sigungu": "마포구",
-              "dong_name": "상수동",
-              "area_m2": 84.82,
-              "current_price": 200333.33333333334,
-              "trade_count": 27
-            },
-            {
-              "id": "66f11532f0",
-              "apt_name": "마포그랑자이",
-              "sigungu": "마포구",
-              "dong_name": "대흥동",
-              "area_m2": 84.98,
-              "current_price": 261500.0,
-              "trade_count": 67
-            },
-            {
-              "id": "1a630e8a17",
-              "apt_name": "경희궁자이(2단지)",
-              "sigungu": "종로구",
-              "dong_name": "홍파동",
-              "area_m2": 84.614,
-              "current_price": 263500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "c5940fc72e",
-              "apt_name": "마포용강삼성래미안",
-              "sigungu": "마포구",
-              "dong_name": "용강동",
-              "area_m2": 84.2,
-              "current_price": 200000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "90af141698",
-              "apt_name": "신촌숲아이파크",
-              "sigungu": "마포구",
-              "dong_name": "신수동",
-              "area_m2": 84.932,
-              "current_price": 234500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "c18f15cd18",
-              "apt_name": "신촌숲아이파크",
-              "sigungu": "마포구",
-              "dong_name": "신수동",
-              "area_m2": 84.912,
-              "current_price": 240000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "ee82ddb7c5",
-              "apt_name": "신공덕래미안3차",
-              "sigungu": "마포구",
-              "dong_name": "신공덕동",
-              "area_m2": 84.69,
-              "current_price": 178000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "f9d1678838",
-              "apt_name": "신촌럭키",
-              "sigungu": "서대문구",
-              "dong_name": "대현동",
-              "area_m2": 83.38,
-              "current_price": 147000.0,
-              "trade_count": 80
-            },
-            {
               "id": "5ab1edf12b",
               "apt_name": "DMC파크뷰자이4단지",
               "sigungu": "서대문구",
@@ -9297,6 +9216,87 @@
               "area_m2": 84.972,
               "current_price": 224500.0,
               "trade_count": 46
+            },
+            {
+              "id": "c18f15cd18",
+              "apt_name": "신촌숲아이파크",
+              "sigungu": "마포구",
+              "dong_name": "신수동",
+              "area_m2": 84.912,
+              "current_price": 240000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "1a630e8a17",
+              "apt_name": "경희궁자이(2단지)",
+              "sigungu": "종로구",
+              "dong_name": "홍파동",
+              "area_m2": 84.614,
+              "current_price": 263500.0,
+              "trade_count": 21
+            },
+            {
+              "id": "66f11532f0",
+              "apt_name": "마포그랑자이",
+              "sigungu": "마포구",
+              "dong_name": "대흥동",
+              "area_m2": 84.98,
+              "current_price": 261500.0,
+              "trade_count": 67
+            },
+            {
+              "id": "c5940fc72e",
+              "apt_name": "마포용강삼성래미안",
+              "sigungu": "마포구",
+              "dong_name": "용강동",
+              "area_m2": 84.2,
+              "current_price": 200000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "90af141698",
+              "apt_name": "신촌숲아이파크",
+              "sigungu": "마포구",
+              "dong_name": "신수동",
+              "area_m2": 84.932,
+              "current_price": 234500.0,
+              "trade_count": 21
+            },
+            {
+              "id": "1045d9d118",
+              "apt_name": "래미안밤섬리베뉴Ⅱ",
+              "sigungu": "마포구",
+              "dong_name": "상수동",
+              "area_m2": 84.82,
+              "current_price": 200333.33333333334,
+              "trade_count": 27
+            },
+            {
+              "id": "4dded9a6d5",
+              "apt_name": "북한산힐스테이트1차아파트",
+              "sigungu": "은평구",
+              "dong_name": "불광동",
+              "area_m2": 84.369,
+              "current_price": 95000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "ee82ddb7c5",
+              "apt_name": "신공덕래미안3차",
+              "sigungu": "마포구",
+              "dong_name": "신공덕동",
+              "area_m2": 84.69,
+              "current_price": 178000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "a3b5f33b1d",
+              "apt_name": "서서울삼성",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 84.89,
+              "current_price": 120000.0,
+              "trade_count": 15
             },
             {
               "id": "5a334ef40e",
@@ -23795,7 +23795,7 @@
         },
         {
           "size": 282,
-          "avg_current_price": 149747.95,
+          "avg_current_price": 149741.89,
           "members": [
             {
               "id": "1485ac0bd3",
@@ -23807,13 +23807,13 @@
               "trade_count": 16
             },
             {
-              "id": "b968be17c8",
-              "apt_name": "당산현대3차",
+              "id": "874bcf4c1d",
+              "apt_name": "보라매경남아너스빌",
               "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 84.5,
-              "current_price": 170000.0,
-              "trade_count": 18
+              "dong_name": "신길동",
+              "area_m2": 84.79,
+              "current_price": 134500.0,
+              "trade_count": 59
             },
             {
               "id": "f240f6fa37",
@@ -23843,211 +23843,13 @@
               "trade_count": 20
             },
             {
-              "id": "b3ed09fafb",
-              "apt_name": "당산센트럴아이파크",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 71.98,
-              "current_price": 205000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "f3403880ca",
-              "apt_name": "당산삼성래미안4차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 84.94,
-              "current_price": 200333.33333333334,
-              "trade_count": 25
-            },
-            {
-              "id": "d9e46bcd09",
-              "apt_name": "당산푸르지오",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동8가",
-              "area_m2": 84.98,
-              "current_price": 152000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "f7947f12f6",
-              "apt_name": "목동신시가지3",
+              "id": "0bf7638b91",
+              "apt_name": "목동신시가지2",
               "sigungu": "양천구",
               "dong_name": "목동",
-              "area_m2": 95.74,
-              "current_price": 280000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "c1e5b986a0",
-              "apt_name": "당산삼성래미안4차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 115.78,
-              "current_price": 248000.0,
-              "trade_count": 51
-            },
-            {
-              "id": "01d0cbe5d1",
-              "apt_name": "목동신시가지7",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 101.2,
-              "current_price": 300000.0,
-              "trade_count": 50
-            },
-            {
-              "id": "1a7ab12b5e",
-              "apt_name": "삼부",
-              "sigungu": "영등포구",
-              "dong_name": "여의도동",
-              "area_m2": 92.13,
-              "current_price": 310000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "d1d4240973",
-              "apt_name": "목동신시가지8",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 71.77,
-              "current_price": 197000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "dc54eb1dad",
-              "apt_name": "대교",
-              "sigungu": "영등포구",
-              "dong_name": "여의도동",
-              "area_m2": 95.5,
-              "current_price": 303000.0,
-              "trade_count": 33
-            },
-            {
-              "id": "09c33033ce",
-              "apt_name": "유원제일2차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 123.76,
-              "current_price": 223000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "c3ec420eee",
-              "apt_name": "문래힐스테이트",
-              "sigungu": "영등포구",
-              "dong_name": "문래동3가",
-              "area_m2": 119.47,
-              "current_price": 187000.0,
-              "trade_count": 34
-            },
-            {
-              "id": "85f5a59a6d",
-              "apt_name": "당산현대5차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 114.84,
-              "current_price": 190000.0,
-              "trade_count": 33
-            },
-            {
-              "id": "ca4363ea47",
-              "apt_name": "신정현대5",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 114.24,
-              "current_price": 135000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "1cd83be7aa",
-              "apt_name": "문래자이",
-              "sigungu": "영등포구",
-              "dong_name": "문래동3가",
-              "area_m2": 121.53,
-              "current_price": 211000.0,
-              "trade_count": 38
-            },
-            {
-              "id": "88eaab5eee",
-              "apt_name": "목동신시가지5",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 115.47,
-              "current_price": 340000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "e0b0b8c1e3",
-              "apt_name": "하이페리온2",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 155.586,
-              "current_price": 348000.0,
+              "area_m2": 65.25,
+              "current_price": 236500.0,
               "trade_count": 17
-            },
-            {
-              "id": "40ec9dd9c1",
-              "apt_name": "목동청구한신아파트",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 84.77,
-              "current_price": 191500.0,
-              "trade_count": 83
-            },
-            {
-              "id": "f659fd979b",
-              "apt_name": "목동신시가지1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 65.34,
-              "current_price": 231000.0,
-              "trade_count": 38
-            },
-            {
-              "id": "9aec9351c1",
-              "apt_name": "시범",
-              "sigungu": "영등포구",
-              "dong_name": "여의도동",
-              "area_m2": 60.96,
-              "current_price": 247666.66666666666,
-              "trade_count": 21
-            },
-            {
-              "id": "24f6bc889c",
-              "apt_name": "진주",
-              "sigungu": "영등포구",
-              "dong_name": "여의도동",
-              "area_m2": 48.26,
-              "current_price": 210000.0,
-              "trade_count": 27
-            },
-            {
-              "id": "ac5394b1bb",
-              "apt_name": "목동신시가지7",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 53.88,
-              "current_price": 222875.0,
-              "trade_count": 62
-            },
-            {
-              "id": "b7c275967e",
-              "apt_name": "목동신시가지1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 47.52,
-              "current_price": 185000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "d9e0ab45a6",
-              "apt_name": "e편한세상 문래 에듀플라츠",
-              "sigungu": "영등포구",
-              "dong_name": "문래동6가",
-              "area_m2": 59.9854,
-              "current_price": 133000.0,
-              "trade_count": 25
             },
             {
               "id": "34a2b11696",
@@ -24059,13 +23861,31 @@
               "trade_count": 30
             },
             {
-              "id": "4224d3fd16",
-              "apt_name": "양평현대6차",
+              "id": "38bc80fd5b",
+              "apt_name": "당산계룡리슈빌3단지",
               "sigungu": "영등포구",
-              "dong_name": "양평동3가",
-              "area_m2": 59.98,
-              "current_price": 136600.0,
-              "trade_count": 67
+              "dong_name": "당산동3가",
+              "area_m2": 49.993,
+              "current_price": 84500.0,
+              "trade_count": 40
+            },
+            {
+              "id": "ebef422eb4",
+              "apt_name": "신동아파밀리에",
+              "sigungu": "영등포구",
+              "dong_name": "당산동1가",
+              "area_m2": 59.4,
+              "current_price": 106500.0,
+              "trade_count": 26
+            },
+            {
+              "id": "ab5cd0dc58",
+              "apt_name": "양평벽산블루밍",
+              "sigungu": "영등포구",
+              "dong_name": "양평동2가",
+              "area_m2": 59.58,
+              "current_price": 94000.0,
+              "trade_count": 43
             },
             {
               "id": "8cb1a7db7e",
@@ -24113,49 +23933,751 @@
               "trade_count": 42
             },
             {
-              "id": "84e1178f37",
-              "apt_name": "신월시영",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.49,
-              "current_price": 83833.33333333333,
-              "trade_count": 46
+              "id": "ac3d3fa036",
+              "apt_name": "염창동한강우성",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 65.88,
+              "current_price": 108000.0,
+              "trade_count": 18
             },
             {
-              "id": "5ef0fe0bce",
+              "id": "143c537557",
+              "apt_name": "보라매두산위브",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.95,
+              "current_price": 122000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "2f9d1f4ec6",
+              "apt_name": "우장산아이파크,이편한세상",
+              "sigungu": "강서구",
+              "dong_name": "화곡동",
+              "area_m2": 101.65,
+              "current_price": 163233.33333333334,
+              "trade_count": 23
+            },
+            {
+              "id": "3e81648b83",
+              "apt_name": "문래현대5차",
+              "sigungu": "영등포구",
+              "dong_name": "문래동5가",
+              "area_m2": 84.79,
+              "current_price": 108000.0,
+              "trade_count": 32
+            },
+            {
+              "id": "16736ccd6b",
+              "apt_name": "삼성한사랑1",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 84.99,
+              "current_price": 100000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "1ee05df586",
+              "apt_name": "현대2차",
+              "sigungu": "영등포구",
+              "dong_name": "문래동6가",
+              "area_m2": 79.72,
+              "current_price": 111000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "739dbb2e18",
               "apt_name": "문래베어스타운",
               "sigungu": "영등포구",
               "dong_name": "문래동6가",
-              "area_m2": 59.95,
-              "current_price": 103000.0,
+              "area_m2": 84.9,
+              "current_price": 113750.0,
+              "trade_count": 15
+            },
+            {
+              "id": "0eb4b5afd3",
+              "apt_name": "서광등촌마을아파트",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 84.93,
+              "current_price": 106000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "e49b375851",
+              "apt_name": "문래두산위브",
+              "sigungu": "영등포구",
+              "dong_name": "문래동5가",
+              "area_m2": 79.86,
+              "current_price": 131500.0,
+              "trade_count": 15
+            },
+            {
+              "id": "480a83f934",
+              "apt_name": "문래공원한신",
+              "sigungu": "영등포구",
+              "dong_name": "문래동3가",
+              "area_m2": 79.46,
+              "current_price": 150000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "5126488cc3",
+              "apt_name": "강변래미안",
+              "sigungu": "영등포구",
+              "dong_name": "당산동",
+              "area_m2": 79.05,
+              "current_price": 179500.0,
+              "trade_count": 18
+            },
+            {
+              "id": "24138b9653",
+              "apt_name": "당산삼성2차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 84.93,
+              "current_price": 157500.0,
+              "trade_count": 27
+            },
+            {
+              "id": "1075ff36df",
+              "apt_name": "쌍용",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.63,
+              "current_price": 127000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "58d8131149",
+              "apt_name": "삼환",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.84,
+              "current_price": 119000.0,
+              "trade_count": 61
+            },
+            {
+              "id": "9810dc1a04",
+              "apt_name": "명지해드는터",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.98,
+              "current_price": 160000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "393a3366e8",
+              "apt_name": "우장산롯데캐슬",
+              "sigungu": "강서구",
+              "dong_name": "화곡동",
+              "area_m2": 85.0,
+              "current_price": 134500.0,
+              "trade_count": 48
+            },
+            {
+              "id": "43e96863f6",
+              "apt_name": "마곡수명산파크4단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 84.96,
+              "current_price": 128000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "cbe1d93008",
+              "apt_name": "목동신시가지1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 99.15,
+              "current_price": 290000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "1cd83be7aa",
+              "apt_name": "문래자이",
+              "sigungu": "영등포구",
+              "dong_name": "문래동3가",
+              "area_m2": 121.53,
+              "current_price": 211000.0,
+              "trade_count": 38
+            },
+            {
+              "id": "09c33033ce",
+              "apt_name": "유원제일2차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 123.76,
+              "current_price": 223000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "c1e5b986a0",
+              "apt_name": "당산삼성래미안4차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 115.78,
+              "current_price": 248000.0,
+              "trade_count": 51
+            },
+            {
+              "id": "01d0cbe5d1",
+              "apt_name": "목동신시가지7",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 101.2,
+              "current_price": 300000.0,
+              "trade_count": 50
+            },
+            {
+              "id": "1a7ab12b5e",
+              "apt_name": "삼부",
+              "sigungu": "영등포구",
+              "dong_name": "여의도동",
+              "area_m2": 92.13,
+              "current_price": 310000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "d1d4240973",
+              "apt_name": "목동신시가지8",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 71.77,
+              "current_price": 197000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "dc54eb1dad",
+              "apt_name": "대교",
+              "sigungu": "영등포구",
+              "dong_name": "여의도동",
+              "area_m2": 95.5,
+              "current_price": 303000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "10ebc6a67f",
+              "apt_name": "목동현대1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 84.9,
+              "current_price": 190500.0,
+              "trade_count": 19
+            },
+            {
+              "id": "f3403880ca",
+              "apt_name": "당산삼성래미안4차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 84.94,
+              "current_price": 200333.33333333334,
+              "trade_count": 25
+            },
+            {
+              "id": "8fbf64d89e",
+              "apt_name": "염창2차한화꿈에그린",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 84.99,
+              "current_price": 114000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "8ac096cfce",
+              "apt_name": "동성",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 101.88,
+              "current_price": 121000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "43ae19d8b7",
+              "apt_name": "한솔솔파크",
+              "sigungu": "강서구",
+              "dong_name": "마곡동",
+              "area_m2": 84.87,
+              "current_price": 128000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "509b444039",
+              "apt_name": "당산롯데캐슬프레스티지",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 84.99,
+              "current_price": 197500.0,
+              "trade_count": 20
+            },
+            {
+              "id": "87659974d3",
+              "apt_name": "목동힐스테이트",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.88,
+              "current_price": 213000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "d9e46bcd09",
+              "apt_name": "당산푸르지오",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동8가",
+              "area_m2": 84.98,
+              "current_price": 152000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "40ec9dd9c1",
+              "apt_name": "목동청구한신아파트",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 84.77,
+              "current_price": 191500.0,
+              "trade_count": 83
+            },
+            {
+              "id": "d8f20f6cb0",
+              "apt_name": "목동신시가지7",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 66.6,
+              "current_price": 252833.33333333334,
+              "trade_count": 72
+            },
+            {
+              "id": "9aec9351c1",
+              "apt_name": "시범",
+              "sigungu": "영등포구",
+              "dong_name": "여의도동",
+              "area_m2": 60.96,
+              "current_price": 247666.66666666666,
+              "trade_count": 21
+            },
+            {
+              "id": "24f6bc889c",
+              "apt_name": "진주",
+              "sigungu": "영등포구",
+              "dong_name": "여의도동",
+              "area_m2": 48.26,
+              "current_price": 210000.0,
+              "trade_count": 27
+            },
+            {
+              "id": "b7c275967e",
+              "apt_name": "목동신시가지1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 47.52,
+              "current_price": 185000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "e8ae948edc",
+              "apt_name": "힐스테이트클래시안",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 59.91,
+              "current_price": 170937.5,
+              "trade_count": 107
+            },
+            {
+              "id": "b51d131cb5",
+              "apt_name": "강서한강자이",
+              "sigungu": "강서구",
+              "dong_name": "가양동",
+              "area_m2": 59.9382,
+              "current_price": 144000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "6f1b971ea3",
+              "apt_name": "가양강나루현대",
+              "sigungu": "강서구",
+              "dong_name": "가양동",
+              "area_m2": 59.76,
+              "current_price": 113150.0,
+              "trade_count": 71
+            },
+            {
+              "id": "e40c25f3e7",
+              "apt_name": "삼환",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동8가",
+              "area_m2": 59.91,
+              "current_price": 147166.66666666666,
+              "trade_count": 48
+            },
+            {
+              "id": "9f4913ad30",
+              "apt_name": "롯데캐슬",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 59.747,
+              "current_price": 115000.0,
+              "trade_count": 40
+            },
+            {
+              "id": "975cf09c1f",
+              "apt_name": "성원2",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 59.9,
+              "current_price": 81000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "3c2dbee226",
+              "apt_name": "마곡수명산파크5단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 59.76,
+              "current_price": 117000.0,
               "trade_count": 29
             },
             {
-              "id": "10058c80bc",
-              "apt_name": "성원",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 59.94,
-              "current_price": 113000.0,
-              "trade_count": 16
+              "id": "9f16e39f0e",
+              "apt_name": "마곡푸르지오",
+              "sigungu": "강서구",
+              "dong_name": "마곡동",
+              "area_m2": 59.87,
+              "current_price": 127500.0,
+              "trade_count": 20
             },
             {
-              "id": "edccda5a14",
-              "apt_name": "가양2단지(성지)",
+              "id": "979f0ea4a5",
+              "apt_name": "삼호",
+              "sigungu": "영등포구",
+              "dong_name": "양평동3가",
+              "area_m2": 59.96,
+              "current_price": 91000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "e5bed8cc5a",
+              "apt_name": "마곡13단지힐스테이트마스터",
+              "sigungu": "강서구",
+              "dong_name": "마곡동",
+              "area_m2": 59.9825,
+              "current_price": 155000.0,
+              "trade_count": 63
+            },
+            {
+              "id": "6e50ad95a3",
+              "apt_name": "신트리4",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.73,
+              "current_price": 89000.0,
+              "trade_count": 64
+            },
+            {
+              "id": "e6b05f2278",
+              "apt_name": "가양도시개발9-2단지",
               "sigungu": "강서구",
               "dong_name": "가양동",
-              "area_m2": 49.56,
-              "current_price": 94000.0,
-              "trade_count": 59
+              "area_m2": 49.5,
+              "current_price": 96500.0,
+              "trade_count": 50
             },
             {
-              "id": "e62dd4b1c9",
-              "apt_name": "목동센트럴아이파크위브4단지",
+              "id": "17a6b9b127",
+              "apt_name": "목동신시가지4",
               "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 52.85,
-              "current_price": 108000.0,
-              "trade_count": 16
+              "dong_name": "목동",
+              "area_m2": 47.25,
+              "current_price": 204000.0,
+              "trade_count": 39
+            },
+            {
+              "id": "b155de83db",
+              "apt_name": "목동신시가지4",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 48.69,
+              "current_price": 210000.0,
+              "trade_count": 27
+            },
+            {
+              "id": "6fcb9c8c5c",
+              "apt_name": "목동신시가지11",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 51.48,
+              "current_price": 189000.0,
+              "trade_count": 78
+            },
+            {
+              "id": "f0d0d17dea",
+              "apt_name": "목동신시가지6",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 47.94,
+              "current_price": 228500.0,
+              "trade_count": 47
+            },
+            {
+              "id": "2547b57a50",
+              "apt_name": "목동신시가지10",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 53.82,
+              "current_price": 200000.0,
+              "trade_count": 48
+            },
+            {
+              "id": "ac5394b1bb",
+              "apt_name": "목동신시가지7",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 53.88,
+              "current_price": 222875.0,
+              "trade_count": 62
+            },
+            {
+              "id": "097934eb97",
+              "apt_name": "목동신시가지12",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 53.46,
+              "current_price": 172333.33333333334,
+              "trade_count": 24
+            },
+            {
+              "id": "d7f6ef0866",
+              "apt_name": "목동신시가지8",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 54.94,
+              "current_price": 192000.0,
+              "trade_count": 100
+            },
+            {
+              "id": "4c9097f482",
+              "apt_name": "목동신시가지3",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 64.98,
+              "current_price": 237000.0,
+              "trade_count": 56
+            },
+            {
+              "id": "2ebf107d24",
+              "apt_name": "목동신시가지13",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 53.9,
+              "current_price": 183000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "0af278ce9f",
+              "apt_name": "목동신시가지9",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 53.82,
+              "current_price": 204750.0,
+              "trade_count": 25
+            },
+            {
+              "id": "daa97f8836",
+              "apt_name": "목동신시가지5",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 65.08,
+              "current_price": 258000.0,
+              "trade_count": 41
+            },
+            {
+              "id": "ae74f7aece",
+              "apt_name": "목동신시가지4",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 65.34,
+              "current_price": 227000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "8531624734",
+              "apt_name": "목동신시가지1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 66.0,
+              "current_price": 226000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "f659fd979b",
+              "apt_name": "목동신시가지1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 65.34,
+              "current_price": 231000.0,
+              "trade_count": 38
+            },
+            {
+              "id": "c2ab1f5e5a",
+              "apt_name": "호반써밋목동",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.9828,
+              "current_price": 144000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "9d9ba653be",
+              "apt_name": "목동신시가지13",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 98.63,
+              "current_price": 255000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "8774634b94",
+              "apt_name": "목동신시가지2",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 95.67,
+              "current_price": 285500.0,
+              "trade_count": 18
+            },
+            {
+              "id": "c3ec420eee",
+              "apt_name": "문래힐스테이트",
+              "sigungu": "영등포구",
+              "dong_name": "문래동3가",
+              "area_m2": 119.47,
+              "current_price": 187000.0,
+              "trade_count": 34
+            },
+            {
+              "id": "85f5a59a6d",
+              "apt_name": "당산현대5차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 114.84,
+              "current_price": 190000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "ca4363ea47",
+              "apt_name": "신정현대5",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 114.24,
+              "current_price": 135000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "f7947f12f6",
+              "apt_name": "목동신시가지3",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 95.74,
+              "current_price": 280000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "e0b0b8c1e3",
+              "apt_name": "하이페리온2",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 155.586,
+              "current_price": 348000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "88eaab5eee",
+              "apt_name": "목동신시가지5",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 115.47,
+              "current_price": 340000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "809f77702f",
+              "apt_name": "강서한강자이",
+              "sigungu": "강서구",
+              "dong_name": "가양동",
+              "area_m2": 84.9903,
+              "current_price": 153300.0,
+              "trade_count": 26
+            },
+            {
+              "id": "d5863dfb0f",
+              "apt_name": "롯데캐슬위너",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 84.97,
+              "current_price": 145500.0,
+              "trade_count": 23
+            },
+            {
+              "id": "eed3040ec0",
+              "apt_name": "한보구암마을",
+              "sigungu": "강서구",
+              "dong_name": "가양동",
+              "area_m2": 84.39,
+              "current_price": 105850.0,
+              "trade_count": 23
+            },
+            {
+              "id": "32fb75bcf2",
+              "apt_name": "마곡수명산파크3단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 84.96,
+              "current_price": 121000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "96552a63ac",
+              "apt_name": "금호타운",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 84.84,
+              "current_price": 118500.0,
+              "trade_count": 17
+            },
+            {
+              "id": "aef6b2b75d",
+              "apt_name": "신동아",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 84.9,
+              "current_price": 122000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "437aa33736",
+              "apt_name": "삼성한사랑1",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 59.73,
+              "current_price": 89100.0,
+              "trade_count": 24
+            },
+            {
+              "id": "215515a10a",
+              "apt_name": "주공3",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 58.14,
+              "current_price": 109750.0,
+              "trade_count": 117
+            },
+            {
+              "id": "537633e29f",
+              "apt_name": "우성3",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 53.24,
+              "current_price": 111666.66666666667,
+              "trade_count": 25
             },
             {
               "id": "67e4cbdc49",
@@ -24248,346 +24770,31 @@
               "trade_count": 40
             },
             {
-              "id": "e611636945",
-              "apt_name": "신트리1",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 59.73,
-              "current_price": 103800.0,
-              "trade_count": 57
-            },
-            {
-              "id": "9f4913ad30",
-              "apt_name": "롯데캐슬",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.747,
-              "current_price": 115000.0,
-              "trade_count": 40
-            },
-            {
-              "id": "975cf09c1f",
-              "apt_name": "성원2",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 59.9,
-              "current_price": 81000.0,
-              "trade_count": 33
-            },
-            {
-              "id": "6f1b971ea3",
-              "apt_name": "가양강나루현대",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 59.76,
-              "current_price": 113150.0,
-              "trade_count": 71
-            },
-            {
-              "id": "e40c25f3e7",
-              "apt_name": "삼환",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동8가",
-              "area_m2": 59.91,
-              "current_price": 147250.0,
-              "trade_count": 47
-            },
-            {
-              "id": "3c2dbee226",
-              "apt_name": "마곡수명산파크5단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 59.76,
-              "current_price": 117000.0,
-              "trade_count": 29
-            },
-            {
-              "id": "f68b0e86d1",
-              "apt_name": "목동센트럴아이파크위브4단지",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.68,
-              "current_price": 127500.0,
-              "trade_count": 23
-            },
-            {
-              "id": "db4e7b9a6c",
-              "apt_name": "푸른마을2",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 59.85,
-              "current_price": 70000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "fc74ecd015",
-              "apt_name": "목동센트럴아이파크위브3단지",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.88,
-              "current_price": 115700.0,
-              "trade_count": 21
-            },
-            {
-              "id": "9f16e39f0e",
-              "apt_name": "마곡푸르지오",
-              "sigungu": "강서구",
-              "dong_name": "마곡동",
-              "area_m2": 59.87,
-              "current_price": 127500.0,
-              "trade_count": 20
-            },
-            {
-              "id": "979f0ea4a5",
-              "apt_name": "삼호",
-              "sigungu": "영등포구",
-              "dong_name": "양평동3가",
-              "area_m2": 59.96,
-              "current_price": 91000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "e5bed8cc5a",
-              "apt_name": "마곡13단지힐스테이트마스터",
-              "sigungu": "강서구",
-              "dong_name": "마곡동",
-              "area_m2": 59.9825,
-              "current_price": 155000.0,
-              "trade_count": 63
-            },
-            {
-              "id": "6e50ad95a3",
-              "apt_name": "신트리4",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 59.73,
-              "current_price": 89000.0,
-              "trade_count": 64
-            },
-            {
-              "id": "e6b05f2278",
-              "apt_name": "가양도시개발9-2단지",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 49.5,
-              "current_price": 96500.0,
-              "trade_count": 50
-            },
-            {
-              "id": "ac3d3fa036",
-              "apt_name": "염창동한강우성",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 65.88,
-              "current_price": 108000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "143c537557",
-              "apt_name": "보라매두산위브",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.95,
-              "current_price": 122000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "2f9d1f4ec6",
-              "apt_name": "우장산아이파크,이편한세상",
-              "sigungu": "강서구",
-              "dong_name": "화곡동",
-              "area_m2": 101.65,
-              "current_price": 163233.33333333334,
-              "trade_count": 23
-            },
-            {
-              "id": "3e81648b83",
-              "apt_name": "문래현대5차",
-              "sigungu": "영등포구",
-              "dong_name": "문래동5가",
-              "area_m2": 84.79,
-              "current_price": 108000.0,
-              "trade_count": 32
-            },
-            {
-              "id": "1a7e533680",
-              "apt_name": "성원",
+              "id": "d6948afac1",
+              "apt_name": "경남아너스빌",
               "sigungu": "영등포구",
               "dong_name": "양평동4가",
-              "area_m2": 84.66,
-              "current_price": 138200.0,
-              "trade_count": 32
-            },
-            {
-              "id": "946569e940",
-              "apt_name": "현대3차",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 84.89,
-              "current_price": 133750.0,
-              "trade_count": 52
-            },
-            {
-              "id": "2710b981aa",
-              "apt_name": "롯데캐슬",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 84.966,
-              "current_price": 122500.0,
-              "trade_count": 28
-            },
-            {
-              "id": "e8250fe04c",
-              "apt_name": "e편한세상영등포아델포레",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 84.995,
-              "current_price": 163000.0,
+              "area_m2": 59.84,
+              "current_price": 110000.0,
               "trade_count": 19
             },
             {
-              "id": "e49b375851",
-              "apt_name": "문래두산위브",
+              "id": "10058c80bc",
+              "apt_name": "성원",
               "sigungu": "영등포구",
-              "dong_name": "문래동5가",
-              "area_m2": 79.86,
-              "current_price": 131500.0,
-              "trade_count": 15
-            },
-            {
-              "id": "0eb4b5afd3",
-              "apt_name": "서광등촌마을아파트",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 84.93,
-              "current_price": 106000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "739dbb2e18",
-              "apt_name": "문래베어스타운",
-              "sigungu": "영등포구",
-              "dong_name": "문래동6가",
-              "area_m2": 84.9,
-              "current_price": 113750.0,
-              "trade_count": 15
-            },
-            {
-              "id": "32fb75bcf2",
-              "apt_name": "마곡수명산파크3단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 84.96,
-              "current_price": 121000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "b0a9ba3225",
-              "apt_name": "진로,미주아파트",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 84.96,
-              "current_price": 104700.0,
-              "trade_count": 48
-            },
-            {
-              "id": "7dc663de60",
-              "apt_name": "현대1",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 84.34,
-              "current_price": 123000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "767bebf097",
-              "apt_name": "동아",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 84.95,
-              "current_price": 120500.0,
-              "trade_count": 24
-            },
-            {
-              "id": "16736ccd6b",
-              "apt_name": "삼성한사랑1",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 84.99,
-              "current_price": 100000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "1ee05df586",
-              "apt_name": "현대2차",
-              "sigungu": "영등포구",
-              "dong_name": "문래동6가",
-              "area_m2": 79.72,
-              "current_price": 111000.0,
+              "dong_name": "당산동5가",
+              "area_m2": 59.94,
+              "current_price": 113000.0,
               "trade_count": 16
             },
             {
-              "id": "d5863dfb0f",
-              "apt_name": "롯데캐슬위너",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 84.97,
-              "current_price": 145500.0,
-              "trade_count": 23
-            },
-            {
-              "id": "eed3040ec0",
-              "apt_name": "한보구암마을",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 84.39,
-              "current_price": 105850.0,
-              "trade_count": 23
-            },
-            {
-              "id": "96552a63ac",
-              "apt_name": "금호타운",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 84.84,
-              "current_price": 118500.0,
-              "trade_count": 17
-            },
-            {
-              "id": "aef6b2b75d",
-              "apt_name": "신동아",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 84.9,
-              "current_price": 122000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "437aa33736",
-              "apt_name": "삼성한사랑1",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 59.73,
-              "current_price": 89100.0,
-              "trade_count": 24
-            },
-            {
-              "id": "215515a10a",
-              "apt_name": "주공3",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 58.14,
-              "current_price": 109750.0,
-              "trade_count": 117
-            },
-            {
-              "id": "537633e29f",
-              "apt_name": "우성3",
+              "id": "5ef0fe0bce",
+              "apt_name": "문래베어스타운",
               "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 53.24,
-              "current_price": 111666.66666666667,
-              "trade_count": 25
+              "dong_name": "문래동6가",
+              "area_m2": 59.95,
+              "current_price": 103000.0,
+              "trade_count": 29
             },
             {
               "id": "f55097215c",
@@ -24608,6 +24815,15 @@
               "trade_count": 22
             },
             {
+              "id": "e611636945",
+              "apt_name": "신트리1",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.73,
+              "current_price": 103800.0,
+              "trade_count": 57
+            },
+            {
               "id": "1e2e14bd7d",
               "apt_name": "태영",
               "sigungu": "강서구",
@@ -24615,15 +24831,6 @@
               "area_m2": 59.97,
               "current_price": 96000.0,
               "trade_count": 51
-            },
-            {
-              "id": "d6948afac1",
-              "apt_name": "경남아너스빌",
-              "sigungu": "영등포구",
-              "dong_name": "양평동4가",
-              "area_m2": 59.84,
-              "current_price": 110000.0,
-              "trade_count": 19
             },
             {
               "id": "7f5b65f226",
@@ -24635,6 +24842,24 @@
               "trade_count": 29
             },
             {
+              "id": "fc74ecd015",
+              "apt_name": "목동센트럴아이파크위브3단지",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 59.88,
+              "current_price": 115700.0,
+              "trade_count": 21
+            },
+            {
+              "id": "db4e7b9a6c",
+              "apt_name": "푸른마을2",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.85,
+              "current_price": 70000.0,
+              "trade_count": 19
+            },
+            {
               "id": "4f49a0214c",
               "apt_name": "보라매경남아너스빌",
               "sigungu": "영등포구",
@@ -24642,6 +24867,33 @@
               "area_m2": 59.78,
               "current_price": 127000.0,
               "trade_count": 23
+            },
+            {
+              "id": "964ee82769",
+              "apt_name": "신동아",
+              "sigungu": "영등포구",
+              "dong_name": "양평동1가",
+              "area_m2": 50.81,
+              "current_price": 118000.0,
+              "trade_count": 39
+            },
+            {
+              "id": "d4223c73df",
+              "apt_name": "e편한세상영등포아델포레",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.9792,
+              "current_price": 143000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "5c8748f26e",
+              "apt_name": "대성유니드1차",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.87,
+              "current_price": 62000.0,
+              "trade_count": 15
             },
             {
               "id": "265b6874c6",
@@ -24662,6 +24914,24 @@
               "trade_count": 17
             },
             {
+              "id": "84e1178f37",
+              "apt_name": "신월시영",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 59.49,
+              "current_price": 83833.33333333333,
+              "trade_count": 46
+            },
+            {
+              "id": "edccda5a14",
+              "apt_name": "가양2단지(성지)",
+              "sigungu": "강서구",
+              "dong_name": "가양동",
+              "area_m2": 49.56,
+              "current_price": 94000.0,
+              "trade_count": 59
+            },
+            {
               "id": "2f54582523",
               "apt_name": "목동롯데캐슬마에스트로",
               "sigungu": "양천구",
@@ -24669,6 +24939,15 @@
               "area_m2": 59.984,
               "current_price": 138500.0,
               "trade_count": 21
+            },
+            {
+              "id": "e62dd4b1c9",
+              "apt_name": "목동센트럴아이파크위브4단지",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 52.85,
+              "current_price": 108000.0,
+              "trade_count": 16
             },
             {
               "id": "30cb0bc2a7",
@@ -24698,15 +24977,6 @@
               "trade_count": 109
             },
             {
-              "id": "8601f0799c",
-              "apt_name": "성원",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 59.91,
-              "current_price": 110500.0,
-              "trade_count": 43
-            },
-            {
               "id": "888c783703",
               "apt_name": "서광등촌마을아파트",
               "sigungu": "강서구",
@@ -24734,150 +25004,6 @@
               "trade_count": 63
             },
             {
-              "id": "01c68d8598",
-              "apt_name": "영등포푸르지오",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동",
-              "area_m2": 59.912,
-              "current_price": 150800.0,
-              "trade_count": 59
-            },
-            {
-              "id": "38bc80fd5b",
-              "apt_name": "당산계룡리슈빌3단지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동3가",
-              "area_m2": 49.993,
-              "current_price": 87625.0,
-              "trade_count": 39
-            },
-            {
-              "id": "6102aa13ce",
-              "apt_name": "동양",
-              "sigungu": "영등포구",
-              "dong_name": "양평동6가",
-              "area_m2": 59.86,
-              "current_price": 95000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "a641f2ab9a",
-              "apt_name": "삼성",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 60.48,
-              "current_price": 108000.0,
-              "trade_count": 29
-            },
-            {
-              "id": "1d03e40285",
-              "apt_name": "신동아",
-              "sigungu": "영등포구",
-              "dong_name": "양평동1가",
-              "area_m2": 61.59,
-              "current_price": 150000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "65dcab8d0c",
-              "apt_name": "신트리1",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 49.95,
-              "current_price": 89000.0,
-              "trade_count": 62
-            },
-            {
-              "id": "fe351fbfe3",
-              "apt_name": "등촌1,2단지주공아파트",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 41.85,
-              "current_price": 78666.66666666667,
-              "trade_count": 95
-            },
-            {
-              "id": "13918de0ee",
-              "apt_name": "목동2삼성래미안",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 59.92,
-              "current_price": 115000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "a47092ea05",
-              "apt_name": "금호1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 59.88,
-              "current_price": 165000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "927b573af2",
-              "apt_name": "목동센트럴아이파크위브1단지",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.68,
-              "current_price": 122000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "a7a33689ee",
-              "apt_name": "가양6단지",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 58.65,
-              "current_price": 118500.0,
-              "trade_count": 73
-            },
-            {
-              "id": "ba9b35ef0d",
-              "apt_name": "동아3",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 59.7,
-              "current_price": 125833.33333333333,
-              "trade_count": 40
-            },
-            {
-              "id": "ec081d28c6",
-              "apt_name": "문래공원한신",
-              "sigungu": "영등포구",
-              "dong_name": "문래동3가",
-              "area_m2": 58.96,
-              "current_price": 120000.0,
-              "trade_count": 48
-            },
-            {
-              "id": "085c604f95",
-              "apt_name": "삼성하나로",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 59.26,
-              "current_price": 74000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "ebef422eb4",
-              "apt_name": "신동아파밀리에",
-              "sigungu": "영등포구",
-              "dong_name": "당산동1가",
-              "area_m2": 59.4,
-              "current_price": 106500.0,
-              "trade_count": 26
-            },
-            {
-              "id": "ab5cd0dc58",
-              "apt_name": "양평벽산블루밍",
-              "sigungu": "영등포구",
-              "dong_name": "양평동2가",
-              "area_m2": 59.58,
-              "current_price": 94000.0,
-              "trade_count": 43
-            },
-            {
               "id": "6b871bec4e",
               "apt_name": "삼성래미안",
               "sigungu": "영등포구",
@@ -24887,112 +25013,13 @@
               "trade_count": 42
             },
             {
-              "id": "422d1e0df3",
-              "apt_name": "양평한신",
+              "id": "6102aa13ce",
+              "apt_name": "동양",
               "sigungu": "영등포구",
-              "dong_name": "양평동5가",
-              "area_m2": 59.94,
-              "current_price": 136000.0,
-              "trade_count": 128
-            },
-            {
-              "id": "5c8748f26e",
-              "apt_name": "대성유니드1차",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 59.87,
-              "current_price": 62000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "194b838d88",
-              "apt_name": "현대3차",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 59.83,
-              "current_price": 123500.0,
-              "trade_count": 67
-            },
-            {
-              "id": "d0cb106e54",
-              "apt_name": "아크로타워스퀘어",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동7가",
-              "area_m2": 59.7,
-              "current_price": 182700.0,
-              "trade_count": 37
-            },
-            {
-              "id": "f98d5d5c3b",
-              "apt_name": "한신공영",
-              "sigungu": "영등포구",
-              "dong_name": "양평동1가",
-              "area_m2": 59.98,
-              "current_price": 94700.0,
-              "trade_count": 20
-            },
-            {
-              "id": "320ad63f85",
-              "apt_name": "목동센트럴아이파크위브2단지",
-              "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 59.68,
-              "current_price": 123000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "5d19e752ed",
-              "apt_name": "청솔",
-              "sigungu": "강서구",
-              "dong_name": "방화동",
-              "area_m2": 49.2,
-              "current_price": 70200.0,
-              "trade_count": 35
-            },
-            {
-              "id": "e10d4cfd0e",
-              "apt_name": "당산현대3차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 59.26,
-              "current_price": 154750.0,
-              "trade_count": 31
-            },
-            {
-              "id": "6cb590ed59",
-              "apt_name": "아크로타워스퀘어",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동7가",
-              "area_m2": 59.91,
-              "current_price": 184000.0,
-              "trade_count": 27
-            },
-            {
-              "id": "007c58fc45",
-              "apt_name": "우성2",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 53.24,
-              "current_price": 131500.0,
-              "trade_count": 22
-            },
-            {
-              "id": "6daf308429",
-              "apt_name": "코오롱",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 59.94,
-              "current_price": 114000.0,
-              "trade_count": 50
-            },
-            {
-              "id": "3276b70f8b",
-              "apt_name": "e편한세상영등포아델포레",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 59.968,
-              "current_price": 146500.0,
-              "trade_count": 49
+              "dong_name": "양평동6가",
+              "area_m2": 59.86,
+              "current_price": 95000.0,
+              "trade_count": 18
             },
             {
               "id": "d1f2b37ee4",
@@ -25013,22 +25040,22 @@
               "trade_count": 22
             },
             {
-              "id": "d4223c73df",
-              "apt_name": "e편한세상영등포아델포레",
+              "id": "a641f2ab9a",
+              "apt_name": "삼성",
               "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 59.9792,
-              "current_price": 143000.0,
-              "trade_count": 15
+              "dong_name": "신길동",
+              "area_m2": 60.48,
+              "current_price": 108000.0,
+              "trade_count": 29
             },
             {
-              "id": "964ee82769",
+              "id": "1d03e40285",
               "apt_name": "신동아",
               "sigungu": "영등포구",
               "dong_name": "양평동1가",
-              "area_m2": 50.81,
-              "current_price": 118000.0,
-              "trade_count": 39
+              "area_m2": 61.59,
+              "current_price": 150000.0,
+              "trade_count": 15
             },
             {
               "id": "e19332169e",
@@ -25040,6 +25067,42 @@
               "trade_count": 64
             },
             {
+              "id": "65dcab8d0c",
+              "apt_name": "신트리1",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 49.95,
+              "current_price": 89000.0,
+              "trade_count": 62
+            },
+            {
+              "id": "fe351fbfe3",
+              "apt_name": "등촌1,2단지주공아파트",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 41.85,
+              "current_price": 78666.66666666667,
+              "trade_count": 95
+            },
+            {
+              "id": "ca34903032",
+              "apt_name": "래미안목동아델리체(119동~123동)",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.82,
+              "current_price": 140500.0,
+              "trade_count": 29
+            },
+            {
+              "id": "13918de0ee",
+              "apt_name": "목동2삼성래미안",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 59.92,
+              "current_price": 115000.0,
+              "trade_count": 23
+            },
+            {
               "id": "d9f96cd9a2",
               "apt_name": "목동롯데캐슬마에스트로",
               "sigungu": "양천구",
@@ -25049,22 +25112,40 @@
               "trade_count": 33
             },
             {
-              "id": "2286b48a97",
-              "apt_name": "목동센트럴아이파크위브3단지",
+              "id": "4ece5b1228",
+              "apt_name": "삼익",
               "sigungu": "양천구",
-              "dong_name": "신월동",
-              "area_m2": 52.85,
-              "current_price": 97300.0,
-              "trade_count": 49
+              "dong_name": "목동",
+              "area_m2": 59.87,
+              "current_price": 123000.0,
+              "trade_count": 17
             },
             {
-              "id": "00dbcc9e2a",
-              "apt_name": "신동아",
+              "id": "085c604f95",
+              "apt_name": "삼성하나로",
               "sigungu": "강서구",
               "dong_name": "염창동",
-              "area_m2": 59.82,
-              "current_price": 88950.0,
-              "trade_count": 38
+              "area_m2": 59.26,
+              "current_price": 74000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "a47092ea05",
+              "apt_name": "금호1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 59.88,
+              "current_price": 165000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "927b573af2",
+              "apt_name": "목동센트럴아이파크위브1단지",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 59.68,
+              "current_price": 122000.0,
+              "trade_count": 22
             },
             {
               "id": "c0a86dce5c",
@@ -25076,22 +25157,13 @@
               "trade_count": 89
             },
             {
-              "id": "45ffcbc9de",
-              "apt_name": "극동상록수",
+              "id": "a7a33689ee",
+              "apt_name": "가양6단지",
               "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 59.91,
-              "current_price": 93000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "a99ffc516f",
-              "apt_name": "마곡수명산파크4단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 59.84,
-              "current_price": 112900.0,
-              "trade_count": 69
+              "dong_name": "가양동",
+              "area_m2": 58.65,
+              "current_price": 118500.0,
+              "trade_count": 73
             },
             {
               "id": "3c9ff7ce26",
@@ -25112,31 +25184,13 @@
               "trade_count": 35
             },
             {
-              "id": "0e8907bda8",
-              "apt_name": "염창1차한화꿈에그린",
-              "sigungu": "강서구",
-              "dong_name": "염창동",
-              "area_m2": 59.94,
-              "current_price": 142000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "e504e52cf0",
-              "apt_name": "등촌라인(조합)",
-              "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 59.91,
-              "current_price": 96000.0,
-              "trade_count": 41
-            },
-            {
-              "id": "9d63498de6",
+              "id": "ba9b35ef0d",
               "apt_name": "동아3",
               "sigungu": "강서구",
               "dong_name": "염창동",
-              "area_m2": 59.83,
-              "current_price": 135000.0,
-              "trade_count": 23
+              "area_m2": 59.7,
+              "current_price": 125833.33333333333,
+              "trade_count": 40
             },
             {
               "id": "a487056436",
@@ -25157,220 +25211,13 @@
               "trade_count": 21
             },
             {
-              "id": "b51d131cb5",
-              "apt_name": "강서한강자이",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 59.9382,
-              "current_price": 144000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "61e6588296",
-              "apt_name": "당산효성1차",
+              "id": "ec081d28c6",
+              "apt_name": "문래공원한신",
               "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 59.85,
-              "current_price": 156500.0,
-              "trade_count": 38
-            },
-            {
-              "id": "df8e9583b0",
-              "apt_name": "목동현대1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 59.9,
-              "current_price": 170500.0,
-              "trade_count": 22
-            },
-            {
-              "id": "25484b2ea4",
-              "apt_name": "우장산힐스테이트",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 59.98,
-              "current_price": 138000.0,
-              "trade_count": 98
-            },
-            {
-              "id": "17a6b9b127",
-              "apt_name": "목동신시가지4",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 47.25,
-              "current_price": 204000.0,
-              "trade_count": 39
-            },
-            {
-              "id": "b155de83db",
-              "apt_name": "목동신시가지4",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 48.69,
-              "current_price": 210000.0,
-              "trade_count": 27
-            },
-            {
-              "id": "6fcb9c8c5c",
-              "apt_name": "목동신시가지11",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 51.48,
-              "current_price": 189000.0,
-              "trade_count": 78
-            },
-            {
-              "id": "f0d0d17dea",
-              "apt_name": "목동신시가지6",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 47.94,
-              "current_price": 228500.0,
-              "trade_count": 47
-            },
-            {
-              "id": "2547b57a50",
-              "apt_name": "목동신시가지10",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 53.82,
-              "current_price": 200000.0,
+              "dong_name": "문래동3가",
+              "area_m2": 58.96,
+              "current_price": 120000.0,
               "trade_count": 48
-            },
-            {
-              "id": "6f0132b3e6",
-              "apt_name": "당산센트럴아이파크",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 59.98,
-              "current_price": 195000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "097934eb97",
-              "apt_name": "목동신시가지12",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 53.46,
-              "current_price": 172333.33333333334,
-              "trade_count": 24
-            },
-            {
-              "id": "d7f6ef0866",
-              "apt_name": "목동신시가지8",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 54.94,
-              "current_price": 192000.0,
-              "trade_count": 100
-            },
-            {
-              "id": "2ebf107d24",
-              "apt_name": "목동신시가지13",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 53.9,
-              "current_price": 183000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "0af278ce9f",
-              "apt_name": "목동신시가지9",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 53.82,
-              "current_price": 204750.0,
-              "trade_count": 25
-            },
-            {
-              "id": "daa97f8836",
-              "apt_name": "목동신시가지5",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 65.08,
-              "current_price": 258000.0,
-              "trade_count": 41
-            },
-            {
-              "id": "b6d407f69c",
-              "apt_name": "목동신시가지14",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 55.02,
-              "current_price": 199000.0,
-              "trade_count": 74
-            },
-            {
-              "id": "9d9ba653be",
-              "apt_name": "목동신시가지13",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 98.63,
-              "current_price": 255000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "d8f20f6cb0",
-              "apt_name": "목동신시가지7",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 66.6,
-              "current_price": 252833.33333333334,
-              "trade_count": 72
-            },
-            {
-              "id": "ae74f7aece",
-              "apt_name": "목동신시가지4",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 65.34,
-              "current_price": 227000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "8774634b94",
-              "apt_name": "목동신시가지2",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 95.67,
-              "current_price": 285500.0,
-              "trade_count": 18
-            },
-            {
-              "id": "c2ab1f5e5a",
-              "apt_name": "호반써밋목동",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.9828,
-              "current_price": 144000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "60eb394f72",
-              "apt_name": "래미안목동아델리체(101동~118동)",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.58,
-              "current_price": 172000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "8531624734",
-              "apt_name": "목동신시가지1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 66.0,
-              "current_price": 226000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "10ebc6a67f",
-              "apt_name": "목동현대1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 84.9,
-              "current_price": 190500.0,
-              "trade_count": 19
             },
             {
               "id": "8d2386ba6a",
@@ -25400,6 +25247,51 @@
               "trade_count": 94
             },
             {
+              "id": "f98d5d5c3b",
+              "apt_name": "한신공영",
+              "sigungu": "영등포구",
+              "dong_name": "양평동1가",
+              "area_m2": 59.98,
+              "current_price": 94700.0,
+              "trade_count": 20
+            },
+            {
+              "id": "5d19e752ed",
+              "apt_name": "청솔",
+              "sigungu": "강서구",
+              "dong_name": "방화동",
+              "area_m2": 49.2,
+              "current_price": 70200.0,
+              "trade_count": 35
+            },
+            {
+              "id": "320ad63f85",
+              "apt_name": "목동센트럴아이파크위브2단지",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 59.68,
+              "current_price": 123000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "d9e0ab45a6",
+              "apt_name": "e편한세상 문래 에듀플라츠",
+              "sigungu": "영등포구",
+              "dong_name": "문래동6가",
+              "area_m2": 59.9854,
+              "current_price": 133000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "4224d3fd16",
+              "apt_name": "양평현대6차",
+              "sigungu": "영등포구",
+              "dong_name": "양평동3가",
+              "area_m2": 59.98,
+              "current_price": 136600.0,
+              "trade_count": 67
+            },
+            {
               "id": "5e2de04545",
               "apt_name": "강변래미안",
               "sigungu": "영등포구",
@@ -25407,6 +25299,42 @@
               "area_m2": 55.91,
               "current_price": 154000.0,
               "trade_count": 26
+            },
+            {
+              "id": "422d1e0df3",
+              "apt_name": "양평한신",
+              "sigungu": "영등포구",
+              "dong_name": "양평동5가",
+              "area_m2": 59.94,
+              "current_price": 136000.0,
+              "trade_count": 129
+            },
+            {
+              "id": "01c68d8598",
+              "apt_name": "영등포푸르지오",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동",
+              "area_m2": 59.912,
+              "current_price": 150800.0,
+              "trade_count": 59
+            },
+            {
+              "id": "61e6588296",
+              "apt_name": "당산효성1차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 59.85,
+              "current_price": 156500.0,
+              "trade_count": 38
+            },
+            {
+              "id": "194b838d88",
+              "apt_name": "현대3차",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.83,
+              "current_price": 123500.0,
+              "trade_count": 67
             },
             {
               "id": "2ba94c35d3",
@@ -25427,22 +25355,31 @@
               "trade_count": 55
             },
             {
-              "id": "3a27ca7136",
-              "apt_name": "삼환",
+              "id": "d0cb106e54",
+              "apt_name": "아크로타워스퀘어",
               "sigungu": "영등포구",
-              "dong_name": "영등포동8가",
-              "area_m2": 84.87,
-              "current_price": 158500.0,
-              "trade_count": 36
+              "dong_name": "영등포동7가",
+              "area_m2": 59.7,
+              "current_price": 182700.0,
+              "trade_count": 37
             },
             {
-              "id": "e8ae948edc",
-              "apt_name": "힐스테이트클래시안",
+              "id": "e10d4cfd0e",
+              "apt_name": "당산현대3차",
               "sigungu": "영등포구",
-              "dong_name": "신길동",
+              "dong_name": "당산동4가",
+              "area_m2": 59.26,
+              "current_price": 154750.0,
+              "trade_count": 31
+            },
+            {
+              "id": "6cb590ed59",
+              "apt_name": "아크로타워스퀘어",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동7가",
               "area_m2": 59.91,
-              "current_price": 170937.5,
-              "trade_count": 107
+              "current_price": 184000.0,
+              "trade_count": 27
             },
             {
               "id": "b1e9a48a8a",
@@ -25454,6 +25391,24 @@
               "trade_count": 47
             },
             {
+              "id": "007c58fc45",
+              "apt_name": "우성2",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 53.24,
+              "current_price": 131500.0,
+              "trade_count": 22
+            },
+            {
+              "id": "6daf308429",
+              "apt_name": "코오롱",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.94,
+              "current_price": 114000.0,
+              "trade_count": 50
+            },
+            {
               "id": "d5f3bf5630",
               "apt_name": "래미안에스티움",
               "sigungu": "영등포구",
@@ -25461,6 +25416,24 @@
               "area_m2": 59.95,
               "current_price": 170000.0,
               "trade_count": 87
+            },
+            {
+              "id": "3276b70f8b",
+              "apt_name": "e편한세상영등포아델포레",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 59.968,
+              "current_price": 146500.0,
+              "trade_count": 49
+            },
+            {
+              "id": "6f0132b3e6",
+              "apt_name": "당산센트럴아이파크",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 59.98,
+              "current_price": 195000.0,
+              "trade_count": 24
             },
             {
               "id": "bc953ea261",
@@ -25472,22 +25445,31 @@
               "trade_count": 26
             },
             {
-              "id": "4c9097f482",
-              "apt_name": "목동신시가지3",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 64.98,
-              "current_price": 237000.0,
-              "trade_count": 56
-            },
-            {
-              "id": "ca34903032",
-              "apt_name": "래미안목동아델리체(119동~123동)",
+              "id": "60eb394f72",
+              "apt_name": "래미안목동아델리체(101동~118동)",
               "sigungu": "양천구",
               "dong_name": "신정동",
-              "area_m2": 59.82,
-              "current_price": 140500.0,
-              "trade_count": 29
+              "area_m2": 84.58,
+              "current_price": 172000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "df8e9583b0",
+              "apt_name": "목동현대1",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 59.9,
+              "current_price": 170500.0,
+              "trade_count": 22
+            },
+            {
+              "id": "2286b48a97",
+              "apt_name": "목동센트럴아이파크위브3단지",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 52.85,
+              "current_price": 97300.0,
+              "trade_count": 49
             },
             {
               "id": "523541bc45",
@@ -25499,6 +25481,15 @@
               "trade_count": 48
             },
             {
+              "id": "b6d407f69c",
+              "apt_name": "목동신시가지14",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 55.02,
+              "current_price": 199000.0,
+              "trade_count": 74
+            },
+            {
               "id": "14689a5801",
               "apt_name": "래미안목동아델리체(101동~118동)",
               "sigungu": "양천구",
@@ -25508,58 +25499,31 @@
               "trade_count": 19
             },
             {
-              "id": "4ece5b1228",
-              "apt_name": "삼익",
+              "id": "f68b0e86d1",
+              "apt_name": "목동센트럴아이파크위브4단지",
               "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 59.87,
-              "current_price": 123000.0,
-              "trade_count": 17
+              "dong_name": "신월동",
+              "area_m2": 59.68,
+              "current_price": 127500.0,
+              "trade_count": 23
             },
             {
-              "id": "8fbf64d89e",
-              "apt_name": "염창2차한화꿈에그린",
+              "id": "00dbcc9e2a",
+              "apt_name": "신동아",
               "sigungu": "강서구",
               "dong_name": "염창동",
-              "area_m2": 84.99,
-              "current_price": 114000.0,
-              "trade_count": 18
+              "area_m2": 59.82,
+              "current_price": 88950.0,
+              "trade_count": 38
             },
             {
-              "id": "8ac096cfce",
-              "apt_name": "동성",
+              "id": "25484b2ea4",
+              "apt_name": "우장산힐스테이트",
               "sigungu": "강서구",
-              "dong_name": "등촌동",
-              "area_m2": 101.88,
-              "current_price": 121000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "43ae19d8b7",
-              "apt_name": "한솔솔파크",
-              "sigungu": "강서구",
-              "dong_name": "마곡동",
-              "area_m2": 84.87,
-              "current_price": 128000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "509b444039",
-              "apt_name": "당산롯데캐슬프레스티지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 84.99,
-              "current_price": 197500.0,
-              "trade_count": 20
-            },
-            {
-              "id": "87659974d3",
-              "apt_name": "목동힐스테이트",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.88,
-              "current_price": 213000.0,
-              "trade_count": 22
+              "dong_name": "내발산동",
+              "area_m2": 59.98,
+              "current_price": 138000.0,
+              "trade_count": 98
             },
             {
               "id": "571b6ee791",
@@ -25571,166 +25535,76 @@
               "trade_count": 98
             },
             {
-              "id": "ba5fd0e634",
+              "id": "45ffcbc9de",
+              "apt_name": "극동상록수",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 59.91,
+              "current_price": 93000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "a99ffc516f",
+              "apt_name": "마곡수명산파크4단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 59.84,
+              "current_price": 112900.0,
+              "trade_count": 69
+            },
+            {
+              "id": "8601f0799c",
+              "apt_name": "성원",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 59.91,
+              "current_price": 110500.0,
+              "trade_count": 43
+            },
+            {
+              "id": "0e8907bda8",
+              "apt_name": "염창1차한화꿈에그린",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 59.94,
+              "current_price": 142000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "e504e52cf0",
+              "apt_name": "등촌라인(조합)",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 59.91,
+              "current_price": 96000.0,
+              "trade_count": 41
+            },
+            {
+              "id": "9d63498de6",
+              "apt_name": "동아3",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 59.83,
+              "current_price": 135000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "b3ed09fafb",
               "apt_name": "당산센트럴아이파크",
               "sigungu": "영등포구",
               "dong_name": "당산동5가",
-              "area_m2": 84.98,
-              "current_price": 243500.0,
-              "trade_count": 50
+              "area_m2": 71.98,
+              "current_price": 205000.0,
+              "trade_count": 24
             },
             {
-              "id": "1075ff36df",
-              "apt_name": "쌍용",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.63,
-              "current_price": 127000.0,
-              "trade_count": 21
-            },
-            {
-              "id": "58d8131149",
+              "id": "3a27ca7136",
               "apt_name": "삼환",
               "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.84,
-              "current_price": 119000.0,
-              "trade_count": 61
-            },
-            {
-              "id": "a9ae091680",
-              "apt_name": "유원제일2차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 84.6,
-              "current_price": 197000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "809f77702f",
-              "apt_name": "강서한강자이",
-              "sigungu": "강서구",
-              "dong_name": "가양동",
-              "area_m2": 84.9903,
-              "current_price": 153300.0,
-              "trade_count": 26
-            },
-            {
-              "id": "825002e81b",
-              "apt_name": "삼환",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.83,
-              "current_price": 118000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "65a730bd41",
-              "apt_name": "당산삼성래미안4차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 97.27,
-              "current_price": 229000.0,
-              "trade_count": 34
-            },
-            {
-              "id": "84c8e54509",
-              "apt_name": "더샵파크프레스티지",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.9626,
-              "current_price": 163000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "44a8c4fc82",
-              "apt_name": "목동신시가지10",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 70.2,
-              "current_price": 215000.0,
-              "trade_count": 28
-            },
-            {
-              "id": "e9df592961",
-              "apt_name": "우성",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 84.44,
-              "current_price": 162000.0,
-              "trade_count": 49
-            },
-            {
-              "id": "67101e9752",
-              "apt_name": "쌍용",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.65,
-              "current_price": 120000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "b042c4cd10",
-              "apt_name": "래미안목동아델리체(101동~118동)",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.72,
-              "current_price": 185000.0,
-              "trade_count": 31
-            },
-            {
-              "id": "de1dde316a",
-              "apt_name": "목동힐스테이트",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.98,
-              "current_price": 218000.0,
-              "trade_count": 52
-            },
-            {
-              "id": "f84e3ef7d2",
-              "apt_name": "우장산힐스테이트",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 84.98,
-              "current_price": 160000.0,
-              "trade_count": 101
-            },
-            {
-              "id": "9fbcc2fe25",
-              "apt_name": "힐스테이트클래시안",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.86,
-              "current_price": 190000.0,
-              "trade_count": 42
-            },
-            {
-              "id": "236e425a20",
-              "apt_name": "e편한세상영등포아델포레",
-              "sigungu": "영등포구",
-              "dong_name": "대림동",
-              "area_m2": 84.9571,
-              "current_price": 154333.33333333334,
-              "trade_count": 35
-            },
-            {
-              "id": "9810dc1a04",
-              "apt_name": "명지해드는터",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.98,
-              "current_price": 160000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "0d5460905a",
-              "apt_name": "마곡수명산파크7단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 84.82,
-              "current_price": 104000.0,
-              "trade_count": 19
+              "dong_name": "영등포동8가",
+              "area_m2": 84.87,
+              "current_price": 158500.0,
+              "trade_count": 36
             },
             {
               "id": "7bcfe78d3c",
@@ -25742,22 +25616,13 @@
               "trade_count": 112
             },
             {
-              "id": "f89b9e831f",
-              "apt_name": "영등포아트자이",
-              "sigungu": "영등포구",
-              "dong_name": "도림동",
-              "area_m2": 84.974,
-              "current_price": 152000.0,
-              "trade_count": 35
-            },
-            {
-              "id": "261cd5a548",
-              "apt_name": "삼성래미안",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.91,
-              "current_price": 127500.0,
-              "trade_count": 38
+              "id": "0d5460905a",
+              "apt_name": "마곡수명산파크7단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 84.82,
+              "current_price": 104000.0,
+              "trade_count": 19
             },
             {
               "id": "6db3d93b31",
@@ -25769,13 +25634,13 @@
               "trade_count": 28
             },
             {
-              "id": "3acf3da69a",
-              "apt_name": "보라매에스케이뷰",
+              "id": "ba5fd0e634",
+              "apt_name": "당산센트럴아이파크",
               "sigungu": "영등포구",
-              "dong_name": "신길동",
+              "dong_name": "당산동5가",
               "area_m2": 84.98,
-              "current_price": 196750.0,
-              "trade_count": 143
+              "current_price": 243500.0,
+              "trade_count": 50
             },
             {
               "id": "70103e45f7",
@@ -25805,22 +25670,40 @@
               "trade_count": 15
             },
             {
-              "id": "f9d7c1f4c1",
-              "apt_name": "양평현대6차",
+              "id": "a9ae091680",
+              "apt_name": "유원제일2차",
               "sigungu": "영등포구",
-              "dong_name": "양평동3가",
-              "area_m2": 84.94,
-              "current_price": 154000.0,
-              "trade_count": 78
+              "dong_name": "당산동5가",
+              "area_m2": 84.6,
+              "current_price": 197000.0,
+              "trade_count": 25
             },
             {
-              "id": "426660af6a",
-              "apt_name": "영등포푸르지오",
+              "id": "825002e81b",
+              "apt_name": "삼환",
               "sigungu": "영등포구",
-              "dong_name": "영등포동",
-              "area_m2": 73.133,
-              "current_price": 155625.0,
-              "trade_count": 85
+              "dong_name": "신길동",
+              "area_m2": 84.83,
+              "current_price": 118000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "65a730bd41",
+              "apt_name": "당산삼성래미안4차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 97.27,
+              "current_price": 229000.0,
+              "trade_count": 34
+            },
+            {
+              "id": "84c8e54509",
+              "apt_name": "더샵파크프레스티지",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.9626,
+              "current_price": 163000.0,
+              "trade_count": 18
             },
             {
               "id": "a612750eda",
@@ -25832,15 +25715,6 @@
               "trade_count": 32
             },
             {
-              "id": "480a83f934",
-              "apt_name": "문래공원한신",
-              "sigungu": "영등포구",
-              "dong_name": "문래동3가",
-              "area_m2": 79.46,
-              "current_price": 150000.0,
-              "trade_count": 16
-            },
-            {
               "id": "29ec16c46a",
               "apt_name": "우성2",
               "sigungu": "영등포구",
@@ -25850,96 +25724,6 @@
               "trade_count": 65
             },
             {
-              "id": "2e63d11c1b",
-              "apt_name": "당산현대5차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 84.69,
-              "current_price": 182500.0,
-              "trade_count": 52
-            },
-            {
-              "id": "70b02473d3",
-              "apt_name": "강변래미안",
-              "sigungu": "영등포구",
-              "dong_name": "당산동",
-              "area_m2": 79.43,
-              "current_price": 177000.0,
-              "trade_count": 33
-            },
-            {
-              "id": "da14920707",
-              "apt_name": "거성파스텔",
-              "sigungu": "영등포구",
-              "dong_name": "양평동3가",
-              "area_m2": 84.99,
-              "current_price": 151400.0,
-              "trade_count": 33
-            },
-            {
-              "id": "24138b9653",
-              "apt_name": "당산삼성2차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 84.93,
-              "current_price": 157500.0,
-              "trade_count": 27
-            },
-            {
-              "id": "5126488cc3",
-              "apt_name": "강변래미안",
-              "sigungu": "영등포구",
-              "dong_name": "당산동",
-              "area_m2": 79.05,
-              "current_price": 179500.0,
-              "trade_count": 18
-            },
-            {
-              "id": "d01f6bf3a4",
-              "apt_name": "양평한신",
-              "sigungu": "영등포구",
-              "dong_name": "양평동5가",
-              "area_m2": 84.87,
-              "current_price": 153333.33333333334,
-              "trade_count": 55
-            },
-            {
-              "id": "7435f3e8d1",
-              "apt_name": "영등포푸르지오",
-              "sigungu": "영등포구",
-              "dong_name": "영등포동",
-              "area_m2": 84.84,
-              "current_price": 160000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "fde3cd9cad",
-              "apt_name": "래미안목동아델리체(101동~118동)",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.95,
-              "current_price": 186000.0,
-              "trade_count": 28
-            },
-            {
-              "id": "bdd2c78cb6",
-              "apt_name": "문래두산위브",
-              "sigungu": "영등포구",
-              "dong_name": "문래동5가",
-              "area_m2": 65.46,
-              "current_price": 112000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "e237ea7f2b",
-              "apt_name": "당산효성1차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동5가",
-              "area_m2": 84.9,
-              "current_price": 187500.0,
-              "trade_count": 25
-            },
-            {
               "id": "01d67dbbb9",
               "apt_name": "영등포푸르지오",
               "sigungu": "영등포구",
@@ -25947,15 +25731,6 @@
               "area_m2": 84.908,
               "current_price": 151800.0,
               "trade_count": 26
-            },
-            {
-              "id": "b6f90edb51",
-              "apt_name": "당산현대3차",
-              "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 73.27,
-              "current_price": 170000.0,
-              "trade_count": 15
             },
             {
               "id": "097d44f494",
@@ -25985,6 +25760,15 @@
               "trade_count": 26
             },
             {
+              "id": "44a8c4fc82",
+              "apt_name": "목동신시가지10",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 70.2,
+              "current_price": 215000.0,
+              "trade_count": 28
+            },
+            {
               "id": "f02b5048cd",
               "apt_name": "현대",
               "sigungu": "양천구",
@@ -25992,6 +25776,24 @@
               "area_m2": 84.84,
               "current_price": 135000.0,
               "trade_count": 34
+            },
+            {
+              "id": "e9df592961",
+              "apt_name": "우성",
+              "sigungu": "양천구",
+              "dong_name": "목동",
+              "area_m2": 84.44,
+              "current_price": 162000.0,
+              "trade_count": 49
+            },
+            {
+              "id": "67101e9752",
+              "apt_name": "쌍용",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.65,
+              "current_price": 120000.0,
+              "trade_count": 16
             },
             {
               "id": "301a4a9049",
@@ -26012,6 +25814,15 @@
               "trade_count": 35
             },
             {
+              "id": "b042c4cd10",
+              "apt_name": "래미안목동아델리체(101동~118동)",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.72,
+              "current_price": 185000.0,
+              "trade_count": 31
+            },
+            {
               "id": "e7da80921c",
               "apt_name": "아이파크",
               "sigungu": "양천구",
@@ -26021,13 +25832,274 @@
               "trade_count": 43
             },
             {
-              "id": "0bf7638b91",
-              "apt_name": "목동신시가지2",
+              "id": "fd8ac2c0d9",
+              "apt_name": "목동신시가지1",
               "sigungu": "양천구",
               "dong_name": "목동",
-              "area_m2": 65.25,
-              "current_price": 236500.0,
+              "area_m2": 98.08,
+              "current_price": 297000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "666f9e5345",
+              "apt_name": "목동신시가지9",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 71.37,
+              "current_price": 235000.0,
+              "trade_count": 55
+            },
+            {
+              "id": "fde3cd9cad",
+              "apt_name": "래미안목동아델리체(101동~118동)",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.95,
+              "current_price": 186000.0,
+              "trade_count": 28
+            },
+            {
+              "id": "de1dde316a",
+              "apt_name": "목동힐스테이트",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.98,
+              "current_price": 218000.0,
+              "trade_count": 52
+            },
+            {
+              "id": "0adf91c3a0",
+              "apt_name": "목동신시가지14",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 74.19,
+              "current_price": 221500.0,
               "trade_count": 17
+            },
+            {
+              "id": "956a138fb7",
+              "apt_name": "목동파크자이(101동~108동)",
+              "sigungu": "양천구",
+              "dong_name": "신정동",
+              "area_m2": 84.993,
+              "current_price": 185000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "f84e3ef7d2",
+              "apt_name": "우장산힐스테이트",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 84.98,
+              "current_price": 160000.0,
+              "trade_count": 101
+            },
+            {
+              "id": "4ae0cf2131",
+              "apt_name": "마곡엠밸리6단지",
+              "sigungu": "강서구",
+              "dong_name": "마곡동",
+              "area_m2": 84.88,
+              "current_price": 175000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "5202f117fb",
+              "apt_name": "마곡수명산파크1단지",
+              "sigungu": "강서구",
+              "dong_name": "내발산동",
+              "area_m2": 84.68,
+              "current_price": 139500.0,
+              "trade_count": 17
+            },
+            {
+              "id": "9fbcc2fe25",
+              "apt_name": "힐스테이트클래시안",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.86,
+              "current_price": 190000.0,
+              "trade_count": 42
+            },
+            {
+              "id": "236e425a20",
+              "apt_name": "e편한세상영등포아델포레",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 84.9571,
+              "current_price": 154333.33333333334,
+              "trade_count": 35
+            },
+            {
+              "id": "2710b981aa",
+              "apt_name": "롯데캐슬",
+              "sigungu": "양천구",
+              "dong_name": "신월동",
+              "area_m2": 84.966,
+              "current_price": 122500.0,
+              "trade_count": 28
+            },
+            {
+              "id": "e8250fe04c",
+              "apt_name": "e편한세상영등포아델포레",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 84.995,
+              "current_price": 163000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "767bebf097",
+              "apt_name": "동아",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 84.95,
+              "current_price": 120500.0,
+              "trade_count": 24
+            },
+            {
+              "id": "7dc663de60",
+              "apt_name": "현대1",
+              "sigungu": "강서구",
+              "dong_name": "염창동",
+              "area_m2": 84.34,
+              "current_price": 123000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "f89b9e831f",
+              "apt_name": "영등포아트자이",
+              "sigungu": "영등포구",
+              "dong_name": "도림동",
+              "area_m2": 84.974,
+              "current_price": 152000.0,
+              "trade_count": 35
+            },
+            {
+              "id": "261cd5a548",
+              "apt_name": "삼성래미안",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.91,
+              "current_price": 127500.0,
+              "trade_count": 38
+            },
+            {
+              "id": "946569e940",
+              "apt_name": "현대3차",
+              "sigungu": "영등포구",
+              "dong_name": "대림동",
+              "area_m2": 84.89,
+              "current_price": 133750.0,
+              "trade_count": 52
+            },
+            {
+              "id": "3acf3da69a",
+              "apt_name": "보라매에스케이뷰",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.98,
+              "current_price": 196750.0,
+              "trade_count": 143
+            },
+            {
+              "id": "f9d7c1f4c1",
+              "apt_name": "양평현대6차",
+              "sigungu": "영등포구",
+              "dong_name": "양평동3가",
+              "area_m2": 84.94,
+              "current_price": 154000.0,
+              "trade_count": 78
+            },
+            {
+              "id": "426660af6a",
+              "apt_name": "영등포푸르지오",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동",
+              "area_m2": 73.133,
+              "current_price": 155625.0,
+              "trade_count": 85
+            },
+            {
+              "id": "2e63d11c1b",
+              "apt_name": "당산현대5차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 84.69,
+              "current_price": 182500.0,
+              "trade_count": 52
+            },
+            {
+              "id": "70b02473d3",
+              "apt_name": "강변래미안",
+              "sigungu": "영등포구",
+              "dong_name": "당산동",
+              "area_m2": 79.43,
+              "current_price": 177000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "da14920707",
+              "apt_name": "거성파스텔",
+              "sigungu": "영등포구",
+              "dong_name": "양평동3가",
+              "area_m2": 84.99,
+              "current_price": 151400.0,
+              "trade_count": 33
+            },
+            {
+              "id": "d01f6bf3a4",
+              "apt_name": "양평한신",
+              "sigungu": "영등포구",
+              "dong_name": "양평동5가",
+              "area_m2": 84.87,
+              "current_price": 153333.33333333334,
+              "trade_count": 55
+            },
+            {
+              "id": "1a7e533680",
+              "apt_name": "성원",
+              "sigungu": "영등포구",
+              "dong_name": "양평동4가",
+              "area_m2": 84.66,
+              "current_price": 138200.0,
+              "trade_count": 32
+            },
+            {
+              "id": "7435f3e8d1",
+              "apt_name": "영등포푸르지오",
+              "sigungu": "영등포구",
+              "dong_name": "영등포동",
+              "area_m2": 84.84,
+              "current_price": 160000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "bdd2c78cb6",
+              "apt_name": "문래두산위브",
+              "sigungu": "영등포구",
+              "dong_name": "문래동5가",
+              "area_m2": 65.46,
+              "current_price": 112000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "e237ea7f2b",
+              "apt_name": "당산효성1차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동5가",
+              "area_m2": 84.9,
+              "current_price": 187500.0,
+              "trade_count": 25
+            },
+            {
+              "id": "b6f90edb51",
+              "apt_name": "당산현대3차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 73.27,
+              "current_price": 170000.0,
+              "trade_count": 15
             },
             {
               "id": "4356d14e39",
@@ -26064,24 +26136,6 @@
               "area_m2": 84.88,
               "current_price": 100600.0,
               "trade_count": 15
-            },
-            {
-              "id": "fd8ac2c0d9",
-              "apt_name": "목동신시가지1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 98.08,
-              "current_price": 297000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "666f9e5345",
-              "apt_name": "목동신시가지9",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 71.37,
-              "current_price": 235000.0,
-              "trade_count": 55
             },
             {
               "id": "ec43f6f030",
@@ -26129,31 +26183,13 @@
               "trade_count": 39
             },
             {
-              "id": "cbe1d93008",
-              "apt_name": "목동신시가지1",
-              "sigungu": "양천구",
-              "dong_name": "목동",
-              "area_m2": 99.15,
-              "current_price": 290000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "0adf91c3a0",
-              "apt_name": "목동신시가지14",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 74.19,
-              "current_price": 221500.0,
-              "trade_count": 17
-            },
-            {
-              "id": "956a138fb7",
-              "apt_name": "목동파크자이(101동~108동)",
-              "sigungu": "양천구",
-              "dong_name": "신정동",
-              "area_m2": 84.993,
-              "current_price": 185000.0,
-              "trade_count": 16
+              "id": "b0a9ba3225",
+              "apt_name": "진로,미주아파트",
+              "sigungu": "강서구",
+              "dong_name": "등촌동",
+              "area_m2": 84.96,
+              "current_price": 104700.0,
+              "trade_count": 48
             },
             {
               "id": "2f32a2aa45",
@@ -26192,33 +26228,6 @@
               "trade_count": 153
             },
             {
-              "id": "393a3366e8",
-              "apt_name": "우장산롯데캐슬",
-              "sigungu": "강서구",
-              "dong_name": "화곡동",
-              "area_m2": 85.0,
-              "current_price": 134500.0,
-              "trade_count": 48
-            },
-            {
-              "id": "4ae0cf2131",
-              "apt_name": "마곡엠밸리6단지",
-              "sigungu": "강서구",
-              "dong_name": "마곡동",
-              "area_m2": 84.88,
-              "current_price": 175000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "5202f117fb",
-              "apt_name": "마곡수명산파크1단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 84.68,
-              "current_price": 139500.0,
-              "trade_count": 17
-            },
-            {
               "id": "bc9bef4826",
               "apt_name": "마곡13단지힐스테이트마스터",
               "sigungu": "강서구",
@@ -26228,22 +26237,13 @@
               "trade_count": 72
             },
             {
-              "id": "43e96863f6",
-              "apt_name": "마곡수명산파크4단지",
-              "sigungu": "강서구",
-              "dong_name": "내발산동",
-              "area_m2": 84.96,
-              "current_price": 128000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "874bcf4c1d",
-              "apt_name": "보라매경남아너스빌",
+              "id": "b968be17c8",
+              "apt_name": "당산현대3차",
               "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.79,
-              "current_price": 133000.0,
-              "trade_count": 58
+              "dong_name": "당산동4가",
+              "area_m2": 84.5,
+              "current_price": 170000.0,
+              "trade_count": 18
             },
             {
               "id": "3a8d0a1a4a",
@@ -26396,7 +26396,7 @@
         },
         {
           "size": 232,
-          "avg_current_price": 175244.98,
+          "avg_current_price": 175249.36,
           "members": [
             {
               "id": "a3b5f33b1d",
@@ -26417,22 +26417,85 @@
               "trade_count": 15
             },
             {
-              "id": "e1c7825477",
-              "apt_name": "녹번역센트레빌",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 84.9,
-              "current_price": 90950.0,
-              "trade_count": 18
+              "id": "05df4d3fcd",
+              "apt_name": "한강맨숀",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 101.95,
+              "current_price": 475000.0,
+              "trade_count": 24
             },
             {
-              "id": "4d33251bf2",
-              "apt_name": "DMC센트럴아이파크",
+              "id": "6b1ad17c0c",
+              "apt_name": "현대맨숀",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 83.3,
+              "current_price": 277487.0,
+              "trade_count": 23
+            },
+            {
+              "id": "649494b289",
+              "apt_name": "한가람",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.96,
+              "current_price": 278000.0,
+              "trade_count": 29
+            },
+            {
+              "id": "b61a881cdc",
+              "apt_name": "e편한세상신촌1단지",
               "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.94,
-              "current_price": 144500.0,
+              "dong_name": "북아현동",
+              "area_m2": 84.93,
+              "current_price": 212000.0,
+              "trade_count": 38
+            },
+            {
+              "id": "99edad86be",
+              "apt_name": "대림",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.78,
+              "current_price": 238000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "b99b361e84",
+              "apt_name": "한가람",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.89,
+              "current_price": 290000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "1169c3163b",
+              "apt_name": "강촌",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.77,
+              "current_price": 265000.0,
               "trade_count": 16
+            },
+            {
+              "id": "c18f15cd18",
+              "apt_name": "신촌숲아이파크",
+              "sigungu": "마포구",
+              "dong_name": "신수동",
+              "area_m2": 84.912,
+              "current_price": 240000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "7c4e931752",
+              "apt_name": "상암월드컵파크7단지",
+              "sigungu": "마포구",
+              "dong_name": "상암동",
+              "area_m2": 84.9,
+              "current_price": 137750.0,
+              "trade_count": 25
             },
             {
               "id": "06ca169873",
@@ -26471,183 +26534,12 @@
               "trade_count": 26
             },
             {
-              "id": "534a2cb7d8",
-              "apt_name": "리버힐삼성",
-              "sigungu": "용산구",
-              "dong_name": "산천동",
-              "area_m2": 84.98,
-              "current_price": 175000.0,
-              "trade_count": 28
-            },
-            {
-              "id": "e6b16d7bfb",
-              "apt_name": "삼성래미안",
-              "sigungu": "용산구",
-              "dong_name": "도원동",
-              "area_m2": 84.69,
-              "current_price": 180833.33333333334,
-              "trade_count": 47
-            },
-            {
-              "id": "b61a881cdc",
-              "apt_name": "e편한세상신촌1단지",
+              "id": "abc8fefdb2",
+              "apt_name": "DMC파크뷰자이1단지",
               "sigungu": "서대문구",
-              "dong_name": "북아현동",
-              "area_m2": 84.93,
-              "current_price": 212000.0,
-              "trade_count": 38
-            },
-            {
-              "id": "649494b289",
-              "apt_name": "한가람",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.96,
-              "current_price": 278000.0,
-              "trade_count": 29
-            },
-            {
-              "id": "f05a8aae4d",
-              "apt_name": "한강(대우)",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
+              "dong_name": "남가좌동",
               "area_m2": 84.98,
-              "current_price": 259000.0,
-              "trade_count": 43
-            },
-            {
-              "id": "6b1ad17c0c",
-              "apt_name": "현대맨숀",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 83.3,
-              "current_price": 277487.0,
-              "trade_count": 23
-            },
-            {
-              "id": "75577a8248",
-              "apt_name": "한강맨숀",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 87.54,
-              "current_price": 425000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "90af141698",
-              "apt_name": "신촌숲아이파크",
-              "sigungu": "마포구",
-              "dong_name": "신수동",
-              "area_m2": 84.932,
-              "current_price": 234500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "1169c3163b",
-              "apt_name": "강촌",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.77,
-              "current_price": 265000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "c5940fc72e",
-              "apt_name": "마포용강삼성래미안",
-              "sigungu": "마포구",
-              "dong_name": "용강동",
-              "area_m2": 84.2,
-              "current_price": 200000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "c18f15cd18",
-              "apt_name": "신촌숲아이파크",
-              "sigungu": "마포구",
-              "dong_name": "신수동",
-              "area_m2": 84.912,
-              "current_price": 240000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "66f11532f0",
-              "apt_name": "마포그랑자이",
-              "sigungu": "마포구",
-              "dong_name": "대흥동",
-              "area_m2": 84.98,
-              "current_price": 261500.0,
-              "trade_count": 67
-            },
-            {
-              "id": "99edad86be",
-              "apt_name": "대림",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.78,
-              "current_price": 238000.0,
-              "trade_count": 21
-            },
-            {
-              "id": "b99b361e84",
-              "apt_name": "한가람",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.89,
-              "current_price": 290000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "87cf2cdb3b",
-              "apt_name": "e편한세상신촌2단지",
-              "sigungu": "서대문구",
-              "dong_name": "북아현동",
-              "area_m2": 84.93,
-              "current_price": 210000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "193c7be40d",
-              "apt_name": "마포래미안푸르지오4단지",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 84.5978,
-              "current_price": 257500.0,
-              "trade_count": 50
-            },
-            {
-              "id": "cc2b4f6eba",
-              "apt_name": "해모로",
-              "sigungu": "마포구",
-              "dong_name": "창전동",
-              "area_m2": 83.85,
-              "current_price": 181000.0,
-              "trade_count": 32
-            },
-            {
-              "id": "cbb9e5f078",
-              "apt_name": "마포프레스티지자이",
-              "sigungu": "마포구",
-              "dong_name": "염리동",
-              "area_m2": 84.9422,
-              "current_price": 283000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "ee82ddb7c5",
-              "apt_name": "신공덕래미안3차",
-              "sigungu": "마포구",
-              "dong_name": "신공덕동",
-              "area_m2": 84.69,
-              "current_price": 178000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "dc33b96e94",
-              "apt_name": "e편한세상신촌4단지",
-              "sigungu": "서대문구",
-              "dong_name": "북아현동",
-              "area_m2": 84.82,
-              "current_price": 223000.0,
+              "current_price": 160000.0,
               "trade_count": 27
             },
             {
@@ -26658,24 +26550,6 @@
               "area_m2": 79.83,
               "current_price": 135000.0,
               "trade_count": 28
-            },
-            {
-              "id": "c0af4fa019",
-              "apt_name": "공덕2삼성래미안",
-              "sigungu": "마포구",
-              "dong_name": "공덕동",
-              "area_m2": 84.94,
-              "current_price": 188500.0,
-              "trade_count": 41
-            },
-            {
-              "id": "abc8fefdb2",
-              "apt_name": "DMC파크뷰자이1단지",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.98,
-              "current_price": 160000.0,
-              "trade_count": 27
             },
             {
               "id": "7233fec681",
@@ -26696,139 +26570,40 @@
               "trade_count": 47
             },
             {
-              "id": "d6f16a3f62",
-              "apt_name": "DMC파크뷰자이1단지",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.974,
-              "current_price": 169500.0,
-              "trade_count": 20
-            },
-            {
-              "id": "8f17721768",
-              "apt_name": "힐스테이트녹번",
-              "sigungu": "은평구",
-              "dong_name": "녹번동",
-              "area_m2": 84.9,
-              "current_price": 132500.0,
-              "trade_count": 26
-            },
-            {
-              "id": "11e6973805",
-              "apt_name": "마포래미안푸르지오1단지",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 84.8919,
-              "current_price": 242750.0,
-              "trade_count": 18
-            },
-            {
-              "id": "469f88f6f2",
-              "apt_name": "신공덕1차삼성래미안1아파트",
-              "sigungu": "마포구",
-              "dong_name": "신공덕동",
-              "area_m2": 84.9,
-              "current_price": 202000.0,
-              "trade_count": 38
-            },
-            {
-              "id": "7b88d0122b",
-              "apt_name": "서강오벨리스크스위트",
-              "sigungu": "마포구",
-              "dong_name": "창전동",
-              "area_m2": 84.96,
-              "current_price": 148333.33333333334,
-              "trade_count": 24
-            },
-            {
-              "id": "3d95efd7ca",
-              "apt_name": "북한산두산위브",
-              "sigungu": "서대문구",
-              "dong_name": "홍은동",
-              "area_m2": 84.98,
-              "current_price": 100666.66666666667,
-              "trade_count": 37
-            },
-            {
-              "id": "aac48e8e75",
-              "apt_name": "독립문극동(200-0)",
-              "sigungu": "서대문구",
-              "dong_name": "현저동",
-              "area_m2": 102.45,
-              "current_price": 154750.0,
-              "trade_count": 19
-            },
-            {
-              "id": "fb7b6ccf1a",
-              "apt_name": "북가좌삼호",
-              "sigungu": "서대문구",
-              "dong_name": "북가좌동",
-              "area_m2": 84.57,
-              "current_price": 97000.0,
-              "trade_count": 41
-            },
-            {
-              "id": "391e70529e",
-              "apt_name": "신공덕래미안2차",
-              "sigungu": "마포구",
-              "dong_name": "신공덕동",
-              "area_m2": 84.73,
-              "current_price": 160000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "66df377022",
-              "apt_name": "신촌푸르지오",
-              "sigungu": "서대문구",
-              "dong_name": "북아현동",
-              "area_m2": 84.9892,
-              "current_price": 192000.0,
-              "trade_count": 28
-            },
-            {
-              "id": "29969cfbb2",
-              "apt_name": "현대한강",
+              "id": "6d6797f2c4",
+              "apt_name": "용산케이씨씨스위첸",
               "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.88,
-              "current_price": 240000.0,
-              "trade_count": 33
-            },
-            {
-              "id": "c6730a54e8",
-              "apt_name": "강촌",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.85,
-              "current_price": 259000.0,
+              "dong_name": "효창동",
+              "area_m2": 84.91,
+              "current_price": 222500.0,
               "trade_count": 17
             },
             {
-              "id": "3ba1477af0",
-              "apt_name": "홍제센트럴IPARK",
-              "sigungu": "서대문구",
-              "dong_name": "홍제동",
-              "area_m2": 84.9644,
-              "current_price": 137000.0,
-              "trade_count": 25
+              "id": "384db67b7c",
+              "apt_name": "백련산에스케이뷰아이파크",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 84.9039,
+              "current_price": 121375.0,
+              "trade_count": 105
             },
             {
-              "id": "d4cb05370c",
-              "apt_name": "DMC래미안e편한세상",
-              "sigungu": "서대문구",
-              "dong_name": "북가좌동",
-              "area_m2": 84.94,
-              "current_price": 140500.0,
-              "trade_count": 28
+              "id": "20510b1250",
+              "apt_name": "동아그린",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.82,
+              "current_price": 206000.0,
+              "trade_count": 19
             },
             {
-              "id": "7d0f4050d2",
-              "apt_name": "청구1차",
-              "sigungu": "서대문구",
-              "dong_name": "홍제동",
-              "area_m2": 84.78,
-              "current_price": 122125.0,
-              "trade_count": 102
+              "id": "cef2c92d44",
+              "apt_name": "DMC마포청구아파트",
+              "sigungu": "마포구",
+              "dong_name": "중동",
+              "area_m2": 84.9,
+              "current_price": 120000.0,
+              "trade_count": 31
             },
             {
               "id": "31312ce27b",
@@ -26858,13 +26633,112 @@
               "trade_count": 26
             },
             {
-              "id": "45e589a599",
-              "apt_name": "힐스테이트신촌",
+              "id": "e6b16d7bfb",
+              "apt_name": "삼성래미안",
+              "sigungu": "용산구",
+              "dong_name": "도원동",
+              "area_m2": 84.69,
+              "current_price": 180833.33333333334,
+              "trade_count": 47
+            },
+            {
+              "id": "f9d1678838",
+              "apt_name": "신촌럭키",
               "sigungu": "서대문구",
-              "dong_name": "북아현동",
-              "area_m2": 84.6043,
-              "current_price": 193000.0,
+              "dong_name": "대현동",
+              "area_m2": 83.38,
+              "current_price": 147000.0,
+              "trade_count": 80
+            },
+            {
+              "id": "9c57ca8819",
+              "apt_name": "DMC센트럴아이파크",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.95,
+              "current_price": 148000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "d355dcf079",
+              "apt_name": "북한산현대홈타운",
+              "sigungu": "은평구",
+              "dong_name": "불광동",
+              "area_m2": 84.9956,
+              "current_price": 105500.0,
+              "trade_count": 30
+            },
+            {
+              "id": "881690b67b",
+              "apt_name": "래미안밤섬리베뉴Ⅰ",
+              "sigungu": "마포구",
+              "dong_name": "상수동",
+              "area_m2": 84.99,
+              "current_price": 228000.0,
+              "trade_count": 38
+            },
+            {
+              "id": "e1c7825477",
+              "apt_name": "녹번역센트레빌",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 84.9,
+              "current_price": 91966.66666666667,
+              "trade_count": 19
+            },
+            {
+              "id": "7d0f4050d2",
+              "apt_name": "청구1차",
+              "sigungu": "서대문구",
+              "dong_name": "홍제동",
+              "area_m2": 84.78,
+              "current_price": 122125.0,
+              "trade_count": 102
+            },
+            {
+              "id": "fb7b6ccf1a",
+              "apt_name": "북가좌삼호",
+              "sigungu": "서대문구",
+              "dong_name": "북가좌동",
+              "area_m2": 84.57,
+              "current_price": 97000.0,
+              "trade_count": 41
+            },
+            {
+              "id": "aac48e8e75",
+              "apt_name": "독립문극동(200-0)",
+              "sigungu": "서대문구",
+              "dong_name": "현저동",
+              "area_m2": 102.45,
+              "current_price": 154750.0,
+              "trade_count": 19
+            },
+            {
+              "id": "7b88d0122b",
+              "apt_name": "서강오벨리스크스위트",
+              "sigungu": "마포구",
+              "dong_name": "창전동",
+              "area_m2": 84.96,
+              "current_price": 148333.33333333334,
               "trade_count": 24
+            },
+            {
+              "id": "3d95efd7ca",
+              "apt_name": "북한산두산위브",
+              "sigungu": "서대문구",
+              "dong_name": "홍은동",
+              "area_m2": 84.98,
+              "current_price": 100666.66666666667,
+              "trade_count": 37
+            },
+            {
+              "id": "4d33251bf2",
+              "apt_name": "DMC센트럴아이파크",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.94,
+              "current_price": 144500.0,
+              "trade_count": 16
             },
             {
               "id": "7643b02744",
@@ -27677,6 +27551,42 @@
               "trade_count": 31
             },
             {
+              "id": "3ba1477af0",
+              "apt_name": "홍제센트럴IPARK",
+              "sigungu": "서대문구",
+              "dong_name": "홍제동",
+              "area_m2": 84.9644,
+              "current_price": 137000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "c6730a54e8",
+              "apt_name": "강촌",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.85,
+              "current_price": 259000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "29969cfbb2",
+              "apt_name": "현대한강",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.88,
+              "current_price": 240000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "d4cb05370c",
+              "apt_name": "DMC래미안e편한세상",
+              "sigungu": "서대문구",
+              "dong_name": "북가좌동",
+              "area_m2": 84.94,
+              "current_price": 140500.0,
+              "trade_count": 28
+            },
+            {
               "id": "8427204b3c",
               "apt_name": "DMC래미안클라시스",
               "sigungu": "서대문구",
@@ -27884,150 +27794,6 @@
               "trade_count": 33
             },
             {
-              "id": "12f172fd03",
-              "apt_name": "마포센트럴 아이파크",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 84.9668,
-              "current_price": 210000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "8b3a4d70d3",
-              "apt_name": "DMC에코자이",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.978,
-              "current_price": 140750.0,
-              "trade_count": 39
-            },
-            {
-              "id": "7c4e931752",
-              "apt_name": "상암월드컵파크7단지",
-              "sigungu": "마포구",
-              "dong_name": "상암동",
-              "area_m2": 84.9,
-              "current_price": 137750.0,
-              "trade_count": 25
-            },
-            {
-              "id": "a167ba22fe",
-              "apt_name": "녹번역e편한세상캐슬",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 84.92,
-              "current_price": 155000.0,
-              "trade_count": 27
-            },
-            {
-              "id": "e5ce33b0c0",
-              "apt_name": "상암월드컵파크4단지",
-              "sigungu": "마포구",
-              "dong_name": "상암동",
-              "area_m2": 84.76,
-              "current_price": 155666.66666666666,
-              "trade_count": 16
-            },
-            {
-              "id": "44994b609d",
-              "apt_name": "염리삼성래미안",
-              "sigungu": "마포구",
-              "dong_name": "염리동",
-              "area_m2": 84.96,
-              "current_price": 194000.0,
-              "trade_count": 34
-            },
-            {
-              "id": "2645a0ec45",
-              "apt_name": "창전동현대홈타운",
-              "sigungu": "마포구",
-              "dong_name": "창전동",
-              "area_m2": 84.978,
-              "current_price": 160000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "76a9bf1da7",
-              "apt_name": "상암월드컵파크7단지",
-              "sigungu": "마포구",
-              "dong_name": "상암동",
-              "area_m2": 84.74,
-              "current_price": 136500.0,
-              "trade_count": 17
-            },
-            {
-              "id": "a90c185a61",
-              "apt_name": "현대홈타운",
-              "sigungu": "마포구",
-              "dong_name": "도화동",
-              "area_m2": 84.95,
-              "current_price": 170000.0,
-              "trade_count": 65
-            },
-            {
-              "id": "d5d8520ef5",
-              "apt_name": "동부센트레빌",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 100.92,
-              "current_price": 280000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "384db67b7c",
-              "apt_name": "백련산에스케이뷰아이파크",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 84.9039,
-              "current_price": 121375.0,
-              "trade_count": 105
-            },
-            {
-              "id": "20510b1250",
-              "apt_name": "동아그린",
-              "sigungu": "용산구",
-              "dong_name": "이촌동",
-              "area_m2": 84.82,
-              "current_price": 206000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "cef2c92d44",
-              "apt_name": "DMC마포청구아파트",
-              "sigungu": "마포구",
-              "dong_name": "중동",
-              "area_m2": 84.9,
-              "current_price": 120000.0,
-              "trade_count": 31
-            },
-            {
-              "id": "6d6797f2c4",
-              "apt_name": "용산케이씨씨스위첸",
-              "sigungu": "용산구",
-              "dong_name": "효창동",
-              "area_m2": 84.91,
-              "current_price": 222500.0,
-              "trade_count": 17
-            },
-            {
-              "id": "470a9f9abe",
-              "apt_name": "DMC파크뷰자이2단지",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.968,
-              "current_price": 158000.0,
-              "trade_count": 73
-            },
-            {
-              "id": "f9d1678838",
-              "apt_name": "신촌럭키",
-              "sigungu": "서대문구",
-              "dong_name": "대현동",
-              "area_m2": 83.38,
-              "current_price": 147000.0,
-              "trade_count": 80
-            },
-            {
               "id": "5ab1edf12b",
               "apt_name": "DMC파크뷰자이4단지",
               "sigungu": "서대문구",
@@ -28044,24 +27810,6 @@
               "area_m2": 84.92,
               "current_price": 154750.0,
               "trade_count": 55
-            },
-            {
-              "id": "9c57ca8819",
-              "apt_name": "DMC센트럴아이파크",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.95,
-              "current_price": 148000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "d355dcf079",
-              "apt_name": "북한산현대홈타운",
-              "sigungu": "은평구",
-              "dong_name": "불광동",
-              "area_m2": 84.9956,
-              "current_price": 105500.0,
-              "trade_count": 30
             },
             {
               "id": "e5496004a4",
@@ -28109,6 +27857,42 @@
               "trade_count": 28
             },
             {
+              "id": "12f172fd03",
+              "apt_name": "마포센트럴 아이파크",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 84.9668,
+              "current_price": 210000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "8b3a4d70d3",
+              "apt_name": "DMC에코자이",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.978,
+              "current_price": 140750.0,
+              "trade_count": 39
+            },
+            {
+              "id": "a167ba22fe",
+              "apt_name": "녹번역e편한세상캐슬",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 84.92,
+              "current_price": 155000.0,
+              "trade_count": 27
+            },
+            {
+              "id": "470a9f9abe",
+              "apt_name": "DMC파크뷰자이2단지",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.968,
+              "current_price": 158000.0,
+              "trade_count": 73
+            },
+            {
               "id": "524da15448",
               "apt_name": "삼성",
               "sigungu": "마포구",
@@ -28116,6 +27900,15 @@
               "area_m2": 72.185,
               "current_price": 180833.33333333334,
               "trade_count": 37
+            },
+            {
+              "id": "8f17721768",
+              "apt_name": "힐스테이트녹번",
+              "sigungu": "은평구",
+              "dong_name": "녹번동",
+              "area_m2": 84.9,
+              "current_price": 132500.0,
+              "trade_count": 26
             },
             {
               "id": "1c32633d52",
@@ -28127,31 +27920,13 @@
               "trade_count": 17
             },
             {
-              "id": "6c0fafbce4",
-              "apt_name": "신촌금호",
-              "sigungu": "마포구",
-              "dong_name": "창전동",
-              "area_m2": 84.86,
-              "current_price": 120000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "7f6b331eec",
-              "apt_name": "상암월드컵파크6단지",
+              "id": "76a9bf1da7",
+              "apt_name": "상암월드컵파크7단지",
               "sigungu": "마포구",
               "dong_name": "상암동",
-              "area_m2": 84.53,
-              "current_price": 149200.0,
-              "trade_count": 20
-            },
-            {
-              "id": "5503f7d173",
-              "apt_name": "DMC파크뷰자이1단지",
-              "sigungu": "서대문구",
-              "dong_name": "남가좌동",
-              "area_m2": 84.971,
-              "current_price": 165750.0,
-              "trade_count": 126
+              "area_m2": 84.74,
+              "current_price": 136500.0,
+              "trade_count": 17
             },
             {
               "id": "be97733d05",
@@ -28163,6 +27938,141 @@
               "trade_count": 22
             },
             {
+              "id": "c5940fc72e",
+              "apt_name": "마포용강삼성래미안",
+              "sigungu": "마포구",
+              "dong_name": "용강동",
+              "area_m2": 84.2,
+              "current_price": 200000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "90af141698",
+              "apt_name": "신촌숲아이파크",
+              "sigungu": "마포구",
+              "dong_name": "신수동",
+              "area_m2": 84.932,
+              "current_price": 234500.0,
+              "trade_count": 21
+            },
+            {
+              "id": "45e589a599",
+              "apt_name": "힐스테이트신촌",
+              "sigungu": "서대문구",
+              "dong_name": "북아현동",
+              "area_m2": 84.6043,
+              "current_price": 193000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "5503f7d173",
+              "apt_name": "DMC파크뷰자이1단지",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.971,
+              "current_price": 165750.0,
+              "trade_count": 126
+            },
+            {
+              "id": "d6f16a3f62",
+              "apt_name": "DMC파크뷰자이1단지",
+              "sigungu": "서대문구",
+              "dong_name": "남가좌동",
+              "area_m2": 84.974,
+              "current_price": 169500.0,
+              "trade_count": 20
+            },
+            {
+              "id": "c0af4fa019",
+              "apt_name": "공덕2삼성래미안",
+              "sigungu": "마포구",
+              "dong_name": "공덕동",
+              "area_m2": 84.94,
+              "current_price": 188500.0,
+              "trade_count": 41
+            },
+            {
+              "id": "cc2b4f6eba",
+              "apt_name": "해모로",
+              "sigungu": "마포구",
+              "dong_name": "창전동",
+              "area_m2": 83.85,
+              "current_price": 181000.0,
+              "trade_count": 32
+            },
+            {
+              "id": "e5ce33b0c0",
+              "apt_name": "상암월드컵파크4단지",
+              "sigungu": "마포구",
+              "dong_name": "상암동",
+              "area_m2": 84.76,
+              "current_price": 155666.66666666666,
+              "trade_count": 16
+            },
+            {
+              "id": "6c0fafbce4",
+              "apt_name": "신촌금호",
+              "sigungu": "마포구",
+              "dong_name": "창전동",
+              "area_m2": 84.86,
+              "current_price": 120000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "2645a0ec45",
+              "apt_name": "창전동현대홈타운",
+              "sigungu": "마포구",
+              "dong_name": "창전동",
+              "area_m2": 84.978,
+              "current_price": 160000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "ee82ddb7c5",
+              "apt_name": "신공덕래미안3차",
+              "sigungu": "마포구",
+              "dong_name": "신공덕동",
+              "area_m2": 84.69,
+              "current_price": 178000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "a90c185a61",
+              "apt_name": "현대홈타운",
+              "sigungu": "마포구",
+              "dong_name": "도화동",
+              "area_m2": 84.95,
+              "current_price": 170000.0,
+              "trade_count": 65
+            },
+            {
+              "id": "d5d8520ef5",
+              "apt_name": "동부센트레빌",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 100.92,
+              "current_price": 280000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "7f6b331eec",
+              "apt_name": "상암월드컵파크6단지",
+              "sigungu": "마포구",
+              "dong_name": "상암동",
+              "area_m2": 84.53,
+              "current_price": 149200.0,
+              "trade_count": 20
+            },
+            {
+              "id": "469f88f6f2",
+              "apt_name": "신공덕1차삼성래미안1아파트",
+              "sigungu": "마포구",
+              "dong_name": "신공덕동",
+              "area_m2": 84.9,
+              "current_price": 202000.0,
+              "trade_count": 38
+            },
+            {
               "id": "970381d794",
               "apt_name": "서강예가",
               "sigungu": "마포구",
@@ -28172,22 +28082,49 @@
               "trade_count": 45
             },
             {
-              "id": "881690b67b",
-              "apt_name": "래미안밤섬리베뉴Ⅰ",
+              "id": "391e70529e",
+              "apt_name": "신공덕래미안2차",
               "sigungu": "마포구",
-              "dong_name": "상수동",
-              "area_m2": 84.99,
-              "current_price": 228000.0,
-              "trade_count": 38
+              "dong_name": "신공덕동",
+              "area_m2": 84.73,
+              "current_price": 160000.0,
+              "trade_count": 22
             },
             {
-              "id": "05df4d3fcd",
+              "id": "44994b609d",
+              "apt_name": "염리삼성래미안",
+              "sigungu": "마포구",
+              "dong_name": "염리동",
+              "area_m2": 84.96,
+              "current_price": 194000.0,
+              "trade_count": 34
+            },
+            {
+              "id": "f05a8aae4d",
+              "apt_name": "한강(대우)",
+              "sigungu": "용산구",
+              "dong_name": "이촌동",
+              "area_m2": 84.98,
+              "current_price": 259000.0,
+              "trade_count": 43
+            },
+            {
+              "id": "75577a8248",
               "apt_name": "한강맨숀",
               "sigungu": "용산구",
               "dong_name": "이촌동",
-              "area_m2": 101.95,
-              "current_price": 475000.0,
-              "trade_count": 24
+              "area_m2": 87.54,
+              "current_price": 425000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "534a2cb7d8",
+              "apt_name": "리버힐삼성",
+              "sigungu": "용산구",
+              "dong_name": "산천동",
+              "area_m2": 84.98,
+              "current_price": 175000.0,
+              "trade_count": 28
             },
             {
               "id": "c3e4e51f0e",
@@ -28197,6 +28134,69 @@
               "area_m2": 120.56,
               "current_price": 525356.6666666666,
               "trade_count": 29
+            },
+            {
+              "id": "87cf2cdb3b",
+              "apt_name": "e편한세상신촌2단지",
+              "sigungu": "서대문구",
+              "dong_name": "북아현동",
+              "area_m2": 84.93,
+              "current_price": 210000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "66df377022",
+              "apt_name": "신촌푸르지오",
+              "sigungu": "서대문구",
+              "dong_name": "북아현동",
+              "area_m2": 84.9892,
+              "current_price": 192000.0,
+              "trade_count": 28
+            },
+            {
+              "id": "dc33b96e94",
+              "apt_name": "e편한세상신촌4단지",
+              "sigungu": "서대문구",
+              "dong_name": "북아현동",
+              "area_m2": 84.82,
+              "current_price": 223000.0,
+              "trade_count": 27
+            },
+            {
+              "id": "193c7be40d",
+              "apt_name": "마포래미안푸르지오4단지",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 84.5978,
+              "current_price": 257500.0,
+              "trade_count": 50
+            },
+            {
+              "id": "cbb9e5f078",
+              "apt_name": "마포프레스티지자이",
+              "sigungu": "마포구",
+              "dong_name": "염리동",
+              "area_m2": 84.9422,
+              "current_price": 283000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "66f11532f0",
+              "apt_name": "마포그랑자이",
+              "sigungu": "마포구",
+              "dong_name": "대흥동",
+              "area_m2": 84.98,
+              "current_price": 261500.0,
+              "trade_count": 67
+            },
+            {
+              "id": "11e6973805",
+              "apt_name": "마포래미안푸르지오1단지",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 84.8919,
+              "current_price": 242750.0,
+              "trade_count": 18
             },
             {
               "id": "986443de32",
@@ -31883,7 +31883,7 @@
         },
         {
           "size": 203,
-          "avg_current_price": 157569.6,
+          "avg_current_price": 157574.61,
           "members": [
             {
               "id": "f119ed091d",
@@ -32917,8 +32917,8 @@
               "sigungu": "은평구",
               "dong_name": "응암동",
               "area_m2": 84.9,
-              "current_price": 90950.0,
-              "trade_count": 18
+              "current_price": 91966.66666666667,
+              "trade_count": 19
             },
             {
               "id": "90fbad0333",
@@ -33791,7 +33791,7 @@
         },
         {
           "size": 292,
-          "avg_current_price": 147410.64,
+          "avg_current_price": 147405.07,
           "members": [
             {
               "id": "43c4ef0907",
@@ -34240,8 +34240,8 @@
               "sigungu": "영등포구",
               "dong_name": "신길동",
               "area_m2": 84.79,
-              "current_price": 133000.0,
-              "trade_count": 58
+              "current_price": 134500.0,
+              "trade_count": 59
             },
             {
               "id": "097d44f494",
@@ -35540,15 +35540,6 @@
               "trade_count": 38
             },
             {
-              "id": "38bc80fd5b",
-              "apt_name": "당산계룡리슈빌3단지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동3가",
-              "area_m2": 49.993,
-              "current_price": 87625.0,
-              "trade_count": 39
-            },
-            {
               "id": "ea860d9169",
               "apt_name": "우성2",
               "sigungu": "영등포구",
@@ -35945,6 +35936,15 @@
               "trade_count": 30
             },
             {
+              "id": "38bc80fd5b",
+              "apt_name": "당산계룡리슈빌3단지",
+              "sigungu": "영등포구",
+              "dong_name": "당산동3가",
+              "area_m2": 49.993,
+              "current_price": 84500.0,
+              "trade_count": 40
+            },
+            {
               "id": "d02b8fffab",
               "apt_name": "현대(관악)",
               "sigungu": "관악구",
@@ -36059,7 +36059,7 @@
               "dong_name": "양평동5가",
               "area_m2": 59.94,
               "current_price": 136000.0,
-              "trade_count": 128
+              "trade_count": 129
             },
             {
               "id": "194b838d88",
@@ -36530,7 +36530,7 @@
         },
         {
           "size": 334,
-          "avg_current_price": 142891.43,
+          "avg_current_price": 142886.32,
           "members": [
             {
               "id": "956a138fb7",
@@ -37370,6 +37370,15 @@
               "trade_count": 16
             },
             {
+              "id": "874bcf4c1d",
+              "apt_name": "보라매경남아너스빌",
+              "sigungu": "영등포구",
+              "dong_name": "신길동",
+              "area_m2": 84.79,
+              "current_price": 134500.0,
+              "trade_count": 59
+            },
+            {
               "id": "946569e940",
               "apt_name": "현대3차",
               "sigungu": "영등포구",
@@ -37377,15 +37386,6 @@
               "area_m2": 84.89,
               "current_price": 133750.0,
               "trade_count": 52
-            },
-            {
-              "id": "874bcf4c1d",
-              "apt_name": "보라매경남아너스빌",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.79,
-              "current_price": 133000.0,
-              "trade_count": 58
             },
             {
               "id": "da14920707",
@@ -38230,8 +38230,8 @@
               "sigungu": "영등포구",
               "dong_name": "영등포동8가",
               "area_m2": 59.91,
-              "current_price": 147250.0,
-              "trade_count": 47
+              "current_price": 147166.66666666666,
+              "trade_count": 48
             },
             {
               "id": "9f4913ad30",
@@ -38421,15 +38421,6 @@
               "area_m2": 59.83,
               "current_price": 123500.0,
               "trade_count": 67
-            },
-            {
-              "id": "38bc80fd5b",
-              "apt_name": "당산계룡리슈빌3단지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동3가",
-              "area_m2": 49.993,
-              "current_price": 87625.0,
-              "trade_count": 39
             },
             {
               "id": "ea860d9169",
@@ -38882,6 +38873,15 @@
               "trade_count": 30
             },
             {
+              "id": "38bc80fd5b",
+              "apt_name": "당산계룡리슈빌3단지",
+              "sigungu": "영등포구",
+              "dong_name": "당산동3가",
+              "area_m2": 49.993,
+              "current_price": 84500.0,
+              "trade_count": 40
+            },
+            {
               "id": "ec081d28c6",
               "apt_name": "문래공원한신",
               "sigungu": "영등포구",
@@ -38942,7 +38942,7 @@
               "dong_name": "양평동5가",
               "area_m2": 59.94,
               "current_price": 136000.0,
-              "trade_count": 128
+              "trade_count": 129
             },
             {
               "id": "2ba94c35d3",
@@ -39623,7 +39623,7 @@
         },
         {
           "size": 228,
-          "avg_current_price": 125274.04,
+          "avg_current_price": 125272.58,
           "members": [
             {
               "id": "9e16bdb645",
@@ -40103,6 +40103,24 @@
               "trade_count": 20
             },
             {
+              "id": "e1c7825477",
+              "apt_name": "녹번역센트레빌",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 84.9,
+              "current_price": 91966.66666666667,
+              "trade_count": 19
+            },
+            {
+              "id": "90fbad0333",
+              "apt_name": "현대",
+              "sigungu": "종로구",
+              "dong_name": "무악동",
+              "area_m2": 84.92,
+              "current_price": 144480.0,
+              "trade_count": 39
+            },
+            {
               "id": "bc50de3c7c",
               "apt_name": "꿈의숲푸르지오",
               "sigungu": "성북구",
@@ -40166,15 +40184,6 @@
               "trade_count": 16
             },
             {
-              "id": "e1c7825477",
-              "apt_name": "녹번역센트레빌",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 84.9,
-              "current_price": 90950.0,
-              "trade_count": 18
-            },
-            {
               "id": "8b3a4d70d3",
               "apt_name": "DMC에코자이",
               "sigungu": "서대문구",
@@ -40209,15 +40218,6 @@
               "area_m2": 84.9,
               "current_price": 119000.0,
               "trade_count": 45
-            },
-            {
-              "id": "90fbad0333",
-              "apt_name": "현대",
-              "sigungu": "종로구",
-              "dong_name": "무악동",
-              "area_m2": 84.92,
-              "current_price": 144480.0,
-              "trade_count": 39
             },
             {
               "id": "2a33af4b07",
@@ -41548,8 +41548,8 @@
               "sigungu": "은평구",
               "dong_name": "불광동",
               "area_m2": 66.7,
-              "current_price": 90000.0,
-              "trade_count": 79
+              "current_price": 88650.0,
+              "trade_count": 80
             },
             {
               "id": "7639562762",
@@ -41729,7 +41729,7 @@
         },
         {
           "size": 340,
-          "avg_current_price": 202222.82,
+          "avg_current_price": 202217.8,
           "members": [
             {
               "id": "c5c9c9ee3e",
@@ -41766,6 +41766,15 @@
               "area_m2": 59.4,
               "current_price": 117000.0,
               "trade_count": 30
+            },
+            {
+              "id": "38bc80fd5b",
+              "apt_name": "당산계룡리슈빌3단지",
+              "sigungu": "영등포구",
+              "dong_name": "당산동3가",
+              "area_m2": 49.993,
+              "current_price": 84500.0,
+              "trade_count": 40
             },
             {
               "id": "d986d5770b",
@@ -42884,13 +42893,13 @@
               "trade_count": 28
             },
             {
-              "id": "b968be17c8",
-              "apt_name": "당산현대3차",
+              "id": "874bcf4c1d",
+              "apt_name": "보라매경남아너스빌",
               "sigungu": "영등포구",
-              "dong_name": "당산동4가",
-              "area_m2": 84.5,
-              "current_price": 170000.0,
-              "trade_count": 18
+              "dong_name": "신길동",
+              "area_m2": 84.79,
+              "current_price": 134500.0,
+              "trade_count": 59
             },
             {
               "id": "ccde4e1f93",
@@ -42902,6 +42911,15 @@
               "trade_count": 48
             },
             {
+              "id": "b968be17c8",
+              "apt_name": "당산현대3차",
+              "sigungu": "영등포구",
+              "dong_name": "당산동4가",
+              "area_m2": 84.5,
+              "current_price": 170000.0,
+              "trade_count": 18
+            },
+            {
               "id": "0d95618f0e",
               "apt_name": "포레나 신길",
               "sigungu": "영등포구",
@@ -42909,15 +42927,6 @@
               "area_m2": 84.5802,
               "current_price": 146500.0,
               "trade_count": 15
-            },
-            {
-              "id": "874bcf4c1d",
-              "apt_name": "보라매경남아너스빌",
-              "sigungu": "영등포구",
-              "dong_name": "신길동",
-              "area_m2": 84.79,
-              "current_price": 133000.0,
-              "trade_count": 58
             },
             {
               "id": "65a730bd41",
@@ -43847,15 +43856,6 @@
               "trade_count": 53
             },
             {
-              "id": "38bc80fd5b",
-              "apt_name": "당산계룡리슈빌3단지",
-              "sigungu": "영등포구",
-              "dong_name": "당산동3가",
-              "area_m2": 49.993,
-              "current_price": 87625.0,
-              "trade_count": 39
-            },
-            {
               "id": "c6c8d27d34",
               "apt_name": "대림아파트",
               "sigungu": "동작구",
@@ -44366,7 +44366,7 @@
               "dong_name": "양평동5가",
               "area_m2": 59.94,
               "current_price": 136000.0,
-              "trade_count": 128
+              "trade_count": 129
             },
             {
               "id": "61e6588296",
@@ -44653,8 +44653,8 @@
               "sigungu": "영등포구",
               "dong_name": "영등포동8가",
               "area_m2": 59.91,
-              "current_price": 147250.0,
-              "trade_count": 47
+              "current_price": 147166.66666666666,
+              "trade_count": 48
             },
             {
               "id": "7972d00ade",
@@ -66071,7 +66071,7 @@
           "avg_36": 92950.50505050506,
           "compare_avg_recent": 125750.0,
           "compare_avg_36": 94768.86554621848,
-          "cluster_avg": 164447.51,
+          "cluster_avg": 164444.05,
           "gap_pct": -13.39,
           "status": "undervalued",
           "trade_count": 26,
@@ -66172,7 +66172,7 @@
               "avg_36": 61963.63636363636,
               "compare_avg_recent": 83295.83333333334,
               "compare_avg_36": 66289.9007936508,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -11.04,
               "status": "undervalued",
               "trade_count": 19,
@@ -66315,7 +66315,7 @@
               "avg_36": 92950.50505050506,
               "compare_avg_recent": 125750.0,
               "compare_avg_36": 94768.86554621848,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -13.39,
               "status": "undervalued",
               "trade_count": 26,
@@ -66361,7 +66361,7 @@
               "avg_36": 83230.80808080807,
               "compare_avg_recent": 121750.0,
               "compare_avg_36": 83845.83333333333,
-              "cluster_avg": 149747.95,
+              "cluster_avg": 149741.89,
               "gap_pct": -12.33,
               "status": "undervalued",
               "trade_count": 23,
@@ -66412,7 +66412,7 @@
               "avg_36": 122893.9814814815,
               "compare_avg_recent": 164166.6666666667,
               "compare_avg_36": 129411.25,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -12.73,
               "status": "undervalued",
               "trade_count": 28,
@@ -66634,7 +66634,7 @@
               "avg_36": 149749.1666666667,
               "compare_avg_recent": 186875.0,
               "compare_avg_36": 151490.42755991285,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -11.8,
               "status": "undervalued",
               "trade_count": 53,
@@ -66685,7 +66685,7 @@
               "avg_36": 195638.88888888888,
               "compare_avg_recent": 246000.0,
               "compare_avg_36": 204336.11111111112,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -10.78,
               "status": "undervalued",
               "trade_count": 17,
@@ -66764,7 +66764,7 @@
               "avg_36": 176536.57407407404,
               "compare_avg_recent": 236500.0,
               "compare_avg_36": 191293.29365079367,
-              "cluster_avg": 164447.51,
+              "cluster_avg": 164444.05,
               "gap_pct": -7.58,
               "status": "undervalued",
               "trade_count": 27,
