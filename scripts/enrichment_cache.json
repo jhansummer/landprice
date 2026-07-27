@@ -113490,7 +113490,12 @@
    "bank": 24,
    "academy": 156
   },
-  "school_score": 92
+  "school_score": 92,
+  "commute_transit": {
+   "gangnam": 59,
+   "gwanghwamun": 86,
+   "yeouido": 77
+  }
  },
  "37.723,127.055": {
   "infra": {
