@@ -1,1 +1,1 @@
-{"trades":[["2020-08-29",79000],["2020-11-30",79000],["2026-06-05",93700]],"info":{"build_year":1999,"subway":"강동","subway_line":"5호선","subway_walk_min":4,"scores":{"transport":93,"infra":100,"academy":18,"brand":50,"livability":42,"loc":55}}}
+{"trades":[["2020-08-29",79000],["2020-11-30",79000],["2026-06-05",93700]],"info":{"build_year":1999,"subway":"강동","subway_line":"5호선","subway_walk_min":4,"commute":{"gangnam":31,"gwanghwamun":43,"yeouido":56},"scores":{"transport":93,"infra":100,"academy":18,"brand":50,"livability":42,"loc":66}}}

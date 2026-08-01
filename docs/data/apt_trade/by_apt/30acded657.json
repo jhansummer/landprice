@@ -1,1 +1,1 @@
-{"trades":[["2025-04-08",62000],["2025-11-02",63600]],"info":{"build_year":2022,"households":928,"subway":"가재울","subway_line":"인천2호선","subway_walk_min":6,"scores":{"transport":89,"infra":100,"academy":18,"brand":83,"livability":84,"loc":59}}}
+{"trades":[["2025-04-08",62000],["2025-11-02",63600]],"info":{"build_year":2022,"households":928,"subway":"가재울","subway_line":"인천2호선","subway_walk_min":6,"commute":{"gangnam":87,"gwanghwamun":80,"yeouido":62},"scores":{"transport":89,"infra":100,"academy":18,"brand":83,"livability":84,"loc":74}}}

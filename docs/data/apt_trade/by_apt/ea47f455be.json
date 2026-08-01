@@ -1,1 +1,1 @@
-{"trades":[["2020-06-15",128000],["2021-06-17",160000]],"info":{"build_year":2012,"households":3695,"subway":"광교중앙","subway_line":"신분당선","subway_walk_min":5,"scores":{"transport":91,"infra":100,"academy":82,"brand":80,"livability":83,"loc":74}}}
+{"trades":[["2020-06-15",128000],["2021-06-17",160000]],"info":{"build_year":2012,"households":3695,"subway":"광교중앙","subway_line":"신분당선","subway_walk_min":5,"commute":{"gangnam":70,"gwanghwamun":97,"yeouido":85},"scores":{"transport":91,"infra":100,"academy":82,"brand":80,"livability":83,"loc":85}}}
