@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T18:38:22Z",
+  "updated_at": "2026-08-02T18:21:48Z",
   "current_month": "202608",
   "params": {
     "months": 36,
@@ -4631,7 +4631,7 @@
         },
         {
           "size": 456,
-          "avg_current_price": 253586.37,
+          "avg_current_price": 253585.38,
           "members": [
             {
               "id": "f1a193cbd0",
@@ -4686,6 +4686,15 @@
               "area_m2": 59.4,
               "current_price": 132500.0,
               "trade_count": 20
+            },
+            {
+              "id": "4b702647ed",
+              "apt_name": "강동리버스트4단지",
+              "sigungu": "강동구",
+              "dong_name": "강일동",
+              "area_m2": 59.99,
+              "current_price": 116900.0,
+              "trade_count": 37
             },
             {
               "id": "2ae89261b1",
@@ -4920,15 +4929,6 @@
               "area_m2": 49.96,
               "current_price": 206000.0,
               "trade_count": 37
-            },
-            {
-              "id": "4b702647ed",
-              "apt_name": "강동리버스트4단지",
-              "sigungu": "강동구",
-              "dong_name": "강일동",
-              "area_m2": 59.99,
-              "current_price": 117350.0,
-              "trade_count": 36
             },
             {
               "id": "1e27d09f1f",
@@ -17423,7 +17423,7 @@
         },
         {
           "size": 464,
-          "avg_current_price": 198128.47,
+          "avg_current_price": 198127.5,
           "members": [
             {
               "id": "0e3c00866e",
@@ -18920,6 +18920,15 @@
               "trade_count": 20
             },
             {
+              "id": "4b702647ed",
+              "apt_name": "강동리버스트4단지",
+              "sigungu": "강동구",
+              "dong_name": "강일동",
+              "area_m2": 59.99,
+              "current_price": 116900.0,
+              "trade_count": 37
+            },
+            {
               "id": "7208b876f1",
               "apt_name": "고덕숲아이파크",
               "sigungu": "강동구",
@@ -18927,15 +18936,6 @@
               "area_m2": 59.97,
               "current_price": 165000.0,
               "trade_count": 38
-            },
-            {
-              "id": "4b702647ed",
-              "apt_name": "강동리버스트4단지",
-              "sigungu": "강동구",
-              "dong_name": "강일동",
-              "area_m2": 59.99,
-              "current_price": 117350.0,
-              "trade_count": 36
             },
             {
               "id": "c4c033bd71",
@@ -47462,7 +47462,7 @@
         },
         {
           "size": 430,
-          "avg_current_price": 225741.8,
+          "avg_current_price": 225740.76,
           "members": [
             {
               "id": "33e34b7dac",
@@ -48595,8 +48595,8 @@
               "sigungu": "강동구",
               "dong_name": "강일동",
               "area_m2": 59.99,
-              "current_price": 117350.0,
-              "trade_count": 36
+              "current_price": 116900.0,
+              "trade_count": 37
             },
             {
               "id": "a19273ad08",
@@ -57944,7 +57944,7 @@
         },
         {
           "size": 430,
-          "avg_current_price": 225741.8,
+          "avg_current_price": 225740.76,
           "members": [
             {
               "id": "08e5a5fd0a",
@@ -61075,8 +61075,8 @@
               "sigungu": "강동구",
               "dong_name": "강일동",
               "area_m2": 59.99,
-              "current_price": 117350.0,
-              "trade_count": 36
+              "current_price": 116900.0,
+              "trade_count": 37
             },
             {
               "id": "6d93d193a7",
@@ -70567,7 +70567,7 @@
               "avg_36": 132497.7733686067,
               "compare_avg_recent": 168366.6666666667,
               "compare_avg_36": 131301.40278249345,
-              "cluster_avg": 198128.47,
+              "cluster_avg": 198127.5,
               "gap_pct": -8.49,
               "status": "undervalued",
               "trade_count": 118,
@@ -70618,7 +70618,7 @@
               "avg_36": 174756.9387755102,
               "compare_avg_recent": 237375.0,
               "compare_avg_36": 186719.4264069264,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -9.34,
               "status": "undervalued",
               "trade_count": 42,
@@ -70664,7 +70664,7 @@
               "avg_36": 174247.6851851852,
               "compare_avg_recent": 213747.61904761905,
               "compare_avg_36": 163319.3361823362,
-              "cluster_avg": 198128.47,
+              "cluster_avg": 198127.5,
               "gap_pct": -8.76,
               "status": "undervalued",
               "trade_count": 28,
@@ -70697,7 +70697,7 @@
               "avg_36": 207472.68518518517,
               "compare_avg_recent": 251500.0,
               "compare_avg_36": 207386.08465608465,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -8.59,
               "status": "undervalued",
               "trade_count": 42,
@@ -70748,7 +70748,7 @@
               "avg_36": 254129.27328843996,
               "compare_avg_recent": 326500.0,
               "compare_avg_36": 258836.04100529102,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -8.6,
               "status": "undervalued",
               "trade_count": 217,
@@ -70840,7 +70840,7 @@
               "avg_36": 247117.25500985375,
               "compare_avg_recent": 326500.0,
               "compare_avg_36": 258836.04100529102,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -5.1,
               "status": "undervalued",
               "trade_count": 206,
@@ -70891,7 +70891,7 @@
               "avg_36": 323448.88888888893,
               "compare_avg_recent": 328500.0,
               "compare_avg_36": 304219.9074074074,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -11.16,
               "status": "undervalued",
               "trade_count": 21,
@@ -70924,7 +70924,7 @@
               "avg_36": 294087.5,
               "compare_avg_recent": 371750.0,
               "compare_avg_36": 309237.98228969006,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -8.75,
               "status": "undervalued",
               "trade_count": 35,
@@ -70970,7 +70970,7 @@
               "avg_36": 288928.5714285714,
               "compare_avg_recent": 353375.0,
               "compare_avg_36": 294458.82936507935,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -7.09,
               "status": "undervalued",
               "trade_count": 39,
@@ -71021,7 +71021,7 @@
               "avg_36": 365333.3333333333,
               "compare_avg_recent": 424833.3333333334,
               "compare_avg_36": 360233.7466931217,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -5.69,
               "status": "undervalued",
               "trade_count": 18,
@@ -71067,7 +71067,7 @@
               "avg_36": 459495.23809523805,
               "compare_avg_recent": 487000.0,
               "compare_avg_36": 467497.22222222225,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -2.81,
               "status": "market",
               "trade_count": 32,
@@ -71151,7 +71151,7 @@
               "avg_36": 508101.8518518518,
               "compare_avg_recent": 573333.3333333333,
               "compare_avg_36": 495370.7175925926,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -4.37,
               "status": "market",
               "trade_count": 16,
@@ -71197,7 +71197,7 @@
               "avg_36": 648750.0,
               "compare_avg_recent": 743333.3333333334,
               "compare_avg_36": 661929.2929292929,
-              "cluster_avg": 253586.37,
+              "cluster_avg": 253585.38,
               "gap_pct": -3.84,
               "status": "market",
               "trade_count": 20,
@@ -78312,8 +78312,8 @@
           ]
         },
         {
-          "size": 33,
-          "avg_current_price": 154160.21,
+          "size": 30,
+          "avg_current_price": 156136.67,
           "members": [
             {
               "id": "4dfb145070",
@@ -78334,76 +78334,13 @@
               "trade_count": 25
             },
             {
-              "id": "742bfef273",
+              "id": "8f057e4810",
               "apt_name": "산성역포레스티아",
               "sigungu": "성남시수정구",
               "dong_name": "신흥동",
-              "area_m2": 59.84,
-              "current_price": 142500.0,
-              "trade_count": 126
-            },
-            {
-              "id": "f66ca4bcb6",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 59.83,
-              "current_price": 179750.0,
+              "area_m2": 67.86,
+              "current_price": 148500.0,
               "trade_count": 81
-            },
-            {
-              "id": "c31ed0f3cd",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 59.95,
-              "current_price": 164800.0,
-              "trade_count": 25
-            },
-            {
-              "id": "ef25fe6d5f",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 75.98,
-              "current_price": 149333.33333333334,
-              "trade_count": 25
-            },
-            {
-              "id": "08ce55e31d",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.7528,
-              "current_price": 165000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "abcbc9d47d",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 74.99,
-              "current_price": 195000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "68cc046d18",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.92,
-              "current_price": 157500.0,
-              "trade_count": 97
-            },
-            {
-              "id": "7879b1ca09",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 84.94,
-              "current_price": 223000.0,
-              "trade_count": 31
             },
             {
               "id": "1e47326a8f",
@@ -78415,22 +78352,31 @@
               "trade_count": 25
             },
             {
-              "id": "9e1e162611",
-              "apt_name": "위례호반써밋에비뉴",
+              "id": "f66ca4bcb6",
+              "apt_name": "위례센트럴자이",
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
-              "area_m2": 98.88,
-              "current_price": 185500.0,
-              "trade_count": 22
+              "area_m2": 59.83,
+              "current_price": 179750.0,
+              "trade_count": 81
             },
             {
-              "id": "08a093a159",
-              "apt_name": "단대푸르지오",
+              "id": "68cc046d18",
+              "apt_name": "산성역포레스티아",
               "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 114.89,
-              "current_price": 132000.0,
-              "trade_count": 18
+              "dong_name": "신흥동",
+              "area_m2": 84.92,
+              "current_price": 158750.0,
+              "trade_count": 98
+            },
+            {
+              "id": "7879b1ca09",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 84.94,
+              "current_price": 223000.0,
+              "trade_count": 31
             },
             {
               "id": "08472b6043",
@@ -78469,6 +78415,42 @@
               "trade_count": 22
             },
             {
+              "id": "c31ed0f3cd",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 59.95,
+              "current_price": 164800.0,
+              "trade_count": 25
+            },
+            {
+              "id": "ef25fe6d5f",
+              "apt_name": "위례 래미안이편한세상",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 75.98,
+              "current_price": 149333.33333333334,
+              "trade_count": 25
+            },
+            {
+              "id": "08ce55e31d",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.7528,
+              "current_price": 165000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "abcbc9d47d",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 74.99,
+              "current_price": 195000.0,
+              "trade_count": 17
+            },
+            {
               "id": "f94d0adb59",
               "apt_name": "위례역푸르지오6단지",
               "sigungu": "성남시수정구",
@@ -78496,15 +78478,6 @@
               "trade_count": 24
             },
             {
-              "id": "09444bc095",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 84.98,
-              "current_price": 194900.0,
-              "trade_count": 105
-            },
-            {
               "id": "837a357535",
               "apt_name": "위례호반써밋에비뉴",
               "sigungu": "성남시수정구",
@@ -78514,13 +78487,13 @@
               "trade_count": 17
             },
             {
-              "id": "a45ee107b0",
-              "apt_name": "두산",
+              "id": "09444bc095",
+              "apt_name": "위례 래미안이편한세상",
               "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.47,
-              "current_price": 90000.0,
-              "trade_count": 50
+              "dong_name": "창곡동",
+              "area_m2": 84.98,
+              "current_price": 192266.66666666666,
+              "trade_count": 106
             },
             {
               "id": "3586b2a2f2",
@@ -78555,8 +78528,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "신흥동",
               "area_m2": 74.98,
-              "current_price": 153428.57142857142,
-              "trade_count": 261
+              "current_price": 153000.0,
+              "trade_count": 262
             },
             {
               "id": "96f8ac8c21",
@@ -78595,15 +78568,6 @@
               "trade_count": 30
             },
             {
-              "id": "8f057e4810",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 67.86,
-              "current_price": 146125.0,
-              "trade_count": 79
-            },
-            {
               "id": "9a89787b52",
               "apt_name": "위례 래미안이편한세상",
               "sigungu": "성남시수정구",
@@ -78611,12 +78575,21 @@
               "area_m2": 75.99,
               "current_price": 183000.0,
               "trade_count": 45
+            },
+            {
+              "id": "742bfef273",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.84,
+              "current_price": 146250.0,
+              "trade_count": 127
             }
           ]
         },
         {
-          "size": 2,
-          "avg_current_price": 86000.0,
+          "size": 3,
+          "avg_current_price": 89000.0,
           "members": [
             {
               "id": "05794b9096",
@@ -78626,6 +78599,15 @@
               "area_m2": 77.82,
               "current_price": 87000.0,
               "trade_count": 30
+            },
+            {
+              "id": "a45ee107b0",
+              "apt_name": "두산",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.47,
+              "current_price": 95000.0,
+              "trade_count": 51
             },
             {
               "id": "99f5955b69",
@@ -79566,8 +79548,8 @@
           ]
         },
         {
-          "size": 229,
-          "avg_current_price": 168525.7,
+          "size": 232,
+          "avg_current_price": 168762.23,
           "members": [
             {
               "id": "221c3ef430",
@@ -79597,103 +79579,40 @@
               "trade_count": 29
             },
             {
-              "id": "1a3b1c0b46",
-              "apt_name": "한솔마을(5단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 51.66,
-              "current_price": 150000.0,
-              "trade_count": 29
-            },
-            {
-              "id": "915d3b4525",
-              "apt_name": "한솔마을(5단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 42.75,
-              "current_price": 114675.0,
-              "trade_count": 73
-            },
-            {
-              "id": "7599f5cf9d",
-              "apt_name": "한솔마을(6단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 37.67,
-              "current_price": 95746.66666666667,
-              "trade_count": 116
-            },
-            {
-              "id": "260e0a1e7f",
-              "apt_name": "한솔마을(4단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 35.28,
-              "current_price": 106250.0,
-              "trade_count": 118
-            },
-            {
-              "id": "1a841b6716",
-              "apt_name": "양지마을(5단지)(한양501-514)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 28.16,
-              "current_price": 96750.0,
-              "trade_count": 35
-            },
-            {
-              "id": "93ec53a1b0",
-              "apt_name": "한솔마을(6단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 39.87,
-              "current_price": 119500.0,
-              "trade_count": 50
-            },
-            {
-              "id": "618bb004c9",
-              "apt_name": "양지마을(5단지)(한양501-514)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 48.51,
-              "current_price": 152000.0,
-              "trade_count": 43
-            },
-            {
-              "id": "5eea0d1116",
-              "apt_name": "시범우성",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 59.73,
-              "current_price": 153000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "c5b69786ce",
-              "apt_name": "이매촌(삼성)",
+              "id": "1005d900e4",
+              "apt_name": "이매촌(한신)",
               "sigungu": "성남시분당구",
               "dong_name": "이매동",
-              "area_m2": 73.25,
-              "current_price": 155000.0,
-              "trade_count": 30
+              "area_m2": 50.1,
+              "current_price": 150900.0,
+              "trade_count": 97
             },
             {
-              "id": "0f791d5635",
-              "apt_name": "무지개(3단지)(신한)",
+              "id": "ff43517da3",
+              "apt_name": "효자촌(화성)",
               "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 84.768,
-              "current_price": 139333.33333333334,
-              "trade_count": 20
+              "dong_name": "서현동",
+              "area_m2": 53.82,
+              "current_price": 113000.0,
+              "trade_count": 36
             },
             {
-              "id": "9acb4adcba",
-              "apt_name": "샛별마을(라이프)",
+              "id": "f29b20f22c",
+              "apt_name": "상록마을(보성)",
               "sigungu": "성남시분당구",
-              "dong_name": "분당동",
-              "area_m2": 85.0,
-              "current_price": 162333.33333333334,
-              "trade_count": 29
+              "dong_name": "정자동",
+              "area_m2": 67.435,
+              "current_price": 165000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "95fbcd05d8",
+              "apt_name": "시범한신",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 84.69,
+              "current_price": 225833.33333333334,
+              "trade_count": 96
             },
             {
               "id": "c2f2343516",
@@ -79849,228 +79768,21 @@
               "trade_count": 28
             },
             {
-              "id": "2c9c0f4143",
-              "apt_name": "아름마을(선경)",
+              "id": "3df7944227",
+              "apt_name": "탑마을(대우)",
               "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 83.58,
-              "current_price": 198100.0,
-              "trade_count": 31
-            },
-            {
-              "id": "c722cc149f",
-              "apt_name": "봇들마을4단지(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 74.45,
-              "current_price": 209000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "4372fe2eb2",
-              "apt_name": "느티마을(4단지)(공무원)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 67.43,
-              "current_price": 191500.0,
-              "trade_count": 28
-            },
-            {
-              "id": "f9012d5506",
-              "apt_name": "산운마을13단지(태영)",
-              "sigungu": "성남시분당구",
-              "dong_name": "운중동",
-              "area_m2": 84.92,
-              "current_price": 166500.0,
-              "trade_count": 18
-            },
-            {
-              "id": "f32f5239b5",
-              "apt_name": "양지마을(6단지)(한양603동)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 59.76,
-              "current_price": 151500.0,
+              "dong_name": "야탑동",
+              "area_m2": 101.76,
+              "current_price": 165000.0,
               "trade_count": 15
             },
             {
-              "id": "b6e9e6a990",
-              "apt_name": "장미마을(현대)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 74.61,
-              "current_price": 144000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "6299f5566a",
-              "apt_name": "판교원마을9단지(한림풀에버)",
-              "sigungu": "성남시분당구",
-              "dong_name": "판교동",
-              "area_m2": 84.9505,
-              "current_price": 179000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "9106c1547d",
-              "apt_name": "산운마을13단지(태영)",
-              "sigungu": "성남시분당구",
-              "dong_name": "운중동",
-              "area_m2": 84.82,
-              "current_price": 160000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "5daf078e16",
-              "apt_name": "이매촌(동신3)",
+              "id": "80612992cb",
+              "apt_name": "이매촌(삼환)",
               "sigungu": "성남시분당구",
               "dong_name": "이매동",
-              "area_m2": 84.6,
-              "current_price": 195350.0,
-              "trade_count": 16
-            },
-            {
-              "id": "1c7fceb7a1",
-              "apt_name": "아름마을(삼호)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.84,
-              "current_price": 179000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "286e50fc12",
-              "apt_name": "이매촌(삼성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.94,
-              "current_price": 184900.0,
-              "trade_count": 20
-            },
-            {
-              "id": "ba0fdf9666",
-              "apt_name": "장안타운(건영)",
-              "sigungu": "성남시분당구",
-              "dong_name": "분당동",
-              "area_m2": 70.68,
-              "current_price": 133750.0,
-              "trade_count": 37
-            },
-            {
-              "id": "4e5f2d6791",
-              "apt_name": "무지개(2단지)(엘지)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 84.822,
-              "current_price": 149000.0,
-              "trade_count": 30
-            },
-            {
-              "id": "88768bcf4e",
-              "apt_name": "한솔마을(2단지)(LG)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 101.85,
-              "current_price": 185250.0,
-              "trade_count": 24
-            },
-            {
-              "id": "5b0b13dd5c",
-              "apt_name": "봇들마을1단지(판교신미주)",
-              "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 83.235,
-              "current_price": 196000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "5896e71cf2",
-              "apt_name": "탑마을(선경)1",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 83.73,
-              "current_price": 163000.0,
-              "trade_count": 41
-            },
-            {
-              "id": "ee7258a879",
-              "apt_name": "효자촌(화성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 70.686,
-              "current_price": 151500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "e23651454c",
-              "apt_name": "효자촌(화성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 84.696,
-              "current_price": 169800.0,
-              "trade_count": 17
-            },
-            {
-              "id": "112c3daa0e",
-              "apt_name": "효자촌(대창)",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 70.686,
-              "current_price": 145000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "e44ca41ff0",
-              "apt_name": "탑마을(벽산)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 69.87,
-              "current_price": 145500.0,
-              "trade_count": 19
-            },
-            {
-              "id": "72e578a14f",
-              "apt_name": "샛별마을(삼부)",
-              "sigungu": "성남시분당구",
-              "dong_name": "분당동",
-              "area_m2": 59.82,
-              "current_price": 153000.0,
-              "trade_count": 21
-            },
-            {
-              "id": "223c4ee88f",
-              "apt_name": "무지개(4단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 58.14,
-              "current_price": 125090.0,
-              "trade_count": 37
-            },
-            {
-              "id": "ddc99cd55e",
-              "apt_name": "백현마을7단지(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 74.76,
-              "current_price": 245500.0,
-              "trade_count": 16
-            },
-            {
-              "id": "eb3c6ec33b",
-              "apt_name": "느티마을(4단지)(공무원)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 58.71,
-              "current_price": 185000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "00d6da7079",
-              "apt_name": "THESHARP판교퍼스트파크",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 84.8034,
-              "current_price": 156500.0,
+              "area_m2": 84.93,
+              "current_price": 178500.0,
               "trade_count": 18
             },
             {
@@ -80081,114 +79793,6 @@
               "area_m2": 68.16,
               "current_price": 131500.0,
               "trade_count": 16
-            },
-            {
-              "id": "ae2234f94c",
-              "apt_name": "무지개(4단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 59.98,
-              "current_price": 122679.0,
-              "trade_count": 18
-            },
-            {
-              "id": "d91626999f",
-              "apt_name": "시범우성",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 64.8,
-              "current_price": 169400.0,
-              "trade_count": 41
-            },
-            {
-              "id": "aeb6761b54",
-              "apt_name": "봇들마을3단지(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 74.45,
-              "current_price": 177500.0,
-              "trade_count": 23
-            },
-            {
-              "id": "31e899b22f",
-              "apt_name": "봇들마을4단지(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 84.69,
-              "current_price": 180000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "7a59cca857",
-              "apt_name": "시범삼성",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 59.995,
-              "current_price": 153500.0,
-              "trade_count": 23
-            },
-            {
-              "id": "2b7e2aac15",
-              "apt_name": "무지개(1단지)(대림)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 47.52,
-              "current_price": 82000.0,
-              "trade_count": 31
-            },
-            {
-              "id": "858688afe9",
-              "apt_name": "장미마을(현대)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 84.97,
-              "current_price": 160000.0,
-              "trade_count": 39
-            },
-            {
-              "id": "e16c91d694",
-              "apt_name": "이매촌(성지)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.9,
-              "current_price": 198800.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f29b20f22c",
-              "apt_name": "상록마을(보성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 67.435,
-              "current_price": 165000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "3df7944227",
-              "apt_name": "탑마을(대우)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 101.76,
-              "current_price": 165000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "38cd932162",
-              "apt_name": "판교원마을5단지(푸르지오)",
-              "sigungu": "성남시분당구",
-              "dong_name": "판교동",
-              "area_m2": 84.51,
-              "current_price": 191250.0,
-              "trade_count": 19
-            },
-            {
-              "id": "80612992cb",
-              "apt_name": "이매촌(삼환)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.93,
-              "current_price": 178500.0,
-              "trade_count": 18
             },
             {
               "id": "689d6860a6",
@@ -80308,6 +79912,15 @@
               "trade_count": 15
             },
             {
+              "id": "c9214c94da",
+              "apt_name": "양지마을(5단지)(한양515-529)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 101.93,
+              "current_price": 232000.0,
+              "trade_count": 19
+            },
+            {
               "id": "a8e4851b47",
               "apt_name": "파크타운(롯데)",
               "sigungu": "성남시분당구",
@@ -80315,24 +79928,6 @@
               "area_m2": 131.49,
               "current_price": 243000.0,
               "trade_count": 19
-            },
-            {
-              "id": "7edc11a234",
-              "apt_name": "판교푸르지오그랑블",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 103.9649,
-              "current_price": 364000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "42eb97a293",
-              "apt_name": "봇들마을1단지(판교신미주)",
-              "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 83.698,
-              "current_price": 168000.0,
-              "trade_count": 33
             },
             {
               "id": "bc4b5c5d68",
@@ -80344,6 +79939,15 @@
               "trade_count": 18
             },
             {
+              "id": "9acb4adcba",
+              "apt_name": "샛별마을(라이프)",
+              "sigungu": "성남시분당구",
+              "dong_name": "분당동",
+              "area_m2": 85.0,
+              "current_price": 162333.33333333334,
+              "trade_count": 29
+            },
+            {
               "id": "9e2327f551",
               "apt_name": "샛별마을(라이프)",
               "sigungu": "성남시분당구",
@@ -80351,33 +79955,6 @@
               "area_m2": 84.99,
               "current_price": 160000.0,
               "trade_count": 18
-            },
-            {
-              "id": "bd09c6ed89",
-              "apt_name": "청솔마을(대원)",
-              "sigungu": "성남시분당구",
-              "dong_name": "금곡동",
-              "area_m2": 84.97,
-              "current_price": 168000.0,
-              "trade_count": 30
-            },
-            {
-              "id": "c9214c94da",
-              "apt_name": "양지마을(5단지)(한양515-529)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 101.93,
-              "current_price": 232000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "6f2f7b299f",
-              "apt_name": "백현마을2단지",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 101.83,
-              "current_price": 280000.0,
-              "trade_count": 26
             },
             {
               "id": "8a121a3482",
@@ -80407,31 +79984,364 @@
               "trade_count": 38
             },
             {
-              "id": "f5d5c2e3aa",
-              "apt_name": "정든마을(2단지)(동아)",
+              "id": "e23651454c",
+              "apt_name": "효자촌(화성)",
               "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 84.97,
-              "current_price": 142500.0,
+              "dong_name": "서현동",
+              "area_m2": 84.696,
+              "current_price": 169800.0,
+              "trade_count": 17
+            },
+            {
+              "id": "5daf078e16",
+              "apt_name": "이매촌(동신3)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.6,
+              "current_price": 195350.0,
+              "trade_count": 16
+            },
+            {
+              "id": "5b0b13dd5c",
+              "apt_name": "봇들마을1단지(판교신미주)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 83.235,
+              "current_price": 196000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "b6e9e6a990",
+              "apt_name": "장미마을(현대)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 74.61,
+              "current_price": 144000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "bbbc2f3de0",
+              "apt_name": "매화마을공무원1",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 58.92,
+              "current_price": 106000.0,
+              "trade_count": 56
+            },
+            {
+              "id": "11d6d4c4fb",
+              "apt_name": "장미마을(동부)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 59.76,
+              "current_price": 133750.0,
+              "trade_count": 46
+            },
+            {
+              "id": "5eea0d1116",
+              "apt_name": "시범우성",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 59.73,
+              "current_price": 153000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "c5b69786ce",
+              "apt_name": "이매촌(삼성)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 73.25,
+              "current_price": 155000.0,
               "trade_count": 30
             },
             {
-              "id": "100ae22f55",
-              "apt_name": "푸른마을(신성)",
+              "id": "618bb004c9",
+              "apt_name": "양지마을(5단지)(한양501-514)",
               "sigungu": "성남시분당구",
               "dong_name": "수내동",
-              "area_m2": 84.72,
-              "current_price": 194500.0,
+              "area_m2": 48.51,
+              "current_price": 152000.0,
+              "trade_count": 43
+            },
+            {
+              "id": "93ec53a1b0",
+              "apt_name": "한솔마을(6단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 39.87,
+              "current_price": 119500.0,
+              "trade_count": 50
+            },
+            {
+              "id": "260e0a1e7f",
+              "apt_name": "한솔마을(4단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 35.28,
+              "current_price": 106800.0,
+              "trade_count": 119
+            },
+            {
+              "id": "7599f5cf9d",
+              "apt_name": "한솔마을(6단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 37.67,
+              "current_price": 95746.66666666667,
+              "trade_count": 116
+            },
+            {
+              "id": "915d3b4525",
+              "apt_name": "한솔마을(5단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 42.75,
+              "current_price": 114675.0,
+              "trade_count": 73
+            },
+            {
+              "id": "60fddae075",
+              "apt_name": "하얀마을(5단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 38.07,
+              "current_price": 88500.0,
+              "trade_count": 48
+            },
+            {
+              "id": "1a841b6716",
+              "apt_name": "양지마을(5단지)(한양501-514)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 28.16,
+              "current_price": 96750.0,
+              "trade_count": 35
+            },
+            {
+              "id": "3319b21a91",
+              "apt_name": "장미마을(현대)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 41.76,
+              "current_price": 92250.0,
+              "trade_count": 67
+            },
+            {
+              "id": "bc6d0b73e2",
+              "apt_name": "한솔마을(4단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 36.0,
+              "current_price": 103000.0,
+              "trade_count": 49
+            },
+            {
+              "id": "7f51289480",
+              "apt_name": "하얀마을(5단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 35.28,
+              "current_price": 90750.0,
+              "trade_count": 64
+            },
+            {
+              "id": "5b2a2fc922",
+              "apt_name": "시범한양",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 28.71,
+              "current_price": 99000.0,
+              "trade_count": 87
+            },
+            {
+              "id": "f88798f444",
+              "apt_name": "시범한양",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 35.1,
+              "current_price": 125750.0,
+              "trade_count": 99
+            },
+            {
+              "id": "e73503365f",
+              "apt_name": "양지마을(5단지)(한양501-514)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 35.1,
+              "current_price": 119045.45454545454,
+              "trade_count": 129
+            },
+            {
+              "id": "d15cb1b3ad",
+              "apt_name": "청솔마을(주공9단지)",
+              "sigungu": "성남시분당구",
+              "dong_name": "금곡동",
+              "area_m2": 42.84,
+              "current_price": 118666.66666666667,
+              "trade_count": 76
+            },
+            {
+              "id": "db1f8ae451",
+              "apt_name": "탑마을(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 35.28,
+              "current_price": 76300.0,
+              "trade_count": 55
+            },
+            {
+              "id": "a80e7bc7c9",
+              "apt_name": "청솔마을(주공9단지)",
+              "sigungu": "성남시분당구",
+              "dong_name": "금곡동",
+              "area_m2": 36.54,
+              "current_price": 105500.0,
+              "trade_count": 131
+            },
+            {
+              "id": "501d7ec08e",
+              "apt_name": "한솔마을(4단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 41.85,
+              "current_price": 117200.0,
+              "trade_count": 103
+            },
+            {
+              "id": "7beb938025",
+              "apt_name": "매화마을(주공4)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 41.85,
+              "current_price": 83500.0,
+              "trade_count": 47
+            },
+            {
+              "id": "e5cac77360",
+              "apt_name": "무지개(3단지)(건영)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 53.83,
+              "current_price": 112625.0,
+              "trade_count": 29
+            },
+            {
+              "id": "954ee2945b",
+              "apt_name": "이매촌(금강)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 50.82,
+              "current_price": 124000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "112c3daa0e",
+              "apt_name": "효자촌(대창)",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 70.686,
+              "current_price": 145000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "9106c1547d",
+              "apt_name": "산운마을13단지(태영)",
+              "sigungu": "성남시분당구",
+              "dong_name": "운중동",
+              "area_m2": 84.82,
+              "current_price": 160000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "e44ca41ff0",
+              "apt_name": "탑마을(벽산)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 69.87,
+              "current_price": 145500.0,
+              "trade_count": 19
+            },
+            {
+              "id": "1c7fceb7a1",
+              "apt_name": "아름마을(삼호)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.84,
+              "current_price": 179000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "286e50fc12",
+              "apt_name": "이매촌(삼성)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.94,
+              "current_price": 184900.0,
+              "trade_count": 20
+            },
+            {
+              "id": "ba0fdf9666",
+              "apt_name": "장안타운(건영)",
+              "sigungu": "성남시분당구",
+              "dong_name": "분당동",
+              "area_m2": 70.68,
+              "current_price": 133750.0,
               "trade_count": 37
             },
             {
-              "id": "d77ac30d63",
-              "apt_name": "상록마을(임광)",
+              "id": "7e31cd1c74",
+              "apt_name": "산운마을13단지(태영)",
+              "sigungu": "성남시분당구",
+              "dong_name": "운중동",
+              "area_m2": 101.67,
+              "current_price": 182500.0,
+              "trade_count": 31
+            },
+            {
+              "id": "060c5efd73",
+              "apt_name": "정든마을(7단지)(한진)",
               "sigungu": "성남시분당구",
               "dong_name": "정자동",
-              "area_m2": 84.97,
-              "current_price": 192000.0,
-              "trade_count": 15
+              "area_m2": 68.04,
+              "current_price": 150000.0,
+              "trade_count": 29
+            },
+            {
+              "id": "4e5f2d6791",
+              "apt_name": "무지개(2단지)(엘지)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 84.822,
+              "current_price": 149000.0,
+              "trade_count": 30
+            },
+            {
+              "id": "88768bcf4e",
+              "apt_name": "한솔마을(2단지)(LG)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 101.85,
+              "current_price": 185250.0,
+              "trade_count": 24
+            },
+            {
+              "id": "5896e71cf2",
+              "apt_name": "탑마을(선경)1",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 83.73,
+              "current_price": 163000.0,
+              "trade_count": 41
+            },
+            {
+              "id": "ee7258a879",
+              "apt_name": "효자촌(화성)",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 70.686,
+              "current_price": 151500.0,
+              "trade_count": 21
             },
             {
               "id": "44d409e5ac",
@@ -80443,67 +80353,13 @@
               "trade_count": 15
             },
             {
-              "id": "5c6c0d4bf0",
-              "apt_name": "양지마을(5단지)(한양515-529)",
+              "id": "4372fe2eb2",
+              "apt_name": "느티마을(4단지)(공무원)",
               "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 84.9,
-              "current_price": 230000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "87730b1917",
-              "apt_name": "백현마을5단지(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "백현동",
-              "area_m2": 84.7,
-              "current_price": 252000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "91665013f3",
-              "apt_name": "파크타운(롯데)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 101.835,
-              "current_price": 220000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "2a17aa81bd",
-              "apt_name": "샛별마을(삼부)",
-              "sigungu": "성남시분당구",
-              "dong_name": "분당동",
-              "area_m2": 84.6,
-              "current_price": 173500.0,
-              "trade_count": 24
-            },
-            {
-              "id": "214aa3964f",
-              "apt_name": "이매촌(한신)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.9,
-              "current_price": 168000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "95fbcd05d8",
-              "apt_name": "시범한신",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 84.69,
-              "current_price": 225833.33333333334,
-              "trade_count": 96
-            },
-            {
-              "id": "af27aea756",
-              "apt_name": "청솔마을(계룡)",
-              "sigungu": "성남시분당구",
-              "dong_name": "금곡동",
-              "area_m2": 84.97,
-              "current_price": 183500.0,
-              "trade_count": 19
+              "dong_name": "정자동",
+              "area_m2": 67.43,
+              "current_price": 191500.0,
+              "trade_count": 28
             },
             {
               "id": "30f2d01977",
@@ -80515,6 +80371,51 @@
               "trade_count": 19
             },
             {
+              "id": "42eb97a293",
+              "apt_name": "봇들마을1단지(판교신미주)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 83.698,
+              "current_price": 168000.0,
+              "trade_count": 33
+            },
+            {
+              "id": "31e899b22f",
+              "apt_name": "봇들마을4단지(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 84.69,
+              "current_price": 180000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "aeb6761b54",
+              "apt_name": "봇들마을3단지(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 74.45,
+              "current_price": 177500.0,
+              "trade_count": 23
+            },
+            {
+              "id": "7a59cca857",
+              "apt_name": "시범삼성",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 59.995,
+              "current_price": 153500.0,
+              "trade_count": 23
+            },
+            {
+              "id": "2b7e2aac15",
+              "apt_name": "무지개(1단지)(대림)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 47.52,
+              "current_price": 82000.0,
+              "trade_count": 31
+            },
+            {
               "id": "810e473c49",
               "apt_name": "시범현대",
               "sigungu": "성남시분당구",
@@ -80522,6 +80423,24 @@
               "area_m2": 84.95,
               "current_price": 198000.0,
               "trade_count": 32
+            },
+            {
+              "id": "2a17aa81bd",
+              "apt_name": "샛별마을(삼부)",
+              "sigungu": "성남시분당구",
+              "dong_name": "분당동",
+              "area_m2": 84.6,
+              "current_price": 173500.0,
+              "trade_count": 24
+            },
+            {
+              "id": "00d6da7079",
+              "apt_name": "THESHARP판교퍼스트파크",
+              "sigungu": "성남시분당구",
+              "dong_name": "백현동",
+              "area_m2": 84.8034,
+              "current_price": 156500.0,
+              "trade_count": 18
             },
             {
               "id": "33597fe675",
@@ -80578,15 +80497,6 @@
               "trade_count": 26
             },
             {
-              "id": "8b9ebe0ac1",
-              "apt_name": "아름마을(두산)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 84.84,
-              "current_price": 170000.0,
-              "trade_count": 21
-            },
-            {
               "id": "5ac1485f0d",
               "apt_name": "백현마을7단지(주공)",
               "sigungu": "성남시분당구",
@@ -80594,6 +80504,15 @@
               "area_m2": 84.73,
               "current_price": 245000.0,
               "trade_count": 25
+            },
+            {
+              "id": "6f2f7b299f",
+              "apt_name": "백현마을2단지",
+              "sigungu": "성남시분당구",
+              "dong_name": "백현동",
+              "area_m2": 101.83,
+              "current_price": 280000.0,
+              "trade_count": 26
             },
             {
               "id": "c0001ceb1a",
@@ -80612,15 +80531,6 @@
               "area_m2": 101.91,
               "current_price": 219500.0,
               "trade_count": 19
-            },
-            {
-              "id": "b53d7cbf1d",
-              "apt_name": "까치마을(3단지)(신원)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 84.8,
-              "current_price": 178000.0,
-              "trade_count": 26
             },
             {
               "id": "c8eceb9d17",
@@ -80650,15 +80560,6 @@
               "trade_count": 22
             },
             {
-              "id": "1a611692e5",
-              "apt_name": "양지마을(금호1)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 84.9,
-              "current_price": 229500.0,
-              "trade_count": 42
-            },
-            {
               "id": "d537c1e0af",
               "apt_name": "정든마을(6단지)(우성)",
               "sigungu": "성남시분당구",
@@ -80668,22 +80569,13 @@
               "trade_count": 19
             },
             {
-              "id": "e3a1886ce8",
-              "apt_name": "효자촌(삼환)",
+              "id": "7edc11a234",
+              "apt_name": "판교푸르지오그랑블",
               "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 84.157,
-              "current_price": 168500.0,
-              "trade_count": 22
-            },
-            {
-              "id": "1473dd9784",
-              "apt_name": "장미마을(동부)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 84.99,
-              "current_price": 157000.0,
-              "trade_count": 39
+              "dong_name": "백현동",
+              "area_m2": 103.9649,
+              "current_price": 364000.0,
+              "trade_count": 25
             },
             {
               "id": "67e5a9e2e9",
@@ -80704,13 +80596,22 @@
               "trade_count": 28
             },
             {
-              "id": "54cdb1f02a",
-              "apt_name": "푸른마을(쌍용)",
+              "id": "0f791d5635",
+              "apt_name": "무지개(3단지)(신한)",
               "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 84.72,
-              "current_price": 191000.0,
-              "trade_count": 51
+              "dong_name": "구미동",
+              "area_m2": 84.768,
+              "current_price": 139333.33333333334,
+              "trade_count": 20
+            },
+            {
+              "id": "f5d5c2e3aa",
+              "apt_name": "정든마을(2단지)(동아)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 84.97,
+              "current_price": 142500.0,
+              "trade_count": 30
             },
             {
               "id": "6a556a897b",
@@ -80720,6 +80621,15 @@
               "area_m2": 101.91,
               "current_price": 178000.0,
               "trade_count": 17
+            },
+            {
+              "id": "100ae22f55",
+              "apt_name": "푸른마을(신성)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 84.72,
+              "current_price": 194500.0,
+              "trade_count": 37
             },
             {
               "id": "5673268f36",
@@ -80740,6 +80650,15 @@
               "trade_count": 17
             },
             {
+              "id": "1473dd9784",
+              "apt_name": "장미마을(동부)",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 84.99,
+              "current_price": 157000.0,
+              "trade_count": 39
+            },
+            {
               "id": "4fb30a62a0",
               "apt_name": "파크타운(서안)",
               "sigungu": "성남시분당구",
@@ -80747,6 +80666,204 @@
               "area_m2": 101.91,
               "current_price": 230000.0,
               "trade_count": 15
+            },
+            {
+              "id": "d77ac30d63",
+              "apt_name": "상록마을(임광)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 84.97,
+              "current_price": 192000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "3d811c3e01",
+              "apt_name": "봇들마을2단지(이지더원)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 84.2822,
+              "current_price": 199000.0,
+              "trade_count": 77
+            },
+            {
+              "id": "9d49c72c0f",
+              "apt_name": "봇들마을8단지(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "삼평동",
+              "area_m2": 101.84,
+              "current_price": 342000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "5c6c0d4bf0",
+              "apt_name": "양지마을(5단지)(한양515-529)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 84.9,
+              "current_price": 230000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "e16c91d694",
+              "apt_name": "이매촌(성지)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.9,
+              "current_price": 198800.0,
+              "trade_count": 19
+            },
+            {
+              "id": "af27aea756",
+              "apt_name": "청솔마을(계룡)",
+              "sigungu": "성남시분당구",
+              "dong_name": "금곡동",
+              "area_m2": 84.97,
+              "current_price": 183500.0,
+              "trade_count": 19
+            },
+            {
+              "id": "2647d63572",
+              "apt_name": "푸른마을(벽산)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 84.72,
+              "current_price": 175000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "ba717c9da8",
+              "apt_name": "파크타운(삼익)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 101.835,
+              "current_price": 225000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "91665013f3",
+              "apt_name": "파크타운(롯데)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 101.835,
+              "current_price": 220000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "a3f044305d",
+              "apt_name": "시범한양",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 84.93,
+              "current_price": 228000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "214aa3964f",
+              "apt_name": "이매촌(한신)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.9,
+              "current_price": 168000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "8b9ebe0ac1",
+              "apt_name": "아름마을(두산)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 84.84,
+              "current_price": 170000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "bd09c6ed89",
+              "apt_name": "청솔마을(대원)",
+              "sigungu": "성남시분당구",
+              "dong_name": "금곡동",
+              "area_m2": 84.97,
+              "current_price": 168000.0,
+              "trade_count": 30
+            },
+            {
+              "id": "6299f5566a",
+              "apt_name": "판교원마을9단지(한림풀에버)",
+              "sigungu": "성남시분당구",
+              "dong_name": "판교동",
+              "area_m2": 84.9505,
+              "current_price": 179000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "b53d7cbf1d",
+              "apt_name": "까치마을(3단지)(신원)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 84.8,
+              "current_price": 178000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "f9012d5506",
+              "apt_name": "산운마을13단지(태영)",
+              "sigungu": "성남시분당구",
+              "dong_name": "운중동",
+              "area_m2": 84.92,
+              "current_price": 166500.0,
+              "trade_count": 18
+            },
+            {
+              "id": "2c9c0f4143",
+              "apt_name": "아름마을(선경)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 83.58,
+              "current_price": 198100.0,
+              "trade_count": 31
+            },
+            {
+              "id": "1a611692e5",
+              "apt_name": "양지마을(금호1)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 84.9,
+              "current_price": 229500.0,
+              "trade_count": 42
+            },
+            {
+              "id": "e3a1886ce8",
+              "apt_name": "효자촌(삼환)",
+              "sigungu": "성남시분당구",
+              "dong_name": "서현동",
+              "area_m2": 84.157,
+              "current_price": 168500.0,
+              "trade_count": 22
+            },
+            {
+              "id": "54cdb1f02a",
+              "apt_name": "푸른마을(쌍용)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 84.72,
+              "current_price": 191000.0,
+              "trade_count": 51
+            },
+            {
+              "id": "ab33531b03",
+              "apt_name": "이매촌(한신)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 66.27,
+              "current_price": 173000.0,
+              "trade_count": 61
+            },
+            {
+              "id": "38cd932162",
+              "apt_name": "판교원마을5단지(푸르지오)",
+              "sigungu": "성남시분당구",
+              "dong_name": "판교동",
+              "area_m2": 84.51,
+              "current_price": 191250.0,
+              "trade_count": 19
             },
             {
               "id": "b9db51a7cf",
@@ -80776,39 +80893,48 @@
               "trade_count": 42
             },
             {
-              "id": "7e31cd1c74",
-              "apt_name": "산운마을13단지(태영)",
-              "sigungu": "성남시분당구",
-              "dong_name": "운중동",
-              "area_m2": 101.67,
-              "current_price": 182500.0,
-              "trade_count": 31
-            },
-            {
-              "id": "3d811c3e01",
-              "apt_name": "봇들마을2단지(이지더원)",
+              "id": "c722cc149f",
+              "apt_name": "봇들마을4단지(주공)",
               "sigungu": "성남시분당구",
               "dong_name": "삼평동",
-              "area_m2": 84.2822,
-              "current_price": 199000.0,
-              "trade_count": 77
+              "area_m2": 74.45,
+              "current_price": 209000.0,
+              "trade_count": 18
             },
             {
-              "id": "060c5efd73",
-              "apt_name": "정든마을(7단지)(한진)",
+              "id": "610420327b",
+              "apt_name": "상록마을(우성)1",
               "sigungu": "성남시분당구",
               "dong_name": "정자동",
-              "area_m2": 68.04,
-              "current_price": 150000.0,
-              "trade_count": 29
+              "area_m2": 69.12,
+              "current_price": 201500.0,
+              "trade_count": 54
             },
             {
-              "id": "9d49c72c0f",
-              "apt_name": "봇들마을8단지(주공)",
+              "id": "eb3c6ec33b",
+              "apt_name": "느티마을(4단지)(공무원)",
               "sigungu": "성남시분당구",
-              "dong_name": "삼평동",
-              "area_m2": 101.84,
-              "current_price": 342000.0,
+              "dong_name": "정자동",
+              "area_m2": 58.71,
+              "current_price": 185000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "223c4ee88f",
+              "apt_name": "무지개(4단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 58.14,
+              "current_price": 125090.0,
+              "trade_count": 37
+            },
+            {
+              "id": "ddc99cd55e",
+              "apt_name": "백현마을7단지(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "백현동",
+              "area_m2": 74.76,
+              "current_price": 245500.0,
               "trade_count": 16
             },
             {
@@ -80821,229 +80947,22 @@
               "trade_count": 33
             },
             {
-              "id": "2647d63572",
-              "apt_name": "푸른마을(벽산)",
+              "id": "87730b1917",
+              "apt_name": "백현마을5단지(주공)",
               "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 84.72,
-              "current_price": 175000.0,
-              "trade_count": 21
-            },
-            {
-              "id": "ba717c9da8",
-              "apt_name": "파크타운(삼익)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 101.835,
-              "current_price": 225000.0,
+              "dong_name": "백현동",
+              "area_m2": 84.7,
+              "current_price": 252000.0,
               "trade_count": 15
             },
             {
-              "id": "5841397c32",
-              "apt_name": "시범현대",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 59.55,
-              "current_price": 167300.0,
-              "trade_count": 32
-            },
-            {
-              "id": "497523e477",
-              "apt_name": "양지마을(6단지)(금호,청구)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 55.44,
-              "current_price": 153000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "1ab27ca500",
-              "apt_name": "까치마을(4단지)(롯데)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 51.32,
-              "current_price": 132666.66666666666,
-              "trade_count": 32
-            },
-            {
-              "id": "11d6d4c4fb",
-              "apt_name": "장미마을(동부)",
+              "id": "858688afe9",
+              "apt_name": "장미마을(현대)",
               "sigungu": "성남시분당구",
               "dong_name": "야탑동",
-              "area_m2": 59.76,
-              "current_price": 133750.0,
-              "trade_count": 46
-            },
-            {
-              "id": "610420327b",
-              "apt_name": "상록마을(우성)1",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 69.12,
-              "current_price": 201500.0,
-              "trade_count": 54
-            },
-            {
-              "id": "02418f7f53",
-              "apt_name": "목련마을SK",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 59.93,
-              "current_price": 66166.66666666667,
-              "trade_count": 40
-            },
-            {
-              "id": "d43af147f7",
-              "apt_name": "산운마을12단지판교센트럴포레와이시티",
-              "sigungu": "성남시분당구",
-              "dong_name": "운중동",
-              "area_m2": 59.84,
-              "current_price": 163300.0,
-              "trade_count": 30
-            },
-            {
-              "id": "e5cac77360",
-              "apt_name": "무지개(3단지)(건영)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 53.83,
-              "current_price": 112625.0,
-              "trade_count": 29
-            },
-            {
-              "id": "954ee2945b",
-              "apt_name": "이매촌(금강)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 50.82,
-              "current_price": 124000.0,
-              "trade_count": 21
-            },
-            {
-              "id": "bc6d0b73e2",
-              "apt_name": "한솔마을(4단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 36.0,
-              "current_price": 103000.0,
-              "trade_count": 49
-            },
-            {
-              "id": "ad397dc8fb",
-              "apt_name": "아름마을(선경)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 41.76,
-              "current_price": 140000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "39d5e93412",
-              "apt_name": "상록마을(라이프2차)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 49.14,
-              "current_price": 153000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "5b2a2fc922",
-              "apt_name": "시범한양",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 28.71,
-              "current_price": 99000.0,
-              "trade_count": 87
-            },
-            {
-              "id": "f88798f444",
-              "apt_name": "시범한양",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 35.1,
-              "current_price": 125750.0,
-              "trade_count": 99
-            },
-            {
-              "id": "501d7ec08e",
-              "apt_name": "한솔마을(4단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 41.85,
-              "current_price": 117200.0,
-              "trade_count": 103
-            },
-            {
-              "id": "7beb938025",
-              "apt_name": "매화마을(주공4)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 41.85,
-              "current_price": 83500.0,
-              "trade_count": 47
-            },
-            {
-              "id": "db1f8ae451",
-              "apt_name": "탑마을(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 35.28,
-              "current_price": 76300.0,
-              "trade_count": 55
-            },
-            {
-              "id": "a80e7bc7c9",
-              "apt_name": "청솔마을(주공9단지)",
-              "sigungu": "성남시분당구",
-              "dong_name": "금곡동",
-              "area_m2": 36.54,
-              "current_price": 105500.0,
-              "trade_count": 131
-            },
-            {
-              "id": "7f51289480",
-              "apt_name": "하얀마을(5단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 35.28,
-              "current_price": 90750.0,
-              "trade_count": 64
-            },
-            {
-              "id": "af8c7bf0da",
-              "apt_name": "하얀마을(5단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 39.01,
-              "current_price": 98500.0,
-              "trade_count": 29
-            },
-            {
-              "id": "60fddae075",
-              "apt_name": "하얀마을(5단지)(주공)",
-              "sigungu": "성남시분당구",
-              "dong_name": "구미동",
-              "area_m2": 38.07,
-              "current_price": 88500.0,
-              "trade_count": 48
-            },
-            {
-              "id": "e73503365f",
-              "apt_name": "양지마을(5단지)(한양501-514)",
-              "sigungu": "성남시분당구",
-              "dong_name": "수내동",
-              "area_m2": 35.1,
-              "current_price": 119045.45454545454,
-              "trade_count": 129
-            },
-            {
-              "id": "ff43517da3",
-              "apt_name": "효자촌(화성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "서현동",
-              "area_m2": 53.82,
-              "current_price": 113000.0,
-              "trade_count": 36
+              "area_m2": 84.97,
+              "current_price": 160000.0,
+              "trade_count": 39
             },
             {
               "id": "7cd9017c0a",
@@ -81055,15 +80974,6 @@
               "trade_count": 18
             },
             {
-              "id": "3319b21a91",
-              "apt_name": "장미마을(현대)",
-              "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 41.76,
-              "current_price": 92250.0,
-              "trade_count": 67
-            },
-            {
               "id": "b8ef31120c",
               "apt_name": "봇들마을4단지(주공)",
               "sigungu": "성남시분당구",
@@ -81073,31 +80983,40 @@
               "trade_count": 45
             },
             {
-              "id": "8d218f58c5",
-              "apt_name": "정든마을(5단지)(신화)",
+              "id": "5841397c32",
+              "apt_name": "시범현대",
               "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 52.44,
-              "current_price": 150000.0,
-              "trade_count": 16
+              "dong_name": "서현동",
+              "area_m2": 59.55,
+              "current_price": 167300.0,
+              "trade_count": 32
             },
             {
-              "id": "bbbc2f3de0",
-              "apt_name": "매화마을공무원1",
+              "id": "d91626999f",
+              "apt_name": "시범우성",
               "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 58.92,
-              "current_price": 106000.0,
-              "trade_count": 56
+              "dong_name": "서현동",
+              "area_m2": 64.8,
+              "current_price": 169400.0,
+              "trade_count": 41
             },
             {
-              "id": "ab33531b03",
-              "apt_name": "이매촌(한신)",
+              "id": "f32f5239b5",
+              "apt_name": "양지마을(6단지)(한양603동)",
               "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 66.27,
-              "current_price": 173000.0,
-              "trade_count": 61
+              "dong_name": "수내동",
+              "area_m2": 59.76,
+              "current_price": 151500.0,
+              "trade_count": 15
+            },
+            {
+              "id": "1ab27ca500",
+              "apt_name": "까치마을(4단지)(롯데)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 51.32,
+              "current_price": 132666.66666666666,
+              "trade_count": 32
             },
             {
               "id": "412108bf66",
@@ -81109,6 +81028,42 @@
               "trade_count": 22
             },
             {
+              "id": "36164bddb6",
+              "apt_name": "무지개(1단지)(대림)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 60.72,
+              "current_price": 100500.0,
+              "trade_count": 32
+            },
+            {
+              "id": "72e578a14f",
+              "apt_name": "샛별마을(삼부)",
+              "sigungu": "성남시분당구",
+              "dong_name": "분당동",
+              "area_m2": 59.82,
+              "current_price": 153000.0,
+              "trade_count": 21
+            },
+            {
+              "id": "af8c7bf0da",
+              "apt_name": "하얀마을(5단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "구미동",
+              "area_m2": 39.01,
+              "current_price": 98500.0,
+              "trade_count": 29
+            },
+            {
+              "id": "497523e477",
+              "apt_name": "양지마을(6단지)(금호,청구)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 55.44,
+              "current_price": 153000.0,
+              "trade_count": 17
+            },
+            {
               "id": "d9fb4c62ec",
               "apt_name": "무지개(12단지)(주공뜨란체)",
               "sigungu": "성남시분당구",
@@ -81118,24 +81073,6 @@
               "trade_count": 34
             },
             {
-              "id": "da6c38ad49",
-              "apt_name": "판교원마을6단지(판교대광로제비앙)",
-              "sigungu": "성남시분당구",
-              "dong_name": "판교동",
-              "area_m2": 58.24,
-              "current_price": 136400.0,
-              "trade_count": 18
-            },
-            {
-              "id": "d15cb1b3ad",
-              "apt_name": "청솔마을(주공9단지)",
-              "sigungu": "성남시분당구",
-              "dong_name": "금곡동",
-              "area_m2": 42.84,
-              "current_price": 118666.66666666667,
-              "trade_count": 76
-            },
-            {
               "id": "6772a7f404",
               "apt_name": "한솔마을(4단지)(주공)",
               "sigungu": "성남시분당구",
@@ -81143,6 +81080,24 @@
               "area_m2": 42.75,
               "current_price": 123800.0,
               "trade_count": 56
+            },
+            {
+              "id": "02418f7f53",
+              "apt_name": "목련마을SK",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 59.93,
+              "current_price": 66166.66666666667,
+              "trade_count": 40
+            },
+            {
+              "id": "64db449fc1",
+              "apt_name": "양지마을(6단지)(금호,청구)",
+              "sigungu": "성남시분당구",
+              "dong_name": "수내동",
+              "area_m2": 59.94,
+              "current_price": 154000.0,
+              "trade_count": 16
             },
             {
               "id": "5b939197d5",
@@ -81163,13 +81118,67 @@
               "trade_count": 36
             },
             {
-              "id": "36164bddb6",
-              "apt_name": "무지개(1단지)(대림)",
+              "id": "ad397dc8fb",
+              "apt_name": "아름마을(선경)",
+              "sigungu": "성남시분당구",
+              "dong_name": "이매동",
+              "area_m2": 41.76,
+              "current_price": 140000.0,
+              "trade_count": 17
+            },
+            {
+              "id": "39d5e93412",
+              "apt_name": "상록마을(라이프2차)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 49.14,
+              "current_price": 153000.0,
+              "trade_count": 19
+            },
+            {
+              "id": "ae2234f94c",
+              "apt_name": "무지개(4단지)(주공)",
               "sigungu": "성남시분당구",
               "dong_name": "구미동",
-              "area_m2": 60.72,
-              "current_price": 100500.0,
-              "trade_count": 32
+              "area_m2": 59.98,
+              "current_price": 122679.0,
+              "trade_count": 18
+            },
+            {
+              "id": "d43af147f7",
+              "apt_name": "산운마을12단지판교센트럴포레와이시티",
+              "sigungu": "성남시분당구",
+              "dong_name": "운중동",
+              "area_m2": 59.84,
+              "current_price": 163300.0,
+              "trade_count": 30
+            },
+            {
+              "id": "8d218f58c5",
+              "apt_name": "정든마을(5단지)(신화)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 52.44,
+              "current_price": 150000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "1a3b1c0b46",
+              "apt_name": "한솔마을(5단지)(주공)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 51.66,
+              "current_price": 150000.0,
+              "trade_count": 29
+            },
+            {
+              "id": "da6c38ad49",
+              "apt_name": "판교원마을6단지(판교대광로제비앙)",
+              "sigungu": "성남시분당구",
+              "dong_name": "판교동",
+              "area_m2": 58.24,
+              "current_price": 136400.0,
+              "trade_count": 18
             },
             {
               "id": "78cff62f69",
@@ -81197,15 +81206,6 @@
               "area_m2": 71.8438,
               "current_price": 164350.0,
               "trade_count": 46
-            },
-            {
-              "id": "91a50188fa",
-              "apt_name": "정든마을(5단지)(신화)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 69.93,
-              "current_price": 159500.0,
-              "trade_count": 27
             },
             {
               "id": "4ebc93df38",
@@ -81242,15 +81242,6 @@
               "area_m2": 70.66,
               "current_price": 168000.0,
               "trade_count": 30
-            },
-            {
-              "id": "1005d900e4",
-              "apt_name": "이매촌(한신)",
-              "sigungu": "성남시분당구",
-              "dong_name": "이매동",
-              "area_m2": 50.1,
-              "current_price": 149080.0,
-              "trade_count": 96
             },
             {
               "id": "68f8ab5b16",
@@ -81330,8 +81321,8 @@
               "sigungu": "성남시분당구",
               "dong_name": "삼평동",
               "area_m2": 59.95,
-              "current_price": 192000.0,
-              "trade_count": 37
+              "current_price": 193500.0,
+              "trade_count": 38
             },
             {
               "id": "839a8eb915",
@@ -81415,6 +81406,24 @@
               "trade_count": 34
             },
             {
+              "id": "91a50188fa",
+              "apt_name": "정든마을(5단지)(신화)",
+              "sigungu": "성남시분당구",
+              "dong_name": "정자동",
+              "area_m2": 69.93,
+              "current_price": 172000.0,
+              "trade_count": 28
+            },
+            {
+              "id": "7f1507511c",
+              "apt_name": "청솔마을(영남)",
+              "sigungu": "성남시분당구",
+              "dong_name": "금곡동",
+              "area_m2": 53.6,
+              "current_price": 151000.0,
+              "trade_count": 15
+            },
+            {
               "id": "56dad7ceb5",
               "apt_name": "파크타운(대림)",
               "sigungu": "성남시분당구",
@@ -81451,6 +81460,24 @@
               "trade_count": 27
             },
             {
+              "id": "e5e7d9d32b",
+              "apt_name": "매화마을공무원2",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 58.71,
+              "current_price": 105655.0,
+              "trade_count": 161
+            },
+            {
+              "id": "c0833b077d",
+              "apt_name": "매화마을공무원2",
+              "sigungu": "성남시분당구",
+              "dong_name": "야탑동",
+              "area_m2": 67.43,
+              "current_price": 118500.0,
+              "trade_count": 27
+            },
+            {
               "id": "db0915b65e",
               "apt_name": "탑마을(선경)1",
               "sigungu": "성남시분당구",
@@ -81478,15 +81505,6 @@
               "trade_count": 18
             },
             {
-              "id": "afa46f8ad1",
-              "apt_name": "정든마을(6단지)(우성)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 48.84,
-              "current_price": 122000.0,
-              "trade_count": 82
-            },
-            {
               "id": "a1f22de337",
               "apt_name": "청솔마을(공무원)",
               "sigungu": "성남시분당구",
@@ -81496,22 +81514,22 @@
               "trade_count": 23
             },
             {
-              "id": "e5e7d9d32b",
-              "apt_name": "매화마을공무원2",
+              "id": "afa46f8ad1",
+              "apt_name": "정든마을(6단지)(우성)",
               "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 58.71,
-              "current_price": 106172.22222222222,
-              "trade_count": 160
+              "dong_name": "정자동",
+              "area_m2": 48.84,
+              "current_price": 122500.0,
+              "trade_count": 83
             },
             {
-              "id": "c0833b077d",
-              "apt_name": "매화마을공무원2",
+              "id": "be509b32de",
+              "apt_name": "한솔마을(1단지)(청구)",
               "sigungu": "성남시분당구",
-              "dong_name": "야탑동",
-              "area_m2": 67.43,
-              "current_price": 118500.0,
-              "trade_count": 27
+              "dong_name": "정자동",
+              "area_m2": 49.35,
+              "current_price": 134500.0,
+              "trade_count": 44
             },
             {
               "id": "1ce9bcfc46",
@@ -81550,15 +81568,6 @@
               "trade_count": 24
             },
             {
-              "id": "ce14a508ae",
-              "apt_name": "산운마을12단지판교센트럴포레와이시티",
-              "sigungu": "성남시분당구",
-              "dong_name": "운중동",
-              "area_m2": 55.44,
-              "current_price": 139900.0,
-              "trade_count": 25
-            },
-            {
               "id": "29ffadb0c8",
               "apt_name": "상록마을(임광)",
               "sigungu": "성남시분당구",
@@ -81586,6 +81595,15 @@
               "trade_count": 20
             },
             {
+              "id": "ce14a508ae",
+              "apt_name": "산운마을12단지판교센트럴포레와이시티",
+              "sigungu": "성남시분당구",
+              "dong_name": "운중동",
+              "area_m2": 55.44,
+              "current_price": 149500.0,
+              "trade_count": 26
+            },
+            {
               "id": "a603cd7e50",
               "apt_name": "까치마을(2단지)(주공)",
               "sigungu": "성남시분당구",
@@ -81593,15 +81611,6 @@
               "area_m2": 59.98,
               "current_price": 154000.0,
               "trade_count": 37
-            },
-            {
-              "id": "be509b32de",
-              "apt_name": "한솔마을(1단지)(청구)",
-              "sigungu": "성남시분당구",
-              "dong_name": "정자동",
-              "area_m2": 49.35,
-              "current_price": 133000.0,
-              "trade_count": 43
             },
             {
               "id": "58ddf95495",
@@ -83932,7 +83941,7 @@
               "dong_name": "비산동",
               "area_m2": 59.82,
               "current_price": 84250.0,
-              "trade_count": 49
+              "trade_count": 48
             },
             {
               "id": "b4bce88961",
@@ -83950,7 +83959,7 @@
               "dong_name": "비산동",
               "area_m2": 71.175,
               "current_price": 88900.0,
-              "trade_count": 30
+              "trade_count": 29
             },
             {
               "id": "9dfb138dea",
@@ -88867,14 +88876,14 @@
           "current_price": 95746.66666666667,
           "recent_avg": 99597.7777777778,
           "avg_36": 73519.7981714466,
-          "compare_avg_recent": 109665.27777777778,
-          "compare_avg_36": 71043.12189353856,
-          "cluster_avg": 168525.7,
-          "gap_pct": -12.67,
+          "compare_avg_recent": 109848.61111111112,
+          "compare_avg_36": 71058.39967131634,
+          "cluster_avg": 168762.23,
+          "gap_pct": -12.8,
           "status": "undervalued",
           "trade_count": 116,
           "recent_3m_trades": 6,
-          "cluster_size": 229,
+          "cluster_size": 232,
           "compare": [
             {
               "id": "260e0a1e7f",
@@ -88882,12 +88891,12 @@
               "sigungu": "성남시분당구",
               "dong_name": "정자동",
               "area_m2": 35.28,
-              "current_price": 106250.0,
-              "recent_avg": 105108.33333333333,
-              "avg_36": 69474.71600929933,
-              "trade_count": 118,
-              "corr": 0.935,
-              "hist_diff_pct": 7.83
+              "current_price": 106800.0,
+              "recent_avg": 105475.0,
+              "avg_36": 69505.27156485489,
+              "trade_count": 119,
+              "corr": 0.934,
+              "hist_diff_pct": 7.86
             },
             {
               "id": "501d7ec08e",
@@ -89277,14 +89286,14 @@
               "current_price": 95746.66666666667,
               "recent_avg": 99597.7777777778,
               "avg_36": 73519.7981714466,
-              "compare_avg_recent": 109665.27777777778,
-              "compare_avg_36": 71043.12189353856,
-              "cluster_avg": 168525.7,
-              "gap_pct": -12.67,
+              "compare_avg_recent": 109848.61111111112,
+              "compare_avg_36": 71058.39967131634,
+              "cluster_avg": 168762.23,
+              "gap_pct": -12.8,
               "status": "undervalued",
               "trade_count": 116,
               "recent_3m_trades": 6,
-              "cluster_size": 229,
+              "cluster_size": 232,
               "compare": [
                 {
                   "id": "260e0a1e7f",
@@ -89292,12 +89301,12 @@
                   "sigungu": "성남시분당구",
                   "dong_name": "정자동",
                   "area_m2": 35.28,
-                  "current_price": 106250.0,
-                  "recent_avg": 105108.33333333333,
-                  "avg_36": 69474.71600929933,
-                  "trade_count": 118,
-                  "corr": 0.935,
-                  "hist_diff_pct": 7.83
+                  "current_price": 106800.0,
+                  "recent_avg": 105475.0,
+                  "avg_36": 69505.27156485489,
+                  "trade_count": 119,
+                  "corr": 0.934,
+                  "hist_diff_pct": 7.86
                 },
                 {
                   "id": "501d7ec08e",
@@ -89519,12 +89528,12 @@
               "avg_36": 138340.32258064515,
               "compare_avg_recent": 168500.0,
               "compare_avg_36": 135036.36363636365,
-              "cluster_avg": 168525.7,
+              "cluster_avg": 168762.23,
               "gap_pct": -10.46,
               "status": "undervalued",
               "trade_count": 18,
               "recent_3m_trades": 3,
-              "cluster_size": 229,
+              "cluster_size": 232,
               "compare": [
                 {
                   "id": "e3a1886ce8",
@@ -89552,12 +89561,12 @@
               "avg_36": 147325.0,
               "compare_avg_recent": 178000.0,
               "compare_avg_36": 138745.60185185182,
-              "cluster_avg": 168525.7,
+              "cluster_avg": 168762.23,
               "gap_pct": -9.18,
               "status": "undervalued",
               "trade_count": 17,
               "recent_3m_trades": 2,
-              "cluster_size": 229,
+              "cluster_size": 232,
               "compare": [
                 {
                   "id": "99efe299c0",
@@ -89799,12 +89808,12 @@
               "avg_36": 227768.51851851854,
               "compare_avg_recent": 265000.0,
               "compare_avg_36": 228366.17394179894,
-              "cluster_avg": 168525.7,
+              "cluster_avg": 168762.23,
               "gap_pct": -0.37,
               "status": "market",
               "trade_count": 40,
               "recent_3m_trades": 5,
-              "cluster_size": 229,
+              "cluster_size": 232,
               "compare": [
                 {
                   "id": "2516c81715",
