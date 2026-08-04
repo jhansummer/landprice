@@ -239306,7 +239306,12 @@
    "bank": 49,
    "academy": 147
   },
-  "school_score": 84
+  "school_score": 84,
+  "commute_transit": {
+   "gangnam": 48,
+   "gwanghwamun": 33,
+   "yeouido": 55
+  }
  },
  "37.659,127.033": {
   "infra": {
