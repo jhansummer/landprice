@@ -1,1 +1,1 @@
-{"trades":[["2023-05-17",109500],["2025-09-25",123000]],"info":{"build_year":2019,"households":1038,"subway":"증산","subway_line":"6호선","subway_walk_min":22,"scores":{"transport":63,"infra":100,"academy":26,"brand":88,"livability":85,"loc":91}}}
+{"trades":[["2023-05-17",109500],["2025-09-25",123000]],"info":{"build_year":2019,"households":1038,"subway":"증산","subway_line":"6호선","subway_walk_min":22,"commute":{"gangnam":39,"gwanghwamun":15,"yeouido":19},"scores":{"transport":63,"infra":100,"academy":26,"brand":88,"livability":85,"loc":95}}}
