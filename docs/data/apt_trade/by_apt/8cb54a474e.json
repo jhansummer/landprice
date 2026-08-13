@@ -1,1 +1,1 @@
-{"trades":[["2024-11-13",122000]],"info":{"build_year":1995,"households":1705,"subway":"오리","subway_line":"수인분당선","subway_walk_min":13,"scores":{"transport":77,"infra":100,"academy":95,"brand":50,"livability":58,"loc":83}}}
+{"trades":[["2024-11-13",122000]],"info":{"build_year":1995,"households":1705,"subway":"오리","subway_line":"수인분당선","subway_walk_min":13,"commute":{"gangnam":59,"gwanghwamun":87,"yeouido":80},"scores":{"transport":77,"infra":100,"academy":95,"brand":50,"livability":58,"loc":90}}}

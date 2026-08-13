@@ -1,1 +1,1 @@
-{"trades":[["2019-12-04",233000],["2026-01-17",445000]],"info":{"build_year":2009,"households":986,"subway":"판교","subway_line":"신분당선","subway_walk_min":13,"scores":{"transport":77,"infra":100,"academy":91,"brand":50,"livability":62,"loc":79}}}
+{"trades":[["2019-12-04",233000],["2026-01-17",445000]],"info":{"build_year":2009,"households":986,"subway":"판교","subway_line":"신분당선","subway_walk_min":13,"commute":{"gangnam":41,"gwanghwamun":69,"yeouido":66},"scores":{"transport":77,"infra":100,"academy":91,"brand":50,"livability":62,"loc":81}}}

@@ -1,1 +1,1 @@
-{"trades":[["2020-02-22",62000],["2021-08-09",110000]],"info":{"build_year":2008,"subway":"테크노파크","subway_line":"인천1호선","subway_walk_min":12,"scores":{"transport":79,"infra":100,"academy":91,"brand":50,"livability":54,"loc":62}}}
+{"trades":[["2020-02-22",62000],["2021-08-09",110000]],"info":{"build_year":2008,"subway":"테크노파크","subway_line":"인천1호선","subway_walk_min":12,"commute":{"gangnam":108,"gwanghwamun":108,"yeouido":87},"scores":{"transport":79,"infra":100,"academy":91,"brand":50,"livability":54,"loc":63}}}

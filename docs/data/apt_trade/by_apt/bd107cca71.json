@@ -1,1 +1,1 @@
-{"trades":[["2025-03-07",118000],["2026-04-27",153000]],"info":{"build_year":2014,"households":325,"subway":"장승배기","subway_line":"7호선","subway_walk_min":10,"scores":{"transport":82,"infra":100,"academy":42,"brand":83,"livability":67,"loc":66}}}
+{"trades":[["2025-03-07",118000],["2026-04-27",153000]],"info":{"build_year":2014,"households":325,"subway":"장승배기","subway_line":"7호선","subway_walk_min":10,"commute":{"gangnam":22,"gwanghwamun":25,"yeouido":8},"scores":{"transport":82,"infra":100,"academy":42,"brand":83,"livability":67,"loc":72}}}

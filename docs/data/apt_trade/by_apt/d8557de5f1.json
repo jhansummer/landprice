@@ -1,1 +1,1 @@
-{"trades":[["2020-11-27",118000],["2026-06-19",185000]],"info":{"build_year":1999,"subway":"뚝섬유원지","subway_line":"7호선","subway_walk_min":23,"scores":{"transport":61,"infra":95,"academy":37,"brand":50,"livability":42,"loc":50}}}
+{"trades":[["2020-11-27",118000],["2026-06-19",185000]],"info":{"build_year":1999,"subway":"뚝섬유원지","subway_line":"7호선","subway_walk_min":23,"commute":{"gangnam":17,"gwanghwamun":31,"yeouido":41},"scores":{"transport":61,"infra":95,"academy":37,"brand":50,"livability":42,"loc":58}}}
