@@ -243596,5 +243596,49 @@
    "academy": 155
   },
   "school_score": 71
+ },
+ "37.483,126.889": {
+  "infra": {
+   "mart": 6,
+   "conv": 144,
+   "school": 5,
+   "hospital": 174,
+   "bank": 159,
+   "academy": 163
+  },
+  "school_score": 66
+ },
+ "37.515,127.118": {
+  "infra": {
+   "mart": 5,
+   "conv": 70,
+   "school": 6,
+   "hospital": 137,
+   "bank": 46,
+   "academy": 323
+  },
+  "school_score": 80
+ },
+ "37.284,127.005": {
+  "infra": {
+   "mart": 2,
+   "conv": 49,
+   "school": 11,
+   "hospital": 61,
+   "bank": 27,
+   "academy": 108
+  },
+  "school_score": 77
+ },
+ "35.225,129.228": {
+  "infra": {
+   "mart": 0,
+   "conv": 4,
+   "school": 1,
+   "hospital": 2,
+   "bank": 2,
+   "academy": 1
+  },
+  "school_score": 72
  }
 }
