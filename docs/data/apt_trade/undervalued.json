@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-15T17:44:52Z",
+  "updated_at": "2026-08-16T17:44:12Z",
   "current_month": "202608",
   "params": {
     "months": 36,
@@ -8789,7 +8789,7 @@
         },
         {
           "size": 256,
-          "avg_current_price": 155967.7,
+          "avg_current_price": 155952.85,
           "members": [
             {
               "id": "2c90871031",
@@ -9392,7 +9392,7 @@
               "dong_name": "불광동",
               "area_m2": 66.7,
               "current_price": 85500.0,
-              "trade_count": 83
+              "trade_count": 84
             },
             {
               "id": "9f41032dde",
@@ -10678,8 +10678,17 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 59.895,
-              "current_price": 80400.0,
-              "trade_count": 50
+              "current_price": 76600.0,
+              "trade_count": 51
+            },
+            {
+              "id": "4baa24cc8f",
+              "apt_name": "서서울삼성",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 48.92,
+              "current_price": 90000.0,
+              "trade_count": 15
             },
             {
               "id": "3992f3a711",
@@ -10851,15 +10860,6 @@
               "area_m2": 59.85,
               "current_price": 98000.0,
               "trade_count": 38
-            },
-            {
-              "id": "4baa24cc8f",
-              "apt_name": "서서울삼성",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 48.92,
-              "current_price": 90000.0,
-              "trade_count": 15
             },
             {
               "id": "6ab4c73a8a",
@@ -27575,7 +27575,7 @@
         },
         {
           "size": 258,
-          "avg_current_price": 173520.32,
+          "avg_current_price": 173505.6,
           "members": [
             {
               "id": "ad4905c66d",
@@ -28456,8 +28456,17 @@
               "sigungu": "은평구",
               "dong_name": "수색동",
               "area_m2": 59.895,
-              "current_price": 80400.0,
-              "trade_count": 50
+              "current_price": 76600.0,
+              "trade_count": 51
+            },
+            {
+              "id": "4baa24cc8f",
+              "apt_name": "서서울삼성",
+              "sigungu": "마포구",
+              "dong_name": "아현동",
+              "area_m2": 48.92,
+              "current_price": 90000.0,
+              "trade_count": 15
             },
             {
               "id": "af2d7d61b9",
@@ -28872,15 +28881,6 @@
               "area_m2": 59.981,
               "current_price": 146500.0,
               "trade_count": 20
-            },
-            {
-              "id": "4baa24cc8f",
-              "apt_name": "서서울삼성",
-              "sigungu": "마포구",
-              "dong_name": "아현동",
-              "area_m2": 48.92,
-              "current_price": 90000.0,
-              "trade_count": 15
             },
             {
               "id": "3df5cba211",
@@ -29879,7 +29879,7 @@
               "dong_name": "불광동",
               "area_m2": 66.7,
               "current_price": 85500.0,
-              "trade_count": 83
+              "trade_count": 84
             },
             {
               "id": "9f41032dde",
@@ -39845,7 +39845,7 @@
         },
         {
           "size": 258,
-          "avg_current_price": 126443.92,
+          "avg_current_price": 126429.19,
           "members": [
             {
               "id": "9e16bdb645",
@@ -40910,22 +40910,22 @@
               "trade_count": 23
             },
             {
-              "id": "519bf77f76",
-              "apt_name": "한진해모로",
-              "sigungu": "중구",
-              "dong_name": "신당동",
-              "area_m2": 59.76,
-              "current_price": 119000.0,
-              "trade_count": 19
+              "id": "d0d901e671",
+              "apt_name": "e편한세상 수색 에코포레",
+              "sigungu": "은평구",
+              "dong_name": "수색동",
+              "area_m2": 59.895,
+              "current_price": 76600.0,
+              "trade_count": 51
             },
             {
-              "id": "684287eafc",
-              "apt_name": "쌍용2",
+              "id": "828cd86dc6",
+              "apt_name": "송산아파트",
               "sigungu": "성북구",
-              "dong_name": "정릉동",
-              "area_m2": 59.9,
-              "current_price": 61000.0,
-              "trade_count": 29
+              "dong_name": "동소문동4가",
+              "area_m2": 58.59,
+              "current_price": 71500.0,
+              "trade_count": 28
             },
             {
               "id": "4bbb7ad542",
@@ -40937,13 +40937,22 @@
               "trade_count": 30
             },
             {
-              "id": "828cd86dc6",
-              "apt_name": "송산아파트",
+              "id": "684287eafc",
+              "apt_name": "쌍용2",
               "sigungu": "성북구",
-              "dong_name": "동소문동4가",
-              "area_m2": 58.59,
-              "current_price": 71500.0,
-              "trade_count": 28
+              "dong_name": "정릉동",
+              "area_m2": 59.9,
+              "current_price": 61000.0,
+              "trade_count": 29
+            },
+            {
+              "id": "519bf77f76",
+              "apt_name": "한진해모로",
+              "sigungu": "중구",
+              "dong_name": "신당동",
+              "area_m2": 59.76,
+              "current_price": 119000.0,
+              "trade_count": 19
             },
             {
               "id": "37c4c81926",
@@ -40991,6 +41000,15 @@
               "trade_count": 89
             },
             {
+              "id": "58468fadf4",
+              "apt_name": "라이프미성",
+              "sigungu": "은평구",
+              "dong_name": "불광동",
+              "area_m2": 66.7,
+              "current_price": 85500.0,
+              "trade_count": 84
+            },
+            {
               "id": "1955d28bab",
               "apt_name": "백련산파크자이",
               "sigungu": "은평구",
@@ -41018,15 +41036,6 @@
               "trade_count": 64
             },
             {
-              "id": "58468fadf4",
-              "apt_name": "라이프미성",
-              "sigungu": "은평구",
-              "dong_name": "불광동",
-              "area_m2": 66.7,
-              "current_price": 85500.0,
-              "trade_count": 83
-            },
-            {
               "id": "ac5317ad28",
               "apt_name": "북한산래미안아파트(1단지)",
               "sigungu": "은평구",
@@ -41043,15 +41052,6 @@
               "area_m2": 59.98,
               "current_price": 92500.0,
               "trade_count": 20
-            },
-            {
-              "id": "d0d901e671",
-              "apt_name": "e편한세상 수색 에코포레",
-              "sigungu": "은평구",
-              "dong_name": "수색동",
-              "area_m2": 59.895,
-              "current_price": 80400.0,
-              "trade_count": 50
             },
             {
               "id": "488f81da19",
@@ -45380,7 +45380,7 @@
         },
         {
           "size": 228,
-          "avg_current_price": 156368.63,
+          "avg_current_price": 156351.96,
           "members": [
             {
               "id": "8b936f147a",
@@ -46064,7 +46064,7 @@
               "dong_name": "불광동",
               "area_m2": 66.7,
               "current_price": 85500.0,
-              "trade_count": 83
+              "trade_count": 84
             },
             {
               "id": "9f41032dde",
@@ -47399,6 +47399,15 @@
               "trade_count": 20
             },
             {
+              "id": "d0d901e671",
+              "apt_name": "e편한세상 수색 에코포레",
+              "sigungu": "은평구",
+              "dong_name": "수색동",
+              "area_m2": 59.895,
+              "current_price": 76600.0,
+              "trade_count": 51
+            },
+            {
               "id": "1955d28bab",
               "apt_name": "백련산파크자이",
               "sigungu": "은평구",
@@ -47414,15 +47423,6 @@
               "dong_name": "응암동",
               "area_m2": 59.63,
               "current_price": 90000.0,
-              "trade_count": 50
-            },
-            {
-              "id": "d0d901e671",
-              "apt_name": "e편한세상 수색 에코포레",
-              "sigungu": "은평구",
-              "dong_name": "수색동",
-              "area_m2": 59.895,
-              "current_price": 80400.0,
               "trade_count": 50
             },
             {
@@ -70419,7 +70419,7 @@
               "avg_36": 100611.6111111111,
               "compare_avg_recent": 130730.55555555556,
               "compare_avg_36": 96746.59794010196,
-              "cluster_avg": 155967.7,
+              "cluster_avg": 155952.85,
               "gap_pct": -13.75,
               "status": "undervalued",
               "trade_count": 39,
