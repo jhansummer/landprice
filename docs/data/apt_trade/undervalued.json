@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-16T17:44:12Z",
+  "updated_at": "2026-08-17T17:51:56Z",
   "current_month": "202608",
   "params": {
     "months": 36,
@@ -4640,7 +4640,7 @@
         },
         {
           "size": 455,
-          "avg_current_price": 254597.13,
+          "avg_current_price": 254597.57,
           "members": [
             {
               "id": "f1a193cbd0",
@@ -4738,8 +4738,8 @@
               "sigungu": "송파구",
               "dong_name": "풍납동",
               "area_m2": 49.14,
-              "current_price": 75400.0,
-              "trade_count": 19
+              "current_price": 75600.0,
+              "trade_count": 18
             },
             {
               "id": "e793f7803d",
@@ -11150,7 +11150,7 @@
         },
         {
           "size": 376,
-          "avg_current_price": 229985.2,
+          "avg_current_price": 229998.05,
           "members": [
             {
               "id": "3158f79bec",
@@ -13552,8 +13552,8 @@
               "sigungu": "성동구",
               "dong_name": "행당동",
               "area_m2": 59.97,
-              "current_price": 142166.66666666666,
-              "trade_count": 116
+              "current_price": 147000.0,
+              "trade_count": 117
             },
             {
               "id": "c1088ecc39",
@@ -17468,7 +17468,7 @@
         },
         {
           "size": 463,
-          "avg_current_price": 197347.08,
+          "avg_current_price": 197357.96,
           "members": [
             {
               "id": "0e3c00866e",
@@ -17827,8 +17827,8 @@
               "sigungu": "송파구",
               "dong_name": "풍납동",
               "area_m2": 49.14,
-              "current_price": 75400.0,
-              "trade_count": 19
+              "current_price": 75600.0,
+              "trade_count": 18
             },
             {
               "id": "826a09796c",
@@ -18727,8 +18727,8 @@
               "sigungu": "성동구",
               "dong_name": "행당동",
               "area_m2": 59.97,
-              "current_price": 142166.66666666666,
-              "trade_count": 116
+              "current_price": 147000.0,
+              "trade_count": 117
             },
             {
               "id": "d2965468b6",
@@ -21737,7 +21737,7 @@
         },
         {
           "size": 339,
-          "avg_current_price": 179742.15,
+          "avg_current_price": 179756.41,
           "members": [
             {
               "id": "09ba504341",
@@ -22591,8 +22591,8 @@
               "sigungu": "성동구",
               "dong_name": "행당동",
               "area_m2": 59.97,
-              "current_price": 142166.66666666666,
-              "trade_count": 116
+              "current_price": 147000.0,
+              "trade_count": 117
             },
             {
               "id": "b46550acc0",
@@ -47489,7 +47489,7 @@
         },
         {
           "size": 428,
-          "avg_current_price": 226465.97,
+          "avg_current_price": 226466.44,
           "members": [
             {
               "id": "33e34b7dac",
@@ -47704,8 +47704,8 @@
               "sigungu": "송파구",
               "dong_name": "풍납동",
               "area_m2": 49.14,
-              "current_price": 75400.0,
-              "trade_count": 19
+              "current_price": 75600.0,
+              "trade_count": 18
             },
             {
               "id": "7d813dfd8f",
@@ -54497,7 +54497,7 @@
         },
         {
           "size": 384,
-          "avg_current_price": 147664.14,
+          "avg_current_price": 147676.73,
           "members": [
             {
               "id": "7c43a9fb4c",
@@ -56804,6 +56804,15 @@
               "trade_count": 42
             },
             {
+              "id": "eeb309d1e8",
+              "apt_name": "신동아",
+              "sigungu": "성동구",
+              "dong_name": "행당동",
+              "area_m2": 59.97,
+              "current_price": 147000.0,
+              "trade_count": 117
+            },
+            {
               "id": "debbf36ce8",
               "apt_name": "서울숲리버그린동아아파트",
               "sigungu": "성동구",
@@ -56820,15 +56829,6 @@
               "area_m2": 59.68,
               "current_price": 160000.0,
               "trade_count": 27
-            },
-            {
-              "id": "eeb309d1e8",
-              "apt_name": "신동아",
-              "sigungu": "성동구",
-              "dong_name": "행당동",
-              "area_m2": 59.97,
-              "current_price": 142166.66666666666,
-              "trade_count": 116
             },
             {
               "id": "44ba46ca86",
@@ -58007,7 +58007,7 @@
         },
         {
           "size": 428,
-          "avg_current_price": 226465.97,
+          "avg_current_price": 226466.44,
           "members": [
             {
               "id": "08e5a5fd0a",
@@ -61723,8 +61723,8 @@
               "sigungu": "송파구",
               "dong_name": "풍납동",
               "area_m2": 49.14,
-              "current_price": 75400.0,
-              "trade_count": 19
+              "current_price": 75600.0,
+              "trade_count": 18
             },
             {
               "id": "e793f7803d",
@@ -65003,7 +65003,7 @@
         },
         {
           "size": 302,
-          "avg_current_price": 178640.96,
+          "avg_current_price": 178656.96,
           "members": [
             {
               "id": "bc4279a430",
@@ -66527,6 +66527,15 @@
               "trade_count": 42
             },
             {
+              "id": "eeb309d1e8",
+              "apt_name": "신동아",
+              "sigungu": "성동구",
+              "dong_name": "행당동",
+              "area_m2": 59.97,
+              "current_price": 147000.0,
+              "trade_count": 117
+            },
+            {
               "id": "debbf36ce8",
               "apt_name": "서울숲리버그린동아아파트",
               "sigungu": "성동구",
@@ -66543,15 +66552,6 @@
               "area_m2": 59.68,
               "current_price": 160000.0,
               "trade_count": 27
-            },
-            {
-              "id": "eeb309d1e8",
-              "apt_name": "신동아",
-              "sigungu": "성동구",
-              "dong_name": "행당동",
-              "area_m2": 59.97,
-              "current_price": 142166.66666666666,
-              "trade_count": 116
             },
             {
               "id": "c1088ecc39",
@@ -70516,7 +70516,7 @@
               "avg_36": 107421.09375,
               "compare_avg_recent": 160000.0,
               "compare_avg_36": 110994.56709956711,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -12.41,
               "status": "undervalued",
               "trade_count": 53,
@@ -70659,7 +70659,7 @@
               "avg_36": 140918.05555555556,
               "compare_avg_recent": 188291.6666666667,
               "compare_avg_36": 145008.54828042327,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -11.58,
               "status": "undervalued",
               "trade_count": 41,
@@ -70756,7 +70756,7 @@
               "avg_36": 174247.6851851852,
               "compare_avg_recent": 215580.9523809524,
               "compare_avg_36": 163472.11396011396,
-              "cluster_avg": 197347.08,
+              "cluster_avg": 197357.96,
               "gap_pct": -9.49,
               "status": "undervalued",
               "trade_count": 28,
@@ -70789,7 +70789,7 @@
               "avg_36": 174756.9387755102,
               "compare_avg_recent": 237375.0,
               "compare_avg_36": 186719.4264069264,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -9.34,
               "status": "undervalued",
               "trade_count": 42,
@@ -70835,7 +70835,7 @@
               "avg_36": 234635.4166666667,
               "compare_avg_recent": 263000.0,
               "compare_avg_36": 238734.11738351255,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -8.55,
               "status": "undervalued",
               "trade_count": 19,
@@ -70886,7 +70886,7 @@
               "avg_36": 254295.93995510662,
               "compare_avg_recent": 326500.0,
               "compare_avg_36": 258836.04100529102,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -8.05,
               "status": "undervalued",
               "trade_count": 219,
@@ -70978,7 +70978,7 @@
               "avg_36": 221089.35185185185,
               "compare_avg_recent": 270694.44444444444,
               "compare_avg_36": 217432.18667328043,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -6.74,
               "status": "undervalued",
               "trade_count": 33,
@@ -71029,7 +71029,7 @@
               "avg_36": 323448.88888888893,
               "compare_avg_recent": 328500.0,
               "compare_avg_36": 304219.9074074074,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -11.16,
               "status": "undervalued",
               "trade_count": 21,
@@ -71062,7 +71062,7 @@
               "avg_36": 294087.5,
               "compare_avg_recent": 371750.0,
               "compare_avg_36": 309237.98228969006,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -8.75,
               "status": "undervalued",
               "trade_count": 35,
@@ -71108,7 +71108,7 @@
               "avg_36": 288928.5714285714,
               "compare_avg_recent": 353375.0,
               "compare_avg_36": 294458.82936507935,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -7.09,
               "status": "undervalued",
               "trade_count": 39,
@@ -71159,7 +71159,7 @@
               "avg_36": 365333.3333333333,
               "compare_avg_recent": 429166.6666666667,
               "compare_avg_36": 360605.17526455026,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -6.55,
               "status": "undervalued",
               "trade_count": 18,
@@ -71205,7 +71205,7 @@
               "avg_36": 459495.23809523805,
               "compare_avg_recent": 487000.0,
               "compare_avg_36": 467497.22222222225,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -2.81,
               "status": "market",
               "trade_count": 32,
@@ -71238,7 +71238,7 @@
               "avg_36": 397588.23529411765,
               "compare_avg_recent": 457000.0,
               "compare_avg_36": 393419.6759259259,
-              "cluster_avg": 229985.2,
+              "cluster_avg": 229998.05,
               "gap_pct": -1.86,
               "status": "market",
               "trade_count": 21,
@@ -71289,7 +71289,7 @@
               "avg_36": 508101.8518518518,
               "compare_avg_recent": 570666.6666666666,
               "compare_avg_36": 495104.05092592596,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -3.97,
               "status": "market",
               "trade_count": 16,
@@ -71335,7 +71335,7 @@
               "avg_36": 648750.0,
               "compare_avg_recent": 743333.3333333334,
               "compare_avg_36": 661929.2929292929,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -3.84,
               "status": "market",
               "trade_count": 20,
@@ -71368,7 +71368,7 @@
               "avg_36": 500116.6666666667,
               "compare_avg_recent": 563000.0,
               "compare_avg_36": 508101.8518518518,
-              "cluster_avg": 254597.13,
+              "cluster_avg": 254597.57,
               "gap_pct": -0.8,
               "status": "market",
               "trade_count": 19,
@@ -73285,7 +73285,7 @@
         },
         {
           "size": 79,
-          "avg_current_price": 99893.64,
+          "avg_current_price": 100076.32,
           "members": [
             {
               "id": "59c4fd9942",
@@ -73333,24 +73333,6 @@
               "trade_count": 64
             },
             {
-              "id": "e77af996f4",
-              "apt_name": "도덕파크타운2단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 39.65,
-              "current_price": 57166.666666666664,
-              "trade_count": 164
-            },
-            {
-              "id": "77f15e802f",
-              "apt_name": "주공9",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 45.77,
-              "current_price": 58000.0,
-              "trade_count": 47
-            },
-            {
               "id": "a083dba07e",
               "apt_name": "주공12",
               "sigungu": "광명시",
@@ -73358,6 +73340,15 @@
               "area_m2": 44.89,
               "current_price": 77250.0,
               "trade_count": 78
+            },
+            {
+              "id": "e77af996f4",
+              "apt_name": "도덕파크타운2단지",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 39.65,
+              "current_price": 61500.0,
+              "trade_count": 166
             },
             {
               "id": "ae167a8828",
@@ -73369,31 +73360,31 @@
               "trade_count": 51
             },
             {
-              "id": "20691b1426",
-              "apt_name": "광명아크포레자이위브",
+              "id": "e5900a8c7a",
+              "apt_name": "도덕파크타운1단지",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 40.1639,
-              "current_price": 70500.0,
-              "trade_count": 110
+              "dong_name": "철산동",
+              "area_m2": 59.82,
+              "current_price": 84000.0,
+              "trade_count": 111
             },
             {
-              "id": "155a147c22",
-              "apt_name": "광명아크포레자이위브",
+              "id": "fa5b39e1b9",
+              "apt_name": "주공12",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 32.586,
-              "current_price": 58000.0,
-              "trade_count": 58
+              "dong_name": "하안동",
+              "area_m2": 58.46,
+              "current_price": 79500.0,
+              "trade_count": 34
             },
             {
-              "id": "01a4a0548b",
-              "apt_name": "광명한진타운",
+              "id": "03dfa098d6",
+              "apt_name": "우성",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 59.93,
-              "current_price": 82133.33333333333,
-              "trade_count": 91
+              "dong_name": "철산동",
+              "area_m2": 54.36,
+              "current_price": 63333.333333333336,
+              "trade_count": 36
             },
             {
               "id": "e6beccb1ec",
@@ -73446,8 +73437,8 @@
               "sigungu": "광명시",
               "dong_name": "철산동",
               "area_m2": 84.98,
-              "current_price": 173850.0,
-              "trade_count": 79
+              "current_price": 174066.66666666666,
+              "trade_count": 80
             },
             {
               "id": "91900cd4ff",
@@ -73558,6 +73549,24 @@
               "trade_count": 50
             },
             {
+              "id": "eda9bff481",
+              "apt_name": "도덕파크타운1단지",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 84.98,
+              "current_price": 99000.0,
+              "trade_count": 84
+            },
+            {
+              "id": "fe2b2f22f1",
+              "apt_name": "우성",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 84.74,
+              "current_price": 87000.0,
+              "trade_count": 41
+            },
+            {
               "id": "cad9cd5dd9",
               "apt_name": "유-플래닛태영데시앙",
               "sigungu": "광명시",
@@ -73583,24 +73592,6 @@
               "area_m2": 84.95,
               "current_price": 91375.0,
               "trade_count": 112
-            },
-            {
-              "id": "eda9bff481",
-              "apt_name": "도덕파크타운1단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 84.98,
-              "current_price": 98000.0,
-              "trade_count": 83
-            },
-            {
-              "id": "fe2b2f22f1",
-              "apt_name": "우성",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 84.74,
-              "current_price": 87000.0,
-              "trade_count": 41
             },
             {
               "id": "5b329ba7d8",
@@ -73648,6 +73639,33 @@
               "trade_count": 48
             },
             {
+              "id": "20691b1426",
+              "apt_name": "광명아크포레자이위브",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 40.1639,
+              "current_price": 70500.0,
+              "trade_count": 110
+            },
+            {
+              "id": "155a147c22",
+              "apt_name": "광명아크포레자이위브",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 32.586,
+              "current_price": 58000.0,
+              "trade_count": 58
+            },
+            {
+              "id": "01a4a0548b",
+              "apt_name": "광명한진타운",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 59.93,
+              "current_price": 82133.33333333333,
+              "trade_count": 91
+            },
+            {
               "id": "fd863d8a2a",
               "apt_name": "주공2",
               "sigungu": "광명시",
@@ -73693,6 +73711,15 @@
               "trade_count": 90
             },
             {
+              "id": "4a7026b17a",
+              "apt_name": "이편한세상센트레빌",
+              "sigungu": "광명시",
+              "dong_name": "하안동",
+              "area_m2": 59.982,
+              "current_price": 112766.66666666667,
+              "trade_count": 144
+            },
+            {
               "id": "0993d55b16",
               "apt_name": "광명역파크자이",
               "sigungu": "광명시",
@@ -73720,15 +73747,6 @@
               "trade_count": 31
             },
             {
-              "id": "4a7026b17a",
-              "apt_name": "이편한세상센트레빌",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 59.982,
-              "current_price": 111750.0,
-              "trade_count": 143
-            },
-            {
               "id": "b2d0fe5a14",
               "apt_name": "광명역센트럴자이",
               "sigungu": "광명시",
@@ -73736,6 +73754,15 @@
               "area_m2": 59.775,
               "current_price": 127000.0,
               "trade_count": 26
+            },
+            {
+              "id": "77f15e802f",
+              "apt_name": "주공9",
+              "sigungu": "광명시",
+              "dong_name": "하안동",
+              "area_m2": 45.77,
+              "current_price": 68000.0,
+              "trade_count": 48
             },
             {
               "id": "424ef38240",
@@ -73761,8 +73788,8 @@
               "sigungu": "광명시",
               "dong_name": "광명동",
               "area_m2": 59.9915,
-              "current_price": 107060.0,
-              "trade_count": 172
+              "current_price": 107383.33333333333,
+              "trade_count": 173
             },
             {
               "id": "61a465916b",
@@ -73824,8 +73851,8 @@
               "sigungu": "광명시",
               "dong_name": "하안동",
               "area_m2": 59.39,
-              "current_price": 75500.0,
-              "trade_count": 53
+              "current_price": 75875.0,
+              "trade_count": 54
             },
             {
               "id": "421c963743",
@@ -73853,33 +73880,6 @@
               "area_m2": 59.9969,
               "current_price": 108500.0,
               "trade_count": 48
-            },
-            {
-              "id": "fa5b39e1b9",
-              "apt_name": "주공12",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 58.46,
-              "current_price": 79500.0,
-              "trade_count": 34
-            },
-            {
-              "id": "03dfa098d6",
-              "apt_name": "우성",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 54.36,
-              "current_price": 63333.333333333336,
-              "trade_count": 36
-            },
-            {
-              "id": "e5900a8c7a",
-              "apt_name": "도덕파크타운1단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 59.82,
-              "current_price": 87166.66666666667,
-              "trade_count": 110
             },
             {
               "id": "b8d32d9bbb",
@@ -73936,6 +73936,15 @@
               "trade_count": 30
             },
             {
+              "id": "728800e16f",
+              "apt_name": "광복현대",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 59.94,
+              "current_price": 66333.33333333333,
+              "trade_count": 78
+            },
+            {
               "id": "ad1590b076",
               "apt_name": "주공10",
               "sigungu": "광명시",
@@ -73952,15 +73961,6 @@
               "area_m2": 59.39,
               "current_price": 71000.0,
               "trade_count": 65
-            },
-            {
-              "id": "728800e16f",
-              "apt_name": "광복현대",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 59.94,
-              "current_price": 66000.0,
-              "trade_count": 77
             },
             {
               "id": "4f83b1dd66",
@@ -78474,8 +78474,8 @@
           ]
         },
         {
-          "size": 30,
-          "avg_current_price": 155655.56,
+          "size": 29,
+          "avg_current_price": 158053.16,
           "members": [
             {
               "id": "4dfb145070",
@@ -78575,15 +78575,6 @@
               "area_m2": 84.7,
               "current_price": 115000.0,
               "trade_count": 26
-            },
-            {
-              "id": "545687a2d7",
-              "apt_name": "청구",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.99,
-              "current_price": 87000.0,
-              "trade_count": 22
             },
             {
               "id": "c31ed0f3cd",
@@ -78699,8 +78690,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "신흥동",
               "area_m2": 74.96,
-              "current_price": 146500.0,
-              "trade_count": 111
+              "current_price": 147375.0,
+              "trade_count": 112
             },
             {
               "id": "96f8ac8c21",
@@ -86158,7 +86149,7 @@
         },
         {
           "size": 79,
-          "avg_current_price": 99893.64,
+          "avg_current_price": 100076.32,
           "members": [
             {
               "id": "59c4fd9942",
@@ -86206,24 +86197,6 @@
               "trade_count": 64
             },
             {
-              "id": "e77af996f4",
-              "apt_name": "도덕파크타운2단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 39.65,
-              "current_price": 57166.666666666664,
-              "trade_count": 164
-            },
-            {
-              "id": "77f15e802f",
-              "apt_name": "주공9",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 45.77,
-              "current_price": 58000.0,
-              "trade_count": 47
-            },
-            {
               "id": "a083dba07e",
               "apt_name": "주공12",
               "sigungu": "광명시",
@@ -86231,6 +86204,15 @@
               "area_m2": 44.89,
               "current_price": 77250.0,
               "trade_count": 78
+            },
+            {
+              "id": "e77af996f4",
+              "apt_name": "도덕파크타운2단지",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 39.65,
+              "current_price": 61500.0,
+              "trade_count": 166
             },
             {
               "id": "ae167a8828",
@@ -86242,31 +86224,31 @@
               "trade_count": 51
             },
             {
-              "id": "20691b1426",
-              "apt_name": "광명아크포레자이위브",
+              "id": "e5900a8c7a",
+              "apt_name": "도덕파크타운1단지",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 40.1639,
-              "current_price": 70500.0,
-              "trade_count": 110
+              "dong_name": "철산동",
+              "area_m2": 59.82,
+              "current_price": 84000.0,
+              "trade_count": 111
             },
             {
-              "id": "155a147c22",
-              "apt_name": "광명아크포레자이위브",
+              "id": "fa5b39e1b9",
+              "apt_name": "주공12",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 32.586,
-              "current_price": 58000.0,
-              "trade_count": 58
+              "dong_name": "하안동",
+              "area_m2": 58.46,
+              "current_price": 79500.0,
+              "trade_count": 34
             },
             {
-              "id": "01a4a0548b",
-              "apt_name": "광명한진타운",
+              "id": "03dfa098d6",
+              "apt_name": "우성",
               "sigungu": "광명시",
-              "dong_name": "광명동",
-              "area_m2": 59.93,
-              "current_price": 82133.33333333333,
-              "trade_count": 91
+              "dong_name": "철산동",
+              "area_m2": 54.36,
+              "current_price": 63333.333333333336,
+              "trade_count": 36
             },
             {
               "id": "e6beccb1ec",
@@ -86319,8 +86301,8 @@
               "sigungu": "광명시",
               "dong_name": "철산동",
               "area_m2": 84.98,
-              "current_price": 173850.0,
-              "trade_count": 79
+              "current_price": 174066.66666666666,
+              "trade_count": 80
             },
             {
               "id": "91900cd4ff",
@@ -86431,6 +86413,24 @@
               "trade_count": 50
             },
             {
+              "id": "eda9bff481",
+              "apt_name": "도덕파크타운1단지",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 84.98,
+              "current_price": 99000.0,
+              "trade_count": 84
+            },
+            {
+              "id": "fe2b2f22f1",
+              "apt_name": "우성",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 84.74,
+              "current_price": 87000.0,
+              "trade_count": 41
+            },
+            {
               "id": "cad9cd5dd9",
               "apt_name": "유-플래닛태영데시앙",
               "sigungu": "광명시",
@@ -86456,24 +86456,6 @@
               "area_m2": 84.95,
               "current_price": 91375.0,
               "trade_count": 112
-            },
-            {
-              "id": "eda9bff481",
-              "apt_name": "도덕파크타운1단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 84.98,
-              "current_price": 98000.0,
-              "trade_count": 83
-            },
-            {
-              "id": "fe2b2f22f1",
-              "apt_name": "우성",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 84.74,
-              "current_price": 87000.0,
-              "trade_count": 41
             },
             {
               "id": "5b329ba7d8",
@@ -86521,6 +86503,33 @@
               "trade_count": 48
             },
             {
+              "id": "20691b1426",
+              "apt_name": "광명아크포레자이위브",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 40.1639,
+              "current_price": 70500.0,
+              "trade_count": 110
+            },
+            {
+              "id": "155a147c22",
+              "apt_name": "광명아크포레자이위브",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 32.586,
+              "current_price": 58000.0,
+              "trade_count": 58
+            },
+            {
+              "id": "01a4a0548b",
+              "apt_name": "광명한진타운",
+              "sigungu": "광명시",
+              "dong_name": "광명동",
+              "area_m2": 59.93,
+              "current_price": 82133.33333333333,
+              "trade_count": 91
+            },
+            {
               "id": "fd863d8a2a",
               "apt_name": "주공2",
               "sigungu": "광명시",
@@ -86566,6 +86575,15 @@
               "trade_count": 90
             },
             {
+              "id": "4a7026b17a",
+              "apt_name": "이편한세상센트레빌",
+              "sigungu": "광명시",
+              "dong_name": "하안동",
+              "area_m2": 59.982,
+              "current_price": 112766.66666666667,
+              "trade_count": 144
+            },
+            {
               "id": "0993d55b16",
               "apt_name": "광명역파크자이",
               "sigungu": "광명시",
@@ -86593,15 +86611,6 @@
               "trade_count": 31
             },
             {
-              "id": "4a7026b17a",
-              "apt_name": "이편한세상센트레빌",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 59.982,
-              "current_price": 111750.0,
-              "trade_count": 143
-            },
-            {
               "id": "b2d0fe5a14",
               "apt_name": "광명역센트럴자이",
               "sigungu": "광명시",
@@ -86609,6 +86618,15 @@
               "area_m2": 59.775,
               "current_price": 127000.0,
               "trade_count": 26
+            },
+            {
+              "id": "77f15e802f",
+              "apt_name": "주공9",
+              "sigungu": "광명시",
+              "dong_name": "하안동",
+              "area_m2": 45.77,
+              "current_price": 68000.0,
+              "trade_count": 48
             },
             {
               "id": "424ef38240",
@@ -86634,8 +86652,8 @@
               "sigungu": "광명시",
               "dong_name": "광명동",
               "area_m2": 59.9915,
-              "current_price": 107060.0,
-              "trade_count": 172
+              "current_price": 107383.33333333333,
+              "trade_count": 173
             },
             {
               "id": "61a465916b",
@@ -86697,8 +86715,8 @@
               "sigungu": "광명시",
               "dong_name": "하안동",
               "area_m2": 59.39,
-              "current_price": 75500.0,
-              "trade_count": 53
+              "current_price": 75875.0,
+              "trade_count": 54
             },
             {
               "id": "421c963743",
@@ -86726,33 +86744,6 @@
               "area_m2": 59.9969,
               "current_price": 108500.0,
               "trade_count": 48
-            },
-            {
-              "id": "fa5b39e1b9",
-              "apt_name": "주공12",
-              "sigungu": "광명시",
-              "dong_name": "하안동",
-              "area_m2": 58.46,
-              "current_price": 79500.0,
-              "trade_count": 34
-            },
-            {
-              "id": "03dfa098d6",
-              "apt_name": "우성",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 54.36,
-              "current_price": 63333.333333333336,
-              "trade_count": 36
-            },
-            {
-              "id": "e5900a8c7a",
-              "apt_name": "도덕파크타운1단지",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 59.82,
-              "current_price": 87166.66666666667,
-              "trade_count": 110
             },
             {
               "id": "b8d32d9bbb",
@@ -86809,6 +86800,15 @@
               "trade_count": 30
             },
             {
+              "id": "728800e16f",
+              "apt_name": "광복현대",
+              "sigungu": "광명시",
+              "dong_name": "철산동",
+              "area_m2": 59.94,
+              "current_price": 66333.33333333333,
+              "trade_count": 78
+            },
+            {
               "id": "ad1590b076",
               "apt_name": "주공10",
               "sigungu": "광명시",
@@ -86825,15 +86825,6 @@
               "area_m2": 59.39,
               "current_price": 71000.0,
               "trade_count": 65
-            },
-            {
-              "id": "728800e16f",
-              "apt_name": "광복현대",
-              "sigungu": "광명시",
-              "dong_name": "철산동",
-              "area_m2": 59.94,
-              "current_price": 66000.0,
-              "trade_count": 77
             },
             {
               "id": "4f83b1dd66",
@@ -89497,7 +89488,7 @@
               "avg_36": 98792.77777777777,
               "compare_avg_recent": 142400.0,
               "compare_avg_36": 100628.37962962962,
-              "cluster_avg": 99893.64,
+              "cluster_avg": 100076.32,
               "gap_pct": -11.8,
               "status": "undervalued",
               "trade_count": 32,
@@ -89732,12 +89723,12 @@
               "avg_36": 130953.24074074073,
               "compare_avg_recent": 182000.0,
               "compare_avg_36": 141199.30555555556,
-              "cluster_avg": 155655.56,
+              "cluster_avg": 158053.16,
               "gap_pct": -7.12,
               "status": "undervalued",
               "trade_count": 42,
               "recent_3m_trades": 2,
-              "cluster_size": 30,
+              "cluster_size": 29,
               "compare": [
                 {
                   "id": "9a89787b52",
