@@ -1,1 +1,1 @@
-{"trades":[["2020-06-27",92000],["2021-09-12",115500],["2025-06-18",93000]],"info":{"build_year":1996,"subway":"구로","subway_line":"1호선","subway_walk_min":12,"scores":{"transport":80,"infra":100,"academy":26,"brand":50,"livability":38,"loc":57}}}
+{"trades":[["2020-06-27",92000],["2021-09-12",115500],["2025-06-18",93000]],"info":{"build_year":1996,"subway":"구로","subway_line":"1호선","subway_walk_min":12,"commute":{"gangnam":37,"gwanghwamun":32,"yeouido":11},"scores":{"transport":80,"infra":100,"academy":26,"brand":50,"livability":38,"loc":67}}}

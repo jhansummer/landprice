@@ -1,1 +1,1 @@
-{"trades":[["2022-01-26",137000]],"info":{"build_year":2023,"households":418,"subway":"수색","subway_line":"경의중앙선","subway_walk_min":3,"scores":{"transport":96,"infra":92,"academy":26,"brand":50,"livability":65,"loc":75}}}
+{"trades":[["2022-01-26",137000]],"info":{"build_year":2023,"households":418,"subway":"수색","subway_line":"경의중앙선","subway_walk_min":3,"commute":{"gangnam":46,"gwanghwamun":23,"yeouido":23},"scores":{"transport":96,"infra":92,"academy":26,"brand":50,"livability":65,"loc":83}}}
