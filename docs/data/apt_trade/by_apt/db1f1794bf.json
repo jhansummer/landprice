@@ -1,1 +1,1 @@
-{"trades":[["2025-03-08",190000],["2025-07-30",205000],["2026-04-25",239000]],"info":{"build_year":2003,"households":597,"subway":"대흥","subway_line":"6호선","subway_walk_min":8,"commute":{"gangnam":28,"gwanghwamun":13,"yeouido":9},"scores":{"transport":86,"infra":100,"academy":75,"brand":90,"livability":64,"loc":80}}}
+{"trades":[["2025-03-08",190000],["2025-07-30",205000],["2026-04-25",239000]],"info":{"build_year":2003,"households":597,"subway":"대흥","subway_line":"6호선","subway_walk_min":8,"scores":{"transport":86,"infra":100,"academy":75,"brand":90,"livability":64,"loc":75}}}
