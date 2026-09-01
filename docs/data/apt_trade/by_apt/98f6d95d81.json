@@ -1,1 +1,1 @@
-{"trades":[["2019-09-06",8100],["2019-11-09",8000],["2021-05-06",8100],["2022-04-29",7000],["2023-03-25",8930]],"info":{"build_year":2013,"subway":"작전","subway_line":"인천1호선","subway_walk_min":22,"scores":{"transport":63,"infra":100,"academy":48,"brand":50,"livability":62,"loc":25}}}
+{"trades":[["2019-11-09",8000],["2021-05-06",8100],["2022-04-29",7000],["2023-03-25",8930]],"info":{"build_year":2013,"subway":"작전","subway_line":"인천1호선","subway_walk_min":22,"scores":{"transport":63,"infra":100,"academy":48,"brand":50,"livability":62,"loc":20}}}

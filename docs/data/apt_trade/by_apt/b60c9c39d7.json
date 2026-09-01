@@ -1,1 +1,1 @@
-{"trades":[["2023-09-20",85000],["2024-04-06",87000],["2024-04-27",88700]],"info":{"build_year":2022,"households":261,"subway":"신흥","subway_line":"8호선","subway_walk_min":3,"scores":{"transport":94,"infra":100,"academy":10,"brand":65,"livability":67,"loc":73}}}
+{"trades":[["2023-09-20",85000],["2024-04-06",87000],["2024-04-27",88700]],"info":{"build_year":2022,"households":261,"subway":"신흥","subway_line":"8호선","subway_walk_min":3,"commute":{"gangnam":37,"gwanghwamun":63,"yeouido":66},"scores":{"transport":94,"infra":100,"academy":10,"brand":65,"livability":67,"loc":82}}}

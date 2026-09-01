@@ -1,1 +1,1 @@
-{"trades":[["2021-06-10",70000]],"info":{"build_year":2013,"subway":"신내","subway_line":"6호선","subway_walk_min":13,"scores":{"transport":78,"infra":78,"academy":3,"brand":50,"livability":62,"loc":96}}}
+{"trades":[["2021-06-10",70000]],"info":{"build_year":2013,"subway":"신내","subway_line":"6호선","subway_walk_min":13,"commute":{"gangnam":45,"gwanghwamun":38,"yeouido":58},"scores":{"transport":78,"infra":78,"academy":3,"brand":50,"livability":62,"loc":98}}}
