@@ -1,1 +1,1 @@
-{"trades":[["2023-06-07",128000]],"info":{"build_year":2017,"households":719,"subway":"월계","subway_line":"1호선","subway_walk_min":24,"scores":{"transport":59,"infra":95,"academy":15,"brand":65,"livability":70,"loc":96}}}
+{"trades":[["2023-06-07",128000]],"info":{"build_year":2017,"households":719,"subway":"월계","subway_line":"1호선","subway_walk_min":24,"commute":{"gangnam":41,"gwanghwamun":24,"yeouido":46},"scores":{"transport":59,"infra":95,"academy":15,"brand":65,"livability":70,"loc":95}}}
