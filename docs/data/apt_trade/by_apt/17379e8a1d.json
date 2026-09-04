@@ -1,1 +1,1 @@
-{"trades":[["2020-06-09",11000],["2021-03-29",16500],["2021-07-26",15000],["2025-02-20",11600],["2026-03-31",9000]],"info":{"build_year":1980,"subway":"계명대","subway_line":"대구2호선","subway_walk_min":37,"scores":{"transport":37,"infra":100,"academy":75,"brand":50,"livability":25,"loc":7}}}
+{"trades":[["2020-06-09",11000],["2021-03-29",16500],["2021-07-26",15000],["2025-02-20",11600],["2026-03-31",9000]],"info":{"build_year":1980,"subway":"계명대","subway_line":"대구2호선","subway_walk_min":37,"scores":{"transport":37,"infra":100,"academy":75,"brand":50,"livability":25,"loc":0}}}
