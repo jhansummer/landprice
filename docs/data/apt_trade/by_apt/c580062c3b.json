@@ -1,1 +1,1 @@
-{"trades":[["2019-10-29",72500],["2024-10-05",94000]],"info":{"build_year":1989,"households":429,"subway":"공덕","subway_line":"5호선","subway_walk_min":10,"scores":{"transport":83,"infra":100,"academy":71,"brand":50,"livability":35,"loc":62}}}
+{"trades":[["2019-10-29",72500],["2024-10-05",94000]],"info":{"build_year":1989,"households":429,"subway":"공덕","subway_line":"5호선","subway_walk_min":10,"commute":{"gangnam":27,"gwanghwamun":11,"yeouido":11},"scores":{"transport":83,"infra":100,"academy":71,"brand":50,"livability":35,"loc":68}}}

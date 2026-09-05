@@ -1,1 +1,1 @@
-{"trades":[["2024-04-12",113000]],"info":{"build_year":2021,"subway":"정자","subway_line":"신분당선","subway_walk_min":62,"scores":{"transport":5,"infra":86,"academy":26,"brand":83,"livability":89,"loc":82}}}
+{"trades":[["2024-04-12",113000]],"info":{"build_year":2021,"subway":"정자","subway_line":"신분당선","subway_walk_min":62,"commute":{"gangnam":46,"gwanghwamun":73,"yeouido":65},"scores":{"transport":5,"infra":86,"academy":26,"brand":83,"livability":89,"loc":87}}}
