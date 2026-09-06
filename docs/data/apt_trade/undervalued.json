@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-05T19:12:02Z",
+  "updated_at": "2026-09-06T19:17:30Z",
   "current_month": "202609",
   "params": {
     "months": 36,
@@ -13967,7 +13967,7 @@
               "dong_name": "월계동",
               "area_m2": 59.94,
               "current_price": 103000.0,
-              "trade_count": 129
+              "trade_count": 130
             },
             {
               "id": "c11f66234b",
@@ -14039,7 +14039,7 @@
               "dong_name": "공릉동",
               "area_m2": 59.94,
               "current_price": 85000.0,
-              "trade_count": 84
+              "trade_count": 85
             },
             {
               "id": "7e4b7ec5e0",
@@ -14625,30 +14625,6 @@
               "area_m2": 59.99,
               "current_price": 134500.0,
               "trade_count": 86
-            }
-          ]
-        },
-        {
-          "size": 2,
-          "avg_current_price": 84250.0,
-          "members": [
-            {
-              "id": "8a1a376cc9",
-              "apt_name": "아남",
-              "sigungu": "성북구",
-              "dong_name": "보문동6가",
-              "area_m2": 84.9,
-              "current_price": 84000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f102f8db6b",
-              "apt_name": "참누리아파트",
-              "sigungu": "성북구",
-              "dong_name": "장위동",
-              "area_m2": 84.98,
-              "current_price": 84500.0,
-              "trade_count": 21
             }
           ]
         },
@@ -34250,7 +34226,7 @@
               "dong_name": "월계동",
               "area_m2": 59.94,
               "current_price": 103000.0,
-              "trade_count": 129
+              "trade_count": 130
             },
             {
               "id": "589da23e43",
@@ -34817,7 +34793,7 @@
               "dong_name": "공릉동",
               "area_m2": 59.94,
               "current_price": 85000.0,
-              "trade_count": 84
+              "trade_count": 85
             },
             {
               "id": "7e4b7ec5e0",
@@ -44154,30 +44130,6 @@
               "area_m2": 113.67,
               "current_price": 118000.0,
               "trade_count": 28
-            }
-          ]
-        },
-        {
-          "size": 2,
-          "avg_current_price": 84250.0,
-          "members": [
-            {
-              "id": "8a1a376cc9",
-              "apt_name": "아남",
-              "sigungu": "성북구",
-              "dong_name": "보문동6가",
-              "area_m2": 84.9,
-              "current_price": 84000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f102f8db6b",
-              "apt_name": "참누리아파트",
-              "sigungu": "성북구",
-              "dong_name": "장위동",
-              "area_m2": 84.98,
-              "current_price": 84500.0,
-              "trade_count": 21
             }
           ]
         },
@@ -53948,7 +53900,7 @@
               "dong_name": "월계동",
               "area_m2": 59.94,
               "current_price": 103000.0,
-              "trade_count": 129
+              "trade_count": 130
             },
             {
               "id": "589da23e43",
@@ -54263,7 +54215,7 @@
               "dong_name": "공릉동",
               "area_m2": 59.94,
               "current_price": 85000.0,
-              "trade_count": 84
+              "trade_count": 85
             },
             {
               "id": "7e4b7ec5e0",
@@ -60976,30 +60928,6 @@
           ]
         },
         {
-          "size": 2,
-          "avg_current_price": 84250.0,
-          "members": [
-            {
-              "id": "8a1a376cc9",
-              "apt_name": "아남",
-              "sigungu": "성북구",
-              "dong_name": "보문동6가",
-              "area_m2": 84.9,
-              "current_price": 84000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f102f8db6b",
-              "apt_name": "참누리아파트",
-              "sigungu": "성북구",
-              "dong_name": "장위동",
-              "area_m2": 84.98,
-              "current_price": 84500.0,
-              "trade_count": 21
-            }
-          ]
-        },
-        {
           "size": 445,
           "avg_current_price": 228366.52,
           "members": [
@@ -66893,7 +66821,7 @@
               "dong_name": "월계동",
               "area_m2": 59.94,
               "current_price": 103000.0,
-              "trade_count": 129
+              "trade_count": 130
             },
             {
               "id": "872b5010d3",
@@ -66992,7 +66920,7 @@
               "dong_name": "공릉동",
               "area_m2": 59.94,
               "current_price": 85000.0,
-              "trade_count": 84
+              "trade_count": 85
             },
             {
               "id": "7e4b7ec5e0",
@@ -68403,30 +68331,6 @@
               "area_m2": 121.98,
               "current_price": 184000.0,
               "trade_count": 16
-            }
-          ]
-        },
-        {
-          "size": 2,
-          "avg_current_price": 84250.0,
-          "members": [
-            {
-              "id": "8a1a376cc9",
-              "apt_name": "아남",
-              "sigungu": "성북구",
-              "dong_name": "보문동6가",
-              "area_m2": 84.9,
-              "current_price": 84000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f102f8db6b",
-              "apt_name": "참누리아파트",
-              "sigungu": "성북구",
-              "dong_name": "장위동",
-              "area_m2": 84.98,
-              "current_price": 84500.0,
-              "trade_count": 21
             }
           ]
         },
@@ -73841,7 +73745,7 @@
               "dong_name": "월계동",
               "area_m2": 59.94,
               "current_price": 103000.0,
-              "trade_count": 129
+              "trade_count": 130
             },
             {
               "id": "c11f66234b",
@@ -73913,7 +73817,7 @@
               "dong_name": "공릉동",
               "area_m2": 59.94,
               "current_price": 85000.0,
-              "trade_count": 84
+              "trade_count": 85
             },
             {
               "id": "7e4b7ec5e0",
@@ -74061,30 +73965,6 @@
               "area_m2": 113.67,
               "current_price": 118000.0,
               "trade_count": 28
-            }
-          ]
-        },
-        {
-          "size": 2,
-          "avg_current_price": 84250.0,
-          "members": [
-            {
-              "id": "8a1a376cc9",
-              "apt_name": "아남",
-              "sigungu": "성북구",
-              "dong_name": "보문동6가",
-              "area_m2": 84.9,
-              "current_price": 84000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "f102f8db6b",
-              "apt_name": "참누리아파트",
-              "sigungu": "성북구",
-              "dong_name": "장위동",
-              "area_m2": 84.98,
-              "current_price": 84500.0,
-              "trade_count": 21
             }
           ]
         }
