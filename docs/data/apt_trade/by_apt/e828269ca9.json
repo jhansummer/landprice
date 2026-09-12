@@ -1,1 +1,1 @@
-{"trades":[["2020-06-05",5000],["2020-12-29",9000],["2021-04-06",10000],["2021-11-18",10000]],"info":{"build_year":1980,"subway":"부평시장","subway_line":"인천1호선","subway_walk_min":3,"scores":{"transport":95,"infra":95,"academy":48,"brand":50,"livability":25,"loc":7}}}
+{"trades":[["2020-06-05",5000],["2020-12-29",9000],["2021-04-06",10000],["2021-11-18",10000]],"info":{"build_year":1980,"subway":"부평시장","subway_line":"인천1호선","subway_walk_min":3,"scores":{"transport":95,"infra":95,"academy":48,"brand":50,"livability":25,"loc":0}}}
