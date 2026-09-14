@@ -1,1 +1,1 @@
-{"trades":[["2026-03-12",150000]],"info":{"build_year":2024,"subway":"홍제","subway_line":"3호선","subway_walk_min":7,"scores":{"transport":88,"infra":100,"academy":33,"brand":50,"livability":75,"loc":81}}}
+{"trades":[["2026-03-12",150000]],"info":{"build_year":2024,"subway":"홍제","subway_line":"3호선","subway_walk_min":7,"commute":{"gangnam":37,"gwanghwamun":10,"yeouido":23},"scores":{"transport":88,"infra":100,"academy":33,"brand":50,"livability":75,"loc":84}}}

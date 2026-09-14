@@ -1,1 +1,1 @@
-{"trades":[["2025-10-19",300000]],"info":{"build_year":2021,"households":1723,"subway":"정부과천청사","subway_line":"4호선","subway_walk_min":8,"scores":{"transport":87,"infra":96,"academy":86,"brand":50,"livability":82,"loc":89}}}
+{"trades":[["2025-10-19",300000]],"info":{"build_year":2021,"households":1723,"subway":"정부과천청사","subway_line":"4호선","subway_walk_min":8,"commute":{"gangnam":27,"gwanghwamun":50,"yeouido":37},"scores":{"transport":87,"infra":96,"academy":86,"brand":50,"livability":82,"loc":91}}}
