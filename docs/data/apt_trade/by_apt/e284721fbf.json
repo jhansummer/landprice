@@ -1,1 +1,1 @@
-{"trades":[["2025-05-20",133500],["2025-05-27",129000],["2026-04-13",153000]],"info":{"build_year":2012,"subway":"야탑","subway_line":"수인분당선","subway_walk_min":19,"scores":{"transport":67,"infra":100,"academy":75,"brand":50,"livability":60,"loc":52}}}
+{"trades":[["2025-05-20",133500],["2025-05-27",129000],["2026-04-13",153000]],"info":{"build_year":2012,"subway":"야탑","subway_line":"수인분당선","subway_walk_min":19,"commute":{"gangnam":39,"gwanghwamun":66,"yeouido":66},"scores":{"transport":67,"infra":100,"academy":75,"brand":50,"livability":60,"loc":63}}}

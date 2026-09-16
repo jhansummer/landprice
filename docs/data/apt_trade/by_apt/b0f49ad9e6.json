@@ -1,1 +1,1 @@
-{"trades":[["2020-07-03",165000],["2020-09-11",173000]],"info":{"build_year":1992,"households":418,"subway":"서빙고","subway_line":"경의중앙선","subway_walk_min":10,"scores":{"transport":83,"infra":90,"academy":75,"brand":50,"livability":37,"loc":63}}}
+{"trades":[["2020-07-03",165000],["2020-09-11",173000]],"info":{"build_year":1992,"households":418,"subway":"서빙고","subway_line":"경의중앙선","subway_walk_min":10,"commute":{"gangnam":13,"gwanghwamun":18,"yeouido":16},"scores":{"transport":83,"infra":90,"academy":75,"brand":50,"livability":37,"loc":73}}}
