@@ -1,1 +1,1 @@
-{"trades":[["2019-11-02",30500],["2020-06-23",30000],["2021-03-25",45300],["2022-07-09",46300],["2025-05-22",32400]],"info":{"build_year":1978,"subway":"부암","subway_line":"부산2호선","subway_walk_min":5,"scores":{"transport":92,"infra":100,"academy":67,"brand":50,"livability":25,"loc":7}}}
+{"trades":[["2019-11-02",30500],["2020-06-23",30000],["2021-03-25",45300],["2022-07-09",46300],["2025-05-22",32400]],"info":{"build_year":1978,"subway":"부암","subway_line":"부산2호선","subway_walk_min":5,"scores":{"transport":92,"infra":100,"academy":67,"brand":50,"livability":25,"loc":0}}}
