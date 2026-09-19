@@ -1,1 +1,1 @@
-{"trades":[["2020-06-21",165000]],"info":{"build_year":2000,"households":412,"subway":"청담","subway_line":"7호선","subway_walk_min":9,"scores":{"transport":85,"infra":100,"academy":91,"brand":50,"livability":45,"loc":88}}}
+{"trades":[["2020-06-21",165000]],"info":{"build_year":2000,"households":412,"subway":"청담","subway_line":"7호선","subway_walk_min":9,"commute":{"gangnam":9,"gwanghwamun":26,"yeouido":33},"scores":{"transport":85,"infra":100,"academy":91,"brand":50,"livability":45,"loc":92}}}
