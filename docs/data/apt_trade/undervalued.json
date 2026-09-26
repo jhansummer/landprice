@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25T20:39:20Z",
+  "updated_at": "2026-09-26T19:57:10Z",
   "current_month": "202609",
   "params": {
     "months": 36,
@@ -81451,7 +81451,7 @@
         },
         {
           "size": 179,
-          "avg_current_price": 109890.57,
+          "avg_current_price": 109930.05,
           "members": [
             {
               "id": "471e346e6a",
@@ -81670,13 +81670,22 @@
               "trade_count": 69
             },
             {
+              "id": "c927691626",
+              "apt_name": "풍림아파트",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 59.76,
+              "current_price": 81333.33333333333,
+              "trade_count": 169
+            },
+            {
               "id": "2b36104f0c",
               "apt_name": "용인수지신정마을9단지",
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
               "area_m2": 49.26,
-              "current_price": 109000.0,
-              "trade_count": 135
+              "current_price": 109500.0,
+              "trade_count": 136
             },
             {
               "id": "4256e77c8d",
@@ -81686,15 +81695,6 @@
               "area_m2": 61.5589,
               "current_price": 96800.0,
               "trade_count": 43
-            },
-            {
-              "id": "c927691626",
-              "apt_name": "풍림아파트",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 59.76,
-              "current_price": 81333.33333333333,
-              "trade_count": 169
             },
             {
               "id": "bb743c8a25",
@@ -81792,8 +81792,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
               "area_m2": 59.99,
-              "current_price": 116250.0,
-              "trade_count": 358
+              "current_price": 116666.66666666667,
+              "trade_count": 359
             },
             {
               "id": "31d959e80e",
@@ -81958,15 +81958,6 @@
               "trade_count": 34
             },
             {
-              "id": "b00778bb66",
-              "apt_name": "우남퍼스트빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "신봉동",
-              "area_m2": 59.9524,
-              "current_price": 105700.0,
-              "trade_count": 176
-            },
-            {
               "id": "a374b3e03f",
               "apt_name": "용인수지신정마을9단지",
               "sigungu": "용인시수지구",
@@ -82010,6 +82001,15 @@
               "area_m2": 84.99,
               "current_price": 152500.0,
               "trade_count": 23
+            },
+            {
+              "id": "b00778bb66",
+              "apt_name": "우남퍼스트빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "신봉동",
+              "area_m2": 59.9524,
+              "current_price": 107600.0,
+              "trade_count": 177
             },
             {
               "id": "c16c5fa662",
@@ -82278,8 +82278,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "상현동",
               "area_m2": 84.9133,
-              "current_price": 105250.0,
-              "trade_count": 105
+              "current_price": 109500.0,
+              "trade_count": 106
             },
             {
               "id": "d113419cde",
@@ -83503,7 +83503,7 @@
         },
         {
           "size": 32,
-          "avg_current_price": 152016.67,
+          "avg_current_price": 152034.9,
           "members": [
             {
               "id": "4dfb145070",
@@ -83513,6 +83513,15 @@
               "area_m2": 59.8,
               "current_price": 124000.0,
               "trade_count": 16
+            },
+            {
+              "id": "742bfef273",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.84,
+              "current_price": 147500.0,
+              "trade_count": 137
             },
             {
               "id": "7b5817689a",
@@ -83565,8 +83574,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "수진동",
               "area_m2": 84.87,
-              "current_price": 108666.66666666667,
-              "trade_count": 22
+              "current_price": 110000.0,
+              "trade_count": 23
             },
             {
               "id": "545687a2d7",
@@ -83720,15 +83729,6 @@
               "area_m2": 51.89,
               "current_price": 161750.0,
               "trade_count": 131
-            },
-            {
-              "id": "742bfef273",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 59.84,
-              "current_price": 148250.0,
-              "trade_count": 135
             },
             {
               "id": "cd7891d5a0",
@@ -94648,7 +94648,7 @@
           "avg_36": 62915.625,
           "compare_avg_recent": 81079.16666666666,
           "compare_avg_36": 61831.48148148149,
-          "cluster_avg": 109890.57,
+          "cluster_avg": 109930.05,
           "gap_pct": -12.42,
           "status": "undervalued",
           "trade_count": 31,
@@ -94980,7 +94980,7 @@
               "avg_36": 62915.625,
               "compare_avg_recent": 81079.16666666666,
               "compare_avg_36": 61831.48148148149,
-              "cluster_avg": 109890.57,
+              "cluster_avg": 109930.05,
               "gap_pct": -12.42,
               "status": "undervalued",
               "trade_count": 31,
@@ -95031,7 +95031,7 @@
               "avg_36": 89802.52525252524,
               "compare_avg_recent": 119000.0,
               "compare_avg_36": 88490.68627450979,
-              "cluster_avg": 109890.57,
+              "cluster_avg": 109930.05,
               "gap_pct": -14.65,
               "status": "undervalued",
               "trade_count": 21,
@@ -95110,7 +95110,7 @@
               "avg_36": 81106.48148148147,
               "compare_avg_recent": 118583.33333333334,
               "compare_avg_36": 89118.25980392155,
-              "cluster_avg": 109890.57,
+              "cluster_avg": 109930.05,
               "gap_pct": -13.43,
               "status": "undervalued",
               "trade_count": 30,
@@ -95207,7 +95207,7 @@
               "avg_36": 110172.58064516129,
               "compare_avg_recent": 150000.0,
               "compare_avg_36": 112302.64705882354,
-              "cluster_avg": 109890.57,
+              "cluster_avg": 109930.05,
               "gap_pct": -10.44,
               "status": "undervalued",
               "trade_count": 15,
@@ -95304,7 +95304,7 @@
               "avg_36": 136693.88888888888,
               "compare_avg_recent": 172723.8888888889,
               "compare_avg_36": 133094.08369644155,
-              "cluster_avg": 109890.57,
+              "cluster_avg": 109930.05,
               "gap_pct": -9.25,
               "status": "undervalued",
               "trade_count": 45,
