@@ -1,1 +1,1 @@
-{"trades":[["2023-08-25",240000]],"info":{"build_year":2018,"households":777,"subway":"반포","subway_line":"7호선","subway_walk_min":14,"scores":{"transport":75,"infra":100,"academy":98,"brand":90,"livability":80,"loc":99}}}
+{"trades":[["2023-08-25",240000]],"info":{"build_year":2018,"households":777,"subway":"반포","subway_line":"7호선","subway_walk_min":14,"commute":{"gangnam":4,"gwanghwamun":25,"yeouido":24},"scores":{"transport":75,"infra":100,"academy":98,"brand":90,"livability":80,"loc":99}}}

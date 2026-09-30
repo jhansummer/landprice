@@ -36026,7 +36026,12 @@
    "bank": 35,
    "academy": 110
   },
-  "school_score": 81
+  "school_score": 81,
+  "commute_transit": {
+   "gangnam": 28,
+   "gwanghwamun": 51,
+   "yeouido": 56
+  }
  },
  "37.559,126.929": {
   "infra": {
@@ -73199,7 +73204,12 @@
    "bank": 59,
    "academy": 111
   },
-  "school_score": 78
+  "school_score": 78,
+  "commute_transit": {
+   "gangnam": 33,
+   "gwanghwamun": 19,
+   "yeouido": 40
+  }
  },
  "37.658,127.029": {
   "infra": {
@@ -120965,7 +120975,12 @@
    "bank": 12,
    "academy": 41
   },
-  "school_score": 79
+  "school_score": 79,
+  "commute_transit": {
+   "gangnam": 81,
+   "gwanghwamun": 109,
+   "yeouido": 99
+  }
  },
  "37.282,127.482": {
   "infra": {
@@ -239504,7 +239519,12 @@
    "bank": 29,
    "academy": 202
   },
-  "school_score": 70
+  "school_score": 70,
+  "commute_transit": {
+   "gangnam": 42,
+   "gwanghwamun": 34,
+   "yeouido": 54
+  }
  },
  "37.541,127.103": {
   "infra": {
@@ -244791,5 +244811,82 @@
    "academy": 174
   },
   "school_score": 81
+ },
+ "37.588,127.011": {
+  "infra": {
+   "mart": 6,
+   "conv": 70,
+   "school": 20,
+   "hospital": 164,
+   "bank": 76,
+   "academy": 318
+  },
+  "school_score": 78
+ },
+ "37.479,127.127": {
+  "infra": {
+   "mart": 6,
+   "conv": 61,
+   "school": 6,
+   "hospital": 93,
+   "bank": 45,
+   "academy": 117
+  },
+  "school_score": 81
+ },
+ "37.720,127.042": {
+  "infra": {
+   "mart": 3,
+   "conv": 28,
+   "school": 5,
+   "hospital": 62,
+   "bank": 20,
+   "academy": 96
+  },
+  "school_score": 78
+ },
+ "37.373,126.789": {
+  "infra": {
+   "mart": 3,
+   "conv": 26,
+   "school": 7,
+   "hospital": 40,
+   "bank": 5,
+   "academy": 153
+  },
+  "school_score": 69
+ },
+ "37.713,126.726": {
+  "infra": {
+   "mart": 4,
+   "conv": 16,
+   "school": 8,
+   "hospital": 26,
+   "bank": 8,
+   "academy": 116
+  },
+  "school_score": 71
+ },
+ "35.081,129.022": {
+  "infra": {
+   "mart": 1,
+   "conv": 21,
+   "school": 7,
+   "hospital": 15,
+   "bank": 13,
+   "academy": 21
+  },
+  "school_score": 77
+ },
+ "35.136,129.106": {
+  "infra": {
+   "mart": 6,
+   "conv": 69,
+   "school": 9,
+   "hospital": 130,
+   "bank": 58,
+   "academy": 363
+  },
+  "school_score": 87
  }
 }

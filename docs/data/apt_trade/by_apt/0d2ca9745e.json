@@ -1,1 +1,1 @@
-{"trades":[["2025-04-04",176500],["2025-05-11",179000],["2025-09-25",210000]],"info":{"build_year":2022,"households":737,"subway":"이대","subway_line":"2호선","subway_walk_min":7,"scores":{"transport":88,"infra":100,"academy":48,"brand":50,"livability":70,"loc":74}}}
+{"trades":[["2025-04-04",176500],["2025-05-11",179000],["2025-09-25",210000]],"info":{"build_year":2022,"households":737,"subway":"이대","subway_line":"2호선","subway_walk_min":7,"commute":{"gangnam":28,"gwanghwamun":9,"yeouido":13},"scores":{"transport":88,"infra":100,"academy":48,"brand":50,"livability":70,"loc":77}}}

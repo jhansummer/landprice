@@ -1,1 +1,1 @@
-{"trades":[["2024-08-13",399000]],"info":{"build_year":1975,"households":777,"subway":"여의나루","subway_line":"5호선","subway_walk_min":5,"scores":{"transport":91,"infra":100,"academy":89,"brand":50,"livability":38,"loc":90}}}
+{"trades":[["2024-08-13",399000]],"info":{"build_year":1975,"households":777,"subway":"여의나루","subway_line":"5호선","subway_walk_min":5,"commute":{"gangnam":27,"gwanghwamun":20,"yeouido":2},"scores":{"transport":91,"infra":100,"academy":89,"brand":50,"livability":38,"loc":93}}}

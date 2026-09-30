@@ -1,1 +1,1 @@
-{"trades":[["2020-12-22",190000]],"info":{"build_year":1991,"households":2378,"subway":"수내","subway_line":"수인분당선","subway_walk_min":21,"scores":{"transport":63,"infra":100,"academy":99,"brand":50,"livability":55,"loc":88}}}
+{"trades":[["2020-12-22",190000]],"info":{"build_year":1991,"households":2378,"subway":"수내","subway_line":"수인분당선","subway_walk_min":21,"commute":{"gangnam":48,"gwanghwamun":76,"yeouido":73},"scores":{"transport":63,"infra":100,"academy":99,"brand":50,"livability":55,"loc":94}}}

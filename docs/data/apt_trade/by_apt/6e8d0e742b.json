@@ -1,1 +1,1 @@
-{"trades":[["2024-04-30",185000]],"info":{"build_year":1999,"subway":"강동구청","subway_line":"8호선","subway_walk_min":14,"scores":{"transport":76,"infra":100,"academy":62,"brand":50,"livability":42,"loc":48}}}
+{"trades":[["2024-04-30",185000]],"info":{"build_year":1999,"subway":"강동구청","subway_line":"8호선","subway_walk_min":14,"commute":{"gangnam":26,"gwanghwamun":39,"yeouido":51},"scores":{"transport":76,"infra":100,"academy":62,"brand":50,"livability":42,"loc":62}}}

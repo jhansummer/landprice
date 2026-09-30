@@ -1,1 +1,1 @@
-{"trades":[["2020-07-11",160000],["2024-08-31",232500]],"info":{"build_year":1988,"households":1195,"subway":"흑석","subway_line":"9호선","subway_walk_min":12,"scores":{"transport":79,"infra":100,"academy":67,"brand":50,"livability":47,"loc":65}}}
+{"trades":[["2020-07-11",160000],["2024-08-31",232500]],"info":{"build_year":1988,"households":1195,"subway":"흑석","subway_line":"9호선","subway_walk_min":12,"commute":{"gangnam":16,"gwanghwamun":22,"yeouido":13},"scores":{"transport":79,"infra":100,"academy":67,"brand":50,"livability":47,"loc":75}}}
