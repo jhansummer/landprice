@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03T20:07:01Z",
+  "updated_at": "2026-10-04T20:18:24Z",
   "current_month": "202610",
   "params": {
     "months": 36,
@@ -104357,8 +104357,8 @@
           ]
         },
         {
-          "size": 112,
-          "avg_current_price": 67525.57,
+          "size": 111,
+          "avg_current_price": 67670.24,
           "members": [
             {
               "id": "72b5d2924c",
@@ -104478,22 +104478,13 @@
               "trade_count": 13
             },
             {
-              "id": "097b06bdf3",
-              "apt_name": "레이카운티(3단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.8261,
-              "current_price": 91000.0,
-              "trade_count": 36
-            },
-            {
               "id": "caca66c1d1",
               "apt_name": "레이카운티(1단지)",
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.8261,
-              "current_price": 103550.0,
-              "trade_count": 60
+              "current_price": 106900.0,
+              "trade_count": 61
             },
             {
               "id": "a98edfda72",
@@ -104503,6 +104494,42 @@
               "area_m2": 84.9823,
               "current_price": 117750.0,
               "trade_count": 43
+            },
+            {
+              "id": "592179ab72",
+              "apt_name": "레이카운티(1단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9823,
+              "current_price": 102800.0,
+              "trade_count": 50
+            },
+            {
+              "id": "03fae8fa7d",
+              "apt_name": "거제동롯데캐슬피렌체",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9491,
+              "current_price": 90000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "da54d04104",
+              "apt_name": "사직KCC스위첸2단지",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9927,
+              "current_price": 72500.0,
+              "trade_count": 8
+            },
+            {
+              "id": "e67336636c",
+              "apt_name": "쌍용",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.971,
+              "current_price": 74700.0,
+              "trade_count": 26
             },
             {
               "id": "b7ecdd24b7",
@@ -104555,8 +104582,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.96,
-              "current_price": 67000.0,
-              "trade_count": 35
+              "current_price": 66750.0,
+              "trade_count": 36
             },
             {
               "id": "73ff3e9ef5",
@@ -104613,69 +104640,6 @@
               "trade_count": 24
             },
             {
-              "id": "592179ab72",
-              "apt_name": "레이카운티(1단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9823,
-              "current_price": 102800.0,
-              "trade_count": 50
-            },
-            {
-              "id": "03fae8fa7d",
-              "apt_name": "거제동롯데캐슬피렌체",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9491,
-              "current_price": 90000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "da54d04104",
-              "apt_name": "사직KCC스위첸2단지",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9927,
-              "current_price": 72500.0,
-              "trade_count": 8
-            },
-            {
-              "id": "468d277473",
-              "apt_name": "연제SKVIEWCentral",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 78.1676,
-              "current_price": 57000.0,
-              "trade_count": 12
-            },
-            {
-              "id": "e67336636c",
-              "apt_name": "쌍용",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.971,
-              "current_price": 74700.0,
-              "trade_count": 26
-            },
-            {
-              "id": "c1679909ea",
-              "apt_name": "사직역삼정그린코아더베스트2차",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.71,
-              "current_price": 78000.0,
-              "trade_count": 8
-            },
-            {
-              "id": "74a404d1e0",
-              "apt_name": "가야센트레빌",
-              "sigungu": "부산진구",
-              "dong_name": "가야동",
-              "area_m2": 84.9859,
-              "current_price": 64000.0,
-              "trade_count": 18
-            },
-            {
               "id": "1edc0ed858",
               "apt_name": "양정이즈카운티",
               "sigungu": "부산진구",
@@ -104710,6 +104674,15 @@
               "area_m2": 84.8526,
               "current_price": 52000.0,
               "trade_count": 17
+            },
+            {
+              "id": "c1679909ea",
+              "apt_name": "사직역삼정그린코아더베스트2차",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.71,
+              "current_price": 78000.0,
+              "trade_count": 8
             },
             {
               "id": "f684c4f02b",
@@ -104782,6 +104755,33 @@
               "area_m2": 59.2,
               "current_price": 42933.333333333336,
               "trade_count": 35
+            },
+            {
+              "id": "097b06bdf3",
+              "apt_name": "레이카운티(3단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.8261,
+              "current_price": 91000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "468d277473",
+              "apt_name": "연제SKVIEWCentral",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 78.1676,
+              "current_price": 57000.0,
+              "trade_count": 12
+            },
+            {
+              "id": "74a404d1e0",
+              "apt_name": "가야센트레빌",
+              "sigungu": "부산진구",
+              "dong_name": "가야동",
+              "area_m2": 84.9859,
+              "current_price": 64000.0,
+              "trade_count": 18
             },
             {
               "id": "40327ff5d5",
@@ -105068,8 +105068,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 59.9866,
-              "current_price": 84466.66666666667,
-              "trade_count": 54
+              "current_price": 85500.0,
+              "trade_count": 55
             },
             {
               "id": "11eae90dd9",
@@ -105277,15 +105277,6 @@
               "area_m2": 59.9871,
               "current_price": 64100.0,
               "trade_count": 19
-            },
-            {
-              "id": "5b9a33ac32",
-              "apt_name": "힐스테이트연산",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 59.9797,
-              "current_price": 55600.0,
-              "trade_count": 103
             },
             {
               "id": "fab58615d1",
@@ -105773,8 +105764,8 @@
           ]
         },
         {
-          "size": 189,
-          "avg_current_price": 69957.48,
+          "size": 185,
+          "avg_current_price": 70588.36,
           "members": [
             {
               "id": "edfb4fa5cc",
@@ -105831,184 +105822,22 @@
               "trade_count": 82
             },
             {
-              "id": "e152c2b2ef",
-              "apt_name": "레이카운티(1단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.9866,
-              "current_price": 84466.66666666667,
-              "trade_count": 54
-            },
-            {
-              "id": "1accfa8b99",
-              "apt_name": "더샵파크시티",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 74.97,
-              "current_price": 60500.0,
-              "trade_count": 14
-            },
-            {
-              "id": "cfef778e96",
-              "apt_name": "서면DS·협성엘리시안아파트",
-              "sigungu": "부산진구",
-              "dong_name": "범천동",
-              "area_m2": 74.7091,
-              "current_price": 40000.0,
-              "trade_count": 9
-            },
-            {
-              "id": "caca66c1d1",
-              "apt_name": "레이카운티(1단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.8261,
-              "current_price": 103550.0,
-              "trade_count": 60
-            },
-            {
-              "id": "a98edfda72",
-              "apt_name": "레이카운티(2단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9823,
-              "current_price": 117750.0,
-              "trade_count": 43
-            },
-            {
-              "id": "e67336636c",
-              "apt_name": "쌍용",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.971,
-              "current_price": 74700.0,
-              "trade_count": 26
-            },
-            {
-              "id": "b9f3f92a01",
-              "apt_name": "마린시티자이",
-              "sigungu": "해운대구",
-              "dong_name": "우동",
-              "area_m2": 84.9816,
-              "current_price": 150000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "997b5be6e7",
-              "apt_name": "센텀리버SKVIEW",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 84.9554,
-              "current_price": 58250.0,
-              "trade_count": 13
-            },
-            {
-              "id": "81a3bb5bac",
-              "apt_name": "대우마리나2",
-              "sigungu": "해운대구",
-              "dong_name": "우동",
-              "area_m2": 84.2249,
-              "current_price": 111000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "e31bc406f2",
-              "apt_name": "해운대자이1단지",
-              "sigungu": "해운대구",
-              "dong_name": "우동",
-              "area_m2": 84.5368,
-              "current_price": 111500.0,
-              "trade_count": 45
-            },
-            {
-              "id": "ddd1592b51",
-              "apt_name": "삼환나우빌",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 77.5804,
-              "current_price": 46000.0,
-              "trade_count": 19
-            },
-            {
-              "id": "3bae458140",
-              "apt_name": "센텀이편한세상",
-              "sigungu": "해운대구",
-              "dong_name": "재송동",
-              "area_m2": 73.405,
-              "current_price": 65000.0,
-              "trade_count": 66
-            },
-            {
-              "id": "ec18df34e6",
-              "apt_name": "더샵남천프레스티지",
-              "sigungu": "수영구",
-              "dong_name": "남천동",
-              "area_m2": 84.4281,
-              "current_price": 134500.0,
-              "trade_count": 20
-            },
-            {
-              "id": "265044f6db",
-              "apt_name": "아시아드푸르지오",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9564,
-              "current_price": 68000.0,
-              "trade_count": 10
-            },
-            {
-              "id": "ddccfc914b",
-              "apt_name": "더샵센텀스타",
-              "sigungu": "해운대구",
-              "dong_name": "재송동",
-              "area_m2": 109.14,
-              "current_price": 108000.0,
-              "trade_count": 12
-            },
-            {
-              "id": "8a93d46506",
-              "apt_name": "서면한신",
-              "sigungu": "부산진구",
-              "dong_name": "전포동",
-              "area_m2": 124.09,
-              "current_price": 55500.0,
-              "trade_count": 10
-            },
-            {
-              "id": "69b1cdd28d",
-              "apt_name": "명륜아이파크2단지",
-              "sigungu": "동래구",
-              "dong_name": "복천동",
-              "area_m2": 84.9949,
-              "current_price": 65000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "adb513dcaf",
+              "id": "9bef92c8ec",
               "apt_name": "거제센트럴자이",
               "sigungu": "연제구",
               "dong_name": "거제동",
-              "area_m2": 84.9542,
-              "current_price": 80000.0,
-              "trade_count": 29
+              "area_m2": 59.9635,
+              "current_price": 67450.0,
+              "trade_count": 69
             },
             {
-              "id": "1a40aff0a6",
-              "apt_name": "대림2",
-              "sigungu": "해운대구",
-              "dong_name": "좌동",
-              "area_m2": 101.984,
-              "current_price": 68500.0,
-              "trade_count": 8
-            },
-            {
-              "id": "004a84b7b5",
-              "apt_name": "대우2",
-              "sigungu": "해운대구",
-              "dong_name": "좌동",
-              "area_m2": 84.962,
-              "current_price": 56000.0,
-              "trade_count": 23
+              "id": "3220258fd1",
+              "apt_name": "거제2차현대홈타운",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.676,
+              "current_price": 60500.0,
+              "trade_count": 107
             },
             {
               "id": "0f6d1432f6",
@@ -106029,24 +105858,6 @@
               "trade_count": 13
             },
             {
-              "id": "3220258fd1",
-              "apt_name": "거제2차현대홈타운",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.676,
-              "current_price": 60500.0,
-              "trade_count": 107
-            },
-            {
-              "id": "84e27ae325",
-              "apt_name": "수영SKVIEW1단지",
-              "sigungu": "수영구",
-              "dong_name": "망미동",
-              "area_m2": 59.9642,
-              "current_price": 55500.0,
-              "trade_count": 41
-            },
-            {
               "id": "16fcdfc786",
               "apt_name": "유림노르웨이숲",
               "sigungu": "부산진구",
@@ -106056,13 +105867,148 @@
               "trade_count": 13
             },
             {
-              "id": "cd1a4b17fc",
-              "apt_name": "대원",
+              "id": "004a84b7b5",
+              "apt_name": "대우2",
               "sigungu": "해운대구",
               "dong_name": "좌동",
-              "area_m2": 84.97,
-              "current_price": 54000.0,
+              "area_m2": 84.962,
+              "current_price": 56000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "1a40aff0a6",
+              "apt_name": "대림2",
+              "sigungu": "해운대구",
+              "dong_name": "좌동",
+              "area_m2": 101.984,
+              "current_price": 68500.0,
+              "trade_count": 8
+            },
+            {
+              "id": "adb513dcaf",
+              "apt_name": "거제센트럴자이",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9542,
+              "current_price": 80000.0,
+              "trade_count": 29
+            },
+            {
+              "id": "69b1cdd28d",
+              "apt_name": "명륜아이파크2단지",
+              "sigungu": "동래구",
+              "dong_name": "복천동",
+              "area_m2": 84.9949,
+              "current_price": 65000.0,
               "trade_count": 16
+            },
+            {
+              "id": "8a93d46506",
+              "apt_name": "서면한신",
+              "sigungu": "부산진구",
+              "dong_name": "전포동",
+              "area_m2": 124.09,
+              "current_price": 55500.0,
+              "trade_count": 10
+            },
+            {
+              "id": "117596a4cf",
+              "apt_name": "해운대한신휴플러스",
+              "sigungu": "해운대구",
+              "dong_name": "우동",
+              "area_m2": 84.8381,
+              "current_price": 68000.0,
+              "trade_count": 8
+            },
+            {
+              "id": "ddccfc914b",
+              "apt_name": "더샵센텀스타",
+              "sigungu": "해운대구",
+              "dong_name": "재송동",
+              "area_m2": 109.14,
+              "current_price": 108000.0,
+              "trade_count": 12
+            },
+            {
+              "id": "265044f6db",
+              "apt_name": "아시아드푸르지오",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9564,
+              "current_price": 68000.0,
+              "trade_count": 10
+            },
+            {
+              "id": "436f8f2d74",
+              "apt_name": "한라",
+              "sigungu": "해운대구",
+              "dong_name": "좌동",
+              "area_m2": 84.96,
+              "current_price": 59500.0,
+              "trade_count": 12
+            },
+            {
+              "id": "b9f3f92a01",
+              "apt_name": "마린시티자이",
+              "sigungu": "해운대구",
+              "dong_name": "우동",
+              "area_m2": 84.9816,
+              "current_price": 150000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "997b5be6e7",
+              "apt_name": "센텀리버SKVIEW",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 84.9554,
+              "current_price": 58250.0,
+              "trade_count": 13
+            },
+            {
+              "id": "caca66c1d1",
+              "apt_name": "레이카운티(1단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.8261,
+              "current_price": 106900.0,
+              "trade_count": 61
+            },
+            {
+              "id": "a98edfda72",
+              "apt_name": "레이카운티(2단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9823,
+              "current_price": 117750.0,
+              "trade_count": 43
+            },
+            {
+              "id": "592179ab72",
+              "apt_name": "레이카운티(1단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9823,
+              "current_price": 102800.0,
+              "trade_count": 50
+            },
+            {
+              "id": "03fae8fa7d",
+              "apt_name": "거제동롯데캐슬피렌체",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9491,
+              "current_price": 90000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "da54d04104",
+              "apt_name": "사직KCC스위첸2단지",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9927,
+              "current_price": 72500.0,
+              "trade_count": 8
             },
             {
               "id": "41ea7565c4",
@@ -106200,130 +106146,184 @@
               "trade_count": 45
             },
             {
-              "id": "da54d04104",
-              "apt_name": "사직KCC스위첸2단지",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9927,
-              "current_price": 72500.0,
-              "trade_count": 8
-            },
-            {
-              "id": "03fae8fa7d",
-              "apt_name": "거제동롯데캐슬피렌체",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9491,
-              "current_price": 90000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "9a541772a1",
-              "apt_name": "광안메르빌",
-              "sigungu": "수영구",
-              "dong_name": "광안동",
-              "area_m2": 84.8828,
-              "current_price": 31800.0,
-              "trade_count": 8
-            },
-            {
-              "id": "e9c6bd1c5f",
-              "apt_name": "한진",
-              "sigungu": "동래구",
-              "dong_name": "수안동",
-              "area_m2": 59.97,
-              "current_price": 32900.0,
-              "trade_count": 8
-            },
-            {
-              "id": "f6366578f4",
-              "apt_name": "부산더샵센텀포레",
-              "sigungu": "수영구",
-              "dong_name": "민락동",
-              "area_m2": 59.9415,
-              "current_price": 77250.0,
-              "trade_count": 23
-            },
-            {
-              "id": "117596a4cf",
-              "apt_name": "해운대한신휴플러스",
+              "id": "5fa1f857c0",
+              "apt_name": "해운대센트럴푸르지오",
               "sigungu": "해운대구",
               "dong_name": "우동",
-              "area_m2": 84.8381,
-              "current_price": 68000.0,
+              "area_m2": 84.5444,
+              "current_price": 95000.0,
+              "trade_count": 27
+            },
+            {
+              "id": "cfef778e96",
+              "apt_name": "서면DS·협성엘리시안아파트",
+              "sigungu": "부산진구",
+              "dong_name": "범천동",
+              "area_m2": 74.7091,
+              "current_price": 40000.0,
+              "trade_count": 9
+            },
+            {
+              "id": "1accfa8b99",
+              "apt_name": "더샵파크시티",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 74.97,
+              "current_price": 60500.0,
+              "trade_count": 14
+            },
+            {
+              "id": "2823a23583",
+              "apt_name": "연제SKVIEWCentral",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 66.2816,
+              "current_price": 51700.0,
+              "trade_count": 28
+            },
+            {
+              "id": "5ab5af186d",
+              "apt_name": "롯데캐슬라센트",
+              "sigungu": "부산진구",
+              "dong_name": "부암동",
+              "area_m2": 59.2,
+              "current_price": 42933.333333333336,
+              "trade_count": 35
+            },
+            {
+              "id": "c1679909ea",
+              "apt_name": "사직역삼정그린코아더베스트2차",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.71,
+              "current_price": 78000.0,
               "trade_count": 8
             },
             {
-              "id": "e003b120ab",
-              "apt_name": "센텀비스타동원2차",
-              "sigungu": "수영구",
-              "dong_name": "민락동",
-              "area_m2": 84.9275,
-              "current_price": 83500.0,
-              "trade_count": 26
-            },
-            {
-              "id": "73ff3e9ef5",
-              "apt_name": "명륜동힐스테이트",
+              "id": "f684c4f02b",
+              "apt_name": "명륜자이",
               "sigungu": "동래구",
               "dong_name": "명륜동",
-              "area_m2": 84.9773,
-              "current_price": 76000.0,
-              "trade_count": 96
+              "area_m2": 59.9933,
+              "current_price": 74000.0,
+              "trade_count": 13
             },
             {
-              "id": "e2f2e61612",
-              "apt_name": "거제센트럴자이",
+              "id": "cff63ce0db",
+              "apt_name": "거제동롯데캐슬",
               "sigungu": "연제구",
               "dong_name": "거제동",
-              "area_m2": 84.8682,
-              "current_price": 81000.0,
+              "area_m2": 59.664,
+              "current_price": 34000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "76f9693dfb",
+              "apt_name": "동래3차SKVIEW",
+              "sigungu": "동래구",
+              "dong_name": "온천동",
+              "area_m2": 59.996,
+              "current_price": 45000.0,
               "trade_count": 11
             },
             {
-              "id": "86770eca56",
-              "apt_name": "서면아이파크1단지",
-              "sigungu": "부산진구",
-              "dong_name": "전포동",
-              "area_m2": 72.7414,
-              "current_price": 62500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "1dd9d70035",
-              "apt_name": "e편한세상동래아시아드",
-              "sigungu": "동래구",
-              "dong_name": "온천동",
-              "area_m2": 84.9754,
-              "current_price": 74500.0,
-              "trade_count": 32
-            },
-            {
-              "id": "b247935cb9",
-              "apt_name": "사직KCC스위첸1단지",
+              "id": "83934bddee",
+              "apt_name": "사직하늘채리센티아",
               "sigungu": "동래구",
               "dong_name": "사직동",
-              "area_m2": 84.9921,
-              "current_price": 71500.0,
-              "trade_count": 16
+              "area_m2": 84.9102,
+              "current_price": 75800.0,
+              "trade_count": 31
             },
             {
-              "id": "436f8f2d74",
-              "apt_name": "한라",
-              "sigungu": "해운대구",
-              "dong_name": "좌동",
-              "area_m2": 84.96,
-              "current_price": 59500.0,
+              "id": "de82b67b0f",
+              "apt_name": "쌍용더플래티넘사직아시아드아파트",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 59.9481,
+              "current_price": 85250.0,
+              "trade_count": 36
+            },
+            {
+              "id": "576e11c2b8",
+              "apt_name": "광안자이",
+              "sigungu": "수영구",
+              "dong_name": "광안동",
+              "area_m2": 84.93,
+              "current_price": 95150.0,
               "trade_count": 12
             },
             {
-              "id": "afa601295d",
-              "apt_name": "롯데캐슬스타",
+              "id": "0a6e7f6bd6",
+              "apt_name": "건영2",
               "sigungu": "해운대구",
-              "dong_name": "중동",
-              "area_m2": 84.9177,
-              "current_price": 112750.0,
-              "trade_count": 22
+              "dong_name": "좌동",
+              "area_m2": 84.64,
+              "current_price": 55800.0,
+              "trade_count": 18
+            },
+            {
+              "id": "097b06bdf3",
+              "apt_name": "레이카운티(3단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.8261,
+              "current_price": 91000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "468d277473",
+              "apt_name": "연제SKVIEWCentral",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 78.1676,
+              "current_price": 57000.0,
+              "trade_count": 12
+            },
+            {
+              "id": "74a404d1e0",
+              "apt_name": "가야센트레빌",
+              "sigungu": "부산진구",
+              "dong_name": "가야동",
+              "area_m2": 84.9859,
+              "current_price": 64000.0,
+              "trade_count": 18
+            },
+            {
+              "id": "e67336636c",
+              "apt_name": "쌍용",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.971,
+              "current_price": 74700.0,
+              "trade_count": 26
+            },
+            {
+              "id": "1edc0ed858",
+              "apt_name": "양정이즈카운티",
+              "sigungu": "부산진구",
+              "dong_name": "양정동",
+              "area_m2": 66.38,
+              "current_price": 36000.0,
+              "trade_count": 9
+            },
+            {
+              "id": "3838bfd37f",
+              "apt_name": "레이카운티(3단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9823,
+              "current_price": 94500.0,
+              "trade_count": 30
+            },
+            {
+              "id": "2d3a594b1f",
+              "apt_name": "연산포레서희스타힐스",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 84.8526,
+              "current_price": 52000.0,
+              "trade_count": 17
             },
             {
               "id": "2eec7e16ed",
@@ -106371,229 +106371,148 @@
               "trade_count": 44
             },
             {
-              "id": "576e11c2b8",
-              "apt_name": "광안자이",
-              "sigungu": "수영구",
-              "dong_name": "광안동",
-              "area_m2": 84.93,
-              "current_price": 95150.0,
-              "trade_count": 12
-            },
-            {
-              "id": "0a6e7f6bd6",
-              "apt_name": "건영2",
-              "sigungu": "해운대구",
-              "dong_name": "좌동",
-              "area_m2": 84.64,
-              "current_price": 55800.0,
-              "trade_count": 18
-            },
-            {
-              "id": "592179ab72",
-              "apt_name": "레이카운티(1단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9823,
-              "current_price": 102800.0,
-              "trade_count": 50
-            },
-            {
-              "id": "5fa1f857c0",
-              "apt_name": "해운대센트럴푸르지오",
+              "id": "81a3bb5bac",
+              "apt_name": "대우마리나2",
               "sigungu": "해운대구",
               "dong_name": "우동",
-              "area_m2": 84.5444,
-              "current_price": 95000.0,
-              "trade_count": 27
+              "area_m2": 84.2249,
+              "current_price": 111000.0,
+              "trade_count": 26
             },
             {
-              "id": "2823a23583",
-              "apt_name": "연제SKVIEWCentral",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 66.2816,
-              "current_price": 51700.0,
-              "trade_count": 28
+              "id": "e31bc406f2",
+              "apt_name": "해운대자이1단지",
+              "sigungu": "해운대구",
+              "dong_name": "우동",
+              "area_m2": 84.5368,
+              "current_price": 111500.0,
+              "trade_count": 45
             },
             {
-              "id": "097b06bdf3",
-              "apt_name": "레이카운티(3단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.8261,
-              "current_price": 91000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "468d277473",
-              "apt_name": "연제SKVIEWCentral",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 78.1676,
-              "current_price": 57000.0,
-              "trade_count": 12
-            },
-            {
-              "id": "74a404d1e0",
-              "apt_name": "가야센트레빌",
-              "sigungu": "부산진구",
-              "dong_name": "가야동",
-              "area_m2": 84.9859,
-              "current_price": 64000.0,
-              "trade_count": 18
-            },
-            {
-              "id": "5ab5af186d",
-              "apt_name": "롯데캐슬라센트",
-              "sigungu": "부산진구",
-              "dong_name": "부암동",
-              "area_m2": 59.2,
-              "current_price": 42933.333333333336,
-              "trade_count": 35
-            },
-            {
-              "id": "1edc0ed858",
-              "apt_name": "양정이즈카운티",
-              "sigungu": "부산진구",
-              "dong_name": "양정동",
-              "area_m2": 66.38,
-              "current_price": 36000.0,
-              "trade_count": 9
-            },
-            {
-              "id": "3838bfd37f",
-              "apt_name": "레이카운티(3단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9823,
-              "current_price": 94500.0,
-              "trade_count": 30
-            },
-            {
-              "id": "2d3a594b1f",
-              "apt_name": "연산포레서희스타힐스",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 84.8526,
-              "current_price": 52000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "c1679909ea",
-              "apt_name": "사직역삼정그린코아더베스트2차",
+              "id": "ddd1592b51",
+              "apt_name": "삼환나우빌",
               "sigungu": "동래구",
               "dong_name": "사직동",
-              "area_m2": 84.71,
-              "current_price": 78000.0,
-              "trade_count": 8
+              "area_m2": 77.5804,
+              "current_price": 46000.0,
+              "trade_count": 19
             },
             {
-              "id": "83934bddee",
-              "apt_name": "사직하늘채리센티아",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9102,
-              "current_price": 75800.0,
-              "trade_count": 31
-            },
-            {
-              "id": "d8d840927c",
-              "apt_name": "광우파크맨션",
+              "id": "3bae458140",
+              "apt_name": "센텀이편한세상",
               "sigungu": "해운대구",
-              "dong_name": "반여동",
-              "area_m2": 60.32,
-              "current_price": 5800.0,
-              "trade_count": 8
+              "dong_name": "재송동",
+              "area_m2": 73.405,
+              "current_price": 65000.0,
+              "trade_count": 66
             },
             {
-              "id": "357f26ec4a",
-              "apt_name": "쌍용더플래티넘거제아시아드",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 74.8395,
-              "current_price": 66000.0,
-              "trade_count": 9
-            },
-            {
-              "id": "b12c2f7e8b",
-              "apt_name": "안락뜨란채1단지",
-              "sigungu": "동래구",
-              "dong_name": "안락동",
-              "area_m2": 74.65,
-              "current_price": 39850.0,
-              "trade_count": 15
-            },
-            {
-              "id": "8551d4fb30",
-              "apt_name": "벽산1",
+              "id": "afa601295d",
+              "apt_name": "롯데캐슬스타",
               "sigungu": "해운대구",
-              "dong_name": "좌동",
-              "area_m2": 59.73,
-              "current_price": 49850.0,
-              "trade_count": 63
+              "dong_name": "중동",
+              "area_m2": 84.9177,
+              "current_price": 112750.0,
+              "trade_count": 22
             },
             {
-              "id": "2e26663c82",
-              "apt_name": "현대",
+              "id": "e003b120ab",
+              "apt_name": "센텀비스타동원2차",
               "sigungu": "수영구",
-              "dong_name": "수영동",
-              "area_m2": 52.38,
-              "current_price": 61433.333333333336,
-              "trade_count": 14
+              "dong_name": "민락동",
+              "area_m2": 84.9275,
+              "current_price": 83500.0,
+              "trade_count": 26
             },
             {
-              "id": "631dcdd581",
-              "apt_name": "광안동일스위트",
+              "id": "ec18df34e6",
+              "apt_name": "더샵남천프레스티지",
               "sigungu": "수영구",
-              "dong_name": "광안동",
-              "area_m2": 62.5528,
-              "current_price": 37500.0,
-              "trade_count": 11
+              "dong_name": "남천동",
+              "area_m2": 84.4281,
+              "current_price": 134500.0,
+              "trade_count": 20
             },
             {
-              "id": "f684c4f02b",
-              "apt_name": "명륜자이",
+              "id": "73ff3e9ef5",
+              "apt_name": "명륜동힐스테이트",
               "sigungu": "동래구",
               "dong_name": "명륜동",
-              "area_m2": 59.9933,
-              "current_price": 74000.0,
-              "trade_count": 13
+              "area_m2": 84.9773,
+              "current_price": 76000.0,
+              "trade_count": 96
             },
             {
-              "id": "cff63ce0db",
-              "apt_name": "거제동롯데캐슬",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.664,
-              "current_price": 34000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "76f9693dfb",
-              "apt_name": "동래3차SKVIEW",
-              "sigungu": "동래구",
-              "dong_name": "온천동",
-              "area_m2": 59.996,
-              "current_price": 45000.0,
-              "trade_count": 11
-            },
-            {
-              "id": "de82b67b0f",
-              "apt_name": "쌍용더플래티넘사직아시아드아파트",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 59.9481,
-              "current_price": 85250.0,
-              "trade_count": 36
-            },
-            {
-              "id": "9bef92c8ec",
+              "id": "e2f2e61612",
               "apt_name": "거제센트럴자이",
               "sigungu": "연제구",
               "dong_name": "거제동",
-              "area_m2": 59.9635,
-              "current_price": 67450.0,
-              "trade_count": 69
+              "area_m2": 84.8682,
+              "current_price": 81000.0,
+              "trade_count": 11
+            },
+            {
+              "id": "86770eca56",
+              "apt_name": "서면아이파크1단지",
+              "sigungu": "부산진구",
+              "dong_name": "전포동",
+              "area_m2": 72.7414,
+              "current_price": 62500.0,
+              "trade_count": 21
+            },
+            {
+              "id": "1dd9d70035",
+              "apt_name": "e편한세상동래아시아드",
+              "sigungu": "동래구",
+              "dong_name": "온천동",
+              "area_m2": 84.9754,
+              "current_price": 74500.0,
+              "trade_count": 32
+            },
+            {
+              "id": "b247935cb9",
+              "apt_name": "사직KCC스위첸1단지",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9921,
+              "current_price": 71500.0,
+              "trade_count": 16
+            },
+            {
+              "id": "cd1a4b17fc",
+              "apt_name": "대원",
+              "sigungu": "해운대구",
+              "dong_name": "좌동",
+              "area_m2": 84.97,
+              "current_price": 54000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "9a541772a1",
+              "apt_name": "광안메르빌",
+              "sigungu": "수영구",
+              "dong_name": "광안동",
+              "area_m2": 84.8828,
+              "current_price": 31800.0,
+              "trade_count": 8
+            },
+            {
+              "id": "e9c6bd1c5f",
+              "apt_name": "한진",
+              "sigungu": "동래구",
+              "dong_name": "수안동",
+              "area_m2": 59.97,
+              "current_price": 32900.0,
+              "trade_count": 8
+            },
+            {
+              "id": "f6366578f4",
+              "apt_name": "부산더샵센텀포레",
+              "sigungu": "수영구",
+              "dong_name": "민락동",
+              "area_m2": 59.9415,
+              "current_price": 77250.0,
+              "trade_count": 23
             },
             {
               "id": "1c85d3710d",
@@ -106758,6 +106677,15 @@
               "trade_count": 8
             },
             {
+              "id": "84e27ae325",
+              "apt_name": "수영SKVIEW1단지",
+              "sigungu": "수영구",
+              "dong_name": "망미동",
+              "area_m2": 59.9642,
+              "current_price": 55500.0,
+              "trade_count": 41
+            },
+            {
               "id": "11eae90dd9",
               "apt_name": "명륜자이",
               "sigungu": "동래구",
@@ -106765,6 +106693,42 @@
               "area_m2": 59.8812,
               "current_price": 75000.0,
               "trade_count": 8
+            },
+            {
+              "id": "e152c2b2ef",
+              "apt_name": "레이카운티(1단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.9866,
+              "current_price": 85500.0,
+              "trade_count": 55
+            },
+            {
+              "id": "8551d4fb30",
+              "apt_name": "벽산1",
+              "sigungu": "해운대구",
+              "dong_name": "좌동",
+              "area_m2": 59.73,
+              "current_price": 49850.0,
+              "trade_count": 63
+            },
+            {
+              "id": "2e26663c82",
+              "apt_name": "현대",
+              "sigungu": "수영구",
+              "dong_name": "수영동",
+              "area_m2": 52.38,
+              "current_price": 61433.333333333336,
+              "trade_count": 14
+            },
+            {
+              "id": "631dcdd581",
+              "apt_name": "광안동일스위트",
+              "sigungu": "수영구",
+              "dong_name": "광안동",
+              "area_m2": 62.5528,
+              "current_price": 37500.0,
+              "trade_count": 11
             },
             {
               "id": "1f7bc6ddee",
@@ -106972,15 +106936,6 @@
               "area_m2": 59.9871,
               "current_price": 64100.0,
               "trade_count": 19
-            },
-            {
-              "id": "5b9a33ac32",
-              "apt_name": "힐스테이트연산",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 59.9797,
-              "current_price": 55600.0,
-              "trade_count": 103
             },
             {
               "id": "78193de079",
@@ -107366,8 +107321,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.96,
-              "current_price": 67000.0,
-              "trade_count": 35
+              "current_price": 66750.0,
+              "trade_count": 36
             },
             {
               "id": "679e2e6287",
@@ -107614,6 +107569,39 @@
               "area_m2": 77.3048,
               "current_price": 40000.0,
               "trade_count": 21
+            }
+          ]
+        },
+        {
+          "size": 3,
+          "avg_current_price": 37216.67,
+          "members": [
+            {
+              "id": "b12c2f7e8b",
+              "apt_name": "안락뜨란채1단지",
+              "sigungu": "동래구",
+              "dong_name": "안락동",
+              "area_m2": 74.65,
+              "current_price": 39850.0,
+              "trade_count": 15
+            },
+            {
+              "id": "357f26ec4a",
+              "apt_name": "쌍용더플래티넘거제아시아드",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 74.8395,
+              "current_price": 66000.0,
+              "trade_count": 9
+            },
+            {
+              "id": "d8d840927c",
+              "apt_name": "광우파크맨션",
+              "sigungu": "해운대구",
+              "dong_name": "반여동",
+              "area_m2": 60.32,
+              "current_price": 5800.0,
+              "trade_count": 8
             }
           ]
         },
@@ -107901,7 +107889,7 @@
         },
         {
           "size": 2,
-          "avg_current_price": 43200.0,
+          "avg_current_price": 41350.0,
           "members": [
             {
               "id": "c047e9ae0c",
@@ -107918,8 +107906,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 49.8694,
-              "current_price": 43700.0,
-              "trade_count": 32
+              "current_price": 40000.0,
+              "trade_count": 33
             }
           ]
         },
@@ -108165,7 +108153,7 @@
         },
         {
           "size": 154,
-          "avg_current_price": 75094.2,
+          "avg_current_price": 75121.04,
           "members": [
             {
               "id": "28ce4b7da6",
@@ -108186,22 +108174,13 @@
               "trade_count": 13
             },
             {
-              "id": "097b06bdf3",
-              "apt_name": "레이카운티(3단지)",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.8261,
-              "current_price": 91000.0,
-              "trade_count": 36
-            },
-            {
               "id": "caca66c1d1",
               "apt_name": "레이카운티(1단지)",
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.8261,
-              "current_price": 103550.0,
-              "trade_count": 60
+              "current_price": 106900.0,
+              "trade_count": 61
             },
             {
               "id": "a98edfda72",
@@ -108213,40 +108192,247 @@
               "trade_count": 43
             },
             {
-              "id": "ce0d868604",
-              "apt_name": "더비치푸르지오써밋",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 76.5966,
-              "current_price": 116000.0,
-              "trade_count": 15
+              "id": "592179ab72",
+              "apt_name": "레이카운티(1단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9823,
+              "current_price": 102800.0,
+              "trade_count": 50
             },
             {
-              "id": "fe2b80d0b0",
-              "apt_name": "더비치푸르지오써밋",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 84.9252,
-              "current_price": 157700.0,
-              "trade_count": 19
+              "id": "03fae8fa7d",
+              "apt_name": "거제동롯데캐슬피렌체",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 84.9491,
+              "current_price": 90000.0,
+              "trade_count": 18
             },
             {
-              "id": "db8ae6f39c",
+              "id": "da54d04104",
+              "apt_name": "사직KCC스위첸2단지",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9927,
+              "current_price": 72500.0,
+              "trade_count": 8
+            },
+            {
+              "id": "41ea7565c4",
+              "apt_name": "남천자이",
+              "sigungu": "수영구",
+              "dong_name": "남천동",
+              "area_m2": 84.9907,
+              "current_price": 138000.0,
+              "trade_count": 8
+            },
+            {
+              "id": "cca0cfba43",
               "apt_name": "더샵파크시티",
               "sigungu": "연제구",
               "dong_name": "연산동",
-              "area_m2": 69.93,
-              "current_price": 60000.0,
-              "trade_count": 32
+              "area_m2": 84.91,
+              "current_price": 67900.0,
+              "trade_count": 46
             },
             {
-              "id": "2823a23583",
-              "apt_name": "연제SKVIEWCentral",
+              "id": "20c1ef8967",
+              "apt_name": "시청스마트더블유",
               "sigungu": "연제구",
               "dong_name": "연산동",
-              "area_m2": 66.2816,
-              "current_price": 51700.0,
-              "trade_count": 28
+              "area_m2": 84.7302,
+              "current_price": 40000.0,
+              "trade_count": 8
+            },
+            {
+              "id": "c2dd2242ac",
+              "apt_name": "대우",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 68.16,
+              "current_price": 22500.0,
+              "trade_count": 10
+            },
+            {
+              "id": "ee26b3636e",
+              "apt_name": "한양",
+              "sigungu": "동래구",
+              "dong_name": "낙민동",
+              "area_m2": 82.91,
+              "current_price": 42000.0,
+              "trade_count": 9
+            },
+            {
+              "id": "4cb28d2cb5",
+              "apt_name": "사직역삼정그린코아더베스트1차",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9477,
+              "current_price": 79850.0,
+              "trade_count": 9
+            },
+            {
+              "id": "d9f57cfc49",
+              "apt_name": "수영SKVIEW1단지",
+              "sigungu": "수영구",
+              "dong_name": "망미동",
+              "area_m2": 73.4868,
+              "current_price": 63000.0,
+              "trade_count": 10
+            },
+            {
+              "id": "7b84a4c37a",
+              "apt_name": "더비치푸르지오써밋",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 59.8917,
+              "current_price": 105000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "de725db92e",
+              "apt_name": "거제1차현대홈타운",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.93,
+              "current_price": 50000.0,
+              "trade_count": 82
+            },
+            {
+              "id": "3220258fd1",
+              "apt_name": "거제2차현대홈타운",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.676,
+              "current_price": 60500.0,
+              "trade_count": 107
+            },
+            {
+              "id": "20cda0bed0",
+              "apt_name": "수영SKVIEW1단지",
+              "sigungu": "수영구",
+              "dong_name": "망미동",
+              "area_m2": 59.9694,
+              "current_price": 56000.0,
+              "trade_count": 30
+            },
+            {
+              "id": "9c3fcf3edd",
+              "apt_name": "쌍용",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.991,
+              "current_price": 63500.0,
+              "trade_count": 36
+            },
+            {
+              "id": "11eae90dd9",
+              "apt_name": "명륜자이",
+              "sigungu": "동래구",
+              "dong_name": "명륜동",
+              "area_m2": 59.8812,
+              "current_price": 75000.0,
+              "trade_count": 8
+            },
+            {
+              "id": "5f50cfbfe8",
+              "apt_name": "연산더샵",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 59.8812,
+              "current_price": 61500.0,
+              "trade_count": 47
+            },
+            {
+              "id": "f82c200b19",
+              "apt_name": "대연롯데캐슬레전드1단지",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 59.96,
+              "current_price": 67500.0,
+              "trade_count": 23
+            },
+            {
+              "id": "2201d3c53e",
+              "apt_name": "명륜2차아이파크1단지",
+              "sigungu": "동래구",
+              "dong_name": "명륜동",
+              "area_m2": 59.9038,
+              "current_price": 58450.0,
+              "trade_count": 64
+            },
+            {
+              "id": "a9c9a5aba6",
+              "apt_name": "동래래미안아이파크",
+              "sigungu": "동래구",
+              "dong_name": "온천동",
+              "area_m2": 59.9069,
+              "current_price": 80000.0,
+              "trade_count": 46
+            },
+            {
+              "id": "ad4be319c6",
+              "apt_name": "대연양우내안애퍼스트",
+              "sigungu": "남구",
+              "dong_name": "문현동",
+              "area_m2": 59.8008,
+              "current_price": 54000.0,
+              "trade_count": 35
+            },
+            {
+              "id": "50ebedf3f4",
+              "apt_name": "대연파크푸르지오",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 59.8743,
+              "current_price": 48850.0,
+              "trade_count": 39
+            },
+            {
+              "id": "740ae6ad36",
+              "apt_name": "수영SKVIEW1단지",
+              "sigungu": "수영구",
+              "dong_name": "망미동",
+              "area_m2": 59.9164,
+              "current_price": 56500.0,
+              "trade_count": 45
+            },
+            {
+              "id": "c3faa988c8",
+              "apt_name": "현대타운",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.73,
+              "current_price": 29000.0,
+              "trade_count": 8
+            },
+            {
+              "id": "22d9ac7168",
+              "apt_name": "쌍용예가디오션",
+              "sigungu": "수영구",
+              "dong_name": "광안동",
+              "area_m2": 59.991,
+              "current_price": 89000.0,
+              "trade_count": 10
+            },
+            {
+              "id": "08066a5118",
+              "apt_name": "대연롯데캐슬",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 59.7866,
+              "current_price": 65000.0,
+              "trade_count": 11
+            },
+            {
+              "id": "cff63ce0db",
+              "apt_name": "거제동롯데캐슬",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.664,
+              "current_price": 34000.0,
+              "trade_count": 15
             },
             {
               "id": "f684c4f02b",
@@ -108267,49 +108453,22 @@
               "trade_count": 14
             },
             {
-              "id": "cff63ce0db",
-              "apt_name": "거제동롯데캐슬",
+              "id": "2823a23583",
+              "apt_name": "연제SKVIEWCentral",
               "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.664,
-              "current_price": 34000.0,
-              "trade_count": 15
+              "dong_name": "연산동",
+              "area_m2": 66.2816,
+              "current_price": 51700.0,
+              "trade_count": 28
             },
             {
-              "id": "08066a5118",
-              "apt_name": "대연롯데캐슬",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 59.7866,
-              "current_price": 65000.0,
+              "id": "76f9693dfb",
+              "apt_name": "동래3차SKVIEW",
+              "sigungu": "동래구",
+              "dong_name": "온천동",
+              "area_m2": 59.996,
+              "current_price": 45000.0,
               "trade_count": 11
-            },
-            {
-              "id": "22d9ac7168",
-              "apt_name": "쌍용예가디오션",
-              "sigungu": "수영구",
-              "dong_name": "광안동",
-              "area_m2": 59.991,
-              "current_price": 89000.0,
-              "trade_count": 10
-            },
-            {
-              "id": "c3faa988c8",
-              "apt_name": "현대타운",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.73,
-              "current_price": 29000.0,
-              "trade_count": 8
-            },
-            {
-              "id": "740ae6ad36",
-              "apt_name": "수영SKVIEW1단지",
-              "sigungu": "수영구",
-              "dong_name": "망미동",
-              "area_m2": 59.9164,
-              "current_price": 56500.0,
-              "trade_count": 45
             },
             {
               "id": "fef30d6353",
@@ -108319,24 +108478,6 @@
               "area_m2": 70.12,
               "current_price": 50000.0,
               "trade_count": 8
-            },
-            {
-              "id": "5f50cfbfe8",
-              "apt_name": "연산더샵",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 59.8812,
-              "current_price": 61500.0,
-              "trade_count": 47
-            },
-            {
-              "id": "f82c200b19",
-              "apt_name": "대연롯데캐슬레전드1단지",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 59.96,
-              "current_price": 67500.0,
-              "trade_count": 23
             },
             {
               "id": "b252f41e9c",
@@ -108384,6 +108525,132 @@
               "trade_count": 13
             },
             {
+              "id": "94fd46ad91",
+              "apt_name": "사직역삼정그린코아더베스트2차",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 81.87,
+              "current_price": 78500.0,
+              "trade_count": 12
+            },
+            {
+              "id": "db8ae6f39c",
+              "apt_name": "더샵파크시티",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 69.93,
+              "current_price": 60000.0,
+              "trade_count": 32
+            },
+            {
+              "id": "03db8710b6",
+              "apt_name": "명륜자이",
+              "sigungu": "동래구",
+              "dong_name": "명륜동",
+              "area_m2": 84.9607,
+              "current_price": 98000.0,
+              "trade_count": 42
+            },
+            {
+              "id": "2eec7e16ed",
+              "apt_name": "뉴비치",
+              "sigungu": "수영구",
+              "dong_name": "남천동",
+              "area_m2": 84.96,
+              "current_price": 93500.0,
+              "trade_count": 32
+            },
+            {
+              "id": "b37cc86976",
+              "apt_name": "센텀비스타동원2차",
+              "sigungu": "수영구",
+              "dong_name": "민락동",
+              "area_m2": 84.9414,
+              "current_price": 89000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "679e2e6287",
+              "apt_name": "광안더샵",
+              "sigungu": "수영구",
+              "dong_name": "광안동",
+              "area_m2": 84.93,
+              "current_price": 78000.0,
+              "trade_count": 10
+            },
+            {
+              "id": "36c702bc7f",
+              "apt_name": "이편한세상3차",
+              "sigungu": "수영구",
+              "dong_name": "망미동",
+              "area_m2": 84.732,
+              "current_price": 53500.0,
+              "trade_count": 10
+            },
+            {
+              "id": "e9a960daf9",
+              "apt_name": "대연SKVIEWHills",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 84.9639,
+              "current_price": 91800.0,
+              "trade_count": 37
+            },
+            {
+              "id": "7ba4a3b791",
+              "apt_name": "더샵파크시티",
+              "sigungu": "연제구",
+              "dong_name": "연산동",
+              "area_m2": 84.96,
+              "current_price": 67500.0,
+              "trade_count": 21
+            },
+            {
+              "id": "73ff3e9ef5",
+              "apt_name": "명륜동힐스테이트",
+              "sigungu": "동래구",
+              "dong_name": "명륜동",
+              "area_m2": 84.9773,
+              "current_price": 76000.0,
+              "trade_count": 96
+            },
+            {
+              "id": "2ee0d3c7b1",
+              "apt_name": "대연양우내안애퍼스트",
+              "sigungu": "남구",
+              "dong_name": "문현동",
+              "area_m2": 84.9684,
+              "current_price": 63062.5,
+              "trade_count": 111
+            },
+            {
+              "id": "2fb47f1581",
+              "apt_name": "쌍용더플래티넘사직아시아드아파트",
+              "sigungu": "동래구",
+              "dong_name": "사직동",
+              "area_m2": 84.9366,
+              "current_price": 111000.0,
+              "trade_count": 45
+            },
+            {
+              "id": "b9f56f6a7d",
+              "apt_name": "대연롯데캐슬레전드1단지",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 84.95,
+              "current_price": 81500.0,
+              "trade_count": 160
+            },
+            {
+              "id": "19b09d3824",
+              "apt_name": "대연힐스테이트푸르지오",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 84.92,
+              "current_price": 102500.0,
+              "trade_count": 82
+            },
+            {
               "id": "5202377fb2",
               "apt_name": "명륜2차아이파크1단지",
               "sigungu": "동래구",
@@ -108420,24 +108687,6 @@
               "trade_count": 52
             },
             {
-              "id": "2fb47f1581",
-              "apt_name": "쌍용더플래티넘사직아시아드아파트",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9366,
-              "current_price": 111000.0,
-              "trade_count": 45
-            },
-            {
-              "id": "b9f56f6a7d",
-              "apt_name": "대연롯데캐슬레전드1단지",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 84.95,
-              "current_price": 81500.0,
-              "trade_count": 160
-            },
-            {
               "id": "5ac7b1c21e",
               "apt_name": "명륜2차아이파크1단지",
               "sigungu": "동래구",
@@ -108447,22 +108696,22 @@
               "trade_count": 52
             },
             {
-              "id": "11eae90dd9",
-              "apt_name": "명륜자이",
+              "id": "18ca220828",
+              "apt_name": "명륜아이파크1단지",
               "sigungu": "동래구",
               "dong_name": "명륜동",
-              "area_m2": 59.8812,
-              "current_price": 75000.0,
-              "trade_count": 8
+              "area_m2": 84.9194,
+              "current_price": 88800.0,
+              "trade_count": 24
             },
             {
-              "id": "2201d3c53e",
-              "apt_name": "명륜2차아이파크1단지",
-              "sigungu": "동래구",
-              "dong_name": "명륜동",
-              "area_m2": 59.9038,
-              "current_price": 58450.0,
-              "trade_count": 64
+              "id": "f2b113685e",
+              "apt_name": "대연자이",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 59.8922,
+              "current_price": 67600.0,
+              "trade_count": 118
             },
             {
               "id": "1c85d3710d",
@@ -108555,112 +108804,13 @@
               "trade_count": 8
             },
             {
-              "id": "7b84a4c37a",
-              "apt_name": "더비치푸르지오써밋",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 59.8917,
-              "current_price": 105000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "de725db92e",
-              "apt_name": "거제1차현대홈타운",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.93,
-              "current_price": 50000.0,
-              "trade_count": 82
-            },
-            {
-              "id": "3220258fd1",
-              "apt_name": "거제2차현대홈타운",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.676,
-              "current_price": 60500.0,
-              "trade_count": 107
-            },
-            {
-              "id": "d9f57cfc49",
+              "id": "84e27ae325",
               "apt_name": "수영SKVIEW1단지",
               "sigungu": "수영구",
               "dong_name": "망미동",
-              "area_m2": 73.4868,
-              "current_price": 63000.0,
-              "trade_count": 10
-            },
-            {
-              "id": "41ea7565c4",
-              "apt_name": "남천자이",
-              "sigungu": "수영구",
-              "dong_name": "남천동",
-              "area_m2": 84.9907,
-              "current_price": 138000.0,
-              "trade_count": 8
-            },
-            {
-              "id": "cca0cfba43",
-              "apt_name": "더샵파크시티",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 84.91,
-              "current_price": 67900.0,
-              "trade_count": 46
-            },
-            {
-              "id": "20c1ef8967",
-              "apt_name": "시청스마트더블유",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 84.7302,
-              "current_price": 40000.0,
-              "trade_count": 8
-            },
-            {
-              "id": "c2dd2242ac",
-              "apt_name": "대우",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 68.16,
-              "current_price": 22500.0,
-              "trade_count": 10
-            },
-            {
-              "id": "ee26b3636e",
-              "apt_name": "한양",
-              "sigungu": "동래구",
-              "dong_name": "낙민동",
-              "area_m2": 82.91,
-              "current_price": 42000.0,
-              "trade_count": 9
-            },
-            {
-              "id": "4cb28d2cb5",
-              "apt_name": "사직역삼정그린코아더베스트1차",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9477,
-              "current_price": 79850.0,
-              "trade_count": 9
-            },
-            {
-              "id": "da54d04104",
-              "apt_name": "사직KCC스위첸2단지",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 84.9927,
-              "current_price": 72500.0,
-              "trade_count": 8
-            },
-            {
-              "id": "03fae8fa7d",
-              "apt_name": "거제동롯데캐슬피렌체",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.9491,
-              "current_price": 90000.0,
-              "trade_count": 18
+              "area_m2": 59.9642,
+              "current_price": 55500.0,
+              "trade_count": 41
             },
             {
               "id": "5d4b87b14e",
@@ -108672,193 +108822,49 @@
               "trade_count": 9
             },
             {
-              "id": "a9c9a5aba6",
-              "apt_name": "동래래미안아이파크",
-              "sigungu": "동래구",
-              "dong_name": "온천동",
-              "area_m2": 59.9069,
-              "current_price": 80000.0,
-              "trade_count": 46
-            },
-            {
-              "id": "84e27ae325",
-              "apt_name": "수영SKVIEW1단지",
-              "sigungu": "수영구",
-              "dong_name": "망미동",
-              "area_m2": 59.9642,
-              "current_price": 55500.0,
-              "trade_count": 41
-            },
-            {
-              "id": "ad4be319c6",
-              "apt_name": "대연양우내안애퍼스트",
-              "sigungu": "남구",
-              "dong_name": "문현동",
-              "area_m2": 59.8008,
-              "current_price": 54000.0,
-              "trade_count": 35
-            },
-            {
-              "id": "50ebedf3f4",
-              "apt_name": "대연파크푸르지오",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 59.8743,
-              "current_price": 48850.0,
-              "trade_count": 39
-            },
-            {
-              "id": "18ca220828",
-              "apt_name": "명륜아이파크1단지",
-              "sigungu": "동래구",
-              "dong_name": "명륜동",
-              "area_m2": 84.9194,
-              "current_price": 88800.0,
-              "trade_count": 24
-            },
-            {
-              "id": "f2b113685e",
-              "apt_name": "대연자이",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 59.8922,
-              "current_price": 67600.0,
-              "trade_count": 118
-            },
-            {
-              "id": "20cda0bed0",
-              "apt_name": "수영SKVIEW1단지",
-              "sigungu": "수영구",
-              "dong_name": "망미동",
-              "area_m2": 59.9694,
-              "current_price": 56000.0,
-              "trade_count": 30
-            },
-            {
-              "id": "9c3fcf3edd",
+              "id": "e67336636c",
               "apt_name": "쌍용",
               "sigungu": "연제구",
               "dong_name": "거제동",
-              "area_m2": 59.991,
-              "current_price": 63500.0,
-              "trade_count": 36
+              "area_m2": 84.971,
+              "current_price": 74700.0,
+              "trade_count": 26
             },
             {
-              "id": "76f9693dfb",
-              "apt_name": "동래3차SKVIEW",
-              "sigungu": "동래구",
-              "dong_name": "온천동",
-              "area_m2": 59.996,
-              "current_price": 45000.0,
-              "trade_count": 11
-            },
-            {
-              "id": "94fd46ad91",
-              "apt_name": "사직역삼정그린코아더베스트2차",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 81.87,
-              "current_price": 78500.0,
-              "trade_count": 12
-            },
-            {
-              "id": "03db8710b6",
-              "apt_name": "명륜자이",
-              "sigungu": "동래구",
-              "dong_name": "명륜동",
-              "area_m2": 84.9607,
-              "current_price": 98000.0,
-              "trade_count": 42
-            },
-            {
-              "id": "2eec7e16ed",
-              "apt_name": "뉴비치",
-              "sigungu": "수영구",
-              "dong_name": "남천동",
-              "area_m2": 84.96,
-              "current_price": 93500.0,
-              "trade_count": 32
-            },
-            {
-              "id": "b37cc86976",
-              "apt_name": "센텀비스타동원2차",
-              "sigungu": "수영구",
-              "dong_name": "민락동",
-              "area_m2": 84.9414,
-              "current_price": 89000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "679e2e6287",
-              "apt_name": "광안더샵",
-              "sigungu": "수영구",
-              "dong_name": "광안동",
-              "area_m2": 84.93,
-              "current_price": 78000.0,
-              "trade_count": 10
-            },
-            {
-              "id": "36c702bc7f",
-              "apt_name": "이편한세상3차",
-              "sigungu": "수영구",
-              "dong_name": "망미동",
-              "area_m2": 84.732,
-              "current_price": 53500.0,
-              "trade_count": 10
-            },
-            {
-              "id": "e9a960daf9",
-              "apt_name": "대연SKVIEWHills",
+              "id": "ce0d868604",
+              "apt_name": "더비치푸르지오써밋",
               "sigungu": "남구",
               "dong_name": "대연동",
-              "area_m2": 84.9639,
-              "current_price": 91800.0,
-              "trade_count": 37
+              "area_m2": 76.5966,
+              "current_price": 116000.0,
+              "trade_count": 15
             },
             {
-              "id": "7ba4a3b791",
-              "apt_name": "더샵파크시티",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 84.96,
-              "current_price": 67500.0,
-              "trade_count": 21
-            },
-            {
-              "id": "73ff3e9ef5",
-              "apt_name": "명륜동힐스테이트",
-              "sigungu": "동래구",
-              "dong_name": "명륜동",
-              "area_m2": 84.9773,
-              "current_price": 76000.0,
-              "trade_count": 96
-            },
-            {
-              "id": "2ee0d3c7b1",
-              "apt_name": "대연양우내안애퍼스트",
-              "sigungu": "남구",
-              "dong_name": "문현동",
-              "area_m2": 84.9684,
-              "current_price": 63062.5,
-              "trade_count": 111
-            },
-            {
-              "id": "19b09d3824",
-              "apt_name": "대연힐스테이트푸르지오",
+              "id": "a2bcb45efe",
+              "apt_name": "대연파크푸르지오",
               "sigungu": "남구",
               "dong_name": "대연동",
-              "area_m2": 84.92,
-              "current_price": 102500.0,
-              "trade_count": 82
+              "area_m2": 99.9356,
+              "current_price": 70400.0,
+              "trade_count": 8
             },
             {
-              "id": "592179ab72",
-              "apt_name": "레이카운티(1단지)",
+              "id": "fe2b80d0b0",
+              "apt_name": "더비치푸르지오써밋",
+              "sigungu": "남구",
+              "dong_name": "대연동",
+              "area_m2": 84.9252,
+              "current_price": 157700.0,
+              "trade_count": 19
+            },
+            {
+              "id": "097b06bdf3",
+              "apt_name": "레이카운티(3단지)",
               "sigungu": "연제구",
               "dong_name": "거제동",
-              "area_m2": 84.9823,
-              "current_price": 102800.0,
-              "trade_count": 50
+              "area_m2": 84.8261,
+              "current_price": 91000.0,
+              "trade_count": 36
             },
             {
               "id": "468d277473",
@@ -108870,30 +108876,12 @@
               "trade_count": 12
             },
             {
-              "id": "e67336636c",
-              "apt_name": "쌍용",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 84.971,
-              "current_price": 74700.0,
-              "trade_count": 26
-            },
-            {
               "id": "c1679909ea",
               "apt_name": "사직역삼정그린코아더베스트2차",
               "sigungu": "동래구",
               "dong_name": "사직동",
               "area_m2": 84.71,
               "current_price": 78000.0,
-              "trade_count": 8
-            },
-            {
-              "id": "a2bcb45efe",
-              "apt_name": "대연파크푸르지오",
-              "sigungu": "남구",
-              "dong_name": "대연동",
-              "area_m2": 99.9356,
-              "current_price": 70400.0,
               "trade_count": 8
             },
             {
@@ -109032,13 +109020,22 @@
               "trade_count": 8
             },
             {
+              "id": "9bef92c8ec",
+              "apt_name": "거제센트럴자이",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 59.9635,
+              "current_price": 67450.0,
+              "trade_count": 69
+            },
+            {
               "id": "e152c2b2ef",
               "apt_name": "레이카운티(1단지)",
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 59.9866,
-              "current_price": 84466.66666666667,
-              "trade_count": 54
+              "current_price": 85500.0,
+              "trade_count": 55
             },
             {
               "id": "2e26663c82",
@@ -109057,15 +109054,6 @@
               "area_m2": 62.5528,
               "current_price": 37500.0,
               "trade_count": 11
-            },
-            {
-              "id": "9bef92c8ec",
-              "apt_name": "거제센트럴자이",
-              "sigungu": "연제구",
-              "dong_name": "거제동",
-              "area_m2": 59.9635,
-              "current_price": 67450.0,
-              "trade_count": 69
             },
             {
               "id": "098244f518",
@@ -109109,8 +109097,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.96,
-              "current_price": 67000.0,
-              "trade_count": 35
+              "current_price": 66750.0,
+              "trade_count": 36
             },
             {
               "id": "e4a24d321a",
@@ -109776,30 +109764,6 @@
         },
         {
           "size": 2,
-          "avg_current_price": 59850.0,
-          "members": [
-            {
-              "id": "ff5eb19127",
-              "apt_name": "e편한세상동래아시아드",
-              "sigungu": "동래구",
-              "dong_name": "온천동",
-              "area_m2": 59.9871,
-              "current_price": 64100.0,
-              "trade_count": 19
-            },
-            {
-              "id": "5b9a33ac32",
-              "apt_name": "힐스테이트연산",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 59.9797,
-              "current_price": 55600.0,
-              "trade_count": 103
-            }
-          ]
-        },
-        {
-          "size": 2,
           "avg_current_price": 78500.0,
           "members": [
             {
@@ -109895,8 +109859,8 @@
           ]
         },
         {
-          "size": 154,
-          "avg_current_price": 72010.71,
+          "size": 153,
+          "avg_current_price": 72144.98,
           "members": [
             {
               "id": "a6ac6eb442",
@@ -110516,8 +110480,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.96,
-              "current_price": 67000.0,
-              "trade_count": 35
+              "current_price": 66750.0,
+              "trade_count": 36
             },
             {
               "id": "edfb4fa5cc",
@@ -110624,8 +110588,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 84.8261,
-              "current_price": 103550.0,
-              "trade_count": 60
+              "current_price": 106900.0,
+              "trade_count": 61
             },
             {
               "id": "2823a23583",
@@ -110952,15 +110916,6 @@
               "trade_count": 19
             },
             {
-              "id": "5b9a33ac32",
-              "apt_name": "힐스테이트연산",
-              "sigungu": "연제구",
-              "dong_name": "연산동",
-              "area_m2": 59.9797,
-              "current_price": 55600.0,
-              "trade_count": 103
-            },
-            {
               "id": "78193de079",
               "apt_name": "사직하늘채리센티아",
               "sigungu": "동래구",
@@ -111020,8 +110975,8 @@
               "sigungu": "연제구",
               "dong_name": "거제동",
               "area_m2": 59.9866,
-              "current_price": 84466.66666666667,
-              "trade_count": 54
+              "current_price": 85500.0,
+              "trade_count": 55
             },
             {
               "id": "28ce4b7da6",
@@ -111809,12 +111764,12 @@
           "avg_36": 49264.73449775533,
           "compare_avg_recent": 59166.666666666664,
           "compare_avg_36": 48872.857142857145,
-          "cluster_avg": 69957.48,
+          "cluster_avg": 70588.36,
           "gap_pct": -7.89,
           "status": "undervalued",
           "trade_count": 273,
           "recent_3m_trades": 11,
-          "cluster_size": 189,
+          "cluster_size": 185,
           "compare": [
             {
               "id": "77db886aec",
@@ -111842,12 +111797,12 @@
           "avg_36": 44718.57142857143,
           "compare_avg_recent": 56133.333333333336,
           "compare_avg_36": 48386.92129629629,
-          "cluster_avg": 69957.48,
+          "cluster_avg": 70588.36,
           "gap_pct": -5.72,
           "status": "undervalued",
           "trade_count": 19,
           "recent_3m_trades": 2,
-          "cluster_size": 189,
+          "cluster_size": 185,
           "compare": [
             {
               "id": "20cda0bed0",
@@ -111888,7 +111843,7 @@
           "avg_36": 47898.61111111112,
           "compare_avg_recent": 58800.0,
           "compare_avg_36": 50890.694444444445,
-          "cluster_avg": 75094.2,
+          "cluster_avg": 75121.04,
           "gap_pct": -5.23,
           "status": "undervalued",
           "trade_count": 28,
@@ -111926,12 +111881,12 @@
               "avg_36": 44718.57142857143,
               "compare_avg_recent": 56133.333333333336,
               "compare_avg_36": 48386.92129629629,
-              "cluster_avg": 69957.48,
+              "cluster_avg": 70588.36,
               "gap_pct": -5.72,
               "status": "undervalued",
               "trade_count": 19,
               "recent_3m_trades": 2,
-              "cluster_size": 189,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "20cda0bed0",
@@ -111972,12 +111927,12 @@
               "avg_36": 44677.142857142855,
               "compare_avg_recent": 52750.0,
               "compare_avg_36": 45575.31565656565,
-              "cluster_avg": 69957.48,
+              "cluster_avg": 70588.36,
               "gap_pct": -4.51,
               "status": "market",
               "trade_count": 22,
               "recent_3m_trades": 2,
-              "cluster_size": 189,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "9118f498fc",
@@ -112006,6 +111961,39 @@
                   "hist_diff_pct": 8.03
                 }
               ]
+            },
+            {
+              "id": "2606cb4e1b",
+              "apt_name": "레이카운티(5단지)",
+              "sigungu": "연제구",
+              "dong_name": "거제동",
+              "area_m2": 49.8694,
+              "current_price": 40000.0,
+              "recent_avg": 42400.0,
+              "avg_36": 38134.28571428572,
+              "compare_avg_recent": 42700.0,
+              "compare_avg_36": 38795.23809523809,
+              "cluster_avg": 41350.0,
+              "gap_pct": 1.0,
+              "status": "market",
+              "trade_count": 33,
+              "recent_3m_trades": 2,
+              "cluster_size": 2,
+              "compare": [
+                {
+                  "id": "c047e9ae0c",
+                  "apt_name": "선프라자",
+                  "sigungu": "해운대구",
+                  "dong_name": "우동",
+                  "area_m2": 59.34,
+                  "current_price": 42700.0,
+                  "recent_avg": 42700.0,
+                  "avg_36": 38795.23809523809,
+                  "trade_count": 28,
+                  "corr": 0.901,
+                  "hist_diff_pct": 8.31
+                }
+              ]
             }
           ]
         },
@@ -112023,12 +112011,12 @@
               "avg_36": 67926.38888888889,
               "compare_avg_recent": 73900.0,
               "compare_avg_36": 66266.91468253967,
-              "cluster_avg": 72010.71,
+              "cluster_avg": 72144.98,
               "gap_pct": -8.86,
               "status": "undervalued",
               "trade_count": 14,
               "recent_3m_trades": 1,
-              "cluster_size": 154,
+              "cluster_size": 153,
               "compare": [
                 {
                   "id": "b189f684e0",
@@ -112069,12 +112057,12 @@
               "avg_36": 49264.73449775533,
               "compare_avg_recent": 59166.666666666664,
               "compare_avg_36": 48872.857142857145,
-              "cluster_avg": 67525.57,
+              "cluster_avg": 67670.24,
               "gap_pct": -7.89,
               "status": "undervalued",
               "trade_count": 273,
               "recent_3m_trades": 11,
-              "cluster_size": 112,
+              "cluster_size": 111,
               "compare": [
                 {
                   "id": "77db886aec",
@@ -112102,12 +112090,12 @@
               "avg_36": 62577.27272727273,
               "compare_avg_recent": 75000.0,
               "compare_avg_36": 64829.33531746032,
-              "cluster_avg": 67525.57,
+              "cluster_avg": 67670.24,
               "gap_pct": -6.13,
               "status": "undervalued",
               "trade_count": 8,
               "recent_3m_trades": 1,
-              "cluster_size": 112,
+              "cluster_size": 111,
               "compare": [
                 {
                   "id": "11eae90dd9",
@@ -112186,12 +112174,12 @@
               "avg_36": 102616.66666666667,
               "compare_avg_recent": 112375.0,
               "compare_avg_36": 99822.36111111112,
-              "cluster_avg": 69957.48,
+              "cluster_avg": 70588.36,
               "gap_pct": -4.02,
               "status": "market",
               "trade_count": 26,
               "recent_3m_trades": 2,
-              "cluster_size": 189,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "e31bc406f2",
