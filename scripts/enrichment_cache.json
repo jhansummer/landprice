@@ -31860,7 +31860,12 @@
    "bank": 76,
    "academy": 196
   },
-  "school_score": 72
+  "school_score": 72,
+  "commute_transit": {
+   "gangnam": 28,
+   "gwanghwamun": 30,
+   "yeouido": 10
+  }
  },
  "37.591,126.998": {
   "infra": {
@@ -88825,7 +88830,12 @@
    "bank": 34,
    "academy": 273
   },
-  "school_score": 89
+  "school_score": 89,
+  "commute_transit": {
+   "gangnam": 63,
+   "gwanghwamun": 91,
+   "yeouido": 84
+  }
  },
  "37.530,126.788": {
   "infra": {
@@ -245454,5 +245464,38 @@
    "academy": 147
   },
   "school_score": 76
+ },
+ "37.472,127.049": {
+  "infra": {
+   "mart": 4,
+   "conv": 42,
+   "school": 6,
+   "hospital": 56,
+   "bank": 25,
+   "academy": 129
+  },
+  "school_score": 82
+ },
+ "37.398,126.928": {
+  "infra": {
+   "mart": 7,
+   "conv": 75,
+   "school": 6,
+   "hospital": 187,
+   "bank": 84,
+   "academy": 263
+  },
+  "school_score": 77
+ },
+ "35.579,129.321": {
+  "infra": {
+   "mart": 0,
+   "conv": 13,
+   "school": 5,
+   "hospital": 6,
+   "bank": 4,
+   "academy": 38
+  },
+  "school_score": 80
  }
 }
