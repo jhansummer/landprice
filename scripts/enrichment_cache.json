@@ -245685,5 +245685,27 @@
    "academy": 131
   },
   "school_score": 73
+ },
+ "37.494,126.764": {
+  "infra": {
+   "mart": 3,
+   "conv": 66,
+   "school": 19,
+   "hospital": 87,
+   "bank": 36,
+   "academy": 229
+  },
+  "school_score": 77
+ },
+ "37.480,126.765": {
+  "infra": {
+   "mart": 0,
+   "conv": 41,
+   "school": 11,
+   "hospital": 37,
+   "bank": 23,
+   "academy": 109
+  },
+  "school_score": 71
  }
 }
