@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T19:28:17Z",
+  "updated_at": "2026-10-18T19:39:47Z",
   "current_month": "202610",
   "params": {
     "months": 36,
@@ -92764,7 +92764,7 @@
               "dong_name": "비산동",
               "area_m2": 59.82,
               "current_price": 97800.0,
-              "trade_count": 50
+              "trade_count": 49
             },
             {
               "id": "7b8d4b17a0",
@@ -101265,8 +101265,8 @@
     "부산": {
       "clusters": [
         {
-          "size": 96,
-          "avg_current_price": 77004.51,
+          "size": 95,
+          "avg_current_price": 77382.46,
           "members": [
             {
               "id": "25c77c3878",
@@ -102070,24 +102070,6 @@
               "trade_count": 65
             },
             {
-              "id": "e31bc406f2",
-              "apt_name": "해운대자이1단지",
-              "sigungu": "해운대구",
-              "dong_name": "우동",
-              "area_m2": 84.5368,
-              "current_price": 111500.0,
-              "trade_count": 45
-            },
-            {
-              "id": "ddd1592b51",
-              "apt_name": "삼환나우빌",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 77.5804,
-              "current_price": 46000.0,
-              "trade_count": 19
-            },
-            {
               "id": "3bae458140",
               "apt_name": "센텀이편한세상",
               "sigungu": "해운대구",
@@ -102095,6 +102077,15 @@
               "area_m2": 73.405,
               "current_price": 69750.0,
               "trade_count": 67
+            },
+            {
+              "id": "e31bc406f2",
+              "apt_name": "해운대자이1단지",
+              "sigungu": "해운대구",
+              "dong_name": "우동",
+              "area_m2": 84.5368,
+              "current_price": 116400.0,
+              "trade_count": 46
             },
             {
               "id": "53717ef77d",
@@ -102321,8 +102312,8 @@
           ]
         },
         {
-          "size": 140,
-          "avg_current_price": 78987.93,
+          "size": 139,
+          "avg_current_price": 79260.51,
           "members": [
             {
               "id": "fef30d6353",
@@ -102789,17 +102780,8 @@
               "sigungu": "해운대구",
               "dong_name": "우동",
               "area_m2": 84.5368,
-              "current_price": 111500.0,
-              "trade_count": 45
-            },
-            {
-              "id": "ddd1592b51",
-              "apt_name": "삼환나우빌",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 77.5804,
-              "current_price": 46000.0,
-              "trade_count": 19
+              "current_price": 116400.0,
+              "trade_count": 46
             },
             {
               "id": "5b95fb28ec",
@@ -105177,8 +105159,8 @@
           ]
         },
         {
-          "size": 186,
-          "avg_current_price": 70450.9,
+          "size": 185,
+          "avg_current_price": 70609.55,
           "members": [
             {
               "id": "5d1a6579be",
@@ -105937,24 +105919,6 @@
               "trade_count": 84
             },
             {
-              "id": "e31bc406f2",
-              "apt_name": "해운대자이1단지",
-              "sigungu": "해운대구",
-              "dong_name": "우동",
-              "area_m2": 84.5368,
-              "current_price": 111500.0,
-              "trade_count": 45
-            },
-            {
-              "id": "ddd1592b51",
-              "apt_name": "삼환나우빌",
-              "sigungu": "동래구",
-              "dong_name": "사직동",
-              "area_m2": 77.5804,
-              "current_price": 46000.0,
-              "trade_count": 19
-            },
-            {
               "id": "2201d3c53e",
               "apt_name": "명륜2차아이파크1단지",
               "sigungu": "동래구",
@@ -106502,6 +106466,15 @@
               "area_m2": 84.2249,
               "current_price": 111000.0,
               "trade_count": 26
+            },
+            {
+              "id": "e31bc406f2",
+              "apt_name": "해운대자이1단지",
+              "sigungu": "해운대구",
+              "dong_name": "우동",
+              "area_m2": 84.5368,
+              "current_price": 116400.0,
+              "trade_count": 46
             },
             {
               "id": "e4a24d321a",
@@ -111060,12 +111033,12 @@
           "avg_36": 44718.57142857143,
           "compare_avg_recent": 56550.0,
           "compare_avg_36": 48424.800084175076,
-          "cluster_avg": 70450.9,
+          "cluster_avg": 70609.55,
           "gap_pct": -6.29,
           "status": "undervalued",
           "trade_count": 19,
           "recent_3m_trades": 2,
-          "cluster_size": 186,
+          "cluster_size": 185,
           "compare": [
             {
               "id": "20cda0bed0",
@@ -111106,12 +111079,12 @@
           "avg_36": 49306.58634960718,
           "compare_avg_recent": 56333.33333333333,
           "compare_avg_36": 47174.307359307364,
-          "cluster_avg": 70450.9,
+          "cluster_avg": 70609.55,
           "gap_pct": -6.05,
           "status": "undervalued",
           "trade_count": 278,
           "recent_3m_trades": 16,
-          "cluster_size": 186,
+          "cluster_size": 185,
           "compare": [
             {
               "id": "77db886aec",
@@ -111190,12 +111163,12 @@
               "avg_36": 44718.57142857143,
               "compare_avg_recent": 56550.0,
               "compare_avg_36": 48424.800084175076,
-              "cluster_avg": 70450.9,
+              "cluster_avg": 70609.55,
               "gap_pct": -6.29,
               "status": "undervalued",
               "trade_count": 19,
               "recent_3m_trades": 2,
-              "cluster_size": 186,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "20cda0bed0",
@@ -111236,12 +111209,12 @@
               "avg_36": 44645.71428571428,
               "compare_avg_recent": 52750.0,
               "compare_avg_36": 45575.31565656565,
-              "cluster_avg": 70450.9,
+              "cluster_avg": 70609.55,
               "gap_pct": -5.13,
               "status": "undervalued",
               "trade_count": 24,
               "recent_3m_trades": 4,
-              "cluster_size": 186,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "9118f498fc",
@@ -111366,12 +111339,12 @@
               "avg_36": 59955.83333333332,
               "compare_avg_recent": 69300.0,
               "compare_avg_36": 60227.06101190476,
-              "cluster_avg": 78987.93,
+              "cluster_avg": 79260.51,
               "gap_pct": -7.37,
               "status": "undervalued",
               "trade_count": 37,
               "recent_3m_trades": 1,
-              "cluster_size": 140,
+              "cluster_size": 139,
               "compare": [
                 {
                   "id": "15661d554d",
@@ -111450,12 +111423,12 @@
               "avg_36": 92663.28125,
               "compare_avg_recent": 103466.66666666667,
               "compare_avg_36": 94785.12222222221,
-              "cluster_avg": 70450.9,
+              "cluster_avg": 70609.55,
               "gap_pct": -5.94,
               "status": "undervalued",
               "trade_count": 28,
               "recent_3m_trades": 1,
-              "cluster_size": 186,
+              "cluster_size": 185,
               "compare": [
                 {
                   "id": "592179ab72",
@@ -111483,12 +111456,12 @@
               "avg_36": 87138.70967741935,
               "compare_avg_recent": 98000.0,
               "compare_avg_36": 85359.72222222223,
-              "cluster_avg": 77004.51,
+              "cluster_avg": 77382.46,
               "gap_pct": -4.99,
               "status": "market",
               "trade_count": 12,
               "recent_3m_trades": 2,
-              "cluster_size": 96,
+              "cluster_size": 95,
               "compare": [
                 {
                   "id": "03db8710b6",
@@ -111516,12 +111489,12 @@
               "avg_36": 99999.07407407409,
               "compare_avg_recent": 115750.0,
               "compare_avg_36": 102285.76388888889,
-              "cluster_avg": 77004.51,
+              "cluster_avg": 77382.46,
               "gap_pct": -4.75,
               "status": "market",
               "trade_count": 26,
               "recent_3m_trades": 1,
-              "cluster_size": 96,
+              "cluster_size": 95,
               "compare": [
                 {
                   "id": "5d1a6579be",
