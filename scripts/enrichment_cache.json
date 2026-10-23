@@ -245810,5 +245810,16 @@
    "academy": 120
   },
   "school_score": 69
+ },
+ "35.126,126.935": {
+  "infra": {
+   "mart": 2,
+   "conv": 10,
+   "school": 6,
+   "hospital": 26,
+   "bank": 12,
+   "academy": 45
+  },
+  "school_score": 72
  }
 }
