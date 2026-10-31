@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-30T21:49:15Z",
+  "updated_at": "2026-10-31T20:54:36Z",
   "current_month": "202610",
   "params": {
     "months": 36,
@@ -83434,88 +83434,16 @@
         },
         {
           "size": 14,
-          "avg_current_price": 81677.5,
+          "avg_current_price": 82983.93,
           "members": [
-            {
-              "id": "79173eba72",
-              "apt_name": "화서역파크푸르지오",
-              "sigungu": "수원시장안구",
-              "dong_name": "정자동",
-              "area_m2": 59.98,
-              "current_price": 123350.0,
-              "trade_count": 29
-            },
-            {
-              "id": "86bfa2de4a",
-              "apt_name": "화서역현대벽산",
-              "sigungu": "수원시장안구",
-              "dong_name": "정자동",
-              "area_m2": 59.95,
-              "current_price": 50250.0,
-              "trade_count": 58
-            },
-            {
-              "id": "74b2f2e150",
-              "apt_name": "벽산블루밍",
-              "sigungu": "수원시장안구",
-              "dong_name": "정자동",
-              "area_m2": 59.99,
-              "current_price": 46000.0,
-              "trade_count": 17
-            },
-            {
-              "id": "98989bb373",
-              "apt_name": "장안STX칸1단지",
-              "sigungu": "수원시장안구",
-              "dong_name": "이목동",
-              "area_m2": 59.958,
-              "current_price": 58600.0,
-              "trade_count": 36
-            },
-            {
-              "id": "2d4fd4cf62",
-              "apt_name": "수원아너스빌위즈",
-              "sigungu": "수원시장안구",
-              "dong_name": "송죽동",
-              "area_m2": 59.985,
-              "current_price": 60166.666666666664,
-              "trade_count": 41
-            },
-            {
-              "id": "5b158020c3",
-              "apt_name": "화서역파크푸르지오",
-              "sigungu": "수원시장안구",
-              "dong_name": "정자동",
-              "area_m2": 59.78,
-              "current_price": 127333.33333333333,
-              "trade_count": 98
-            },
             {
               "id": "413ba8eed8",
               "apt_name": "화서역 우방 센트럴파크",
               "sigungu": "수원시장안구",
               "dong_name": "정자동",
               "area_m2": 59.98,
-              "current_price": 71060.0,
-              "trade_count": 153
-            },
-            {
-              "id": "8b8348c27f",
-              "apt_name": "화서역푸르지오더에듀포레",
-              "sigungu": "수원시장안구",
-              "dong_name": "천천동",
-              "area_m2": 59.98,
-              "current_price": 83000.0,
-              "trade_count": 141
-            },
-            {
-              "id": "7c826858fc",
-              "apt_name": "북수원리버파크",
-              "sigungu": "수원시장안구",
-              "dong_name": "정자동",
-              "area_m2": 59.94,
-              "current_price": 49800.0,
-              "trade_count": 23
+              "current_price": 80000.0,
+              "trade_count": 154
             },
             {
               "id": "508a15effd",
@@ -83527,6 +83455,24 @@
               "trade_count": 185
             },
             {
+              "id": "7c826858fc",
+              "apt_name": "북수원리버파크",
+              "sigungu": "수원시장안구",
+              "dong_name": "정자동",
+              "area_m2": 59.94,
+              "current_price": 49800.0,
+              "trade_count": 23
+            },
+            {
+              "id": "50b5709bc1",
+              "apt_name": "화서역현대벽산",
+              "sigungu": "수원시장안구",
+              "dong_name": "정자동",
+              "area_m2": 59.88,
+              "current_price": 55275.0,
+              "trade_count": 56
+            },
+            {
               "id": "0bf15a6981",
               "apt_name": "청솔마을한라",
               "sigungu": "수원시장안구",
@@ -83536,13 +83482,40 @@
               "trade_count": 150
             },
             {
+              "id": "5b158020c3",
+              "apt_name": "화서역파크푸르지오",
+              "sigungu": "수원시장안구",
+              "dong_name": "정자동",
+              "area_m2": 59.78,
+              "current_price": 127333.33333333333,
+              "trade_count": 98
+            },
+            {
               "id": "423dd5d50e",
               "apt_name": "수원장안힐스테이트",
               "sigungu": "수원시장안구",
               "dong_name": "이목동",
               "area_m2": 59.988,
-              "current_price": 65000.0,
-              "trade_count": 42
+              "current_price": 60700.0,
+              "trade_count": 43
+            },
+            {
+              "id": "2d4fd4cf62",
+              "apt_name": "수원아너스빌위즈",
+              "sigungu": "수원시장안구",
+              "dong_name": "송죽동",
+              "area_m2": 59.985,
+              "current_price": 60166.666666666664,
+              "trade_count": 41
+            },
+            {
+              "id": "86bfa2de4a",
+              "apt_name": "화서역현대벽산",
+              "sigungu": "수원시장안구",
+              "dong_name": "정자동",
+              "area_m2": 59.95,
+              "current_price": 54625.0,
+              "trade_count": 60
             },
             {
               "id": "9f4843c56e",
@@ -83561,6 +83534,33 @@
               "area_m2": 84.76,
               "current_price": 140000.0,
               "trade_count": 64
+            },
+            {
+              "id": "8b8348c27f",
+              "apt_name": "화서역푸르지오더에듀포레",
+              "sigungu": "수원시장안구",
+              "dong_name": "천천동",
+              "area_m2": 59.98,
+              "current_price": 83000.0,
+              "trade_count": 141
+            },
+            {
+              "id": "79173eba72",
+              "apt_name": "화서역파크푸르지오",
+              "sigungu": "수원시장안구",
+              "dong_name": "정자동",
+              "area_m2": 59.98,
+              "current_price": 123350.0,
+              "trade_count": 29
+            },
+            {
+              "id": "98989bb373",
+              "apt_name": "장안STX칸1단지",
+              "sigungu": "수원시장안구",
+              "dong_name": "이목동",
+              "area_m2": 59.958,
+              "current_price": 58600.0,
+              "trade_count": 36
             }
           ]
         },
@@ -97888,7 +97888,7 @@
         },
         {
           "size": 39,
-          "avg_current_price": 152652.99,
+          "avg_current_price": 152858.12,
           "members": [
             {
               "id": "4dfb145070",
@@ -97959,8 +97959,8 @@
               "sigungu": "성남시수정구",
               "dong_name": "창곡동",
               "area_m2": 84.95,
-              "current_price": 179500.0,
-              "trade_count": 24
+              "current_price": 185000.0,
+              "trade_count": 25
             },
             {
               "id": "68cc046d18",
@@ -98143,15 +98143,6 @@
               "trade_count": 16
             },
             {
-              "id": "7b5817689a",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 74.98,
-              "current_price": 154000.0,
-              "trade_count": 265
-            },
-            {
               "id": "5c49b96049",
               "apt_name": "산성역포레스티아",
               "sigungu": "성남시수정구",
@@ -98177,6 +98168,15 @@
               "area_m2": 59.97,
               "current_price": 131333.33333333334,
               "trade_count": 45
+            },
+            {
+              "id": "7b5817689a",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 74.98,
+              "current_price": 156500.0,
+              "trade_count": 266
             },
             {
               "id": "742bfef273",
@@ -123816,7 +123816,7 @@
               "dong_name": "신정동",
               "area_m2": 84.8502,
               "current_price": 94500.0,
-              "trade_count": 29
+              "trade_count": 28
             },
             {
               "id": "dcfcc16886",
