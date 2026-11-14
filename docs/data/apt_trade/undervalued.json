@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13T23:00:09Z",
+  "updated_at": "2026-11-14T21:30:25Z",
   "current_month": "202611",
   "params": {
     "months": 36,
@@ -5177,7 +5177,7 @@
         },
         {
           "size": 304,
-          "avg_current_price": 156324.12,
+          "avg_current_price": 156334.59,
           "members": [
             {
               "id": "8279befd45",
@@ -7507,17 +7507,8 @@
               "sigungu": "은평구",
               "dong_name": "불광동",
               "area_m2": 59.99,
-              "current_price": 112350.0,
-              "trade_count": 46
-            },
-            {
-              "id": "7dbaecb629",
-              "apt_name": "백련산파크자이",
-              "sigungu": "은평구",
-              "dong_name": "응암동",
-              "area_m2": 59.789,
-              "current_price": 98600.0,
-              "trade_count": 37
+              "current_price": 112133.33333333333,
+              "trade_count": 47
             },
             {
               "id": "7e2cb04106",
@@ -7554,6 +7545,15 @@
               "area_m2": 59.97,
               "current_price": 158750.0,
               "trade_count": 29
+            },
+            {
+              "id": "7dbaecb629",
+              "apt_name": "백련산파크자이",
+              "sigungu": "은평구",
+              "dong_name": "응암동",
+              "area_m2": 59.789,
+              "current_price": 102000.0,
+              "trade_count": 38
             },
             {
               "id": "6b250c10e0",
@@ -34082,7 +34082,7 @@
         },
         {
           "size": 289,
-          "avg_current_price": 165697.01,
+          "avg_current_price": 165708.03,
           "members": [
             {
               "id": "ef3558286b",
@@ -35359,8 +35359,8 @@
               "sigungu": "은평구",
               "dong_name": "응암동",
               "area_m2": 59.789,
-              "current_price": 98600.0,
-              "trade_count": 37
+              "current_price": 102000.0,
+              "trade_count": 38
             },
             {
               "id": "de4703eaa6",
@@ -35818,8 +35818,8 @@
               "sigungu": "은평구",
               "dong_name": "불광동",
               "area_m2": 59.99,
-              "current_price": 112350.0,
-              "trade_count": 46
+              "current_price": 112133.33333333333,
+              "trade_count": 47
             },
             {
               "id": "6103d0aa7b",
@@ -50453,7 +50453,7 @@
         },
         {
           "size": 328,
-          "avg_current_price": 126503.68,
+          "avg_current_price": 126513.38,
           "members": [
             {
               "id": "9e16bdb645",
@@ -52405,8 +52405,8 @@
               "sigungu": "은평구",
               "dong_name": "응암동",
               "area_m2": 59.789,
-              "current_price": 98600.0,
-              "trade_count": 37
+              "current_price": 102000.0,
+              "trade_count": 38
             },
             {
               "id": "b3e3f0087b",
@@ -52729,8 +52729,8 @@
               "sigungu": "은평구",
               "dong_name": "불광동",
               "area_m2": 59.99,
-              "current_price": 112350.0,
-              "trade_count": 46
+              "current_price": 112133.33333333333,
+              "trade_count": 47
             },
             {
               "id": "469c4b776b",
@@ -57071,7 +57071,7 @@
         },
         {
           "size": 269,
-          "avg_current_price": 154834.88,
+          "avg_current_price": 154846.71,
           "members": [
             {
               "id": "ead85ea07e",
@@ -58204,8 +58204,8 @@
               "sigungu": "은평구",
               "dong_name": "응암동",
               "area_m2": 59.789,
-              "current_price": 98600.0,
-              "trade_count": 37
+              "current_price": 102000.0,
+              "trade_count": 38
             },
             {
               "id": "9f5858dda1",
@@ -58402,8 +58402,8 @@
               "sigungu": "은평구",
               "dong_name": "불광동",
               "area_m2": 59.99,
-              "current_price": 112350.0,
-              "trade_count": 46
+              "current_price": 112133.33333333333,
+              "trade_count": 47
             },
             {
               "id": "469c4b776b",
@@ -83592,7 +83592,7 @@
               "avg_36": 110906.01851851853,
               "compare_avg_recent": 142000.0,
               "compare_avg_36": 109452.77777777778,
-              "cluster_avg": 156324.12,
+              "cluster_avg": 156334.59,
               "gap_pct": -11.89,
               "status": "undervalued",
               "trade_count": 37,
@@ -83852,7 +83852,7 @@
               "avg_36": 228065.1041666667,
               "compare_avg_recent": 256000.0,
               "compare_avg_36": 216378.83986928104,
-              "cluster_avg": 156324.12,
+              "cluster_avg": 156334.59,
               "gap_pct": -8.53,
               "status": "undervalued",
               "trade_count": 16,
