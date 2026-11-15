@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-14T21:30:25Z",
+  "updated_at": "2026-11-15T21:51:08Z",
   "current_month": "202611",
   "params": {
     "months": 36,
@@ -89184,7 +89184,7 @@
         },
         {
           "size": 16,
-          "avg_current_price": 81233.07,
+          "avg_current_price": 81282.24,
           "members": [
             {
               "id": "4224ad7060",
@@ -89255,8 +89255,8 @@
               "sigungu": "수원시팔달구",
               "dong_name": "매교동",
               "area_m2": 59.88,
-              "current_price": 86125.0,
-              "trade_count": 109
+              "current_price": 86660.0,
+              "trade_count": 110
             },
             {
               "id": "63eb7e0cfa",
@@ -89264,8 +89264,8 @@
               "sigungu": "수원시팔달구",
               "dong_name": "매교동",
               "area_m2": 59.88,
-              "current_price": 92985.71428571429,
-              "trade_count": 66
+              "current_price": 93237.5,
+              "trade_count": 67
             },
             {
               "id": "d1dd18faae",
@@ -89334,7 +89334,7 @@
         },
         {
           "size": 2,
-          "avg_current_price": 104000.0,
+          "avg_current_price": 104708.33,
           "members": [
             {
               "id": "cd0fbdaff4",
@@ -89351,8 +89351,8 @@
               "sigungu": "수원시팔달구",
               "dong_name": "매교동",
               "area_m2": 84.97,
-              "current_price": 113750.0,
-              "trade_count": 196
+              "current_price": 115166.66666666667,
+              "trade_count": 197
             }
           ]
         },
@@ -92829,7 +92829,7 @@
         },
         {
           "size": 197,
-          "avg_current_price": 112767.85,
+          "avg_current_price": 112862.45,
           "members": [
             {
               "id": "31d959e80e",
@@ -92875,15 +92875,6 @@
               "area_m2": 101.0939,
               "current_price": 112500.0,
               "trade_count": 30
-            },
-            {
-              "id": "c062c70422",
-              "apt_name": "인현마을힐스테이트(7차2단지)",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 84.992,
-              "current_price": 109000.0,
-              "trade_count": 26
             },
             {
               "id": "f3d946d348",
@@ -92994,13 +92985,13 @@
               "trade_count": 77
             },
             {
-              "id": "944fe053ce",
-              "apt_name": "포레나 광교상현",
+              "id": "7b7c105bcb",
+              "apt_name": "성복역아이파크",
               "sigungu": "용인시수지구",
               "dong_name": "상현동",
-              "area_m2": 84.6818,
-              "current_price": 118800.0,
-              "trade_count": 20
+              "area_m2": 116.7301,
+              "current_price": 112000.0,
+              "trade_count": 35
             },
             {
               "id": "8c31daac74",
@@ -93010,33 +93001,6 @@
               "area_m2": 106.52,
               "current_price": 96500.0,
               "trade_count": 55
-            },
-            {
-              "id": "3bbfa608b0",
-              "apt_name": "광교경남아너스빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 84.828,
-              "current_price": 163500.0,
-              "trade_count": 41
-            },
-            {
-              "id": "3445db44f1",
-              "apt_name": "더샵동천이스트포레",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 84.9571,
-              "current_price": 140000.0,
-              "trade_count": 53
-            },
-            {
-              "id": "7b7c105bcb",
-              "apt_name": "성복역아이파크",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 116.7301,
-              "current_price": 112000.0,
-              "trade_count": 35
             },
             {
               "id": "981613ab29",
@@ -93147,13 +93111,112 @@
               "trade_count": 15
             },
             {
-              "id": "5ec245e791",
-              "apt_name": "진산마을성원상떼빌아파트",
+              "id": "021b889f16",
+              "apt_name": "수지2풍림",
               "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 84.96,
-              "current_price": 95000.0,
-              "trade_count": 92
+              "dong_name": "동천동",
+              "area_m2": 84.78,
+              "current_price": 85750.0,
+              "trade_count": 18
+            },
+            {
+              "id": "a8dd67a285",
+              "apt_name": "신정마을현대프라임",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 117.68,
+              "current_price": 161000.0,
+              "trade_count": 45
+            },
+            {
+              "id": "1810714bea",
+              "apt_name": "신정마을성지",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 143.73,
+              "current_price": 135000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "84f4d0c815",
+              "apt_name": "버들치마을경남아너스빌1차",
+              "sigungu": "용인시수지구",
+              "dong_name": "성복동",
+              "area_m2": 101.9898,
+              "current_price": 85000.0,
+              "trade_count": 36
+            },
+            {
+              "id": "9726462579",
+              "apt_name": "래미안이스트팰리스3단지",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 118.92,
+              "current_price": 138000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "a7d4517ca9",
+              "apt_name": "도담마을죽전파크빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 84.88,
+              "current_price": 75500.0,
+              "trade_count": 30
+            },
+            {
+              "id": "3445db44f1",
+              "apt_name": "더샵동천이스트포레",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 84.9571,
+              "current_price": 140000.0,
+              "trade_count": 53
+            },
+            {
+              "id": "5904a0a956",
+              "apt_name": "도담마을죽전파크빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 115.985,
+              "current_price": 81000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "5140ce4d73",
+              "apt_name": "진산마을삼성5차",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 128.2078,
+              "current_price": 167000.0,
+              "trade_count": 44
+            },
+            {
+              "id": "b27c1ea93d",
+              "apt_name": "동천마을현대홈타운1차",
+              "sigungu": "용인시수지구",
+              "dong_name": "동천동",
+              "area_m2": 84.966,
+              "current_price": 107000.0,
+              "trade_count": 83
+            },
+            {
+              "id": "47fe71ad77",
+              "apt_name": "꽃메마을힐스테이트4차2단지",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 84.9959,
+              "current_price": 87500.0,
+              "trade_count": 38
+            },
+            {
+              "id": "ea28fcfa94",
+              "apt_name": "꽃메마을힐스테이트(4차3단지)",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 84.9959,
+              "current_price": 93850.0,
+              "trade_count": 114
             },
             {
               "id": "7f8cae0521",
@@ -93269,8 +93332,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "죽전동",
               "area_m2": 59.9864,
-              "current_price": 76500.0,
-              "trade_count": 71
+              "current_price": 76600.0,
+              "trade_count": 72
             },
             {
               "id": "e87aa3a5f5",
@@ -93372,6 +93435,15 @@
               "trade_count": 26
             },
             {
+              "id": "973b263959",
+              "apt_name": "도담마을아이파크",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 59.82,
+              "current_price": 74700.0,
+              "trade_count": 20
+            },
+            {
               "id": "5646bec438",
               "apt_name": "죽전아이뷰",
               "sigungu": "용인시수지구",
@@ -93379,15 +93451,6 @@
               "area_m2": 59.865,
               "current_price": 95000.0,
               "trade_count": 46
-            },
-            {
-              "id": "973b263959",
-              "apt_name": "도담마을아이파크",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 59.82,
-              "current_price": 72000.0,
-              "trade_count": 19
             },
             {
               "id": "28caed114d",
@@ -93408,13 +93471,31 @@
               "trade_count": 66
             },
             {
+              "id": "81281f8778",
+              "apt_name": "신정7단지(상록)공무원",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 59.405,
+              "current_price": 116000.0,
+              "trade_count": 98
+            },
+            {
               "id": "9ecf54b999",
               "apt_name": "동아아파트",
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
               "area_m2": 59.76,
-              "current_price": 80000.0,
-              "trade_count": 185
+              "current_price": 83500.0,
+              "trade_count": 186
+            },
+            {
+              "id": "bb743c8a25",
+              "apt_name": "동부",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 59.61,
+              "current_price": 86880.0,
+              "trade_count": 227
             },
             {
               "id": "38e4b16870",
@@ -93423,15 +93504,6 @@
               "dong_name": "풍덕천동",
               "area_m2": 59.39,
               "current_price": 127200.0,
-              "trade_count": 225
-            },
-            {
-              "id": "bb743c8a25",
-              "apt_name": "동부",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 59.61,
-              "current_price": 85850.0,
               "trade_count": 225
             },
             {
@@ -93471,6 +93543,15 @@
               "trade_count": 67
             },
             {
+              "id": "4dfecf1ee8",
+              "apt_name": "더리버하임",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 59.94,
+              "current_price": 84500.0,
+              "trade_count": 37
+            },
+            {
               "id": "c8b271d35d",
               "apt_name": "현대",
               "sigungu": "용인시수지구",
@@ -93489,22 +93570,22 @@
               "trade_count": 118
             },
             {
-              "id": "2b36104f0c",
-              "apt_name": "용인수지신정마을9단지",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 49.26,
-              "current_price": 110000.0,
-              "trade_count": 140
-            },
-            {
               "id": "1c5148142b",
               "apt_name": "한성",
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
               "area_m2": 59.54,
-              "current_price": 133700.0,
-              "trade_count": 113
+              "current_price": 133500.0,
+              "trade_count": 114
+            },
+            {
+              "id": "2b36104f0c",
+              "apt_name": "용인수지신정마을9단지",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 49.26,
+              "current_price": 111000.0,
+              "trade_count": 141
             },
             {
               "id": "d0dcd66ba8",
@@ -93514,24 +93595,6 @@
               "area_m2": 59.995,
               "current_price": 70300.0,
               "trade_count": 49
-            },
-            {
-              "id": "81281f8778",
-              "apt_name": "신정7단지(상록)공무원",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 59.405,
-              "current_price": 125833.33333333333,
-              "trade_count": 97
-            },
-            {
-              "id": "4dfecf1ee8",
-              "apt_name": "더리버하임",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 59.94,
-              "current_price": 86000.0,
-              "trade_count": 36
             },
             {
               "id": "36020b2d5e",
@@ -93642,105 +93705,6 @@
               "trade_count": 56
             },
             {
-              "id": "021b889f16",
-              "apt_name": "수지2풍림",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 84.78,
-              "current_price": 85750.0,
-              "trade_count": 18
-            },
-            {
-              "id": "a8dd67a285",
-              "apt_name": "신정마을현대프라임",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 117.68,
-              "current_price": 161000.0,
-              "trade_count": 45
-            },
-            {
-              "id": "1810714bea",
-              "apt_name": "신정마을성지",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 143.73,
-              "current_price": 135000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "84f4d0c815",
-              "apt_name": "버들치마을경남아너스빌1차",
-              "sigungu": "용인시수지구",
-              "dong_name": "성복동",
-              "area_m2": 101.9898,
-              "current_price": 85000.0,
-              "trade_count": 36
-            },
-            {
-              "id": "9726462579",
-              "apt_name": "래미안이스트팰리스3단지",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 118.92,
-              "current_price": 138000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "a7d4517ca9",
-              "apt_name": "도담마을죽전파크빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 84.88,
-              "current_price": 75500.0,
-              "trade_count": 30
-            },
-            {
-              "id": "5904a0a956",
-              "apt_name": "도담마을죽전파크빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 115.985,
-              "current_price": 81000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "5140ce4d73",
-              "apt_name": "진산마을삼성5차",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 128.2078,
-              "current_price": 149000.0,
-              "trade_count": 43
-            },
-            {
-              "id": "b27c1ea93d",
-              "apt_name": "동천마을현대홈타운1차",
-              "sigungu": "용인시수지구",
-              "dong_name": "동천동",
-              "area_m2": 84.966,
-              "current_price": 107000.0,
-              "trade_count": 83
-            },
-            {
-              "id": "47fe71ad77",
-              "apt_name": "꽃메마을힐스테이트4차2단지",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 84.9959,
-              "current_price": 87500.0,
-              "trade_count": 38
-            },
-            {
-              "id": "ea28fcfa94",
-              "apt_name": "꽃메마을힐스테이트(4차3단지)",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 84.9959,
-              "current_price": 93850.0,
-              "trade_count": 114
-            },
-            {
               "id": "536e12cd8b",
               "apt_name": "동일스위트",
               "sigungu": "용인시수지구",
@@ -93786,6 +93750,15 @@
               "trade_count": 36
             },
             {
+              "id": "944fe053ce",
+              "apt_name": "포레나 광교상현",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.6818,
+              "current_price": 111000.0,
+              "trade_count": 21
+            },
+            {
               "id": "ace0647936",
               "apt_name": "보뜨랑벽산",
               "sigungu": "용인시수지구",
@@ -93811,6 +93784,15 @@
               "area_m2": 84.96,
               "current_price": 130333.33333333333,
               "trade_count": 31
+            },
+            {
+              "id": "3bbfa608b0",
+              "apt_name": "광교경남아너스빌",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.828,
+              "current_price": 163500.0,
+              "trade_count": 41
             },
             {
               "id": "890941ee09",
@@ -93890,8 +93872,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "죽전동",
               "area_m2": 84.96,
-              "current_price": 79000.0,
-              "trade_count": 19
+              "current_price": 80500.0,
+              "trade_count": 20
             },
             {
               "id": "2245f37326",
@@ -94092,15 +94074,6 @@
               "trade_count": 49
             },
             {
-              "id": "8bb1a43539",
-              "apt_name": "신정6단지(상록)공무원",
-              "sigungu": "용인시수지구",
-              "dong_name": "풍덕천동",
-              "area_m2": 84.98,
-              "current_price": 126666.66666666667,
-              "trade_count": 65
-            },
-            {
               "id": "feaacb3752",
               "apt_name": "만현마을1단지롯데캐슬",
               "sigungu": "용인시수지구",
@@ -94117,6 +94090,15 @@
               "area_m2": 84.95,
               "current_price": 88633.33333333333,
               "trade_count": 66
+            },
+            {
+              "id": "548574e526",
+              "apt_name": "성복역리버파크",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.965,
+              "current_price": 95166.66666666667,
+              "trade_count": 105
             },
             {
               "id": "385146a704",
@@ -94224,16 +94206,16 @@
               "dong_name": "풍덕천동",
               "area_m2": 84.51,
               "current_price": 137666.66666666666,
-              "trade_count": 159
+              "trade_count": 160
             },
             {
-              "id": "548574e526",
-              "apt_name": "성복역리버파크",
+              "id": "f26db35db4",
+              "apt_name": "성복역금호베스트빌",
               "sigungu": "용인시수지구",
               "dong_name": "상현동",
-              "area_m2": 84.965,
-              "current_price": 95500.0,
-              "trade_count": 104
+              "area_m2": 84.789,
+              "current_price": 116500.0,
+              "trade_count": 71
             },
             {
               "id": "feaf144769",
@@ -94281,13 +94263,31 @@
               "trade_count": 40
             },
             {
-              "id": "f7e7e83a05",
-              "apt_name": "e편한세상수지",
+              "id": "8bb1a43539",
+              "apt_name": "신정6단지(상록)공무원",
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
-              "area_m2": 84.921,
-              "current_price": 172000.0,
-              "trade_count": 79
+              "area_m2": 84.98,
+              "current_price": 131700.0,
+              "trade_count": 66
+            },
+            {
+              "id": "5669170df3",
+              "apt_name": "만현마을1단지롯데캐슬",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.946,
+              "current_price": 105000.0,
+              "trade_count": 53
+            },
+            {
+              "id": "5ec245e791",
+              "apt_name": "진산마을성원상떼빌아파트",
+              "sigungu": "용인시수지구",
+              "dong_name": "상현동",
+              "area_m2": 84.96,
+              "current_price": 95000.0,
+              "trade_count": 93
             },
             {
               "id": "abdaa4fd03",
@@ -94340,8 +94340,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "풍덕천동",
               "area_m2": 84.98,
-              "current_price": 149990.0,
-              "trade_count": 64
+              "current_price": 148995.0,
+              "trade_count": 65
             },
             {
               "id": "9a34580ba0",
@@ -94414,6 +94414,15 @@
               "area_m2": 84.929,
               "current_price": 167500.0,
               "trade_count": 30
+            },
+            {
+              "id": "f7e7e83a05",
+              "apt_name": "e편한세상수지",
+              "sigungu": "용인시수지구",
+              "dong_name": "풍덕천동",
+              "area_m2": 84.921,
+              "current_price": 174850.0,
+              "trade_count": 80
             },
             {
               "id": "6d295bf72f",
@@ -94515,6 +94524,15 @@
               "trade_count": 227
             },
             {
+              "id": "c062c70422",
+              "apt_name": "인현마을힐스테이트(7차2단지)",
+              "sigungu": "용인시수지구",
+              "dong_name": "죽전동",
+              "area_m2": 84.992,
+              "current_price": 115500.0,
+              "trade_count": 27
+            },
+            {
               "id": "aca5456d1e",
               "apt_name": "신정마을우성",
               "sigungu": "용인시수지구",
@@ -94531,24 +94549,6 @@
               "area_m2": 84.8,
               "current_price": 114500.0,
               "trade_count": 18
-            },
-            {
-              "id": "5669170df3",
-              "apt_name": "만현마을1단지롯데캐슬",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 84.946,
-              "current_price": 105000.0,
-              "trade_count": 52
-            },
-            {
-              "id": "f26db35db4",
-              "apt_name": "성복역금호베스트빌",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 84.789,
-              "current_price": 118500.0,
-              "trade_count": 70
             },
             {
               "id": "ddbb0a97c8",
@@ -94583,8 +94583,8 @@
               "sigungu": "용인시수지구",
               "dong_name": "죽전동",
               "area_m2": 84.9959,
-              "current_price": 93666.66666666667,
-              "trade_count": 314
+              "current_price": 92750.0,
+              "trade_count": 315
             },
             {
               "id": "a83805ae9f",
@@ -95235,7 +95235,7 @@
         },
         {
           "size": 29,
-          "avg_current_price": 83587.36,
+          "avg_current_price": 83699.34,
           "members": [
             {
               "id": "b3feefa0eb",
@@ -95283,13 +95283,13 @@
               "trade_count": 26
             },
             {
-              "id": "6ac1688d96",
+              "id": "1beb179e57",
               "apt_name": "삼성래미안",
               "sigungu": "안양시만안구",
               "dong_name": "안양동",
-              "area_m2": 79.2856,
-              "current_price": 93500.0,
-              "trade_count": 107
+              "area_m2": 79.3188,
+              "current_price": 100500.0,
+              "trade_count": 129
             },
             {
               "id": "dc6e80328a",
@@ -95301,15 +95301,6 @@
               "trade_count": 21
             },
             {
-              "id": "1beb179e57",
-              "apt_name": "삼성래미안",
-              "sigungu": "안양시만안구",
-              "dong_name": "안양동",
-              "area_m2": 79.3188,
-              "current_price": 100500.0,
-              "trade_count": 129
-            },
-            {
               "id": "dae87b3615",
               "apt_name": "아르테자이",
               "sigungu": "안양시만안구",
@@ -95317,6 +95308,15 @@
               "area_m2": 59.95,
               "current_price": 80450.0,
               "trade_count": 40
+            },
+            {
+              "id": "6ac1688d96",
+              "apt_name": "삼성래미안",
+              "sigungu": "안양시만안구",
+              "dong_name": "안양동",
+              "area_m2": 79.2856,
+              "current_price": 96747.5,
+              "trade_count": 108
             },
             {
               "id": "88f77747bb",
@@ -100387,6 +100387,372 @@
               "area_m2": 59.96,
               "current_price": 66000.0,
               "trade_count": 32
+            }
+          ]
+        },
+        {
+          "size": 40,
+          "avg_current_price": 155275.62,
+          "members": [
+            {
+              "id": "4dfb145070",
+              "apt_name": "단대푸르지오",
+              "sigungu": "성남시수정구",
+              "dong_name": "단대동",
+              "area_m2": 59.8,
+              "current_price": 124000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "742bfef273",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.84,
+              "current_price": 145933.33333333334,
+              "trade_count": 141
+            },
+            {
+              "id": "5c49b96049",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 74.96,
+              "current_price": 152000.0,
+              "trade_count": 112
+            },
+            {
+              "id": "1e47326a8f",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.7614,
+              "current_price": 157000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "ed43d7eb9a",
+              "apt_name": "위례센트럴푸르지오",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 101.965,
+              "current_price": 199000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "08a093a159",
+              "apt_name": "단대푸르지오",
+              "sigungu": "성남시수정구",
+              "dong_name": "단대동",
+              "area_m2": 114.89,
+              "current_price": 137000.0,
+              "trade_count": 20
+            },
+            {
+              "id": "68cc046d18",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.92,
+              "current_price": 164750.0,
+              "trade_count": 94
+            },
+            {
+              "id": "d890084774",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.4621,
+              "current_price": 172500.0,
+              "trade_count": 84
+            },
+            {
+              "id": "99a1dcefae",
+              "apt_name": "위례호반써밋에비뉴",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 98.58,
+              "current_price": 179000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "330d273082",
+              "apt_name": "위례보미리즌빌",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 96.21,
+              "current_price": 185000.0,
+              "trade_count": 15
+            },
+            {
+              "id": "05794b9096",
+              "apt_name": "미도",
+              "sigungu": "성남시수정구",
+              "dong_name": "단대동",
+              "area_m2": 77.82,
+              "current_price": 91500.0,
+              "trade_count": 29
+            },
+            {
+              "id": "09444bc095",
+              "apt_name": "위례 래미안이편한세상",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 84.98,
+              "current_price": 200000.0,
+              "trade_count": 105
+            },
+            {
+              "id": "545687a2d7",
+              "apt_name": "청구",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.99,
+              "current_price": 95000.0,
+              "trade_count": 22
+            },
+            {
+              "id": "25b3cf09d3",
+              "apt_name": "위례자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 101.9868,
+              "current_price": 220000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "2ecc0bac25",
+              "apt_name": "산성역자이푸르지오1단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.98,
+              "current_price": 147000.0,
+              "trade_count": 32
+            },
+            {
+              "id": "a45ee107b0",
+              "apt_name": "두산",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.47,
+              "current_price": 93500.0,
+              "trade_count": 50
+            },
+            {
+              "id": "7a173329ab",
+              "apt_name": "엠디",
+              "sigungu": "성남시수정구",
+              "dong_name": "수진동",
+              "area_m2": 84.87,
+              "current_price": 111500.0,
+              "trade_count": 25
+            },
+            {
+              "id": "837a357535",
+              "apt_name": "위례호반써밋에비뉴",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 98.7,
+              "current_price": 188000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "08472b6043",
+              "apt_name": "단대푸르지오",
+              "sigungu": "성남시수정구",
+              "dong_name": "단대동",
+              "area_m2": 84.74,
+              "current_price": 120000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "7879b1ca09",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 84.94,
+              "current_price": 230000.0,
+              "trade_count": 31
+            },
+            {
+              "id": "c31ed0f3cd",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 59.95,
+              "current_price": 164800.0,
+              "trade_count": 25
+            },
+            {
+              "id": "ef25fe6d5f",
+              "apt_name": "위례 래미안이편한세상",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 75.98,
+              "current_price": 149333.33333333334,
+              "trade_count": 25
+            },
+            {
+              "id": "08ce55e31d",
+              "apt_name": "위례더힐55",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 85.7528,
+              "current_price": 164000.0,
+              "trade_count": 23
+            },
+            {
+              "id": "7aad8d2491",
+              "apt_name": "위례 래미안이편한세상",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 84.95,
+              "current_price": 185000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "abcbc9d47d",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 74.99,
+              "current_price": 195000.0,
+              "trade_count": 16
+            },
+            {
+              "id": "6b59924b06",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 84.96,
+              "current_price": 168000.0,
+              "trade_count": 42
+            },
+            {
+              "id": "f94d0adb59",
+              "apt_name": "위례역푸르지오6단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 83.002,
+              "current_price": 180000.0,
+              "trade_count": 35
+            },
+            {
+              "id": "fef3cd56fe",
+              "apt_name": "래미안위례",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 101.86,
+              "current_price": 225000.0,
+              "trade_count": 25
+            },
+            {
+              "id": "b9174086d4",
+              "apt_name": "산성역자이푸르지오1단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 74.99,
+              "current_price": 141500.0,
+              "trade_count": 15
+            },
+            {
+              "id": "7b5817689a",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 74.98,
+              "current_price": 153375.0,
+              "trade_count": 264
+            },
+            {
+              "id": "81258253e3",
+              "apt_name": "산성역자이푸르지오2단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 74.96,
+              "current_price": 142000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "30c5f62e21",
+              "apt_name": "산성역자이푸르지오1단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.97,
+              "current_price": 138000.0,
+              "trade_count": 47
+            },
+            {
+              "id": "b5f16eea3a",
+              "apt_name": "산성역자이푸르지오2단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.98,
+              "current_price": 135000.0,
+              "trade_count": 76
+            },
+            {
+              "id": "f66ca4bcb6",
+              "apt_name": "위례센트럴자이",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 59.83,
+              "current_price": 187000.0,
+              "trade_count": 77
+            },
+            {
+              "id": "8f057e4810",
+              "apt_name": "산성역포레스티아",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 67.86,
+              "current_price": 152333.33333333334,
+              "trade_count": 85
+            },
+            {
+              "id": "de7e78c07d",
+              "apt_name": "가천대역두산위브",
+              "sigungu": "성남시수정구",
+              "dong_name": "태평동",
+              "area_m2": 59.9729,
+              "current_price": 88000.0,
+              "trade_count": 26
+            },
+            {
+              "id": "9a89787b52",
+              "apt_name": "위례 래미안이편한세상",
+              "sigungu": "성남시수정구",
+              "dong_name": "창곡동",
+              "area_m2": 75.99,
+              "current_price": 183000.0,
+              "trade_count": 43
+            },
+            {
+              "id": "a8ca5d141f",
+              "apt_name": "산성역자이푸르지오3단지",
+              "sigungu": "성남시수정구",
+              "dong_name": "신흥동",
+              "area_m2": 59.98,
+              "current_price": 136000.0,
+              "trade_count": 34
+            },
+            {
+              "id": "99f5955b69",
+              "apt_name": "가천대역두산위브",
+              "sigungu": "성남시수정구",
+              "dong_name": "태평동",
+              "area_m2": 59.9592,
+              "current_price": 85000.0,
+              "trade_count": 24
+            },
+            {
+              "id": "cd7891d5a0",
+              "apt_name": "단대푸르지오",
+              "sigungu": "성남시수정구",
+              "dong_name": "단대동",
+              "area_m2": 59.85,
+              "current_price": 126000.0,
+              "trade_count": 29
             }
           ]
         },
@@ -105608,372 +105974,6 @@
           ]
         },
         {
-          "size": 40,
-          "avg_current_price": 155157.92,
-          "members": [
-            {
-              "id": "4dfb145070",
-              "apt_name": "단대푸르지오",
-              "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 59.8,
-              "current_price": 124000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "742bfef273",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 59.84,
-              "current_price": 145933.33333333334,
-              "trade_count": 141
-            },
-            {
-              "id": "5c49b96049",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 74.96,
-              "current_price": 152000.0,
-              "trade_count": 112
-            },
-            {
-              "id": "1e47326a8f",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.7614,
-              "current_price": 157000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "ed43d7eb9a",
-              "apt_name": "위례센트럴푸르지오",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 101.965,
-              "current_price": 199000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "08a093a159",
-              "apt_name": "단대푸르지오",
-              "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 114.89,
-              "current_price": 137000.0,
-              "trade_count": 20
-            },
-            {
-              "id": "68cc046d18",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.92,
-              "current_price": 158750.0,
-              "trade_count": 92
-            },
-            {
-              "id": "99a1dcefae",
-              "apt_name": "위례호반써밋에비뉴",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 98.58,
-              "current_price": 179000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "330d273082",
-              "apt_name": "위례보미리즌빌",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 96.21,
-              "current_price": 185000.0,
-              "trade_count": 15
-            },
-            {
-              "id": "05794b9096",
-              "apt_name": "미도",
-              "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 77.82,
-              "current_price": 91500.0,
-              "trade_count": 29
-            },
-            {
-              "id": "09444bc095",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 84.98,
-              "current_price": 200000.0,
-              "trade_count": 105
-            },
-            {
-              "id": "545687a2d7",
-              "apt_name": "청구",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.99,
-              "current_price": 95000.0,
-              "trade_count": 22
-            },
-            {
-              "id": "25b3cf09d3",
-              "apt_name": "위례자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 101.9868,
-              "current_price": 220000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "2ecc0bac25",
-              "apt_name": "산성역자이푸르지오1단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.98,
-              "current_price": 147000.0,
-              "trade_count": 32
-            },
-            {
-              "id": "a45ee107b0",
-              "apt_name": "두산",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.47,
-              "current_price": 93500.0,
-              "trade_count": 50
-            },
-            {
-              "id": "7a173329ab",
-              "apt_name": "엠디",
-              "sigungu": "성남시수정구",
-              "dong_name": "수진동",
-              "area_m2": 84.87,
-              "current_price": 111500.0,
-              "trade_count": 25
-            },
-            {
-              "id": "837a357535",
-              "apt_name": "위례호반써밋에비뉴",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 98.7,
-              "current_price": 188000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "08472b6043",
-              "apt_name": "단대푸르지오",
-              "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 84.74,
-              "current_price": 120000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "7879b1ca09",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 84.94,
-              "current_price": 230000.0,
-              "trade_count": 31
-            },
-            {
-              "id": "c31ed0f3cd",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 59.95,
-              "current_price": 164800.0,
-              "trade_count": 25
-            },
-            {
-              "id": "ef25fe6d5f",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 75.98,
-              "current_price": 149333.33333333334,
-              "trade_count": 25
-            },
-            {
-              "id": "08ce55e31d",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.7528,
-              "current_price": 164000.0,
-              "trade_count": 23
-            },
-            {
-              "id": "7aad8d2491",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 84.95,
-              "current_price": 185000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "d890084774",
-              "apt_name": "위례더힐55",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 85.4621,
-              "current_price": 172500.0,
-              "trade_count": 84
-            },
-            {
-              "id": "abcbc9d47d",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 74.99,
-              "current_price": 195000.0,
-              "trade_count": 16
-            },
-            {
-              "id": "6b59924b06",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 84.96,
-              "current_price": 168000.0,
-              "trade_count": 42
-            },
-            {
-              "id": "f94d0adb59",
-              "apt_name": "위례역푸르지오6단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 83.002,
-              "current_price": 180000.0,
-              "trade_count": 35
-            },
-            {
-              "id": "fef3cd56fe",
-              "apt_name": "래미안위례",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 101.86,
-              "current_price": 225000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "b9174086d4",
-              "apt_name": "산성역자이푸르지오1단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 74.99,
-              "current_price": 141500.0,
-              "trade_count": 15
-            },
-            {
-              "id": "b5f16eea3a",
-              "apt_name": "산성역자이푸르지오2단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 59.98,
-              "current_price": 135000.0,
-              "trade_count": 76
-            },
-            {
-              "id": "7b5817689a",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 74.98,
-              "current_price": 152666.66666666666,
-              "trade_count": 263
-            },
-            {
-              "id": "f66ca4bcb6",
-              "apt_name": "위례센트럴자이",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 59.83,
-              "current_price": 187000.0,
-              "trade_count": 77
-            },
-            {
-              "id": "8f057e4810",
-              "apt_name": "산성역포레스티아",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 67.86,
-              "current_price": 152333.33333333334,
-              "trade_count": 85
-            },
-            {
-              "id": "de7e78c07d",
-              "apt_name": "가천대역두산위브",
-              "sigungu": "성남시수정구",
-              "dong_name": "태평동",
-              "area_m2": 59.9729,
-              "current_price": 88000.0,
-              "trade_count": 26
-            },
-            {
-              "id": "81258253e3",
-              "apt_name": "산성역자이푸르지오2단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 74.96,
-              "current_price": 144000.0,
-              "trade_count": 25
-            },
-            {
-              "id": "30c5f62e21",
-              "apt_name": "산성역자이푸르지오1단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 59.97,
-              "current_price": 138000.0,
-              "trade_count": 47
-            },
-            {
-              "id": "9a89787b52",
-              "apt_name": "위례 래미안이편한세상",
-              "sigungu": "성남시수정구",
-              "dong_name": "창곡동",
-              "area_m2": 75.99,
-              "current_price": 183000.0,
-              "trade_count": 43
-            },
-            {
-              "id": "a8ca5d141f",
-              "apt_name": "산성역자이푸르지오3단지",
-              "sigungu": "성남시수정구",
-              "dong_name": "신흥동",
-              "area_m2": 59.98,
-              "current_price": 136000.0,
-              "trade_count": 34
-            },
-            {
-              "id": "99f5955b69",
-              "apt_name": "가천대역두산위브",
-              "sigungu": "성남시수정구",
-              "dong_name": "태평동",
-              "area_m2": 59.9592,
-              "current_price": 85000.0,
-              "trade_count": 24
-            },
-            {
-              "id": "cd7891d5a0",
-              "apt_name": "단대푸르지오",
-              "sigungu": "성남시수정구",
-              "dong_name": "단대동",
-              "area_m2": 59.85,
-              "current_price": 126000.0,
-              "trade_count": 29
-            }
-          ]
-        },
-        {
           "size": 3,
           "avg_current_price": 36644.44,
           "members": [
@@ -108431,7 +108431,7 @@
           "avg_36": 42105.0,
           "compare_avg_recent": 61933.33333333333,
           "compare_avg_36": 43540.20364781823,
-          "cluster_avg": 83587.36,
+          "cluster_avg": 83699.34,
           "gap_pct": -16.7,
           "status": "undervalued",
           "trade_count": 16,
@@ -108467,48 +108467,35 @@
           ]
         },
         {
-          "id": "15b94f3db8",
-          "apt_name": "힐스테이트광교산",
-          "sigungu": "용인시수지구",
-          "dong_name": "신봉동",
-          "area_m2": 59.954,
-          "current_price": 84900.0,
-          "recent_avg": 79077.77777777778,
-          "avg_36": 68766.14583333334,
-          "compare_avg_recent": 96751.3888888889,
-          "compare_avg_36": 70830.0888133031,
-          "cluster_avg": 112767.85,
-          "gap_pct": -15.35,
+          "id": "b647da11dd",
+          "apt_name": "e-편한세상",
+          "sigungu": "수원시영통구",
+          "dong_name": "매탄동",
+          "area_m2": 59.9535,
+          "current_price": 66400.0,
+          "recent_avg": 66600.0,
+          "avg_36": 61834.84848484849,
+          "compare_avg_recent": 77247.61904761905,
+          "compare_avg_36": 61085.3140031265,
+          "cluster_avg": 114345.66,
+          "gap_pct": -15.01,
           "status": "undervalued",
-          "trade_count": 31,
+          "trade_count": 22,
           "recent_3m_trades": 1,
-          "cluster_size": 197,
+          "cluster_size": 128,
           "compare": [
             {
-              "id": "45ba324b3f",
-              "apt_name": "서원마을현대홈타운",
-              "sigungu": "용인시수지구",
-              "dong_name": "상현동",
-              "area_m2": 59.9328,
-              "current_price": 102666.66666666667,
-              "recent_avg": 102527.7777777778,
-              "avg_36": 73925.91836734694,
-              "trade_count": 42,
-              "corr": 0.933,
-              "hist_diff_pct": 8.21
-            },
-            {
-              "id": "21d48ff3d6",
-              "apt_name": "동성1차",
-              "sigungu": "용인시수지구",
-              "dong_name": "죽전동",
-              "area_m2": 60.0,
-              "current_price": 90975.0,
-              "recent_avg": 90975.0,
-              "avg_36": 67734.25925925927,
-              "trade_count": 56,
-              "corr": 0.931,
-              "hist_diff_pct": 9.43
+              "id": "81c782f0bf",
+              "apt_name": "매탄위브하늘채",
+              "sigungu": "수원시영통구",
+              "dong_name": "매탄동",
+              "area_m2": 59.9845,
+              "current_price": 79400.0,
+              "recent_avg": 77247.61904761905,
+              "avg_36": 61085.3140031265,
+              "trade_count": 185,
+              "corr": 0.88,
+              "hist_diff_pct": 3.98
             }
           ]
         }
@@ -108528,7 +108515,7 @@
               "avg_36": 42105.0,
               "compare_avg_recent": 61933.33333333333,
               "compare_avg_36": 43540.20364781823,
-              "cluster_avg": 83587.36,
+              "cluster_avg": 83699.34,
               "gap_pct": -16.7,
               "status": "undervalued",
               "trade_count": 16,
@@ -108681,52 +108668,6 @@
               ]
             },
             {
-              "id": "15b94f3db8",
-              "apt_name": "힐스테이트광교산",
-              "sigungu": "용인시수지구",
-              "dong_name": "신봉동",
-              "area_m2": 59.954,
-              "current_price": 84900.0,
-              "recent_avg": 79077.77777777778,
-              "avg_36": 68766.14583333334,
-              "compare_avg_recent": 96751.3888888889,
-              "compare_avg_36": 70830.0888133031,
-              "cluster_avg": 112767.85,
-              "gap_pct": -15.35,
-              "status": "undervalued",
-              "trade_count": 31,
-              "recent_3m_trades": 1,
-              "cluster_size": 197,
-              "compare": [
-                {
-                  "id": "45ba324b3f",
-                  "apt_name": "서원마을현대홈타운",
-                  "sigungu": "용인시수지구",
-                  "dong_name": "상현동",
-                  "area_m2": 59.9328,
-                  "current_price": 102666.66666666667,
-                  "recent_avg": 102527.7777777778,
-                  "avg_36": 73925.91836734694,
-                  "trade_count": 42,
-                  "corr": 0.933,
-                  "hist_diff_pct": 8.21
-                },
-                {
-                  "id": "21d48ff3d6",
-                  "apt_name": "동성1차",
-                  "sigungu": "용인시수지구",
-                  "dong_name": "죽전동",
-                  "area_m2": 60.0,
-                  "current_price": 90975.0,
-                  "recent_avg": 90975.0,
-                  "avg_36": 67734.25925925927,
-                  "trade_count": 56,
-                  "corr": 0.931,
-                  "hist_diff_pct": 9.43
-                }
-              ]
-            },
-            {
               "id": "b647da11dd",
               "apt_name": "e-편한세상",
               "sigungu": "수원시영통구",
@@ -108756,6 +108697,52 @@
                   "trade_count": 185,
                   "corr": 0.88,
                   "hist_diff_pct": 3.98
+                }
+              ]
+            },
+            {
+              "id": "15b94f3db8",
+              "apt_name": "힐스테이트광교산",
+              "sigungu": "용인시수지구",
+              "dong_name": "신봉동",
+              "area_m2": 59.954,
+              "current_price": 84900.0,
+              "recent_avg": 79077.77777777778,
+              "avg_36": 68766.14583333334,
+              "compare_avg_recent": 93868.24786324787,
+              "compare_avg_36": 69641.46239342669,
+              "cluster_avg": 112862.45,
+              "gap_pct": -14.5,
+              "status": "undervalued",
+              "trade_count": 31,
+              "recent_3m_trades": 1,
+              "cluster_size": 197,
+              "compare": [
+                {
+                  "id": "45ba324b3f",
+                  "apt_name": "서원마을현대홈타운",
+                  "sigungu": "용인시수지구",
+                  "dong_name": "상현동",
+                  "area_m2": 59.9328,
+                  "current_price": 102666.66666666667,
+                  "recent_avg": 102527.7777777778,
+                  "avg_36": 73925.91836734694,
+                  "trade_count": 42,
+                  "corr": 0.933,
+                  "hist_diff_pct": 8.21
+                },
+                {
+                  "id": "bb743c8a25",
+                  "apt_name": "동부",
+                  "sigungu": "용인시수지구",
+                  "dong_name": "풍덕천동",
+                  "area_m2": 59.61,
+                  "current_price": 86880.0,
+                  "recent_avg": 85208.71794871795,
+                  "avg_36": 65357.006419506426,
+                  "trade_count": 227,
+                  "corr": 0.932,
+                  "hist_diff_pct": 9.03
                 }
               ]
             }
@@ -108821,7 +108808,7 @@
               "avg_36": 85088.80208333333,
               "compare_avg_recent": 114058.33333333334,
               "compare_avg_36": 85905.12460555317,
-              "cluster_avg": 112767.85,
+              "cluster_avg": 112862.45,
               "gap_pct": -12.89,
               "status": "undervalued",
               "trade_count": 67,
@@ -108918,7 +108905,7 @@
               "avg_36": 122908.33333333333,
               "compare_avg_recent": 150750.0,
               "compare_avg_36": 115739.62962962964,
-              "cluster_avg": 112767.85,
+              "cluster_avg": 112862.45,
               "gap_pct": -14.65,
               "status": "undervalued",
               "trade_count": 16,
@@ -109048,7 +109035,7 @@
               "avg_36": 138306.7708333333,
               "compare_avg_recent": 177083.33333333334,
               "compare_avg_36": 136407.54599802883,
-              "cluster_avg": 112767.85,
+              "cluster_avg": 112862.45,
               "gap_pct": -10.47,
               "status": "undervalued",
               "trade_count": 47,
@@ -109244,7 +109231,7 @@
               "avg_36": 182161.76470588235,
               "compare_avg_recent": 227666.66666666666,
               "compare_avg_36": 180351.23456790124,
-              "cluster_avg": 155157.92,
+              "cluster_avg": 155275.62,
               "gap_pct": -4.37,
               "status": "market",
               "trade_count": 24,
